@@ -627,7 +627,7 @@ void CINFGameMainQSlot::Render()
 						wsprintf(buf, "%d",pItemInfo->CurrentCount);
 						//int len = strlen(buf) - 1;			// 여기는 한개 이상 들어온다는 정의에 -1를 했다.
 						SIZE nSize = m_vecFontLine[i]->GetStringSize( buf );
-						m_vecFontLine[i]->DrawText(m_nX + 7 + ( pIconInfo->GetIconSize().x + 3) * i + ( pIconInfo->GetIconSize().x - nSize.cx ) , m_nY + 8 - TabNum * (pIconInfo->GetIconSize().y + 14),QSLOT_COUNTERBLE_NUMBER,buf, 0L);
+						m_vecFontLine[i]->DrawText(m_nX + 7 * HIDPI_COEFF + ( pIconInfo->GetIconSize().x + 3) * HIDPI_COEFF * i + ( pIconInfo->GetIconSize().x - nSize.cx ) * HIDPI_COEFF, m_nY + 8 * HIDPI_COEFF - TabNum * (pIconInfo->GetIconSize().y + 14) * HIDPI_COEFF,QSLOT_COUNTERBLE_NUMBER,buf, 0L);
 					}
 				}
 				// 2010. 02. 11 by ckPark 발동류 장착아이템
