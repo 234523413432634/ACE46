@@ -2775,8 +2775,6 @@
     <ClCompile Include="..\..\..\Common\ODBCStatement.cpp" />
     <ClCompile Include="..\..\..\Common\Security\md5.cpp" />
     <ClCompile Include="..\..\..\Common\Security\metafile.cpp" />
-    <ClCompile Include="..\..\..\Common\Security\shieldSecurity.cpp" />
-    <ClCompile Include="..\..\..\Common\Security\shieldSecurityDll.cpp" />
     <ClCompile Include="..\..\..\Common\Security\utility.cpp" />
     <ClCompile Include="..\..\..\Common\TickManager.cpp" />
     <ClCompile Include="..\..\..\Common\WavePlayer.cpp" />

@@ -22,7 +22,6 @@
 // 2009. 06. 09 by ckPark OMI 게임 시작시 체크섬 계산하도록 변경
 #include "sha256.h"
 // end 2009. 06. 09 by ckPark OMI 게임 시작시 체크섬 계산하도록 변경
-#include "zwave_sdk_client.h"		 // 2012-10-13 by jhahn 핵쉴드->Xigncode변경
 
 class CFrustum;
 class CD3DHanFont;

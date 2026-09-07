@@ -138,12 +138,6 @@
     <ClCompile Include="..\..\Common\metafile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Common\shieldSecurity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Common\shieldSecurityDll.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Common\utility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

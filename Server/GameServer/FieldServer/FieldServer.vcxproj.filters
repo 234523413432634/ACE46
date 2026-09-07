@@ -459,15 +459,6 @@
     <ClCompile Include="..\..\..\Common\SecurityManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Common\Security\ApexProxy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Common\Security\XTrap4Server.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Common\Security\zwave_sdk_linker.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Common\TickManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

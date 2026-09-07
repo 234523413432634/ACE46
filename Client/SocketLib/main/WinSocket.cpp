@@ -6,11 +6,6 @@
 #include "WinSocket.h"
 //#include "AtumProtocol.h"
 
-// 2009. 06. 17 by ckPark Frost System
-#include "shieldSecurity.h"
-#include "shieldSecurityDll.h"
-// end 2009. 06. 17 by ckPark Frost System
-
 #include "CustomOptimizer.h"
 
 #ifndef SAFE_DELETE
@@ -358,8 +353,7 @@ BOOL CWinSocket::OnReceive(int nErrorCode)
 
 	if( !GetFrostEnable() )
 		nRet = WSARecv(m_Socket, &wsaBuf, 1, &nBytesRecvd, &dwFlag, NULL, NULL);
-	else
-		nRet = frostWSARecv(m_Socket, &wsaBuf, 1, &nBytesRecvd, &dwFlag, NULL, NULL);
+
 	// end 2009. 06. 17 by ckPark Frost System
 
 
@@ -466,8 +460,6 @@ BOOL CWinSocket::OnSendReady(int nErrorCode)
 
 		if( !GetFrostEnable() )
 			nRet = WSASend(m_Socket, &wsaBuf, 1, &sendBytes, dwFlag, NULL, NULL);
-		else
-			nRet = frostWSASend(m_Socket, &wsaBuf, 1, &sendBytes, dwFlag, NULL, NULL);
 		// end 2009. 06. 17 by ckPark Frost System
 
 
@@ -560,8 +552,6 @@ BOOL CWinSocket::Write(LPCSTR pPacket, int nLength)
 
 		if( !GetFrostEnable() )
 			nRet = WSASend(m_Socket, &wsaBuf, 1, &sendBytes, dwFlag, NULL, NULL);
-		else
-			nRet = frostWSASend(m_Socket, &wsaBuf, 1, &sendBytes, dwFlag, NULL, NULL);
 		// end 2009. 06. 17 by ckPark Frost System
 
 		

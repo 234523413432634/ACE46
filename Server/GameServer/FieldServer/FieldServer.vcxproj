@@ -2758,9 +2758,6 @@
     <ClCompile Include="..\..\..\Common\ODBCStatement.cpp" />
     <ClCompile Include="..\..\..\Common\Quest.cpp" />
     <ClCompile Include="..\..\..\Common\SecurityManager.cpp" />
-    <ClCompile Include="..\..\..\Common\Security\ApexProxy.cpp" />
-    <ClCompile Include="..\..\..\Common\Security\XTrap4Server.cpp" />
-    <ClCompile Include="..\..\..\Common\Security\zwave_sdk_linker.cpp" />
     <ClCompile Include="..\..\..\Common\TickManager.cpp" />
     <ClCompile Include="..\..\..\Common\UserVariable.cpp" />
     <ClCompile Include="..\..\..\Common\WayPointManager.cpp" />

@@ -3062,8 +3062,6 @@ xcopy .\res\YEDANG_KOR .\res /Y /Q</Command>
     <ClCompile Include="..\..\..\Common\RegistryControl.cpp" />
     <ClCompile Include="..\..\..\Common\Security\md5.cpp" />
     <ClCompile Include="..\..\..\Common\Security\metafile.cpp" />
-    <ClCompile Include="..\..\..\Common\Security\shieldSecurity.cpp" />
-    <ClCompile Include="..\..\..\Common\Security\shieldSecurityDll.cpp" />
     <ClCompile Include="..\..\..\Common\Security\utility.cpp" />
     <ClCompile Include="AtumLauncher.cpp" />
     <ClCompile Include="AtumLauncherDlg.cpp" />

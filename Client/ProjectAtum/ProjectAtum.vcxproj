@@ -2870,12 +2870,6 @@
     <ClCompile Include="..\..\Common\metafile.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='R_LIN_Arg|Win32'"> /"../BaseClasses"   /"../BaseClasses" </AdditionalOptions>
     </ClCompile>
-    <ClCompile Include="..\..\Common\shieldSecurity.cpp">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='R_LIN_Arg|Win32'"> /"../BaseClasses"   /"../BaseClasses" </AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="..\..\Common\shieldSecurityDll.cpp">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='R_LIN_Arg|Win32'"> /"../BaseClasses"   /"../BaseClasses" </AdditionalOptions>
-    </ClCompile>
     <ClCompile Include="..\..\Common\utility.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='R_LIN_Arg|Win32'"> /"../BaseClasses"   /"../BaseClasses" </AdditionalOptions>
     </ClCompile>

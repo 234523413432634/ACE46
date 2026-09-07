@@ -167,8 +167,6 @@
 // 2008-11-04 by dgwoo LuckyMachine기획 추가.
 #include "INFLuckyMachine.h"
 
-// 2009-01-22 by bhsohn Xign Code 사용하는 나라만 모듈 추가
-//#include "zwave_sdk_client.h"	// 2008-11-28 by bhsohn XignCode추가
 
 #include "INFMissionMain.h"     // 2008-12-09 by dgwoo 미션마스터.
 
@@ -222,8 +220,6 @@
 #include "VTCThread.h"
 // end 2011. 1. 18 by jskim 배트남 VTC가드
 
-#include "zwave_sdk_client.h"	  // 2012-10-13 by jhahn 핵쉴드->Xigncode변경
-
 #include "INFMenuList.h"	// 2012-07-12 by isshin 아템미리보기 On / Off 기능 - 공개 여부
 	  
 // 2013-11-29 by ssjung 거래소 구현
@@ -250,8 +246,6 @@
 // 2006-06-05 by ispark
 int __stdcall HS_MainCallbackProc ( long lCode, long lParamSize, void* pParam );
 // 2012-10-13 by jhahn 핵쉴드->Xigncode변경
-xstatus XCALL MyUserInfoCallback(xuint iid,xstr buffer,xsize size, xpvoid context);
-xbool CALLBACK AceOnlineXigncodeCallback(ULONG Code , ULONG W , PVOID L , PVOID Context); // 2012-10-17 by bhsohn XignCode작업
 #define				GAME_GUARD_FOLDER		"Xigncode"
 //end 2012-10-13 by jhahn 핵쉴드->Xigncode변경
 //////////////////////////////////////////////////////////////////////
@@ -21264,19 +21258,6 @@ VOID CAtumApplication::FieldSocketMoveHackShield_CRCReqMsg(MSG_FC_MOVE_HACKSHIEL
 		MSG_FC_MOVE_HACKSHIELD_CRCAckMsg sMsg;
 		memset(&sMsg,0x00,sizeof(sMsg));
 		
-		//	HS_MakeCRCAckMsg(pMsg->pbyReqMsg, sMsg.pbyAckMsg);		
-		int nRet = _AhnHS_MakeResponse(pMsg->stRequestBuf.byBuffer, pMsg->stRequestBuf.nLength, &sMsg.stResponseBuf);
-		if(ERROR_SUCCESS != nRet)
-		{
-			char szMessage[256];
-			//wsprintf(szMessage,STRMSG_C_060608_0000);//"서버가 종료되었습니다. 게임이 종료됩니다.  [%d]"
-			wsprintf ( szMessage , "%s\n[%d]" , STRMSG_C_060608_0000 , nRet );
-			
-			NetworkErrorMsgBox(szMessage);
-			return;
-		}
-		// end 2008-04-04 by bhsohn 핵쉴드 방식 변경
-		
 		m_pFieldWinSocket->SendMsg(T_FC_MOVE_HACKSHIELD_CRCAckMsg, (char*)&sMsg, sizeof(sMsg));
 
 	
@@ -35743,33 +35724,7 @@ int __stdcall HS_MainCallbackProc ( long lCode, long lParamSize, void* pParam )
 	}
 	return 1;
 }
-// 2012-10-13 by jhahn 핵쉴드->Xigncode변경
-xstatus XCALL MyUserInfoCallback(xuint iid,xstr buffer,xsize size, xpvoid context)
-{
 
-	CHARACTER* pMainInfo = g_pD3dApp->GetMFSMyShuttleInfo();	
-    
-	if (strlen(pMainInfo->AccountName) != 0)
-	{
-		if (iid == XUID_USER_ACCOUNT)
-		{
-			// 2012-10-13 by jhahn 핵쉴드->Xigncode변경
-			memset(buffer,0,size);
-			sprintf(buffer,"%s,%s",pMainInfo->AccountName,pMainInfo->CharacterName);
-			// 2012-10-13 by jhahn 핵쉴드->Xigncode변경
-
-			return ZCWAVE_OK;
-		}
-		else
-		{
-			return ZCWAVE_E_USER_INFO_ACCESS_DENIED;
-		}
-	}
-
-	return ZCWAVE_E_USER_INFO_IS_NOT_READY;
-
-}										   
-//end 2012-10-13 by jhahn 핵쉴드->Xigncode변경
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -35782,18 +35737,7 @@ xstatus XCALL MyUserInfoCallback(xuint iid,xstr buffer,xsize size, xpvoid contex
 /// \param		
 /// \return		
 ///////////////////////////////////////////////////////////////////////////////
-xbool CALLBACK AceOnlineXigncodeCallback(ULONG Code , ULONG W , PVOID L , PVOID Context)
-{
-	MSG_FC_CHARACTER_XIGNCODE_C_ACK_CODE msg;
-	memset(&msg, 0x00, sizeof(MSG_FC_CHARACTER_XIGNCODE_C_ACK_CODE));		
-	msg.Code  = Code;	
 
-//	DbgOut("AceOnlineXigncodeCallback [%d] \n", Code);
-
-	g_pFieldWinSocket->SendMsg(T_FC_CHARACTER_XIGNCODE_C_ACK_CODE, (char*)&msg, sizeof(MSG_FC_CHARACTER_XIGNCODE_C_ACK_CODE)); 
-
-	return 1;
-}
 
 ///////////////////////////////////////////////////////////////////////////////
 /// \fn			
@@ -46565,22 +46509,7 @@ void CAtumApplication::LookChangeLimitTimeMSG()
 /// \param		
 /// \return		
 ///////////////////////////////////////////////////////////////////////////////
-void CALLBACK OnProbeComplete(HANDLE CodeBox
-							  , CPACKETDATA RPacket
-							  , PACKETDATA Buffer
-							  , SIZE_T BufferSize
-							  , PVOID Context)
-{
-#if defined(DEFINE_USE_GAMEGUARD_XIGNCODE)	// 2012-10-22 by bhsohn Xigncode 디파인 빠져있는 부분 추가
-	MSG_FC_CHARACTER_XIGNCODE_ACK_PACKET msg;
-	memset(&msg, 0x00, sizeof(MSG_FC_CHARACTER_XIGNCODE_ACK_PACKET));			
-	memcpy(msg.byXigndAckMsg, Buffer, XC_PACKET_SIZE);
 
-//	DbgOut("OnProbeComplete  \n");
-
-	g_pFieldWinSocket->SendMsg(T_FC_CHARACTER_XIGNCODE_C_ACK_PACKET, (char*)&msg, sizeof(MSG_FC_CHARACTER_XIGNCODE_ACK_PACKET)); 
-#endif
-}
 
 void CAtumApplication::FieldSocketCharacterXignCodeAckPacket(MSG_FC_CHARACTER_XIGNCODE_ACK_PACKET* pMsg)
 {

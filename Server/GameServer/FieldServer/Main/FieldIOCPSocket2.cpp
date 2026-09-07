@@ -29970,10 +29970,6 @@ BOOL CFieldIOCPSocket::GetInitSecurityClient(void)
 	return m_bInitSecurityClient;
 }
 
-// 2008-04-03 by cmkwon, 핵쉴드 서버 연동 시스템 수정 - 
-AHNHS_SERVER_HANDLE	CFieldIOCPSocket::ms_hAhnHSServerHandle		= ANTICPX_INVALID_HANDLE_VALUE;
-IXigncodeServer* CFieldIOCPSocket::m_XignCodeServer				= NULL;// 2012-10-13 by jhahn Xigncode 한국 적용
-
 int CFieldIOCPSocket::ms_nPeriodMinutesforSecurityCheck			= 1;		// 2009-03-09 by cmkwon, 일본 Arario nProtect에 CS인증 적용하기 - 기본은 1분마다 체크
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -34555,21 +34551,6 @@ BOOL CFieldIOCPSocket::CheckOneSecondTermSystem()
 ///////////////////////////////////////////////////////////////////////////////
 BOOL CFieldIOCPSocket::IsInitializedSecurityServer(void)
 {
-	///////////////////////////////////////////////////////////////////////////////
-	// 2009-11-04 by cmkwon, 태국 게임가드 Apex로 변경 - CFieldIOCPSocket::IsInitializedSecurityServer#, 보완시스템 서버 체크
-	if(ms_bUsingSecuritySystem)
-	{
-		return TRUE;
-	}
-
-	if(ANTICPX_INVALID_HANDLE_VALUE != ms_hAhnHSServerHandle
-		|| FALSE != ms_bUsingNProtect	// 2009-03-09 by cmkwon, 일본 Arario nProtect에 CS인증 적용하기 - 
-		|| CFieldIOCPSocket::ms_XTrapUsingFlag				// 2009-10-06 by cmkwon, 베트남 게임 가드 X-TRAP으로 변경 - CFieldIOCPSocket::IsInitializedSecurityServer# 처리
-		|| FALSE != ms_bUsingXignCode)
-	{
-		return TRUE;
-	}
-
 	return FALSE;
 }
 
@@ -42002,47 +41983,8 @@ void CFieldIOCPSocket::ArenaPlayInfoUpdataToMF()
 	MFSSock->SendAddData(SendBuf, MSG_SIZE(MSG_FtoA_ARENA_CHARACTERARENAINFO_UPDATA));
 }
 // end 2012-04-12 by jhseol, 아레나 추가개발 - 보상 : 아레나 플레이 정보 업데이트 내용을 메인 필드서버에게 전달 함수
-// 2012-10-17 by bhsohn XignCode작업
-// 2009-05-27 by jhahn Xigncode 한국 적용
-BOOL WINAPI CFieldIOCPSocket::XignCodeSendProc(xpvoid uid, PVOID meta, LPCSTR buf, DWORD size)
-{
-#if defined(YEDANG_KOR)
-	UID32_t	CharacterUniqueNumber = (UID32_t)uid;
-	CFieldIOCPSocket* pSocket = ms_pFieldIOCP->GetFieldIOCPSocketByCharacterUniqueNumber(CharacterUniqueNumber);
-	if(!pSocket || ( pSocket&& !pSocket->IsValidCharacter(FALSE)) )
-	{
-		return FALSE;
-	}
-	DBGOUT("CFieldIOCPSocket::XignCodeSendProc [%d] \r\n", CharacterUniqueNumber);
-	{
-		INIT_MSG_OF_SIZE(MSG_FC_CHARACTER_XIGNCODE_ACK_PACKET, T_FC_CHARACTER_XIGNCODE_S_ACK_PACKET, pSMsg, pSendBuf);
-		memcpy(pSMsg->byXigndAckMsg, buf, max(XC_PACKET_SIZE, size));
-		
-		pSocket->SendAddData(pSendBuf, MSG_SIZE(MSG_FC_CHARACTER_XIGNCODE_ACK_PACKET));
-	}	
-#endif
-	
-	return TRUE;
 
-}
 
-void WINAPI CFieldIOCPSocket::XignCodeVerifyProc(xpvoid s, PVOID meta, int code, const char* report)
-{
-#if defined(YEDANG_KOR)
-	UID32_t	CharacterUniqueNumber = (UID32_t)s;
-	CFieldIOCPSocket* pSocket = ms_pFieldIOCP->GetFieldIOCPSocketByCharacterUniqueNumber(CharacterUniqueNumber);
-	if(!pSocket || ( pSocket&& !pSocket->IsValidCharacter(FALSE)) )
-	{
-		return ;
-	}
-	DBGOUT("CFieldIOCPSocket::XignCodeVerifyProc [%d] \r\n", CharacterUniqueNumber);
-
-	g_pFieldGlobal->WriteSystemLogEX(TRUE, "[XignCode] XignCodeVerifyProc() SocketClose (%s)", GetCharacterString(pSocket->GetCharacter(), string()));
-	
-	CAtumLogSender::SendLogMessageHackingLog(pSocket, ERR_SECURITY_HACKING_CLIENT);
-	pSocket->Close(0x14041, FALSE, 3000);
-#endif
-}
 //end 2009-05-27 by jhahn Xigncode 한국 적용
 
 // 2012-10-17 by bhsohn XignCode작업

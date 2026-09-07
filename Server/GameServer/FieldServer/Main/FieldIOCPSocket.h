@@ -27,8 +27,6 @@
 #include "MemoryHackHistory.h"			// 2012-12-14 by hskim, 메모리핵 자동 블럭 기능 구현
 #include "SpeedHackHistory.h"			// 2013-01-29 by hskim, 스피드핵 자동 블럭 기능 구현
 
-#include "Security\zwave_sdk_helper.h"// 2012-10-13 by jhahn Xigncode 한국 적용
-
 // 2008-09-18 by cmkwon, 태국 WinnerOnline_Tha, 한국 Masang140_Kor 빌링 DBServer 접근을 Direct 로 수정 - 
 #if defined(SERVICE_TYPE_KOREAN_SERVER_1) || defined(SERVICE_TYPE_THAI_SERVER_1) || defined(SERVICE_TYPE_SINGAPORE_1) || defined(SERVICE_TYPE_INDONESIA_SERVER_1)
 	#include "BillingLib.h"					// 2006-09-13 by cmkwon, 
@@ -1198,17 +1196,9 @@ public:
 	///////////////////////////////////////////////////////////////////////////////
 	// 2008-04-03 by cmkwon, 핵쉴드 서버 연동 시스템 수정 - 
 
-	static IXigncodeServer*			m_XignCodeServer;// 2012-10-13 by jhahn Xigncode 한국 적용
-	static AHNHS_SERVER_HANDLE	ms_hAhnHSServerHandle;
 	static BOOL SecurityServerInit(void);
 	static void SecurityServerClean(void);
 
-	// 2012-10-17 by bhsohn XignCode작업
-	static	BOOL WINAPI XignCodeSendProc(xpvoid uid, PVOID meta, LPCSTR buf, DWORD size);// 2009-05-27 by jhahn Xigncode 한국 적용
-	static	void WINAPI XignCodeVerifyProc(xpvoid s, PVOID meta, int code, const char* report);// 2009-05-27 by jhahn Xigncode 한국 적용
-	// end 2012-10-17 by bhsohn XignCode작업
-
-	AHNHS_CLIENT_HANDLE			m_hAhnHSClientHandle;
 	Err_t SecurityClientInit(void);
 	void SecurityClientClean(void);
 	// 2009-03-09 by cmkwon, 일본 Arario nProtect에 CS인증 적용하기 - 인자추가(, BOOL i_bCheckTerm=TRUE)

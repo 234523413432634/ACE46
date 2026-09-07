@@ -13,7 +13,6 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
-#include "Security/Guard4Launcher.h"
 
 #if defined(SERVICE_TYPE_VIETNAMESE_SERVER_1)
 

@@ -183,7 +183,6 @@ CFieldIOCPSocket::CFieldIOCPSocket() :
 //	// 2008-03-24 by cmkwon, 핵쉴드 2.0 적용 - 'ANTICPSVR_CHECK_ENGINE_FILE' 옵션이 없어지고 'ANTICPSVR_CHECK_NANOENGINE_FILE'로 옵션 변경
 //	//m_Security_ulOption				= ANTICPSVR_CHECK_ALL|ANTICPSVR_CHECK_ENGINE_FILE;		// 2007-04-02 by cmkwon, ANTICPSVR_CHECK_ENGINE_FILE 추가함
 //	m_Security_ulOption				= ANTICPSVR_CHECK_ALL|ANTICPSVR_CHECK_NANOENGINE_FILE;
-	m_hAhnHSClientHandle			= ANTICPX_INVALID_HANDLE_VALUE;		// 2008-04-03 by cmkwon, 핵쉴드 서버 연동 시스템 수정 - 
 
 	m_bInitSecurityClient			= FALSE;		// 2009-11-04 by cmkwon, 태국 게임가드 Apex로 변경 - 
 
@@ -9560,7 +9559,6 @@ void CFieldIOCPSocket::OnConnect(void)
 //	// 2008-03-24 by cmkwon, 핵쉴드 2.0 적용 - 'ANTICPSVR_CHECK_ENGINE_FILE' 옵션이 없어지고 'ANTICPSVR_CHECK_NANOENGINE_FILE'로 옵션 변경
 //	//m_Security_ulOption				= ANTICPSVR_CHECK_ALL|ANTICPSVR_CHECK_ENGINE_FILE;		// 2007-04-02 by cmkwon, ANTICPSVR_CHECK_ENGINE_FILE 추가함
 //	m_Security_ulOption				= ANTICPSVR_CHECK_ALL|ANTICPSVR_CHECK_NANOENGINE_FILE;	
-	m_hAhnHSClientHandle			= ANTICPX_INVALID_HANDLE_VALUE;		// 2008-04-03 by cmkwon, 핵쉴드 서버 연동 시스템 수정 - 
 
 	m_bInitSecurityClient			= FALSE;		// 2009-11-04 by cmkwon, 태국 게임가드 Apex로 변경 - 
 

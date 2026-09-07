@@ -103,7 +103,6 @@
 #else
 	// 2008-04-03 by cmkwon, 핵쉴드 서버 연동 시스템 수정 - 
 	//#include "Security\AntiCpSvrFunc.h"		// 2008-03-24 by cmkwon, 핵쉴드 2.0 적용 - AntiCpSvrFunc.h 파일의 정의를 그대로 사용하고 클라이언트에도 헤더파일 전달하기
-	#include "Security\AntiCpXSvr.h"		// 2008-04-03 by cmkwon, 핵쉴드 서버 연동 시스템 수정 - 
 #endif
 
 
@@ -5992,11 +5991,11 @@ struct MSG_FC_MOVE_ROLLING_OK
 // };
 struct MSG_FC_MOVE_HACKSHIELD_CRCReqMsg			// 2008-04-03 by cmkwon, 핵쉴드 서버 연동 시스템 수정 - 
 {
-	_AHNHS_TRANS_BUFFER		stRequestBuf;
+
 };
 struct MSG_FC_MOVE_HACKSHIELD_CRCAckMsg			// 2008-04-03 by cmkwon, 핵쉴드 서버 연동 시스템 수정 - 
 {
-	_AHNHS_TRANS_BUFFER		stResponseBuf;
+
 };
 
 struct MSG_FC_MOVE_HACKSHIELD_HACKING_CLIENT	// 2006-06-05 by cmkwon
