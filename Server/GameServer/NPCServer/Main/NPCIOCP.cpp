@@ -331,7 +331,7 @@ BOOL CNPCIOCP::OpenUDPPortForOtherServer(void)
 		pIOCPSocket->Read();
 		pIOCPSocket->SetPeerUDPReady(TRUE);
 		((CNPCIOCPSocket*)pIOCPSocket)->InitializeNPCMap(pMapProject, &m_mapMonsterParameter);
-		Sleep(200);
+		//Sleep(200);
 	}
 
 	//*/

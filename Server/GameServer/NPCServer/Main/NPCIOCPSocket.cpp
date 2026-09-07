@@ -519,7 +519,7 @@ DWORD CNPCIOCPSocket::MapWorker(void)
 	srand(timeGetTime());
 	vecClientIndex.reserve(100);
 	vecD3DXVECTOR.reserve(100);
-	Sleep(2000 + 1000*(this->GetClientArrayIndex() + 1));
+	//Sleep(2000 + 1000*(this->GetClientArrayIndex() + 1));
 	while(!m_bThreadEndFlagMapWorker)
 	{
 		// 2008-11-11 by cmkwon, NPCServer CPU 점유율 문제 보완 - 
