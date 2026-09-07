@@ -26,6 +26,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpaceCowboyDBEditorTool", "SpaceCowboyDBEditorTool\SpaceCowboyDBEditorTool.vcxproj", "{54B2DBAF-C7F8-4D3D-BC1E-1AB515467498}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AtumAdminTool", "AtumAdminTool\AtumAdminTool.vcxproj", "{91F7D286-33BB-4113-8D6A-334659D8D3E8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{ECFD6B4C-AF6B-4B51-B221-B13309ACFCE8} = {ECFD6B4C-AF6B-4B51-B221-B13309ACFCE8}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1852,6 +1852,7 @@
       </AdditionalLibraryDirectories>
       <AdditionalDependencies>Wininet.lib;winmm.lib;odbc32.lib;odbccp32.lib;ZipArchive.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions> /MAPINFO:EXPORTS</AdditionalOptions>
+      <LargeAddressAware>true</LargeAddressAware>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='R_Evo_ARENA|Win32'">
@@ -1902,6 +1903,7 @@
       </AdditionalLibraryDirectories>
       <AdditionalDependencies>Wininet.lib;winmm.lib;odbc32.lib;odbccp32.lib;ZipArchive.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions> /MAPINFO:EXPORTS</AdditionalOptions>
+      <LargeAddressAware>true</LargeAddressAware>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='D_Innova_Rus|Win32'">

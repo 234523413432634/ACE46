@@ -193,8 +193,8 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 // 2006-05-02 by cmkwon, Launcher URL
-#define LAUNCHER_WEB_URL						"http://ace.subagames.com/launcher.aspx"
-#define TESTSERVER_LAUNCHER_WEB_URL				"http://ace.subagames.com/launcher.aspx"
+#define LAUNCHER_WEB_URL						""
+#define TESTSERVER_LAUNCHER_WEB_URL				""
 
 
 ///////////////////////////////////////////////////////////////////////////////

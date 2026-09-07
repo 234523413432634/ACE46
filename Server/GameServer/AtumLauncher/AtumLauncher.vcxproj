@@ -2406,7 +2406,11 @@ xcopy .\res\WIKIGAMES_ENG .\res /Y /Q</Command>
       </AdditionalLibraryDirectories>
       <AdditionalDependencies>winmm.lib;ziparchive.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions> /MAPINFO:EXPORTS </AdditionalOptions>
+      <LargeAddressAware>true</LargeAddressAware>
     </Link>
+    <Manifest>
+      <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='R_Evo_ARENA|Win32'">
     <ClCompile>
@@ -2461,6 +2465,7 @@ xcopy .\res\WIKIGAMES_ENG .\res /Y /Q</Command>
       </AdditionalLibraryDirectories>
       <AdditionalDependencies>winmm.lib;ziparchive.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions> /MAPINFO:EXPORTS </AdditionalOptions>
+      <LargeAddressAware>true</LargeAddressAware>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='R_Test140|Win32'">

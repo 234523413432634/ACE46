@@ -138,6 +138,8 @@ void CINFDamageView::Render()
 	int x, y, w;
     // end 2011. 03. 08 by jskim 인피3차 구현
 	
+	float scale = IMAGE_SCALE;
+
 	int wideTemp = 0;
 	
 	vector<DamageView_t>::iterator it = vecDamage.begin();
@@ -172,17 +174,20 @@ void CINFDamageView::Render()
 
 			DWORD dwColor = 0x00FFFFFF;
 			DWORD alpha = 0;
-			alpha = 255* (1.0f - ((float)(*it).nDamageViewStep)/DAMAGE_VIEW_STEP );
+			alpha = 255 * (1.0f - ((float)(*it).nDamageViewStep) / DAMAGE_VIEW_STEP);
 			alpha = alpha << 24;
 			dwColor = dwColor | alpha;
-			switch((*it).nDamageKind)
+			switch ((*it).nDamageKind)
 			{
 			case DAMAGEKIND_NO_DAMAGE:
 				{
-					m_pMiss->Move( x-(MISS_SIZE_X/2), y-((*it).fTimer*SHOW_SPEED)-Y_START_POS);
-					m_pMiss->SetScale( IMAGE_SCALE, IMAGE_SCALE );
-					m_pMiss->SetColor( dwColor );
-					m_pMiss->Render();
+				m_pMiss->Move(
+					x - (MISS_SIZE_X / 2 * scale),
+					y - ((*it).fTimer * SHOW_SPEED * scale) - (Y_START_POS * scale)
+				);
+				m_pMiss->SetScale(scale, scale);
+				m_pMiss->SetColor(dwColor);
+				m_pMiss->Render();
 				}
 				break;
 			case DAMAGEKIND_NORMAL:
@@ -190,13 +195,16 @@ void CINFDamageView::Render()
 					vector<int>::iterator itl = it->vecDamageView.begin();
 					while(itl != it->vecDamageView.end())
 					{
-						m_pNormal->Move( x+wideTemp, y-((*it).fTimer*SHOW_SPEED)-Y_START_POS);
-						m_pNormal->SetScale( IMAGE_SCALE, IMAGE_SCALE );
-						m_pNormal->SetColor( dwColor );
-						m_pNormal->SetRect( NORMAL_SIZE_X*(*itl), 0, NORMAL_SIZE_X*(*itl+1), NORMAL_SIZE_Y );
-						m_pNormal->Render();
-						wideTemp += NORMAL_SIZE_X*IMAGE_SCALE;
-						itl++;
+                        m_pNormal->Move(
+                            x + wideTemp, 
+                            y - ((*it).fTimer * SHOW_SPEED * scale) - (Y_START_POS * scale)
+                        );
+                        m_pNormal->SetScale(scale, scale);
+                        m_pNormal->SetColor(dwColor);
+                        m_pNormal->SetRect(NORMAL_SIZE_X * (*itl), 0, NORMAL_SIZE_X * (*itl + 1), NORMAL_SIZE_Y);
+                        m_pNormal->Render();
+                        wideTemp += NORMAL_SIZE_X * scale;
+                        itl++;
 					}
 				}
 				break;
@@ -206,12 +214,15 @@ void CINFDamageView::Render()
 					vector<int>::iterator itl = it->vecDamageView.begin();
 					while(itl != it->vecDamageView.end())
 					{
-						m_pPet->Move( x+wideTemp, y-((*it).fTimer*SHOW_SPEED)-Y_START_POS);
-						m_pPet->SetScale( IMAGE_SCALE, IMAGE_SCALE );
+                        m_pNormal->Move(
+                            x + wideTemp, 
+                            y - ((*it).fTimer * SHOW_SPEED * scale) - (Y_START_POS * scale)
+                        );
+						m_pPet->SetScale(scale, scale);
 						m_pPet->SetColor( dwColor );
 						m_pPet->SetRect( NORMAL_SIZE_X*(*itl), 0, NORMAL_SIZE_X*(*itl+1), NORMAL_SIZE_Y );
 						m_pPet->Render();
-						wideTemp += NORMAL_SIZE_X*IMAGE_SCALE;
+						wideTemp += NORMAL_SIZE_X* scale;
 						itl++;
 					}
 				}
@@ -224,23 +235,25 @@ void CINFDamageView::Render()
 				{
 					float fElapseTime = g_pD3dApp->GetElapsedTime();
 
-					// x축 이동
-					(*it).x						+= (*it).fHorizontallySpeed * fElapseTime;
-					// 추락 가속도 계산
-					(*it).fVerticalSpeed		-= DAMAGE_Y_GRAVITY * fElapseTime;
-					// y축 이동
-					(*it).y						+= (*it).fVerticalSpeed * fElapseTime;
+					// Physics update in base resolution (unchanged)
+					(*it).x += (*it).fHorizontallySpeed * fElapseTime;
+					(*it).fVerticalSpeed -= DAMAGE_Y_GRAVITY * fElapseTime;
+					(*it).y += (*it).fVerticalSpeed * fElapseTime;
 
 					vector<int>::iterator itl = it->vecDamageView.begin();
-					while(itl != it->vecDamageView.end())
+					while (itl != it->vecDamageView.end())
 					{
-						m_pCritical->Move( x + (*it).x + wideTemp, y + -(*it).y - Y_START_POS );
-						m_pCritical->SetScale( IMAGE_SCALE, IMAGE_SCALE );
-						dwColor = 0xFF00FF | alpha;			//2013-05-20 by ssjung 추가 데미지 색상 변경 
-						m_pCritical->SetColor( dwColor );
-						m_pCritical->SetRect( CRITICAL_SIZE_X*(*itl), 0, CRITICAL_SIZE_X*(*itl+1), CRITICAL_SIZE_Y );
+						// Scale bounce displacements and position
+						m_pCritical->Move(
+							x + (*it).x * scale + wideTemp,
+							y - (*it).y * scale - (Y_START_POS * scale)
+						);
+						m_pCritical->SetScale(scale, scale);
+						dwColor = 0xFF00FF | alpha;
+						m_pCritical->SetColor(dwColor);
+						m_pCritical->SetRect(CRITICAL_SIZE_X * (*itl), 0, CRITICAL_SIZE_X * (*itl + 1), CRITICAL_SIZE_Y);
 						m_pCritical->Render();
-						wideTemp += CRITICAL_SIZE_X*IMAGE_SCALE;
+						wideTemp += CRITICAL_SIZE_X * scale;
 						itl++;
 					}
 				}
@@ -250,53 +263,47 @@ void CINFDamageView::Render()
 
 			// 2010. 02. 11 by ckPark 발동류 장착아이템
 			case DAMAGEKIND_REFLECTION:
+			{
+				vector<int>::iterator itl = it->vecDamageView.begin();
+				while (itl != it->vecDamageView.end())
 				{
-					vector<int>::iterator itl = it->vecDamageView.begin();
-					while(itl != it->vecDamageView.end())
-					{
-						m_pNormal->Move( x+wideTemp, y-((*it).fTimer*SHOW_SPEED)-Y_START_POS);
-						m_pNormal->SetScale( IMAGE_SCALE, IMAGE_SCALE );
-						m_pNormal->SetColor( dwColor );
-						m_pNormal->SetRect( NORMAL_SIZE_X*(*itl), 0, NORMAL_SIZE_X*(*itl+1), NORMAL_SIZE_Y );
-						m_pNormal->Render();
-						wideTemp += NORMAL_SIZE_X*IMAGE_SCALE;
-						itl++;
-					}
+					m_pNormal->Move(
+						x + wideTemp,
+						y - ((*it).fTimer * SHOW_SPEED * scale) - (Y_START_POS * scale)
+					);
+					m_pNormal->SetScale(scale, scale);
+					m_pNormal->SetColor(dwColor);
+					m_pNormal->SetRect(NORMAL_SIZE_X * (*itl), 0, NORMAL_SIZE_X * (*itl + 1), NORMAL_SIZE_Y);
+					m_pNormal->Render();
+					wideTemp += NORMAL_SIZE_X * scale;
+					itl++;
 				}
-				break;
-			// end 2010. 02. 11 by ckPark 발동류 장착아이템
+			}
+			break;			// end 2010. 02. 11 by ckPark 발동류 장착아이템
 
 			case DAMAGEKIND_CRITICAL:
+			{
+				vector<int>::iterator itl = it->vecDamageView.begin();
+				while (itl != it->vecDamageView.end())
 				{
-					vector<int>::iterator itl = it->vecDamageView.begin();
-					while(itl != it->vecDamageView.end())
-					{
-						m_pCritical->Move( x+wideTemp, y-((*it).fTimer*SHOW_SPEED)-Y_START_POS);
-						m_pCritical->SetScale( IMAGE_SCALE, IMAGE_SCALE );
-						m_pCritical->SetColor( dwColor );
-						m_pCritical->SetRect( CRITICAL_SIZE_X*(*itl), 0, CRITICAL_SIZE_X*(*itl+1), CRITICAL_SIZE_Y );
-						m_pCritical->Render();
-						wideTemp += CRITICAL_SIZE_X*IMAGE_SCALE;
-						itl++;
-					}
-//					// 느낌표
-//					m_pCritical->Move( x+wideTemp, y-((*it).fTimer*SHOW_SPEED)-Y_START_POS);
-//					m_pCritical->SetScale( IMAGE_SCALE, IMAGE_SCALE );
-//					m_pCritical->SetColor( dwColor );
-//					m_pCritical->SetRect( CRITICAL_SIZE_X*10, 0, CRITICAL_SIZE_X*11, CRITICAL_SIZE_Y );
-//					m_pCritical->Render();
+					m_pCritical->Move(
+						x + wideTemp,
+						y - ((*it).fTimer * SHOW_SPEED * scale) - (Y_START_POS * scale)
+					);
+					m_pCritical->SetScale(scale, scale);
+					m_pCritical->SetColor(dwColor);
+					m_pCritical->SetRect(CRITICAL_SIZE_X * (*itl), 0, CRITICAL_SIZE_X * (*itl + 1), CRITICAL_SIZE_Y);
+					m_pCritical->Render();
+					wideTemp += CRITICAL_SIZE_X * scale;
+					itl++;
 				}
-				break;
+			}
+			break;
 			}
 			wideTemp = 0;
 		}
 		it++;
 	}
-
-
-
-
-
 }
 
 

@@ -1383,6 +1383,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <FloatingPointModel>Precise</FloatingPointModel>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -1408,7 +1409,11 @@
       <AdditionalDependencies>..\build\lib\strmbase.lib;legacy_stdio_definitions.lib;version.lib;dxerr.lib;dinput8.lib;d3d9.lib;d3dx9.lib;dxguid.lib;d3dxof.lib;quartz.lib;strmbase.lib;comctl32.lib;strmiids.lib;dsound.lib;imm32.lib;winmm.lib;odbc32.lib;odbccp32.lib;AtumJpg.lib;DataRenderLib.lib;DirectXLib.lib;EffectLib.lib;EtcLib.lib;InterfaceLib.lib;SkinnedMeshLib.lib;SocketLib.lib;QuestLoaderLib.lib;HShield.lib;HSUpChk.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions> /MAPINFO:EXPORTS</AdditionalOptions>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <LargeAddressAware>true</LargeAddressAware>
     </Link>
+    <Manifest>
+      <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='D_Gameforge4D_Pol|Win32'">
     <ClCompile>

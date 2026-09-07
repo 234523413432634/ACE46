@@ -534,6 +534,10 @@ HRESULT CD3DHanFont::SetText( FLOAT sx,
 {
 	FLOG( "CD3DHanFont::SetText( FLOAT sx, FLOAT sy,TCHAR *texts, DWORD color)" );
 //	HRESULT hr;
+	int outlineThickness = 1;
+	if (m_dwFontHeight > 10) {
+		outlineThickness = 2;
+	}
 	
 	bool bReset = FALSE;
 	// 2007-08-07 by bhsohn 스피커 아이템 추가
@@ -666,25 +670,28 @@ HRESULT CD3DHanFont::SetText( FLOAT sx,
 
 					if (m_bOutLine==TRUE)
 					{
-						SetBkMode(g_pApp->GetHDC(),TRANSPARENT);
-//						SetTextColor( g_pApp->GetHDC(), RGB(1,1,1));
-//						ExtTextOut( g_pApp->GetHDC(), x+(totalBitCount*xCharSize), y+1, ETO_CLIPPED, NULL, bitString, chrBitCount, NULL );
-//						ExtTextOut( g_pApp->GetHDC(), x+1+(totalBitCount*xCharSize), y, ETO_CLIPPED, NULL, bitString, chrBitCount, NULL );
-//						ExtTextOut( g_pApp->GetHDC(), x+2+(totalBitCount*xCharSize), y+1, ETO_CLIPPED, NULL, bitString, chrBitCount, NULL );
-//						ExtTextOut( g_pApp->GetHDC(), x+1+(totalBitCount*xCharSize), y+2, ETO_CLIPPED, NULL, bitString, chrBitCount, NULL );
-						SetTextColor( g_pApp->GetHDC(), RGB(1,1,1));
-						ExtTextOut( g_pApp->GetHDC(), x+(prebitlength), y+1, ETO_CLIPPED, NULL, bitString, chrBitCount, NULL );
-						ExtTextOut( g_pApp->GetHDC(), x+1+(prebitlength), y, ETO_CLIPPED, NULL, bitString, chrBitCount, NULL );
-						ExtTextOut( g_pApp->GetHDC(), x+2+(prebitlength), y+1, ETO_CLIPPED, NULL, bitString, chrBitCount, NULL );
-						ExtTextOut( g_pApp->GetHDC(), x+1+(prebitlength), y+2, ETO_CLIPPED, NULL, bitString, chrBitCount, NULL );
+						SetBkMode(g_pApp->GetHDC(), TRANSPARENT);
+						SetTextColor(g_pApp->GetHDC(), RGB(1, 1, 1));
+						// Draw outline with dynamic thickness in all directions
+						for (int i = -outlineThickness; i <= outlineThickness; i++) {
+							for (int j = -outlineThickness; j <= outlineThickness; j++) {
+								if (i == 0 && j == 0) continue;
+								ExtTextOut(g_pApp->GetHDC(),
+									x + outlineThickness + i + (prebitlength),
+									y + outlineThickness + j,
+									ETO_CLIPPED, NULL, bitString, chrBitCount, NULL);
+							}
+						}
 					}
 
 					SetTextColor( g_pApp->GetHDC(), (COLORREF)bitFirstColor );
 				
 //					ExtTextOut( g_pApp->GetHDC(), (x+1)+(totalBitCount*xCharSize), y+1,
 //								ETO_OPAQUE, NULL, bitString, chrBitCount, NULL );
-					ExtTextOut( g_pApp->GetHDC(), (x+1)+(prebitlength), y+1,
-								ETO_OPAQUE, NULL, bitString, chrBitCount, NULL );
+					ExtTextOut(g_pApp->GetHDC(),
+						(x + outlineThickness) + (prebitlength),
+						y + outlineThickness,
+						ETO_OPAQUE, NULL, bitString, chrBitCount, NULL);
 
 					SIZE tsize;
 					int nstrlen = strlen(bitString);
@@ -696,15 +703,24 @@ HRESULT CD3DHanFont::SetText( FLOAT sx,
 
 				if (m_bOutLine==TRUE)
 				{
-					SetBkMode(g_pApp->GetHDC(),TRANSPARENT);
-					SetTextColor( g_pApp->GetHDC(), RGB(1,1,1));
-					ExtTextOut( g_pApp->GetHDC(), x, y+1, ETO_CLIPPED, NULL, m_strText, iStringLength, NULL );
-					ExtTextOut( g_pApp->GetHDC(), x+1, y, ETO_CLIPPED, NULL, m_strText, iStringLength, NULL );
-					ExtTextOut( g_pApp->GetHDC(), x+2, y+1, ETO_CLIPPED, NULL, m_strText, iStringLength, NULL );
-					ExtTextOut( g_pApp->GetHDC(), x+1, y+2, ETO_CLIPPED, NULL, m_strText, iStringLength, NULL );
+					SetBkMode(g_pApp->GetHDC(), TRANSPARENT);
+					SetTextColor(g_pApp->GetHDC(), RGB(1, 1, 1));
+					// Draw outline with dynamic thickness in all directions
+					for (int i = -outlineThickness; i <= outlineThickness; i++) {
+						for (int j = -outlineThickness; j <= outlineThickness; j++) {
+							if (i == 0 && j == 0) continue;
+							ExtTextOut(g_pApp->GetHDC(),
+								x + outlineThickness + i,
+								y + outlineThickness + j,
+								ETO_CLIPPED, NULL, m_strText, iStringLength, NULL);
+						}
+					}
 				}
 				SetTextColor( g_pApp->GetHDC(), (COLORREF)color );
-				ExtTextOut( g_pApp->GetHDC(), x+1, y+1, ETO_OPAQUE, NULL, m_strText, iStringLength, NULL );
+				ExtTextOut(g_pApp->GetHDC(),
+					x + outlineThickness,
+					y + outlineThickness,
+					ETO_OPAQUE, NULL, m_strText, iStringLength, NULL);
 				break;
 			}
 
@@ -733,16 +749,18 @@ HRESULT CD3DHanFont::SetText( FLOAT sx,
 
 						if (m_bOutLine==TRUE)
 						{
-							SetBkMode(g_pApp->GetHDC(),TRANSPARENT);
-							SetTextColor( g_pApp->GetHDC(), RGB(1,1,1));
-	//						ExtTextOut( g_pApp->GetHDC(), x+(totalBitCount*xCharSize), y+1, ETO_CLIPPED, NULL, bitString, chrBitCount, NULL );
-	//						ExtTextOut( g_pApp->GetHDC(), x+1+(totalBitCount*xCharSize), y, ETO_CLIPPED, NULL, bitString, chrBitCount, NULL );
-	//						ExtTextOut( g_pApp->GetHDC(), x+2+(totalBitCount*xCharSize), y+1, ETO_CLIPPED, NULL, bitString, chrBitCount, NULL );
-	//						ExtTextOut( g_pApp->GetHDC(), x+1+(totalBitCount*xCharSize), y+2, ETO_CLIPPED, NULL, bitString, chrBitCount, NULL );
-							ExtTextOut( g_pApp->GetHDC(), x+(prebitlength), y+1, ETO_CLIPPED, NULL, bitString, chrBitCount, NULL );
-							ExtTextOut( g_pApp->GetHDC(), x+1+(prebitlength), y, ETO_CLIPPED, NULL, bitString, chrBitCount, NULL );
-							ExtTextOut( g_pApp->GetHDC(), x+2+(prebitlength), y+1, ETO_CLIPPED, NULL, bitString, chrBitCount, NULL );
-							ExtTextOut( g_pApp->GetHDC(), x+1+(prebitlength), y+2, ETO_CLIPPED, NULL, bitString, chrBitCount, NULL );
+							SetBkMode(g_pApp->GetHDC(), TRANSPARENT);
+							SetTextColor(g_pApp->GetHDC(), RGB(1, 1, 1));
+							// Draw outline with dynamic thickness in all directions
+							for (int i = -outlineThickness; i <= outlineThickness; i++) {
+								for (int j = -outlineThickness; j <= outlineThickness; j++) {
+									if (i == 0 && j == 0) continue;
+									ExtTextOut(g_pApp->GetHDC(),
+										x + outlineThickness + i + (prebitlength),
+										y + outlineThickness + j,
+										ETO_CLIPPED, NULL, bitString, chrBitCount, NULL);
+								}
+							}
 						}
 
 
@@ -750,8 +768,10 @@ HRESULT CD3DHanFont::SetText( FLOAT sx,
 
 	//					ExtTextOut( g_pApp->GetHDC(), (x+1)+(totalBitCount*xCharSize), y+1,
 	//								ETO_OPAQUE, NULL, bitString, chrBitCount, NULL );
-						ExtTextOut( g_pApp->GetHDC(), (x+1)+(prebitlength), y+1,
-									ETO_OPAQUE, NULL, bitString, chrBitCount, NULL );
+						ExtTextOut(g_pApp->GetHDC(),
+							(x + outlineThickness) + (prebitlength),
+							y + outlineThickness,
+							ETO_OPAQUE, NULL, bitString, chrBitCount, NULL);
 
 						
 

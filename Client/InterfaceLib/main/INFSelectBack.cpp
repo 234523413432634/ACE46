@@ -81,42 +81,6 @@ CINFSelectBack::~CINFSelectBack()
 	SAFE_DELETE(m_pLocationMesh);
 	SAFE_DELETE(m_pBottomMesh);
 }
-/*
-CCharacterInfo* CINFSelectBack::LoadCharacterEffect(char* strFileName)
-{
-	FLOG( "CINFSelectBack::LoadCharacterEffect(char* strFileName)" );
-	CCharacterInfo* pChar;
-	pChar = new CCharacterInfo();
-	if(pChar->Load(strFileName))
-	{
-		pChar->InitDeviceObjects();
-//		pChar->RestoreDeviceObjects();
-	}
-	else
-	{
-		SAFE_DELETE(pChar);
-	}
-	return pChar;
-
-}
-
-void CINFSelectBack::DeleteCharacterEffect(CCharacterInfo* pChar)
-{
-	FLOG( "CINFSelectBack::LoadCharacterEffect(char* strFileName)" );
-	ASSERT_ASSERT(pChar);
-	if( pChar->Load(strFileName) )
-	{
-		pChar->InvalidateDeviceObjects();
-		pChar->DeleteDeviceObjects();
-	}
-	else
-	{
-		SAFE_DELETE(pChar);
-	}
-	return pChar;
-
-}
-*/
 
 void CINFSelectBack::ChangeMode(int nMode)
 {
@@ -141,8 +105,6 @@ void CINFSelectBack::ChangeMode(int nMode)
 	float fDevide = m_nMode/2.0f;
 	int i; for(i=0;i<SELECT_UNIT_NUMBER;i++)
 	{
-		//D3DXMatrixRotationZ( &m_mSelectTopMatrix[i],D3DX_PI/fDevide*i);
-		//m_mSelectMiddleMatrix[i] = m_mSelectTopMatrix[i];
 		D3DXMatrixRotationZ( &m_mSelectMiddleMatrix[i],D3DX_PI/fDevide*i);
 
 		D3DXVECTOR3 vcurrentpos = D3DXVECTOR3(0,0,0);//UNIT_POSITION);
@@ -157,13 +119,10 @@ void CINFSelectBack::ChangeMode(int nMode)
 		m_CreateRenderInfo[i].matrix._41 = matTemp._41;
 		m_CreateRenderInfo[i].matrix._42 = matTemp._42;
 		m_CreateRenderInfo[i].matrix._43 = matTemp._43;
-		//m_CreateRenderInfo[i].matrix *= m_mSelectTopMatrix[i];
 		D3DXMatrixTranslation( &m_mSelectTopMatrix[i], 0.0f ,0.0f ,0.0f);
 		m_mSelectTopMatrix[i]._41 = matTemp._41;//0.0        -36.411      13.802
 		m_mSelectTopMatrix[i]._42 = matTemp._42;
 		m_mSelectTopMatrix[i]._43 = matTemp._43-SELECT_TOP_HEIGHT;
-
-		//m_CreateRenderInfo[i].rendertype = UNITKIND_BT01 << 4*i;
 	}
 	fDevide = 3.0f/2.0f;
 	for(i=0;i<3;i++)
@@ -181,39 +140,19 @@ void CINFSelectBack::ChangeMode(int nMode)
 		matTemp2 *= matTemp;
 		m_SelectRenderInfo[i].matrix._41 = matTemp2._41;
 		m_SelectRenderInfo[i].matrix._42 = matTemp2._42;
-		// 2008-07-08 by dgwoo 아머 키에 맞춰 출력.
-		// 2013-01-08 by jhjang 로봇아머에 외형 변경 킷을 사용했을때 문제가 발생하던 부분 수정
 		if(((CINFSelect*)m_pParent)->m_guiUnitInfo[i].CharacterRenderInfo.RI_Center_ShapeItemNum)
 			m_SelectRenderInfo[i].matrix._43 = matTemp2._43 - 7.087f + GetAmorGearHeight(((CINFSelect*)m_pParent)->m_guiUnitInfo[i].CharacterRenderInfo.RI_Center_ShapeItemNum,TRUE);
 		else
 		m_SelectRenderInfo[i].matrix._43 = matTemp2._43 - 7.087f + GetAmorGearHeight(((CINFSelect*)m_pParent)->m_guiUnitInfo[i].CharacterRenderInfo.RI_Center,TRUE);
-		// end 2013-01-08 by jhjang 로봇아머에 외형 변경 킷을 사용했을때 문제가 발생하던 부분 수정
-		//m_SelectRenderInfo[i].matrix *= matTemp;
-
-		//m_SelectRenderInfo[i].rendertype = UNITKIND_BT01 << 4*i;
 	}
 	D3DXMatrixTranslation( &m_mSelectLocationMatrix, 0.0f ,0.0f ,0.0f);
 	D3DXMatrixTranslation( &m_mSelectBottomMatrix, 0.0f, 0.0f, 0.0f);
 	if(m_nMode == CREATE_MODE)
 	{
 		((CINFSelect*)m_pParent)->ChangeCreateUnit(GetCurrentUnitKind());
-		// 2009-02-10 by bhsohn Japan Charcter Create
-		//memset(((CINFSelect*)m_pParent)->m_pCreateMenu->m_strCharacterName, 0x00, SIZE_MAX_CHARACTER_NAME);
 		ZERO_MEMORY(((CINFSelect*)m_pParent)->m_pCreateMenu->m_strCharacterName);
-		// end 2009-02-10 by bhsohn Japan Charcter Create
 		g_pD3dApp->CleanText();	
 	}
-/*		for(i=0;i<SELECT_UNIT_NUMBER;i++)
-		{
-			char buf[64];
-			wsprintf( buf, "%08d", EFFECT_UNIT_EFFECT_INDEX(i));
-			m_pCharacterInfo[i] = LoadCharacterEffect(buf)
-		}
-	}
-	else if(m_nMode == SELECT_MODE)
-	{
-	}
-	*/
 }
 HRESULT CINFSelectBack::InitDeviceObjects()
 {
@@ -265,12 +204,6 @@ HRESULT CINFSelectBack::InitDeviceObjects()
 	D3DXMatrixTranslation( &m_mSelectLocationMatrix, 0.0f ,0.0f ,0.0f);
 	D3DXMatrixTranslation( &m_mSelectBottomMatrix, 0.0f, 0.0f, 0.0f);
 
-//	GUIUnitRenderInfo info;
-//	info.rendertype = 0;
-//	info.matrix = m_mSelectBottomMatrix;
-//	m_pBackEffect = CUnitData::CreateWearItemEffectAtSelectMenu( &info, 
-//																1100013,
-//																BODYCON_FLY_MASK );
 	return S_OK ;
 }
 
@@ -336,11 +269,7 @@ void CINFSelectBack::Tick()
 	else
 	{
 		m_vCurrentCamPos = m_vTargetCamPos;
-/*		if(m_vCurrentCamPos == D3DXVECTOR3(CAMERA_UP_POSITION))
-		{
-			m_vTargetCamPos = D3DXVECTOR3(CAMERA_DOWN_POSITION);
-		}
-*/	}
+	}
 	if(m_nRotateMode != ROTATE_NONE)
 	{
 		float fOldUnitRotationStartTime = m_fUnitRotationStartTime;
@@ -407,8 +336,6 @@ void CINFSelectBack::Tick()
 			int i; for(i=0;i<m_nMode;i++)
 			{
 				D3DXMatrixRotationZ( &matTemp,D3DX_PI/fDevide*i);
-				//m_mSelectTopMatrix[i] = matRotate * matTemp;
-				//m_mSelectMiddleMatrix[i] = m_mSelectTopMatrix[i];
 				m_mSelectMiddleMatrix[i] = matRotate * matTemp;
 
 
@@ -446,14 +373,10 @@ void CINFSelectBack::Tick()
 					matTemp2 *= m_mSelectMiddleMatrix[i];
 					m_SelectRenderInfo[i].matrix._41 = matTemp2._41;
 					m_SelectRenderInfo[i].matrix._42 = matTemp2._42;
-					// 2008-07-08 by dgwoo 아머 키에 맞춰 출력.
-					//m_SelectRenderInfo[i].matrix._43 = matTemp2._43;
-					// 2013-01-08 by jhjang 로봇아머에 외형 변경 킷을 사용했을때 문제가 발생하던 부분 수정
 					if(((CINFSelect*)m_pParent)->m_guiUnitInfo[i].CharacterRenderInfo.RI_Center_ShapeItemNum)
 						m_SelectRenderInfo[i].matrix._43 = matTemp2._43 - 7.087f + GetAmorGearHeight(((CINFSelect*)m_pParent)->m_guiUnitInfo[i].CharacterRenderInfo.RI_Center_ShapeItemNum,TRUE);
 					else
 					m_SelectRenderInfo[i].matrix._43 = matTemp2._43 - 7.087f + GetAmorGearHeight(((CINFSelect*)m_pParent)->m_guiUnitInfo[i].CharacterRenderInfo.RI_Center,TRUE);
-					// end 2013-01-08 by jhjang 로봇아머에 외형 변경 킷을 사용했을때 문제가 발생하던 부분 수정
 					D3DXMatrixTranslation( &m_mSelectTopMatrix[i], 0.0f ,0.0f ,0.0f);
 					m_mSelectTopMatrix[i]._41 = matTemp2._41;
 					m_mSelectTopMatrix[i]._42 = matTemp2._42;
@@ -506,11 +429,10 @@ void CINFSelectBack::Tick()
 			m_fOldSelectUnitRotateAngle = 0;
 		}
 	}
-
-//	D3DXVECTOR3 vUp;
-//	D3DXVec3Cross(&vUp, &D3DXVECTOR3(, &m_vCurrentTargetPos );
+	D3DSURFACE_DESC backBufferDesc = g_pD3dApp->GetBackBufferDesc();
+	float fAspect = (float)backBufferDesc.Width / (float)backBufferDesc.Height;
 	g_pD3dApp->m_pCamera->SetViewParams( m_vCurrentCamPos, m_vCurrentTargetPos, D3DXVECTOR3(0,0,1) );
-	g_pD3dApp->m_pCamera->SetProjParams( D3DX_PI/4, 1.333f, 1.0f, 100000.0f );
+	g_pD3dApp->m_pCamera->SetProjParams(D3DX_PI / 4, fAspect, 1.0f, 100000.0f);
 }
 
 void CINFSelectBack::Render()
@@ -521,11 +443,6 @@ void CINFSelectBack::Render()
 	g_pD3dDev->SetRenderState( D3DRS_ZENABLE,   TRUE );
 	g_pD3dDev->SetRenderState( D3DRS_LIGHTING,	TRUE );
 	g_pD3dDev->SetRenderState( D3DRS_NORMALIZENORMALS, TRUE );
-	// 2005-01-03 by jschoi
-//	g_pD3dDev->SetTextureStageState( 0, D3DTSS_MINFILTER, D3DTEXF_LINEAR );
-//	g_pD3dDev->SetTextureStageState( 0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR );
-//	g_pD3dDev->SetSamplerState(0,D3DSAMP_MINFILTER,D3DTEXF_LINEAR);
-//	g_pD3dDev->SetSamplerState(0,D3DSAMP_MAGFILTER,D3DTEXF_LINEAR);
 
 	int i; for(i=0;i<m_nMode;i++)
 	{
@@ -596,9 +513,6 @@ void CINFSelectBack::RenderCreateUnit()
 			m_CreateOrgLWeaponInfo[i].matrix = pCreateEffect->m_pCharacterInfo->GetEffectMatrix(BODYCON_WEAPON_POSITION_MASK, RC_EFF_PRIMARY_LEFT_POSITION);
 			CUnitData::CreateWearItemEffectAtSelectMenu( &m_CreateRenderRWeaponInfo[i],nItemNum1+EFFECT_WEAR_WEAPON_1,SELECT_MENU_ITEM_SHIFT(i) );
 			CUnitData::CreateWearItemEffectAtSelectMenu( &m_CreateRenderLWeaponInfo[i],nItemNum1+1+EFFECT_WEAR_WEAPON_1,SELECT_MENU_ITEM_SHIFT(i) );
-			// 2015-03-06 by jwLee 캐릭터 생성할 때 Ep3에서 사용하던 엔진 로드하는것을 주석처리
-			//CUnitData::CreateWearItemEffectAtSelectMenu( pInfo,	nItemNum2, BODYCON_LANDED_MASK );//착륙 바디컨디션
-			// end 2015-03-06 by jwLee 캐릭터 생성할 때 Ep3에서 사용하던 엔진 로드하는것을 주석처리
 		}
 		m_bInitEffectItem = true;
 	}
@@ -642,10 +556,6 @@ void CINFSelectBack::RenderSelectUnit()
 				if(info.RI_Center)
 				{
 					DBGOUT_EFFECT(" Center (Armor)[effect:%d][bodycon:%I64X]\n",info.RI_Center,WEAPON_BODYCON_LOADING);
-
-					// 2009. 08. 27 by ckPark 그래픽 리소스 변경 시스템 구현
-					//ITEM * pItem = g_pDatabase->GetServerItemInfo(info.RI_Center);
-
 					int nItemNum = 0;
 					if( info.RI_Center_ShapeItemNum )
 						nItemNum = info.RI_Center_ShapeItemNum;
@@ -661,12 +571,6 @@ void CINFSelectBack::RenderSelectUnit()
 						if(g_pD3dApp->m_bDegree == 0)
 							g_pD3dApp->m_bDegree = 1;
 
-						// 2010. 06. 09 by jskim 기어 선택창 애니메이션 버그 수정
-						//	pCreateEffect = CUnitData::CreateWearItemEffectAtSelectMenu( pInfo, 
-						//											::GetUnitNum(g_pD3dApp->m_bDegree, pItem->SourceIndex, 
-						//											nUnitKind, FALSE), 
-		//				//											SELECT_MENU_ITEM_SHIFT(GetUnitTypeDecimal(nUnitKind)));
-						//											BODYCON_BOOSTER3_MASK);
 						if(COMPARE_BIT_FLAG( pItem->ItemAttribute, ITEM_ATTR_ROBOT_ARMOR ))
 						{
 							pCreateEffect = CUnitData::CreateWearItemEffectAtSelectMenu( pInfo, 
@@ -719,35 +623,6 @@ void CINFSelectBack::RenderSelectUnit()
 
 					if(item)
 					{
-
-						// 2009. 07. 07 by ckPark 로봇기어 요청사항(롤링, 선택화면, 무기, A기어포대)
-
-// 						if(IS_PRIMARY_WEAPON_1(item->Kind))
-// 						{
-// 							DBGOUT_EFFECT(" 1-1 Type Weapon [effect:%d][bodycon:%I64X]\n",
-// 								info.RI_ProwOut+EFFECT_WEAR_WEAPON_1,SELECT_MENU_ITEM_SHIFT(GetUnitTypeDecimal(nUnitKind)) );
-// 
-// 							CUnitData::CreateWearItemEffectAtSelectMenu( &m_SelectRenderRWeaponInfo[i][0], 
-// 									item->SourceIndex + EFFECT_WEAR_WEAPON_1,
-// 									SELECT_MENU_ITEM_SHIFT(GetUnitTypeDecimal(nUnitKind)) );
-// 							if(nUnitKind != UNITKIND_DT01)
-// 							{
-// 								CUnitData::CreateWearItemEffectAtSelectMenu( &m_SelectRenderLWeaponInfo[i][0], 
-// 										item->SourceIndex+1+EFFECT_WEAR_WEAPON_1,
-// 										SELECT_MENU_ITEM_SHIFT(GetUnitTypeDecimal(nUnitKind)) );
-// 							}
-// 						}
-// 						else if(IS_PRIMARY_WEAPON_2(item->Kind))
-// 						{
-// 							DBGOUT_EFFECT(" 1-2 Type Weapon [effect:%d][bodycon:%I64X]\n",
-// 								info.RI_ProwOut+EFFECT_WEAR_WEAPON_1,SELECT_MENU_ITEM_SHIFT(GetUnitTypeDecimal(nUnitKind)));
-// 							CUnitData::CreateWearItemEffectAtSelectMenu( pInfo, 
-// 									item->SourceIndex + EFFECT_WEAR_WEAPON_1,
-// 									SELECT_MENU_ITEM_SHIFT(GetUnitTypeDecimal(nUnitKind)) );
-// 						}
-
-						// 선택창에서의 무기 렌더링 처리
-						// 2013-01-08 by jhjang 로봇아머에 외형 변경 킷을 사용했을때 문제가 발생하던 부분 수정
 						ITEM* pArmor = NULL;
 						if(info.RI_Center_ShapeItemNum)
 						{
@@ -837,37 +712,6 @@ void CINFSelectBack::RenderSelectUnit()
 
 					if(item)
 					{
-						
-						// 2009. 07. 07 by ckPark 로봇기어 요청사항(롤링, 선택화면, 무기, A기어포대)
-
-// 						if(IS_SECONDARY_WEAPON_1(item->Kind))
-// 						{
-// 							DBGOUT_EFFECT(" 2-1 Type Weapon [effect:%d][bodycon:%I64X]\n",
-// 								info.RI_WingOut-EFFECT_WEAR_WEAPON_2,SELECT_MENU_ITEM_SHIFT(GetUnitTypeDecimal(nUnitKind)));
-// //							CUnitData::CreateWearItemEffectAtSelectMenu( pInfo, 
-// //									item->SourceIndex - EFFECT_WEAR_WEAPON_2,
-// //									SELECT_MENU_ITEM_SHIFT(GetUnitTypeDecimal(nUnitKind)) );
-// 							CUnitData::CreateWearItemEffectAtSelectMenu( &m_SelectRenderRWeaponInfo[i][1], 
-// 									item->SourceIndex - EFFECT_WEAR_WEAPON_2,
-// 									SELECT_MENU_ITEM_SHIFT(GetUnitTypeDecimal(nUnitKind)) );
-// 							CUnitData::CreateWearItemEffectAtSelectMenu( &m_SelectRenderLWeaponInfo[i][1], 
-// 									item->SourceIndex + 1 - EFFECT_WEAR_WEAPON_2,
-// 									SELECT_MENU_ITEM_SHIFT(GetUnitTypeDecimal(nUnitKind)) );
-// 
-// 						}
-// 						else if(IS_SECONDARY_WEAPON_2(item->Kind))
-// 						{
-// 							DBGOUT_EFFECT(" 2-2 Type Weapon [effect:%d][bodycon:%I64X]\n",
-// 								info.RI_WingOut-EFFECT_WEAR_WEAPON_2,SELECT_MENU_ITEM_SHIFT(GetUnitTypeDecimal(nUnitKind)));
-// 							CUnitData::CreateWearItemEffectAtSelectMenu( pInfo, 
-// 									item->SourceIndex - EFFECT_WEAR_WEAPON_2,
-// 									SELECT_MENU_ITEM_SHIFT(GetUnitTypeDecimal(nUnitKind)) );
-// 
-// 						}
-
-						// 선택창에서의 무기 렌더링 처리
-						// 2013-01-08 by jhjang 로봇아머에 외형 변경 킷을 사용했을때 문제가 발생하던 부분 수정
-						//ITEM* pArmor = g_pDatabase->GetServerItemInfo( info.RI_Center );
 						ITEM* pArmor = NULL;
 						if(info.RI_Center_ShapeItemNum)
 						{
@@ -926,13 +770,6 @@ void CINFSelectBack::RenderSelectUnit()
 				if(info.RI_Rear)
 				{
 					DBGOUT_EFFECT(" Back (Engine) [effect:%d][bodycon:%I64X]\n",info.RI_Rear,WEAPON_BODYCON_LOADING);
-//					ITEM * pItem = g_pDatabase->GetServerItemInfo(info.RI_Rear);
-//					if(pItem)
-//					{
-//						CUnitData::CreateWearItemEffectAtSelectMenu( pInfo, 
-//										pItem->SourceIndex,
-//										BODYCON_LANDED_MASK );//착륙 바디컨디션
-//					}
 				}
 				// 선두
 				if(info.RI_Prow)
@@ -990,9 +827,6 @@ void CINFSelectBack::RenderSelectUnit()
 				DBGOUT_EFFECT(" Landing [effect:%d][bodycon:%I64X]\n",
 					UNIT_EFFECT_INDEX(2/*g_pD3dApp->m_bDegree*/,GetUnitTypeDecimal(nUnitKind),GGetUnitUpgradeLevel(nUnitKind)), 
 					BODYCON_LANDED_MASK);
-//				CUnitData::CreateWearItemEffectAtSelectMenu( pInfo, 
-//					UNIT_EFFECT_INDEX(2/*g_pD3dApp->m_bDegree*/,GetUnitTypeDecimal(nUnitKind),GGetUnitUpgradeLevel(nUnitKind)), 
-//					BODYCON_LANDED_MASK);
 			}
 		}
 		m_bInitEffectItem = true;
@@ -1001,17 +835,8 @@ void CINFSelectBack::RenderSelectUnit()
 	{
 		if(m_SelectRenderInfo[i].rendertype != 0)
 		{
-			// 2009. 08. 27 by ckPark 그래픽 리소스 변경 시스템 구현
-
-			//g_pD3dApp->m_pUnitRender->m_nSelectStateUnitColor = max(1, g_pSelect->m_guiUnitInfo[i].CharacterRenderInfo.RI_ArmorColorCode%100);
 			g_pD3dApp->m_pUnitRender->m_nSelectStateUnitColor = 1;
 
-			// end 2009. 08. 27 by ckPark 그래픽 리소스 변경 시스템 구현
-			
-			
-			// 2009. 07. 07 by ckPark 로봇기어 요청사항(롤링, 선택화면, 무기, A기어포대)
-			//g_pD3dApp->m_pUnitRender->Render(m_SelectRenderInfo[i]);
-			// 선택창에서의 무기 렌더링 처리
 			CHARACTER_RENDER_INFO info = ((CINFSelect *)m_pParent)->m_guiUnitInfo[i].CharacterRenderInfo;
 			if( !info.RI_Center )
 				g_pD3dApp->m_pUnitRender->Render( m_SelectRenderInfo[i] );
@@ -1066,11 +891,6 @@ int CINFSelectBack::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				{						
 					if(m_nRotateMode == ROTATE_NONE)
 					{
-						// 2005-03-09 by jschoi
-						// 2005-07-04 by ispark 자동 스탯 분배 삭제
-//						g_pSelect->m_pCreateMenu->m_nCreateUnitStat = -1;
-//						g_pSelect->m_pCreateMenu->m_nCreateUnitStat = AUTOSTAT_TYPE_FREESTYLE;
-//						g_pSelect->m_pCreateMenu->m_nRenderToolTipIndex = -1;
 						g_pSelect->m_pCreateMenu->m_nFocusStat = -1;
 						g_pSelect->m_pCreateMenu->m_nFocus = -1;
 						
@@ -1127,11 +947,6 @@ int CINFSelectBack::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				{
 					if(m_nRotateMode == ROTATE_NONE)
 					{
-						// 2005-03-09 by jschoi
-						// 2005-07-04 by ispark 자동 스탯 분배 삭제
-//						g_pSelect->m_pCreateMenu->m_nCreateUnitStat = -1;
-//						g_pSelect->m_pCreateMenu->m_nCreateUnitStat = AUTOSTAT_TYPE_FREESTYLE;
-//						g_pSelect->m_pCreateMenu->m_nRenderToolTipIndex = -1;
 						g_pSelect->m_pCreateMenu->m_nFocusStat = -1;
 						g_pSelect->m_pCreateMenu->m_nFocus = -1;
 
@@ -1196,10 +1011,6 @@ int CINFSelectBack::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				{
 					m_nCurrentSelectUnit = nCurrentSelectUnit;
 					
-					// 2005-07-04 by ispark 자동 스탯 분배 삭제
-//					g_pSelect->m_pCreateMenu->m_nCreateUnitStat = -1;
-//					g_pSelect->m_pCreateMenu->m_nCreateUnitStat = AUTOSTAT_TYPE_FREESTYLE;
-//					g_pSelect->m_pCreateMenu->m_nRenderToolTipIndex = -1;
 					g_pSelect->m_pCreateMenu->m_nFocusStat = -1;
 					g_pSelect->m_pCreateMenu->m_nFocus = -1;
 
@@ -1439,16 +1250,6 @@ void CINFSelectBack::MoveSelect(int nSelect)
 
 }
 
-///////////////////////////////////////////////////////////////////////////////
-/// \fn			CINFSelectBack::InitRenderMatrix()
-/// \brief		렌더 메트릭스 초기화
-/// \author		ispark
-/// \date		2006-01-12 ~ 2006-01-12
-/// \warning	
-///
-/// \param		
-/// \return		
-///////////////////////////////////////////////////////////////////////////////
 void CINFSelectBack::InitRenderMatrix()
 {
 	int i;
@@ -1482,17 +1283,6 @@ void CINFSelectBack::InitRenderMatrix()
 	}
 }
 
-
-///////////////////////////////////////////////////////////////////////////////
-/// \fn			
-/// \brief		
-/// \author		// 2008-07-10 by bhsohn 셀렉트 화면 기체 높이 갱신
-/// \date		2008-07-08 ~ 2008-07-08
-/// \warning	
-///
-/// \param		
-/// \return		
-///////////////////////////////////////////////////////////////////////////////
 void CINFSelectBack::RefreshUnitMatrix()
 {
 	float fDevide = m_nMode/2.0f;
@@ -1538,27 +1328,17 @@ void CINFSelectBack::RefreshUnitMatrix()
 		matTemp2 *= matTemp;
 		m_SelectRenderInfo[i].matrix._41 = matTemp2._41;
 		m_SelectRenderInfo[i].matrix._42 = matTemp2._42;
-		// 2008-07-08 by dgwoo 아머 키에 맞춰 출력.
-		// 2013-01-08 by jhjang 로봇아머에 외형 변경 킷을 사용했을때 문제가 발생하던 부분 수정
-		//m_SelectRenderInfo[i].matrix._43 = matTemp2._43 - 7.087f + GetAmorGearHeight(((CINFSelect*)m_pParent)->m_guiUnitInfo[i].CharacterRenderInfo.RI_Center,TRUE);
 		if(((CINFSelect*)m_pParent)->m_guiUnitInfo[i].CharacterRenderInfo.RI_Center_ShapeItemNum)
 			m_SelectRenderInfo[i].matrix._43 = matTemp2._43 - 7.087f + GetAmorGearHeight(((CINFSelect*)m_pParent)->m_guiUnitInfo[i].CharacterRenderInfo.RI_Center_ShapeItemNum,TRUE);
 		else
 		m_SelectRenderInfo[i].matrix._43 = matTemp2._43 - 7.087f + GetAmorGearHeight(((CINFSelect*)m_pParent)->m_guiUnitInfo[i].CharacterRenderInfo.RI_Center,TRUE);
-		// end 2013-01-08 by jhjang 로봇아머에 외형 변경 킷을 사용했을때 문제가 발생하던 부분 수정
-		//m_SelectRenderInfo[i].matrix *= matTemp;
-
-		//m_SelectRenderInfo[i].rendertype = UNITKIND_BT01 << 4*i;
 	}
 	D3DXMatrixTranslation( &m_mSelectLocationMatrix, 0.0f ,0.0f ,0.0f);
 	D3DXMatrixTranslation( &m_mSelectBottomMatrix, 0.0f, 0.0f, 0.0f);
 	if(m_nMode == CREATE_MODE)
 	{
 		((CINFSelect*)m_pParent)->ChangeCreateUnit(GetCurrentUnitKind());
-		// 2009-02-10 by bhsohn Japan Charcter Create
-		//memset(((CINFSelect*)m_pParent)->m_pCreateMenu->m_strCharacterName, 0x00, SIZE_MAX_CHARACTER_NAME);
 		ZERO_MEMORY(((CINFSelect*)m_pParent)->m_pCreateMenu->m_strCharacterName);
-		// end 2009-02-10 by bhsohn Japan Charcter Create
 		g_pD3dApp->CleanText();	
 	}
 

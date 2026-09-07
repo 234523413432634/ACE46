@@ -37,95 +37,24 @@
 #define SEL_BUTTON_OK		2
 #define SEL_BUTTON_OPTION	3
 #define SEL_BUTTON_DELETE	4
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	// 2011. 10. 10 by jskim UI시스템 변경
-	#define POS_SEL_CENTER_X	(g_pD3dApp->GetBackBufferDesc().Width / 2)
-	#define POS_SEL_TITLE_X		( g_pD3dApp->GetBackBufferDesc().Width / 2) - (( m_PSelTitle->GetMaxPos().x - m_PSelTitle->GetMinPos().x) / 2)
-	#define POS_SEL_BACK_X		( g_pD3dApp->GetBackBufferDesc().Width / 2) - (( m_PBack->GetMaxPos().x - m_PBack->GetMinPos().x) / 2)
-	#define POS_SEL_BACK_Y		g_pD3dApp->GetBackBufferDesc().Height - ( m_PBack->GetMaxPos().y - m_PBack->GetMinPos().y)
-	#define POS_CHAR_NAME_X		( g_pD3dApp->GetBackBufferDesc().Width / 2) - (m_pFontCharacterName->GetTexWidth() / 2)
-	#define POS_CHAR_NAME_Y		g_pD3dApp->GetBackBufferDesc().Height - ( m_PBack->GetMaxPos().y - m_PBack->GetMinPos().y - 4)
-	#define POS_CHAR_LEVEL_Y	g_pD3dApp->GetBackBufferDesc().Height - ( m_PBack->GetMaxPos().y - m_PBack->GetMinPos().y - 4)
+
+#define POS_SEL_CENTER_X	(g_pD3dApp->GetBackBufferDesc().Width / 2)
+#define POS_SEL_TITLE_X		( g_pD3dApp->GetBackBufferDesc().Width / 2) - (( m_PSelTitle->GetMaxPos().x - m_PSelTitle->GetMinPos().x) / 2)
+#define POS_SEL_BACK_X		( g_pD3dApp->GetBackBufferDesc().Width / 2) - (( m_PBack->GetMaxPos().x - m_PBack->GetMinPos().x) / 2)
+#define POS_SEL_BACK_Y		g_pD3dApp->GetBackBufferDesc().Height - ( m_PBack->GetMaxPos().y - m_PBack->GetMinPos().y)
+#define POS_CHAR_NAME_X		( g_pD3dApp->GetBackBufferDesc().Width / 2) - (m_pFontCharacterName->GetTexWidth() / 2)
+#define POS_CHAR_NAME_Y		g_pD3dApp->GetBackBufferDesc().Height - ( m_PBack->GetMaxPos().y - m_PBack->GetMinPos().y - 4)
+#define POS_CHAR_LEVEL_Y	g_pD3dApp->GetBackBufferDesc().Height - ( m_PBack->GetMaxPos().y - m_PBack->GetMinPos().y - 4)
 
 
-	#define POS_SELBTN_OK_X		POS_SEL_BACK_X+663
-	#define POS_SELBTN_OK_Y		POS_SEL_BACK_Y+64
+#define POS_SELBTN_OK_X		POS_SEL_BACK_X+663
+#define POS_SELBTN_OK_Y		POS_SEL_BACK_Y+64
 
-	#define SEL_SIZE_BUTTON_X(i)	(i == 2 ? 72 : 78)
-	#define SEL_SIZE_BUTTON_Y(i)	(i == 2 ? 44 : 21)
+#define SEL_SIZE_BUTTON_X(i)	(i == 2 ? 72 : 78)
+#define SEL_SIZE_BUTTON_Y(i)	(i == 2 ? 44 : 21)
 
-	#define POS_SEL_CHAR_FACE_X	POS_SEL_BACK_X+101
-	#define POS_SEL_CHAR_FACE_Y	POS_SEL_BACK_Y+37
-
-
-	#define SELECT_CHARACTER_INFO_GUILD		0	// 소속
-	#define SELECT_CHARACTER_INFO_RACE		1	// 종족
-	#define SELECT_CHARACTER_INFO_DODGE		2	// 회피
-	#define SELECT_CHARACTER_INFO_ATTACK	3	// 공격
-	#define SELECT_CHARACTER_INFO_SOUL		4	// 감응
-	#define SELECT_CHARACTER_INFO_FUEL		5	// 연료
-	#define SELECT_CHARACTER_INFO_DEFENSE	6	// 방어
-	#define SELECT_CHARACTER_INFO_ENDURANCE	7	// 내구
-
-	#define SELECT_CHARACTER_INFO_HP		0	// HP
-	#define SELECT_CHARACTER_INFO_UTC		1	// UTC
-	#define SELECT_CHARACTER_INFO_SHIELD	2	// Shield
-
-	#define SEL_GAGE_START_X	POS_SEL_BACK_X+491
-	#define SEL_GAGE_START_Y	POS_SEL_BACK_Y+69
-	#define SEL_GAGE_SIZE_X		m_pGage[0]->GetImgSize().x
-	#define SEL_GAGE_SIZE_Y		m_pGage[0]->GetImgSize().y
-
-	#define POS_SEL_CHARACTER_INFO_START_X	293
-	#define DISTANCE_SEL_CHARACTER_INFO_X	88
-	#define DISTANCE_SEL_CHARACTER_INFO_Y	20
-
-	#define POS_SEL_TEXT_GAGE_START_X	498
-	#define DISTANCE_SEL_TEXT_GAGE_Y	21
-
-	// 2006-03-07 by ispark, 언어에 따라 위치 수정
-	#if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
-		#define POS_SEL_CHARACTER_INFO_START_Y	46//49
-		#define POS_SEL_TEXT_GAGE_START_Y	66//58
-		#define POS_SEL_CHARACTER_NAME_X	218
-		#define POS_SEL_CHARACTER_NAME_Y	24
-		#define POS_SEL_LEVEL_X				185
-		#define POS_SEL_LEVEL_Y				26
-	#else
-		#define POS_SEL_CHARACTER_INFO_START_Y	48//49
-		#define POS_SEL_TEXT_GAGE_START_Y	67//58
-		#define POS_SEL_CHARACTER_NAME_X	218
-		#define POS_SEL_CHARACTER_NAME_Y	26//28
-		#define POS_SEL_LEVEL_X				195
-		#define POS_SEL_LEVEL_Y				26//28
-	#endif
-
-	// 2007-05-15 by bhsohn 기어 스탯 관련 처리
-	#define	DISTANCE_SEL_CHARACTER_CAP_X	30		// 글씨 간격
-	#define	DISTANCE_SEL_INFO_OVER_CAP_X	22		// 초과와의 글씨 간격
-	#define SELECT_OVERSTAT_FONT_COLOR		RGB(255, 0, 0)		 
-#else 
-#define POS_SEL_TITLE_X		g_pD3dApp->GetBackBufferDesc().Width /2 - 294/2
-#define POS_SEL_BACK_X		g_pD3dApp->GetBackBufferDesc().Width /2 - 750/2	
-#define POS_SEL_BACK_Y		g_pD3dApp->GetBackBufferDesc().Height - 148
-
-#define POS_SELBTN_NEW_X	POS_SEL_BACK_X+612 
-#define POS_SELBTN_NEW_Y	POS_SEL_BACK_Y+58
-#define POS_SELBTN_QUIT_X	POS_SEL_BACK_X+666 
-#define POS_SELBTN_QUIT_Y	POS_SEL_BACK_Y+81
-#define POS_SELBTN_OK_X		POS_SEL_BACK_X+548
-#define POS_SELBTN_OK_Y		POS_SEL_BACK_Y+62
-#define POS_SELBTN_OPTION_X	POS_SEL_BACK_X+612 
-#define POS_SELBTN_OPTION_Y	POS_SEL_BACK_Y+81
-#define POS_SELBTN_DELETE_X	POS_SEL_BACK_X+666 
-#define POS_SELBTN_DELETE_Y	POS_SEL_BACK_Y+58
-
-#define SEL_SIZE_BUTTON_X(i)	(i == 2 ? 52 : 54)
-#define SEL_SIZE_BUTTON_Y(i)	(i == 2 ? 36 : 23)
-
-#define POS_SEL_CHAR_FACE_X	POS_SEL_BACK_X+28
-#define POS_SEL_CHAR_FACE_Y	POS_SEL_BACK_Y+26
-
+#define POS_SEL_CHAR_FACE_X	POS_SEL_BACK_X+101
+#define POS_SEL_CHAR_FACE_Y	POS_SEL_BACK_Y+37
 
 #define SELECT_CHARACTER_INFO_GUILD		0	// 소속
 #define SELECT_CHARACTER_INFO_RACE		1	// 종족
@@ -140,41 +69,39 @@
 #define SELECT_CHARACTER_INFO_UTC		1	// UTC
 #define SELECT_CHARACTER_INFO_SHIELD	2	// Shield
 
-#define SEL_GAGE_START_X	POS_SEL_BACK_X+387
-#define SEL_GAGE_START_Y	POS_SEL_BACK_Y+58
-#define SEL_GAGE_SIZE_X		126
-#define SEL_GAGE_SIZE_Y		11
+#define SEL_GAGE_START_X	POS_SEL_BACK_X+491
+#define SEL_GAGE_START_Y	POS_SEL_BACK_Y+69
+#define SEL_GAGE_SIZE_X		m_pGage[0]->GetImgSize().x
+#define SEL_GAGE_SIZE_Y		m_pGage[0]->GetImgSize().y
 
-#define POS_SEL_CHARACTER_INFO_START_X	210
+#define POS_SEL_CHARACTER_INFO_START_X	293
 #define DISTANCE_SEL_CHARACTER_INFO_X	88
-#define DISTANCE_SEL_CHARACTER_INFO_Y	18
+#define DISTANCE_SEL_CHARACTER_INFO_Y	20
 
-#define POS_SEL_TEXT_GAGE_START_X	387
+#define POS_SEL_TEXT_GAGE_START_X	498
 #define DISTANCE_SEL_TEXT_GAGE_Y	21
 
 // 2006-03-07 by ispark, 언어에 따라 위치 수정
 #if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
-#define POS_SEL_CHARACTER_INFO_START_Y	47//49
-#define POS_SEL_TEXT_GAGE_START_Y	56//58
-#define POS_SEL_CHARACTER_NAME_X	218
-#define POS_SEL_CHARACTER_NAME_Y	24
-#define POS_SEL_LEVEL_X				185
-#define POS_SEL_LEVEL_Y				26
+	#define POS_SEL_CHARACTER_INFO_START_Y	46//49
+	#define POS_SEL_TEXT_GAGE_START_Y	66//58
+	#define POS_SEL_CHARACTER_NAME_X	218
+	#define POS_SEL_CHARACTER_NAME_Y	24
+	#define POS_SEL_LEVEL_X				185
+	#define POS_SEL_LEVEL_Y				26
 #else
-#define POS_SEL_CHARACTER_INFO_START_Y	47//49
-#define POS_SEL_TEXT_GAGE_START_Y	56//58
-#define POS_SEL_CHARACTER_NAME_X	218
-#define POS_SEL_CHARACTER_NAME_Y	26//28
-#define POS_SEL_LEVEL_X				185
-#define POS_SEL_LEVEL_Y				26//28
+	#define POS_SEL_CHARACTER_INFO_START_Y	48//49
+	#define POS_SEL_TEXT_GAGE_START_Y	67//58
+	#define POS_SEL_CHARACTER_NAME_X	218
+	#define POS_SEL_CHARACTER_NAME_Y	26//28
+	#define POS_SEL_LEVEL_X				195
+	#define POS_SEL_LEVEL_Y				26//28
 #endif
 
 // 2007-05-15 by bhsohn 기어 스탯 관련 처리
 #define	DISTANCE_SEL_CHARACTER_CAP_X	30		// 글씨 간격
 #define	DISTANCE_SEL_INFO_OVER_CAP_X	22		// 초과와의 글씨 간격
-#define SELECT_OVERSTAT_FONT_COLOR		RGB(255, 0, 0)
-
-#endif
+#define SELECT_OVERSTAT_FONT_COLOR		RGB(255, 0, 0)		 
 
 
 CINFSelectMenu::CINFSelectMenu(CAtumNode* pParent)
@@ -186,9 +113,7 @@ CINFSelectMenu::CINFSelectMenu(CAtumNode* pParent)
 
 #ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_GruopSelectmanager = NULL;				
-	// 2015-03-11 by jwLee 캐릭터 선택창 버튼 초기화 방법 변경
-	// 2015-03-11 by jwLee 캐릭터 선택창 버튼 상태 갯수 오류 수정
-	//memset(*m_pButton, 0x00, SEL_BUTTON_NUMBER*4);			
+		
 	for (int i = 0 ; i < SEL_BUTTON_NUMBER ; i++)
 	{
 		for (int j = 0 ; j < 4 ; j++)
@@ -196,8 +121,7 @@ CINFSelectMenu::CINFSelectMenu(CAtumNode* pParent)
 			m_pButton[i][j] = NULL;
 		}
 	}
-	// end 2015-03-11 by jwLee 캐릭터 선택창 버튼 상태 갯수 오류 수정
-	// end 2015-03-11 by jwLee 캐릭터 선택창 버튼 초기화 방법 변경
+
 #else
 	m_pBack = NULL;
 	m_pTitle = NULL;
@@ -298,7 +222,6 @@ HRESULT CINFSelectMenu::InitDeviceObjects()
 		m_pFontGage[i] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),8, D3DFONT_ZENABLE,  TRUE,128,32);
 		m_pFontGage[i]->InitDeviceObjects(g_pD3dDev);
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
  	DataHeader * pDataHeader;
 	m_GruopSelectmanager = new CINFGroupManager( g_pD3dApp->m_pImageList, m_pGameData );
 	m_GruopSelectmanager->InitDeviceObjects();
@@ -314,15 +237,6 @@ HRESULT CINFSelectMenu::InitDeviceObjects()
 
 	pDataHeader = m_GruopSelectmanager->FindResource("selbtn");
 	m_PControlSelbtn = m_GruopSelectmanager->GetGroupImage( pDataHeader );
-#else
- 	m_pBack = new CINFImageEx;
-	DataHeader * pDataHeader = FindResource("selback");
- 	m_pBack->InitDeviceObjects(pDataHeader);
-
- 	m_pTitle = new CINFImageEx;
-	pDataHeader = FindResource("seltitle");
- 	m_pTitle->InitDeviceObjects(pDataHeader);
-#endif
 
 	char buf[32];
 	for(i=0;i<SEL_BUTTON_NUMBER;i++)
@@ -364,13 +278,8 @@ HRESULT CINFSelectMenu::InitDeviceObjects()
 HRESULT CINFSelectMenu::RestoreDeviceObjects()
 {
 	FLOG( "CINFSelectMenu::RestoreDeviceObjects()" );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_PSelTitle->RestoreDeviceObjects();
 	m_PBack->RestoreDeviceObjects();
-#else
-	m_pBack->RestoreDeviceObjects();
-	m_pTitle->RestoreDeviceObjects();
-#endif
 
 	m_pFontLevel->RestoreDeviceObjects() ;
 	m_pFontCharacterName->RestoreDeviceObjects();
@@ -402,13 +311,10 @@ HRESULT CINFSelectMenu::RestoreDeviceObjects()
 	{
 		m_pButton[i][0]->RestoreDeviceObjects();
 		m_pButton[i][1]->RestoreDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pButton[i][2]->RestoreDeviceObjects();
 		m_pButton[i][3]->RestoreDeviceObjects();
-#endif
 	}
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	POINT pMinPos = m_PControlSelbtn->GetFindControlTargetofMinPos( "selbtn00" );
 	m_fButtonPos[SEL_BUTTON_NEW][0] = POS_SELBTN_OK_X + pMinPos.x;
 	m_fButtonPos[SEL_BUTTON_NEW][1] = POS_SELBTN_OK_Y + pMinPos.y;
@@ -433,30 +339,6 @@ HRESULT CINFSelectMenu::RestoreDeviceObjects()
 	// 2011. 10. 18 by jskim EP4 UI변경 - select창 변경
 	m_GruopSelectmanager->RestoreDeviceObjects();
 
-// 	DataHeader * pDataHeader;
-// 	SAFE_DELETE(m_PSelTitle);
-// 	pDataHeader = m_GruopSelectmanager->FindResource("seltitle");
-// 	m_PSelTitle = m_GruopSelectmanager->GetGroupImage( pDataHeader );
-// 	m_PSelTitle->InitDeviceObjects( g_pD3dApp->m_pImageList );
-// 	m_PSelTitle->RestoreDeviceObjects();
-// 		
-// 	SAFE_DELETE(m_PBack);
-// 	pDataHeader = m_GruopSelectmanager->FindResource("selinfo");	
-// 	m_PBack = m_GruopSelectmanager->GetGroupImage( pDataHeader );
-// 	m_PBack->InitDeviceObjects( g_pD3dApp->m_pImageList );
-// 	m_PBack->RestoreDeviceObjects();
-#else 
-	m_fButtonPos[SEL_BUTTON_NEW][0] = POS_SELBTN_NEW_X;
-	m_fButtonPos[SEL_BUTTON_NEW][1] = POS_SELBTN_NEW_Y;
-	m_fButtonPos[SEL_BUTTON_QUIT][0] = POS_SELBTN_QUIT_X;
-	m_fButtonPos[SEL_BUTTON_QUIT][1] = POS_SELBTN_QUIT_Y;
-	m_fButtonPos[SEL_BUTTON_OK][0] = POS_SELBTN_OK_X;
-	m_fButtonPos[SEL_BUTTON_OK][1] = POS_SELBTN_OK_Y;
-	m_fButtonPos[SEL_BUTTON_OPTION][0] = POS_SELBTN_OPTION_X;
-	m_fButtonPos[SEL_BUTTON_OPTION][1] = POS_SELBTN_OPTION_Y;
-	m_fButtonPos[SEL_BUTTON_DELETE][0] = POS_SELBTN_DELETE_X;
-	m_fButtonPos[SEL_BUTTON_DELETE][1] = POS_SELBTN_DELETE_Y;
-#endif
 	m_bRestored = TRUE;
 	return S_OK ;
 }
@@ -480,29 +362,22 @@ HRESULT CINFSelectMenu::InvalidateDeviceObjects()
 		m_pFontGage[i]->InvalidateDeviceObjects();
 		m_pGage[i]->InvalidateDeviceObjects();
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_PSelTitle->InvalidateDeviceObjects();
  	m_PBack->InvalidateDeviceObjects();
-#else
-	m_pBack->InvalidateDeviceObjects();
-	m_pTitle->InvalidateDeviceObjects();
-#endif
+
 	for(i=0;i<SEL_BUTTON_NUMBER;i++)
 	{
 		m_pButton[i][0]->InvalidateDeviceObjects();
 		m_pButton[i][1]->InvalidateDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
+
 		m_pButton[i][2]->InvalidateDeviceObjects();
 		m_pButton[i][3]->InvalidateDeviceObjects();												  
-#endif
 	}
 	m_bRestored = FALSE;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_GruopSelectmanager->InvalidateDeviceObjects();
 	m_PSelTitle->InvalidateDeviceObjects();
 	m_PBack->InvalidateDeviceObjects();
-#endif
 	return S_OK ;
 }
 
@@ -530,12 +405,6 @@ HRESULT CINFSelectMenu::DeleteDeviceObjects()
 		SAFE_DELETE(m_pFontGage[i]);
 		SAFE_DELETE(m_pGage[i]);
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pBack->DeleteDeviceObjects();
-	SAFE_DELETE(m_pBack);
-	m_pTitle->DeleteDeviceObjects();
-	SAFE_DELETE(m_pTitle);
-#endif
 	for(i=0;i<SEL_BUTTON_NUMBER;i++)
 	{
 		m_pButton[i][0]->DeleteDeviceObjects();
@@ -565,28 +434,18 @@ HRESULT CINFSelectMenu::DeleteDeviceObjects()
 void CINFSelectMenu::Tick()
 {
 	FLOG( "CINFSelectMenu::Tick()" );
-
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-// 	m_PSelTitle->Tick();
-// 	m_PBack->Tick();
-#endif
 }
 
 void CINFSelectMenu::Render()
 {
 	FLOG( "CINFSelectMenu::Render()" );
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pTitle->Move(POS_SEL_TITLE_X, 0);
-	m_pTitle->Render();
-	m_pBack->Move(POS_SEL_BACK_X, POS_SEL_BACK_Y);
-	m_pBack->Render();
-#else
+
 	m_PSelTitle->Move( POS_SEL_TITLE_X ,0 );
 	m_PSelTitle->Render();
 
 	m_PBack->Move( POS_SEL_BACK_X ,POS_SEL_BACK_Y );
 	m_PBack->Render();
-#endif
+
 	int i; for(i=0;i<SEL_BUTTON_NUMBER;i++)
 	{
 		if(m_nButtonState[i] != SEL_BUTTON_STATE_NORMAL)
@@ -616,7 +475,7 @@ void CINFSelectMenu::Render()
 			}
 			char buf[256];
 			wsprintf( buf, "%d", unit.Level);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
+
 			m_pFontLevel->DrawText(POS_SEL_CENTER_X - 15, POS_CHAR_LEVEL_Y + 40, SELECT_FONT_COLOR, buf, 0L);
 			// 2011. 10. 18 by jskim EP4 UI변경 - select창 변경
 			int temp = GetStringBuffLen(unit.CharacterName);
@@ -625,11 +484,7 @@ void CINFSelectMenu::Render()
 				
 			SIZE size = m_pFontCharacterName->GetStringSize(unit.CharacterName);
 			m_pFontCharacterName->DrawText(( g_pD3dApp->GetBackBufferDesc().Width / 2) - (size.cx / 2), POS_CHAR_NAME_Y, SELECT_FONT_COLOR, unit.CharacterName, 0L);
-			// end 2011. 10. 18 by jskim EP4 UI변경 - select창 변경
-#else
-			m_pFontLevel->DrawText(m_nLevelPos[0], m_nLevelPos[1], SELECT_FONT_COLOR, buf, 0L);
-			m_pFontCharacterName->DrawText(m_nCharacterNamePos[0], m_nCharacterNamePos[1], SELECT_FONT_COLOR, unit.CharacterName, 0L);
-#endif
+
 //			strcpy( buf, GetRaceString(unit.Race));
 			if(COMPARE_RACE(unit.Race, RACE_DECA))
 				strcpy( buf, STRMSG_C_SELECT_0001);
@@ -653,21 +508,6 @@ void CINFSelectMenu::Render()
 #else
 				m_pFontCharacterInfo[SELECT_CHARACTER_INFO_GUILD]->DrawText(m_nCharacterInfoPos[SELECT_CHARACTER_INFO_GUILD][0]-18, m_nCharacterInfoPos[SELECT_CHARACTER_INFO_GUILD][1], SELECT_FONT_COLOR, unit.GuildName, 0L);
 #endif
-
-			// 2007-05-15 by bhsohn 기어 스탯 관련 처리
-//			wsprintf( buf, "%d", unit.TotalGearStat.AttackPart);
-//			m_pFontCharacterInfo[SELECT_CHARACTER_INFO_ATTACK]->DrawText(m_nCharacterInfoPos[SELECT_CHARACTER_INFO_ATTACK][0], m_nCharacterInfoPos[SELECT_CHARACTER_INFO_ATTACK][1], SELECT_FONT_COLOR, buf, 0L);
-//			wsprintf( buf, "%d", unit.TotalGearStat.DefensePart);
-//			m_pFontCharacterInfo[SELECT_CHARACTER_INFO_ENDURANCE]->DrawText(m_nCharacterInfoPos[SELECT_CHARACTER_INFO_ENDURANCE][0], m_nCharacterInfoPos[SELECT_CHARACTER_INFO_ENDURANCE][1], SELECT_FONT_COLOR, buf, 0L);
-//			wsprintf( buf, "%d", unit.TotalGearStat.FuelPart);
-//			m_pFontCharacterInfo[SELECT_CHARACTER_INFO_FUEL]->DrawText(m_nCharacterInfoPos[SELECT_CHARACTER_INFO_FUEL][0], m_nCharacterInfoPos[SELECT_CHARACTER_INFO_FUEL][1], SELECT_FONT_COLOR, buf, 0L);
-//			wsprintf( buf, "%d", unit.TotalGearStat.SoulPart);
-//			m_pFontCharacterInfo[SELECT_CHARACTER_INFO_SOUL]->DrawText(m_nCharacterInfoPos[SELECT_CHARACTER_INFO_SOUL][0], m_nCharacterInfoPos[SELECT_CHARACTER_INFO_SOUL][1], SELECT_FONT_COLOR, buf, 0L);
-//			wsprintf( buf, "%d", unit.TotalGearStat.DodgePart);
-//			m_pFontCharacterInfo[SELECT_CHARACTER_INFO_DODGE]->DrawText(m_nCharacterInfoPos[SELECT_CHARACTER_INFO_DODGE][0], m_nCharacterInfoPos[SELECT_CHARACTER_INFO_DODGE][1], SELECT_FONT_COLOR, buf, 0L);
-//			wsprintf( buf, "%d", unit.TotalGearStat.ShieldPart);
-//			m_pFontCharacterInfo[SELECT_CHARACTER_INFO_DEFENSE]->DrawText(m_nCharacterInfoPos[SELECT_CHARACTER_INFO_DEFENSE][0], m_nCharacterInfoPos[SELECT_CHARACTER_INFO_DEFENSE][1], SELECT_FONT_COLOR, buf, 0L);
-			// 공격 스탯
 			if(unit.TotalGearStat.AttackPart <= COUNT_MAX_STAT_POINT)
 			{				
 				if(unit.TotalGearStat.AttackPart == COUNT_MAX_STAT_POINT)

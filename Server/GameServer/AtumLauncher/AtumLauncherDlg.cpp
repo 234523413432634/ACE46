@@ -84,66 +84,6 @@ struct SWINDOW_DEGREE
 	int		nDegree;
 };
 
-// 2007-12-27 by cmkwon, 윈도우즈 모드 기능 추가 - 추가함
-SWINDOW_DEGREE g_pWindowDegreeList[] =
-{
-	//{STRMSG_WINDOW_DEGREE_1024x768_LOW,		1024, 768, 0},
-	//{STRMSG_WINDOW_DEGREE_1024x768_MEDIUM,	1024, 768, 1},
-	{STRMSG_WINDOW_DEGREE_1024x768_HIGH,	1024, 768, 2},
-
-	//{STRMSG_WINDOW_DEGREE_W1280x720_LOW,	1280, 720, 0},
-	//{STRMSG_WINDOW_DEGREE_W1280x720_MEDIUM,	1280, 720, 1},
-	{STRMSG_WINDOW_DEGREE_1280x720_HIGH,	1280, 720, 2},
-	
-	//{STRMSG_WINDOW_DEGREE_W1280x800_LOW,	1280, 800, 0},
-	//{STRMSG_WINDOW_DEGREE_W1280x800_MEDIUM,	1280, 800, 1},
-	{STRMSG_WINDOW_DEGREE_1280x800_HIGH,	1280, 800, 2},
-	
-	//{STRMSG_WINDOW_DEGREE_1280x960_LOW,		1280, 960, 0},
-	//{STRMSG_WINDOW_DEGREE_1280x960_MEDIUM,	1280, 960, 1},
-	{STRMSG_WINDOW_DEGREE_1280x960_HIGH,	1280, 960, 2},
-	
-	//{STRMSG_WINDOW_DEGREE_1280x1024_LOW,	1280, 1024, 0},
-	//{STRMSG_WINDOW_DEGREE_1280x1024_MEDIUM,	1280, 1024, 1},
-	{STRMSG_WINDOW_DEGREE_1280x1024_HIGH,	1280, 1024, 2},
-	
-	// 2008-02-11 by cmkwon, 해상도 추가(1440x900) - 
-	//{STRMSG_WINDOW_DEGREE_1440x900_LOW,		1440, 900, 0},
-	//{STRMSG_WINDOW_DEGREE_1440x900_MEDIUM,	1440, 900, 1},
-	{STRMSG_WINDOW_DEGREE_1440x900_HIGH,	1440, 900, 2},
-
-	//{STRMSG_WINDOW_DEGREE_1920x1440_HIGH,	1920, 1440, 2},
-
-	//{STRMSG_WINDOW_DEGREE_W1600x900_LOW,	1600, 900, 0},
-	//{STRMSG_WINDOW_DEGREE_W1600x900_MEDIUM,	1600, 900, 1},
-	{STRMSG_WINDOW_DEGREE_1600x900_HIGH,	1600, 900, 2},
-	
-	//{STRMSG_WINDOW_DEGREE_1600x1200_LOW,	1600, 1200, 0},
-	//{STRMSG_WINDOW_DEGREE_1600x1200_MEDIUM,	1600, 1200, 1},
-	{STRMSG_WINDOW_DEGREE_1600x1200_HIGH,	1600, 1200, 2},
-
-	//{STRMSG_WINDOW_DEGREE_1680x1050_LOW		,	1680, 1050, 0},		// 2009-10-16 by cmkwon, 지원 해상도 추가(1680x1050,1920x1080,1920x1200) - 
-	//{STRMSG_WINDOW_DEGREE_1680x1050_MEDIUM	,	1680, 1050, 1},		// 2009-10-16 by cmkwon, 지원 해상도 추가(1680x1050,1920x1080,1920x1200) - 
-	{STRMSG_WINDOW_DEGREE_1680x1050_HIGH	,	1680, 1050, 2},		// 2009-10-16 by cmkwon, 지원 해상도 추가(1680x1050,1920x1080,1920x1200) - 
-
-	//{STRMSG_WINDOW_DEGREE_1920x1080_LOW		,	1920, 1080, 0},		// 2009-10-16 by cmkwon, 지원 해상도 추가(1680x1050,1920x1080,1920x1200) - 
-	//{STRMSG_WINDOW_DEGREE_1920x1080_MEDIUM	,	1920, 1080, 1},		// 2009-10-16 by cmkwon, 지원 해상도 추가(1680x1050,1920x1080,1920x1200) - 
-	{STRMSG_WINDOW_DEGREE_1920x1080_HIGH	,	1920, 1080, 2},		// 2009-10-16 by cmkwon, 지원 해상도 추가(1680x1050,1920x1080,1920x1200) - 
-
-	//{STRMSG_WINDOW_DEGREE_1920x1200_LOW		,	1920, 1200, 0},		// 2009-10-16 by cmkwon, 지원 해상도 추가(1680x1050,1920x1080,1920x1200) - 
-	//{STRMSG_WINDOW_DEGREE_1920x1200_MEDIUM	,	1920, 1200, 1},		// 2009-10-16 by cmkwon, 지원 해상도 추가(1680x1050,1920x1080,1920x1200) - 
-	{STRMSG_WINDOW_DEGREE_1920x1200_HIGH	,	1920, 1200, 2},		// 2009-10-16 by cmkwon, 지원 해상도 추가(1680x1050,1920x1080,1920x1200) - 
-
-	{STRMSG_WINDOW_DEGREE_2560x1440_HIGH	,	2560, 1440, 2},
-	{STRMSG_WINDOW_DEGREE_2560x1080_HIGH	,	2560, 1080, 2},
-	{STRMSG_WINDOW_DEGREE_3440x1440_HIGH	,	3440, 1440, 2},
-	{STRMSG_WINDOW_DEGREE_3840x2160_HIGH	,	3840, 2160, 2},
-	{STRMSG_WINDOW_DEGREE_5120x2160_HIGH	,	5120, 2160, 2},
-
-	{NULL, 0, 0, 0}		// 2007-12-28 by cmkwon, 끝을 구분하기 위해
-};
-
-
 
 /////////////////////////////////////////////////////////////////////////////
 // CAboutDlg dialog used for App About
@@ -574,22 +514,6 @@ BOOL CAtumLauncherDlg::OnInitDialog()
 		}
 	}
 
-	///////////////////////////////////////////////////////////////////////////////
-	// 2009-08-31 by cmkwon, Gameforge4D 게임가드 동의창 띄우기 - 
-// #if defined(_DEFINED_GAMEFORGE4D_)
-// 	if(FALSE == this->m_bGuardAgreementReg)
-// 	{
-// 		CDlgGuardAgreement GuardDlg;
-// 		if(IDOK != GuardDlg.DoModal())
-// 		{
-// 			OnOK();
-// 			return FALSE;
-// 		}
-// 		this->m_bGuardAgreementReg	= TRUE;
-// 		((CAtumLauncherApp*)AfxGetApp())->WriteProfile();
-// 	}
-// #endif
-
 #if defined(SERVICE_TYPE_VIETNAMESE_SERVER_1)
 	///////////////////////////////////////////////////////////////////////////////
 	// 2007-09-10 by cmkwon, 베트남 화면키보드 구현 -
@@ -624,70 +548,28 @@ BOOL CAtumLauncherDlg::OnInitDialog()
 	this->GetClientRect(&rtBG);
 
 	// 2008-01-03 by cmkwon, 윈도우모드 상태 저장하기 - 지원 해상도 리스트 초기화
-	this->InitSupportedWindowResolutionList();		
+	//this->InitSupportedWindowResolutionList();		
 	
 	///////////////////////////////////////////////////////////////////////////////
 	// 2007-05-07 by cmkwon, 해상도 정보를 각 나라별 언어로 설정하기 위해
-	CComboBox *pComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_WINDOW_DEGREE_LAUNCHER);
-	if(pComboBox)
+	CComboBox* pComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_WINDOW_DEGREE_LAUNCHER);
+	if (pComboBox)
 	{
-		
-
-		
-		
-/*	/// 2012-05-10 by jhseol, 러시아 - EP4 올라오면서 사용 안함. 주석처리
-		// 2008-12-17 by ckPark 러시아 런쳐
-		// 러시아일 경우는 직접 컨트롤에서 창모드를 얻어오고
-		// 추가적인 속성을 지정해준다
-#if defined(SERVICE_TYPE_RUSSIAN_SERVER_1)		// 러시아 런처 인터페이스 수정
-		this->InsertWindowDegreeList(pComboBox, m_ctrlCheckWindowMode.GetCheck());
-		m_ctrlComboWindowDegree.SetBitMap(IDB_COMBOBOX);
-		m_ctrlComboWindowDegree.SetTextColor(RGB(18, 236, 218));
-		m_ctrlComboWindowDegree.SetBackColor(RGB(0, 0, 0));
-#else
-		this->InsertWindowDegreeList(pComboBox, m_ctlbWindowMode);
-#endif
-		// end 2008-12-17 by ckPark 러시아 런쳐
-*/
 		this->InsertWindowDegreeList(pComboBox, m_ctlbWindowMode);
 
+		// Try to find stored resolution
+		int nIdx = -1;
+		if (!m_csWindowsResolutionReg.IsEmpty())
+		{
+			nIdx = this->FindWindowDegreeComboBoxIndex(
+				pComboBox,
+				(LPSTR)(LPCSTR)m_csWindowsResolutionReg
+			);
+		}
 
-
-		int nIdx = this->FindWindowDegreeComboBoxIndex(pComboBox, (LPSTR)(LPCSTR)m_csWindowsResolutionReg);
-		nIdx = max(0, nIdx);
+		// Fallback to highest resolution if not found
+		if (nIdx < 0) nIdx = 0;
 		pComboBox->SetCurSel(nIdx);
-
-// 2007-12-27 by cmkwon, 윈도우즈 모드 기능 추가 - 위와 같이 CAtumLauncherDlg::InsertWindowDegreeList() 에서 처리
-//// 2007-07-24 by cmkwon, 런처에서 800*600 해상도 삭제 - 콤보박스에 추가하지 않는다
-////		pComboBox->AddString(STRMSG_WINDOW_DEGREE_800x600_LOW);
-////		pComboBox->AddString(STRMSG_WINDOW_DEGREE_800x600_MEDIUM);	
-////		pComboBox->AddString(STRMSG_WINDOW_DEGREE_800x600_HIGH);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_1024x768_LOW);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_1024x768_MEDIUM);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_1024x768_HIGH);
-//
-//		// 2007-08-23 by cmkwon, Wide 해상도 1280x720(16:9) 추가 - 
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_W1280x720_LOW);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_W1280x720_MEDIUM);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_W1280x720_HIGH);
-//
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_W1280x800_LOW);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_W1280x800_MEDIUM);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_W1280x800_HIGH);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_1280x960_LOW);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_1280x960_MEDIUM);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_1280x960_HIGH);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_1280x1024_LOW);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_1280x1024_MEDIUM);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_1280x1024_HIGH);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_W1600x900_LOW);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_W1600x900_MEDIUM);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_W1600x900_HIGH);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_1600x1200_LOW);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_1600x1200_MEDIUM);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_1600x1200_HIGH);
-//
-//		pComboBox->SetCurSel(max(0, m_nWindowDegreeReg-3));			// 2007-07-24 by cmkwon, 런처에서 800*600 해상도 삭제 - 레지스트리갑은 기존것을 그대로 사용한다.
 	}
 	
     m_fontServerGroupListBox.CreateFont(16, 0, 0, 0, SG_BOX_FONT_WEIGHT, 0, FALSE, FALSE, SG_BOX_FONT_CHARSET, OUT_DEFAULT_PRECIS,
@@ -764,32 +646,6 @@ BOOL CAtumLauncherDlg::OnInitDialog()
 	// 2007-12-27 by cmkwon, 윈도우즈 모드 기능 추가 - Windows Mode Check Box 위치 크기 설정
 	GetDlgItem(IDC_CHECK_WINDOWS_MODE)->MoveWindow(EXE2_BG_WINDOWSMODE_CHECKBOX_POS_X, EXE2_BG_WINDOWSMODE_CHECKBOX_POS_Y, EXE2_BG_WINDOWSMODE_CHECKBOX_WIDTH, EXE2_BG_WINDOWSMODE_CHECKBOX_HEIGHT);
 
-	
-
-	
-/*	/// 2012-05-10 by jhseol, 러시아 - EP4 올라오면서 사용 안함. 주석처리
-	// 2008-12-17 by ckPark 러시아 런쳐
-#if defined(SERVICE_TYPE_RUSSIAN_SERVER_1)		// 러시아 런처 인터페이스 수정
-	// 러시아 체크박스 추가 설정
-	m_ctrlCheckWindowMode.SetBitMap(IDB_CB_UNCHECK, IDB_CB_CHECK);
-#endif
-	// end 2008-12-17 by ckPark 러시아 런쳐
-*/
-
-
-
-
-
-// 2008-01-22 by cmkwon, S_Exe2: 예당 본섭 런처에  윈도우즈모드 적용
-// #if defined(SERVICE_TYPE_KOREAN_SERVER_2) && !defined(_TEST_SERVER)
-// 	// 2008-01-09 by cmkwon, Yedang_Kor_Main 윈도우즈모드 비활성화 - 윈도우즈모드 체크박스 안보이게 설정
-// 	GetDlgItem(IDC_CHECK_WINDOWS_MODE)->ShowWindow(SW_HIDE);
-// #endif
-
-// 2007-09-07 by cmkwon, 사용하지 않고 있는 것임
-//	// CharacterName Static
-//	GetDlgItem(IDC_CHARACTER_NAME)->MoveWindow(0, 0, 124, 14);
-//	GetDlgItem(IDC_CHARACTER_NAME)->SetWindowText(g_szMGameID);
 	GetDlgItem(IDC_CHARACTER_NAME)->ShowWindow(SW_HIDE);
 
 
@@ -797,20 +653,6 @@ BOOL CAtumLauncherDlg::OnInitDialog()
 	// AccountName Edit Box, Password Edit Box
 	GetDlgItem(IDC_EDIT_ACCOUNT)->MoveWindow(EXE2_BG_ACCOUNTNAME_EDIT_POS_X, EXE2_BG_ACCOUNTNAME_EDIT_POS_Y, EXE2_BG_ACCOUNTNAME_EDIT_WIDTH, EXE2_BG_ACCOUNTNAME_EDIT_HEIGHT);
 	GetDlgItem(IDC_EDIT_PASSWORD)->MoveWindow(EXE2_BG_PASSWORD_EDIT_POS_X, EXE2_BG_PASSWORD_EDIT_POS_Y, EXE2_BG_PASSWORD_EDIT_WIDTH, EXE2_BG_PASSWORD_EDIT_HEIGHT);
-
-
-
-/*	/// 2012-05-10 by jhseol, 러시아 - EP4 올라오면서 사용 안함. 주석처리
-	// 2008-12-17 by ckPark 러시아 런쳐
-#if defined(SERVICE_TYPE_RUSSIAN_SERVER_1)		// 러시아 런처 인터페이스 수정
-	// 러시아 에디트 박스 추가설정
-	m_ctrlEditAccount.SetBitMap(IDB_EDITBG);
-	m_ctrlEditPassword.SetBitMap(IDB_EDITBG);
-#endif
-	// end 2008-12-17 by ckPark 러시아 런쳐
-*/
-
-
 
 #if defined(S_LAUNCHER_USE_ID_PASSWORD_HSKIM) || defined(_DEBUG)	// 2007-09-07 by cmkwon, 한국 예타임만 Release만 입력이 없다
 	GetDlgItem(IDC_EDIT_ACCOUNT)->ShowWindow(SW_SHOW);
@@ -826,20 +668,6 @@ BOOL CAtumLauncherDlg::OnInitDialog()
 	m_ctrlServerList.SetItemIconImage(EXE2_BG_SERVERLIST_ITEM_ICON_POS_X, EXE2_BG_SERVERLIST_ITEM_ICON_POS_Y, EXE2_BG_SERVERLIST_ITEM_ICON_WIDTH, EXE2_BG_SERVERLIST_ITEM_ICON_HEIGHT);
 	m_ServerList = (CListBoxEBX *)GetDlgItem(IDC_LIST);
 
-
-
-
-/*	/// 2012-05-10 by jhseol, 러시아 - EP4 올라오면서 사용 안함. 주석처리
-	// 2008-12-17 by ckPark 러시아 런쳐
-#if defined(SERVICE_TYPE_RUSSIAN_SERVER_1)		// 러시아 런처 인터페이스 수정
-	// 러시아 서버리스트 투명색 설정
-	m_ServerList->SetColorKey(RGB(150, 162, 161));
-#endif
-	// end 2008-12-17 by ckPark 러시아 런쳐
-*/
-
-
-
 	// Minimized Button, Cancel Button
 	GetDlgItem(IDMIN)->MoveWindow(EXE2_BG_MINIMIZED_BTN_POS_X, EXE2_BG_MINIMIZED_BTN_POS_Y, EXE2_BG_MINIMIZED_BTN_WIDTH, EXE2_BG_MINIMIZED_BTN_HEIGHT);
 	GetDlgItem(IDCAN)->MoveWindow(EXE2_BG_CANCEL_BTN_POS_X, EXE2_BG_CANCEL_BTN_POS_Y, EXE2_BG_CANCEL_BTN_WIDTH, EXE2_BG_CANCEL_BTN_HEIGHT);
@@ -847,25 +675,9 @@ BOOL CAtumLauncherDlg::OnInitDialog()
 	// Game Start Button
 	GetDlgItem(IDGO)->MoveWindow(EXE2_BG_GAMESTART_BTN_POS_X, EXE2_BG_GAMESTART_BTN_POS_Y, EXE2_BG_GAMESTART_BTN_WIDTH, EXE2_BG_GAMESTART_BTN_HEIGHT);
 
-	// 2007-09-07 by cmkwon, 사용하지 않는 버튼임
-	//// Join Button
-	//GetDlgItem(IDJOIN)->MoveWindow(nPosX, nPosY, IMAGE_JOIN_BUTTON_X_SIZE, IMAGE_JOIN_BUTTON_Y_SIZE);
-
 	// Update Progress Bar
 	m_progressCtrl.MoveWindow(EXE2_BG_UPDATE_PROGRESS_BAR_POS_X, EXE2_BG_UPDATE_PROGRESS_BAR_POS_Y, EXE2_BG_UPDATE_PROGRESS_BAR_WIDTH, EXE2_BG_UPDATE_PROGRESS_BAR_HEIGHT);
 
-
-
-/*	/// 2012-05-10 by jhseol, 러시아 - EP4 올라오면서 사용 안함. 주석처리
-	// 2008-12-17 by ckPark 러시아 런쳐
-#if defined(SERVICE_TYPE_RUSSIAN_SERVER_1)		// 러시아 런처 인터페이스 수정
-	// 러시아는 프로그래스 바 색깔이 다르다
-	m_progressCtrl.SetBkColor(RGB(0, 0, 0));
-	m_progressCtrl.SetGradientColors(RGB(18, 236, 218), RGB(18, 236, 218));
-*/
-
-
-	// 2008-12-23 by ckPark 일본 런쳐
 #if defined(SERVICE_TYPE_JAPANESE_SERVER_1)
 	// 일본 프로그래스바 색깔 백그라운드 컬러
 	m_progressCtrl.SetBkColor(RGB(0, 186, 215));
@@ -932,10 +744,6 @@ BOOL CAtumLauncherDlg::OnInitDialog()
 	}
 #endif
 
-
-	
-	
-	
 	// 2008-12-23 by ckPark 일본 런쳐
 #if defined(SERVICE_TYPE_JAPANESE_SERVER_1)
 	// 일본 런쳐에 필요없는 ui들 전부 숨김
@@ -958,19 +766,6 @@ BOOL CAtumLauncherDlg::OnInitDialog()
 	GetDlgItem(IDC_CHECK_WINDOWS_MODE)->ShowWindow(SW_HIDE);
 	GetDlgItem(IDC_CHECK_REMEMBER_ID)->ShowWindow(SW_HIDE);
 #endif
-	// end 2008-12-23 by ckPark 일본 런쳐
-
-
-
-
-
-	// 컨트롤 위치 설정하기 ----> End
-	///////////////////////////////////////////////////////////////////////////////
-
-
-	
-	///////////////////////////////////////////////////////////////////////////////
-	// 배경 화면 만들기 ----> Start
 	
 	CDC *pDC = GetDC();
 	int nXScreen = EXE2_LAUNCHER_BG_SIZE_X;
@@ -988,28 +783,6 @@ BOOL CAtumLauncherDlg::OnInitDialog()
 
 	CBitmap tmBitmap;
 	CBitmap *pTmOldBitmap;
-
-
-
-
-
-	// 2008-12-23 by ckPark 일본 런쳐
-
-// 	// 타이틀바 그리기(Title Bar)
-// 	tmBitmap.LoadBitmap(IDB_TITLE);
-// 	pTmOldBitmap = tmMemDC.SelectObject(&tmBitmap);
-// 	memDCBackGround.BitBlt(0, 0, EXE2_BG_TITLE_BAR_SIZE_X, EXE2_BG_TITLE_BAR_SIZE_Y, &tmMemDC, 0, 0, SRCCOPY);
-// 	tmMemDC.SelectObject(pTmOldBitmap);
-// 	tmBitmap.DeleteObject();
-// 	
-// 	// 배경 화면 그리기(Background)
-// 	tmBitmap.LoadBitmap(IDB_BG_VTC);
-// 	pTmOldBitmap = tmMemDC.SelectObject(&tmBitmap);
-// 	memDCBackGround.BitBlt(0, EXE2_BG_TITLE_BAR_SIZE_Y,EXE2_BG_BACKGROUND_IMAGE_SIZE_X, EXE2_BG_BACKGROUND_IMAGE_SIZE_Y,&tmMemDC,0,0,SRCCOPY);
-// 	tmMemDC.SelectObject(pTmOldBitmap);
-// 	tmBitmap.DeleteObject();
-// 	
-// 	memDCBackGround.SelectObject(pOldBitmapBackGround);
 
 #if defined(SERVICE_TYPE_JAPANESE_SERVER_1)
 	// 일본 런쳐는 타이틀 바가 없다
@@ -1046,17 +819,6 @@ BOOL CAtumLauncherDlg::OnInitDialog()
 
 #endif
 	
-	// end 2008-12-23 by ckPark 일본 런쳐
-
-
-
-
-
-
-
-	// 배경 화면 만들기 ----> End
-	///////////////////////////////////////////////////////////////////////////////
-
 	DisableControls();
 	SetPrivateIP();
 
@@ -1073,330 +835,6 @@ BOOL CAtumLauncherDlg::OnInitDialog()
 	this->GetPublicLocalIP(m_szLocalIP);		// 2006-05-07 by cmkwon
 	return TRUE;  // return TRUE  unless you set the focus to a control
 
-///////////////////////////////////////////////////////////////////////////////	
-// 2007-09-07 by cmkwon, 베트남 런처 인터페이스 수정 - 위와 같이 수정 정리함
-//	///////////////////////////////////////////////////////////////////////////////
-//	// 2007-05-07 by cmkwon, 해상도 정보를 각 나라별 언어로 설정하기 위해
-//	CComboBox *pComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_WINDOW_DEGREE_LAUNCHER);
-//	if(pComboBox)
-//	{
-//// 2007-07-24 by cmkwon, 런처에서 800*600 해상도 삭제 - 콤보박스에 추가하지 않는다
-////		pComboBox->AddString(STRMSG_WINDOW_DEGREE_800x600_LOW);
-////		pComboBox->AddString(STRMSG_WINDOW_DEGREE_800x600_MEDIUM);	
-////		pComboBox->AddString(STRMSG_WINDOW_DEGREE_800x600_HIGH);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_1024x768_LOW);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_1024x768_MEDIUM);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_1024x768_HIGH);
-//
-//		// 2007-08-23 by cmkwon, Wide 해상도 1280x720(16:9) 추가 - 
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_W1280x720_LOW);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_W1280x720_MEDIUM);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_W1280x720_HIGH);
-//
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_W1280x800_LOW);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_W1280x800_MEDIUM);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_W1280x800_HIGH);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_1280x960_LOW);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_1280x960_MEDIUM);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_1280x960_HIGH);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_1280x1024_LOW);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_1280x1024_MEDIUM);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_1280x1024_HIGH);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_W1600x900_LOW);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_W1600x900_MEDIUM);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_W1600x900_HIGH);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_1600x1200_LOW);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_1600x1200_MEDIUM);
-//		pComboBox->AddString(STRMSG_WINDOW_DEGREE_1600x1200_HIGH);
-//		pComboBox->SetCurSel(max(0, m_nWindowDegreeReg-3));			// 2007-07-24 by cmkwon, 런처에서 800*600 해상도 삭제 - 레지스트리갑은 기존것을 그대로 사용한다.
-//	}
-//	
-//    m_fontServerGroupListBox.CreatePointFont(90, "굴림체");    // "System" Font는 대표적인 Fixed Font임다.
-//    GetDlgItem(IDC_LIST)->SetFont(&m_fontServerGroupListBox);
-//
-//    m_fontNoticeBox.CreateFont(16, 0, 0, 0, SG_BOX_FONT_WEIGHT, 0,
-//							  FALSE, FALSE, SG_BOX_FONT_CHARSET, OUT_DEFAULT_PRECIS,
-//							  CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
-//							  FIXED_PITCH , SG_BOX_FONT_FACENAME);    // "System" Font는 대표적인 Fixed Font임다.
-//    GetDlgItem(IDC_NOTICE)->SetFont(&m_fontNoticeBox);
-//
-//	m_Cur_Percent=0;
-//	m_SelectFlag = FALSE;
-//
-//	
-//	m_bitmapBtnCancel.AutoLoad(IDCAN, this);
-//	m_bitmapBtnMin.AutoLoad(IDMIN, this);
-//#if defined(_GLOBAL_ENG_SERVER)			// 2006-09-07 by cmkwon, 수정(#ifdef _VTC_VIET_SERVER --> #ifndef _GLOBAL_ENG_SERVER)
-//	m_KbcGO.SetBmpButtonImage(IDB_GOBTN, RGB(0,0,255));
-//#elif defined(_KOREA_SERVER_2)		// 2006-10-02 by cmkwon
-//	m_KbcGO.SetBmpButtonImage(IDB_GO_S2, RGB(0,0,255));
-//#elif defined(_CHN_S1)				// 2007-03-13 by cmkwon
-//	m_KbcGO.SetBmpButtonImage(IDB_GO_CHN, RGB(0,0,255));
-//#else
-//	m_KbcGO.SetBmpButtonImage(IDB_GO_VTC, RGB(0,0,255));
-//#endif
-//
-//	m_KbcGO.SetToolTipText("Game Start");
-//	m_kbcBtnJoin.SetBmpButtonImage(IDB_JOINBTN, RGB(0,0,255));
-//	m_kbcBtnJoin.SetToolTipText("Join");
-//
-//
-//	//GetDlgItem(IDC_CHARACTER_NAME)->SetWindowText(g_szAccountName);
-////////////////////////////////////////////////////////////////////////////
-//// 2006-05-02 by ispark, 웹페이지
-//	char* strWebAddress = LAUNCHER_WEB_URL;
-//#ifdef _TEST_SERVER
-//	strWebAddress		= TESTSERVER_LAUNCHER_WEB_URL;			// 2006-08-04 by cmkwon, 테섭 Launcher 웹페이지
-//#endif
-////	HWND hWnd = GetDlgItem(IDC_WEB)->m_hWnd;
-//
-//// 2007-09-07 by cmkwon, 아래와 같이 수정함
-////	m_pHost = new Host(m_hWnd,strWebAddress,NULL,NULL,NULL);
-////	RECT rt;
-////	rt.left = DEF_HOST_L;
-////	rt.top = DEF_HOST_T;
-////	rt.right = DEF_HOST_R;
-////	rt.bottom = DEF_HOST_B;
-////	m_pHost->ReSizeRect(rt);
-//	RECT rt;
-//	rt.left		= DEF_HOST_L;
-//	rt.top		= DEF_HOST_T;
-//	rt.right	= DEF_HOST_R;
-//	rt.bottom	= DEF_HOST_B;
-//	m_pHost		= new Host(m_hWnd,strWebAddress,NULL,NULL,NULL, &rt);
-//
-//
-/////////////////////////////////////////////////////////////////////////////////
-//// 배경 화면 만들기
-//	// 2006-05-02 by ispark, 런처 배경 화면 변경
-//
-//	CDC *pDC = GetDC();
-//// 2004-11-08 by cmkwon
-////	int nXScreen = GetSystemMetrics(SM_CXSCREEN);
-////	int nYScreen = GetSystemMetrics(SM_CYSCREEN);
-//	int nXScreen = DEF_SCREEN_X;
-//	int nYScreen = DEF_SCREEN_Y;
-//	m_BackGround.CreateCompatibleBitmap(pDC, nXScreen, nYScreen);
-//		
-//	CDC		memDCBackGround;	
-//	memDCBackGround.CreateCompatibleDC(pDC);
-//	CBitmap	*pOldBitmapBackGround = memDCBackGround.SelectObject(&m_BackGround);
-//	memDCBackGround.PatBlt(0,0,nXScreen,nYScreen,BLACKNESS);						// 배경을 검은색으로 초기화
-//	
-//	CDC tmMemDC;
-//	int nPosX, nPosY;	
-//	
-//	// Gear 그리기
-//	CBitmap tmBitmap;
-//	CBitmap *pTmOldBitmap;
-////	tmBitmap.LoadBitmap(IDB_GEAR);		
-//	tmMemDC.CreateCompatibleDC(pDC);
-////	CBitmap *pTmOldBitmap = tmMemDC.SelectObject(&tmBitmap);
-//	nPosX = nXScreen - IMAGE_GEAR_X_SIZE;
-//	nPosY = nYScreen - (IMAGE_GEAR_Y_SIZE + 50);
-////	memDCBackGround.BitBlt(nPosX, nPosY, IMAGE_GEAR_X_SIZE, IMAGE_GEAR_Y_SIZE, &tmMemDC, 0, 0, SRCCOPY);
-////	tmMemDC.SelectObject(pTmOldBitmap);
-////	tmBitmap.DeleteObject();
-//
-//	// ServerList 그리기
-////	tmBitmap.LoadBitmap(IDB_SERVERLIST);
-////	pTmOldBitmap = tmMemDC.SelectObject(&tmBitmap);
-//	nPosX = (nXScreen - IMAGE_SERVERLIST_X_SIZE)/2;
-//	nPosY = (nYScreen - IMAGE_SERVERLIST_Y_SIZE)/2;
-//	int nServerListPosX = nPosX;
-//	int nServerListPosY = nPosY;
-////	memDCBackGround.BitBlt(nPosX, nPosY, IMAGE_SERVERLIST_X_SIZE, IMAGE_SERVERLIST_Y_SIZE, &tmMemDC, 0, 0, SRCCOPY);
-////	tmMemDC.SelectObject(pTmOldBitmap);
-////	tmBitmap.DeleteObject();
-//
-//	// 타이틀바 그리기
-//	tmBitmap.LoadBitmap(IDB_TITLE);
-//	pTmOldBitmap = tmMemDC.SelectObject(&tmBitmap);
-//	nPosX = 0;
-//	nPosY = 0;
-//	memDCBackGround.BitBlt(nPosX, nPosY, IMAGE_TITLE_X_SIZE, IMAGE_TITLE_Y_SIZE, &tmMemDC, 0, 0, SRCCOPY);
-//	tmMemDC.SelectObject(pTmOldBitmap);
-//	tmBitmap.DeleteObject();
-//
-//
-//// 7/13/2006 by dgwoo, NEW UpdateBar 그리기
-//#ifndef _GLOBAL_ENG_SERVER			// 2006-09-07 by cmkwon, 수정(#ifdef _VTC_VIET_SERVER --> #ifndef _GLOBAL_ENG_SERVER)
-//	tmBitmap.LoadBitmap(IDB_BG_VTC);
-//	pTmOldBitmap = tmMemDC.SelectObject(&tmBitmap);
-//	nPosX = 0;
-//	nPosY = IMAGE_TITLE_Y_SIZE;
-//	memDCBackGround.BitBlt(nPosX,nPosY,DEF_SCREEN_X,DEF_SCREEN_Y,&tmMemDC,0,0,SRCCOPY);
-//	tmMemDC.SelectObject(pTmOldBitmap);
-//	tmBitmap.DeleteObject();
-//#else
-//	tmBitmap.LoadBitmap(IDB_CENTER);
-//	pTmOldBitmap = tmMemDC.SelectObject(&tmBitmap);
-//	nPosX = 0;
-//	nPosY = nYScreen - IMAGE_CENTERBAR_Y_SIZE;
-//	memDCBackGround.BitBlt(nPosX, nPosY, IMAGE_CENTERBAR_X_SIZE, IMAGE_CENTERBAR_Y_SIZE, &tmMemDC, 0, 0, SRCCOPY);
-//	tmMemDC.SelectObject(pTmOldBitmap);
-//	tmBitmap.DeleteObject();
-//#endif
-//
-//
-////	if(nXScreen > IMAGE_UPDATEBAR_X_SIZE * 2)
-////	{
-////		// UpdateCenterBar 그리기
-////		tmBitmap.LoadBitmap(IDB_BARCENTER);
-////		pTmOldBitmap = tmMemDC.SelectObject(&tmBitmap);
-////		nPosX = (nXScreen - IMAGE_UPDATEBAR_X_SIZE)/2;
-////		nPosY = nYScreen - IMAGE_UPDATEBAR_Y_SIZE;
-////		memDCBackGround.BitBlt(nPosX, nPosY, IMAGE_UPDATEBAR_X_SIZE, IMAGE_UPDATEBAR_Y_SIZE, &tmMemDC, 0, 0, SRCCOPY);
-////		tmMemDC.SelectObject(pTmOldBitmap);
-////		tmBitmap.DeleteObject();
-////	}
-//
-//	memDCBackGround.SelectObject(pOldBitmapBackGround);
-////
-/////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////
-//// 컨트롤 위치 설정하기
-//	
-//	// 해상도 설정 ComboBox
-//// 7/12/2006 by dgwoo
-//	GetDlgItem(IDC_COMBO_WINDOW_DEGREE_LAUNCHER)->MoveWindow(DEF_DEGREE_L, DEF_DEGREE_T, 
-//															 DEF_DEGREE_R, DEF_DEGREE_B);
-//
-//	// CharacterName Static
-//	nPosX = nServerListPosX + 80;
-//	nPosY = nServerListPosY + 5;
-//	GetDlgItem(IDC_CHARACTER_NAME)->MoveWindow(nPosX, nPosY, 124, 14);
-//	GetDlgItem(IDC_CHARACTER_NAME)->SetWindowText(g_szMGameID);
-//#if defined(_KOREA_SERVER_2)		// 2006-10-02 by cmkwon
-//	#if defined(_DEBUG)
-//		GetDlgItem(IDC_EDIT_ACCOUNT)->MoveWindow(DEF_ACCOUNT_L_S2, DEF_ACCOUNT_T_S2, DEF_ACCOUNT_R_S2, DEF_ACCOUNT_B_S2);
-//		GetDlgItem(IDC_EDIT_ACCOUNT)->ShowWindow(SW_SHOW);
-//		GetDlgItem(IDC_EDIT_PASSWORD)->MoveWindow(DEF_PASSWORD_L_S2, DEF_PASSWORD_T_S2, DEF_ACCOUNT_R, DEF_ACCOUNT_B);
-//		GetDlgItem(IDC_EDIT_PASSWORD)->ShowWindow(SW_SHOW);
-//	#endif
-//// 2007-03-13 by cmkwon, 나머지는 모두 아뒤/비번 입력 컨트롤 보여주기
-////// 2007-03-06 by cmkwon, 추가함(|| defined(_MASANG15_SERVER))
-////#elif defined(_DEBUG) || defined(_MASANG15_SERVER) || defined(_MASANG51_SERVER) || defined(_GLOBAL_ENG_SERVER) || defined(_VTC_VIET_SERVER) || defined(_KOREA_SERVER_2) || defined(_CHN_S1)
-//#else
-//	GetDlgItem(IDC_EDIT_ACCOUNT)->MoveWindow(DEF_ACCOUNT_L, DEF_ACCOUNT_T, DEF_ACCOUNT_R, DEF_ACCOUNT_B);
-//	GetDlgItem(IDC_EDIT_ACCOUNT)->ShowWindow(SW_SHOW);
-//	GetDlgItem(IDC_EDIT_PASSWORD)->MoveWindow(DEF_PASSWORD_L, DEF_PASSWORD_T, DEF_ACCOUNT_R, DEF_ACCOUNT_B);
-//	GetDlgItem(IDC_EDIT_PASSWORD)->ShowWindow(SW_SHOW);
-//#endif
-//
-//
-//
-//	///////////////////////////////////////////////////////////////////////////////
-//	// 서버리스트 List
-//	GetDlgItem(IDC_LIST)->MoveWindow(DEF_SERVERLIST_L, DEF_SERVERLIST_T, DEF_SERVERLIST_R,DEF_SERVERLIST_B);
-//	GetDlgItem(IDC_COMBO_SERVER_LIST)->MoveWindow(DEF_SERVERLIST_L, DEF_SERVERLIST_T, DEF_SERVERLIST_R, DEF_SERVERLIST_B);
-//#ifndef _GLOBAL_ENG_SERVER			// 2006-09-07 by cmkwon, 수정(#ifdef _VTC_VIET_SERVER --> #ifndef _GLOBAL_ENG_SERVER)
-//	GetDlgItem(IDC_LIST)->ShowWindow(SW_SHOW);		
-//	GetDlgItem(IDC_COMBO_SERVER_LIST)->ShowWindow(SW_HIDE);
-//	m_ctrlServerList.SetItemHeight(25);
-//	m_ServerList = (CListBoxEBX *)GetDlgItem(IDC_LIST);
-//#else
-//	GetDlgItem(IDC_LIST)->ShowWindow(SW_HIDE);		
-//	GetDlgItem(IDC_COMBO_SERVER_LIST)->ShowWindow(SW_SHOW);
-//	m_ServerList = (CComboBoxEBX *)GetDlgItem(IDC_COMBO_SERVER_LIST);
-//#endif
-//
-//	
-//	// 공지사항 EditBox
-//	nPosX = nServerListPosX + 245;
-//	nPosY = nServerListPosY + 49;
-//	GetDlgItem(IDC_NOTICE)->MoveWindow(nPosX, nPosY, 382, 166);
-//	GetDlgItem(IDC_NOTICE)->ShowWindow(SW_HIDE);
-//
-//	// Min Button
-////	nPosX = nServerListPosX + 612;
-////	nPosY = nServerListPosY;
-////	GetDlgItem(IDMIN)->MoveWindow(nPosX, nPosY, 16, 20);
-//	nPosX = 752;
-//	nPosY = 0;
-//	GetDlgItem(IDMIN)->MoveWindow(nPosX, nPosY, 16, 20);
-//
-//	// Cancel Button
-////	nPosX = nServerListPosX + 628;
-////	nPosY = nServerListPosY;
-////	GetDlgItem(IDCAN)->MoveWindow(nPosX, nPosY, 16, 20);
-//	nPosX = 772;
-//	nPosY = 0;
-//	GetDlgItem(IDCAN)->MoveWindow(nPosX, nPosY, 16, 20);
-//
-//	// GO Button
-//// 2006-05-02 by ispark
-////	nPosX = nServerListPosX + 54;
-////	nPosY = nServerListPosY + 216;
-//#if defined(_KOREA_SERVER_2)
-//	GetDlgItem(IDGO)->MoveWindow(DEF_GO_L_S2, DEF_GO_T_S2, IMAGE_GO_BUTTON_X_SIZE_S2, IMAGE_GO_BUTTON_Y_SIZE_S2);
-//#elif defined(_CHN_S1)				// 2007-03-13 by cmkwon
-//	GetDlgItem(IDGO)->MoveWindow(DEF_GO_L_CHN, DEF_GO_T_CHN, IMAGE_GO_BUTTON_X_SIZE_CHN, IMAGE_GO_BUTTON_Y_SIZE_CHN);
-//#else
-//	GetDlgItem(IDGO)->MoveWindow(DEF_GO_L, DEF_GO_T, IMAGE_GO_BUTTON_X_SIZE, IMAGE_GO_BUTTON_Y_SIZE);
-//#endif
-//	// 2005-11-10 by cmkwon, Join Button
-//	nPosX = nServerListPosX + 265;
-//	nPosY = nServerListPosY + 226;
-//	GetDlgItem(IDJOIN)->MoveWindow(nPosX, nPosY, IMAGE_JOIN_BUTTON_X_SIZE, IMAGE_JOIN_BUTTON_Y_SIZE);
-//
-//	// Update Progress
-//// 7/12/2006 by dgwoo
-//	nPosX = 26;	
-//	nPosY = nYScreen - 23;
-//	m_progressCtrl.MoveWindow(nPosX, nPosY, nXScreen - (nPosX*2), 7);
-//
-//	// Download File Version Num
-//// 7/12/2006 by dgwoo
-//	GetDlgItem(IDC_DOWNLOAD_FILENUM)->MoveWindow(DEF_FILEVERSION_L, DEF_FILEVERSION_T, DEF_FILEVERSION_R, DEF_FILEVERSION_B);
-//
-//	// Download File Info
-//// 7/12/2006 by dgwoo
-//	GetDlgItem(IDC_FILE_INFO)->MoveWindow(DEF_FILEINFO_L, DEF_FILEVERSION_T, DEF_FILEINFO_R, DEF_FILEVERSION_B);
-////
-/////////////////////////////////////////////////////////////////////////////////
-//
-//
-//	m_progressCtrl.SetGradientColors(RGB(255, 0, 0), RGB(0, 0, 255));
-//
-//	// Initialize winsock 2.0
-//	CWinSocket::SocketInit();
-//
-//	// set default values & settings
-//	m_bCancelFlag = FALSE;
-//	m_bProcessingVersionUpdate = FALSE;
-//	m_bShowPreServerIPDlg = TRUE;
-////	m_FtpDownload.SetMainDlg(this);
-//	DisableControls();
-//	SetPrivateIP();
-//
-//// 2006-05-03 by cmkwon, 공지사항은 런처의 웹화면에서 처리한다.
-//// 	// 일단 Notice 로딩 - 없음 말고... 나중에 notice를 다시 다운 받으니 상관없음...
-//// 	if (!ReadNoticeFile())
-//// 	{
-//// 		//AtumMessageBox("Notice File Error!");
-//// 		//EndDialog(-1);
-//// 		//return FALSE;
-//// 	}
-//
-//	// timeout이 발생하면 프리 서버에 연결
-//	SetTimer(TIMERID_CONNECT_PRESERVER, 200, NULL);
-//	SetTimer(TIMERID_SEND_ALIVE_PACKET, 30000, NULL);
-//	SetTimer(TIMERID_NETWORK_STATE_CHECK, 1000, NULL);		// 2007-06-18 by cmkwon, 네트워크 상태 체크
-//
-//#ifndef _DEBUG
-//	DeleteFile("AtumLauncher_dbg.exe");
-//#endif
-//
-//	int nXScreen1 = GetSystemMetrics(SM_CXSCREEN);
-//	int nYScreen1 = GetSystemMetrics(SM_CYSCREEN);
-//
-//	CRect rect((nXScreen1-800)/2, (nYScreen1-600)/2, (nXScreen1-800)/2+800, (nYScreen1-600)/2+DEF_SCREEN_Y);
-//	this->MoveWindow(&rect);
-//	ShowWindow(SW_SHOW);
-//
-//	this->GetPublicLocalIP(m_szLocalIP);		// 2006-05-07 by cmkwon
-//	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
 BOOL CAtumLauncherDlg::ConnectPreServer()
@@ -3039,24 +2477,20 @@ void CAtumLauncherDlg::HideScreenKeyboardByScreenKeyboardWindow(void)
 /// \param		
 /// \return		
 ///////////////////////////////////////////////////////////////////////////////
-BOOL CAtumLauncherDlg::FindWindowResolutionByWindowDegree(int *o_pnCX, int *o_pnCY, int *o_pnDegree, char *i_szWindowDegreeName)
+BOOL CAtumLauncherDlg::FindWindowResolutionByWindowDegree(int* o_pnCX, int* o_pnCY, int* o_pnDegree, char* i_szWindowDegreeName)
 {
-	*o_pnCX		= 0;
-	*o_pnCY		= 0;
-	*o_pnDegree	= 0;
-
-	for(int i=0; g_pWindowDegreeList[i].szWindowDegreeName != NULL; i++)
+	// Parse resolution from string (supports both old and new formats)
+	int width, height;
+	if (2 == sscanf(i_szWindowDegreeName, "%dx%d", &width, &height) ||
+		2 == sscanf(i_szWindowDegreeName, "%d x %d", &width, &height) ||
+		2 == sscanf(i_szWindowDegreeName, "%d*%d", &width, &height))
 	{
-		if(0 == strncmp(g_pWindowDegreeList[i].szWindowDegreeName, i_szWindowDegreeName, SIZE_MAX_WINDOW_DEGREE_NAME))
-		{
-			*o_pnCX		= g_pWindowDegreeList[i].nCX;
-			*o_pnCY		= g_pWindowDegreeList[i].nCY;
-			*o_pnDegree	= g_pWindowDegreeList[i].nDegree;
-			return TRUE;
-		}
+		*o_pnCX = width;
+		*o_pnCY = height;
+		*o_pnDegree = 2; // Always "High" quality
+		return TRUE;
 	}
-
-	return FALSE;
+	return FALSE; // Parsing failed
 }
 
 
@@ -3070,70 +2504,84 @@ BOOL CAtumLauncherDlg::FindWindowResolutionByWindowDegree(int *o_pnCX, int *o_pn
 /// \param		
 /// \return		
 ///////////////////////////////////////////////////////////////////////////////
-int CAtumLauncherDlg::InsertWindowDegreeList(CComboBox *i_pComboBox, BOOL i_bWindowsMode)
+int CAtumLauncherDlg::InsertWindowDegreeList(CComboBox* i_pComboBox, BOOL i_bWindowsMode)
 {
-	i_pComboBox->ResetContent();	// 2007-12-28 by cmkwon, 모든 아이템 초기화
+	i_pComboBox->ResetContent();
 
-	// 2013-07-30 by jhseol, 멀티해상도 지원 - 전체 해상도 확인
-#ifdef S_MULTI_RESOLUTION_JHSEOL	// - 전체 해상도 확인
-	int nCXScreen = GetSystemMetrics(SM_CXMAXTRACK);
-	int nCYScreen = GetSystemMetrics(SM_CYMAXTRACK);
-#else
 	int nCXScreen = GetSystemMetrics(SM_CXSCREEN);
 	int nCYScreen = GetSystemMetrics(SM_CYSCREEN);
-#endif
-	// end 2013-07-30 by jhseol, 멀티해상도 지원 - 전체 해상도 확인
 
+	// Minimum resolution requirements
+	const int MIN_WIDTH = 1024;
+	const int MIN_HEIGHT = 768;
 
-	int nInsertedCnts = 0;
-	for(int i=0; g_pWindowDegreeList[i].szWindowDegreeName != NULL; i++)
+	// Enumerate available display resolutions
+	std::vector<POINT> resolutions;
+	DEVMODE dm;
+	dm.dmSize = sizeof(DEVMODE);
+	int iMode = 0;
+	while (EnumDisplaySettings(NULL, iMode, &dm) != 0)
 	{
-		// 2013-07-30 by jhseol, 멀티해상도 지원 - 전체 해상도 안에 포함되는 해상도만 등록
-#ifdef S_MULTI_RESOLUTION_JHSEOL	// - 전체 해상도 안에 포함되는 해상도만 등록
-		if( FALSE == i_bWindowsMode
-			|| (nCXScreen >= g_pWindowDegreeList[i].nCX && nCYScreen >= g_pWindowDegreeList[i].nCY) )
+		POINT res = { dm.dmPelsWidth, dm.dmPelsHeight };
+
+		// Skip resolutions below minimum requirements
+		if (res.x < MIN_WIDTH || res.y < MIN_HEIGHT)
 		{
-			i_pComboBox->AddString(g_pWindowDegreeList[i].szWindowDegreeName);
-			nInsertedCnts++;
-		}
-#else
-		if(FALSE == this->IsSupportedResolution(g_pWindowDegreeList[i].nCX, g_pWindowDegreeList[i].nCY))
-		{// 2008-01-03 by cmkwon, 지원하는 해상도 리스트만 보여주기 - 지원하지 않는 해상도는 보여주지 안는다
+			iMode++;
 			continue;
 		}
 
-		if( FALSE == i_bWindowsMode
-			|| (nCXScreen >= g_pWindowDegreeList[i].nCX	&& nCYScreen >= g_pWindowDegreeList[i].nCY) )
-		{
-			i_pComboBox->AddString(g_pWindowDegreeList[i].szWindowDegreeName);
+		bool bFound = false;
 
-/*	/// 2012-05-10 by jhseol, 러시아 - EP4 올라오면서 사용 안함. 주석처리
-			// 2008-12-17 by ckPark 러시아 런쳐
-			// 러시아는 스트링을 컨트롤에서 직접 셋팅
-#if defined(SERVICE_TYPE_RUSSIAN_SERVER_1)		// 러시아 런처 인터페이스 수정
-			i_pComboBox->SetItemData(i, (DWORD)(g_pWindowDegreeList[i].szWindowDegreeName));
-#endif
-			// end 2008-12-17 by ckPark 러시아 런쳐
-*/
-			nInsertedCnts++;
+		// Skip duplicates
+		for (int j = 0; j < resolutions.size(); j++)
+		{
+			if (resolutions[j].x == res.x && resolutions[j].y == res.y)
+			{
+				bFound = true;
+				break;
+			}
 		}
-#endif
-		// end 2013-07-30 by jhseol, 멀티해상도 지원 - 전체 해상도 안에 포함되는 해상도만 등록
+
+		if (!bFound && dm.dmBitsPerPel >= 16) // Minimum 16-bit color
+		{
+			resolutions.push_back(res);
+		}
+		iMode++;
 	}
 
+	// Sort resolutions by area (descending)
+	std::sort(resolutions.begin(), resolutions.end(), [](const POINT& a, const POINT& b) {
+		return (a.x * a.y) > (b.x * b.y);
+		});
 
+	int nInsertedCnts = 0;
+	for (int i = 0; i < resolutions.size(); i++)
+	{
+		int width = resolutions[i].x;
+		int height = resolutions[i].y;
 
-/*	/// 2012-05-10 by jhseol, 러시아 - EP4 올라오면서 사용 안함. 주석처리
-	// 2008-12-17 by ckPark 러시아 런쳐
-	// 콤보박스 갱신시 다시 한번 그린다
-#if defined(SERVICE_TYPE_RUSSIAN_SERVER_1)		// 러시아 런처 인터페이스 수정
-	i_pComboBox->Invalidate(TRUE);
-#endif
-	// end 2008-12-17 by ckPark 러시아 런쳐
-*/
+		// Skip resolutions larger than desktop in windowed mode
+		if (i_bWindowsMode && (width > nCXScreen || height > nCYScreen))
+		{
+			continue;
+		}
 
+		// Format resolution string
+		CString str;
+		str.Format("%dx%d High", width, height);
+		i_pComboBox->AddString(str);
+		nInsertedCnts++;
+	}
 
-
+	// If no valid resolutions found, add a fallback option
+	if (nInsertedCnts == 0)
+	{
+		CString str;
+		str.Format("%dx%d High", MIN_WIDTH, MIN_HEIGHT);
+		i_pComboBox->AddString(str);
+		nInsertedCnts++;
+	}
 
 	return nInsertedCnts;
 }
@@ -3178,92 +2626,6 @@ int CAtumLauncherDlg::FindWindowDegreeComboBoxIndex(CComboBox *i_pComboBox, char
 
 	return -1;
 }
-
-
-///////////////////////////////////////////////////////////////////////////////
-/// \fn			int CAtumLauncherDlg::InitSupportedWindowResolutionList(void)
-/// \brief		// 2008-01-03 by cmkwon, 지원하는 해상도 리스트만 보여주기 - CAtumLauncherDlg::InitSupportedWindowResolutionList() 추가
-/// \author		cmkwon
-/// \date		2008-01-03 ~ 2008-01-03
-/// \warning	
-///
-/// \param		
-/// \return		
-///////////////////////////////////////////////////////////////////////////////
-int CAtumLauncherDlg::InitSupportedWindowResolutionList(void)
-{
- 	///////////////////////////////////////////////////////////////////////////////
- 	// 2008-06-12 by cmkwon, 임시 체크용, 지원 해상도 로그 파일로 저장 - 필요 없을경우 주석으로 처리
-// 	BOOL bSaveFile	= TRUE;
-// 	CSystemLogManager resultLog;
-// 	if(FALSE == resultLog.InitLogManger(TRUE, "LauncherLog", "./"))
-// 	{
-// 		bSaveFile	= FALSE;
-// 	}
-
-	DEVMODE devMode;
-	INT32 modeExist;
-	for (int i=0; ;i++) 
-	{
-		modeExist = EnumDisplaySettings(NULL, i, &devMode);
-		if (!modeExist) 
-		{
-			break;
-		}
-
-		
-// 2008-06-12 by cmkwon, 임시 체크용, 지원 해상도 로그 파일로 저장
-// 		if(bSaveFile)
-// 		{
-// 			// 2008-05-23 by cmkwon, 체크용
-// 			//DbgOut("Resolution Idx(%3d) %4d x %4d , BitsPerPel(%2d) Frequency(%3d)\r\n", i, devMode.dmPelsWidth, devMode.dmPelsHeight, devMode.dmBitsPerPel, devMode.dmDisplayFrequency);
-// 			char szResult[2048];
-// 			MEMSET_ZERO(szResult, 2048);
-// 			sprintf(szResult, "Resolution Idx(%3d) %4d x %4d , BitsPerPel(%2d) Frequency(%3d)\r\n", i, devMode.dmPelsWidth, devMode.dmPelsHeight, devMode.dmBitsPerPel, devMode.dmDisplayFrequency);
-// 			resultLog.WriteSystemLog(szResult);
-// 		}
-
-// 2008-10-31 by cmkwon, 런처(Luncher)에서 해상도 체크시 픽셀만 체크로 수정(색상비트는 체크하지 않음) - 체크 필요 없음
-//		// 2008-06-12 by cmkwon, Win98, Win98ME 에서 해상도 1개도 나오지 않는 문제 수정(K0000227) - win98, win98ME 에서는 dmDisplayFrequency 이 0으로 리턴되고 있음.
-//		if( 32 != devMode.dmBitsPerPel
-//			|| (0 != devMode.dmDisplayFrequency && 60 != devMode.dmDisplayFrequency) )
-//		{
-//			continue;
-//		}
-
-		m_vectSupportedResolutionList.push_back(devMode);
-	}
-
-	return m_vectSupportedResolutionList.size();
-}
-
-///////////////////////////////////////////////////////////////////////////////
-/// \fn			BOOL CAtumLauncherDlg::IsSupportedResolution(int i_nWidth, int i_nHeight)
-/// \brief		// 2008-01-03 by cmkwon, 지원하는 해상도 리스트만 보여주기 - CAtumLauncherDlg::IsSupportedResolution() 추가
-/// \author		cmkwon
-/// \date		2008-01-03 ~ 2008-01-03
-/// \warning	
-///
-/// \param		
-/// \return		
-///////////////////////////////////////////////////////////////////////////////
-BOOL CAtumLauncherDlg::IsSupportedResolution(int i_nWidth, int i_nHeight)
-{
-	int nCnts = m_vectSupportedResolutionList.size();
-
-	for(int i=0; i < nCnts; i++)
-	{
-		DEVMODE *pDevMode = &(m_vectSupportedResolutionList[i]);
-		if(pDevMode->dmPelsWidth == i_nWidth
-			&& pDevMode->dmPelsHeight == i_nHeight)
-		{
-			return TRUE;
-		}
-	}
-
-	return FALSE;
-}
-
 
 ///////////////////////////////////////////////////////////////////////////////
 /// \fn			BOOL CAtumLauncherDlg::FindServerGroupName(CString *o_pcsServerGroupName, int i_nFindIndex)
@@ -3385,7 +2747,7 @@ int CAtumLauncherDlg::NTOnReceivedNetworkCheckOK(int i_nCheckCount)
 	m_nCurNetworkCheckCount++;
 	m_dwSumPacketTickGap		+= dwCurTick - m_dwNetworkCheckSendTick;
 
-	Sleep(500);		// 2007-06-19 by cmkwon, 약간의 시간차를 둔다
+	//Sleep(500);		// 2007-06-19 by cmkwon, 약간의 시간차를 둔다
 
 	m_dwNetworkCheckSendTick	= timeGetTime();
 

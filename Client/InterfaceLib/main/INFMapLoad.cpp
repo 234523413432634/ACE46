@@ -367,47 +367,48 @@ HRESULT CINFMapLoad::DeleteDeviceObjects()
 	return S_OK;
 }
 
-void CINFMapLoad::Render()
+void  CINFMapLoad::Render()
 {
-	FLOG( "CINFMapLoad::Render()" );
+	FLOG("CINFMapLoad::Render()");
 
-	// 2007-04-24 by bhsohn 와이드 모니터 관련 처리
-	float fYScale = SCALE;
-	fYScale = GetYScale();
+	// Calculate aspect-preserving scale and offset
+	float fYScale = SCALE_Y; // screenHeight / 768.0f
+	float fAspectScale = fYScale;
+	float fTotalScaledWidth = 1024.0f * fAspectScale;
+	float fOffsetX = (g_pD3dApp->GetBackBufferDesc().Width - fTotalScaledWidth) / 2.0f;
 
-	m_pImgBack->SetScale( SCALE, fYScale );
-	m_pImgBack->Move(0, 0);
-//	m_pImgBack->Move( START_X_1, START_Y_1 );
-//	m_pImgBack[1]->SetScale( SCALE, SCALE );
-//	m_pImgBack[1]->Move( START_X_2, START_Y_2 );
-//	m_pImgBack[2]->SetScale( SCALE, SCALE );
-//	m_pImgBack[2]->Move( START_X_3, START_Y_3 );
-//	m_pImgBack[3]->SetScale( SCALE, SCALE );
-//	m_pImgBack[3]->Move( START_X_4, START_Y_4 );
+	// Render background image (centered, aspect-corrected)
+	m_pImgBack->SetScale(fAspectScale, fAspectScale);
+	m_pImgBack->Move(fOffsetX, 0);
 	m_pImgBack->Render();
-//	m_pImgBack[1]->Render();
-//	m_pImgBack[2]->Render();
-//	m_pImgBack[3]->Render();
 
-	m_pImgUnderBack->SetScale(SCALE, fYScale);
-	m_pImgUnderBack->Move(0, UNDER_BACK_Y*fYScale);
+	// Render underbar
+	m_pImgUnderBack->SetScale(fAspectScale, fAspectScale);
+	m_pImgUnderBack->Move(fOffsetX, UNDER_BACK_Y * fAspectScale);
 	m_pImgUnderBack->Render();
 
-	m_pImgNowLoading->SetScale( SCALE, fYScale );
-	m_pImgNowLoading->Move( NOWLOADING_START_X*SCALE, NOWLOADING_START_Y*fYScale );
+	// Render other elements with aspect-corrected positioning
+	m_pImgNowLoading->SetScale(fAspectScale, fAspectScale);
+	m_pImgNowLoading->Move(fOffsetX + NOWLOADING_START_X * fAspectScale, NOWLOADING_START_Y * fAspectScale);
 	m_pImgNowLoading->Render();
-	m_pImgCopyRight->SetScale( SCALE, fYScale );
-	m_pImgCopyRight->Move( COPYRIGHT_START_X*SCALE, COPYRIGHT_START_Y*fYScale );
+
+	m_pImgCopyRight->SetScale(fAspectScale, fAspectScale);
+	m_pImgCopyRight->Move(fOffsetX + COPYRIGHT_START_X * fAspectScale, COPYRIGHT_START_Y * fAspectScale);
 	m_pImgCopyRight->Render();
-	m_pImgSpaceCowboy->SetScale( SCALE, fYScale );
-	m_pImgSpaceCowboy->Move( SPACECOWBOY_START_X*SCALE, SPACECOWBOY_START_Y*fYScale );
+
+	m_pImgSpaceCowboy->SetScale(fAspectScale, fAspectScale);
+	m_pImgSpaceCowboy->Move(fOffsetX + SPACECOWBOY_START_X * fAspectScale, SPACECOWBOY_START_Y * fAspectScale);
 	m_pImgSpaceCowboy->Render();
-	m_pImgBar[0]->SetScale( SCALE*BAR_SIZE_X, fYScale );
-	m_pImgBar[0]->Move( BAR_START_X*SCALE, BAR_START_Y*fYScale );
+
+	// Progress bars (special width handling)
+	m_pImgBar[0]->SetScale(fAspectScale * BAR_SIZE_X, fAspectScale);
+	m_pImgBar[0]->Move(fOffsetX + BAR_START_X * fAspectScale, BAR_START_Y * fAspectScale);
 	m_pImgBar[0]->Render();
-	m_pImgBar[1]->SetScale( SCALE*BAR_SIZE_X*m_fLoadingRate, fYScale );
-	m_pImgBar[1]->Move( BAR_START_X*SCALE, BAR_START_Y*fYScale );
+
+	m_pImgBar[1]->SetScale(fAspectScale * BAR_SIZE_X * m_fLoadingRate, fAspectScale);
+	m_pImgBar[1]->Move(fOffsetX + BAR_START_X * fAspectScale, BAR_START_Y * fAspectScale);
 	m_pImgBar[1]->Render();
+
 }
 
 #define ROTATE_VALUE_LOADROUND_X		32.5f*(float)g_pD3dApp->GetBackBufferDesc().Width/1024.0f

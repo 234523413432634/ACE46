@@ -18,100 +18,22 @@
 #include "MapInitThread.h"
 #include "Interface.h"
 #include "ShuttleChild.h"
-
-// 2007-11-22 by bhsohn 아레나 통합서버
 #include "IMSocketManager.h"
-//#include "IMSocket.h"
-
 #include "INFImage.h"
 #include "dxutil.h"
 #include "AtumDatabase.h"
 #include "INFGameMain.h"
 #include "INFInven.h"
-// 2008-09-22 by bhsohn EP3 캐릭터 창
-//#include "INFCharacterInfo.h"
 #include "INFCharacterInfoExtend.h"
 #include "TutorialSystem.h"
 #include "AtumSound.h"
 #include "D3DHanFont.h"
-
-// 2007-09-12 by bhsohn 2차 암호 시스템 구현
 #include "INFSecuSelectMenu.h"
 #include "INFSelectOption.h"
-#include "INFUnitCreateInfo.h"		// 2011. 10. 10 by jskim UI시스템 변경
-#include "INFImageEx.h"		// 2011. 10. 10 by jskim UI시스템 변경
+#include "INFImageEx.h"
 #include "INFGroupImage.h"
 #include "INFGroupManager.h"
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-#define TUTORIAL_SELECT_SIZE_X	496
-#define TUTORIAL_SELECT_SIZE_Y	119
-#define TUTORIAL_BUTTON_SIZE_X	30
-#define TUTORIAL_BUTTON_SIZE_Y	30
-
-// 2009. 10. 14 by jskim 프리스카 제거 
-#define INFLUENCE_SELECT_SIZE_X	450
-#define INFLUENCE_SELECT_SIZE_Y	130
-
-#define INFLUENCE_BUTTON_SIZE_X	30
-#define INFLUENCE_BUTTON_SIZE_Y	30
-//end 2009. 10. 14 by jskim 프리스카 제거 
-
-// 2007-07-04 by bhsohn 오퍼레이터 추가
-// NPC이미지 위치
-#define SEL_NPC_POS_X	(g_pD3dApp->GetBackBufferDesc().Width-255)
-#define SEL_NPC_POS_Y	(g_pD3dApp->GetBackBufferDesc().Height-481)
-
-// 2007-07-23 by bhsohn 오퍼레이터 추가작업
-#define SEL_NPC_BUBBLE_POS_X	(g_pD3dApp->GetBackBufferDesc().Width-387)
-#define SEL_NPC_BUBBLE_POS_Y	(g_pD3dApp->GetBackBufferDesc().Height-647)
-#define SEL_NPC_BUBBLE_WIDTH	(350)
-#define SEL_NPC_BUBBLE_HEIGHT	(150)
-#define SEL_NPC_BUBBLE_ARROW_X	(112)
-#define	SEL_NPC_STRING_FONT_WIDTH	(SEL_NPC_BUBBLE_WIDTH+20)// 생성되는 폰트 버퍼
-#define	STRING_CAP_ONE_STR_HEIGHT	20	// 한글자의 놀이
-
-// 유닛 스텟배경 
-#define UNIT_STATBK_POS_X		(0)
-#define UNIT_STATBK_POS_Y		(g_pD3dApp->GetBackBufferDesc().Height/2-40)
-
-// 보이는 스텝
-#define UNIT_SHOW_STEP			30
-#define UNIT_INFO_HIDE_TIME		(0.023f)		// (0.7/UNIT_SHOW_STEP)
-
-// NPC보이는 시간
-#define	NPC_ALPHA_TIME			(2.0f)
-#define NPC_ALPHA_DELAY			(0.0f)
-
-// 2007-07-24 by bhsohn 나레이션 mp3추가
-#define	NARRATION_SELECT_NPC		"op_sel_start"
-#define	NARRATION_CREATE_B			"op_sel_b"
-#define	NARRATION_CREATE_M			"op_sel_m"
-#define	NARRATION_CREATE_A			"op_sel_a"
-#define	NARRATION_CREATE_I			"op_sel_i"
-
-// 모선전 테두리
-#define ID_HELP_BALON_TLH				6
-#define ID_HELP_BALON_TLW				8
-#define ID_HELP_BALON_TMH				6
-#define ID_HELP_BALON_TMW				1
-#define ID_HELP_BALON_TRH				6
-#define ID_HELP_BALON_TRW				6
-
-#define ID_HELP_BALON_MLH				1
-#define ID_HELP_BALON_MLW				8
-#define ID_HELP_BALON_MMH				1
-#define ID_HELP_BALON_MMW				1
-#define ID_HELP_BALON_MRH				1
-#define ID_HELP_BALON_MRW				6
-
-#define ID_HELP_BALON_BLH				6
-#define ID_HELP_BALON_BLW				8
-#define ID_HELP_BALON_BMH				6
-#define ID_HELP_BALON_BMW				1
-#define ID_HELP_BALON_BRH				6
-#define ID_HELP_BALON_BRW				6
-#else
 #define TUTORIAL_SELECT_SIZE_X	496
 #define TUTORIAL_SELECT_SIZE_Y	119
 #define TUTORIAL_BUTTON_SIZE_X	62
@@ -179,7 +101,6 @@
 #define ID_HELP_BALON_BMW				1
 #define ID_HELP_BALON_BRH				6
 #define ID_HELP_BALON_BRW				6
-#endif
 
 #if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
 	#define STRING_CULL ::StringCullingUserData_ToBlank
@@ -255,14 +176,7 @@ CINFSelect::CINFSelect(CAtumNode* pParent)
 
 	m_pOpNPCImage = NULL;	
 	int nCnt = 0;
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-// 2011. 10. 10 by jskim UI시스템 변경
-	for(nCnt = 0;nCnt < MAX_UNIT_STAT;nCnt++)
-	{
-		m_pUnitStatImage[nCnt] = NULL;
-	}
-	// end 2011. 10. 10 by jskim UI시스템 변경	 
-#endif
+
 	m_fUnitHideTime = 0.0f;
 	
 	m_nUnitShowStep  = 0;
@@ -340,13 +254,7 @@ CINFSelect::~CINFSelect()
 	SAFE_DELETE(m_pOpNPCImage);	
 	
 	int nCnt = 0;
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-// 2011. 10. 10 by jskim UI시스템 변경
-	for(nCnt = 0;nCnt < MAX_UNIT_STAT;nCnt++)
-	{
-		SAFE_DELETE(m_pUnitStatImage[nCnt]);	 
- 	}	// end 2011. 10. 10 by jskim UI시스템 변경												  
-#endif
+
 	for(nCnt=0; nCnt<SELECT_CHARATER_BALON; nCnt++)
 	{
 		SAFE_DELETE(m_pBalonChat[nCnt]);
@@ -454,18 +362,11 @@ HRESULT CINFSelect::InitDeviceObjects()
 	// end 2012-02-28 by mspark, 튜토리얼 시작 시(튜토리얼을 시작하시겠습니까?) 화면에서 배경 어둡게 처리
 
 	// 2009. 10. 14 by jskim 프리스카 제거
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
+
 	pDataHeader = m_pSelectMenu->m_GruopSelectmanager->FindResource("cityS");
 	m_pInfluenceSelectImage = m_pSelectMenu->m_GruopSelectmanager->GetGroupImage( pDataHeader );
 	m_pInfluenceSelectImage->InitDeviceObjects( g_pD3dApp->m_pImageList );
-#else
-	pDataHeader = FindResource("inf_sel");
-	if(pDataHeader)
-	{
-		m_pInfluenceSelectImage = new CINFImageEx;		// 2011. 10. 10 by jskim UI시스템 변경
-		m_pInfluenceSelectImage->InitDeviceObjects( pDataHeader );
-	}
-#endif
+
 	
 	pDataHeader = FindResource("inf_ani3");
 	if(pDataHeader)
@@ -562,26 +463,7 @@ HRESULT CINFSelect::InitDeviceObjects()
 	
 
 	int nCnt = 0;
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-// 2011. 10. 10 by jskim UI시스템 변경
-	char chUnistImg[MAX_UNIT_STAT][30] = 
-	{
-		{"selb"},		// B
-		{"seli"},		// I
-		{"selm"},		// M
-		{"sela"}		// A
-	};
-	for(nCnt = 0;nCnt < MAX_UNIT_STAT;nCnt++)
-	{
-		pDataHeader = FindResource(chUnistImg[nCnt]);
-		if(pDataHeader)
-		{
- 			m_pUnitStatImage[nCnt] = new CINFImageEx;
- 			m_pUnitStatImage[nCnt]->InitDeviceObjects(pDataHeader) ;
- 		}	
- 	}
-// end 2011. 10. 10 by jskim UI시스템 변경	   
-#endif
+
 	// 2007-07-23 by bhsohn 오퍼레이터 추가작업
 	{
 		DataHeader	* pDataHeader = NULL;
@@ -671,14 +553,7 @@ HRESULT CINFSelect::RestoreDeviceObjects()
 		// 2007-07-04 by bhsohn 오퍼레이터 추가		
 		m_pOpNPCImage->RestoreDeviceObjects();		
 		int nCnt = 0;
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-// 2011. 10. 10 by jskim UI시스템 변경
-		for(nCnt = 0;nCnt < MAX_UNIT_STAT;nCnt++)
-		{
-			m_pUnitStatImage[nCnt]->RestoreDeviceObjects();
-		}
-// end 2011. 10. 10 by jskim UI시스템 변경 
-#endif
+
 		// 2007-07-23 by bhsohn 오퍼레이터 추가작업
 		for(nCnt=0; nCnt<SELECT_CHARATER_BALON; nCnt++)
 		{
@@ -757,14 +632,6 @@ HRESULT CINFSelect::InvalidateDeviceObjects()
 		// 2007-07-04 by bhsohn 오퍼레이터 추가				
 		m_pOpNPCImage->InvalidateDeviceObjects();		
 		int nCnt = 0;
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-// 2011. 10. 10 by jskim UI시스템 변경
-		for(nCnt = 0;nCnt < MAX_UNIT_STAT;nCnt++)
-		{
-			m_pUnitStatImage[nCnt]->InvalidateDeviceObjects();
-		}
-// end 2011. 10. 10 by jskim UI시스템 변경					   
-#endif
 
 		// 2007-07-23 by bhsohn 오퍼레이터 추가작업
 		for(nCnt=0; nCnt<SELECT_CHARATER_BALON; nCnt++)
@@ -866,15 +733,6 @@ HRESULT CINFSelect::DeleteDeviceObjects()
 	SAFE_DELETE(m_pOpNPCImage);
 
 	int nCnt = 0;
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-// 2011. 10. 10 by jskim UI시스템 변경
-	for(nCnt = 0;nCnt < MAX_UNIT_STAT;nCnt++)
-	{
-		m_pUnitStatImage[nCnt]->DeleteDeviceObjects();
-		SAFE_DELETE(m_pUnitStatImage[nCnt]);		
-	}
-// end 2011. 10. 10 by jskim UI시스템 변경	 
-#endif
 
 	// 2007-07-23 by bhsohn 오퍼레이터 추가작업
 	for(nCnt=0; nCnt<SELECT_CHARATER_BALON; nCnt++)
@@ -974,17 +832,7 @@ void CINFSelect::Render()
 			{
 				return;
 			}
-			// END 2014-06-10 by ymjoo 세력 변경 아이템
 
-			// 2010-06-07 by dgwoo 캐릭터선택창 리소스 변경에 따라 이펙트 버그 수정.
-// 			m_pSelectBack->Render();
-// 			g_pD3dDev->SetRenderState( D3DRS_SPECULARENABLE, TRUE );
-// 			m_pSelectBack->RenderSelectUnit();
-// 			g_pD3dDev->SetRenderState( D3DRS_SPECULARENABLE, FALSE );
-			//end 2010-06-07 by dgwoo 캐릭터선택창 리소스 변경에 따라 이펙트 버그 수정.
-
-			// 2007-07-04 by bhsohn 오퍼레이터 추가
-			// 캐릭터 갯수가 0이다
 			if(GetCharacterNumber() == 0)
 			{
 				RenderNPC(_SELECT);
@@ -1018,10 +866,6 @@ void CINFSelect::Render()
 				m_pInfluenceSelectANI[m_nANIButtonState]->Render();
 				m_pInfluenceSelectBCU[m_nBCUButtonState]->Move(nBCUButtonPos_X,nBCUButtonPos_Y);
 				m_pInfluenceSelectBCU[m_nBCUButtonState]->Render();
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-				m_pCloseBtn->Move(nCloseButtonPos_X,nCloseButtonPos_Y);
-				m_pCloseBtn->Render();
-#endif
 
  				char chMsgBuff[256];
 				ZERO_MEMORY(chMsgBuff);
@@ -1059,21 +903,12 @@ void CINFSelect::Render()
 				// 2005-04-19 by jschoi - Tutorial 
 				const int nTutorialSelectPos_X = g_pD3dApp->GetBackBufferDesc().Width/2 - TUTORIAL_SELECT_SIZE_X/2;
 				const int nTutorialSelectPos_Y = g_pD3dApp->GetBackBufferDesc().Height/3 - TUTORIAL_SELECT_SIZE_Y/2;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM		
+		
 				const int nStartButtonPos_X = nTutorialSelectPos_X + TUTORIAL_SELECT_SIZE_X/2 - TUTORIAL_BUTTON_SIZE_X;
 				const int nStartButtonPos_Y = nTutorialSelectPos_Y + TUTORIAL_SELECT_SIZE_Y;
 				const int nSkipButtonPos_X = nTutorialSelectPos_X + TUTORIAL_SELECT_SIZE_X/2 + 15;
 				const int nSkipButtonPos_Y = nTutorialSelectPos_Y + TUTORIAL_SELECT_SIZE_Y;
-#else
-				const int nStartButtonPos_X = nTutorialSelectPos_X + TUTORIAL_SELECT_SIZE_X*2/5 - TUTORIAL_BUTTON_SIZE_X/2;
-				const int nStartButtonPos_Y = nTutorialSelectPos_Y + TUTORIAL_SELECT_SIZE_Y;
-				const int nSkipButtonPos_X = nTutorialSelectPos_X + TUTORIAL_SELECT_SIZE_X*3/5 - TUTORIAL_BUTTON_SIZE_X/2;
-				const int nSkipButtonPos_Y = nTutorialSelectPos_Y + TUTORIAL_SELECT_SIZE_Y;
-#endif
-//				m_nStartButtonState = 0;
-//				m_nSkipButtonState = 0;
 
-				// 2012-02-28 by mspark, 튜토리얼 시작 시(튜토리얼을 시작하시겠습니까?) 화면에서 배경 어둡게 처리
 				if(m_pImgFadeBG)
 				{
 				m_pImgFadeBG->Move(0,0);
@@ -1104,14 +939,6 @@ void CINFSelect::Render()
 		break;
 	case _CREATE:
 		{
-			// 2010-06-07 by dgwoo 캐릭터선택창 리소스 변경에 따라 이펙트 버그 수정.
-// 			m_pSelectBack->Render();
-// 			g_pD3dDev->SetRenderState( D3DRS_SPECULARENABLE, TRUE );
-// 			m_pSelectBack->RenderCreateUnit();
-// 			g_pD3dDev->SetRenderState( D3DRS_SPECULARENABLE, FALSE );
-			//end 2010-06-07 by dgwoo 캐릭터선택창 리소스 변경에 따라 이펙트 버그 수정.
-
-			// 2007-07-04 by bhsohn 오퍼레이터 추가
 			m_pUnitCreateInfo->Render( m_pSelectBack->GetCurrentSelectIndex() );
 			RenderNPC(_CREATE);			
 			RenderGearStat();
@@ -1130,16 +957,7 @@ void CINFSelect::Render()
 	m_pNormalMouse[m_nMouseState]->Render();
 
 }
-///////////////////////////////////////////////////////////////////////////////
-/// \fn			void CINFSelect::TickGearStat()
-/// \brief		튜토리얼 스킵
-/// \author		// 2007-07-04 by bhsohn 오퍼레이터 추가
-/// \date		2007-07-04 ~ 2007-07-04
-/// \warning	
-///
-/// \param		
-/// \return		
-///////////////////////////////////////////////////////////////////////////////
+
 void CINFSelect::TickGearStat( int nUnitKind )
 {
 	int uUnitKind = UNITKIND_BT01 << (4*nUnitKind) ;
@@ -1235,16 +1053,6 @@ void CINFSelect::TickGearStat( int nUnitKind )
 	}		
 }
 
-///////////////////////////////////////////////////////////////////////////////
-/// \fn			void CINFSelect::PlayCreateNarration(int nShowGear)
-/// \brief		나레이션 플레이 
-/// \author		// 2007-07-24 by bhsohn 나레이션 mp3추가
-/// \date		2007-07-24 ~ 2007-07-24
-/// \warning	
-///
-/// \param		
-/// \return		
-///////////////////////////////////////////////////////////////////////////////
 void CINFSelect::PlayCreateNarration(int nShowGear)
 {
 	char chFileName[64];	
@@ -1321,16 +1129,6 @@ void CINFSelect::InitNPCAlphaColor()
 
 }
 
-///////////////////////////////////////////////////////////////////////////////
-/// \fn			void CINFSelect::RenderGearStat()
-/// \brief		튜토리얼 스킵
-/// \author		// 2007-07-04 by bhsohn 오퍼레이터 추가
-/// \date		2007-07-04 ~ 2007-07-04
-/// \warning	
-///
-/// \param		
-/// \return		
-///////////////////////////////////////////////////////////////////////////////
 void CINFSelect::RenderGearStat()
 {
 	int nSelGear = m_nShowGear;
@@ -1344,41 +1142,9 @@ void CINFSelect::RenderGearStat()
 	{
 		return;
 	}	
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
- 		// 2011. 10. 10 by jskim UI시스템 변경
-	//m_nUnitShowStep
-	POINT ptImageSize = m_pUnitStatImage[nSelGear]->GetImgSize();
-	RECT rcShowRect;
-	rcShowRect.left =  ptImageSize.x - ((ptImageSize.x/UNIT_SHOW_STEP) * m_nUnitShowStep);
-	if(rcShowRect.left < 0)
-	{
-		rcShowRect.left = 0;
-	}
-	rcShowRect.top	= 0;
-	rcShowRect.right	= ptImageSize.x;
-	rcShowRect.bottom	= ptImageSize.y;
-	
-
-	m_pUnitStatImage[nSelGear]->Move(UNIT_STATBK_POS_X, UNIT_STATBK_POS_Y);
-	m_pUnitStatImage[nSelGear]->SetRect(rcShowRect.left, rcShowRect.top, rcShowRect.right, rcShowRect.bottom);
-	m_pUnitStatImage[nSelGear]->Render();
-	// end 2011. 10. 10 by jskim UI시스템 변경
-#endif
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pUnitCreateInfo->SetSelGear(nSelGear);
-#endif
 }
 
-///////////////////////////////////////////////////////////////////////////////
-/// \fn			void CINFSelect::RenderNPC()
-/// \brief		NPC그리기
-/// \author		// 2007-07-04 by bhsohn 오퍼레이터 추가
-/// \date		2007-07-04 ~ 2007-07-04
-/// \warning	
-///
-/// \param		
-/// \return		
-///////////////////////////////////////////////////////////////////////////////
 void CINFSelect::RenderNPC(DWORD dwGameState)
 {	
 	// 2007-07-23 by bhsohn 오퍼레이터 추가작업
@@ -1397,16 +1163,6 @@ void CINFSelect::RenderNPC(DWORD dwGameState)
 	m_pOpNPCImage->Render();
 }
 
-///////////////////////////////////////////////////////////////////////////////
-/// \fn			void CINFSelect::RenderNPC()
-/// \brief		NPC그리기
-/// \author		// 2007-07-04 by bhsohn 오퍼레이터 추가
-/// \date		2007-07-04 ~ 2007-07-04
-/// \warning	
-///
-/// \param		
-/// \return		
-///////////////////////////////////////////////////////////////////////////////
 void CINFSelect::RenderBkBalon(int x, int y, int cx, int cy, int nBubblePosX)
 {	
 	// 상
@@ -1644,21 +1400,13 @@ int CINFSelect::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	//end 2009. 10. 14 by jskim 프리스카 제거
 	if(m_bTutorialMenu)	 
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM		
-		const int nTutorialSelectPos_X = g_pD3dApp->GetBackBufferDesc().Width/2 - TUTORIAL_SELECT_SIZE_X/2;
-		const int nTutorialSelectPos_Y = g_pD3dApp->GetBackBufferDesc().Height/3 - TUTORIAL_SELECT_SIZE_Y/2;
-		const int nStartButtonPos_X = nTutorialSelectPos_X + TUTORIAL_SELECT_SIZE_X/2 - TUTORIAL_BUTTON_SIZE_X;
-		const int nStartButtonPos_Y = nTutorialSelectPos_Y + TUTORIAL_SELECT_SIZE_Y;
-		const int nSkipButtonPos_X = nTutorialSelectPos_X + TUTORIAL_SELECT_SIZE_X/2 + 15;
-		const int nSkipButtonPos_Y = nTutorialSelectPos_Y + TUTORIAL_SELECT_SIZE_Y;
-#else
-		const int nTutorialSelectPos_X = g_pD3dApp->GetBackBufferDesc().Width/2 - TUTORIAL_SELECT_SIZE_X/2;
-		const int nTutorialSelectPos_Y = g_pD3dApp->GetBackBufferDesc().Height/3 - TUTORIAL_SELECT_SIZE_Y/2;
-		const int nStartButtonPos_X = nTutorialSelectPos_X + TUTORIAL_SELECT_SIZE_X*2/5 - TUTORIAL_BUTTON_SIZE_X/2;
-		const int nStartButtonPos_Y = nTutorialSelectPos_Y + TUTORIAL_SELECT_SIZE_Y;
-		const int nSkipButtonPos_X = nTutorialSelectPos_X + TUTORIAL_SELECT_SIZE_X*3/5 - TUTORIAL_BUTTON_SIZE_X/2;
-		const int nSkipButtonPos_Y = nTutorialSelectPos_Y + TUTORIAL_SELECT_SIZE_Y;
-#endif
+	const int nTutorialSelectPos_X = g_pD3dApp->GetBackBufferDesc().Width/2 - TUTORIAL_SELECT_SIZE_X/2;
+	const int nTutorialSelectPos_Y = g_pD3dApp->GetBackBufferDesc().Height/3 - TUTORIAL_SELECT_SIZE_Y/2;
+	const int nStartButtonPos_X = nTutorialSelectPos_X + TUTORIAL_SELECT_SIZE_X/2 - TUTORIAL_BUTTON_SIZE_X;
+	const int nStartButtonPos_Y = nTutorialSelectPos_Y + TUTORIAL_SELECT_SIZE_Y;
+	const int nSkipButtonPos_X = nTutorialSelectPos_X + TUTORIAL_SELECT_SIZE_X/2 + 15;
+	const int nSkipButtonPos_Y = nTutorialSelectPos_Y + TUTORIAL_SELECT_SIZE_Y;
+
 		
 		switch(uMsg)
 		{
@@ -1731,10 +1479,7 @@ int CINFSelect::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				// 2007-11-22 by bhsohn 아레나 통합서버
 				g_pD3dApp->m_pIMSocket->SetChaterInfo(&c);
 				g_pD3dApp->SetMFSMyShuttleInfo(&c);
-				//memcpy(&g_pD3dApp->m_pIMSocket->m_character,&c,sizeof(CHARACTER));
-				
-				// 2009. 10. 14 by jskim 프리스카 제거 - 처음 튜토리얼 종료시 프롤로그 안나오는 현상 처리
-				// 2007-07-25 by bhsohn 유저가 튜토리얼맵에 있어서 마을로 갔을시, 첫번쨰 유저로 간주
+
 				CHARACTER chSelCharater = m_character[GetCurrentSelectIndex()];
 				if((IS_TUTORIAL_MAP_INDEX(chSelCharater.MapChannelIndex.MapIndex))	// 튜토리얼 맵이며
 					&& (1 == chSelCharater.Level)		// 레벨이 1이면 처음 생성된 유저임
@@ -1748,11 +1493,7 @@ int CINFSelect::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				strcpy(((CChatMoveData *)g_pD3dApp->m_pShuttleChild->m_pIDChat->m_pChild)->m_szString,c.CharacterName);
 				g_pInterface->InitMapLoadObjects();
 				g_pInterface->RestoreMapLoadObjects();
-				// 2007-12-26 by bhsohn 게임 시작에 관련 부분 수정
-				// 투토리얼 시작시 IM서버에 로그인 시도
-//				SAFE_DELETE(g_pD3dApp->m_pMapInitThread );
-//				g_pD3dApp->m_pMapInitThread = new CMapInitThread();
-//				g_pD3dApp->m_pMapInitThread->CreateThread();
+
 				g_pD3dApp->ChangeGameState(_MAPLOAD);			
 				{
 					// IM Server  연결시도
@@ -1766,11 +1507,7 @@ int CINFSelect::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if(m_nSkipButtonState == 2)
 			{
 				g_pD3dApp->m_pSound->PlayD3DSound(75, g_pShuttleChild->m_vPos, FALSE);
-//				g_pD3dApp->m_bRequestEnable = FALSE;
-//				m_bTutorialMenu = FALSE;
-//				g_pFieldWinSocket->WriteMessageType(T_FC_CHARACTER_TUTORIAL_SKIP);
-//				g_pTutorial->SetTutorialMode(FALSE);
-//				g_pTutorial->SetTutorialEd(TRUE);					// 2005-10-17 by ispark
+
 				CHARACTER c = m_character[GetCurrentSelectIndex()];
 				memcpy(&g_pD3dApp->m_pShuttleChild->m_myShuttleInfo,&c,sizeof(CHARACTER));
 				
@@ -1899,10 +1636,6 @@ BOOL CINFSelect::SetUnitDetailInfo(CHARACTER info)
 		GEAR_STAT ComputerStat;
 		memset(&ComputerStat,0x00,sizeof(GEAR_STAT));
 		// 2009-04-21 by bhsohn 아이템 DesParam추가
-// 		SetGearStatByComputerItem(ComputerStat,pComputerItem->DestParameter1,pComputerItem->ParameterValue1);
-// 		SetGearStatByComputerItem(ComputerStat,pComputerItem->DestParameter2,pComputerItem->ParameterValue2);
-// 		SetGearStatByComputerItem(ComputerStat,pComputerItem->DestParameter3,pComputerItem->ParameterValue3);
-// 		SetGearStatByComputerItem(ComputerStat,pComputerItem->DestParameter4,pComputerItem->ParameterValue4);
 		int nArrParamCnt = 0;
 		for(nArrParamCnt = 0; nArrParamCnt < SIZE_MAX_DESPARAM_COUNT_IN_ITEM; nArrParamCnt++)
 		{
@@ -2050,31 +1783,7 @@ void CINFSelect::GameStart(USHORT m_nMapIndex)
 	//end 2009. 10. 14 by jskim 프리스카 제거
 		
 	FLOG( "CINFSelect::GameStart()" );
-//	if(m_character[GetCurrentSelectIndex()].CharacterUniqueNumber != 0)
-//	{
-//		CHARACTER c = m_character[GetCurrentSelectIndex()];
-//		memcpy(&g_pD3dApp->m_pShuttleChild->m_myShuttleInfo,&c,sizeof(CHARACTER));
-//		memcpy(&g_pD3dApp->m_pIMSocket->m_character,&c,sizeof(CHARACTER));
-//		strcpy(((CChatMoveData *)g_pD3dApp->m_pShuttleChild->m_pIDChat->m_pChild)->m_szString,c.CharacterName);
-//		// 맵로딩 시작
-////		g_pD3dApp->m_pGUIGame->m_pMapLoad->InitData();
-//		g_pInterface->InitMapLoadObjects();
-//		g_pInterface->RestoreMapLoadObjects();
-//		SAFE_DELETE(g_pD3dApp->m_pMapInitThread );
-//		g_pD3dApp->m_pMapInitThread = new CMapInitThread();
-//		g_pD3dApp->m_pMapInitThread->CreateThread();
-//		g_pD3dApp->ChangeGameState(_MAPLOAD);	
-//	}
-	// 2006-07-06 by ispark, 강제 튜토리얼이 아니면 튜토리얼 선택 나오기
-// 2009. 10. 14 by jskim 프리스카 제거 
-// 	if(IS_TUTORIAL_MAP_INDEX(m_character[GetCurrentSelectIndex()].MapChannelIndex.MapIndex) && 
-// 		(CheckForcedTutorial() == FALSE))
-// 	{
-// 		m_bTutorialMenu = TRUE;
-// 		m_nStartButtonState = 0;
-// 		m_nSkipButtonState = 0;
-// 	}
-	//else if(m_character[GetCurrentSelectIndex()].CharacterUniqueNumber != 0)
+
 	if(m_character[GetCurrentSelectIndex()].CharacterUniqueNumber != 0)
 	//end 2009. 10. 14 by jskim 프리스카 제거 
 	{
@@ -2173,12 +1882,7 @@ void CINFSelect::GameEnd()
 		//char buffer[SIZE_MAX_PACKET];
 		sMsg.AccountUniqueNumber = g_pD3dApp->m_accountUniqueNumber;
 		sMsg.CharacterUniqueNumber = m_guiUnitInfo[GetCurrentSelectIndex()].CharacterUniqueNumber;
-		
-		// 2007-11-22 by bhsohn 아레나 통합서버
-//		int nType = T_FC_CHARACTER_GET_CHARACTER;
-//		memcpy(buffer, &nType, SIZE_FIELD_TYPE_HEADER);
-//		memcpy(buffer+SIZE_FIELD_TYPE_HEADER, &sMsg, sizeof(sMsg));
-//		g_pD3dApp->m_pFieldWinSocket->Write(buffer, SIZE_FIELD_TYPE_HEADER + sizeof(sMsg));
+
 		g_pFieldWinSocket->SendMsg( T_FC_CHARACTER_GET_CHARACTER, (char*)&sMsg, sizeof(sMsg) );		
 
 		g_pD3dApp->m_bRequestEnable = FALSE;
@@ -2240,16 +1944,6 @@ void CINFSelect::SetGearStatByComputerItem(GEAR_STAT& sGearStat, int nDestParam,
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////////
-/// \fn			BOOL CINFSelect::CheckForcedTutorial()
-/// \brief		강제 튜토리얼 체크
-/// \author		ispark
-/// \date		2006-07-06 ~ 2006-07-06
-/// \warning	
-///
-/// \param		
-/// \return		
-///////////////////////////////////////////////////////////////////////////////
 BOOL CINFSelect::CheckForcedTutorial()
 {
 	// 2006-09-28 by ispark, 체크 방식 수정.
@@ -2282,16 +1976,6 @@ BOOL CINFSelect::CheckForcedTutorial()
 	return FALSE;
 }
 
-///////////////////////////////////////////////////////////////////////////////
-/// \fn			void CINFSelect::SendTutorialSkip()
-/// \brief		튜토리얼 스킵
-/// \author		ispark
-/// \date		2006-09-07 ~ 2006-09-07
-/// \warning	
-///
-/// \param		
-/// \return		
-///////////////////////////////////////////////////////////////////////////////
 void CINFSelect::SendTutorialSkip()
 {
 	// 2006-10-13 by ispark, 튜토리얼 스킵시 캐릭터 UID 보내기
@@ -2315,16 +1999,6 @@ void CINFSelect::ResetMessageString()
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////////
-/// \fn			void CINFSelect::SendTutorialSkip()
-/// \brief		
-/// \author		// 2007-09-12 by bhsohn 2차 암호 시스템 구현
-/// \date		2007-09-12 ~ 2007-09-12
-/// \warning	
-///
-/// \param		
-/// \return		
-///////////////////////////////////////////////////////////////////////////////
 void CINFSelect::ShowSecondPassword()
 {
 	if((TRUE == g_pD3dApp->IsUseSecondaryPasswordSystem())
@@ -2346,16 +2020,6 @@ void CINFSelect::ShowSecondPassword()
 	m_pINFSecuSelectMenu->ShowSetPassWnd();
 }
 
-///////////////////////////////////////////////////////////////////////////////
-/// \fn			BOOL CINFSelect::IsShowSecondPassword()
-/// \brief		
-/// \author		// 2007-09-12 by bhsohn 2차 암호 시스템 구현
-/// \date		2007-09-12 ~ 2007-09-12
-/// \warning	
-///
-/// \param		
-/// \return		
-///////////////////////////////////////////////////////////////////////////////
 BOOL CINFSelect::IsShowSecondPassword()
 {
 	if(NULL == m_pINFSecuSelectMenu)
@@ -2365,16 +2029,6 @@ BOOL CINFSelect::IsShowSecondPassword()
 	return m_pINFSecuSelectMenu->IsShowWnd();
 }
 
-///////////////////////////////////////////////////////////////////////////////
-/// \fn			
-/// \brief		
-/// \author		// 2007-09-12 by bhsohn 2차 암호 시스템 구현
-/// \date		2007-09-12 ~ 2007-09-12
-/// \warning	
-///
-/// \param		
-/// \return		
-///////////////////////////////////////////////////////////////////////////////
 void CINFSelect::ShowSecutiryWnd(BOOL bShowWnd)
 {
 	if(NULL == m_pINFSecuSelectMenu)
@@ -2384,31 +2038,11 @@ void CINFSelect::ShowSecutiryWnd(BOOL bShowWnd)
 	m_pINFSecuSelectMenu->ShowSecutiryWnd(bShowWnd);	
 }
 
-///////////////////////////////////////////////////////////////////////////////
-/// \fn			
-/// \brief		
-/// \author		// 2007-09-12 by bhsohn 2차 암호 시스템 구현
-/// \date		2007-09-12 ~ 2007-09-12
-/// \warning	
-///
-/// \param		
-/// \return		
-///////////////////////////////////////////////////////////////////////////////
 char* CINFSelect::GetSelectCharcterName(int nSelectIndex)
 {
 	return m_character[nSelectIndex].CharacterName;
 }
 
-///////////////////////////////////////////////////////////////////////////////
-/// \fn			
-/// \brief		
-/// \author		// 2007-09-12 by bhsohn 2차 암호 시스템 구현
-/// \date		2007-09-12 ~ 2007-09-12
-/// \warning	
-///
-/// \param		
-/// \return		
-///////////////////////////////////////////////////////////////////////////////
 void CINFSelect::AddMsgBox(char* strMsg, int nType)
 {
 	m_pInfWindow->AddMsgBox(strMsg, nType);
