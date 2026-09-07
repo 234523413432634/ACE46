@@ -1,0 +1,31 @@
+﻿  XmlRpcClient.cpp
+D:\46\Server\XmlRpc\src\XmlRpcClient.cpp(247,3): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\46\Server\XmlRpc\src\XmlRpcClient.cpp(252,3): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  XmlRpcDispatch.cpp
+D:\46\Server\XmlRpc\src\XmlRpcDispatch.cpp(197,3): warning C4996: '_ftime64': This function or variable may be unsafe. Consider using _ftime64_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  XmlRpcServer.cpp
+  XmlRpcServerConnection.cpp
+D:\46\Server\XmlRpc\src\XmlRpcServerConnection.cpp(348,3): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  XmlRpcServerMethod.cpp
+  XmlRpcSocket.cpp
+D:\46\Server\XmlRpc\src\XmlRpcSocket.cpp(12,1): warning C4005: "EINPROGRESS": ponowna definicja makra
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt\errno.h(97): message : zobacz poprzednią definicję „EINPROGRESS”
+D:\46\Server\XmlRpc\src\XmlRpcSocket.cpp(13,1): warning C4005: "EWOULDBLOCK": ponowna definicja makra
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt\errno.h(125): message : zobacz poprzednią definicję „EWOULDBLOCK”
+D:\46\Server\XmlRpc\src\XmlRpcSocket.cpp(14,1): warning C4005: "ETIMEDOUT": ponowna definicja makra
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt\errno.h(123): message : zobacz poprzednią definicję „ETIMEDOUT”
+D:\46\Server\XmlRpc\src\XmlRpcSocket.cpp(154,24): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+D:\46\Server\XmlRpc\src\XmlRpcSocket.cpp(256,3): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  XmlRpcSource.cpp
+  XmlRpcUtil.cpp
+D:\46\Server\XmlRpc\src\XmlRpcUtil.cpp(78,5): warning C4996: '_vsnprintf': This function or variable may be unsafe. Consider using _vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\46\Server\XmlRpc\src\XmlRpcUtil.cpp(90,3): warning C4996: '_vsnprintf': This function or variable may be unsafe. Consider using _vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  XmlRpcValue.cpp
+D:\46\Server\XmlRpc\src\XmlRpcValue.cpp(317,5): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\46\Server\XmlRpc\src\XmlRpcValue.cpp(345,5): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\46\Server\XmlRpc\src\XmlRpcValue.cpp(389,9): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\46\Server\XmlRpc\src\XmlRpcValue.cpp(403,5): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\46\Server\XmlRpc\src\XmlRpcValue.cpp(555,11): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  Generowanie kodu...
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(1459,5): warning MSB8012: Wartość TargetPath(D:\46\Server\XmlRpc\.\Release\xmlrpc.lib) jest niezgodna z wartością właściwości OutputFile obiektu Library (D:\46\Server\Lib\xmlrpc.lib). Może to spowodować, że projekt zostanie niepoprawnie skompilowany. Aby rozwiązać ten problem, upewnij się, że wartości właściwości $(OutDir), $(TargetName) i $(TargetExt) są zgodne z wartością określoną we właściwości %(Lib.OutputFile). 
+  xmlrpc.vcxproj -> D:\46\Server\XmlRpc\.\Release\xmlrpc.lib

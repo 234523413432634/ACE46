@@ -1,0 +1,21 @@
+﻿Der Buildvorgang wurde am 27.03.2015 22:29:30 gestartet.
+     1>Projekt "D:\Server Files\ACE\AO4.3_killburne\ProjectsServer\XmlRpc\xmlrpc.vcxproj" auf Knoten "2", Build Ziel(e).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W1 /WX- /O2 /Oy- /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Template\\" /Fd"Template\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt src\XmlRpcClient.cpp src\XmlRpcDispatch.cpp src\XmlRpcServer.cpp src\XmlRpcServerConnection.cpp src\XmlRpcServerMethod.cpp src\XmlRpcSocket.cpp src\XmlRpcSource.cpp src\XmlRpcUtil.cpp src\XmlRpcValue.cpp
+         XmlRpcClient.cpp
+         XmlRpcDispatch.cpp
+     1>src\XmlRpcDispatch.cpp(18): fatal error C1083: Datei (Include) kann nicht geöffnet werden: "sys/time.h": No such file or directory
+         XmlRpcServer.cpp
+         XmlRpcServerConnection.cpp
+         XmlRpcServerMethod.cpp
+         XmlRpcSocket.cpp
+     1>src\XmlRpcSocket.cpp(17): fatal error C1083: Datei (Include) kann nicht geöffnet werden: "unistd.h": No such file or directory
+         XmlRpcSource.cpp
+         XmlRpcUtil.cpp
+         XmlRpcValue.cpp
+         Code wird generiert...
+     1>Die Erstellung des Projekts "D:\Server Files\ACE\AO4.3_killburne\ProjectsServer\XmlRpc\xmlrpc.vcxproj" ist abgeschlossen, Build Ziel(e) -- FEHLER.
+
+Fehler beim Buildvorgang.
+
+Verstrichene Zeit 00:00:03.16
