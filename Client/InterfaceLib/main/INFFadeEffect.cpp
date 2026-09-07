@@ -65,10 +65,13 @@ HRESULT CINFFadeEffect::InvalidateDeviceObjects()
 
 void CINFFadeEffect::Render()
 {
+#ifndef _NO_FADE
 	if(m_fAlpha>0.0f || m_bFadeIn == FALSE)
 	{
 		D3DXVECTOR2 v2Scaling(g_pD3dApp->GetBackBufferDesc().Width,g_pD3dApp->GetBackBufferDesc().Height);
 		D3DCOLOR dwColor;
+
+
 		if(m_bFadeIn)
 		{
 			dwColor = (D3DCOLOR)((int)(0xff*m_fAlpha) << 24 | m_dwColor);
@@ -85,6 +88,7 @@ void CINFFadeEffect::Render()
 		//m_pd3dxSprite->Draw(m_pTexture,NULL,&v2Scaling,NULL,NULL,NULL,dwColor);
 		SpriteDrawFix(g_pD3dApp->GetDirectSprite(), m_pTexture, NULL, &v2Scaling, NULL, NULL, NULL, dwColor);		// end 2010-09-29 by jskim, SpriteDevice Lost 되었을 때 구조 변경
 	}
+#endif
 }
 
 void CINFFadeEffect::Tick(float fElapsedTime)

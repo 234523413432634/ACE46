@@ -1,7 +1,7 @@
 // INFCityMission.cpp: implementation of the CINFCityMission class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#ifdef OLD_UNUSED_QUEST_STUFF
 #include "stdafx.h"
 #include "INFCityMission.h"
 #include "AtumApplication.h"
@@ -1181,3 +1181,4 @@ void CINFCityMission::SetQuestDescEndPayMixItemVector(char* strName, vector<ITEM
 		it++;
 	}
 }
+#endif

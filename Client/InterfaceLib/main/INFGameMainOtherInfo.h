@@ -44,6 +44,7 @@ public:
 	void SetHpRate( float fHpRate );
 	void SetOtherInfoString( char* strGuild, char* strName ); // 적 길드, 이름,
 	void SetMonsterInfoString( char* strName );				 // 몬스터의 이름,
+	void SetMonsterHPString(char* strHP);
 	void DrawText( );										// 적이나 몬스터의 길드, 이름
 
 public:
@@ -63,6 +64,7 @@ public:
 //	char m_strOtherGuiid[64];
 	char m_strOtherName[64];
 	char m_strMonsterName[64];
+	char m_strMonsterHP[64];
 
 	float m_fHpRate;						// 적의 Hp Rate
 	int   m_iLockOnTarget;					// 적이나 몬스터를 타켓으로 계속 가지고 있는지

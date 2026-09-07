@@ -37,16 +37,16 @@
 #include "INFCityCashShop.h"	// 2014-02-07 by ymjoo 캡슐형 캐시 아이템 경고 메세지
 		  
 #ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-#define QSLOT_START_X			336 + ( ( g_pD3dApp->GetBackBufferDesc().Width - ( 330 + 335 + 336) ) / 2)		// c_nbar + mnbtnBG + mnQSlot
-#define QSLOT_START_Y			(g_pD3dApp->GetBackBufferDesc().Height - 57)
-#define QSLOT_GAP				(m_pBack->GetImgSize().y + 4)
+#define QSLOT_START_X			g_pD3dApp->GetBackBufferDesc().Width/2 - 168*HIDPI_COEFF	// c_nbar + mnbtnBG + mnQSlot
+#define QSLOT_START_Y			(g_pD3dApp->GetBackBufferDesc().Height - 57* HIDPI_COEFF)
+#define QSLOT_GAP				(m_pBack->GetImgSize().y + 4)* HIDPI_COEFF
 
 #define REAL_TAB_NUMBER			3	// 실제 적용되는 탭 개수
 
 // 2007-07-09 by bhsohn 출격과 바자상점 동시 사용시 문제점 처리
 #define	BAZAAR_CLICK_TIME		2.0f
 
-#define QSLOT_BUTTON_UP_START_X			(m_nX + QSLOT_SIZE_X + 7)
+#define QSLOT_BUTTON_UP_START_X			(m_nX + QSLOT_SIZE_X + 7* HIDPI_COEFF)
 #define QSLOT_BUTTON_UP_START_Y			(m_nY + 12)
 #define QSLOT_BUTTON_DOWN_START_X		(m_nX + QSLOT_SIZE_X + 4)
 #define QSLOT_BUTTON_DOWN_START_Y		(m_nY + 23)
@@ -219,11 +219,11 @@ HRESULT CINFGameMainQSlot::InitDeviceObjects()
 
 	for(i=0; i<QSLOT_NUMBER; i++)
 	{
-		m_vecFontLine[i] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),8, D3DFONT_ZENABLE,  TRUE,256,32);
+		m_vecFontLine[i] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),8 * HIDPI_COEFF, D3DFONT_ZENABLE,  TRUE,256 * HIDPI_COEFF,32 * HIDPI_COEFF);
 		m_vecFontLine[i]->InitDeviceObjects(g_pD3dDev);
 	}
 
-	m_pFontTabNum = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),8, D3DFONT_ZENABLE,  TRUE,256,32);
+	m_pFontTabNum = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),8 * HIDPI_COEFF, D3DFONT_ZENABLE,  TRUE,256 * HIDPI_COEFF,32 * HIDPI_COEFF);
 	m_pFontTabNum->InitDeviceObjects(g_pD3dDev);
 
 	
@@ -477,13 +477,15 @@ void CINFGameMainQSlot::Render()
 	{
 		int i; for(i=0; i < QSLOT_TAB_NUMBER; i++ )
 		{
-			m_pBack->Move(m_nX, m_nY +4 - i * (m_pBack->GetImgSize().y + 2 ) );
+			m_pBack->Move(m_nX , m_nY +4 * HIDPI_COEFF - i * (m_pBack->GetImgSize().y + 2) * HIDPI_COEFF);
+			m_pBack->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 			m_pBack->Render();
 		}
 	}
 	else
 	{
-		m_pBack->Move( m_nX, m_nY +4 );
+		m_pBack->Move( m_nX, m_nY +4 * HIDPI_COEFF);
+		m_pBack->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 		m_pBack->Render();
 	}
 
@@ -580,15 +582,16 @@ void CINFGameMainQSlot::Render()
 			{
 				strcpy( buf, m_pQSlotInfo[nNum][i].IconName );	
 				pIconInfo->SetIcon(buf, 
-					m_nX + 8 + (pIconInfo->GetIconSize().x + 3) * i,
-					m_nY +11 - TabNum * (pIconInfo->GetIconSize().y + 14
-					), 1.0f);				
+					m_nX + 8 * HIDPI_COEFF + (pIconInfo->GetIconSize().x + 3) * HIDPI_COEFF * i,
+					m_nY +11 * HIDPI_COEFF - (TabNum * (pIconInfo->GetIconSize().y + 14) * HIDPI_COEFF)
+				, 1.0f * HIDPI_COEFF);
 				pIconInfo->Render();
 
 				if(IS_SKILL_ITEM(m_pQSlotInfo[nNum][i].pItem->Kind) 
 					&& FALSE == RenderDisableSkill(m_pQSlotInfo[nNum][i].pItem->ItemNum))
 				{
 					m_pImgDisSkill->Move(m_nX + 7 + (pIconInfo->GetIconSize().x + 3) * i, m_nY +10 - TabNum * (pIconInfo->GetIconSize().y + 14) );
+					m_pImgDisSkill->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 					m_pImgDisSkill->Render();
 				}
 				
@@ -596,20 +599,20 @@ void CINFGameMainQSlot::Render()
 				// 스킬 재발동 시간 표시
 				if(IS_SKILL_ITEM(m_pQSlotInfo[nNum][i].pItem->Kind))
 				{
-					RenderSkillReAttackTime(m_pQSlotInfo[nNum][i].pItem->ItemNum, i, TabNum, pIconInfo->GetIconSize().x, pIconInfo->GetIconSize().y );
+					RenderSkillReAttackTime(m_pQSlotInfo[nNum][i].pItem->ItemNum, i, TabNum, pIconInfo->GetIconSize().x*HIDPI_COEFF, pIconInfo->GetIconSize().y * HIDPI_COEFF);
 				}
 				else if(ITEMKIND_CARD == m_pQSlotInfo[nNum][i].pItem->Kind
 					&& COMPARE_BIT_FLAG(m_pQSlotInfo[nNum][i].pItem->ItemInfo->ItemAttribute, ITEM_ATTR_TIME_LIMITE)
 					&& 0 < m_pQSlotInfo[nNum][i].pItem->ItemInfo->ReAttacktime)
 				{
-					RenderItemUsableReAttackTime(m_pQSlotInfo[nNum][i].pItem->ItemNum, i, TabNum, pIconInfo->GetIconSize().x, pIconInfo->GetIconSize().y );
+					RenderItemUsableReAttackTime(m_pQSlotInfo[nNum][i].pItem->ItemNum, i, TabNum, pIconInfo->GetIconSize().x * HIDPI_COEFF, pIconInfo->GetIconSize().y * HIDPI_COEFF);
 				}
 				// 2008-11-26 by bhsohn 절대시간 제한 아이템 구현
 				else if(ITEMKIND_CARD == m_pQSlotInfo[nNum][i].pItem->Kind
 					&& COMPARE_BIT_FLAG(m_pQSlotInfo[nNum][i].pItem->ItemInfo->ItemAttribute, ITEM_ATTR_DELETED_TIME_LIMITE_AFTER_USED)
 					&& 0 < m_pQSlotInfo[nNum][i].pItem->ItemInfo->ReAttacktime)
 				{
-					RenderItemUsableReAttackTime(m_pQSlotInfo[nNum][i].pItem->ItemNum, i, TabNum, pIconInfo->GetIconSize().x, pIconInfo->GetIconSize().y );
+					RenderItemUsableReAttackTime(m_pQSlotInfo[nNum][i].pItem->ItemNum, i, TabNum, pIconInfo->GetIconSize().x * HIDPI_COEFF, pIconInfo->GetIconSize().y * HIDPI_COEFF);
 				}
 				// end 2008-11-26 by bhsohn 절대시간 제한 아이템 구현
 				
@@ -650,8 +653,8 @@ void CINFGameMainQSlot::Render()
 				}
 				if( TabNum != 0 )
 				{
-					m_pImgBlind->Move(m_nX + 8 + (pIconInfo->GetIconSize().x + 3) * i, m_nY +11 - TabNum * (pIconInfo->GetIconSize().y + 14) );
-					m_pImgBlind->SetScale( pIconInfo->GetIconSize().x, pIconInfo->GetIconSize().y );
+					m_pImgBlind->Move(m_nX + 8 * HIDPI_COEFF + (pIconInfo->GetIconSize().x + 3) * HIDPI_COEFF * i, m_nY +11 * HIDPI_COEFF - (TabNum * (pIconInfo->GetIconSize().y + 14)) * HIDPI_COEFF);
+					m_pImgBlind->SetScale( pIconInfo->GetIconSize().x * HIDPI_COEFF, pIconInfo->GetIconSize().y*HIDPI_COEFF );
 					m_pImgBlind->Render();
 				}
 				// end 2010. 02. 11 by ckPark 발동류 장착아이템
@@ -673,6 +676,7 @@ void CINFGameMainQSlot::Render()
 								QSLOT_COUNTERBLE_NUMBER,buf, 0L);
 
 	m_pNumber->Move(m_nX - 5, m_nY);
+	m_pNumber->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 	m_pNumber->Render();
 
 	// 2010. 02. 11 by ckPark 발동류 장착아이템
@@ -941,12 +945,12 @@ int CINFGameMainQSlot::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					int nNum = ( m_nCurrentTab + TabNum )%QSLOT_TAB_NUMBER;
 					int i; for(i=0;i< QSLOT_NUMBER;i++)
 					{
-						int nTempX = m_nX + 8 + ( pIconInfo->GetIconSize().x + 3) * i;
-						int nTempY = m_nY + 11 - j * ( pIconInfo->GetIconSize().y + 14 );
+						int nTempX = m_nX + 8 * HIDPI_COEFF + ( pIconInfo->GetIconSize().x + 3) * HIDPI_COEFF * i;
+						int nTempY = m_nY + 11 * HIDPI_COEFF - j * ( pIconInfo->GetIconSize().y + 14 ) * HIDPI_COEFF;
 						if( pt.y > nTempY &&
-							pt.y < nTempY + pIconInfo->GetIconSize().y &&
+							pt.y < nTempY + pIconInfo->GetIconSize().y * HIDPI_COEFF &&
 							pt.x > nTempX &&
-							pt.x < nTempX + pIconInfo->GetIconSize().x)
+							pt.x < nTempX + pIconInfo->GetIconSize().x * HIDPI_COEFF)
 						{
 							SetToolTip( pt.x - 10, pt.y + 13, m_pQSlotInfo[nNum][i].pItem );
 							return INF_MSGPROC_BREAK;
@@ -1054,12 +1058,12 @@ int CINFGameMainQSlot::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						{
 							break;
 						}		
-						int nTempX = m_nX + 8 + ( pIconInfo->GetIconSize().x + 3) * i;
-						int nTempY = m_nY + 11 - j * ( pIconInfo->GetIconSize().y + 14 );
+						int nTempX = m_nX + 8 * HIDPI_COEFF + ( pIconInfo->GetIconSize().x + 3) * HIDPI_COEFF * i;
+						int nTempY = m_nY + 11 * HIDPI_COEFF - j * ( pIconInfo->GetIconSize().y + 14 ) * HIDPI_COEFF;
 						if( pt.y > nTempY &&
-							pt.y < nTempY + pIconInfo->GetIconSize().y &&
+							pt.y < nTempY + pIconInfo->GetIconSize().y * HIDPI_COEFF &&
 							pt.x > nTempX &&
-							pt.x < nTempX + pIconInfo->GetIconSize().x)
+							pt.x < nTempX + pIconInfo->GetIconSize().x * HIDPI_COEFF)
 						{
 							m_pQSlotInfo[nNum][i].pItem = NULL;	
 							return INF_MSGPROC_BREAK;
@@ -1105,12 +1109,12 @@ int CINFGameMainQSlot::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					{
 						break;
 					}
-					int nTempX = m_nX + 8 + ( pIconInfo->GetIconSize().x + 3) * i;
-					int nTempY = m_nY + 11 - j * ( pIconInfo->GetIconSize().y + 14 );
+					int nTempX = m_nX + 8 * HIDPI_COEFF + ( pIconInfo->GetIconSize().x + 3) * HIDPI_COEFF * i;
+					int nTempY = m_nY + 11 * HIDPI_COEFF - j * ( pIconInfo->GetIconSize().y + 14 ) * HIDPI_COEFF;
 					if( pt.y > nTempY &&
-						pt.y < nTempY + pIconInfo->GetIconSize().y &&
+						pt.y < nTempY + pIconInfo->GetIconSize().y * HIDPI_COEFF &&
 						pt.x > nTempX &&
-						pt.x < nTempX + pIconInfo->GetIconSize().x)
+						pt.x < nTempX + pIconInfo->GetIconSize().x * HIDPI_COEFF)
 					{
 						if(NULL != m_pQSlotInfo[nNum][i].pItem &&
 							IS_GENERAL_ITEM(m_pQSlotInfo[nNum][i].pItem->Kind) &&
@@ -1143,9 +1147,9 @@ int CINFGameMainQSlot::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
   					m_nItemType	= QSLOT_ITEMTYPE_NONE;
 					
 					if( pt.y > nTempY &&
-						pt.y < nTempY + pIconInfo->GetIconSize().y &&
+						pt.y < nTempY + pIconInfo->GetIconSize().y * HIDPI_COEFF &&
 						pt.x > nTempX &&
-						pt.x < nTempX + pIconInfo->GetIconSize().x)
+						pt.x < nTempX + pIconInfo->GetIconSize().x * HIDPI_COEFF)
 					{
   						if( m_pQSlotInfo[nNum][i].pItem &&
   							i >= 0 && 
@@ -1251,12 +1255,12 @@ int CINFGameMainQSlot::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					if( pSelectItem && 
 	    			  (m_bLButtonDown || ((CINFGameMain*)m_pParent)->m_stSelectItem.bySelectType != ITEM_QSLOT_POS))
 					{
-						int nTempX = m_nX + 8 + ( pIconInfo->GetIconSize().x + 3) * i;
-						int nTempY = m_nY + 11 - j * ( pIconInfo->GetIconSize().y + 14 );
+						int nTempX = m_nX + 8 * HIDPI_COEFF + ( pIconInfo->GetIconSize().x + 3) * HIDPI_COEFF * i;
+						int nTempY = m_nY + 11 * HIDPI_COEFF - j * ( pIconInfo->GetIconSize().y + 14 ) * HIDPI_COEFF;
 						if( pt.y > nTempY &&
-							pt.y < nTempY + pIconInfo->GetIconSize().y &&
+							pt.y < nTempY + pIconInfo->GetIconSize().y * HIDPI_COEFF &&
 							pt.x > nTempX &&
-							pt.x < nTempX + pIconInfo->GetIconSize().x)
+							pt.x < nTempX + pIconInfo->GetIconSize().x * HIDPI_COEFF)
 						{
 							SetQSlotInfo(nNum, i, pSelectItem);
 							m_nSelectSlotNumber = -1;
@@ -1278,12 +1282,12 @@ int CINFGameMainQSlot::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				{	
 					if( m_nSelectSlotNumber>=0 )
 					{
-						int nTempX = m_nX + 8 + ( pIconInfo->GetIconSize().x + 3) * i;
-						int nTempY = m_nY + 11 - j * ( pIconInfo->GetIconSize().y + 14 );
+						int nTempX = m_nX + 8 * HIDPI_COEFF + ( pIconInfo->GetIconSize().x + 3) * HIDPI_COEFF * i;
+						int nTempY = m_nY + 11 * HIDPI_COEFF - j * ( pIconInfo->GetIconSize().y + 14 ) * HIDPI_COEFF;
 						if( pt.y > nTempY &&
-							pt.y < nTempY + pIconInfo->GetIconSize().y &&
+							pt.y < nTempY + pIconInfo->GetIconSize().y * HIDPI_COEFF &&
 							pt.x > nTempX &&
-							pt.x < nTempX + pIconInfo->GetIconSize().x)
+							pt.x < nTempX + pIconInfo->GetIconSize().x * HIDPI_COEFF)
 						{
 							m_nItemType = QSLOT_ITEMTYPE_NONE;
 							SetQSlotInfo(m_nCurrentTab,m_nSelectSlotNumber,NULL);
@@ -1412,12 +1416,12 @@ int CINFGameMainQSlot::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				int nNum = ( m_nCurrentTab + TabNum )%QSLOT_TAB_NUMBER;
 				int i; for(i=0;i< QSLOT_NUMBER;i++)
 				{
-					int nTempX = m_nX + 8 + ( pIconInfo->GetIconSize().x + 3) * i;
-					int nTempY = m_nY + 11 - 0 * ( pIconInfo->GetIconSize().y + 14 );
+					int nTempX = m_nX + 8 * HIDPI_COEFF + ( pIconInfo->GetIconSize().x + 3) * HIDPI_COEFF * i;
+					int nTempY = m_nY + 11 * HIDPI_COEFF - 0 * ( pIconInfo->GetIconSize().y + 14 ) * HIDPI_COEFF;
 					if( pt.y > nTempY &&
-						pt.y < nTempY + pIconInfo->GetIconSize().y &&
+						pt.y < nTempY + pIconInfo->GetIconSize().y * HIDPI_COEFF &&
 						pt.x > nTempX &&
-						pt.x < nTempX + pIconInfo->GetIconSize().x)
+						pt.x < nTempX + pIconInfo->GetIconSize().x * HIDPI_COEFF)
 					{
 						UseQuickSlot(nNum, i);
 					}

@@ -2,17 +2,14 @@
 #define _STRING_DEFINE_CLIENT_H
 
 // English Define
-#define LANGUAGE_ENGLISH
-#define INNOVA_RELEASE
+#define LANGUAGE_ENGLISH  
+#define WORLD_RELEASE
 
-#define WINDOWTEXT_NAME_CLIENT         "ACEonline_R"
-#define WINDOWTEXT_NAME_VOIP           "ACEVoIPClient_R"
+#define WINDOWTEXT_NAME_CLIENT         "AceEP43"
+#define WINDOWTEXT_NAME_VOIP           "AceEP43VoIPClient_R"
 
 // Default Font Define
-//#define ENGLISH_FONT		"Verdana"
 #define ENGLISH_FONT		"Tahoma"
-#define KOREAN_FONT			"Tahoma"
-#define VIETNAM_FONT		"Arial"
 
 // 2006-08-24 by dgwoo ј­№ц·О ЕлЗХ
 // Command
@@ -77,10 +74,10 @@
 #define STRMSG_C_CARD_0011		"Действует до: %s"
 #define STRMSG_C_CARD_0012		"Премиум аккаунт." //#define STRMSG_C_CARD_0012		"Суперпремиум-аккаунт."
 #define STRMSG_C_CARD_0013		"Член бригады \'%s\' изменил имя персонажа на \'%s\'."
-#define STRMSG_C_CARD_0014	
+#define STRMSG_C_CARD_0014		"Are you sure that you want to switch to %s?(\\rYou will be logged off when changing\\r)"
 #define STRMSG_C_CARD_0015	
-#define STRMSG_C_CARD_0016	
-#define STRMSG_C_CARD_0017	
+#define STRMSG_C_CARD_0016		"Your nation cannot be changed"
+#define STRMSG_C_CARD_0017		"You has been reached Maximus number can be transfer. Contact Staff Team For Help"
 #define STRMSG_C_CARD_0018	
 #define STRMSG_C_CARD_0019		
 
@@ -517,6 +514,7 @@
 #define STRMSG_C_ITEM_0056		"Описание: "
 #define STRMSG_C_ITEM_0057		"Цена в магазине: %d(SPI) / %d за ед."
 #define STRMSG_C_ITEM_0058		"Цена в магазине: %d(SPI)"
+#define STRMSG_CRT_TIME			"Create Time: %d Date" // Ice added Create Time
 #define STRMSG_C_ITEM_0059		"Приобретено %s(%d)."	
 #define STRMSG_C_ITEM_0060		"Приобретено %s."
 #define STRMSG_C_ITEM_0061		"Нельзя приобрести соответствующий предмет."
@@ -537,7 +535,7 @@
 #define STRMSG_C_MENU_0004		"Вы предложили игроку %s вступить в ваше звено"
 #define STRMSG_C_MENU_0005		"Вы предложили игроку %s начать бой 1:1"
 #define STRMSG_C_MENU_0006		"Вы предложили игроку %s начать торговлю"
-#define STRMSG_C_MENU_0007		
+#define STRMSG_C_MENU_0007		"You are already a friend of %s"
 #define STRMSG_C_MENU_0008		
 #define STRMSG_C_MENU_0009		
 #define STRMSG_C_MENU_0010		
@@ -629,7 +627,7 @@
 #define STRMSG_C_PARAM_0004		"[Топливо"
 #define STRMSG_C_PARAM_0005		"[Дух"
 #define STRMSG_C_PARAM_0006		"[Щит"
-#define STRMSG_C_PARAM_0006_1	"[Щит"
+#define STRMSG_C_PARAM_0006_1	"[Shield Capacity"
 #define STRMSG_C_PARAM_0007		"[Ловкость"
 #define STRMSG_C_PARAM_0008		"[Изменение состояния предмета]"
 #define STRMSG_C_PARAM_0009		"[Прочность стрлк. ор."
@@ -1035,7 +1033,7 @@
 #define STRMSG_C_SHOP_0012	"Ур:%d"
 #define STRMSG_C_SHOP_0013	"Недостаточно SPI для покупки умения."
 #define STRMSG_C_SHOP_0014	"Вы все еще можете подвергаться атакам монстров. Вы хотите зайти в магазин?"
-#define STRMSG_C_SHOP_0015	
+#define STRMSG_C_SHOP_0015	"The purchase of the Item faild. Invalid Tab in Cash Shop. Please contact a staff member."
 #define STRMSG_C_SHOP_0016	
 #define STRMSG_C_SHOP_0017	
 #define STRMSG_C_SHOP_0018	
@@ -1151,6 +1149,9 @@
 #define STRMSG_C_TRADE_0017		"Режим отказа от торговли"
 #define STRMSG_C_TRADE_0018		
 #define STRMSG_C_TRADE_0019		
+
+#define STRMSG_C_INACTIVITY_0001	"You have been inactive for over %d minutes."
+#define STRMSG_C_INACTIVITY_0002	"\\rAuto Kick in %d seconds\\r"
 
 // TOOLTIP_MSG
 #define STRMSG_C_TOOLTIP_0001	"Ув. урона"
@@ -1562,6 +1563,7 @@
 #define STRMSG_C_060519_0001	"Приобретено: %s(Умение Ур.%d) "
 #define STRMSG_C_060519_0002	"%s был покрашен"
 #define STRMSG_C_060519_0003	"Предмет уже окрашен в этот цвет"
+#define STRMSG_C_060519_0004	"\\cYour Contour has been restored!\\c"
 
 #define STRMSG_C_060608_0000	"Потеряно соединение с сервером. Игра будет прекращена."
 
@@ -1639,6 +1641,7 @@
 #define STRMSG_C_060810_0101	"Вы получили предмет %s!"
 #define STRMSG_C_060810_0102	"Вы получили %d опыта!"
 #define STRMSG_C_060810_0103	"Вы получили %d SPI!"
+#define STRMSG_C_060810_0104	"You received: %d Donate Point."
  
 #define STRMSG_C_060811_0000	"[ПРОДАЖА] %s"
 #define STRMSG_C_060811_0001	"[ПОКУПКА] %s"
@@ -1687,6 +1690,8 @@
 
 #define STRMSG_C_061017_0000	"Вы не можете добавить в друзья пилота из другой фракции"
 #define STRMSG_C_061017_0001	"Не удалось взлететь"
+#define STRMSG_C_061017_0002	"You cannot take off while trading!"
+#define STRMSG_C_061017_0003	"Please close the Ranking before taking off!"
 
 #define STRMSG_C_061018_0100	"Ваш инвентарь полон"
 #define STRMSG_C_061018_0101	"Скорость передвижения по земле: %d м/с"
@@ -1745,6 +1750,10 @@
 #define STRMSG_C_070206_0204	"Бой происходит в джунглях Тайлент"
 #define STRMSG_C_070206_0205	"Бой происходит на пляже Рейнард"
 
+#define STRMSG_C_070207_0201	"SP War"
+#define STRMSG_C_070207_0202	"In Progress"
+#define STRMSG_C_070207_0203	"%02d : %02d"
+
 #define STRMSG_C_070212_0201	"Вы хотите сдать на хранение все выбранные предметы? [Цена: %s]"
 #define STRMSG_C_070212_0202	"Вы хотите продать все выбранные предметы? [Цена: %s]"
 #define STRMSG_C_070212_0203	"Вы выбрали предмет, который не может быть продан. [%s]"
@@ -1760,6 +1769,7 @@
 #define STRMSG_C_070403_0102	"Режим наблюдателя деактивирован"
 
 #define STRMSG_C_070409_0100 	"Допуск разрешен только тем, кто подал заявку на участие."
+#define STRMSG_C_070409_0101	"Multiple Access from the same Network is restricted\nIf You Playing at Internet Cafe or Have more Than One Player in your House\nPlease contact Staff Team at https://www.facebook.com/SpaceCowBoy.asia."
 
 #define STRMSG_C_070410_0100    "Соединить в [Мастерской] %s"
 
@@ -1943,6 +1953,10 @@
 #define STRMSG_C_070907_0202   "\\rНельзя продать\\r. \\aМожно удалить\\a и \\aпоместить на склад\\a."
 #define STRMSG_C_070907_0203   "\\aМожно продать\\a, \\aудалить\\a и \\aпоместить на склад\\a."
 #define STRMSG_C_070907_0204   "Свойства: %s"
+#define STRMSG_C_070907_0205   "Trade[\\rN\\r] Sell[\\rN\\r] Trash[\\gY\\g] WH[\\rN\\r] Prem. WH[\\rN\\r] Guild WH[\\rN\\r]"
+#define STRMSG_C_070907_0206   "Trade[\\rN\\r] Sell[\\rN\\r] Trash[\\gY\\g] WH[\\gY\\g] Prem. WH[\\rN\\r] Guild WH[\\rN\\r]"
+#define STRMSG_C_070907_0207   "Trade[\\gY\\g] Sell[\\gY\\g] Trash[\\gY\\g] WH[\\gY\\g] Prem. WH[\\gY\\g] Guild WH[\\gY\\g]"
+#define STRMSG_C_070907_0208   "Enchant[\\rN\\r] Trade[\\gY\\g] Sell[\\rN\\r] Trash[\\gY\\g] WH[\\gY\\g] Prem. WH[\\gY\\g] Guild WH[\\gY\\g]"
 
 #define STRMSG_C_070910_0201   "Пожалуйста, введите сумму, которую вы хотите перечислить."
 #define STRMSG_C_070910_0202   "%s"
@@ -2669,7 +2683,8 @@
 #define STRMSG_C_100812_0406 "Опыт: %.2f%%"	
 #define STRMSG_C_100812_0407 "Повышение уровня: %s"	
 
-#define STRMSG_C_100826_0401 "Получено %.2f очков"	
+#define STRMSG_C_100826_0401 "Получено %.2f очков"
+#define STRMSG_C_100826_0402	"Consume for %.2f Donate Point(s)"	
 
 #define STRMSG_C_100831_0001	"Пропущен финальный ролик."
 #define STRMSG_C_100831_0002	"%s пропускает финальный ролик."
@@ -2698,71 +2713,410 @@
 #define STRMSG_C_101228_0401 "Это место для партнера."
 
 #define STRMSG_C_110608_0001	"Можно продать или удалить, \\rНельзя поместить на склад\\r"
+//2011-10-06 by jhahn ЖДЖ®іК јєАеЗь ЅГЅєЕЫ
 #define STRMSG_C_110902_0001	"Evolution Type"
-#define STRMSG_C_110907_0001	"%2.2f experience obtained."
-#define STRMSG_C_110927_0001	"This is the %s. When it is embedded into the Socket, it will be impossible to take out. Will you put it into the socket?"
+#define STRMSG_C_110907_0001	"%2.2f experiences are obtained."
+#define STRMSG_C_110927_0001	"This is the %s. When It is embedded in the Socket, It will be impossible to take it out. Will you put it into the socket?"
 
-#define STRMSG_C_111021_0001	"The Socket of Healing Kits. This Socket is only for Evolution Type Partners. As your Evolution Type Partner's level increases, more types and grades of Healing Kits will be usable. Lv.1 Evolution Type Partner can use C grade Healing Kits. You can turn the function ON or OFF after putting it in the Quick Slot."
-#define STRMSG_C_111021_0002	"The Socket of Buff skills. This Socket is only for Evolution Type Partners. As your Evolution Type Partner's level increases, more buff skills will become available. You can turn the function ON or OFF after putting it in the Quick Slot."
+#define STRMSG_C_111021_0001	"The Socket of Healing Kit Auto Use. The Socket for Only Evolution Type Partner. As Evolution Type Partner's level is going up, Usable kinds and grades of Healing Kit will be diversified. Lv.1 Evolution Type Partner can use C grade Healing Kits. You can ON / OFF the function after put it in the Quick Slot."
+#define STRMSG_C_111021_0002	"The Socket of Buff skills Auto Use. The Socket for Only Evolution Type Partner. As Evolution Type Partner's level is going up, Usable kinds of Buff skills will be diversified. You can ON / OFF the function after put it in the Quick Slot."
  //end 2011-10-06 by jhahn ЖДЖ®іК јєАеЗь ЅГЅєЕЫ
 
 // 2011-10-20 by jhahn	АОГ¦Ж® Б¦ЗС 
-#define STRMSG_C_111020_0001	"\\yItem can not be Enchanted past level 10.\\y"
-#define STRMSG_C_111020_0002	"\\yEnchant can't be processed. Please check the materials.\\y"
+#define STRMSG_C_111020_0001	"\\yIt can't be made over 10 Enchant item.\\y"
+#define STRMSG_C_111020_0002	"\\yEnchant work can't be done, please check the materials.\\y"
 //end 2011-10-20 by jhahn	АОГ¦Ж® Б¦ЗС 
 
 // START 2011-11-03 by shcho, yedang јЛґЩїоБ¦ ±ёЗц
-#define STRMSG_C_111109_0001	"Players under the age of 16 cannot play from 12 a.m. to 6 a.m. by the regulation of the juvenile protection."
+#define STRMSG_C_111109_0001	"Player under 16 canЎЇt play from 12 a.m. to 6 a.m. by regulation on juvenile protection."
 // END 2011-11-03 by shcho, yedang јЛґЩїоБ¦ ±ёЗц
 
 // 2011-11-08 by jhahn EP4 Ж®ё®°Е ЅГЅєЕЫ ?
 
-#define STRMSG_C_111114_0001    "You can not buy this item anymore."
-#define STRMSG_C_111114_0002	"This is not a tradable item."
+#define STRMSG_C_111114_0001    "You can't buy it anymore."
+#define STRMSG_C_111114_0002	"It is not a tradable shop."
 
 #define STRMSG_C_111114_0003	"You can only enter one time."
-#define STRMSG_C_111114_0004	"This is not an acceptable guild."
-#define STRMSG_C_111114_0005	"The number of viewers has reached the limit."
-#define STRMSG_C_111114_0006	"Item is missing."
+#define STRMSG_C_111114_0004	"It is not an admittable guild."
+#define STRMSG_C_111114_0005	"The numbers of audiences reach the limit."
+#define STRMSG_C_111114_0006	"There is no item for admittance."
 //end 2011-02-08 by jhahn EP4 Ж®ё®°Е ЅГЅєЕЫ 
-#define STRMSG_C_111223_0001	"This item is not registered."// 2011-12-23 by EP4 №ц±Ч јцБ¤ - [0004975]
-#define STRMSG_C_111223_0002	"You can not enter due to an active outpost war."// 2011-12-23 by EP4 №ц±Ч јцБ¤ - [0004962]
+#define STRMSG_C_111223_0001	"The item is not registered."// 2011-12-23 by EP4 №ц±Ч јцБ¤ - [0004975]
+#define STRMSG_C_111223_0002	"You canЎЇt go inside because outpost war is not ongoing."// 2011-12-23 by EP4 №ц±Ч јцБ¤ - [0004962]
 
 #define STRMSG_C_111228_0001	"Karin"
 #define STRMSG_C_111228_0002	"Ian"
 
+#define STRMSG_C_111228_0003	"Annie"
+#define STRMSG_C_111228_0004	"Eren"
+#define STRMSG_C_111228_0005	"Annie 2"
+#define STRMSG_C_111228_0006	"Eren 2"
+#define STRMSG_C_111228_0007	"Annie 3"
+#define STRMSG_C_111228_0008	"Eren 3"
+#define STRMSG_C_111228_0009	"Annie 4"
+#define STRMSG_C_111228_0010	"Eren 4"
+#define STRMSG_C_111228_0011	"Annie 5"
+#define STRMSG_C_111228_0012	"Eren 5"
+
 // 2012-01- 09 by jhahn EP4 ЖДЖ®іК °жЗиДЎ №ц±Ч јцБ¤
-#define STRMSG_C_120109_0001	"Partner obtained %2.2f experience points."
+#define STRMSG_C_120109_0001	"Partner obtain %2.2f experience point."
 //end 2011-01-09 by jhahn EP4 ЖДЖ®іК °жЗиДЎ №ц±Ч јцБ¤
 
-#define STRMSG_C_120402_0001	"You are not allowed player to enter the map when the game begins."
+
+#define STRMSG_C_120402_0001	"You are not allowed to enter the map when the game begins."
 #define STRMSG_C_120402_0002	"Your influence is not allowed to enter at this time."
 
-// 2012-04-12 by mspark, АОєҐЕдё® АЪµї Б¤·Д
-#define STRMSG_C_120412_0001	"Inventory automatic justify"
-// end 2012-04-12 by mspark, АОєҐЕдё® АЪµї Б¤·Д
+// 2012-04-12 by mspark, ???? ?? ??
+#define STRMSG_C_120412_0001	"Сортировка"
+// end 2012-04-12 by mspark, ???? ?? ??
 
-// 2012-04-13 by mspark, ѕЖ·№іЄ UI АЫѕч
+// 2012-04-13 by mspark, ??? UI ??
 #define STRMSG_C_120413_0001	"Armageddon"
 #define STRMSG_C_120413_0002	"Ragnarok"
 #define STRMSG_C_120413_0003	"Random"
-// end 2012-04-13 by mspark, ѕЖ·№іЄ UI АЫѕч
+// end 2012-04-13 by mspark, ??? UI ??
 
-// 2012-06-04 by mspark, ѕЖ·№іЄ ±вѕо јєЗв UI АЫѕч
+// 2012-06-04 by mspark, ??? ?? ?? UI ??
 #define STRMSG_C_120604_0001	"Attack type"
 #define STRMSG_C_120604_0002	"Defence type"
 #define STRMSG_C_120604_0003	"Evasion type"
-// end 2012-06-04 by mspark, ѕЖ·№іЄ ±вѕо јєЗв UI АЫѕч
+// end 2012-06-04 by mspark, ??? ?? ?? UI ??
 
-// 2012-07-12 by jhahn, ЖДЖ®іК јТДП ЅєЗЗµе ГЯ°Ў
-#define STRMSG_C_120712_0001	"This socket can be installed on partner to increase the rate of movement in city. The increasing rate of movement is equal to the partnerЎЇs level."
-//end 2012-07-12 by jhahn, ЖДЖ®іК јТДП ЅєЗЗµе ГЯ°Ў
+// 2012-07-12 by jhahn, ??? ?? ??? ??
+#define STRMSG_C_120712_0001	"This socket can be installed on your PET to increase the rate of movement in the city. The increased rate of movement is equal to the PET's level."
+//end 2012-07-12 by jhahn, ??? ?? ??? ??
 
-// 2012-07-02 by hskim, ёрј±Аь °іј± - ёрј±Аь БшЗаЅГ ЅєЕжБо ·зАО БшАФ єТ°Ў
-#define STRMSG_C_120702_0001	"No admission admittance during the mother-ship war."
-// end 2012-07-02 by hskim, ёрј±Аь °іј± - ёрј±Аь БшЗаЅГ ЅєЕжБо ·зАО БшАФ єТ°Ў
-// 2012-08-13 by mspark, АОєҐЕдё® АЪµї Б¤·Д И®АОГў ГЯ°Ў АЫѕч
-#define STRMSG_C_120813_0001	"Are you going to arrange your Inventory items?"
-// end 2012-08-13 by mspark, АОєҐЕдё® АЪµї Б¤·Д И®АОГў ГЯ°Ў АЫѕч
+// 2012-07-02 by hskim, ??? ?? - ??? ??? ??? ?? ?? ??
+#define STRMSG_C_120702_0001	"No admittance during a Mothership War."
+// end 2012-07-02 by hskim, ??? ?? - ??? ??? ??? ?? ?? ??
+// 2012-08-13 by mspark, ???? ?? ?? ??? ?? ??
+#define STRMSG_C_120813_0001	"Отсортировать предметы в инвентаре?"
+// end 2012-08-13 by mspark, ???? ?? ?? ??? ?? ??
+
+// 2012-10-13 by jhjang ???? ??? ???
+#define STRMSG_C_121013_0001	"Бонус к опыту (Звено): %.1f%%"
+#define STRMSG_C_121013_0002	"Бонус к опыту (Бригада): %.1f%%"
+#define STRMSG_C_121013_0003	"Бонус к опыту (Друзья): %.1f%%"
+// end 2012-10-13 by jhjang ???? ??? ???
+
+#define STRMSG_C_121013_0101	"%s (%d day, %d hour, %d min)"
+#define STRMSG_C_121013_0102	"%s (%d hour, %d min)"
+#define STRMSG_C_121013_0103	"%s (%d min)"
+#define STRMSG_C_121013_0104	"%s (less than 1min)"
+
+// 2012-10-30 by mspark, ?? ?? ?? ??? ??
+#define STRMSG_C_121030_0001	"Applying a new contour kit will replace the existing contour kit. Are you sure you want to replace it?"
+// end 2012-10-30 by mspark, ?? ?? ?? ??? ??
+
+#define STRMSG_C_130108_0001	"%s joined the chat room."
+
+#define STRMSG_C_130412_0001 "\\rResurrection item detected. Moving to previous map in r%d seconds.\\w"
+
+#define STRMSG_C_130222_0001 "All"
+#define STRMSG_C_130222_0002 "Final"
+#define STRMSG_C_130222_0003 "Material"
+#define STRMSG_C_130222_0004 "(Total Recipes: %d)"
+#define STRMSG_C_130222_0005 "No recipes found."
+#define STRMSG_C_130222_0006 "There is chance of \\rfailure\\r when combining this recipe item."
+#define STRMSG_C_130222_0007 "A time-limited item has been used."
+
+// 2013-04-19 by ssjung ?? ?? ? ?? ???
+#define STRMSG_C_130419_0001 "\\e+%d\\e"
+#define STRMSG_C_130419_0002 "%s %s"
+#define STRMSG_C_130419_0003 "%s(\\rContour expiration date\\r)"
+#define STRMSG_C_130419_0004 "Contour Function : %s"
+#define STRMSG_C_130419_0005 "\\y[All Stat:+%d]\\y"
+// end 2013-04-19 by ssjung ?? ?? ? ?? ???
+
+// 2013-04-23 by ssjung ?? ??? ??? 2? ??(??) ??? ??
+#define STRMSG_C_130423_0001 "%s \\wis a \\yUnique\\y item. Are you sure you want to throw it away?"
+#define STRMSG_C_130423_0002 "%s \\wis an \\eEnchanted\\e item. Are you sure you want to throw it away?"
+#define STRMSG_C_130423_0003 "%s \\wis a \\mLegend\\m item. Are you sure you want to throw it away?"
+#define STRMSG_C_130423_0004 "%s \\whas a \\gPrefix\\g and/or \\gSuffix\\g. Are you sure you want to throw it away?"
+#define STRMSG_C_130423_0005 "Are you certain you want to throw away %s?"
+
+
+
+// 2013-05-15 by bhsohn ????? ??? ?? ???
+#define STRMSG_C_130520_0001	"[Attack vs. Monster"		
+#define STRMSG_C_130520_0002	"[Accuracy vs. Monster"	
+#define STRMSG_C_130520_0003	"[Pierce vs. Monster"		
+#define STRMSG_C_130520_0004	"[Defense vs. Monster"		
+#define STRMSG_C_130520_0005	"[Evasion vs. Monster"		
+#define STRMSG_C_130520_0006	"[Attack vs. PvP"		
+// END 2013-05-15 by bhsohn ????? ??? ?? ???
+
+// 2013-05-09 by ssjung ?? ?? ???? ?? ??? ??
+#define STRMSG_C_130502_0001	"Contour applied to the armor is about to expire."		   
+		   
+//2013-05-20 by ssjung ??? ?? - ??? ?? ?? ??
+#define STRMSG_C_130516_0001	"Contour Function: \\m%s\\w %s"	
+
+// 2013-05-28 by bhsohn ?? ??? ???
+#define STRMSG_C_130529_0001	"\\yCoatings: %d\\y"
+#define STRMSG_C_130529_0002	"\\gCompleted\\g"
+#define STRMSG_C_130529_0003	"\\y(%d Days, %d Hours, %d Minutes)\\y"
+#define STRMSG_C_130529_0004	"(\\rDuration Expired\\r)"
+#define STRMSG_C_130529_0005	"\\g(Unlimited)\\g"
+#define STRMSG_C_130529_0006	"Currently selected contour: %s"
+// END 2013-05-28 by bhsohn ?? ??? ???
+
+// 2013-06-10 by ssjung ?? ??? ?? ??
+#define STRMSG_C_130610_0101	"%s %d Days, %d Hours, %d Minutes"
+#define STRMSG_C_130610_0102	"%s %d Hours, %d Minutes"
+#define STRMSG_C_130610_0103	"%s %d Minutes"
+#define STRMSG_C_130610_0104	"%s Less than 1 minute"
+#define STRMSG_C_130610_0105	"Duration: %s"
+#define STRMSG_C_130610_0106	"%s\\rDuration Expired\\r"
+#define STRMSG_C_130610_0107	"Coating Count: "
+#define STRMSG_C_130617_0001	"[Increased Std. Wpn. Attack vs. Monster:+%d]"
+#define STRMSG_C_130617_0002	"[Increased Adv. Wpn. Attack vs. Monster:+%d]"
+// end 2013-06-10 by ssjung ?? ??? ?? ??
+
+// 2013-06-26 by bhsohn ?? ??? ?? ??
+#define STRMSG_C_130626_0101	"%s received! Double-click the contour to add it to your Contour Collection!"
+#define STRMSG_C_130626_0102    "%s has been added to your Contour Collection! \\yCtrl+Click\\y on the armor you want to apply the contour to, and click on the Contour Collection button to open the Contour Collection window."
+// END 2013-06-26 by bhsohn ?? ??? ?? ??  
+
+// 2013-06-26 by ssjung ???? ?? ?? 
+#define STRMSG_C_130613_0001	"\\yCtrl+ЛКМ в инвентаре:\\y"
+#define STRMSG_C_130613_0002	"\\wКонтекстное меню\\w"
+#define STRMSG_C_130613_0003	"\\wКонтекстное меню\\w"
+#define STRMSG_C_130613_0004	"\\yCtrl+ЛКМ в магазине:\\y"
+#define STRMSG_C_130613_0005	"\\wВыбрать несколько предметов\\w"
+// end 2013-06-26 by ssjung ???? ?? ?? 
+
+// 2013-07-09 by bhsohn 70 ?? ??? ???? ???? ??
+#define STRMSG_C_130708_0001	"You must be at least level 70 to send gifts."
+
+// 2013-07-15 by ssjung ??? ??? ??, ?? ?? ?? ??
+#define STRMSG_C_130627_0001	"\\gActive War Reward System\\g: Provides you best war supply items. Regenerates while logged off."
+#define STRMSG_C_130627_0002	"\\rActive War Reward System\\r: Defeat %d players without logging off to receive a special war reward."
+// end 2013-07-15 by ssjung ??? ??? ??, ?? ?? ?? ??
+
+// 2013-08-02 by ssjung ??? ?? ????
+#define STRMSG_C_130801_0001	"[Accuracy vs. PvP"
+#define STRMSG_C_130801_0002	"[Pierce vs. PvP"
+#define STRMSG_C_130801_0003	"[Defense vs. PvP" 
+#define STRMSG_C_130801_0004	"[Evasion vs. PvP"	 
+// end 2013-08-02 by ssjung ??? ?? ????
+
+// 2013-08-13 by ssjung ??? 25??? ? ?? ????? ??
+#define STRMSG_C_130813_0001	"You must be at least level 25 to use the Arena."
+
+// 2013-08-14 by ssjung ??? ?????? SPI, WP ?? ??
+#define STRMSG_C_130814_0001	"\\gSPI\\g is the primary currency used in ACE Online."
+#define STRMSG_C_130814_0002	"\\eWar Points\\e are special currency gained by competing in the Arena and taking part in PvP gameplay."
+// end2013-08-14 by ssjung ??? ?????? SPI, WP ?? ??
+
+// 2013-08-23 by ssjung ??? ???
+#define STRMSG_C_130823_0001	"SP War"
+#define STRMSG_C_130823_0002	"In Progress"
+// end 2013-08-23 by ssjung ??? ???
+
+// 2013-08-22 by bhsohn ???? ??? - happy hour types
+#define STRMSG_C_130822_0001	"Energy recovery increased by %.0f%%"	
+#define STRMSG_C_130822_0002	"Shield recovery increased by %.0f%%"	
+#define STRMSG_C_130822_0003	"SP recovery increased by %.0f%%"	
+#define STRMSG_C_130822_0004	"Weapon enchant probability increased by %.0f%%"	
+#define STRMSG_C_130822_0005	"Armor enchant probability increased by %.0f%%"	
+#define STRMSG_C_130822_0006	"Radar and engine enchant probability increased by %.0f%%"	
+#define STRMSG_C_130822_0007	"SPI shop item price decreased by %.0f%%"	
+#define STRMSG_C_130822_0008	"WP shop item price decreased by %.0f%%"	
+// END 2013-08-22 by bhsohn ???? ??? 
+
+// 2013-08-27 by bhsohn ?? ?? ?? ??? - item to bypass missions
+#define STRMSG_C_130827_0001	"[%s] will be used to complete the current mission.  Proceed?"	
+#define STRMSG_C_130827_0002	"Incorrect item level to complete mission."
+#define STRMSG_C_130827_0003	"Cannot use selected item."
+#define STRMSG_C_130827_0004	"No mission in progress."
+// END 2013-08-27 by bhsohn ?? ?? ?? ???
+
+// 2013-08-28 by ssjung ??? ???(NGC) - NGC strategic point
+#define STRMSG_C_130828_0001	"NGC"
+#define STRMSG_C_130828_0002	"Cannot enter while NGC Strategic Point war is in progress."
+// end 2013-08-28 by ssjung ??? ???(NGC)
+
+// 2013-09-02 by ssjung ?????????
+#define STRMSG_C_130902_0001	"Flight Lockdown engaged by Nation Leader. Cannot leave city."
+#define STRMSG_C_130902_0002	"Input character name to restrict to city:"
+// end 2013-09-02 by ssjung ?????????
+
+// 2013-09-09 by ssjung ??? ?? - ??? ?? ?? ??(????)
+#define STRMSG_C_130909_0001	"Special buff duration: \\m%s\\w %s"	
+	
+// 2013-09-26 by ssjung ?? ???? ?? ??? ??
+#define STRMSG_C_130926_0001	"During enchanting, there is a risk the enchanted item will be destroyed during the process."
+
+// Related to mantis #1257
+#define STRMSG_C_131115_0001 	"Cannot use skills while Silenced."
+// Related to mantis #1257
+// 2013-12-05 by ymjoo ??? ?? ???
+#define STRMSG_C_131205_0001	"Entirety"
+#define STRMSG_C_131205_0002	"Weapon"
+#define STRMSG_C_131205_0003	"Standard Weapon"
+#define STRMSG_C_131205_0004	"Vulcan"
+#define STRMSG_C_131205_0005	"Cannon"
+#define STRMSG_C_131205_0006	"Gatling"
+#define STRMSG_C_131205_0007	"Rifle"
+#define STRMSG_C_131205_0008	"Automatic"
+#define STRMSG_C_131205_0009	"Dualist"
+#define STRMSG_C_131205_0010	"Mess Drive"
+#define STRMSG_C_131205_0011	"Advanced Weapon"
+#define STRMSG_C_131205_0012	"Missile"
+#define STRMSG_C_131205_0013	"Bundle"
+#define STRMSG_C_131205_0014	"Armour"
+#define STRMSG_C_131205_0015	"Veil"
+#define STRMSG_C_131205_0016	"Defender"
+#define STRMSG_C_131205_0017	"Guarder"
+#define STRMSG_C_131205_0018	"Binder"
+#define STRMSG_C_131205_0019	"Radar"
+#define STRMSG_C_131205_0020	"Auxiliary Equipment"
+#define STRMSG_C_131205_0021	"Infinite Accessory"
+#define STRMSG_C_131205_0022	"Time limit Accessory"
+#define STRMSG_C_131205_0023	"Computer"
+#define STRMSG_C_131205_0024	"Engine"
+#define STRMSG_C_131205_0025	"Expendables"
+#define STRMSG_C_131205_0026	"Healing Kit"
+#define STRMSG_C_131205_0027	"Gamble Kit"
+#define STRMSG_C_131205_0028	"Enchant Card"
+#define STRMSG_C_131205_0029	"Normal Card"
+#define STRMSG_C_131205_0030	"Lucky Box"
+#define STRMSG_C_131205_0031	"Etc."
+#define STRMSG_C_131205_0032	"Ore"
+#define STRMSG_C_131205_0033	"You've chosen the wrong item or the item is unavailable. "
+#define STRMSG_C_131205_0034	"+%d %s Would you like to buy? \\n(Price : %s SPI) "
+#define STRMSG_C_131205_0035	"+%d %s Would you like to buy? \\n(Price : %s WP) "
+#define STRMSG_C_131205_0036	"(The number of items : %d)"
+#define STRMSG_C_131205_0037	"It can't be registered due to the blank. "
+#define STRMSG_C_131205_0038	"Would you like to register the item at the trade shop?"
+#define STRMSG_C_131205_0039	"The item is now successfully registered at the trade shop. "
+#define STRMSG_C_131205_0040	"It's expired."
+#define STRMSG_C_131205_0041	"%dday"
+#define STRMSG_C_131205_0042	"%dtime"
+#define STRMSG_C_131205_0043	"%dminute"
+#define STRMSG_C_131205_0044	"Less than a minute"
+#define STRMSG_C_131205_0045	"\\ySold\\y"
+#define STRMSG_C_131205_0046	"\\rExpired\\r"
+#define STRMSG_C_131205_0047	"Would you like to recall the item registered at the trade shop?"
+#define STRMSG_C_131205_0048	"Would like to recall the item which has expired?"
+#define STRMSG_C_131205_0049	"Would you like to withdraw the money of sold item?\\n(Sales Charge : %s %s) "
+#define STRMSG_C_131205_0050	"Please wait a few seconds and try again. "
+#define STRMSG_C_131205_0051	"Selling items are recalled. "
+#define STRMSG_C_131205_0052	"Expired items are recalled. "
+#define STRMSG_C_131205_0053	"Selling price is withdrawn. "
+#define STRMSG_C_131205_0054	"Failed to recall. Please try again. "
+#define STRMSG_C_131205_0055	"Recalled"
+#define STRMSG_C_131205_0056	"Money withdrawn"
+// END 2013-12-05 by ymjoo ??? ?? ???
+
+// 2013-12-05 by ymjoo ??? ?? ???
+#define STRMSG_C_131206_0001	"You bought the item successfully.\\nThe item will be sent to your inventory. "
+
+#define STRMSG_C_131206_0002	"\\y %d of War Point has decreased."
+
+// 2013-11-29 by ssjung ??? ??
+#define STRMSG_C_131217_0001	"You have exceeded the number of items to be registered."
+#define STRMSG_C_131217_0002	"It's sold out."
+#define STRMSG_C_131217_0003	"You can't buy due to insufficient funds."
+#define STRMSG_C_131217_0004	"You can't buy due to the maximum number of items has exceeded."
+#define STRMSG_C_131217_0005	"You can't buy because of insufficient inventory space."
+#define STRMSG_C_131217_0006	"You can't recall due to the maximum number of items has exceeded."
+#define STRMSG_C_131217_0007	"You can't recall because of insufficient inventory space."
+#define STRMSG_C_131217_0008	"Recall fees : SPI(%.1f%%), WP(%.1f%%)"
+#define STRMSG_C_131217_0009	"Please update the list of items at the trade shop."
+// end 2013-11-29 by ssjung ??? ??
+
+// 2014-01-15 by ssjung ?? ??? ??
+#define STRMSG_C_140121_0001	"Auction finished"
+#define STRMSG_C_140121_0002	"Bids"
+#define STRMSG_C_140121_0003	"You're bidding with the highest bidding price. "
+#define STRMSG_C_140121_0004	"Bidding with the highest price"
+#define STRMSG_C_140121_0005	"\\rHigher price being bid\\r"
+#define STRMSG_C_140121_0006	"\\yBid was successful\\y"
+#define STRMSG_C_140121_0007	"Rebidding"
+#define STRMSG_C_140121_0008	"Recall the item"
+#define STRMSG_C_140121_0009	"Result checked"
+#define STRMSG_C_140121_0010	"\\yPrice of successful bid (%s) SPI\\y"
+#define STRMSG_C_140121_0011	"There is no bidding going on right now or no item is registered."
+#define STRMSG_C_140121_0012	"You can't bid due to insufficient funds. "
+#define STRMSG_C_140121_0013	"You can't participate in bidding because there is no time remaining to bid. "
+#define STRMSG_C_140121_0014	"You can't recall due to the term for recall has expired. "
+#define STRMSG_C_140121_0015	"You can't recall the item due to  of insufficient inventory space. "
+#define STRMSG_C_140121_0016	"\\rHigher price of bid was submitted\\r"
+
+// end 2014-01-15 by ssjung ?? ??? ??
+
+// 2014-02-10 by ymjoo ????, ???, ???? ??? ?? ?? ??? ??? ??
+#define STRMSG_C_140210_0001	"Cannot disband brigade or delegate leadership while you are an election candidate."
+#define STRMSG_C_140210_0002	"Nation leaders and Outpost owners cannot disband the brigade or delegate leadership."
+// END 2014-02-10 by ymjoo ????, ???, ???? ??? ?? ?? ??? ??? ??
+// 2014-02-07 by ymjoo ??? ?? ??? ?? ???
+#define STRMSG_C_140210_0003	"Once you open %s, exchange or refund will not be available.\\nWould you still like to open it?"
+// END 2014-02-07 by ymjoo ??? ?? ??? ?? ???
+														  
+// 2014-02-10 by ssjung, ?? ??
+#define STRMSG_C_140218_0001	"AceStrix has closed abnormally."
+#define STRMSG_C_140218_0002	"It will be a great help to solve this error if you send the information of your PC's condition through the 'Send' button below.";
+#define STRMSG_C_140218_0003	"Send"
+#define STRMSG_C_140218_0004	"Close"
+#define STRMSG_C_140218_0005	"Sent" 
+// end 2014-02-10 by ssjung, ?? ??
+
+// 2014-06-10 by ymjoo ?? ?? ???
+#define STRMSG_C_140610_0001	"Your nation will change. Would you really like to use it?"
+#define STRMSG_C_140610_0002	"Users who belong to brigades can't use it."
+#define STRMSG_C_140610_0003	"Users of the losing nation can't use it."
+#define STRMSG_C_140610_0004	"You can't use it because the balance between nations is too one-sided."
+#define STRMSG_C_140610_0005	"You can't use it outside of the city."
+#define STRMSG_C_140610_0006	"You can't change your nation until the nation point is reset."
+#define STRMSG_C_140610_0007	"A gear which doesn't satisfy the usage condition exists in the account."
+#define STRMSG_C_140610_0008	"Not for trading."
+#define STRMSG_C_140610_0009	"Neutral nation can't use it."
+// END 2014-06-10 by ymjoo ?? ?? ???
+
+// 2014-06-12 by ymjoo ?? ??? ????
+#define STRMSG_C_140612_0001	"Auction has started."
+#define STRMSG_C_140612_0002	"Auction has finished."
+#define STRMSG_C_140612_0003	"The information isn't updated. Please press the refresh button."
+// END 2014-06-12 by ymjoo ?? ??? ????
+
+// 2014-06-18 by ymjoo ?? ??? ?? ??
+#define STRMSG_C_140619_0000	"Neutral nation"
+#define STRMSG_C_140619_0001	"Winning Nation"
+#define STRMSG_C_140619_0002	"Losing Nation"
+// END 2014-06-18 by ymjoo ?? ??? ?? ??
+
+// 2014-07-04 by ymjoo ?? ??? ??? ?? ?? (ON/OFF)
+#define STRMSG_C_140704_0000	"OFF"
+#define STRMSG_C_140704_0001	"ON"
+// END 2014-07-04 by ymjoo ?? ??? ??? ?? ?? (ON/OFF)
+
+
+// 2014-07-18 by ymjoo ???? ????? ??
+#define STRMSG_C_140718_0000	"[EXP:+%d%%]"
+#define STRMSG_C_140718_0001	"[Drop rate of item:+%d%%]"
+// END 2014-07-18 by ymjoo ???? ????? ??
+
+// 2014-07-30 by ymjoo ??? ?? ?? ?? ??? ?? ??
+#define STRMSG_C_140730_0000	"Creation of object has been stopped due to problems of resource file while loading. [%s][%d]"
+// END 2014-07-30 by ymjoo ??? ?? ?? ?? ??? ?? ??
+
+// 2015-06-12 Future, Kill Count Bonus System
+#define STRMSG_C_BONUS_KILLCOUT_REWAREDED	"\\rActive War Reward System!\\r \\cEnjoy Your Active War Reward!\\c"
+#define STRMSG_C_CNC_DOING_INFLUENCE_WAR	"During an Influence War, the Cross Nation Chat is disabled!"
+
+#define STRMSG_C_PING_TOOLTIP	"\\cPing:\\c \\g%3.0f\\g \\gms\\g \\rAceStrix\\r"
+
+#define STRMSG_C_NATION_SWITCH_ERR_001		"Registered Leader Candidates cannot change their nation"
+#define STRMSG_C_NATION_SWITCH_ERR_002		"Leaders cannot change their nation"
+#define STRMSG_C_NATION_SWITCH_ERR_003		"This item cannot be used while in a brigade"
+#define STRMSG_C_NATION_SWITCH_ERR_004		"You need at least %d fame to use this item"
+#define STRMSG_C_NATION_SWITCH_ERR_005		"The current server balance doesn't allow Nation Changes"
+#define STRMSG_C_NATION_SWITCH_ERR_006		"You has been reached Maximus number can be transfer. Contact Staff Team For Help"
+
+#define STRMSG_C_WARPING_RESTRICTED_001		"Your ability to warp has been restricted for %d more minute(s)"
+#define STRMSG_C_WARPING_RESTRICTED_002		"Please follow the orders of your leader!"
+#define STRMSG_C_WARPING_RESTRICTED_003		"Cannot call user because his warping ability is restricted"
 
 #endif

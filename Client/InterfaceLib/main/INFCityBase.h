@@ -363,7 +363,7 @@ public:
 	void SetButtonEnableByLevel(int nLevel);
 	void CloseAllMessageBox();
 
-	CINFImageEx* LoadNPCImage(int nNPCIndex);	
+//	CINFImageEx* LoadNPCImage(int nNPCIndex);	//AO 2022 Shop images - unused?
 
 	void RecvRequestRepair(BOOL bSupply = FALSE);
 	void CloseCurrentEnterBuilding(BOOL bUserClose=TRUE); // 2013-03-22 by bhsohn 트리거 상점 닫혔을때 현재 보고 있는 상점 닫고 수정

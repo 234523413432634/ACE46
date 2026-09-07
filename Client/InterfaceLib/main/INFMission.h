@@ -44,9 +44,9 @@ public:
 
 protected:
 	// 인터페이스 이미지 관련 변수
-	CINFPilotFace*	m_pQuestNPCFace;
-	CINFPilotFace*	m_pQuestHelpImage;
-	CINFPilotFace*	m_pQuestHelpTitleImage;
+	//CINFPilotFace*	m_pQuestNPCFace; //AO 2022 Quest images - unused?
+	//CINFPilotFace*	m_pQuestHelpImage;
+	//CINFPilotFace*	m_pQuestHelpTitleImage;
 	CINFImageEx*		m_pTitle;
 	CINFImageEx*		m_pBack;
 	CINFImageEx*		m_pOk[4];

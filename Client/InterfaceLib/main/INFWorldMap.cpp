@@ -301,7 +301,7 @@ HRESULT CINFWorldMap::InitDeviceObjects()
 	}
 	if(NULL == m_pToolTipMapNameFont)
 	{
-		m_pToolTipMapNameFont = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 9, D3DFONT_ZENABLE|D3DFONT_BOLD, FALSE, 512, 32);
+		m_pToolTipMapNameFont = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 9 * HIDPI_COEFF, D3DFONT_ZENABLE|D3DFONT_BOLD, FALSE, 512 * HIDPI_COEFF, 32 * HIDPI_COEFF);
 		m_pToolTipMapNameFont->InitDeviceObjects(g_pD3dDev);
 	}
 	if(NULL == m_pToolTipBaseEnImg)

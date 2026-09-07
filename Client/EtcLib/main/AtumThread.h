@@ -23,6 +23,7 @@ public:
 	virtual DWORD Run();
 
 	BOOL m_bRunning;
+	BOOL m_bThreadMustStop;
 
 protected:
 	HANDLE m_hThread;

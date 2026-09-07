@@ -15,14 +15,14 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 #define IMAGE_SCALE					((float)g_pD3dApp->GetBackBufferDesc().Width/1024.0f)
-#define AI_GAGE_BACK_SIZE_X			154
+//#define AI_GAGE_BACK_SIZE_X			154
 #define IMAGE_CENTER_X				(g_pD3dApp->GetBackBufferDesc().Width/2)
 
-#define AI_GAGE_BACK_START_X		IMAGE_CENTER_X-(AI_GAGE_BACK_SIZE_X*IMAGE_SCALE/2)
-#define AI_GAGE_BACK_START_Y		22
+//#define AI_GAGE_BACK_START_X		IMAGE_CENTER_X-(AI_GAGE_BACK_SIZE_X*IMAGE_SCALE/2)
+//#define AI_GAGE_BACK_START_Y		22
 
-#define AI_GAGE_START_X				(13*IMAGE_SCALE)
-#define AI_GAGE_START_Y				(3*IMAGE_SCALE)
+//#define AI_GAGE_START_X				(13*IMAGE_SCALE)
+//#define AI_GAGE_START_Y				(3*IMAGE_SCALE)
 
 #define AI_GAGE_LEFT_SIZE			(9*IMAGE_SCALE)
 #define AI_GAGE_MIDDLE_SIZE			(109*IMAGE_SCALE)
@@ -31,11 +31,11 @@
 
 
 
-#define AI_GAGE_LEFT_SIZE_X			9
-#define AI_GAGE_MIDDLE_SIZE_X		109
-#define AI_GAGE_RIGHT_SIZE_X		9
+//#define AI_GAGE_LEFT_SIZE_X			9
+//#define AI_GAGE_MIDDLE_SIZE_X		109
+//#define AI_GAGE_RIGHT_SIZE_X		9
 
-#define AI_GAGE_SIZE_Y				9
+//#define AI_GAGE_SIZE_Y				9
 
 
 
@@ -45,11 +45,11 @@
 
 #ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define TARGET_INFO_BACK_START_X	((g_pD3dApp->GetBackBufferDesc().Width)/2)
-#define TARGET_INFO_BACK_START_Y	22
+#define TARGET_INFO_BACK_START_Y	22.5*HIDPI_COEFF+3
 
 #define TARGET_INFO_BAR_SIZE		m_pImgTargetInfoBack->GetImgSize().x
 #define TARGET_INFO_BAR_START_X		((g_pD3dApp->GetBackBufferDesc().Width)/2)
-#define TARGET_INFO_BAR_START_Y		25
+#define TARGET_INFO_BAR_START_Y		22.5*HIDPI_COEFF+3
 
 #else
 #define TARGET_INFO_BACK_START_X	((g_pD3dApp->GetBackBufferDesc().Width - 154)/2)
@@ -84,6 +84,7 @@ CINFGameMainOtherInfo::CINFGameMainOtherInfo(CAtumNode* pParent)
 
 //	memset ( m_strOtherGuiid, 0x00, sizeof(m_strOtherGuiid) );
 	memset ( m_strOtherName, 0x00, sizeof(m_strOtherName) );
+	memset(m_strMonsterHP, 0x00, sizeof(m_strMonsterHP));
 	memset ( m_strMonsterName, 0x00, sizeof(m_strMonsterName) );
 	
 	m_fHpRate			= 0;					// 적의 Hp Rate
@@ -152,12 +153,12 @@ HRESULT CINFGameMainOtherInfo::InitDeviceObjects()
 	
 	// 2008-09-18 by bhsohn 이름이 긴 타켓 이름 짤리는 문제 처리
 	//m_pFontOtherInfo[0] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,128,32);
-	m_pFontOtherInfo[0] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,256,32);
+	m_pFontOtherInfo[0] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9 * HIDPI_COEFF, D3DFONT_ZENABLE, TRUE,256 * HIDPI_COEFF,32 * HIDPI_COEFF);
 	m_pFontOtherInfo[0]->InitDeviceObjects(g_pD3dDev);
 
 	// 2008-09-18 by bhsohn 이름이 긴 타켓 이름 짤리는 문제 처리
 	//m_pFontOtherInfo[1] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,128,32);
-	m_pFontOtherInfo[1] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,256,32);
+	m_pFontOtherInfo[1] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9 * HIDPI_COEFF, D3DFONT_ZENABLE, TRUE,256 * HIDPI_COEFF,32 * HIDPI_COEFF);
 	m_pFontOtherInfo[1]->InitDeviceObjects(g_pD3dDev);
 	
 	// 2004-12-09 by jschoi
@@ -175,8 +176,8 @@ HRESULT CINFGameMainOtherInfo::InitDeviceObjects()
 
 HRESULT CINFGameMainOtherInfo::RestoreDeviceObjects()
 {
-	float fXX;
-	float fYY;
+	//float fXX;
+	//float fYY;
 
 	if(!m_bRestored)
 	{
@@ -214,8 +215,8 @@ HRESULT CINFGameMainOtherInfo::RestoreDeviceObjects()
 */
 //		m_pImgBack->RestoreDeviceObjects();
 
-		fXX = AI_GAGE_BACK_START_X;
-		fYY = AI_GAGE_BACK_START_Y;
+		//fXX = AI_GAGE_BACK_START_X;
+		//fYY = AI_GAGE_BACK_START_Y;
 //		m_pImgBack->Move(fXX, fYY);
 //		m_pImgBack->SetScale(IMAGE_SCALE,IMAGE_SCALE);
 
@@ -435,19 +436,26 @@ void CINFGameMainOtherInfo::SetMonsterInfoString( char* strName )				 // 몬스터�
 	strcpy( m_strMonsterName, strName );
 }
 
+void CINFGameMainOtherInfo::SetMonsterHPString(char* strHP)
+{
+	strcpy(m_strMonsterHP, strHP);
+}
+
 void CINFGameMainOtherInfo::DrawText( ) // 적이나 몬스터의 길드, 이름
 {
 	if( m_iLockOnTarget == AI_LOCK_ON_TARGET_NONE )
 		return;
 	
 	float fX = IMAGE_CENTER_X;
-	float fY = 23;
+	float fY = 6;
 	if( m_iLockOnTarget == AI_LOCK_ON_TARGET_MONSTER )
 	{
 		// 2008-09-18 by bhsohn 타켓 글씨 가운데 정렬 안되는 현상처리
 		//m_pFontOtherInfo[0]->DrawText( fX-(strlen(m_strMonsterName)*3), fY+FONTOTHERINFO_Y, GUI_FONT_COLOR, m_strMonsterName, 0L );
 		SIZE szSize = m_pFontOtherInfo[0]->GetStringSize(m_strMonsterName);
-		m_pFontOtherInfo[0]->DrawText( fX-(szSize.cx/2), fY+FONTOTHERINFO_Y, GUI_FONT_COLOR, m_strMonsterName, 0L );
+		m_pFontOtherInfo[0]->DrawText(fX - (szSize.cx / 2), fY + FONTOTHERINFO_Y, GUI_FONT_COLOR, m_strMonsterName, 0L);
+		szSize = m_pFontOtherInfo[0]->GetStringSize(m_strMonsterHP);
+		m_pFontOtherInfo[0]->DrawText(fX - (szSize.cx / 2), fY + 18*HIDPI_COEFF + FONTOTHERINFO_Y, GUI_FONT_COLOR, m_strMonsterHP, 0L);
 		// end 2008-09-18 by bhsohn 타켓 글씨 가운데 정렬 안되는 현상처리
 		
 	}

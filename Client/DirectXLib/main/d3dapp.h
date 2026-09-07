@@ -188,6 +188,9 @@ protected:
     FLOAT             m_fFPS;              // Instanteous frame rate
     TCHAR             m_strDeviceStats[90];// String to hold D3D device stats
     TCHAR             m_strFrameStats[90]; // String to hold frame stats
+#ifdef _SHOW_LATENCY
+    FLOAT				m_fSendTime;
+#endif
 
     // Overridable variables for the app
     TCHAR*            m_strWindowTitle;    // Title for the app's window

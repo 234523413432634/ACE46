@@ -104,7 +104,7 @@ HRESULT CINFToolTip::InitDeviceObjects()
 	pImage->InitDeviceObjects(pDataHeader ) ;
 	m_mapToolTip[TOOLTIP_IMGTYPE_TELEPORT_DESTROY] = pImage;
 // 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현	
-	m_pToolTipFont = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE,  FALSE,256,32);
+	m_pToolTipFont = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9 * HIDPI_COEFF, D3DFONT_ZENABLE,  FALSE,256 * HIDPI_COEFF,32 * HIDPI_COEFF);
 	m_pToolTipFont->InitDeviceObjects(g_pD3dDev);
 
 	int nCnt = 0;

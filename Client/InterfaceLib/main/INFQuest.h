@@ -1,7 +1,7 @@
 // INFQuest.h: interface for the CINFQuest class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#ifdef OLD_UNUSED_QUEST_STUFF
 #if !defined(AFX_INFQUEST_H__FF9BA565_E7EC_4BE9_BD6C_8F693E2EC69D__INCLUDED_)
 #define AFX_INFQUEST_H__FF9BA565_E7EC_4BE9_BD6C_8F693E2EC69D__INCLUDED_
 
@@ -80,3 +80,4 @@ public:
 };
 
 #endif // !defined(AFX_INFQUEST_H__FF9BA565_E7EC_4BE9_BD6C_8F693E2EC69D__INCLUDED_)
+#endif 

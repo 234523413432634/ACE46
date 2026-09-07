@@ -544,6 +544,7 @@ void CSceneData::Render()
 	g_pD3dDev->SetRenderState( D3DRS_ALPHAREF,  0x08 );
 
 	g_bDetailDrawFrame = TRUE;	// 2005-01-06 by jschoi - 세부 컬링 기능을 사용
+
 	vectorCObjectChildPtr::iterator itObj(m_vectorCulledObjectPtrList.begin());
 	while(itObj != m_vectorCulledObjectPtrList.end())
 	{		
@@ -562,6 +563,23 @@ void CSceneData::Render()
 	g_bDetailDrawFrame = FALSE;	// 2005-01-06 by jschoi - 세부 컬링 기능을 복구(사용 안함)
 	
 
+#ifdef _DRAW_EVENTS
+	if (g_pD3dApp->m_bDrawEvents) //2015-01-29 by st0rmy, Draw events like spawn spots, warp event objects etc
+	{
+		// 2005-04-12 by jschoi - ??? ???? ????
+		// 2005-11-16 by ispark - ???? ????
+		if (COMPARE_RACE(g_pShuttleChild->m_myShuttleInfo.Race, RACE_OPERATION) &&
+			g_pGround->m_pObjectEvent && g_pGround->m_pObjectEvent->m_pChild)
+		{
+			CObjectChild* pObject = (CObjectChild*)g_pGround->m_pObjectEvent->m_pChild;
+			while (pObject)
+			{
+				pObject->Render();
+				pObject = (CObjectChild*)pObject->m_pNext;
+			}
+		}
+}
+#else
 
 #ifdef _DEBUG
 	// 2005-04-12 by jschoi - 이벤트 오브젝트 보여주기
@@ -578,7 +596,7 @@ void CSceneData::Render()
 		}
 	}
 #endif
-	
+#endif
 	// Shadow Render
 	// 2005-01-03 by jschoi
 //	g_pD3dDev->SetTextureStageState( 0, D3DTSS_MINFILTER, D3DTEXF_LINEAR );

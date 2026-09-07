@@ -160,7 +160,7 @@
 #define END_OF_INVEN_X				200
 
 #define SHOP_TEXT_SHOW				2
-#define SHOP_TEXT_SHOW_SIZE_X		140
+#define SHOP_TEXT_SHOW_SIZE_X		147
 
 #define SOURCEINDEXTOITEMNUM(i,j)	(((i/100)*100)+j)
 

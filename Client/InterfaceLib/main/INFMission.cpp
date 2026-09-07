@@ -122,9 +122,9 @@ CINFMission::CINFMission(CAtumNode* pParent)
 	m_pCharacterQuest = NULL;
 	memset( m_strNPCTalk, 0x00, MISSION_LINE_NUMBER*MISSION_LINE_LENGTH);
 
-	m_pQuestNPCFace = NULL;
-	m_pQuestHelpImage = NULL;
-	m_pQuestHelpTitleImage = NULL;
+	//m_pQuestNPCFace = NULL; //AO 2022 Quest images - unused?
+	//m_pQuestHelpImage = NULL;
+	//m_pQuestHelpTitleImage = NULL;
 	m_pNPC = NULL;
 	m_pHelp = NULL;
 	m_pMissionTitle = NULL;
@@ -146,9 +146,9 @@ CINFMission::~CINFMission()
 	{
 		SAFE_DELETE( m_pFontDesc[i]);
 	}
-	SAFE_DELETE(m_pQuestNPCFace);
-	SAFE_DELETE(m_pQuestHelpImage);
-	SAFE_DELETE(m_pQuestHelpTitleImage);
+	//SAFE_DELETE(m_pQuestNPCFace); //AO 2022 Quest images - unused?
+	//SAFE_DELETE(m_pQuestHelpImage);
+	//SAFE_DELETE(m_pQuestHelpTitleImage);
 
 }
 
@@ -379,8 +379,8 @@ void CINFMission::SetQuest( CQuest* pQuest, MEX_QUEST_INFO* pCharacter, DWORD nH
 	}
 	m_bShow = TRUE;
 	m_nLineNumber = nLine+1;
-
-	if(m_pQuestNPCFace && m_pCharacterQuest)
+/*
+	if(m_pQuestNPCFace && m_pCharacterQuest)	//AO 2022 Quest images - unused?
 	{
 		m_pNPC = m_pQuestNPCFace->FindPilotImage(m_pQuestInfo->QuestNPCInfo.NPCIndex);
 	}
@@ -410,6 +410,7 @@ void CINFMission::SetQuest( CQuest* pQuest, MEX_QUEST_INFO* pCharacter, DWORD nH
 	{
 		m_pMissionTitle = NULL;
 	}
+*/
 }
 
 HRESULT CINFMission::InitDeviceObjects()
@@ -450,12 +451,12 @@ HRESULT CINFMission::InitDeviceObjects()
 		m_pFontDesc[i]->InitDeviceObjects(g_pD3dDev);
 	}
 	
-	m_pQuestNPCFace = new CINFPilotFace;
-	m_pQuestNPCFace->InitDeviceObjects("questnpc.tex");
-	m_pQuestHelpImage = new CINFPilotFace;
-	m_pQuestHelpImage->InitDeviceObjects("questhelp.tex");
-	m_pQuestHelpTitleImage = new CINFPilotFace;
-	m_pQuestHelpTitleImage->InitDeviceObjects("questtitle.tex");
+	//m_pQuestNPCFace = new CINFPilotFace;				//AO 2022 Quest images - unused?
+	//m_pQuestNPCFace->InitDeviceObjects("questnpc.tex");
+	//m_pQuestHelpImage = new CINFPilotFace;
+	//m_pQuestHelpImage->InitDeviceObjects("questhelp.tex");
+	//m_pQuestHelpTitleImage = new CINFPilotFace;
+	//m_pQuestHelpTitleImage->InitDeviceObjects("questtitle.tex");
 	
 	m_nX = MISSION_DEFAULT_START_X;
 	m_nY = MISSION_DEFAULT_START_Y;
@@ -485,12 +486,14 @@ HRESULT CINFMission::RestoreDeviceObjects()
 		if(m_pFontDesc[i])
 			m_pFontDesc[i]->RestoreDeviceObjects();
 	}
-	if(m_pQuestNPCFace)
+	/*
+	if(m_pQuestNPCFace) //AO 2022 Quest images - unused?
 		m_pQuestNPCFace->RestoreDeviceObjects();
 	if(m_pQuestHelpImage)
 		m_pQuestHelpImage->RestoreDeviceObjects();
 	if(m_pQuestHelpTitleImage)
 		m_pQuestHelpTitleImage->RestoreDeviceObjects();
+	*/
 	return S_OK;
 }
 
@@ -537,8 +540,9 @@ HRESULT CINFMission::DeleteDeviceObjects()
 			m_pFontDesc[i]->DeleteDeviceObjects();
 			SAFE_DELETE(m_pFontDesc[i]);
 		}
+		/*
 	}
-	if(m_pQuestNPCFace)
+	if(m_pQuestNPCFace) //AO 2022 Quest images - unused?
 	{
 		m_pQuestNPCFace->DeleteDeviceObjects();
 		//SAFE_DELETE(m_pQuestNPCFace);
@@ -552,7 +556,9 @@ HRESULT CINFMission::DeleteDeviceObjects()
 	{
 		m_pQuestHelpTitleImage->DeleteDeviceObjects();
 		//SAFE_DELETE(m_pQuestHelpTitleImage);
+		*/
 	}
+
 	return S_OK;
 }
 
@@ -581,13 +587,14 @@ HRESULT CINFMission::InvalidateDeviceObjects()
 		if(m_pFontDesc[i])
 			m_pFontDesc[i]->InvalidateDeviceObjects();
 	}
-	if(m_pQuestNPCFace)
+/*
+	if(m_pQuestNPCFace)			//AO 2022 Quest images - unused?
 		m_pQuestNPCFace->InvalidateDeviceObjects();
 	if(m_pQuestHelpImage)
 		m_pQuestHelpImage->InvalidateDeviceObjects();
 	if(m_pQuestHelpTitleImage)
 		m_pQuestHelpTitleImage->InvalidateDeviceObjects();
-
+*/
 	return S_OK;
 }
 

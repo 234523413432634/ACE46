@@ -117,11 +117,13 @@
 #include "Profiler.h"												// 2014-06-09 by ymjoo 프로파일러 구현
 #include "MusicMP3Ex.h"												// 2014-11-26 by shchoi 옵션창 열 때 작아진 사운드가 영구지속되는 버그 수정
 
+/* Unused
 #define IMG_UNIT_LOCK_SCALE		((float)g_pD3dApp->GetBackBufferDesc().Width/1024.0f)
 #define IMG_UNIT_LOCK_SIZE_X	118
 #define IMG_UNIT_LOCK_SIZE_Y	36
 #define IMG_UNIT_LOCK_START_X	(g_pD3dApp->GetBackBufferDesc().Width-IMG_UNIT_LOCK_SIZE_X*IMG_UNIT_LOCK_SCALE)/2
 #define IMG_UNIT_LOCK_START_Y	3
+*/
 
 
 #ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
@@ -142,10 +144,10 @@
 
 #define GAME_BUTTON_CHECK_ON					0.5f
 
-#define GAMEMAIN_FONT_LINE_HEIGHT				15							// 한 라인의 높이
-#define GAMEMAIN_FONT_WIDTH_ENGLISH				6							// 영문 글자 WIDTH
+//#define GAMEMAIN_FONT_LINE_HEIGHT				15							// 한 라인의 높이
+//#define GAMEMAIN_FONT_WIDTH_ENGLISH				6							// 영문 글자 WIDTH
 
-#define GAMEMAIN_MISSION_TIME_CHECK				5
+//#define GAMEMAIN_MISSION_TIME_CHECK				5
 // 고도계설정
 #define GAMEMAIN_ALTIMETER_X (g_pD3dApp->GetBackBufferDesc().Width-32)
 #define GAMEMAIN_ALTIMETER_Y 188										// 2007-02-22 by dgwoo 위치 수정.165	// 2012-03-29 by mspark, 미니맵&고도 표시 위치 수정 - 기존 178에서 188로 수정
@@ -212,7 +214,7 @@
 
 // 2006-03-07 by ispark, 언어에 따라 위치 수정
 #if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
-#define FONTTOOLTIP_Y			17
+#define FONTTOOLTIP_Y			17*HIDPI_COEFF
 #else
 #define FONTTOOLTIP_Y			17//15
 #endif
@@ -778,13 +780,13 @@ HRESULT CINFGameMain::InitDeviceObjects()
 	m_pIcon = new CINFIcon() ;
 	m_pIcon->InitDeviceObjects() ;
 
-	m_pFontToolTip = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE,  TRUE,1024,32);		 //2008-12-19 dgwoo 툴팁 사이즈 늘림.
+	m_pFontToolTip = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9* HIDPI_COEFF, D3DFONT_ZENABLE,  TRUE,1024 * HIDPI_COEFF,32 * HIDPI_COEFF);		 //2008-12-19 dgwoo 툴팁 사이즈 늘림.
 	m_pFontToolTip->InitDeviceObjects(g_pD3dDev);
 
-	m_pFontTimeLimit = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE,  TRUE,512,32);
+	m_pFontTimeLimit = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9 * HIDPI_COEFF, D3DFONT_ZENABLE,  TRUE,512 * HIDPI_COEFF,32 * HIDPI_COEFF);
 	m_pFontTimeLimit->InitDeviceObjects(g_pD3dDev);
 	
-	m_pFontDrawMent = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE,  TRUE,512,32);
+	m_pFontDrawMent = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9 * HIDPI_COEFF, D3DFONT_ZENABLE,  TRUE,512 * HIDPI_COEFF,32 * HIDPI_COEFF);
 	m_pFontDrawMent->InitDeviceObjects(g_pD3dDev);
 
 	int nWidth, nHeight;
@@ -1006,10 +1008,12 @@ HRESULT CINFGameMain::InitDeviceObjects()
 	m_pImgStack = new CINFImageEx;
 	m_pImgStack->InitDeviceObjects( pDataHeader );
 
+#ifdef OLD_UNUSED_QUEST_STUFF
 	m_pQuest = new CINFQuest(this);
 	m_pQuest->SetGameData(m_pGameData);
 	m_pQuest->InitDeviceObjects();
-	
+#endif
+
 	m_pInfSkill = new CINFSkill();
 	m_pInfSkill->SetGameData(m_pGameData);
 	m_pInfSkill->InitDeviceObjects();
@@ -1444,8 +1448,10 @@ HRESULT CINFGameMain::RestoreDeviceObjects()
 
 	if(m_pHelpDesk )
 		m_pHelpDesk->RestoreDeviceObjects();
+#ifdef OLD_UNUSED_QUEST_STUFF
 	if(m_pQuest)
 			m_pQuest->RestoreDeviceObjects();
+#endif
 	if(m_pMp3Player)
 		m_pMp3Player->RestoreDeviceObjects();
 	
@@ -1616,8 +1622,10 @@ HRESULT CINFGameMain::DeleteDeviceObjects()
 //	if(m_pShop ) {
 //		m_pShop->DeleteDeviceObjects() ;
 //		SAFE_DELETE(m_pShop ) ; }
+#ifdef OLD_UNUSED_QUEST_STUFF
 	if(m_pQuest )
 		m_pQuest->DeleteDeviceObjects() ;
+#endif
 	SAFE_DELETE(m_pQuest ) ;
 	if(m_pMission ) {
 		m_pMission->DeleteDeviceObjects() ;
@@ -1952,8 +1960,10 @@ HRESULT CINFGameMain::InvalidateDeviceObjects()
 			m_pMiniMap->InvalidateDeviceObjects() ;
 		if(m_pUnitNameInfo )
 			m_pUnitNameInfo->InvalidateDeviceObjects() ;
+#ifdef OLD_UNUSED_QUEST_STUFF
 		if(m_pQuest )
 			m_pQuest->InvalidateDeviceObjects() ;
+#endif
 		if(m_pMp3Player)
 			m_pMp3Player->InvalidateDeviceObjects();
 		
@@ -3406,23 +3416,36 @@ int CINFGameMain::WndProcKeyDown(WPARAM wParam, LPARAM lParam)
 		}
 		break;
 	case VK_F11:
+	{
+		// Show/Hide Admin Info
+		USHORT nRace = g_pShuttleChild->m_myShuttleInfo.Race;
+		/*if(COMPARE_RACE(nRace,RACE_STAFF))		// 2014-08-09 Future, adding Staff on suspicion
 		{
-			// 2006-05-09 by ispark
-			// 운영자만 쓰는 /도우미가져오기 단축키
-			USHORT nRace = g_pShuttleChild->m_myShuttleInfo.Race;
-			if(COMPARE_RACE(nRace,RACE_OPERATION) || COMPARE_RACE(nRace,RACE_GAMEMASTER))
-			{
-				g_pD3dApp->m_pIMSocket->SendChat(T_IC_CHAT_REGION, g_pShuttleChild->m_myShuttleInfo.CharacterName, STRCMD_CS_COMMAND_BRINGCALLGM_1 );
-			}
-		}
-		break;
-		// 2009-02-03 by bhsohn 장착 아이템 비교 툴팁
-	case VK_SHIFT:
+		g_pD3dApp->m_pIMSocket->SendChat(T_IC_CHAT_REGION, g_pShuttleChild->m_myShuttleInfo.CharacterName, STRCMD_CS_COMMAND_BRINGCALLGM_1 );
+		}*/
+		SHORT KeyState = GetAsyncKeyState(VK_SHIFT);
+		if (COMPARE_RACE(nRace, RACE_OPERATION) && (1 << 16) & KeyState)
 		{
-			ShowMyEqItemTooltip();
+#ifdef _NOCLIP
+			g_pD3dApp->m_bNoclip = !g_pD3dApp->m_bNoclip;
+#endif
 		}
-		break;
-		// end 2009-02-03 by bhsohn 장착 아이템 비교 툴팁		
+		//2015-01-29 by st0rmy, Draw Events if Ctrl+F11 pressed
+		else if (COMPARE_RACE(nRace, RACE_OPERATION) && (GetAsyncKeyState(VK_CONTROL) & 0x8000))
+		{
+#ifdef _DRAW_EVENTS
+			g_pD3dApp->m_bDrawEvents = !g_pD3dApp->m_bDrawEvents;
+#endif
+		}
+		else if (COMPARE_RACE(nRace, RACE_OPERATION)) //2014-09-03 st0rmy added wireframe mode for SA
+		{
+#ifdef _WIREFRAME
+			g_pD3dApp->m_bWireframe = !g_pD3dApp->m_bWireframe;
+#endif
+		}
+	}
+	break;
+	// 2009-02-03 by bhsohn 장착 아이템 비교 툴팁	
 	}
 	return INF_MSGPROC_NORMAL;
 	
@@ -9274,8 +9297,8 @@ void CINFGameMain::OnClickServerTime()
 /// \return		
 ///////////////////////////////////////////////////////////////////////////////
 void CINFGameMain::ShowSysMsgWnd(BOOL bShowWnd)
-{
-	if(NULL == m_pINFGameMainSysMsg)
+{/*
+	if(NULL == m_pINFGameMainSysMsg)		//AO 2022 Date and time in top right corner. Mostly covered vith radar and eats a bit of performance
 	{
 		return;
 	}
@@ -9332,7 +9355,7 @@ void CINFGameMain::ShowSysMsgWnd(BOOL bShowWnd)
 
 	}
 	
-	m_pINFGameMainSysMsg->ShowWnd(bShowWnd, &ptPos, nCapWidth);
+	m_pINFGameMainSysMsg->ShowWnd(bShowWnd, &ptPos, nCapWidth);*/
 }
 // 2012-03-16 by jhahn F키로 숨겨도 시계가 보이게 변경
 void CINFGameMain::RenderSysTimer()

@@ -2263,6 +2263,19 @@ public:
 
 	bool				b_CanadaMutex;// 2012-09-17 by jhahn	캐나다 핵쉴드 제거 버전
 
+#ifdef _WIREFRAME
+	BOOL		m_bWireframe; //2014-09-03 St0rmy wireframe
+#endif
+#ifdef _NOCLIP
+	BOOL		m_bNoclip; //2014-09-03 St0rmy NoClip
+#endif
+#ifdef _DRAW_EVENTS
+	BOOL		m_bDrawEvents; //2015-01-29 by St0rmy, Draw Events
+#endif
+#ifdef _SHOW_LATENCY
+	FLOAT		m_fLatency;
+#endif
+
 	BOOL				m_bTradeCenterLock;												// 2013-11-29 by ssjung 거래소 구현
 
 	BOOL				m_bCityShopLock;				// 2014-07-04 by ymjoo 상점 아이템이 여러번 구입되는 현상 수정

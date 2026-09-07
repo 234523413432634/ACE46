@@ -149,11 +149,11 @@ extern char *GET_LANGUAGE_TYPE_STRING(int i_nLangTy);	// 2008-04-25 by cmkwon, �
 // end 2011-12-12 by hskim, GLog 2차
 
 // 2009-12-28 by cmkwon, 마상회사 IP 변경 - 기존(121.134.114.)
-#define MASANG_PREFIX_IP1				"49.254.157."//"115.144.35."//"61.39.170."			// 2014-10-17 by ymjoo 마상 상암 사무실 ip 허용 // 2010-01-18 by cmkwon, 마상 서초 사무실, // 2007-01-03 by cmkwon, MasangSoft 남부터미널로 이전
-#define MASANG_PREFIX_IP2				"222.99.72."			// 2010-01-18 by cmkwon, 마상 분당 사무실, // 2009-03-02 by cmkwon, 내부 테섭에서 캐쉬 포인트 관련 수정(디버그 모드시만 동작) - 2로 수정, // 2007-01-03 by cmkwon, MasangSoft 남부터미널로 이전
+#define MASANG_PREFIX_IP1				"127.0.0."//"115.144.35."//"61.39.170."			// 2014-10-17 by ymjoo 마상 상암 사무실 ip 허용 // 2010-01-18 by cmkwon, 마상 서초 사무실, // 2007-01-03 by cmkwon, MasangSoft 남부터미널로 이전
+#define MASANG_PREFIX_IP2				"127.0.0."			// 2010-01-18 by cmkwon, 마상 분당 사무실, // 2009-03-02 by cmkwon, 내부 테섭에서 캐쉬 포인트 관련 수정(디버그 모드시만 동작) - 2로 수정, // 2007-01-03 by cmkwon, MasangSoft 남부터미널로 이전
 #define IS_MASANG_IP(ip)				(0 == strncmp((ip),MASANG_PREFIX_IP1,strlen(MASANG_PREFIX_IP1)) || 0 == strncmp((ip),MASANG_PREFIX_IP2,strlen(MASANG_PREFIX_IP2)))
 
-#define MASANG_LIVE_PC_IP				"115.144.35.12"			// 2012-06-25 by hskim, 라이브 디버깅 환경 구축 
+#define MASANG_LIVE_PC_IP				"127.0.0.1"			// 2012-06-25 by hskim, 라이브 디버깅 환경 구축 
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -7232,7 +7232,7 @@ typedef vector<TENDER_INFO>								vectorTenderInfo;
 
 // 2015-07-21 by bckim, 만렙 확장 ( 110 >> 115 )
 #if defined(SC_LEVEL_EXPANSION_115_BCKIM_JWLEE)
-#define CHARACTER_LEVEL_110					115	
+#define CHARACTER_LEVEL_110					120	
 #else
 #define CHARACTER_LEVEL_110					110	
 #endif

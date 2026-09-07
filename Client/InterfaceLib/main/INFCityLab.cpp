@@ -337,11 +337,9 @@ HRESULT CINFCityLab::InitDeviceObjects()
 	pDataHeader = FindResource("shlabbk");
 	m_pImgBackLab->InitDeviceObjects(pDataHeader ) ;
 #endif																								  
-
 	m_pImgTitle = new CINFImageEx;
-	pDataHeader = FindResource("lab-titl");
+	pDataHeader = FindResource("lab_ti");
 	m_pImgTitle->InitDeviceObjects(pDataHeader ) ;
-
 #ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
  	m_pImgPrice = new CINFImageEx;
 	pDataHeader = FindResource("shlacost");

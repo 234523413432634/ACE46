@@ -689,6 +689,20 @@ CAtumApplication::CAtumApplication()
 	m_bTestServer = FALSE;				// 캐쉬샵 사용
 #endif
 
+#ifdef _WIREFRAME
+	m_bWireframe = FALSE; //2014-09-03 St0rmy Noclip and Wireframe
+#endif
+#ifdef _NOCLIP
+	m_bNoclip = FALSE;
+#endif
+#ifdef _DRAW_EVENTS
+	m_bDrawEvents = FALSE;
+#endif
+#ifdef _SHOW_LATENCY
+	m_fSendTime = 0.0f;
+	m_fLatency = 0.0f;
+#endif
+
 	// 2005-02-18 by jschoi - Premium Card Info 
 	// 2005-03-18 by jschoi - 수정
 	memset(&m_PremiumCardInfo,0x00,sizeof(MSG_FC_CHARACTER_CASH_PREMIUM_CARD_INFO));
@@ -2411,7 +2425,17 @@ HRESULT CAtumApplication::Render()
 	}
 
 	g_pD3dDev->Clear( 0L, NULL, D3DCLEAR_TARGET|D3DCLEAR_ZBUFFER,m_pScene->m_dwFogColor, 1.0f, 0L );
-
+#ifdef _WIREFRAME
+	//2014-09-03 St0rmy wireframe
+	if (this->m_bWireframe == TRUE)
+	{
+		g_pD3dDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	}
+	else
+	{
+		g_pD3dDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	}
+#endif
 			g_pD3dDev->SetRenderState( D3DRS_SPECULARENABLE, FALSE );
 			g_pD3dDev->SetRenderState( D3DRS_ALPHABLENDENABLE, FALSE );
 			g_pD3dDev->SetRenderState( D3DRS_ALPHATESTENABLE,  FALSE );
@@ -2423,10 +2447,11 @@ HRESULT CAtumApplication::Render()
 			// 2005-01-03 by jschoi
 //			g_pD3dDev->SetTextureStageState( 0, D3DTSS_MINFILTER, D3DTEXF_LINEAR );
 //			g_pD3dDev->SetTextureStageState( 0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR );
-			g_pD3dDev->SetSamplerState(0,D3DSAMP_MINFILTER,D3DTEXF_LINEAR);
-			g_pD3dDev->SetSamplerState(0,D3DSAMP_MAGFILTER,D3DTEXF_LINEAR);
-			g_pD3dDev->SetSamplerState(0,D3DSAMP_MIPFILTER,D3DTEXF_LINEAR);
-
+			g_pD3dDev->SetSamplerState(0,D3DSAMP_MINFILTER, D3DTEXF_ANISOTROPIC); //AO 2022 Enable 16x AF by default
+			g_pD3dDev->SetSamplerState(0,D3DSAMP_MAGFILTER, D3DTEXF_ANISOTROPIC);
+			g_pD3dDev->SetSamplerState(0,D3DSAMP_MIPFILTER, D3DTEXF_ANISOTROPIC);
+			g_pD3dDev->SetSamplerState(0, D3DSAMP_MAXANISOTROPY, 16);
+			g_pD3dDev->SetRenderState(D3DRS_MULTISAMPLEANTIALIAS, TRUE);
 
 			g_pD3dDev->SetTextureStageState( 0, D3DTSS_COLOROP,   D3DTOP_MODULATE );
 
@@ -3162,47 +3187,67 @@ HRESULT CAtumApplication::FrameMove()
 		case _GAME:
 		case _SHOP:
 		{
-			if(m_pShuttleChild && 
-				COMPARE_RACE(m_pShuttleChild->m_myShuttleInfo.Race,RACE_OPERATION|RACE_GAMEMASTER))
+#ifdef _SHOW_LATENCY
+			//Send the request packet also as user
+			if (m_pShuttleChild &&
+				!COMPARE_RACE(m_pShuttleChild->m_myShuttleInfo.Race, RACE_OPERATION | RACE_GAMEMASTER))
 			{
-				if(m_fUserCheckTime >= 0.0f)
+				if (m_fUserCheckTime >= 0.0f)
 				{
 					m_fUserCheckTime -= m_fElapsedTime;
 				}
-// 2012-11-07 by bhsohn 베트남 패킷 처리
+				if (m_fUserCheckTime <= 0.0f)
+				{
+					m_fSendTime = m_fTime;
+					m_pFieldWinSocket->SendMsg(T_FC_ADMIN_GET_SERVER_STAT, NULL, 0);
+					m_fUserCheckTime = 5.0f; //Send every 5 seconds
+				}
+			}
+#endif
+			if (m_pShuttleChild &&
+				COMPARE_RACE(m_pShuttleChild->m_myShuttleInfo.Race, RACE_OPERATION | RACE_GAMEMASTER))
+			{
+				if (m_fUserCheckTime >= 0.0f)
+				{
+					m_fUserCheckTime -= m_fElapsedTime;
+				}
+				// 2012-11-07 by bhsohn ??? ?? ??
 #ifdef C_CLIENT_LIVE_TIME
-				if(m_fServerLiveTime >= 0.0f)
+				if (m_fServerLiveTime >= 0.0f)
 				{
 					m_fServerLiveTime -= m_fElapsedTime;
 				}
 #endif
-// END 2012-11-07 by bhsohn 베트남 패킷 처리
-				if(m_fUserCheckTime <= 0.0f)
+				// END 2012-11-07 by bhsohn ??? ?? ??
+				if (m_fUserCheckTime <= 0.0f)
 				{
+#ifdef _SHOW_LATENCY
+					m_fSendTime = m_fTime;
+#endif
 					m_pFieldWinSocket->SendMsg(T_FC_ADMIN_GET_SERVER_STAT, NULL, 0);
 					m_pIMSocket->SendMsg(T_IC_ADMIN_GET_SERVER_STAT, NULL, 0);
-					
-					m_fUserCheckTime = 15.0f;					
-// 2012-11-07 by bhsohn 베트남 패킷 처리
+
+					m_fUserCheckTime = 5.0f; //changed to 5 seconds
+					// 2012-11-07 by bhsohn ??? ?? ??
 #ifdef C_CLIENT_LIVE_TIME
-					m_fUserCheckTime = CLIENT_LIVE_CHECK_TIME;					
+					m_fUserCheckTime = CLIENT_LIVE_CHECK_TIME;
 #endif
-// END 2012-11-07 by bhsohn 베트남 패킷 처리
+					// END 2012-11-07 by bhsohn ??? ?? ??
 				}
 
-// 2012-11-07 by bhsohn 베트남 패킷 처리
+				// 2012-11-07 by bhsohn ??? ?? ??
 #ifdef C_CLIENT_LIVE_TIME
-				if(m_fServerLiveTime <= 0.0f)
+				if (m_fServerLiveTime <= 0.0f)
 				{
-//					NetworkErrorMsgBox(STRMSG_C_SERVER_0005);
+					//					NetworkErrorMsgBox(STRMSG_C_SERVER_0005);
 					// Lock
-					if(GetEnterLock())
+					if (GetEnterLock())
 					{
 						EnterLock(FALSE);	// FALSE :Lock  TRUE : UnLock
 					}
 				}
 #endif
-// END 2012-11-07 by bhsohn 베트남 패킷 처리
+				// END 2012-11-07 by bhsohn ??? ?? ??
 			}
 			if( m_pShuttleChild &&
 				COMPARE_RACE(m_pShuttleChild->m_myShuttleInfo.Race,RACE_OPERATION|RACE_GAMEMASTER) && 
@@ -3997,7 +4042,7 @@ void CAtumApplication::SetCamPosInit()
 			m_pCamera->Init(m_pShuttleChild->m_vPos,m_pShuttleChild->m_vVel, 3.14f/13.0f, 60.0f);		// 2014-02-06 by ymjoo 카메라가 지나치게 가까워지는 현상 수정
 			//m_pCamera->Init(m_pShuttleChild->m_vPos,m_pShuttleChild->m_vVel, 3.14f/13.0f, 30.0f);//3.14f/13.0f : 유닛과 카메라 높이가 15가 되는 것을 만듬 // 2005.6.13 by dhkwon
 		}
-		m_pCamera->SetProjParams( D3DX_PI/3, fAspect, 1.0f, 100000.0f );		// 60 도
+		m_pCamera->SetProjParams( D3DX_PI/2.5, fAspect, 1.0f, 100000.0f );		//AO 2022 increased fov
 	}
 }
 
@@ -16968,8 +17013,10 @@ VOID CAtumApplication::FieldSocketQuestRequestSuccessResult(MSG_FC_QUEST_REQUEST
 	{
 		DBGOUT("Quest(%d)is Done.\n",pMsg->QuestIndex);
 		// 미션창 색바꾸기
+#ifdef OLD_UNUSED_QUEST_STUFF
 		if(g_pInterface->m_pCityBase->m_pMission->m_nCancerSelect < CITY_MISSION_MAX_NUMBER)
 				g_pInterface->m_pCityBase->m_pMission->m_bProgressMission[g_pInterface->m_pCityBase->m_pMission->m_nCancerSelect] = FALSE;
+#endif 
 		CQuest *pQuest = g_pQuestData->FindQuest( pMsg->QuestIndex );
 		ASSERT_ASSERT(pQuest);
 		if(pQuest->TimeLimitInMinutes != 0)
@@ -17567,99 +17614,95 @@ VOID CAtumApplication::FieldSocketRequestAcceptRequestOk(MSG_FC_REQUEST_ACCEPT_R
 VOID CAtumApplication::FieldSocketRequestRepairOk(MSG_FC_SHOP_REQUEST_REPAIR_OK* pMsg)
 {
 	char message[256];
-	switch(pMsg->DesParam)
+	switch (pMsg->DesParam)
 	{
-	// 2015-05-14 by jwlee STRMSG_C_051108_0002, STRMSG_C_051108_0003, STRMSG_C_051108_0004 수정
-// 2006-03-07 by ispark, 언어에 따라 위치 수정
-// #if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)|| defined(LANGUAGE_RUSSIA)// 2008-04-30 by bhsohn 태국 버전 추가
-// 	// 2005-11-10 by ispark
-// 	// 글로벌에서는 메세지 입력 순서가 다르다.
-// 	case DES_HP:
-// 		wsprintf(message,STRMSG_C_051108_0002, pMsg->Count, "HP", pMsg->RepairCost);
-// 		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(스피)로 [%d][%s] 회복하였습니다."
-// 		break;
-// 	case DES_DP:
-// 		wsprintf(message,STRMSG_C_051108_0002, pMsg->Count, "Shield", pMsg->RepairCost);
-// 		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(스피)로 [%d][%s] 회복하였습니다."
-// 		break;
-// 	case DES_EP:
-// 		wsprintf(message,STRMSG_C_051108_0003, pMsg->Count, "EP", pMsg->RepairCost);
-// 		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(스피)로 [%d][%s] 보급하였습니다."
-// 		break;
-// 	case DES_SP:
-// 		wsprintf(message,STRMSG_C_051108_0002, pMsg->Count, "SP", pMsg->RepairCost);
-// 		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(스피)로 [%d][%s] 회복하였습니다."
-// 		break;
-// 	case DES_BULLET_01:
-// 		wsprintf(message,STRMSG_C_051108_0004, g_pShuttleChild->m_pPrimaryWeapon->GetRealItemInfo()->ItemName, pMsg->Count, pMsg->RepairCost);
-// 		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(스피)로 [%s][%d]발을 보급하였습니다."
-// 		break;
-// 	case DES_BULLET_02:
-// 		wsprintf(message,STRMSG_C_051108_0004, g_pShuttleChild->m_pSecondaryWeapon->GetRealItemInfo()->ItemName, pMsg->Count, pMsg->RepairCost);
-// 		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(스피)로 [%s][%d]발을 보급하였습니다."
-// 		break;
-// #elif defined(LANGUAGE_CHINA)
-// 		case DES_HP:
-// 		wsprintf(message,STRMSG_C_051108_0002, pMsg->RepairCost, pMsg->Count, "HP");
-// 		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(스피)로 [%d][%s] 회복하였습니다."
-// 		break;
-// 	case DES_DP:
-// 		//wsprintf(message,STRMSG_C_051108_0002, pMsg->RepairCost, pMsg->Count, "Shield");
-// 		wsprintf(message,STRMSG_C_051108_0002, pMsg->RepairCost, pMsg->Count, STRMSG_C_070425_0200);
-// 		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(스피)로 [%d][%s] 회복하였습니다."
-// 		break;
-// 	case DES_EP:
-// 		//wsprintf(message,STRMSG_C_051108_0003, pMsg->RepairCost, pMsg->Count, "EP");
-// 		wsprintf(message,STRMSG_C_051108_0003, pMsg->RepairCost, pMsg->Count, STRMSG_C_070425_0201);
-// 		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(스피)로 [%d][%s] 보급하였습니다."
-// 		break;
-// 	case DES_SP:
-// 		wsprintf(message,STRMSG_C_051108_0002, pMsg->RepairCost, pMsg->Count, "SP");
-// 		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(스피)로 [%d][%s] 회복하였습니다."
-// 		break;
-// 	case DES_BULLET_01:
-// 		wsprintf(message,STRMSG_C_051108_0004, pMsg->RepairCost, g_pShuttleChild->m_pPrimaryWeapon->GetRealItemInfo()->ItemName, pMsg->Count);
-// 		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(스피)로 [%s][%d]발을 보급하였습니다."
-// 		break;
-// 	case DES_BULLET_02:
-// 		wsprintf(message,STRMSG_C_051108_0004, pMsg->RepairCost, g_pShuttleChild->m_pSecondaryWeapon->GetRealItemInfo()->ItemName, pMsg->Count);
-// 		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(스피)로 [%s][%d]발을 보급하였습니다."
-// 		break;
-// #else
-	// end 2015-05-14 by jwlee STRMSG_C_051108_0002, STRMSG_C_051108_0003, STRMSG_C_051108_0004 수정
+		// 2006-03-07 by ispark, ??? ?? ?? ??
+#if defined(LANGUAGE_ENGLIS) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)|| defined(LANGUAGE_RUSSIA)// 2008-04-30 by bhsohn ?? ?? ??
+		// 2005-11-10 by ispark
+		// ?????? ??? ?? ??? ???.
 	case DES_HP:
-		wsprintf(message,STRMSG_C_051108_0002, pMsg->RepairCost, pMsg->Count, "HP");
-		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(스피)로 [%d][%s] 회복하였습니다."
+		wsprintf(message, STRMSG_C_051108_0002, pMsg->Count, "HP", pMsg->RepairCost);
+		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(??)? [%d][%s] ???????."
 		break;
 	case DES_DP:
-		//wsprintf(message,STRMSG_C_051108_0002, pMsg->RepairCost, pMsg->Count, "쉴드");
-		wsprintf(message,STRMSG_C_051108_0002, pMsg->RepairCost, pMsg->Count, STRMSG_C_070425_0200);
-		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(스피)로 [%d][%s] 회복하였습니다."
+		wsprintf(message, STRMSG_C_051108_0002, pMsg->Count, "Shield", pMsg->RepairCost);
+		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(??)? [%d][%s] ???????."
+		break;
+	case DES_EP:
+		wsprintf(message, STRMSG_C_051108_0003, pMsg->Count, "EP", pMsg->RepairCost);
+		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(??)? [%d][%s] ???????."
+		break;
+	case DES_SP:
+		wsprintf(message, STRMSG_C_051108_0002, pMsg->Count, "SP", pMsg->RepairCost);
+		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(??)? [%d][%s] ???????."
+		break;
+	case DES_BULLET_01:
+		wsprintf(message, STRMSG_C_051108_0004, g_pShuttleChild->m_pPrimaryWeapon->GetRealItemInfo()->ItemName, pMsg->Count, pMsg->RepairCost);
+		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(??)? [%s][%d]?? ???????."
+		break;
+	case DES_BULLET_02:
+		wsprintf(message, STRMSG_C_051108_0004, g_pShuttleChild->m_pSecondaryWeapon->GetRealItemInfo()->ItemName, pMsg->Count, pMsg->RepairCost);
+		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(??)? [%s][%d]?? ???????."
+		break;
+#elif defined(LANGUAGE_CHINA)
+	case DES_HP:
+		wsprintf(message, STRMSG_C_051108_0002, pMsg->RepairCost, pMsg->Count, "HP");
+		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(??)? [%d][%s] ???????."
+		break;
+	case DES_DP:
+		//wsprintf(message,STRMSG_C_051108_0002, pMsg->RepairCost, pMsg->Count, "Shield");
+		wsprintf(message, STRMSG_C_051108_0002, pMsg->RepairCost, pMsg->Count, STRMSG_C_070425_0200);
+		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(??)? [%d][%s] ???????."
 		break;
 	case DES_EP:
 		//wsprintf(message,STRMSG_C_051108_0003, pMsg->RepairCost, pMsg->Count, "EP");
-		wsprintf(message,STRMSG_C_051108_0003, pMsg->RepairCost, pMsg->Count, STRMSG_C_070425_0201);
-		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(스피)로 [%d][%s] 보급하였습니다."
+		wsprintf(message, STRMSG_C_051108_0003, pMsg->RepairCost, pMsg->Count, STRMSG_C_070425_0201);
+		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(??)? [%d][%s] ???????."
 		break;
 	case DES_SP:
-		wsprintf(message,STRMSG_C_051108_0002, pMsg->RepairCost, pMsg->Count, "SP");
-		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(스피)로 [%d][%s] 회복하였습니다."
+		wsprintf(message, STRMSG_C_051108_0002, pMsg->RepairCost, pMsg->Count, "SP");
+		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(??)? [%d][%s] ???????."
 		break;
 	case DES_BULLET_01:
-		wsprintf(message,STRMSG_C_051108_0004, pMsg->RepairCost, g_pShuttleChild->m_pPrimaryWeapon->GetRealItemInfo()->ItemName, pMsg->Count);
-		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(스피)로 [%s][%d]발을 보급하였습니다."
+		wsprintf(message, STRMSG_C_051108_0004, pMsg->RepairCost, g_pShuttleChild->m_pPrimaryWeapon->GetRealItemInfo()->ItemName, pMsg->Count);
+		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(??)? [%s][%d]?? ???????."
 		break;
 	case DES_BULLET_02:
-		wsprintf(message,STRMSG_C_051108_0004, pMsg->RepairCost, g_pShuttleChild->m_pSecondaryWeapon->GetRealItemInfo()->ItemName, pMsg->Count);
-		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(스피)로 [%s][%d]발을 보급하였습니다."
+		wsprintf(message, STRMSG_C_051108_0004, pMsg->RepairCost, g_pShuttleChild->m_pSecondaryWeapon->GetRealItemInfo()->ItemName, pMsg->Count);
+		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(??)? [%s][%d]?? ???????."
 		break;
-// 2015-05-14 by jwlee STRMSG_C_051108_0002, STRMSG_C_051108_0003, STRMSG_C_051108_0004 수정
-//#endif
-// end 2015-05-14 by jwlee STRMSG_C_051108_0002, STRMSG_C_051108_0003, STRMSG_C_051108_0004 수정
+#else
+	case DES_HP:
+		wsprintf(message, STRMSG_C_051108_0002, pMsg->RepairCost, pMsg->Count, "HP");
+		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(??)? [%d][%s] ???????."
+		break;
+	case DES_DP:
+		//wsprintf(message,STRMSG_C_051108_0002, pMsg->RepairCost, pMsg->Count, "??");
+		wsprintf(message, STRMSG_C_051108_0002, pMsg->RepairCost, pMsg->Count, STRMSG_C_070425_0200);
+		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(??)? [%d][%s] ???????."
+		break;
+	case DES_EP:
+		//wsprintf(message,STRMSG_C_051108_0003, pMsg->RepairCost, pMsg->Count, "EP");
+		wsprintf(message, STRMSG_C_051108_0003, pMsg->RepairCost, pMsg->Count, STRMSG_C_070425_0201);
+		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(??)? [%d][%s] ???????."
+		break;
+	case DES_SP:
+		wsprintf(message, STRMSG_C_051108_0002, pMsg->RepairCost, pMsg->Count, "SP");
+		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(??)? [%d][%s] ???????."
+		break;
+	case DES_BULLET_01:
+		wsprintf(message, STRMSG_C_051108_0004, pMsg->RepairCost, g_pShuttleChild->m_pPrimaryWeapon->GetRealItemInfo()->ItemName, pMsg->Count);
+		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(??)? [%s][%d]?? ???????."
+		break;
+	case DES_BULLET_02:
+		wsprintf(message, STRMSG_C_051108_0004, pMsg->RepairCost, g_pShuttleChild->m_pSecondaryWeapon->GetRealItemInfo()->ItemName, pMsg->Count);
+		m_pChat->CreateChatChild(message, COLOR_ERROR);//"[%d] SPI(??)? [%s][%d]?? ???????."
+		break;
+#endif
 	default:
-		{
-			return;
-		}
+	{
+		return;
+	}
 	}
 }
 
@@ -18330,20 +18373,24 @@ VOID CAtumApplication::FieldSocketGetShopWarpTargetMapListOk(MSG_FC_EVENT_GET_SH
 ///////////////////////////////////////////////////////////////////////////////
 VOID CAtumApplication::FieldSocketAdminGetServerStatOk(MSG_FC_ADMIN_GET_SERVER_STAT_OK* pMsg)
 {
-// 2012-11-07 by bhsohn 베트남 패킷 처리
+	// 2012-11-07 by bhsohn ??? ?? ??
 #ifdef C_CLIENT_LIVE_TIME
 	m_fServerLiveTime = MAX_CLIENT_LIVE_TIME;
-	if(!GetEnterLock())
+	if (!GetEnterLock())
 	{
-		//if(!m_bTradeCenterLock)													   // 2013-11-29 by ssjung 거래소 구현
-		if(!m_bTradeCenterLock && !m_bCityShopLock)		// 2014-07-04 by ymjoo 상점 아이템이 여러번 구입되는 현상 수정
-			EnterLock(TRUE);	// FALSE :Lock  TRUE : UnLock
+		EnterLock(TRUE);	// FALSE :Lock  TRUE : UnLock
 	}
 #endif
-// END 2012-11-07 by bhsohn 베트남 패킷 처리
+	// END 2012-11-07 by bhsohn ??? ?? ??
 
-	wsprintf(m_strMapUserNum, "MAP USER [ %d ] [%d(%d)]", 
+#ifdef _SHOW_LATENCY
+	m_fLatency = m_fTime - m_fSendTime;
+#endif
+
+	wsprintf(m_strMapUserNum, "MAP USER [\\w%d\\w] [\\e%d\\e] [\\l%d\\l] [%d(%d)]",
 		pMsg->CurrentUserCount,
+		pMsg->CurrentBCUUserCount,
+		pMsg->CurrentANIUserCount,
 		pMsg->CurrentMapChannelIndex.MapIndex,
 		pMsg->CurrentMapChannelIndex.ChannelIndex);
 }
@@ -25500,6 +25547,7 @@ VOID CAtumApplication::OnRecvCopyData(WPARAM wParam, COPYDATASTRUCT* pCopyDataSt
 #define DEBUG_COLOR		RGB(222, 222, 222)
 void CAtumApplication::RenderDbg()
 {
+#ifdef _DBG_INFO		//AO 2022 debug info for admins. Very performance heavy
 	FLOG("CAtumApplication::RenderDbg()");
 	char buff[1024];
 
@@ -25577,12 +25625,25 @@ void CAtumApplication::RenderDbg()
 			*/
 			
 			// 2007-04-09 by bhsohn 관리자 계정 표출 정보 처리
+
+			lineNumber = 15;
+			sprintf(buff, "FPS :  [%.1f]", m_fFPS);
+			m_pFontDebugDBG->DrawText(10, linePixel * lineNumber++, DEBUG_COLOR, buff, 0);
+#ifdef _SHOW_LATENCY
+			sprintf(buff, "TIME : [%.1f]", m_fTime);
+			m_pFontDebugDBG->DrawText(10, linePixel * lineNumber++, DEBUG_COLOR, buff, 0);
+			if (m_fLatency < 1.0f)
+				sprintf(buff, "PING : [%3.0fms][%3.0fms]", m_fLatency * 1000, (m_fLatency / 2.0f) * 1000);
+			else
+				sprintf(buff, "PING : [%1.3fs][%1.3fs]", m_fLatency, m_fLatency / 2.0f);
+			m_pFontDebugDBG->DrawText(10, linePixel * lineNumber++, DEBUG_COLOR, buff, 0);
+#endif
 			if(strlen(m_strConnectSeverName))
 			{
 				sprintf(buff,"%s",m_strConnectSeverName);
 				// 2014-06-27 by ymjoo DrawText 성능 개선 작업 (DBG 텍스트)
 #ifdef C_DRAWTEXT_UPGRADE_YMJOO
-				m_pFontDebugServer->DrawText(256, linePixel * lineNumber++, DEBUG_COLOR, buff, 0);
+				m_pFontDebugServer->DrawText(10, linePixel * lineNumber++, DEBUG_COLOR, buff, 0);
 #else
 				m_pFontDebug->DrawText(256, linePixel*lineNumber++, DEBUG_COLOR, buff,0);
 #endif
@@ -25595,7 +25656,7 @@ void CAtumApplication::RenderDbg()
 			GetInfluenceString(buff, m_pShuttleChild->m_myShuttleInfo.InfluenceType);
 			// 2014-06-27 by ymjoo DrawText 성능 개선 작업 (DBG 텍스트)
 #ifdef C_DRAWTEXT_UPGRADE_YMJOO
-			m_pFontDebugInfl->DrawText(256, linePixel * lineNumber++, DEBUG_COLOR, buff, 0);
+			m_pFontDebugInfl->DrawText(10, linePixel * lineNumber++, DEBUG_COLOR, buff, 0);
 #else
 			m_pFontDebug->DrawText(256, linePixel*lineNumber++, DEBUG_COLOR, buff,0);
 #endif
@@ -25603,10 +25664,99 @@ void CAtumApplication::RenderDbg()
 //			// 2006-11-02 by ispark, 캐릭터 움직이는 거리 체크(나중에 필요할지 모르니 지우지 말고 필요시 주석 삭제)
 //			sprintf(buff, "CHARACTER MOVE RATE\\e(%.1f)\\e", m_pCharacterChild->GetCharacterSpeed());
 //			m_pFontDebug->DrawText(256, linePixel*lineNumber++, DEBUG_COLOR, buff, 0);
+			if (strlen(m_strSeverUserNum))
+			{
+				sprintf(buff, "%s", m_strSeverUserNum);
+				m_pFontDebugDBG->DrawText(10, linePixel * lineNumber++, DEBUG_COLOR, buff, 0);
+			}
+			if (strlen(m_strMapUserNum))
+			{
+				sprintf(buff, "%s", m_strMapUserNum);
+				m_pFontDebugDBG->DrawText(10, linePixel * lineNumber++, DEBUG_COLOR, buff, 0);
+			}
+
+			sprintf(buff, "MEM : [%d MB]", g_pD3dDev->GetAvailableTextureMem() / 1024 / 1024);
+			m_pFontDebugDBG->DrawText(10, linePixel * lineNumber++, DEBUG_COLOR, buff, 0);
+			sprintf(buff, "OBJ : [%d]", g_pScene->m_vectorCulledObjectPtrList.size());
+			m_pFontDebugDBG->DrawText(10, linePixel * lineNumber++, DEBUG_COLOR, buff, 0);
+			if (m_pScene)
+			{
+				sprintf(buff, "Monster Render Count : [%d]", m_pScene->m_vecMonsterRenderList.size());
+				m_pFontDebugDBG->DrawText(10, linePixel * lineNumber++, DEBUG_COLOR, buff, 0);
+
+				sprintf(buff, "Monster Data Count : [%d]", m_pScene->m_mapMonsterList.size());
+				m_pFontDebugDBG->DrawText(10, linePixel * lineNumber++, DEBUG_COLOR, buff, 0);
+
+				sprintf(buff, "Enemy Render Count : [%d]", m_pScene->m_vecEnemyRenderList.size());
+				m_pFontDebugDBG->DrawText(10, linePixel * lineNumber++, DEBUG_COLOR, buff, 0);
+
+				sprintf(buff, "Enemy Data Count : [%d]", m_pScene->m_mapEnemyList.size());
+				m_pFontDebugDBG->DrawText(10, linePixel * lineNumber++, DEBUG_COLOR, buff, 0);
+
+				sprintf(buff, "Render Distance : [%d]", (int)(m_pScene->m_fFogEndValue + m_pCamera->m_fRenderDistance));
+				m_pFontDebugDBG->DrawText(10, linePixel * lineNumber++, DEBUG_COLOR, buff, 0);
+			}
+			if (m_pCamera)
+			{
+				sprintf(buff, "Detail Rate : [%d%%]", (int)(m_pCamera->m_fDetailRateGround * 100.0f));
+				m_pFontDebugDBG->DrawText(10, linePixel * lineNumber++, DEBUG_COLOR, buff, 0);
+			}
+			if (m_pEffectRender)
+			{
+				sprintf(buff, "Effect count : P[%d], S[%d], O[%d], T[%d]",
+					m_pEffectRender->m_nParticleEffectCountPerSecond,
+					m_pEffectRender->m_nSpriteEffectCountPerSecond,
+					m_pEffectRender->m_nObjectEffectCountPerSecond,
+					m_pEffectRender->m_nTraceEffectCountPerSecond);
+				m_pFontDebugDBG->DrawText(10, linePixel * lineNumber++, DEBUG_COLOR, buff, 0);
+			}
 		}
+
+
+		if (COMPARE_RACE(m_pShuttleChild->m_myShuttleInfo.Race, RACE_OPERATION))
+		{
+#ifdef _WIREFRAME
+			//Wireframe
+			if (this->m_bWireframe == FALSE)
+			{
+				sprintf(buff, "F11 Wireframe: \\rDeactivated\\r");
+			}
+			else
+			{
+				sprintf(buff, "F11 Wireframe: \\gActivated\\g");
+			}
+			m_pFontDebugDBG->DrawText(10, linePixel * lineNumber++, DEBUG_COLOR, buff, 0);
+#endif
+#ifdef _NOCLIP
+			//Noclip
+			if (this->m_bNoclip == FALSE)
+			{
+				sprintf(buff, "Shift+F11 NoClip: \\rDeactivated\\r");
+			}
+			else
+			{
+				sprintf(buff, "Shift+F11 NoClip: \\gActivated\\g");
+			}
+			m_pFontDebugDBG->DrawText(10, linePixel * lineNumber++, DEBUG_COLOR, buff, 0);
+#endif
+#ifdef _DRAW_EVENTS
+			//Draw Events
+			if (this->m_bDrawEvents == FALSE)
+			{
+				sprintf(buff, "Ctrl+F11 Draw Events: \\rDeactivated\\r");
+			}
+			else
+			{
+				sprintf(buff, "Ctrl+F11 Draw Events: \\gActivated\\g");
+			}
+			m_pFontDebugDBG->DrawText(10, linePixel * lineNumber++, DEBUG_COLOR, buff, 0);
+#endif
+
+		}
+
 		else
 		{
-			lineNumber = 10;
+/*			lineNumber = 10;
 			if(strlen(m_strSeverUserNum))
 			{
 				sprintf(buff,"%s",m_strSeverUserNum);
@@ -25668,7 +25818,7 @@ void CAtumApplication::RenderDbg()
 				sprintf( buff, "Detail Rate : %d%", (int)(m_pCamera->m_fDetailRateGround * 100.0f) );
 				m_pFontDebug->DrawText( 10, linePixel*lineNumber++, DEBUG_COLOR, buff, 0 );
 			}
-*/
+
 
 			if(m_pEffectRender)
 			{
@@ -25678,6 +25828,7 @@ void CAtumApplication::RenderDbg()
 					m_pEffectRender->m_nObjectEffectCountPerSecond,
 					m_pEffectRender->m_nTraceEffectCountPerSecond );
 				// 2014-06-27 by ymjoo DrawText 성능 개선 작업 (DBG 텍스트)
+
 #ifdef C_DRAWTEXT_UPGRADE_YMJOO
 				m_pFontDebugEffCnt->DrawText(10, linePixel * lineNumber++, DEBUG_COLOR, buff, 0);
 #else
@@ -25724,7 +25875,7 @@ void CAtumApplication::RenderDbg()
 //							g_pShuttleChild->m_vPrimarySidePos.y,
 //							g_pShuttleChild->m_vPrimarySidePos.z);
 //			m_pFontDebug->DrawText( 10, linePixel*lineNumber++, DEBUG_COLOR, buff,0 );
-#endif // _DEBUG_endif
+#endif // _DEBUG_endif */
 		}
 
 #endif // !_DBGOUT_EFFECT_endif
@@ -25772,6 +25923,7 @@ void CAtumApplication::RenderDbg()
 #endif
 		// END 2014-06-27 by ymjoo DrawText 성능 개선 작업 (DBG 텍스트)
 	}
+#endif
 #endif
 	// END 2014-06-18 by ymjoo 화면 상단에 세력 표시
 }
@@ -35064,7 +35216,7 @@ void CAtumApplication::SetHanFontLang(LPARAM lParam)
 //	}
 // 2006-03-07 by ispark, 언어에 따라 위치 수정
 // 기본은 한국 폰트이다.
-	strcpy(m_strFont, KOREAN_FONT);
+	strcpy(m_strFont, ENGLISH_FONT);
 
 #ifdef LANGUAGE_ENGLISH
 	strcpy(m_strFont, ENGLISH_FONT);

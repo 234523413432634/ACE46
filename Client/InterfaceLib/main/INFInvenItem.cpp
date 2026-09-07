@@ -64,7 +64,7 @@
 
 #define	EXTEND_INVEN_CAPS_HEIGHT	20		// 위에 윈도우 테두리
 
-#define INVEN_SPI_START_X		135			// 2012-04-12 by mspark, 인벤토리 자동 정렬 - 기존 174에서 135로 수정
+#define INVEN_SPI_START_X		155			// 2012-04-12 by mspark, 인벤토리 자동 정렬 - 기존 174에서 135로 수정
 #define INVEN_SPI_START_Y		460
 #define INVEN_WARPOINT_X		289			// 2012-04-12 by mspark, 인벤토리 자동 정렬 - 기존 328에서 289로 수정
 #define INVEN_WARPOINT_Y		460

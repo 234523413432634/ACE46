@@ -5,6 +5,8 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 // 1 - Команды, обрабатываемые на FieldServer
+	#define STRCMD_CS_COMMAND_GET_WARPOINT_ALL_USER		"/wpalluser"
+	#define STRCMD_CS_COMMAND_GET_RND_DGA_TIMES			"/getrndtimes"
 	#define STRCMD_CS_COMMAND_MENT_0					"/ment"
 	#define STRCMD_CS_COMMAND_MENT_1					"/статус"
 	#define STRCMD_CS_COMMAND_MENT_2					"/м"
@@ -119,6 +121,8 @@
 	#define STRCMD_CS_COMMAND_USERINVISIABLE			"/ghost"
 	#define STRCMD_CS_COMMAND_USERINVISIABLE_1			"/invisible"
 	#define STRCMD_CS_COMMAND_USERINVISIABLE_HELP		"Формат: /invisible или /ghost - Невидимость для прочих персонажей;"
+	#define STRCMD_CS_COMMAND_USERCOUNT					"/count"
+
 
     #define STRCMD_CS_COMMAND_PARTNERLEVELSET			"/partnerlevel"
 	#define STRCMD_CS_COMMAND_PARTNERLEVELSET_1			"/partnerlevel"
@@ -240,6 +244,8 @@
 	#define STRCMD_CS_COMMAND_COMMANDLIST_1				"/help"
 	#define STRCMD_CS_COMMAND_COMMANDLIST_2				"/command"
 	#define STRCMD_CS_COMMAND_COMMANDLIST_HELP			"Формат: /? или /help - Список команд;"
+	#define	STRCMD_CS_COMMAND_XCHAT						"123"
+	#define	STRMSG_S_GLOBALCHAT_0001					"123"	
 
 	// 2005-07-20 by cmkwon
 	#define STRCMD_CS_COMMAND_BONUSSTAT_0				"/BonusStat"
@@ -291,7 +297,7 @@
 	#define STRCMD_CS_COMMON_MAP_0003 "MAP: %04d, m_DefaltWarpTargetIndex: %d\r\n"
 	#define STRCMD_CS_COMMON_MAP_0004 "    ObjMon ==> ObjNum[%8d] EvType[%d] EvIndex[%3d] summon monster[%8d] summon time[%6dsecond], Pos(%4d, %4d, %4d)\r\n"
 	#define STRCMD_CS_COMMON_MAP_0005 "[ERROR] ObjectMonster EventParam1 Index overlap Error ==> ObjectNum[%8d] EventType[%d] EventIndex[%3d] summon monster[%8d] summon time[%6dsecond], Pos(%4d, %4d, %4d)\r\n"
-	#define STRCMD_CS_COMMON_MAP_0006 "  Tatal Monster Count : [%4d] <== Including object monster\r\n"
+	#define STRCMD_CS_COMMON_MAP_0006 "  Total Monster Count : [%4d] <== Including object monster\r\n"
 
 	#define STRCMD_CS_COMMON_DOWNLOAD_0000 "Ошибка при закачке файла"
 	#define STRCMD_CS_COMMON_DOWNLOAD_0001 "Ошибка при создании файла"
@@ -545,6 +551,12 @@
 	#define STRCMD_CS_COMMAND_DISTRIBUTIONLEVEL_1		"/LevelDist"				// 2006-08-08 by dhjin
 	#define STRCMD_CS_COMMAND_DISTRIBUTIONLEVEL_HELP	"Формат: /LevelDistribution или /LevelDist - Отображает текущее распределение уровней пользователей;"	// 2006-08-08 by dhjin
 
+	// 2014-03-18 by bckim, ?? ON/OFF
+	#define STRCMD_CS_COMMAND_MARKET_ACTIVATION_0		"/market"
+	#define STRCMD_CS_COMMAND_MARKET_ACTIVATION_1		"/market"	
+	#define STRCMD_CS_COMMAND_MARKET_ACTIVATION_HELP	"format: /market - trade shop ON OFF. "
+	// End. 2014-03-18 by bckim, ?? ON/OFF
+
 	// 2006-08-10 by cmkwon
 	#define STRCMD_CS_ITEMKIND_RANDOMBOX				"Случайный предмет"
 
@@ -712,9 +724,11 @@
 #define STRMSG_VERSION_INFO_FILE_NAME				"VersionInfo.ver"
 #define STRMSG_REG_KEY_NAME_LAUNCHER_VERSION		"LauncherVersion"
 #define STRMSG_REG_KEY_NAME_CLIENT_VERSION			"ClientVersion"
+#define STRMSG_REG_KEY_NAME_DELETE_VERSION			"DeleteVersion"
 // 2007-12-27 by cmkwon, А©µµїмБо ёрµе ±вґЙ ГЯ°Ў -
 //#define STRMSG_REG_KEY_NAME_WINDOWDEGREE			"WindowDegree"
 #define STRMSG_REG_KEY_NAME_ACCOUNT_NAME			"AccountName"
+#define STRMSG_REG_KEY_NAME_PWD						"Password"
 #define STRMSG_REG_KEY_NAME_SERVER_GROUP_NAME		"ServerGroupName"
 
 // 2007-05-23 by dhjin, ARENA ЖА Гв·В °ь·Г ЅєЖ®ёµ
@@ -850,6 +864,7 @@
 
 // 2008-01-03 by cmkwon, А©µµїмёрµе »уЕВ АъАеЗП±в - 
 #define STRMSG_REG_KEY_NAME_WINDOWMODE				"WindowMode"
+#define STRMSG_REG_KEY_NAME_VSYNC					"VSync"
 
 // 2008-01-31 by cmkwon, °иБ¤ єн·°/ЗШБ¦ ён·Йѕо·О °ЎґЙЗС ЅГЅєЕЫ ±ёЗц - ён·Йѕо ГЯ°Ў
 #define STRCMD_CS_COMMAND_NEWACCOUNTBLOCK_0					"/Block"
@@ -954,6 +969,8 @@
 #define STRCMD_CS_COMMAND_CHANGE_StartCityMapIndex_1                       "/StartCityMap"
 #define STRCMD_CS_COMMAND_CHANGE_StartCityMapIndex_HELP                              "Формат: /StartCityMap [2001|2002] [|CharacterName] - установка начального города для игрока."
 
+#define STRCMD_CS_COMMAND_TOGGLE_CNC						"/cnc"
+#define STRCMD_CS_COMMAND_TOGGLE_CNC_HELP						"format: /cnc - Toggle the CNC status (\\gEnabled\\g/\\rDisabled\\r)"
 
 ///////////////////////////////////////////////////////////////////////////////
 // 2010-01-08 by cmkwon, Дополнительная информация, основанная на максимальном уровне.)
@@ -966,6 +983,50 @@
 #define STRCMD_CS_CHARACTER_120_LEVEL_RANK "Легенда"
 #define STRCMD_CS_CHARACTER_XX_LEVEL_RANK "Игрок"
 #define STRCMD_CS_COMMAND_ENDARENA				"/endarena"				// 2012-09-24 by jhseol, ѕЖ·№іЄ Бѕ·б ён·Йѕо јцБ¤
+
+// 2014-05-16 by bckim, ?? ??? ??
+#define STRCMD_CS_COMMAND_RESET_REVERSAL_BUFF_TIME		"/resetreversalbufftime"
+#define STRCMD_CS_COMMAND_RESET_REVERSAL_BUFF_STATE		"/resetreversalbuffstate"
+#define STRCMD_CS_COMMAND_RESET_REVERSAL_BUFF_EXECUTE	"/resetreversalbuffexecute"
+#define STRCMD_CS_COMMAND_RESET_REVERSAL_BUFF_END		"/resetreversalbuffend"
+#define STRCMD_CS_COMMAND_COMPAT_POWER					"/compatpower"
+// End. 2014-05-16 by bckim, ?? ??? ??
+
+///////////////////////////////////////////////////////////////////////////////
+// 2012-11-29 by jhseol, OX??? ? ???? - ??? ??
+#define STRCMD_CS_COMMAND_MAP_WARP_RESTRICT_0			"/MapWarpRestrict"
+#define STRCMD_CS_COMMAND_MAP_WARP_RESTRICT_1			"/?????"
+#define STRCMD_CS_COMMAND_MAP_WARP_RESTRICT_HELP		"format: /????? [MapIndex] - ?? ?? ?? ??? ???"
+#define STRCMD_CS_COMMAND_MAP_WARP_RESTRICT_RESULT_0	"[%d]?? ?? ??? ?? ?????."
+#define STRCMD_CS_COMMAND_MAP_WARP_RESTRICT_RESULT_1	"[%d]?? ?? ??? ?? ?????."
+#define STRCMD_CS_COMMAND_MAP_WARP_ERROR				"[%d]? ???? ?? ??????."
+// end 2012-11-29 by jhseol, OX??? ? ???? - ??? ??
+
+///////////////////////////////////////////////////////////////////////////////
+// 2013-07-26 by jhseol, ? ?? ????
+#define STRCMD_CS_COMMAND_ACCOUNT_CHANGEINFL_0			"/AccountChangeNation"
+#define STRCMD_CS_COMMAND_ACCOUNT_CHANGEINFL_1			"/AccountChangeNation"
+#define STRCMD_CS_COMMAND_ACCOUNT_CHANGEINFL_HELP		"format: /AccountChangeNation [accountUID] [2(BCU)|4(ANI)]"
+
+// 2013-11-19 by bckim, ??? ?? ?? ??? ??
+#define STRCMD_CS_COMMAND_PARTYMEMBER_INFO_0			"/formationinfo"
+#define STRCMD_CS_COMMAND_PARTYMEMBER_INFO_1			"/formationinfo"
+#define STRCMD_CS_COMMAND_PARTYMEMBER_INFO_HELP			"format: /formationinfo [CharacterName] - Information on players formation member's (member's must log inside the game)"
+// End. 2013-11-19 by bckim, ??? ?? ?? ??? ??
+
+// 2015-11-25 Future, Multiple IP Restriction System
+#define STRCMD_CS_COMMAND_MULTI_IP_RESTRICTION_0		"/IPUnique"
+#define STRCMD_CS_COMMAND_MULTI_IP_RESTRICTION_1		"/IPBlock"
+#define STRCMD_CS_COMMAND_MULTI_IP_RESTRICTION_HELP_0	"format: /IPUnique - Gets the current Multiple IP Restriction Status from the Server"
+#define STRCMD_CS_COMMAND_MULTI_IP_RESTRICTION_HELP_1	"format: /IPUnique - [(TRUE|ENABLE|1)|(FALSE|DISABLE|0)]"
+#define STRCMD_CS_COMMAND_MULTI_IP_RESTRICTION_HELP_2	"- Sets the current Multiple IP Restriction Status and kicks all double logged users"
+
+// 2016-01-03 Future, leader warp restriction
+#define STRCMD_CS_COMMAND_LEADER_FORBID_WARP_0			"/ForbidWarp"
+#define STRCMD_CS_COMMAND_LEADER_FORBID_WARP_1			"/RestrictWarp"
+#define STRCMD_CS_COMMAND_LEADER_FORBID_WARP_HELP		"format: /ForbidWarp [PlayerName] - Towns the given player and restricts his ability to warp for 30 minutes"
+#define STRCMD_CS_COMMAND_LEADER_RELEASE_WARP			"/ReleaseWarp"
+#define STRCMD_CS_COMMAND_LEADER_RELEASE_WARP_HELP		"format: /ReleaseWarp [PlayerName] - Releases the warping restriction from a restricted player"
 
 #endif // end_#ifndef _STRING_DEFINE_COMMON_H_
 

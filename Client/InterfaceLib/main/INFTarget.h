@@ -28,7 +28,7 @@
 #define AUTO_TARGET_HP_SIZE_X		61//*TARGET_MOUSE_SCALE)
 #define AUTO_TARGET_HP_SIZE_Y		5//*TARGET_MOUSE_SCALE)
 #define TARGET_ARROW_HALF_SIZE		(14*TARGET_MOUSE_SCALE)//28/2
-#define NAME_FROM_MOUSE_CENTER_Y	(AUTO_TARGET_HALF_SIZE + 14) // 12 : text height
+#define NAME_FROM_MOUSE_CENTER_Y	(AUTO_TARGET_HALF_SIZE + 14*HIDPI_COEFF) // 12 : text height
 #define DISTANCE_FROM_MOUSE_CENTER_Y (AUTO_TARGET_HALF_SIZE - 6) // 12 : text height
 #define ID_GUILD_MARK_START_X		12
 #define ID_GUILD_MARK_START_Y		(AUTO_TARGET_HALF_SIZE+25)
@@ -97,7 +97,7 @@ public:
 	void RenderInfluenceMonster(CMonsterData * pMon);		// 2006-11-24 by ispark, 같은 세력 몬스터에 대한 표시
 
 protected:
-	void RenderGameMainMonsterInfo(CMonsterData* pUnit, int x, int y, float fHPRate);
+	void RenderGameMainMonsterInfo(CMonsterData* pUnit, int x, int y, float fHPCurrent, float fHPMax);
 	void RenderGameMainEnemyInfo(CEnemyData* pUnit, int x, int y);
 	// 2007-05-22 by bhsohn 타켓 표시 수정안 처리
 	//void RenderTargetArrow(D3DXVECTOR3 vPos );

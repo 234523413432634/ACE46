@@ -23,7 +23,7 @@
 #define QSLOT_BUTTON_STATE_NUMBER	4
 #define QSLOT_BUTTON_NUMBER			2
 
-#define QSLOT_ICON_SIZE		 28
+#define QSLOT_ICON_SIZE		 28*HIDPI_COEFF
 #define QSLOT_COUNTERBLE_NUMBER		RGB(255,255,255)
 
 #define QSLOT_ITEMTYPE_NONE		0	// 퀵슬롯 아이템 타입
@@ -31,9 +31,9 @@
 #define QSLOT_ITEMTYPE_SKILL	2	// 퀵슬롯 아이템 타입
 #define QSLOT_ITEMTYPE_ITEM		3	// 퀵슬롯 아이템 타입
 
-#define QSLOT_SIZE_X			318//254
-#define QSLOT_SIZE_Y			30
-#define QSLOT_ICON_INTERVAL		32
+#define QSLOT_SIZE_X			318*HIDPI_COEFF//254
+#define QSLOT_SIZE_Y			30*HIDPI_COEFF
+#define QSLOT_ICON_INTERVAL		32*HIDPI_COEFF
 #define QSLOT_TIMER				0.4f
 
 // 2008-11-13 by bhsohn 조이스틱 작업

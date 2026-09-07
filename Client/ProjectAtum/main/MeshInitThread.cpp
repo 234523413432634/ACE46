@@ -24,29 +24,18 @@ CMeshInitThread::~CMeshInitThread()
 
 DWORD CMeshInitThread::Run()
 {
-	// 2014-08-18 by ymjoo 싱글스레드로 변경
-#ifndef C_GAME_SINGLE_THREAD_YMJOO
- 	while( 1 )
- 	{
-#endif
-	// END 2014-08-18 by ymjoo 싱글스레드로 변경
-		if( !m_queLoadingGameInfo.empty() )
+	m_bRunning = TRUE;
+	while (!m_bThreadMustStop)	// 2015-07-08 Future, added proper Shutdown of threads
+	{
+		if (!m_queLoadingGameInfo.empty())
 		{
-			// 2015-03-17 Mesh 로딩시 할당한 변수 삭제 코드 추가
-// 			CreateGameData( m_queLoadingGameInfo.front() );
-// 			QuePopGameData();
-			structLoadingGameInfo* LoadingGameInfo = m_queLoadingGameInfo.front();
-			CreateGameData( LoadingGameInfo);
+			CreateGameData(m_queLoadingGameInfo.front());
 			QuePopGameData();
-			SAFE_DELETE(LoadingGameInfo);
-			// end 2015-03-17 Mesh 로딩시 할당한 변수 삭제 코드 추가
-		}		
-		Sleep( GAMEDATA_LOADING_TIME );
-	// 2014-08-18 by ymjoo 싱글스레드로 변경
-#ifndef C_GAME_SINGLE_THREAD_YMJOO
+		}
+		Sleep(GAMEDATA_LOADING_TIME);
 	}
-#endif
-	// END 2014-08-18 by ymjoo 싱글스레드로 변경
+	m_bRunning = FALSE;
+
 	return 0;
 }
 
@@ -87,7 +76,8 @@ void CMeshInitThread::CreateGameData( structLoadingGameInfo* GameInfo )
 				}				
 			}
 		}
-		structLoadingGameData* LoadingData = new structLoadingGameData;
+		auto LoadingData = new structLoadingGameData;
+
 		LoadingData->MeshIndex		= atoi( GameInfo->MeshName );
 		LoadingData->MeshType		= GameInfo->MeshType;
 		LoadingData->pGameData		= pMeshData;

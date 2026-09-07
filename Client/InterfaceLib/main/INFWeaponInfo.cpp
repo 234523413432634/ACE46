@@ -145,11 +145,14 @@ CINFWeaponInfo::~CINFWeaponInfo()
 HRESULT CINFWeaponInfo::InitDeviceObjects()
 {
 	FLOG( "CINFWeaponInfo::InitDeviceObjects()" );
+	
 	char strPath[256];
+	/* Unused
 	g_pD3dApp->LoadPath( strPath, IDS_DIRECTORY_TEXTURE, "weapon.tex");
+	*/
 	m_pWeaponData = new CGameData;
 	m_pWeaponData->SetFile(strPath, FALSE, NULL, 0);
-
+	
 	m_pStImage = new CINFImageEx;			// 2011. 10. 10 by jskim UI시스템 변경
 	DataHeader	* pDataHeader = FindResource("1sta");
 	m_pStImage->InitDeviceObjects( pDataHeader ) ;
@@ -559,9 +562,10 @@ void CINFWeaponInfo::RenderLeftWeapon()
 ////		m_pStOverHeatBar->SetRect(0, 0, OVERHEAT_LENGTH*g_pD3dApp->m_pShuttleChild->m_fPrimaryWeaponActionRate, OVERHEAT_HEIGHT);
 //		m_pStOverHeatBar->SetRect(0, 0, OVERHEAT_LENGTH*g_pShuttleChild->m_pPrimaryWeapon->GetOverHeatRate(), OVERHEAT_HEIGHT);
 //		m_pStOverHeatBar->Render();
-		m_pStOverHeatBar->Move( FIRST_WEAPON_START_X - 7, FIRST_WEAPON_START_Y - 20);
+		m_pStOverHeatBar->Move( (FIRST_WEAPON_START_X - 7)* HIDPI_COEFF, (FIRST_WEAPON_START_Y - 20) * HIDPI_COEFF);
 //		m_pStOverHeatBar->SetRect(0, 0, OVERHEAT_LENGTH*g_pD3dApp->m_pShuttleChild->m_fPrimaryWeaponActionRate, OVERHEAT_HEIGHT);
 		m_pStOverHeatBar->SetRect(0, 0, m_pStOverHeatBar->GetImgSize().x * g_pShuttleChild->m_pPrimaryWeapon->GetOverHeatRate(), OVERHEAT_HEIGHT);
+		m_pStOverHeatBar->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 		m_pStOverHeatBar->Render();
 	}
 	// 2008-10-20 by dgwoo 무기 이미지가 필요없음.
@@ -575,23 +579,27 @@ void CINFWeaponInfo::RenderLeftWeapon()
 			{
 				if(LEFT_WEAPON_NUMBER == 0)
 				{
-					m_pBulletEmptyImage->Move( FIRST_WEAPON_START_X - 37, FIRST_WEAPON_START_Y + 5 - m_pBulletEmptyImage->GetImgSize().y );
+					m_pBulletEmptyImage->Move( (FIRST_WEAPON_START_X - 37) * HIDPI_COEFF, (FIRST_WEAPON_START_Y + 5 - m_pBulletEmptyImage->GetImgSize().y) * HIDPI_COEFF);
+					m_pBulletEmptyImage->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 					m_pBulletEmptyImage->Render();
-					m_pBulletEmptyImage1->Move( FIRST_WEAPON_START_X - 34, FIRST_WEAPON_START_Y + 5  - m_pBulletEmptyImage->GetImgSize().y );
+					m_pBulletEmptyImage1->Move( (FIRST_WEAPON_START_X - 34) * HIDPI_COEFF, (FIRST_WEAPON_START_Y + 5  - m_pBulletEmptyImage->GetImgSize().y) * HIDPI_COEFF);
+					m_pBulletEmptyImage1->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 					m_pBulletEmptyImage1->Render();
 
 					RenderWarningWeaponNumber(FIRST_WEAPON_FONT_X, FIRST_WEAPON_FONT_Y, LEFT_WEAPON_NUMBER);
 				}
 				else if( g_pShuttleChild->m_pPrimaryWeapon->IsOverHeat()) 
 				{
-					m_pOverHeatImage->Move( FIRST_WEAPON_START_X - 37, FIRST_WEAPON_START_Y + 5 - m_pBulletEmptyImage->GetImgSize().y );
+					m_pOverHeatImage->Move((FIRST_WEAPON_START_X - 37) * HIDPI_COEFF, (FIRST_WEAPON_START_Y + 5 - m_pBulletEmptyImage->GetImgSize().y) * HIDPI_COEFF);
+					m_pOverHeatImage->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 					m_pOverHeatImage->Render();
 					if( m_bFlash )
 						RenderWarningWeaponNumber(FIRST_WEAPON_FONT_X, FIRST_WEAPON_FONT_Y, LEFT_WEAPON_NUMBER);
 				}
 				else if(LEFT_WEAPON_NUMBER < 100 && m_bFlash)//과열상태인 경우
 				{
-					m_pBulletLowImage->Move( FIRST_WEAPON_START_X - 37, FIRST_WEAPON_START_Y + 5 - m_pBulletEmptyImage->GetImgSize().y  );
+					m_pBulletLowImage->Move((FIRST_WEAPON_START_X - 37) * HIDPI_COEFF, (FIRST_WEAPON_START_Y + 5 - m_pBulletEmptyImage->GetImgSize().y) * HIDPI_COEFF);
+					m_pBulletLowImage->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 					m_pBulletLowImage->Render();					
 
 					RenderWarningWeaponNumber(FIRST_WEAPON_FONT_X, FIRST_WEAPON_FONT_Y, LEFT_WEAPON_NUMBER);
@@ -608,12 +616,14 @@ void CINFWeaponInfo::RenderLeftWeapon()
 				RenderWeaponFuel( LEFT_FUEL_X, nWindowPosY, fRate );
 				if(fRate == 0)
 				{
-					m_pBulletEmptyImage->Move(m_nLeftWeaponInfoPosX+3, nWindowPosY + 10);
+					m_pBulletEmptyImage->Move((m_nLeftWeaponInfoPosX+3) * HIDPI_COEFF, (nWindowPosY + 10) * HIDPI_COEFF);
+					m_pBulletEmptyImage->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 					m_pBulletEmptyImage->Render();
 				}
 				else if( fRate < 0.1f)
 				{
-					m_pBulletLowImage->Move(m_nLeftWeaponInfoPosX+3, nWindowPosY + 10);
+					m_pBulletLowImage->Move((m_nLeftWeaponInfoPosX + 3) * HIDPI_COEFF, (nWindowPosY + 10) * HIDPI_COEFF);
+					m_pBulletLowImage->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 					m_pBulletLowImage->Render();
 				}
 // 2008-10-20 by dgwoo 무기 이미지가 필요없음.
@@ -624,7 +634,8 @@ void CINFWeaponInfo::RenderLeftWeapon()
 //				}
 				else//과열상태인 경우
 				{
-					m_pOverHeatImage->Move(m_nLeftWeaponInfoPosX+3, nWindowPosY + 10);
+					m_pOverHeatImage->Move((m_nLeftWeaponInfoPosX + 3) * HIDPI_COEFF, (nWindowPosY + 10) * HIDPI_COEFF);
+					m_pOverHeatImage->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 					m_pOverHeatImage->Render() ;
 				}
 			}
@@ -632,7 +643,8 @@ void CINFWeaponInfo::RenderLeftWeapon()
 	}
 	else
 	{
-		m_pBulletEmptyImage->Move( FIRST_WEAPON_START_X - 37, FIRST_WEAPON_START_Y + 5 - m_pBulletEmptyImage->GetImgSize().y );
+		m_pBulletEmptyImage->Move( (FIRST_WEAPON_START_X - 37) * HIDPI_COEFF, (FIRST_WEAPON_START_Y + 5 - m_pBulletEmptyImage->GetImgSize().y) * HIDPI_COEFF);
+		m_pBulletEmptyImage->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 		m_pBulletEmptyImage->Render();
 
 //		m_pEmptyWeaponImage->Move(m_nLeftWeaponInfoPosX+3, nWindowPosY + 10);
@@ -754,9 +766,10 @@ void CINFWeaponInfo::RenderRightWeapon()
 		int startX = (g_pShuttleChild->m_pSecondaryWeapon->GetReattackTimeRate())*OVERHEAT_LENGTH;
 		if(g_pD3dApp->m_bCharacter)
 			startX = OVERHEAT_LENGTH;
-		m_pStOverHeatBar->Move(SECOND_WEAPON_START_X - 13, SECOND_WEAPON_START_Y - 20);
+		m_pStOverHeatBar->Move((SECOND_WEAPON_START_X - 13) * HIDPI_COEFF, (SECOND_WEAPON_START_Y - 20) * HIDPI_COEFF);
 		//m_pStOverHeatBar->SetRect(startX, 0, OVERHEAT_LENGTH, OVERHEAT_HEIGHT);
 		m_pStOverHeatBar->SetRect(0, 0, startX, OVERHEAT_HEIGHT);
+		m_pStOverHeatBar->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 		m_pStOverHeatBar->Render();
 	}
 // 2008-10-20 by dgwoo 무기 이미지가 필요없음.
@@ -765,15 +778,18 @@ void CINFWeaponInfo::RenderRightWeapon()
 	{
 		if(RIGHT_WEAPON_NUMBER == 0)
 		{		
-			m_pBulletLowImage1->Move( SECOND_WEAPON_START_X - 43, SECOND_WEAPON_START_Y + 5 - m_pBulletEmptyImage->GetImgSize().y );
+			m_pBulletLowImage1->Move( (SECOND_WEAPON_START_X - 43) * HIDPI_COEFF, (SECOND_WEAPON_START_Y + 5 - m_pBulletEmptyImage->GetImgSize().y) * HIDPI_COEFF);
+			m_pBulletLowImage1->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 			m_pBulletLowImage1->Render();
-			m_pBulletEmptyImage2->Move( SECOND_WEAPON_START_X - 43, SECOND_WEAPON_START_Y + 5 - m_pBulletEmptyImage->GetImgSize().y );
+			m_pBulletEmptyImage2->Move((SECOND_WEAPON_START_X - 43) * HIDPI_COEFF, (SECOND_WEAPON_START_Y + 5 - m_pBulletEmptyImage->GetImgSize().y) * HIDPI_COEFF);
+			m_pBulletEmptyImage2->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 			m_pBulletEmptyImage2->Render();	
 			RenderWarningWeaponNumber(SECOND_WEAPON_FONT_X, SECOND_WEAPON_FONT_Y, RIGHT_WEAPON_NUMBER); 
 		}
 		else if( RIGHT_WEAPON_NUMBER < 10 && m_bFlash)
 		{
-			m_pBulletLowImage1->Move( SECOND_WEAPON_START_X - 43, SECOND_WEAPON_START_Y + 5 - m_pBulletEmptyImage->GetImgSize().y );
+			m_pBulletLowImage1->Move((SECOND_WEAPON_START_X - 43) * HIDPI_COEFF, (SECOND_WEAPON_START_Y + 5 - m_pBulletEmptyImage->GetImgSize().y) * HIDPI_COEFF);
+			m_pBulletLowImage1->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 			m_pBulletLowImage1->Render();
 			RenderWarningWeaponNumber( SECOND_WEAPON_FONT_X, SECOND_WEAPON_FONT_Y, RIGHT_WEAPON_NUMBER);
 		}
@@ -787,7 +803,8 @@ void CINFWeaponInfo::RenderRightWeapon()
 	}
 	else
 	{
-		m_pBulletEmptyImage2->Move( SECOND_WEAPON_START_X - 43, SECOND_WEAPON_START_Y + 5 - m_pBulletEmptyImage->GetImgSize().y);
+		m_pBulletEmptyImage2->Move((SECOND_WEAPON_START_X - 43) * HIDPI_COEFF, (SECOND_WEAPON_START_Y + 5 - m_pBulletEmptyImage->GetImgSize().y) * HIDPI_COEFF);
+		m_pBulletEmptyImage2->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 		m_pBulletEmptyImage2->Render();
 	}
 #else				
@@ -883,10 +900,11 @@ void CINFWeaponInfo::RenderWeaponNumber( int nWindowPosY, int nWindowPosX, int n
 		{
 			int nNum = nValue%10;
 #ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-			m_pWeaponNumberImage[nNum]->Move(nWindowPosX + ( m_pWeaponNumberImage[nNum]->GetImgSize().x - 3 ) *(4-i), nWindowPosY);
+			m_pWeaponNumberImage[nNum]->Move((nWindowPosX + ( m_pWeaponNumberImage[nNum]->GetImgSize().x - 3 ) *(4-i)) * HIDPI_COEFF, (nWindowPosY)*HIDPI_COEFF);
 #else					 
 			m_pWeaponNumberImage[nNum]->Move(nWindowPosX+WEAPON_NUMBER_SIZE*(4-i), nWindowPosY);
 #endif
+			m_pWeaponNumberImage[nNum]->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 			m_pWeaponNumberImage[nNum]->Render();
 			nValue /= 10;
 		}
@@ -905,7 +923,8 @@ void CINFWeaponInfo::RenderWarningWeaponNumber( int nWindowPosX, int nWindowPosY
 	int i; for(i=0;i<5;i++) // 5 : 5자리숫자
 	{
 		int nNum = nValue%10;
-		m_pWeaponWarningNumberImage[nNum]->Move(nWindowPosX + ( m_pWeaponNumberImage[nNum]->GetImgSize().x - 3 ) *(4-i), nWindowPosY);
+		m_pWeaponWarningNumberImage[nNum]->Move((nWindowPosX + (m_pWeaponNumberImage[nNum]->GetImgSize().x - 3) * (4 - i)) * HIDPI_COEFF, (nWindowPosY)*HIDPI_COEFF);
+		m_pWeaponWarningNumberImage[nNum]->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 		m_pWeaponWarningNumberImage[nNum]->Render();
 		nValue /= 10;
 	}

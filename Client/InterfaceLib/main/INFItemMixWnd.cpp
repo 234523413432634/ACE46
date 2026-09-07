@@ -1073,26 +1073,59 @@ void CINFItemMixWnd::RenderSearchItem(int nPage, int nScroll)
 				if(m_pConuntFont)
 				{
 					// 가격 표시
-					char strtemp2[64], strtemp1[64];					
+#ifndef _ENHANCED_MIXING_DISPLAY
+					char strtemp2[64], strtemp1[64];
 					strtemp2[0] = strtemp1[0] = NULL;
 
 					wsprintf(strtemp1, "%d", struMixingInfo.MixingCost);
-					MakeCurrencySeparator( strtemp2, strtemp1, 3, ',' );
+					MakeCurrencySeparator(strtemp2, strtemp1, 3, ',');
 
-					SIZE szSize = m_pConuntFont->GetStringSize(strtemp2);					
-					
+					SIZE szSize = m_pConuntFont->GetStringSize(strtemp2);
+
 					// 가운데 정렬
-					int nTmpStartX = nStartX + 380	-szSize.cx;
+					int nTmpStartX = nStartX + 380 - szSize.cx;
 					int nTmpStartY = nStartY + m_rcTargetItem[nLine].top + 8;
-					
-					m_pConuntFont->DrawText(nTmpStartX,nTmpStartY,
-												GUI_FONT_COLOR_W, 
-												strtemp2);
-					
+
+					m_pConuntFont->DrawText(nTmpStartX, nTmpStartY,
+						GUI_FONT_COLOR_W,
+						strtemp2);
+#else
+					char strtemp2[64], strtemp1[64], strDraw[512];
+					strtemp2[0] = strtemp1[0] = strDraw[0] = NULL;
+
+					if (struMixingInfo.MixingCost == 0)
+					{
+						wsprintf(strtemp2, "Free");
+					}
+					else
+					{
+						wsprintf(strtemp1, "%d", struMixingInfo.MixingCost);
+						MakeCurrencySeparator(strtemp2, strtemp1, 3, ',');
+					}
+					if (struMixingInfo.MixingProbability == PROB10K_MAX_VALUE || struMixingInfo.MixingProbability == 10000)
+					{
+						wsprintf(strDraw, "%s (\\g%d%%\\g)", strtemp2, struMixingInfo.MixingProbability / 100);
+					}
+					else
+					{
+						wsprintf(strDraw, "%s (%d%%)", strtemp2, struMixingInfo.MixingProbability / 100);
+					}
+
+					SIZE szSize = m_pConuntFont->GetStringSize(strDraw);
+
+					// 가운데 정렬
+					int nTmpStartX = nStartX + 380 - szSize.cx;
+					int nTmpStartY = nStartY + m_rcTargetItem[nLine].top + 8;
+
+					m_pConuntFont->DrawText(nTmpStartX, nTmpStartY,
+						GUI_FONT_COLOR_W,
+						strDraw);
+#endif
+
 				}
 				nPosX++;
 			}
-			
+
 			// 결과물 아이템 표시
 			{
 				if(m_pSearchIconBk )

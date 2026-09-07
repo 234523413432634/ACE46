@@ -779,66 +779,8 @@ void CINFMapLoad::SendServerMapLoad()
 ///////////////////////////////////////////////////////////////////////////////
 float CINFMapLoad::GetYScale()
 {
-	float fYScale = SCALE;
-	switch(g_pD3dApp->GetWidth())
-	{
-	case INVEN_RESOLUTION_3:
-		{
-			if(RESOLUTION_FULL_H_800 == g_pD3dApp->GetHeight())
-			{
-				fYScale = SCALE_Y;
-			}
-			else if(RESOLUTION_FULL_H_720 == g_pD3dApp->GetHeight())
-			{
-				fYScale = SCALE_Y;
-			}
-		}
-		break;
-	// 2008-02-11 by dgwoo 해상도 추가.(1440 * 900)
-	case INVEN_RESOLUTION_3_1:
-		{
-			if(RESOLUTION_FULL_H_900 == g_pD3dApp->GetHeight())
-			{
-				fYScale = SCALE_Y;
-			}
-		}
-		break;
-	case INVEN_RESOLUTION_4:
-		{
-			if(RESOLUTION_FULL_H_900 == g_pD3dApp->GetHeight())
-			{
-				fYScale = SCALE_Y;
-			}
-		}
-		break;
-
-	// 2009. 10. 19 by ckPark 해상도 추가(1680x1050, 1920x1080, 1920x1200)
-	case INVEN_RESOLUTION_5:
-		{
-			if(RESOLUTION_FULL_H_1050 == g_pD3dApp->GetHeight())
-			{
-				fYScale = SCALE_Y;
-			}
-		}
-		break;
-
-	case INVEN_RESOLUTION_6:
-		{
-			if(RESOLUTION_FULL_H_1080 == g_pD3dApp->GetHeight())
-			{
-				fYScale = SCALE_Y;
-			}
-			else if(RESOLUTION_FULL_H_1200 == g_pD3dApp->GetHeight())
-			{
-				fYScale = SCALE_Y;
-			}
-		}
-		break;
-	// end 2009. 10. 19 by ckPark 해상도 추가(1680x1050, 1920x1080, 1920x1200)
-	}
-	return fYScale;
+	return SCALE_Y;
 }
-
 ///////////////////////////////////////////////////////////////////////////////
 /// \fn			
 /// \brief		

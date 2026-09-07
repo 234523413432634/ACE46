@@ -2111,6 +2111,7 @@ void GetBaseChange3D(POINT pt, D3DXVECTOR3 *vOutPos, D3DXVECTOR3 *vOutDir)
 ///////////////////////////////////////////////////////////////////////////////
 int GetPositionInvenScreenMode()
 {
+/*
 	// 2007-12-21 by dgwoo 창모드 지원
 	switch(g_pD3dApp->GetHeight())
 	{
@@ -2165,53 +2166,7 @@ int GetPositionInvenScreenMode()
 		// end 2009. 10. 19 by ckPark 해상도 추가(1680x1050, 1920x1080, 1920x1200)
 
 	}
-//	DbgOut("Window Height(%d)",g_pD3dApp->GetBackBufferDesc().Height);
-//	switch(g_pD3dApp->GetBackBufferDesc().Height)
-//	{
-//	case INVEN_RESOLUTION_1:
-//		return 173;
-//	case INVEN_RESOLUTION_2:
-//		return 311;
-//	case INVEN_RESOLUTION_3:
-//		{
-//			if(g_pD3dApp->GetBackBufferDesc().Height == 960)
-//				return 423;
-//			// 2007-04-24 by bhsohn 와이드 모니터 관련 처리
-//			else if(g_pD3dApp->GetBackBufferDesc().Height == 800)
-//			{
-//				return 311;
-//			}
-//			// 2007-08-23 by bhsohn 1280X720와이드 모니터 관련 처리
-//			else if(720 == g_pD3dApp->GetBackBufferDesc().Height)
-//			{
-//				return 255;
-//			}
-//			// end 2007-08-23 by bhsohn 1280X720와이드 모니터 관련 처리
-//			else
-//				return 468;
-//		}
-//	case INVEN_RESOLUTION_4:
-//		{
-//			// 2007-04-24 by bhsohn 와이드 모니터 관련 처리
-//			if(g_pD3dApp->GetBackBufferDesc().Height == 900)
-//			{
-//				return 388;
-//			}
-//		return 563;
-//		}
-//		break;
-//		
-//	case INVEN_RESOLUTION_W:
-//		return 144;
-//	// 2007-07-14 by dgwoo
-//	case INVEN_RESOLUTION_WINDOW_1024:
-//		return 233;
-//	case INVEN_RESOLUTION_WINDOW_1280:
-//		return 233;
-//	case INVEN_RESOLUTION_WINDOW_1600:
-//		return 233;
-//	}
-
+*/
 	return 0;
 }
 

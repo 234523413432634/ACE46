@@ -8026,20 +8026,53 @@ ProcessResult CFieldIOCPSocket::Process_FC_CLIENT_REPORT(const char* pPacket, in
 
 ProcessResult CFieldIOCPSocket::Process_FC_ADMIN_GET_SERVER_STAT(const char* pPacket, int nLength, int &nBytesUsed)
 {
-	if(FALSE == IsValidCharacter(FALSE))
+	if (FALSE == IsValidCharacter(FALSE))
 	{// 2008-03-13 by cmkwon, 대규모 전쟁시 클라이언트 팅기는거 수정 - 
 		return RES_BREAK;
 	}
 
 	if (NULL == m_pCurrentFieldMapChannel
-		|| FALSE == COMPARE_RACE(m_character.Race, RACE_OPERATION|RACE_GAMEMASTER))		// 2005-12-22 by cmkwon, 게임 마스터 추가
+		|| FALSE == COMPARE_RACE(m_character.Race, RACE_OPERATION | RACE_GAMEMASTER))		// 2005-12-22 by cmkwon, 게임 마스터 추가
 	{
+#ifdef _SHOW_LATENCY
+		if (NULL == m_pCurrentFieldMapChannel)
+		{
+			return RES_BREAK;
+		}
+		INIT_MSG_WITH_BUFFER(MSG_FC_ADMIN_GET_SERVER_STAT_OK, T_FC_ADMIN_GET_SERVER_STAT_OK, pStatOK, pStatOKBuf);
+		//Send just fake data because it's "just" a normal user
+		pStatOK->CurrentANIUserCount = 0;
+		pStatOK->CurrentBCUUserCount = 0;
+		pStatOK->CurrentMapChannelIndex = m_character.MapChannelIndex;
+		pStatOK->CurrentUserCount = 0;
+
+		SendAddData(pStatOKBuf, MSG_SIZE(MSG_FC_ADMIN_GET_SERVER_STAT_OK));
+
+		return RES_RETURN_TRUE;
+#endif
 		return RES_BREAK;
 	}
 
 	INIT_MSG_WITH_BUFFER(MSG_FC_ADMIN_GET_SERVER_STAT_OK, T_FC_ADMIN_GET_SERVER_STAT_OK, pStatOK, pStatOKBuf);
 	pStatOK->CurrentMapChannelIndex = m_character.MapChannelIndex;
 	pStatOK->CurrentUserCount = m_pCurrentFieldMapChannel->m_mapCharacterUniqueNumberMapProject.size();
+	int iBCUCount = 0;
+	int iANICount = 0;
+	mtmapUID2FieldIOCPSocket::iterator it;
+	for (it = m_pCurrentFieldMapChannel->m_mapCharacterUniqueNumberMapProject.begin(); it != m_pCurrentFieldMapChannel->m_mapCharacterUniqueNumberMapProject.end(); it++)
+	{
+		if (COMPARE_INFLUENCE(it->second->m_character.InfluenceType, INFLUENCE_TYPE_VCN))
+		{
+			iBCUCount++;
+		}
+		else if (COMPARE_INFLUENCE(it->second->m_character.InfluenceType, INFLUENCE_TYPE_ANI))
+		{
+			iANICount++;
+		}
+	}
+
+	pStatOK->CurrentANIUserCount = iANICount;
+	pStatOK->CurrentBCUUserCount = iBCUCount;
 
 	SendAddData(pStatOKBuf, MSG_SIZE(MSG_FC_ADMIN_GET_SERVER_STAT_OK));
 

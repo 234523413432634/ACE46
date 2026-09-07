@@ -377,9 +377,12 @@ HRESULT CINFCityBase::InitDeviceObjects()
 		itShop++;
 	}
 	m_mapCityShop.clear();
+
+#ifdef OLD_UNUSED_QUEST_STUFF
 	m_pMission = new CINFCityMission(this);
 	m_pMission->SetGameData(g_pGameMain->m_pGameData);
 	m_pMission->InitDeviceObjects();
+#endif 
 
 
 	m_pNPCScroll = new CINFScrollBar(this,
@@ -577,7 +580,9 @@ HRESULT CINFCityBase::RestoreDeviceObjects()
 			itShop->second->RestoreDeviceObjects();
 			itShop++;
 		}
+#ifdef OLD_UNUSED_QUEST_STUFF
 		m_pMission->RestoreDeviceObjects();
+#endif 
 
 
 		m_pNPCScroll->RestoreDeviceObjects();
@@ -765,7 +770,9 @@ HRESULT CINFCityBase::InvalidateDeviceObjects()
 			itShop->second->InvalidateDeviceObjects();
 			itShop++;
 		}
+#ifdef OLD_UNUSED_QUEST_STUFF
 		m_pMission->InvalidateDeviceObjects();
+#endif
 
 
 		m_pNPCScroll->InvalidateDeviceObjects();
@@ -956,7 +963,9 @@ HRESULT CINFCityBase::DeleteDeviceObjects()
 		itShop++;
 	}
 	m_mapCityShop.clear();
+#ifdef OLD_UNUSED_QUEST_STUFF
 	m_pMission->DeleteDeviceObjects();
+#endif
 	SAFE_DELETE(m_pMission ) ;
 
 	m_pNPCScroll->DeleteDeviceObjects();
@@ -1355,7 +1364,9 @@ void CINFCityBase::Render()
 							 CITY_BASE_NPC_BOX_START_Y - CITY_BASE_NPC_MISSION_SIZE_Y,
 							 CITY_BASE_NPC_MISSION_SIZE_X, 
 							 CITY_BASE_NPC_MISSION_SIZE_Y,FALSE);
+#ifdef OLD_UNUSED_QUEST_STUFF
 				m_pMission->Render();
+#endif 
 			}
 			break;
 		case BUILDINGNPC_RENDER_OCCUPY:
@@ -2503,7 +2514,9 @@ int CINFCityBase::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			break;
 		case BUILDINGNPC_RENDER_MISSION:
 			{
+#ifdef OLD_UNUSED_QUEST_STUFF
 				if( m_pMission->WndProc(uMsg, wParam, lParam) == INF_MSGPROC_BREAK )
+#endif 
 					return INF_MSGPROC_BREAK;
 			}
 			break;
@@ -3367,16 +3380,20 @@ void CINFCityBase::OnCityBaseButtonDown(int nButton)
 				{
 					m_nCurrentBuildingNPCState = BUILDINGNPC_RENDER_TALKBOX;
 					SetNPCTalkInfo( m_pCurrentBuildingNPC->buildingInfo.GreetingTalk);
+#ifdef OLD_UNUSED_QUEST_STUFF
 					m_pMission->Reset();
+#endif 
 					m_pNPCScroll->Reset();
 					g_pQuestData->GetQuestList(m_pCurrentBuildingNPC->buildingInfo.NPCIndex);
-					if(m_pNPCImage)
+					/*
+					if(m_pNPCImage) //AO 2022 Shop images - unused?
 					{
 						m_pNPCImage->InvalidateDeviceObjects();
 						m_pNPCImage->DeleteDeviceObjects();
 					}
 					m_pNPCImage = LoadNPCImage(m_pCurrentBuildingNPC->buildingInfo.NPCIndex);
 					m_fCurrentShowTimeTime = 0;
+					*/
 				}
 				else
 				{
@@ -3684,7 +3701,9 @@ void CINFCityBase::OnCityNPCMainMenu(GUI_BUILDINGNPC* pBuilding)
 	case BUILDINGKIND_MILITARYACADEMY:	// OnCityNPCButtonDown에도 같은 코드 존재
 		{
 			SendLeaveEnterBuilding(m_nCurrentEnterBuildingIndex, pBuilding->buildingInfo.BuildingIndex);
+#ifdef OLD_UNUSED_QUEST_STUFF
 			m_pMission->Reset();
+#endif
 			g_pQuestData->GetQuestList(m_pCurrentBuildingNPC->buildingInfo.NPCIndex);
 //			if(m_pCurrentBuildingNPC)
 //			{	// 해결은 어디다가 넣을 것인가?
@@ -4098,14 +4117,18 @@ void CINFCityBase::OnCityNPCMainMenu(GUI_BUILDINGNPC* pBuilding)
 void CINFCityBase::ResetCityMission()
 {
 	ASSERT_ASSERT(m_pMission);
+#ifdef OLD_UNUSED_QUEST_STUFF
 	m_pMission->Reset();
+#endif
 }
 
 
 void CINFCityBase::AddCityMission(CQuest* pQuest)
 {
 	ASSERT_ASSERT(m_pMission);
+#ifdef OLD_UNUSED_QUEST_STUFF
 	m_pMission->AddMission( pQuest );
+#endif
 }
 
 CINFCityWarp* CINFCityBase::GetCityWarp()
@@ -4169,15 +4192,19 @@ void CINFCityBase::RecvEventEnterBuilding(MSG_FC_EVENT_ENTER_BUILDING* pMsg)
 
 	m_nCurrentBuildingNPCState = BUILDINGNPC_RENDER_TALKBOX;
 	SetNPCTalkInfo( m_pCurrentBuildingNPC->buildingInfo.GreetingTalk);
+#ifdef OLD_UNUSED_QUEST_STUFF
 	m_pMission->Reset();
+#endif 
 	m_pNPCScroll->Reset();
 //	g_pQuestData->GetQuestList(m_pCurrentBuildingNPC->buildingInfo.NPCIndex);	// 2005-12-26 by ispark
-	if(m_pNPCImage)
+	/*
+	if(m_pNPCImage)	//AO 2022 Shop images - unused?
 	{
 		m_pNPCImage->InvalidateDeviceObjects();
 		m_pNPCImage->DeleteDeviceObjects();
 	}
 	m_pNPCImage = LoadNPCImage(m_pCurrentBuildingNPC->buildingInfo.NPCIndex);
+	*/
 	m_fCurrentShowTimeTime = 0;
 	MSG_FC_EVENT_ENTER_BUILDING_OK sMsg;
 	sMsg.BuildingIndex = m_pCurrentBuildingNPC->buildingInfo.BuildingIndex;
@@ -4638,7 +4665,8 @@ void CINFCityBase::SendEventRequestWarpToOutdoor()
 /// \param		
 /// \return		
 ///////////////////////////////////////////////////////////////////////////////
-CINFImageEx* CINFCityBase::LoadNPCImage(int nNPCIndex)
+/*
+CINFImageEx* CINFCityBase::LoadNPCImage(int nNPCIndex) //AO 2022 Shop images - unused?
 {
 	SAFE_DELETE(m_pDataHeader);
 	CGameData gameData;
@@ -4656,7 +4684,7 @@ CINFImageEx* CINFCityBase::LoadNPCImage(int nNPCIndex)
 	pImage->RestoreDeviceObjects();
 	return pImage;
 }
-
+*/
 ///////////////////////////////////////////////////////////////////////////////
 /// \fn			CINFBase* CINFCityBase::FindBuildingShop(int nBuildingKind)
 /// \brief		상점 종류를 이용해 상점 포인터를 찾는다.

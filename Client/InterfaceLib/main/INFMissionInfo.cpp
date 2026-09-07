@@ -1,7 +1,7 @@
 // CINFMissionInfo.cpp: implementation of the CINFMissionInfo class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#ifdef OLD_UNUSED_QUEST_STUFF
 #include "stdafx.h"
 #include "INFMissionInfo.h"
 #include "AtumApplication.h"
@@ -3406,6 +3406,6 @@ void CINFMissionInfo::OverlapSortPayItem(CQuest *pQuest)
 		}
 	}
 }
-
+#endif
 
 

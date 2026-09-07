@@ -9933,12 +9933,12 @@ void CAtumFieldDBManager::GetAllQuest(CFieldIOCPSocket *pIOCPSocket, SQLHSTMT hs
 		return;
 	}
 
-	SQLBindCol(hstmt,  1, SQL_C_LONG   , &retQuest.CharacterUniqueNumber, 0,	&arrCB[1]);
-	SQLBindCol(hstmt,  2, SQL_C_LONG   , &retQuest.QuestIndex, 0,				&arrCB[2]);
-	SQLBindCol(hstmt,  3, SQL_C_TINYINT, &retQuest.QuestState, 0,				&arrCB[3]);
-	SQLBindCol(hstmt,  4, SQL_C_LONG   , &retQuest.QuestParam1, 0,				&arrCB[4]);
-	SQLBindCol(hstmt,  5, SQL_C_TIMESTAMP, &QuestStartTime, 0,					&arrCB[5]);
-	SQLBindCol(hstmt,  6, SQL_C_SBIGINT, &retQuest.QuestPlayTimeStamp, 0,		&arrCB[6]);
+	SQLBindCol(hstmt,  1, SQL_C_LONG   , &retQuest.CharacterUniqueNumber, 0,	&arrCB[0]);
+	SQLBindCol(hstmt,  2, SQL_C_LONG   , &retQuest.QuestIndex, 0,				&arrCB[1]);
+	SQLBindCol(hstmt,  3, SQL_C_TINYINT, &retQuest.QuestState, 0,				&arrCB[2]);
+	SQLBindCol(hstmt,  4, SQL_C_LONG   , &retQuest.QuestParam1, 0,				&arrCB[3]);
+	SQLBindCol(hstmt,  5, SQL_C_TIMESTAMP, &QuestStartTime, 0,					&arrCB[4]);
+	SQLBindCol(hstmt,  6, SQL_C_SBIGINT, &retQuest.QuestPlayTimeStamp, 0,		&arrCB[5]);
 
 	// initialize to 0x00
 	memset(&retQuest, 0x00, sizeof(CharacterQuest));

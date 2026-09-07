@@ -1,7 +1,7 @@
 // INFQuest.cpp: implementation of the CINFQuest class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#ifdef OLD_UNUSED_QUEST_STUFF
 #include "stdafx.h"
 #include "INFQuest.h"
 #include "INFWindow.h"
@@ -670,3 +670,4 @@ void CINFQuest::OnButtonClicked(int button)
 	}
 }
 */
+#endif

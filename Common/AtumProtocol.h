@@ -10434,6 +10434,8 @@ typedef struct
 {
 	MAP_CHANNEL_INDEX	CurrentMapChannelIndex;		// 현재 맵
 	INT					CurrentUserCount;			// 현재 맵의 사용자 수
+	INT					CurrentBCUUserCount;
+	INT					CurrentANIUserCount;
 } MSG_FC_ADMIN_GET_SERVER_STAT_OK;					// F -> C
 
 ///////////////////////////////////////////////////////////////////////////////

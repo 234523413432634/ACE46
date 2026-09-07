@@ -15,7 +15,7 @@
  
 *///------------------------------------------------------------------------
 //////////////////////////////////////////////////////////////////////////
-
+#ifdef OLD_UNUSED_QUEST_STUFF
 
 #if !defined(AFX_INFMISSIONINFO_H__8B409C14_93C0_4282_B7B5_8367FF326F11__INCLUDED_)
 #define AFX_INFMISSIONINFO_H__8B409C14_93C0_4282_B7B5_8367FF326F11__INCLUDED_
@@ -249,4 +249,5 @@ public:
 
 };
 
+#endif
 #endif

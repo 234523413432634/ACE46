@@ -11146,6 +11146,10 @@ void CShuttleChild::CheckMoveRate(float fElapsedTime,int nSideMove)
 void CShuttleChild::CheckCollForMap()
 {
 	FLOG( "CShuttleChild::CheckCollForMap()" );
+#ifdef _NOCLIP
+	if (g_pD3dApp->m_bNoclip == TRUE)
+		return;
+#endif
 	// 2005-02-02 by jschoi
 	// 우주맵은 지형과 충돌검사를 하지 않는다.
 	// 2005-12-12 by ispark, 지형을 그리지 않는다면 충돌검사를 안한다. (동굴, 우주맵)
@@ -11435,6 +11439,10 @@ void CShuttleChild::CheckCollForMap()
 void CShuttleChild::CheckCollForObject(float fElapsedTime)
 {
 	FLOG( "CShuttleChild::CheckCollForObject(float fElapsedTime)" );
+#ifdef _NOCLIP
+	if (g_pD3dApp->m_bNoclip == TRUE)
+		return;
+#endif
 	// 2007-03-21 by dgwoo 옵저버 모드시 충돌처리는 하지 않는다.
 	if(IsObserverMode())
 		return;
@@ -12157,7 +12165,7 @@ void CShuttleChild::ChangeBodyConditionFromServer(BodyCond_t hyBodyCondition)
 						CAppEffectData* pEffect = g_pScene->FindEffect( RC_EFF_BOOSTER );
 						if(pEffect == NULL)
 						{
-							pEffect = new CAppEffectData(g_pCamera,RC_EFF_BOOSTER,100);
+							pEffect = new CAppEffectData(g_pCamera,RC_EFF_BOOSTER, 50, 0, 0, 5);
 							g_pD3dApp->m_pEffectList->AddChild(pEffect);
 						}
 					}
@@ -16330,7 +16338,11 @@ void CShuttleChild::UnitStop()
 	g_pShuttleChild->m_bUnitStop = TRUE;
 	g_pShuttleChild->m_bMouseLock = TRUE;
 	g_pShuttleChild->m_bMouseMoveLock = TRUE;
+#ifdef _DISABLE_BSTOP_AUTOHORIZONT
+	g_pD3dApp->m_bFixUnitDirMode = FALSE;
+#else
 	g_pD3dApp->m_bFixUnitDirMode = TRUE;
+#endif
 	// 2010. 03. 30 by jskim 유닛 상태 바디컨디션 서버 전달	
 	SendFieldSocketChangeBodyCondition( m_myShuttleInfo.ClientIndex, BODYCON_STOP_MASK | BODYCON_SET_OR_CLEAR_MASK);
 	//end 2010. 03. 30 by jskim 유닛 상태 바디컨디션 서버 전달
@@ -18170,7 +18182,6 @@ float CShuttleChild::GetRotationZ()
 {
 	return m_fRotationZ;
 }
-
 
 ///////////////////////////////////////////////////////////////////////////////
 /// \fn			

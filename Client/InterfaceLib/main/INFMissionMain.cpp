@@ -20,18 +20,18 @@
 #include "INFGameMainQSlot.h"			// 2011. 10. 10 by jskim UI시스템 변경
 
 // 2011-03-02 by hsSon, 미션 글씨 위치 수정
-#define MISSION_VIEW_INFO_POSX				(g_pD3dApp->GetBackBufferDesc().Width-410)
+#define MISSION_VIEW_INFO_POSX				(g_pD3dApp->GetBackBufferDesc().Width-410*HIDPI_COEFF)
 // end 2011-03-02 by hsSon, 미션 글씨 위치 수정
 
-#define MISSION_FONT_HEIGHT_GAB				17
+#define MISSION_FONT_HEIGHT_GAB				17*HIDPI_COEFF
 #ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 출격 버튼 
 #define GO_MAP_POS_X						((g_pD3dApp->GetBackBufferDesc().Width-70)/2)//(g_pD3dApp->GetBackBufferDesc().Width-127)
-#define GO_MAP_POS_Y						(g_pD3dApp->GetBackBufferDesc().Height-110)
+#define GO_MAP_POS_Y						(g_pD3dApp->GetBackBufferDesc().Height-110*HIDPI_COEFF)
 
 // Go Mission맵
 #define GO_MISSION_MAP_POS_X				((g_pD3dApp->GetBackBufferDesc().Width/2)-80)//(g_pD3dApp->GetBackBufferDesc().Width-253)
-#define GO_MISSION_MAP_POS_Y				(g_pD3dApp->GetBackBufferDesc().Height-110)			  
+#define GO_MISSION_MAP_POS_Y				(g_pD3dApp->GetBackBufferDesc().Height-110*HIDPI_COEFF)			  
 #else 
 // 출격 버튼 
 #define GO_MAP_POS_X						((g_pD3dApp->GetBackBufferDesc().Width-105)/2)//(g_pD3dApp->GetBackBufferDesc().Width-127)
@@ -206,7 +206,7 @@ HRESULT CINFMissionMain::InitDeviceObjects()
 	{
 		if(NULL == m_pMissionINGFont[i])
 		{
-			m_pMissionINGFont[i] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 9, D3DFONT_ZENABLE, TRUE, 1024, 32);
+			m_pMissionINGFont[i] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 9*HIDPI_COEFF, D3DFONT_ZENABLE, TRUE, 1024 * HIDPI_COEFF, 32 * HIDPI_COEFF);
 		}
 		m_pMissionINGFont[i]->InitDeviceObjects(g_pD3dDev);
 	}

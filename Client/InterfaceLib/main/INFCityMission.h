@@ -1,7 +1,7 @@
 // INFCityMission.h: interface for the CINFCityMission class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#ifdef OLD_UNUSED_QUEST_STUFF
 #if !defined(AFX_INFCITYMISSION_H__13CBEB57_3A36_41F4_9AF8_C01670DA45E0__INCLUDED_)
 #define AFX_INFCITYMISSION_H__13CBEB57_3A36_41F4_9AF8_C01670DA45E0__INCLUDED_
 
@@ -114,3 +114,4 @@ public:
 };
 
 #endif // !defined(AFX_INFCITYMISSION_H__13CBEB57_3A36_41F4_9AF8_C01670DA45E0__INCLUDED_)
+#endif 

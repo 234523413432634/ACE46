@@ -763,29 +763,49 @@
 	#define STRMSG_070410_0008   	" %s' data duplication to Jamboree server  DB(atum2_db_20) failed - Unknown (%d)!!"
 
 ///////////////////////////////////////////////////////////////////////////////
-// 2007-05-07 by cmkwon, 해상도 문자열 
-	// 2007-07-24 by cmkwon, 런처에서 800*600 해상도 삭제 - 콤보박스 스트링 필요 없음
-	//#define STRMSG_WINDOW_DEGREE_800x600_LOW			"800x600 (low)"
-	//#define STRMSG_WINDOW_DEGREE_800x600_MEDIUM			"800x600 (medium)"
-	//#define STRMSG_WINDOW_DEGREE_800x600_HIGH			"800x600 (high)"
+#define STRMSG_WINDOW_DEGREE_800x600_LOW			"800x600 (low)"
+#define STRMSG_WINDOW_DEGREE_800x600_MEDIUM			"800x600 (medium)"
+#define STRMSG_WINDOW_DEGREE_800x600_HIGH			"800x600"
 #define STRMSG_WINDOW_DEGREE_1024x768_LOW			"1024x768 (low)"
 #define STRMSG_WINDOW_DEGREE_1024x768_MEDIUM		"1024x768 (medium)"
-#define STRMSG_WINDOW_DEGREE_1024x768_HIGH			"1024x768 (high)"
-#define STRMSG_WINDOW_DEGREE_W1280x800_LOW			"1280x800 (low-wide)"
-#define STRMSG_WINDOW_DEGREE_W1280x800_MEDIUM		"1280x800 (medium-wide)"
-#define STRMSG_WINDOW_DEGREE_W1280x800_HIGH			"1280x800 (high-wide)"
+#define STRMSG_WINDOW_DEGREE_1024x768_HIGH			"1024x768"
+#define STRMSG_WINDOW_DEGREE_1280x800_LOW			"1280x800 (low-wide)"
+#define STRMSG_WINDOW_DEGREE_1280x800_MEDIUM		"1280x800 (medium-wide)"
+#define STRMSG_WINDOW_DEGREE_1280x800_HIGH			"1280x800"
+#define STRMSG_WINDOW_DEGREE_1280x720_LOW			"1280x720 (low-wide)"
+#define STRMSG_WINDOW_DEGREE_1280x720_MEDIUM		"1280x720 (medium-wide)"
+#define STRMSG_WINDOW_DEGREE_1280x720_HIGH			"1280x720"
 #define STRMSG_WINDOW_DEGREE_1280x960_LOW			"1280x960 (low)"
 #define STRMSG_WINDOW_DEGREE_1280x960_MEDIUM		"1280x960 (medium)"
-#define STRMSG_WINDOW_DEGREE_1280x960_HIGH			"1280x960 (high)"
+#define STRMSG_WINDOW_DEGREE_1280x960_HIGH			"1280x960"
 #define STRMSG_WINDOW_DEGREE_1280x1024_LOW			"1280x1024 (low)"
 #define STRMSG_WINDOW_DEGREE_1280x1024_MEDIUM		"1280x1024 (medium)"
-#define STRMSG_WINDOW_DEGREE_1280x1024_HIGH			"1280x1024 (high)"
-#define STRMSG_WINDOW_DEGREE_W1600x900_LOW			"1600x900 (low-wide)"
-#define STRMSG_WINDOW_DEGREE_W1600x900_MEDIUM		"1600x900 (medium-wide)"
-#define STRMSG_WINDOW_DEGREE_W1600x900_HIGH			"1600x900 (high-wide)"
+#define STRMSG_WINDOW_DEGREE_1280x1024_HIGH			"1280x1024"
+#define STRMSG_WINDOW_DEGREE_1440x900_LOW			"1440x900 (low-wide)"
+#define STRMSG_WINDOW_DEGREE_1440x900_MEDIUM		"1440x900 (medium-wide)"
+#define STRMSG_WINDOW_DEGREE_1440x900_HIGH			"1440x900"
+#define STRMSG_WINDOW_DEGREE_1600x900_LOW			"1600x900 (low-wide)"
+#define STRMSG_WINDOW_DEGREE_1600x900_MEDIUM		"1600x900 (medium-wide)"
+#define STRMSG_WINDOW_DEGREE_1600x900_HIGH			"1600x900"
 #define STRMSG_WINDOW_DEGREE_1600x1200_LOW			"1600x1200 (low)"
 #define STRMSG_WINDOW_DEGREE_1600x1200_MEDIUM		"1600x1200 (medium)"
-#define STRMSG_WINDOW_DEGREE_1600x1200_HIGH			"1600x1200 (high)"
+#define STRMSG_WINDOW_DEGREE_1600x1200_HIGH			"1600x1200"
+#define STRMSG_WINDOW_DEGREE_1680x1050_LOW			"1680x1050 (low)"
+#define STRMSG_WINDOW_DEGREE_1680x1050_MEDIUM		"1680x1050 (medium)"
+#define STRMSG_WINDOW_DEGREE_1680x1050_HIGH			"1680x1050"
+#define STRMSG_WINDOW_DEGREE_1920x1080_LOW			"1920x1080 (low)"
+#define STRMSG_WINDOW_DEGREE_1920x1080_MEDIUM		"1920x1080 (medium)"
+#define STRMSG_WINDOW_DEGREE_1920x1080_HIGH			"1920x1080"
+#define STRMSG_WINDOW_DEGREE_1920x1200_LOW			"1920x1200 (low)"
+#define STRMSG_WINDOW_DEGREE_1920x1200_MEDIUM		"1920x1200 (medium)"
+#define STRMSG_WINDOW_DEGREE_1920x1200_HIGH			"1920x1200"
+#define	STRMSG_WINDOW_DEGREE_2560x1080_HIGH			"2560x1080"
+#define	STRMSG_WINDOW_DEGREE_2560x1440_HIGH			"2560x1440"
+#define STRMSG_WINDOW_DEGREE_3440x1440_LOW			"3440x1440 (low)"
+#define STRMSG_WINDOW_DEGREE_3440x1440_MEDIUM		"3440x1440 (medium)"
+#define STRMSG_WINDOW_DEGREE_3440x1440_HIGH			"3440x1440"
+#define	STRMSG_WINDOW_DEGREE_3840x2160_HIGH			"3840x2160"
+#define	STRMSG_WINDOW_DEGREE_5120x2160_HIGH			"5120x2160"
 
 // 2007-06-15 by dhjin, 관전 관련 스트링
 #define STRMSG_070615_0000		"Cannot start as you are not in Stealth Mode."
@@ -808,12 +828,6 @@
 #define STRMSG_070711_0002 "You are forbidden from entering arena for %d minutes!!"
 #define STRMSG_070711_0003 "Your prohibition from entering arena is discharged."
 #define STRMSG_070711_0004 "Use of Arena is prohibited for \'%s\' user."
-
-///////////////////////////////////////////////////////////////////////////////
-// 2007-08-23 by cmkwon, Wide 해상도 1280x720(16:9) 추가 - 스트링 추가
-#define STRMSG_WINDOW_DEGREE_W1280x720_LOW			"1280x720 (low-wide)"
-#define STRMSG_WINDOW_DEGREE_W1280x720_MEDIUM		"1280x720 (medium-wide)"
-#define STRMSG_WINDOW_DEGREE_W1280x720_HIGH			"1280x720 (high-wide)"
 
 // 2007-08-30 by cmkwon, 회의룸 시스템 구현 - 스트링 추가
 #define STRMSG_070830_0001                                   "This command can only be used after nation has been selected."
@@ -852,11 +866,6 @@
 #define STRMSG_080201_0004									"'Erros has occured in the process of blocking %s' account. ErrorCode(%d)"
 #define STRMSG_080201_0005									"'%s' account has been removed from block list." 
 
-// 2008-02-11 by cmkwon, 해상도 추가(1440x900) - 
-#define STRMSG_WINDOW_DEGREE_1440x900_LOW			"1440x900 (low-wide)"
-#define STRMSG_WINDOW_DEGREE_1440x900_MEDIUM		"1440x900 (medium-wide)"
-#define STRMSG_WINDOW_DEGREE_1440x900_HIGH			"1440x900 (high-wide)"
-
 // 2007-12-27 by dhjin, 아레나통합- 아레나서버연결관련오류
 #define STRMSG_S_MF2AFCONNECT_0000                       "[Error] WndProc(), Can't connect to  ArenaServer[%15s:%4d] Reconnect\r\n"
 #define STRMSG_S_MF2AFCONNECT_0001                       "Connected to Arena Server.\r\n"
@@ -888,24 +897,12 @@
 // 2009-09-02 by cmkwon, Gameforge4D 게임 가드 동의창 WebPage로 처리 - STRMSG_090831_0001는 웹페이지로 처리
 //#define STRMSG_090831_0001					"AirRivals is now protected from cheaters with a hackshield.\r\nPlease install it to help us to make AirRivals even safer.\r\nYou can only continue gameplay once you have installed the hackshield.\r\nPlease read the privacy policy< http://agb.gameforge.de/mmog/index.php?lang=en&art=datenschutz_mmog&special=airrivals&&f_text=b1daf2&f_text_hover=ffffff&f_text_h=061229&f_text_hr=061229&f_text_hrbg=061229&f_text_hrborder=9EBDE4&f_text_font=arial%2C+arial%2C+arial%2C+sans-serif&f_bg=000000 > to find out more about the hackshield's function."
 //#define STRMSG_090831_0002					"Install hackshield"
-#define STRMSG_090831_0002					"Install nProtect" // 2015-03-11 by shchoi Gameforge4D nProtect 동의창 �
+#define STRMSG_090831_0002					"Install nProtect" // 2015-03-11 by shchoi Gameforge4D nProtect 동의창 ?
 #define STRMSG_090831_0003					"cancel"
 
 ///////////////////////////////////////////////////////////////////////////////
 // 2009-09-02 by cmkwon, Gameforge4D 게임 가드 동의창 WebPage로 처리 - 
 #define STRMSG_090902_0001					"http://www.subagames.com/launcher/hackshield.html"
-
-///////////////////////////////////////////////////////////////////////////////
-// 2009-10-16 by cmkwon, 지원 해상도 추가(1680x1050,1920x1080,1920x1200) - 
-#define STRMSG_WINDOW_DEGREE_1680x1050_LOW			"1680x1050 (low)"
-#define STRMSG_WINDOW_DEGREE_1680x1050_MEDIUM		"1680x1050 (medium)"
-#define STRMSG_WINDOW_DEGREE_1680x1050_HIGH			"1680x1050 (high)"
-#define STRMSG_WINDOW_DEGREE_1920x1080_LOW			"1920x1080 (low)"
-#define STRMSG_WINDOW_DEGREE_1920x1080_MEDIUM		"1920x1080 (medium)"
-#define STRMSG_WINDOW_DEGREE_1920x1080_HIGH			"1920x1080 (high)"
-#define STRMSG_WINDOW_DEGREE_1920x1200_LOW			"1920x1200 (low)"
-#define STRMSG_WINDOW_DEGREE_1920x1200_MEDIUM		"1920x1200 (medium)"
-#define STRMSG_WINDOW_DEGREE_1920x1200_HIGH			"1920x1200 (high)"
 
 ///////////////////////////////////////////////////////////////////////////////
 // 2011-01-26 by hskim, 인증 서버의 접속 허용 상황

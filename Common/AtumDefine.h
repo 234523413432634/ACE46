@@ -20,8 +20,8 @@
 
 #define OPTION_DEFAULT_MP3_USE				1		// 뮤직 플레이어
 
-
-
+//the implementation is moronic, but it works and seemingly doesn't affect the performance
+#define HIDPI_COEFF								((((float)g_pD3dApp->GetBackBufferDesc().Height/1200.0f)<=1)? 1: (float)g_pD3dApp->GetBackBufferDesc().Height/1024.0f)
 
 #define MAX_OPTION_VALUE						9
 

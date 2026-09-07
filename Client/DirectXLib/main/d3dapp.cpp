@@ -232,120 +232,144 @@ LRESULT CALLBACK WebWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam 
 // Name: Create()
 // Desc:
 //-----------------------------------------------------------------------------
-HRESULT CD3DApplication::Create( HINSTANCE hInstance )
+HRESULT CD3DApplication::Create(HINSTANCE hInstance)
 {
-	FLOG( "CD3DApplication::Create( HINSTANCE hInstance )" );
-    HRESULT hr;
+	FLOG("CD3DApplication::Create( HINSTANCE hInstance )");
+	HRESULT hr;
 	DWORD err = 0;
+	BOOL borderless = TRUE;
+	//	__try{
+	m_hInstance = hInstance;
 
-//	__try{
-		m_hInstance = hInstance;
+	// Create the Direct3D object
+	m_pD3D = Direct3DCreate9(D3D_SDK_VERSION);
+	if (m_pD3D == NULL)
+	{
+		MessageBox(NULL, STRMSG_C_DIRECTX_0001, STRMSG_WINDOW_TEXT, MB_OK);//"다이렉트X 버전이 낮습니다. 다이렉트X 9.0 이상을 설치하십시요"
+		return DisplayErrorMsg(D3DAPPERR_NODIRECT3D, MSGERR_APPMUSTEXIT);
+	}
 
-		// Create the Direct3D object
-		m_pD3D = Direct3DCreate9( D3D_SDK_VERSION );
-		if( m_pD3D == NULL )
-		{
-			MessageBox( NULL, STRMSG_C_DIRECTX_0001, STRMSG_WINDOW_TEXT, MB_OK );//"다이렉트X 버전이 낮습니다. 다이렉트X 9.0 이상을 설치하십시요"
-			return DisplayErrorMsg( D3DAPPERR_NODIRECT3D, MSGERR_APPMUSTEXIT );
-		}
+	if (m_nHeight == 0 && m_nWidth == 0)
+	{
+		D3DDISPLAYMODE d3ddm;
+		m_pD3D->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &d3ddm); //Get native screen resolution
 
-		// Build a list of Direct3D adapters, modes and devices. The
-		// ConfirmDevice() callback is used to confirm that only devices that
-		// meet the app's requirements are considered.
-		if( FAILED( hr = BuildDeviceList() ) )
-		{
-			SAFE_RELEASE( m_pD3D );
-			return DisplayErrorMsg( hr, MSGERR_APPMUSTEXIT );
-		}
+		m_nWidth = d3ddm.Width;
+		m_nHeight = d3ddm.Height;
+		borderless = TRUE;
+	}
 
-		// Unless a substitute hWnd has been specified, create a window to
-		// render into
-		if( m_hWnd == NULL)
-		{
-			// Register the windows class
-			WNDCLASS wndClass = { CS_DBLCLKS, WndProc, 0, 0, hInstance,
-								  LoadIcon( hInstance, MAKEINTRESOURCE(m_dwIcon) ),
-								  NULL,
-								  //LoadCursor( NULL, IDC_ARROW ),
-								  (HBRUSH)GetStockObject(WHITE_BRUSH),
-								  NULL, WINDOWTEXT_NAME_CLIENT };
-			RegisterClass( &wndClass );
-			m_hCursor = LoadCursor(m_hInstance, MAKEINTRESOURCE(m_dwCursor) );// 사용자 마우스 커서
+	// Build a list of Direct3D adapters, modes and devices. The
+	// ConfirmDevice() callback is used to confirm that only devices that
+	// meet the app's requirements are considered.
+	if (FAILED(hr = BuildDeviceList()))
+	{
+		SAFE_RELEASE(m_pD3D);
+		DbgOut("BuildDeviceList failed!");
+		return DisplayErrorMsg(hr, MSGERR_APPMUSTEXIT);
+	}
+
+	// Unless a substitute hWnd has been specified, create a window to
+	// render into
+	if (m_hWnd == NULL)
+	{
+		// Register the windows class
+		WNDCLASS wndClass = { CS_DBLCLKS, WndProc, 0, 0, hInstance,
+							  LoadIcon(hInstance, MAKEINTRESOURCE(m_dwIcon)),
+							  NULL,
+			//LoadCursor( NULL, IDC_ARROW ),
+			(HBRUSH)GetStockObject(WHITE_BRUSH),
+			NULL, WINDOWTEXT_NAME_CLIENT };
+		RegisterClass(&wndClass);
+		m_hCursor = LoadCursor(m_hInstance, MAKEINTRESOURCE(m_dwCursor));// 사용자 마우스 커서
 //			m_hCursor = LoadCursor( NULL, IDC_ARROW );
 			// Set the window's initial style
-			if(	m_bWindowed )
-			{
-			
-//				m_dwWindowStyle = WS_OVERLAPPED|WS_CAPTION|WS_MINIMIZEBOX|WS_VISIBLE;
-//				m_dwWindowStyle = WS_OVERLAPPED|WS_CAPTION|WS_SYSMENU|WS_THICKFRAME|
-//								  WS_MINIMIZEBOX|WS_VISIBLE;
-// 2007-12-21 by dgwoo 창모드 지원
-//				m_dwWindowStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | 
-//                          WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_VISIBLE;
-				// 2008-12-15 by bhsohn 비스타에서 IME시스템 동작 안되는 문제 해결
-// 				m_dwWindowStyle =  WS_CAPTION | WS_SYSMENU |
-//                           WS_MINIMIZEBOX | WS_VISIBLE;
-				//WS_OVERLAPPEDWINDOW
-				m_dwWindowStyle =  WS_OVERLAPPED| WS_CAPTION | WS_SYSMENU |WS_MINIMIZEBOX;
-				// end 2008-12-15 by bhsohn 비스타에서 IME시스템 동작 안되는 문제 해결
-
-				// 2007-07-04 by dgwoo 윈도우(디버그) 모드에서도 윈도우 사이즈의 인자를 받아 적용시킨다.
-				m_dwCreationWidth = m_nWidth;
-				m_dwCreationHeight = m_nHeight;
-			}
-			else
-				m_dwWindowStyle = WS_POPUP | WS_SYSMENU | WS_VISIBLE;
-			// Set the window's initial width
-			RECT rc;
-			SetRect( &rc, 0, 0, m_dwCreationWidth, m_dwCreationHeight );
-			AdjustWindowRect( &rc, m_dwWindowStyle, TRUE );
- 
-
-			// Create the render window
-			m_hWnd = CreateWindow( _T(WINDOWTEXT_NAME_CLIENT), m_strWindowTitle, m_dwWindowStyle,
-								   CW_USEDEFAULT, CW_USEDEFAULT,
-								   m_dwCreationWidth, m_dwCreationHeight, 0L,
-								   NULL,
-								   hInstance, 0L );
-		}
-
-		// The focus window can be a specified to be a different window than the
-		// device window.  If not, use the device window as the focus window.
-		if( m_hWndFocus == NULL )
-			m_hWndFocus = m_hWnd;
-
-		// Save window properties
-		m_dwWindowStyle = GetWindowLong( m_hWnd, GWL_STYLE );
-		GetWindowRect( m_hWnd, &m_rcWindowBounds );
-		GetClientRect( m_hWnd, &m_rcWindowClient );
-
-		// Initialize the application timer
-		DXUtil_Timer( TIMER_START );
-
-		m_hHangulDC = CreateCompatibleDC(NULL);
-		// Initialize the app's custom scene stuff
-		if( FAILED( hr = OneTimeSceneInit() ) )
+		if (borderless)
 		{
-			SAFE_RELEASE( m_pD3D );
-			return DisplayErrorMsg( hr, MSGERR_APPMUSTEXIT );
-		}
+			//2015-03-08 by killburne BORDERLESS window
+			m_dwWindowStyle = WS_EX_TOPMOST | WS_POPUP; //Borderless
 
-		// Initialize the 3D environment for the app
-		if( FAILED( hr = Initialize3DEnvironment() ) )
+			//Set client res to Desktop resolution
+			m_dwCreationWidth = m_nWidth;
+			m_dwCreationHeight = m_nHeight;
+
+		}
+		else if (m_bWindowed)
 		{
-			SAFE_RELEASE( m_pD3D );
-			return DisplayErrorMsg( hr, MSGERR_APPMUSTEXIT );
+
+			//				m_dwWindowStyle = WS_OVERLAPPED|WS_CAPTION|WS_MINIMIZEBOX|WS_VISIBLE;
+			//				m_dwWindowStyle = WS_OVERLAPPED|WS_CAPTION|WS_SYSMENU|WS_THICKFRAME|
+			//								  WS_MINIMIZEBOX|WS_VISIBLE;
+			// 2007-12-21 by dgwoo 창모드 지원
+			//				m_dwWindowStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | 
+			//                          WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_VISIBLE;
+							// 2008-12-15 by bhsohn 비스타에서 IME시스템 동작 안되는 문제 해결
+			// 				m_dwWindowStyle =  WS_CAPTION | WS_SYSMENU |
+			//                           WS_MINIMIZEBOX | WS_VISIBLE;
+							//WS_OVERLAPPEDWINDOW
+
+			m_dwWindowStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
+			// end 2008-12-15 by bhsohn 비스타에서 IME시스템 동작 안되는 문제 해결
+
+			// 2007-07-04 by dgwoo 윈도우(디버그) 모드에서도 윈도우 사이즈의 인자를 받아 적용시킨다.
+			m_dwCreationWidth = m_nWidth;
+			m_dwCreationHeight = m_nHeight;
 		}
+		else
+			m_dwWindowStyle = WS_POPUP | WS_SYSMENU | WS_VISIBLE;
+		// Set the window's initial width
+		RECT rc;
+		SetRect(&rc, 0, 0, m_dwCreationWidth, m_dwCreationHeight);
+		AdjustWindowRect(&rc, m_dwWindowStyle, TRUE);
 
-		// The app is ready to go
-		m_bReady = TRUE;
-//	}
-//	__except(err)
-//	{
-//		;
-//	}
 
-    return S_OK;
+		// Create the render window
+		m_hWnd = CreateWindow(_T(WINDOWTEXT_NAME_CLIENT), m_strWindowTitle, m_dwWindowStyle,
+			CW_USEDEFAULT, CW_USEDEFAULT,
+			m_dwCreationWidth, m_dwCreationHeight, 0L,
+			NULL,
+			hInstance, 0L);
+	}
+
+	// The focus window can be a specified to be a different window than the
+	// device window.  If not, use the device window as the focus window.
+	if (m_hWndFocus == NULL)
+		m_hWndFocus = m_hWnd;
+
+	// Save window properties
+	m_dwWindowStyle = GetWindowLong(m_hWnd, GWL_STYLE);
+	GetWindowRect(m_hWnd, &m_rcWindowBounds);
+	GetClientRect(m_hWnd, &m_rcWindowClient);
+
+	// Initialize the application timer
+	DXUtil_Timer(TIMER_START);
+
+	m_hHangulDC = CreateCompatibleDC(NULL);
+	// Initialize the app's custom scene stuff
+	if (FAILED(hr = OneTimeSceneInit()))
+	{
+		SAFE_RELEASE(m_pD3D);
+		DbgOut("OneTimeSceneInit failed!");
+		return DisplayErrorMsg(hr, MSGERR_APPMUSTEXIT);
+	}
+
+	// Initialize the 3D environment for the app
+	if (FAILED(hr = Initialize3DEnvironment()))
+	{
+		SAFE_RELEASE(m_pD3D);
+		DbgOut("Initialize3DEnvironment failed!");
+		return DisplayErrorMsg(hr, MSGERR_APPMUSTEXIT);
+	}
+
+	// The app is ready to go
+	m_bReady = TRUE;
+	//	}
+	//	__except(err)
+	//	{
+	//		;
+	//	}
+
+	return S_OK;
 }
 
 
@@ -1540,19 +1564,21 @@ HRESULT CD3DApplication::Initialize3DEnvironment()
     m_d3dpp.Windowed               = pDeviceInfo->bWindowed;
     m_d3dpp.BackBufferCount        = 1;
     if( pDeviceInfo->bWindowed )
-        m_d3dpp.MultiSampleType    = pDeviceInfo->MultiSampleTypeWindowed;
+        m_d3dpp.MultiSampleType    = D3DMULTISAMPLE_4_SAMPLES; //AO 2022 Enable 4xMSAA by default
     else
-        m_d3dpp.MultiSampleType    = pDeviceInfo->MultiSampleTypeFullscreen;
+        m_d3dpp.MultiSampleType    = D3DMULTISAMPLE_4_SAMPLES;
     m_d3dpp.SwapEffect             = D3DSWAPEFFECT_DISCARD;
     m_d3dpp.EnableAutoDepthStencil = m_bUseDepthBuffer;
     m_d3dpp.AutoDepthStencilFormat = pModeInfo->DepthStencilFormat;
     m_d3dpp.hDeviceWindow          = m_hWnd;
-	m_d3dpp.Flags				   = D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
+	m_d3dpp.Flags				   = D3DPRESENTFLAG_DISCARD_DEPTHSTENCIL;
     if( m_bWindowed )
     {
+		m_dwWindowStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
         m_d3dpp.BackBufferWidth  = m_rcWindowClient.right - m_rcWindowClient.left;
         m_d3dpp.BackBufferHeight = m_rcWindowClient.bottom - m_rcWindowClient.top;
         m_d3dpp.BackBufferFormat = pAdapterInfo->d3ddmDesktop.Format;
+		m_d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
     }
     else
     {
@@ -1561,7 +1587,8 @@ HRESULT CD3DApplication::Initialize3DEnvironment()
         m_d3dpp.BackBufferFormat = pModeInfo->Format;
 //		m_d3dpp.FullScreen_PresentationInterval =  D3DPRESENT_INTERVAL_IMMEDIATE;
 //		m_d3dpp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
-    }
+		m_d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+	}
 
     if( pDeviceInfo->d3dCaps.PrimitiveMiscCaps & D3DPMISCCAPS_NULLREFERENCE )
     {

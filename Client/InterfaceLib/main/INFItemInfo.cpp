@@ -152,32 +152,32 @@ HRESULT CINFItemInfo::InitDeviceObjects()
 	int i;
 	for(i=0;i<ITEMINFO_PARAMETER_NUMBER;i++)
 	{
-		m_pFontItemInfo[i] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE,  FALSE,512,32);
+		m_pFontItemInfo[i] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 9 * HIDPI_COEFF, D3DFONT_ZENABLE,  FALSE,512 * HIDPI_COEFF,32 * HIDPI_COEFF);
 		m_pFontItemInfo[i]->InitDeviceObjects(g_pD3dDev);
 	}
 	for(i=0;i<ITEMINFO_DESC_LINE_NUMBER;i++)
 	{
-		m_pFontDescInfo[i] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE,  FALSE,512,32);
+		m_pFontDescInfo[i] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 9 * HIDPI_COEFF, D3DFONT_ZENABLE,  FALSE,512 * HIDPI_COEFF,32 * HIDPI_COEFF);
 		m_pFontDescInfo[i]->InitDeviceObjects(g_pD3dDev);
 	}
 	for(i=0;i<ITEMINFO_DESC_LINE_NUMBER;i++)
 	{
-		m_pFontExtendItemInfo[i] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE,  FALSE,512,32);			  // 2013-06-26 by ssjung 인벤토리 추가 툴팁 
+		m_pFontExtendItemInfo[i] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 9 * HIDPI_COEFF, D3DFONT_ZENABLE,  FALSE,512 * HIDPI_COEFF,32 * HIDPI_COEFF);			  // 2013-06-26 by ssjung 인벤토리 추가 툴팁 
 		m_pFontExtendItemInfo[i]->InitDeviceObjects(g_pD3dDev);
 	}
 	
-	m_pFontItemName = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE|D3DFONT_BOLD,  TRUE,512,32);
+	m_pFontItemName = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 9 * HIDPI_COEFF, D3DFONT_ZENABLE|D3DFONT_BOLD,  TRUE,512 * HIDPI_COEFF,32 * HIDPI_COEFF);
 	m_pFontItemName->InitDeviceObjects(g_pD3dDev);
 
 	// 2009-02-03 by bhsohn 장착 아이템 비교 툴팁
 	if(NULL == m_pFontMyEquipItem)
 	{
-		m_pFontMyEquipItem = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE|D3DFONT_BOLD,  TRUE,512,32);
+		m_pFontMyEquipItem = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 9 * HIDPI_COEFF, D3DFONT_ZENABLE|D3DFONT_BOLD,  TRUE,512 * HIDPI_COEFF,32 * HIDPI_COEFF);
 		m_pFontMyEquipItem->InitDeviceObjects(g_pD3dDev);	
 	}
 	// end 2009-02-03 by bhsohn 장착 아이템 비교 툴팁
 	
-	m_pInchantNum = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),8, D3DFONT_ZENABLE|D3DFONT_BOLD,  FALSE,512,32);
+	m_pInchantNum = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 8 * HIDPI_COEFF, D3DFONT_ZENABLE|D3DFONT_BOLD,  FALSE,512* HIDPI_COEFF,32 * HIDPI_COEFF);
 	m_pInchantNum->InitDeviceObjects(g_pD3dDev);
 
 	for(i=0;i<3;i++)
@@ -356,9 +356,9 @@ void CINFItemInfo::Render()
 // 			// end 2013-10-30 by ssjung 캐나다 특정아이템 팝업이 길 경우 빅 아이콘이 짤리는 문제 수정
 // 		}	
 // 		 // end 2013-06-26 by ssjung 인벤토리 추가 툴팁 
-		if(m_ptItemInfo.y + 14 * (m_nDescIndex + 1 + m_nDescLine + m_nExtendItemIndex) + 20 + icongab > g_pD3dApp->GetBackBufferDesc().Height)
+		if(m_ptItemInfo.y + 14 * HIDPI_COEFF * (m_nDescIndex + 1 + m_nDescLine + m_nExtendItemIndex) + 20 + icongab > g_pD3dApp->GetBackBufferDesc().Height)//
 		{
-			m_ptItemInfo.y = g_pD3dApp->GetBackBufferDesc().Height - (14 * (m_nDescIndex + 1 + m_nDescLine + m_nExtendItemIndex) + 20 + icongab);
+			m_ptItemInfo.y = g_pD3dApp->GetBackBufferDesc().Height - (14 * HIDPI_COEFF * (m_nDescIndex + 1 + m_nDescLine + m_nExtendItemIndex) + 20 + icongab);//
 		}
 		// END 2014-07-29 by ymjoo 인벤토리 장착 아이템과 비교 툴팁이 화면 밖으로 나가는 현상 수정
 		
@@ -373,7 +373,7 @@ void CINFItemInfo::Render()
 							m_szTooltip.cy);
 		// end 2009-02-03 by bhsohn 장착 아이템 비교 툴팁
 #else
-		g_pGameMain->m_pInfWindow->RenderCenterWindow( m_ptItemInfo.x, m_ptItemInfo.y-icongab, m_szTooltip.cx, m_szTooltip.cy, FALSE );
+		g_pGameMain->m_pInfWindow->RenderCenterWindow( m_ptItemInfo.x, m_ptItemInfo.y-icongab, m_szTooltip.cx, m_szTooltip.cy * HIDPI_COEFF, FALSE );
 #endif
 
 		int temp;
@@ -448,7 +448,7 @@ void CINFItemInfo::Render()
 		{
 			if(m_strItemInfo[i][0]) 
 			{
-				m_pFontItemInfo[i]->DrawText(m_ptItemInfo.x+5, m_ptItemInfo.y+20+14*i, GUI_FONT_COLOR,m_strItemInfo[i], 0L); 				
+				m_pFontItemInfo[i]->DrawText(m_ptItemInfo.x+5, m_ptItemInfo.y+20+14 * HIDPI_COEFF *i, GUI_FONT_COLOR,m_strItemInfo[i], 0L); //				
 				nItemPos++;
 			}
 		}
@@ -456,7 +456,7 @@ void CINFItemInfo::Render()
 		{
 			if(m_strDesc[i][0])
 			{
-				m_pFontDescInfo[i]->DrawText(m_ptItemInfo.x+5, m_ptItemInfo.y+20+14*(i+m_nDescIndex), GUI_FONT_COLOR,m_strDesc[i], 0L);
+				m_pFontDescInfo[i]->DrawText(m_ptItemInfo.x+5, m_ptItemInfo.y+20+14 * HIDPI_COEFF *(i+m_nDescIndex), GUI_FONT_COLOR,m_strDesc[i], 0L);//
 				nItemPos++;
 			}
 		}
@@ -466,7 +466,7 @@ void CINFItemInfo::Render()
 		{
 			if(m_strExtendItemInfo[i][0])
 			{
-				m_pFontExtendItemInfo[i]->DrawText(m_ptItemInfo.x+5, m_ptItemInfo.y+20+14*(i+m_nDescIndex+m_nDescLine), GUI_FONT_COLOR,m_strExtendItemInfo[i], 0L);
+				m_pFontExtendItemInfo[i]->DrawText(m_ptItemInfo.x+5, m_ptItemInfo.y+20+14 * HIDPI_COEFF *(i+m_nDescIndex+m_nDescLine), GUI_FONT_COLOR,m_strExtendItemInfo[i], 0L);//
 				nItemPos++;
 			}
 		}  
@@ -479,13 +479,13 @@ void CINFItemInfo::Render()
 			char chTmpBuff[256];
 			ZERO_MEMORY(chTmpBuff);
 			wsprintf(chTmpBuff, STRMSG_C_090203_0202);
-			m_pFontMyEquipItem->DrawText(m_ptItemInfo.x+5, m_ptItemInfo.y+20+14*(nItemPos), GUI_FONT_COLOR,chTmpBuff, 0L);
+			m_pFontMyEquipItem->DrawText(m_ptItemInfo.x+5, m_ptItemInfo.y+20+14 * HIDPI_COEFF *(nItemPos), GUI_FONT_COLOR,chTmpBuff, 0L);//
 		}
 		// end 2009-02-03 by bhsohn 장착 아이템 비교 툴팁
 
 		// 2009. 11. 02 by ckPark 인피니티 필드 인스턴스 던젼 시스템
 		int nX = m_ptItemInfo.x+5;
-		int nY = m_ptItemInfo.y+20+14*(nItemPos+1) + 7;
+		int nY = m_ptItemInfo.y+20+14 * HIDPI_COEFF *(nItemPos+1) + 7;//
 		char szTemp[ 16 ];
 
 		// 인피니티 교환 아이템

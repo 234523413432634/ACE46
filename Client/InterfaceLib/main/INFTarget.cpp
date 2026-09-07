@@ -121,7 +121,8 @@ CINFTarget::CINFTarget()
 	m_nAttackerTargetX = -10;
 	m_bReverseTargetMove = FALSE;
 //	m_nTargetAnimationTick = 0;
-	int i; for(i=0; i<4; i++)
+	int i;
+	for(i=0; i<4; i++)
 		m_pImgTargetAnimation[i] = NULL;
 	for(i = 0 ; i < 2; i++)
 	{
@@ -187,7 +188,8 @@ CINFTarget::~CINFTarget()
 	SAFE_DELETE( m_pMonTargetStateImg );
 	SAFE_DELETE( m_pImgTargetMe[0] );
 	SAFE_DELETE( m_pImgTargetMe[1] );
-	int i; for(i=0; i<4; i++)
+	int i;
+	for(i=0; i<4; i++)
 		SAFE_DELETE( m_pImgTargetAnimation[i]);
 	for(i = 0 ; i < 2 ; i++)
 	{
@@ -412,7 +414,7 @@ HRESULT CINFTarget::InitDeviceObjects()
 
 	char buf[32];
 	ZERO_MEMORY(buf);
-	int i; for(i=0; i<4; i++)
+	for(int i=0; i<4; i++)
 	{
 		wsprintf(buf, "attani%d",i);
 		pDataHeader = FindResource(buf);
@@ -483,13 +485,13 @@ HRESULT CINFTarget::InitDeviceObjects()
 	}
 	// end 2010. 03. 03 by ckPark 인피니티 필드 2차(입장 UI변경)
 	
-	m_pFontAutoTargetName = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,128,32);
+	m_pFontAutoTargetName = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9*HIDPI_COEFF, D3DFONT_ZENABLE, TRUE,128 * HIDPI_COEFF,32 * HIDPI_COEFF);
 	m_pFontAutoTargetName->InitDeviceObjects(g_pD3dDev);
-	m_pFontAutoTargetDistance = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,128,32);
+	m_pFontAutoTargetDistance = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9 * HIDPI_COEFF, D3DFONT_ZENABLE, TRUE,128 * HIDPI_COEFF,32 * HIDPI_COEFF);
 	m_pFontAutoTargetDistance->InitDeviceObjects(g_pD3dDev);
 	// 2008-09-18 by bhsohn 이름이 긴 타켓 이름 짤리는 문제 처리
 	//m_pFontTargetArrow = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,128,32);
-	m_pFontTargetArrow = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,256,32);
+	m_pFontTargetArrow = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9 * HIDPI_COEFF, D3DFONT_ZENABLE, TRUE,256 * HIDPI_COEFF,32 * HIDPI_COEFF);
 	m_pFontTargetArrow->InitDeviceObjects(g_pD3dDev);
 	m_pOtherInfo = new CINFGameMainOtherInfo(this);
 	m_pOtherInfo->SetGameData( m_pGameData );
@@ -572,7 +574,8 @@ HRESULT CINFTarget::RestoreDeviceObjects()
 			m_pImgTargetMe[0]->RestoreDeviceObjects();
 		if(m_pImgTargetMe[1])
 			m_pImgTargetMe[1]->RestoreDeviceObjects();
-		int i; for(i=0; i<4; i++)
+		int i;
+		for(i=0; i<4; i++)
 		{
 			m_pImgTargetAnimation[i]->RestoreDeviceObjects();
 		}
@@ -772,7 +775,8 @@ HRESULT CINFTarget::DeleteDeviceObjects()
 		m_pImgTargetMe[1]->DeleteDeviceObjects();
 		SAFE_DELETE(m_pImgTargetMe[1]);
 	}
-	int i; for(i=0; i<4; i++)
+	int i;
+	for(i=0; i<4; i++)
 	{
 		m_pImgTargetAnimation[i]->DeleteDeviceObjects();
 		SAFE_DELETE(m_pImgTargetAnimation[i]);
@@ -896,7 +900,8 @@ HRESULT CINFTarget::InvalidateDeviceObjects()
 			m_pImgTargetMe[0]->InvalidateDeviceObjects();
 		if(m_pImgTargetMe[1])
 			m_pImgTargetMe[1]->InvalidateDeviceObjects();
-		int i; for(i=0; i<4; i++)
+		int i;
+		for(i=0; i<4; i++)
 			m_pImgTargetAnimation[i]->InvalidateDeviceObjects();
 		for(i=0; i<2; i++)
 			m_pImgTargetHelper[i]->InvalidateDeviceObjects();
@@ -1280,33 +1285,34 @@ void CINFTarget::Render()
 			if(	g_pD3dApp->m_dwTargetting == OLD_TARGETTING ||
 				g_pD3dApp->m_dwTargetting == OLD2_TARGETTING )
 			{
-				int nYSc = (g_pD3dApp->GetBackBufferDesc().Height/768.0f);
 				
-				if(!g_pShuttleChild->IsUnitStop())		// 2014-07-25 by ymjoo 유닛이 정지 상태일 때 조준원 없애기
+				//int nYSc = (g_pD3dApp->GetBackBufferDesc().Height/768.0f);
+				if( TRUE == m_bTargetDistance &&
+					FIRE_ANGLE_START_X+(TARGET_MOUSE_SCALE*45) > m_nOrderTargetX-(TARGET_MOUSE_SCALE*45) &&
+					FIRE_ANGLE_START_X/*+TARGET_MOUSE_SCALE*45*/ < m_nOrderTargetX &&
+					FIRE_ANGLE_START_Y+(TARGET_MOUSE_SCALE*45) > m_nOrderTargetY-(TARGET_MOUSE_SCALE*45) &&
+					FIRE_ANGLE_START_Y < m_nOrderTargetY)
 				{
-					if( TRUE == m_bTargetDistance &&
-						FIRE_ANGLE_START_X+(TARGET_MOUSE_SCALE*45) > m_nOrderTargetX-(TARGET_MOUSE_SCALE*45) &&
-						FIRE_ANGLE_START_X/*+TARGET_MOUSE_SCALE*45*/ < m_nOrderTargetX &&
-						FIRE_ANGLE_START_Y+(TARGET_MOUSE_SCALE*45) > m_nOrderTargetY-(TARGET_MOUSE_SCALE*45) &&
-						FIRE_ANGLE_START_Y < m_nOrderTargetY)
-					{
-						if(IS_DT(g_pShuttleChild->m_myShuttleInfo.UnitKind) == FALSE || g_pShuttleChild->m_bIsAir == TRUE)
-						{						
-							m_pFireAngle[1]->SetScale(TARGET_MOUSE_SCALE,TARGET_MOUSE_SCALE);
-							m_pFireAngle[1]->Move(FIRE_ANGLE_START_X, FIRE_ANGLE_START_Y);
+					if(IS_DT(g_pShuttleChild->m_myShuttleInfo.UnitKind) == FALSE || g_pShuttleChild->m_bIsAir == TRUE)
+					{						
+						m_pFireAngle[1]->SetScale(TARGET_MOUSE_SCALE * 0.25,TARGET_MOUSE_SCALE * 0.25);
+						m_pFireAngle[1]->Move(FIRE_ANGLE_START_X, FIRE_ANGLE_START_Y);
+
 							m_pFireAngle[1]->Render();
-							m_nTargetColor = MOUSE_TYPE_2;
-						}
+
+						m_nTargetColor = MOUSE_TYPE_2;
 					}
-					else 
-					{	
-						if(IS_DT(g_pShuttleChild->m_myShuttleInfo.UnitKind) == FALSE || g_pShuttleChild->m_bIsAir == TRUE)
-						{
-							m_pFireAngle[0]->SetScale(TARGET_MOUSE_SCALE,TARGET_MOUSE_SCALE);
-							m_pFireAngle[0]->Move(FIRE_ANGLE_START_X, FIRE_ANGLE_START_Y);
+				}
+				else 
+				{	
+					if(IS_DT(g_pShuttleChild->m_myShuttleInfo.UnitKind) == FALSE || g_pShuttleChild->m_bIsAir == TRUE)
+					{
+						m_pFireAngle[0]->SetScale(TARGET_MOUSE_SCALE*0.25,TARGET_MOUSE_SCALE*0.25);
+						m_pFireAngle[0]->Move(FIRE_ANGLE_START_X, FIRE_ANGLE_START_Y);
+
 							m_pFireAngle[0]->Render();
-							m_nTargetColor = MOUSE_TYPE_3;
-						}
+
+						m_nTargetColor = MOUSE_TYPE_3;
 					}
 				}
 			}
@@ -1329,7 +1335,7 @@ void CINFTarget::RenderMouse(int x, int y, int type)
 	// 2005-04-19 by jschoi - Tutorial
 	if( g_pTutorial->IsTutorialMode() == TRUE &&
 		g_pTutorial->GetChapterState() != TUTORIAL_STATE_MOTION)
-		// 2007-07-20 by dgwoo 진행중이 아닐경우에 마우스 아이콘 변경.
+		// 2007-07-20 by dgwoo 진행중이 아닐경우에 마우스 아이콘 변경.warr
 		//(g_pTutorial->GetMessageType() == SKIPBOX || g_pTutorial->GetMessageType() == IMAGEBOX ))
 	{
 		m_pNormalMouse[m_nMouseState]->Move(x,y);
@@ -1412,7 +1418,7 @@ void CINFTarget::RenderMouse(int x, int y, int type)
 			{
 				m_pRedMouse->Rotate(TARGET_MOUSE_SCALE*25,TARGET_MOUSE_SCALE*25, m_fMouseRotationtAngle);
 			}
-			m_pRedMouse->SetScale(TARGET_MOUSE_SCALE,TARGET_MOUSE_SCALE);
+			m_pRedMouse->SetScale(TARGET_MOUSE_SCALE * 0.25,TARGET_MOUSE_SCALE * 0.25);
 			m_pRedMouse->Render();
 			// 2007-07-27 by dgwoo 저렙을 위한 설명.
 			if(!g_pD3dApp->m_bInfregular)
@@ -1433,7 +1439,7 @@ void CINFTarget::RenderMouse(int x, int y, int type)
 			{
 				m_pBlueMouse->Rotate(TARGET_MOUSE_SCALE*25,TARGET_MOUSE_SCALE*25, m_fMouseRotationtAngle);
 			}
-			m_pBlueMouse->SetScale(TARGET_MOUSE_SCALE,TARGET_MOUSE_SCALE);
+			m_pBlueMouse->SetScale(TARGET_MOUSE_SCALE * 0.25,TARGET_MOUSE_SCALE * 0.25);
 			m_pBlueMouse->Render();
 
 		}
@@ -1449,7 +1455,7 @@ void CINFTarget::RenderMouse(int x, int y, int type)
 			{
 				m_pRedMouse->Rotate(TARGET_MOUSE_SCALE*25,TARGET_MOUSE_SCALE*25, m_fMouseRotationtAngle);
 			}
-			m_pRedMouse->SetScale(TARGET_MOUSE_SCALE,TARGET_MOUSE_SCALE);
+			m_pRedMouse->SetScale(TARGET_MOUSE_SCALE * 0.25,TARGET_MOUSE_SCALE * 0.25);
 			m_pRedMouse->Render();
 			// 2007-07-27 by dgwoo 저렙을 위한 설명.
 			if(!g_pD3dApp->m_bInfregular)
@@ -1470,7 +1476,7 @@ void CINFTarget::RenderMouse(int x, int y, int type)
 			{
 				m_pBlueMouse->Rotate(TARGET_MOUSE_SCALE*25,TARGET_MOUSE_SCALE*25, m_fMouseRotationtAngle);
 			}
-			m_pBlueMouse->SetScale(TARGET_MOUSE_SCALE,TARGET_MOUSE_SCALE);
+			m_pBlueMouse->SetScale(TARGET_MOUSE_SCALE * 0.25,TARGET_MOUSE_SCALE * 0.25);
 			m_pBlueMouse->Render();
 		}
 		break;
@@ -1663,7 +1669,7 @@ void CINFTarget::RenderAutoTarget(BOOL bAutoTarget,
 		float fTotalHP = (float)((CMonsterData*)pUnit)->m_fMaxHP;
 		if(bAutoTarget)
 		{
-			RenderGameMainMonsterInfo( (CMonsterData*)pUnit, x, y, fCurHP/fTotalHP);
+			RenderGameMainMonsterInfo( (CMonsterData*)pUnit, x, y, fCurHP, fTotalHP);
 		}
 		if(bShowAutoTargetHP)
 		{
@@ -1741,22 +1747,28 @@ void CINFTarget::RenderAutoTarget(BOOL bAutoTarget,
 		}
 	}
 }
-void CINFTarget::RenderGameMainMonsterInfo(CMonsterData* pUnit, int x, int y, float fHPRate)
+void CINFTarget::RenderGameMainMonsterInfo(CMonsterData* pUnit, int x, int y, float fHPCurrent, float fHPMax)
 {
 	BOOL bLocked = m_pOtherInfo->GetLockOnTarget();
 
 	m_pOtherInfo->SetLockOnTarget(2);
-	m_pOtherInfo->SetHpRate( fHPRate );
+	m_pOtherInfo->SetHpRate( fHPCurrent/fHPMax );
+	char chMonName[64];
+	char chMonHP[64];
 
+	sprintf(chMonName, "\\w%s [\\w%d\\w]\\w", pUnit->m_pMonsterInfo->MonsterName, pUnit->m_pMonsterInfo->Level);
+	sprintf(chMonHP, "%.0f / %.0f", fHPCurrent, fHPMax);
+
+	m_pOtherInfo->SetMonsterHPString(chMonHP);
+	
 	if(COMPARE_RACE(g_pShuttleChild->m_myShuttleInfo.Race,RACE_OPERATION))
 	{
-		char chMonName [64];
-		sprintf(chMonName, "%s(%d)", pUnit->m_pMonsterInfo->MonsterName, pUnit->m_pMonsterInfo->MonsterUnitKind);
-		m_pOtherInfo->SetMonsterInfoString( chMonName );
+		sprintf(chMonName, "%s(%d)", chMonName, pUnit->m_pMonsterInfo->MonsterUnitKind);
+		m_pOtherInfo->SetMonsterInfoString(chMonName);
 	}
 	else
 	{
-	m_pOtherInfo->SetMonsterInfoString( pUnit->m_pMonsterInfo->MonsterName );
+		m_pOtherInfo->SetMonsterInfoString(chMonName);
 	}
 
 	m_pOtherInfo->Render();
@@ -1859,7 +1871,7 @@ void CINFTarget::RenderAttackMeMonster()
 			int nTargetNamePosY = pMonster->m_nObjScreenY-NAME_FROM_MOUSE_CENTER_Y;
 			int nMonNameSize = tsize.cx;
 			int nTextY = 3;
-			int nTextX = 16;
+			int nTextX = 17* TARGET_MOUSE_SCALE;
 
 			// 2010. 03. 03 by ckPark 인피니티 필드 2차(입장 UI변경)
 // 			m_pImgSelectTarget[0]->SetScale(TARGET_MOUSE_SCALE,TARGET_MOUSE_SCALE);
@@ -1907,7 +1919,7 @@ void CINFTarget::RenderAttackMeMonster()
 			int nTargetNamePosY = pMonster->m_nObjScreenY-NAME_FROM_MOUSE_CENTER_Y;
 			int nMonNameSize = tsize.cx;
 			int nTextY = 3;
-			int nTextX = 16;
+			int nTextX = 17 * TARGET_MOUSE_SCALE;
 			m_pImgPartyTarget[0]->SetScale(TARGET_MOUSE_SCALE,TARGET_MOUSE_SCALE);
 			m_pImgPartyTarget[0]->Move( nTargetNamePosX+nMonNameSize+3, nTargetNamePosY+nTextY);		// 오른쪽
 			m_pImgPartyTarget[0]->Render();
@@ -2004,7 +2016,7 @@ void CINFTarget::RenderAutoTargetDrow()
 					RenderGameMainMonsterInfo( (CMonsterData*)g_pShuttleChild->m_pOrderTarget, 
 						x, 
 						y,								 
-						(float)((CMonsterData*)g_pShuttleChild->m_pOrderTarget)->m_info.CurrentHP/(float)((CMonsterData*)g_pShuttleChild->m_pOrderTarget)->m_fMaxHP);
+						(float)((CMonsterData*)g_pShuttleChild->m_pOrderTarget)->m_info.CurrentHP,(float)((CMonsterData*)g_pShuttleChild->m_pOrderTarget)->m_fMaxHP);
                     // end 2011. 03. 08 by jskim 인피3차 구현
 				}
 				// 2007-05-22 by bhsohn 타켓 표시 수정안 처리

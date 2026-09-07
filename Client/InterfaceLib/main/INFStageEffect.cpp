@@ -33,6 +33,7 @@
 
 CINFStageEffect::CINFStageEffect(int nImageIndex, float fPlayTime, BOOL bSkipEnable)
 {
+#ifndef _INSTANT_LAUNCH
 	m_bRunning = FALSE;
 	m_nIndex = nImageIndex;
 	m_nState = STATE_FADE_IN;
@@ -54,6 +55,7 @@ CINFStageEffect::CINFStageEffect(int nImageIndex, float fPlayTime, BOOL bSkipEna
 	m_nAutoSkipTickCnt = 0;
 	// END 2013-11-27 by ymjoo 게임 종료 시 봐야 하는 스크린 자동 스킵
 #endif
+#endif
 }
 
 CINFStageEffect::~CINFStageEffect()
@@ -66,31 +68,15 @@ CINFStageEffect::~CINFStageEffect()
 //	{
 //		SAFE_DELETE(m_pDataHeader[i]);
 //	}
+#ifndef _INSTANT_LAUNCH
 	SAFE_DELETE(m_pImage);
 	SAFE_DELETE(m_pDataHeader);
+#endif
 }
 
 HRESULT CINFStageEffect::InitDeviceObjects()
 {
-	// 2006-11-14 by ispark, 이미지 하나로 통합
-//	CGameData gameData;
-//	gameData.SetFile( ".\\Res-Tex\\steff.tex", FALSE, NULL, 0, FALSE );
-//	char szName[32];
-//	int i; for(i=0;i<STAGE_IMG_NUM;i++)
-//	{
-//		wsprintf(szName, "%07d%d", m_nIndex, i);
-//		m_pDataHeader[i] = gameData.FindFromFile(szName);
-//	if(m_pDataHeader == NULL)
-//	{
-//			DBGOUT("Can't Find StageEffect File.(%d)", m_nIndex);
-//		return E_FAIL;
-//	}
-//		m_pImage[i] = new CINFImage;
-//		m_pImage[i]->InitDeviceObjects( m_pDataHeader[i]->m_pData, m_pDataHeader[i]->m_DataSize );
-//		m_pImage[i]->SetColor(0x00FFFFFF);
-//	}
-//	m_bRunning = TRUE;
-
+#ifndef _INSTANT_LAUNCH
 	CGameData gameData;
 	gameData.SetFile( ".\\Res-Tex\\steff.tex", FALSE, NULL, 0, FALSE );
 	char szName[32];
@@ -105,12 +91,13 @@ HRESULT CINFStageEffect::InitDeviceObjects()
 	m_pImage->InitDeviceObjects( m_pDataHeader->m_pData, m_pDataHeader->m_DataSize );
 	m_pImage->SetColor(0x00FFFFFF);
 	m_bRunning = TRUE;
-
+#endif
 	return S_OK;
 }
 
 HRESULT CINFStageEffect::RestoreDeviceObjects()
 {
+#ifndef _INSTANT_LAUNCH
 	if(!m_bRestored)
 	{
 //		int i; for(i=0;i<STAGE_IMG_NUM;i++)
@@ -139,11 +126,13 @@ HRESULT CINFStageEffect::RestoreDeviceObjects()
 			m_pImage->Move(START_X_1, START_Y_1);
 		}
 	}
+#endif
 	return S_OK;
 
 }
 HRESULT CINFStageEffect::InvalidateDeviceObjects()
 {
+#ifndef _INSTANT_LAUNCH
 	if(m_bRestored)
 	{
 //		int i; for(i=0;i<STAGE_IMG_NUM;i++)
@@ -160,6 +149,7 @@ HRESULT CINFStageEffect::InvalidateDeviceObjects()
 		}
 		m_bRestored = FALSE;
 	}
+#endif
 	return S_OK;
 }
 HRESULT CINFStageEffect::DeleteDeviceObjects()
@@ -170,7 +160,7 @@ HRESULT CINFStageEffect::DeleteDeviceObjects()
 //		SAFE_DELETE(m_pImage[i]);
 //		SAFE_DELETE(m_pDataHeader[i]);
 //	}
-
+#ifndef _INSTANT_LAUNCH
 	if(m_pImage)				// 2013-12-26 by ssjung 크래쉬 예외처리 
 	{
 		m_pImage->DeleteDeviceObjects();
@@ -179,11 +169,13 @@ HRESULT CINFStageEffect::DeleteDeviceObjects()
 	SAFE_DELETE(m_pDataHeader);
 
 	m_bRunning = FALSE;
+#endif
 	return S_OK;
 }
 
 void CINFStageEffect::Tick()
 {
+#ifndef _INSTANT_LAUNCH
 	if(g_pD3dApp->GetElapsedTime() > 0.1)
 	{
 		return;
@@ -242,9 +234,11 @@ void CINFStageEffect::Tick()
 		}
 		break;
 	}
+#endif
 }
 void CINFStageEffect::Render()
 {
+#ifndef _INSTANT_LAUNCH
 	g_pD3dDev->SetRenderState( D3DRS_FOGENABLE, FALSE );
 	g_pD3dDev->SetRenderState( D3DRS_LIGHTING, FALSE );
 	g_pD3dDev->SetRenderState( D3DRS_ZENABLE, FALSE );
@@ -254,10 +248,12 @@ void CINFStageEffect::Render()
 //	m_pImage[3]->Render();
 	if(m_pImage)				// 2013-12-26 by ssjung 크래쉬 예외처리 
 		m_pImage->Render();
+#endif
 }
 
 int CINFStageEffect::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+#ifndef _INSTANT_LAUNCH
 	if(m_bSkipEnable)
 	{
 		// 2013-11-27 by ymjoo 게임 종료 시 봐야 하는 스크린 자동 스킵
@@ -279,6 +275,7 @@ int CINFStageEffect::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			break;
 		}
 	}
+#endif
 	return INF_MSGPROC_NORMAL;
 }
 // 2013-11-27 by ymjoo 게임 종료 시 봐야 하는 스크린 자동 스킵

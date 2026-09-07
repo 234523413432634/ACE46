@@ -397,7 +397,7 @@ HRESULT CINFInvenEquip::InitDeviceObjects()
 // 2013-08-14 by ssjung 캐나다 인벤토리안의 SPI, WP 툴팁 표시
 	if(NULL == m_pFontSPIWPToolTip )
 	{
-		m_pFontSPIWPToolTip = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE,  TRUE,1024,32);
+		m_pFontSPIWPToolTip = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9 * HIDPI_COEFF, D3DFONT_ZENABLE,  TRUE,1024 * HIDPI_COEFF,32 * HIDPI_COEFF);
 		m_pFontSPIWPToolTip->InitDeviceObjects(g_pD3dDev);
 	}
 // end 2013-08-14 by ssjung 캐나다 인벤토리안의 SPI, WP 툴팁 표시
@@ -1859,8 +1859,17 @@ void CINFInvenEquip::RenderMirror(POINT *pMirrorPos/*=NULL*/)
 		//D3DXMatrixScaling(&pMatScaling, fUnitScaling, fUnitScaling+0.002f, fUnitScaling);
 		//D3DXMatrixTranslation(&pTemp, fUnitPosX, fUnitPosY, fUnitPosZ);
 		
-		float fUnitScaling	= UNIT_SCALE;
-		float fEqPosX		= ((float)(*pMirrorPos).x / (float)g_pD3dApp->GetBackBufferDesc().Width) * 2;
+		float fUnitScaling;
+
+		if (g_pD3dApp->GetBackBufferDesc().Width < 1600)
+		{
+			fUnitScaling = UNIT_SCALE;
+		}
+		else
+		{
+			fUnitScaling = UNIT_SCALE * 1600 / g_pD3dApp->GetBackBufferDesc().Width;
+		}
+		float fEqPosX = ((float)(*pMirrorPos).x / (float)g_pD3dApp->GetBackBufferDesc().Width) * 2;
 
 #ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		float fEqCenterX	= ((float)((CINFInvenExtend*)m_pParent)->GetBkSize().x / (float)g_pD3dApp->GetBackBufferDesc().Width); 
@@ -2108,7 +2117,7 @@ D3DXMATRIX	CINFInvenEquip::GetInvenMatInven()
 /// \return		
 ///////////////////////////////////////////////////////////////////////////////
 BOOL CINFInvenEquip::GetResolutionPos(POINT ptPixel,float &fPosX,float &fPosY,float &fPosZ,float &fScaling)
-{
+{/*
 	// x축 50.00f = 342픽셀		0.146f  = 1픽셀
 
 	float fStartPosX, fStartPosY;
@@ -2381,6 +2390,7 @@ BOOL CINFInvenEquip::GetResolutionPos(POINT ptPixel,float &fPosX,float &fPosY,fl
 	}
 
 	return TRUE;
+	*/
 }
 
 void CINFInvenEquip::RenderWearPosition( int iWearPosition )

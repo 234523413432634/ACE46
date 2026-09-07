@@ -50,28 +50,28 @@
 	//#define GAMEMAIN_BACK_GAGE_EXP_START_X				((g_pD3dApp->GetBackBufferDesc().Width - 234)/2)
 	#define GAMEMAIN_BACK_GAGE_EXP_START_Y				(g_pD3dApp->GetBackBufferDesc().Height - m_pImgMainExpBack->GetImgSize().y)		// 2011. 10. 10 by jskim UI시스템 변경
 
-	#define GAMEMAIN_STRING_FUEL_START_X				163
+	#define GAMEMAIN_STRING_FUEL_START_X				163*HIDPI_COEFF
 
 	#define GAMEMAIN_STRING_EXP_START_X					g_pD3dApp->GetBackBufferDesc().Width / 2
 
 	// 스트링 위치 정의
-	#define GAMEMAIN_NEW_STRING_HP_START_X				17
-	#define GAMEMAIN_NEW_STRING_HP_START_Y				80
-	#define GAMEMAIN_GAGE_HP_UP_START_X					28
-	#define GAMEMAIN_GAGE_HP_UP_START_Y					90 
-	#define GAMEMAIN_NEW_STRING_MAX_HP_START_Y			104
-	#define GAMEMAIN_NEW_STRING_DP_START_Y				80
-	#define GAMEMAIN_GAGE_DP_UP_START_X					133
-	#define GAMEMAIN_GAGE_DP_UP_START_Y					90
-	#define GAMEMAIN_NEW_STRING_MAX_DP_START_X			108
-	#define GAMEMAIN_NEW_STRING_MAX_DP_START_Y			104
-	#define GAMEMAIN_GAGE_SP_UP_START_X					130
-	#define GAMEMAIN_GAGE_SP_UP_START_Y					50
-	#define GAMEMAIN_NEW_STRING_MAX_SP_START_Y			70
+	#define GAMEMAIN_NEW_STRING_HP_START_X				17*HIDPI_COEFF
+	#define GAMEMAIN_NEW_STRING_HP_START_Y				80*HIDPI_COEFF
+	#define GAMEMAIN_GAGE_HP_UP_START_X					28*HIDPI_COEFF
+	#define GAMEMAIN_GAGE_HP_UP_START_Y					90 *HIDPI_COEFF
+	#define GAMEMAIN_NEW_STRING_MAX_HP_START_Y			104*HIDPI_COEFF
+	#define GAMEMAIN_NEW_STRING_DP_START_Y				80*HIDPI_COEFF
+	#define GAMEMAIN_GAGE_DP_UP_START_X					133*HIDPI_COEFF
+	#define GAMEMAIN_GAGE_DP_UP_START_Y					90*HIDPI_COEFF
+	#define GAMEMAIN_NEW_STRING_MAX_DP_START_X			108*HIDPI_COEFF
+	#define GAMEMAIN_NEW_STRING_MAX_DP_START_Y			104*HIDPI_COEFF
+	#define GAMEMAIN_GAGE_SP_UP_START_X					130*HIDPI_COEFF
+	#define GAMEMAIN_GAGE_SP_UP_START_Y					50*HIDPI_COEFF
+	#define GAMEMAIN_NEW_STRING_MAX_SP_START_Y			70*HIDPI_COEFF
 
 
 	// 메인 게이지 관련 정의
-
+/* Unused
 	#define GAMEMAIN_GAGE_HP_START_X					15
 	#define GAMEMAIN_GAGE_HP_START_Y					29
 	#define GAMEMAIN_GAGE_DP_START_X					83
@@ -82,6 +82,7 @@
 	#define GAMEMAIN_GAGE_BOOSTER_START_Y				25
 	#define GAMEMAIN_GAGE_FUEL_START_X					6
 	#define GAMEMAIN_GAGE_FUEL_START_Y					5
+*/
 	#define GAMEMAIN_VOICECHAT_X						(g_pD3dApp->GetBackBufferDesc().Width-32)
 	#define GAMEMAIN_VOICECHAT_Y						(156)
 	#define GAMEMAIN_VOICECHAT_W						26
@@ -89,8 +90,8 @@
 
 
 	// SPEED 스트링 관련 정의
-	#define SPEED_STRING_START_X						80	
-	#define SPEED_STRING_START_Y						105
+	#define SPEED_STRING_START_X						80*HIDPI_COEFF
+	#define SPEED_STRING_START_Y						105*HIDPI_COEFF
 	#define SPEED_STRING_WIDTH							19
 	#define SPEED_STRING_HEIGHT							17
 
@@ -110,11 +111,11 @@
 
 	// 2006-03-07 by ispark, 언어에 따라 위치 수정
 	#if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
-		#define GAMEMAIN_STRING_FUEL_START_Y				72//
-		#define GAMEMAIN_STRING_EXP_START_Y					g_pD3dApp->GetBackBufferDesc().Height - 12//11)
-		#define GAMEMAIN_NEW_STRING_MAX_HP_START_X			25//21
+		#define GAMEMAIN_STRING_FUEL_START_Y				72*HIDPI_COEFF//
+		#define GAMEMAIN_STRING_EXP_START_Y					g_pD3dApp->GetBackBufferDesc().Height - 14*HIDPI_COEFF//11)
+		#define GAMEMAIN_NEW_STRING_MAX_HP_START_X			25*HIDPI_COEFF//21
 		#define GAMEMAIN_NEW_STRING_DP_START_X				112//114
-		#define GAMEMAIN_NEW_STRING_MAX_SP_START_X			80//130
+		#define GAMEMAIN_NEW_STRING_MAX_SP_START_X			80*HIDPI_COEFF//130
 		#define GAMEMAIN_EVENT_FONT_Y						2
 	#else
 		#define GAMEMAIN_STRING_FUEL_START_Y				72
@@ -662,7 +663,14 @@ void CINFGameMainUnitInfoBar::SetEXP(float fExp)
 	// 2006-02-07 by ispark
 	fExp = min(99.99f, fExp);
 	fExp = max(0.00f, fExp);
-	sprintf(m_szGageInfo[GAMEMAIN_GAGE_EXP_UP], "Lv.%d  %5.2f%%",g_pShuttleChild->m_myShuttleInfo.Level, fExp);
+	if (g_pShuttleChild->m_myShuttleInfo.Level == CHARACTER_MAX_LEVEL)
+	{
+		sprintf(m_szGageInfo[GAMEMAIN_GAGE_EXP_UP], "Level %d", g_pShuttleChild->m_myShuttleInfo.Level);
+	}
+	else
+	{
+		sprintf(m_szGageInfo[GAMEMAIN_GAGE_EXP_UP], "Lv.%d  %5.2f%%", g_pShuttleChild->m_myShuttleInfo.Level, fExp);
+	}
 	m_fGageRate[GAMEMAIN_GAGE_EXP_UP] = fExp/100.0f;
 }
 
@@ -739,7 +747,7 @@ HRESULT CINFGameMainUnitInfoBar::InitDeviceObjects()
 	for(i=0;i<GAMEMAIN_GAGE_LINE_NUMBER;i++)
 	{
 #ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		m_pFontGageInfo[i] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 7, D3DFONT_ZENABLE, TRUE, 256, 32);
+		m_pFontGageInfo[i] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 7 * HIDPI_COEFF, D3DFONT_ZENABLE, TRUE, 256 * HIDPI_COEFF, 32 * HIDPI_COEFF);
 #else
 		m_pFontGageInfo[i] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 8, D3DFONT_ZENABLE, TRUE, 256, 32);
 #endif
@@ -748,7 +756,7 @@ HRESULT CINFGameMainUnitInfoBar::InitDeviceObjects()
 #ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	// 2014-11-15 by shchoi 좌표 폰트 테두리 추가
 	//m_pFontUnitPosInfo = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 7, D3DFONT_ZENABLE, FALSE, 256, 32);
-	m_pFontUnitPosInfo = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 7, D3DFONT_ZENABLE, TRUE, 256, 32);
+	m_pFontUnitPosInfo = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 7 * HIDPI_COEFF, D3DFONT_ZENABLE, TRUE, 256 * HIDPI_COEFF, 32 * HIDPI_COEFF);
 	// end 2014-11-15 by shchoi 좌표 폰트 테두리 추가
 #else																										
 	m_pFontUnitPosInfo = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 8, D3DFONT_ZENABLE, FALSE, 256, 32);
@@ -987,19 +995,19 @@ HRESULT CINFGameMainUnitInfoBar::InitDeviceObjects()
 // end 2012-11-16 by mspark, 데카의 기운 표시 리뉴얼
 
 	
-	m_pFontMapName = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE,  TRUE,512,32);
+	m_pFontMapName = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9 * HIDPI_COEFF, D3DFONT_ZENABLE,  TRUE,512 * HIDPI_COEFF,32 * HIDPI_COEFF);
 	m_pFontMapName->InitDeviceObjects(g_pD3dDev);
 
-	m_pFontCurrentEvent = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE,  TRUE,512,32);
+	m_pFontCurrentEvent = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9 * HIDPI_COEFF, D3DFONT_ZENABLE,  TRUE,512 * HIDPI_COEFF,32 * HIDPI_COEFF);
 	m_pFontCurrentEvent->InitDeviceObjects(g_pD3dDev);
 	
-	m_pFontEventHappyHour = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE,  TRUE,512,32);
+	m_pFontEventHappyHour = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9 * HIDPI_COEFF, D3DFONT_ZENABLE,  TRUE,512 * HIDPI_COEFF,32 * HIDPI_COEFF);
 	m_pFontEventHappyHour->InitDeviceObjects(g_pD3dDev);
 	
-	m_pFontEventRecovery = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE,  TRUE,512,32);
+	m_pFontEventRecovery = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9 * HIDPI_COEFF, D3DFONT_ZENABLE,  TRUE,512 * HIDPI_COEFF,32 * HIDPI_COEFF);
 	m_pFontEventRecovery->InitDeviceObjects(g_pD3dDev);
 
-	m_pFontDecaToolTip = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE,  TRUE,1024,32);				// 2013-07-15 by ssjung 캐나다 데카의 축복, 기운 관련 툴팁 표시
+	m_pFontDecaToolTip = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9 * HIDPI_COEFF, D3DFONT_ZENABLE,  TRUE,1024 * HIDPI_COEFF,32 * HIDPI_COEFF);				// 2013-07-15 by ssjung 캐나다 데카의 축복, 기운 관련 툴팁 표시
 	m_pFontDecaToolTip->InitDeviceObjects(g_pD3dDev);
 
 	return S_OK;
@@ -1482,7 +1490,8 @@ void CINFGameMainUnitInfoBar::Render()//RenderCityUpInfo() 에서 같은 코드 사용 :
 // 	 
 // 	// 메인 배경
 	POINT BGPos = m_pGageBarInfo->GetFindControlTargetofMinPos("MainGB");
- 	m_pImgMainGageBack->Move(BGPos.x + GAMEMAIN_POS_X,BGPos.y + GAMEMAIN_POS_Y);
+ 	m_pImgMainGageBack->Move(BGPos.x * HIDPI_COEFF + GAMEMAIN_POS_X,BGPos.y * HIDPI_COEFF + GAMEMAIN_POS_Y);
+	m_pImgMainGageBack->SetScale(HIDPI_COEFF, HIDPI_COEFF);
  	m_pImgMainGageBack->Render();
 // 
 // 	// 경험치 배경
@@ -1511,7 +1520,7 @@ void CINFGameMainUnitInfoBar::Render()//RenderCityUpInfo() 에서 같은 코드 사용 :
 	MAP_INFO* mapname = g_pDatabase->GetMapInfo(g_pShuttleChild->m_myShuttleInfo.MapChannelIndex.MapIndex);
  	if(mapname)
  	{
- 		nStartX -= (strlen(mapname->MapName)*6 + 30);
+ 		nStartX -= (strlen(mapname->MapName)*6*HIDPI_COEFF + 30* HIDPI_COEFF);
  		ShowMapNameTitle(nStartX,nStartY);
  	}
  
@@ -2034,7 +2043,7 @@ void CINFGameMainUnitInfoBar::RenderGageString(BOOL bShowAll)
 														m_szGageInfo[GAMEMAIN_GAGE_HP_UP],0L);
 		size = m_pFontGageInfo[GAMEMAIN_NEW_STRING_MAX_HP]->GetStringSize(m_szGageInfo[GAMEMAIN_NEW_STRING_MAX_HP]);
 		m_pFontGageInfo[GAMEMAIN_NEW_STRING_MAX_HP]->DrawText(  (INT)(GAMEMAIN_GAGE_HP_UP_START_X - ( size.cx / 2 ) ), 
-														GAMEMAIN_GAGE_HP_UP_START_Y + 10,
+														GAMEMAIN_GAGE_HP_UP_START_Y + 10*HIDPI_COEFF,
 														GUI_FONT_COLOR,
 														m_szGageInfo[GAMEMAIN_NEW_STRING_MAX_HP],0L);
 	}
@@ -2052,7 +2061,7 @@ void CINFGameMainUnitInfoBar::RenderGageString(BOOL bShowAll)
 														m_szGageInfo[GAMEMAIN_GAGE_DP_UP],0L);
 		size = m_pFontGageInfo[GAMEMAIN_NEW_STRING_MAX_DP]->GetStringSize(m_szGageInfo[GAMEMAIN_NEW_STRING_MAX_DP]);
 		m_pFontGageInfo[GAMEMAIN_NEW_STRING_MAX_DP]->DrawText( (INT)(GAMEMAIN_GAGE_DP_UP_START_X - ( size.cx / 2 ) ), 
-														GAMEMAIN_GAGE_DP_UP_START_Y + 10,
+														GAMEMAIN_GAGE_DP_UP_START_Y + 10*HIDPI_COEFF,
 														GUI_FONT_COLOR,
 														m_szGageInfo[GAMEMAIN_NEW_STRING_MAX_DP],0L);
 	}
@@ -2070,7 +2079,7 @@ void CINFGameMainUnitInfoBar::RenderGageString(BOOL bShowAll)
 														m_szGageInfo[GAMEMAIN_GAGE_SP_UP],0L);
 		size = m_pFontGageInfo[GAMEMAIN_NEW_STRING_MAX_SP]->GetStringSize(m_szGageInfo[GAMEMAIN_NEW_STRING_MAX_SP]);
 		m_pFontGageInfo[GAMEMAIN_NEW_STRING_MAX_SP]->DrawText( (INT)( GAMEMAIN_NEW_STRING_MAX_SP_START_X - ( size.cx /2 ) ), 
-														GAMEMAIN_NEW_STRING_MAX_SP_START_Y + 10,
+														GAMEMAIN_NEW_STRING_MAX_SP_START_Y + 10 * HIDPI_COEFF,
 														GUI_FONT_COLOR,
 														m_szGageInfo[GAMEMAIN_NEW_STRING_MAX_SP],0L);
 	}
@@ -2693,7 +2702,8 @@ void CINFGameMainUnitInfoBar::RenderMainGage(BOOL bShowAll)
 		if(i > 0)
 		{
 			Pos = m_pGageBarInfo->GetFindControlTargetofMinPos("ene00");		// 2011. 10. 10 by jskim UI시스템 변경
-			m_pImgMainGageHP[i]->Move( GAMEMAIN_POS_X + Pos.x , GAMEMAIN_POS_Y + Pos.y );
+			m_pImgMainGageHP[i]->Move( (GAMEMAIN_POS_X + Pos.x) * HIDPI_COEFF, (GAMEMAIN_POS_Y + Pos.y) * HIDPI_COEFF);
+			m_pImgMainGageHP[i]->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 			m_pImgMainGageHP[i]->Render();
 		}
 	}
@@ -2707,7 +2717,8 @@ void CINFGameMainUnitInfoBar::RenderMainGage(BOOL bShowAll)
 		if(i > 0)
 		{
 			Pos = m_pGageBarInfo->GetFindControlTargetofMinPos("she00");		// 2011. 10. 10 by jskim UI시스템 변경
-			m_pImgMainGageDP[i]->Move( GAMEMAIN_POS_X + Pos.x , GAMEMAIN_POS_Y + Pos.y );
+			m_pImgMainGageDP[i]->Move( (GAMEMAIN_POS_X + Pos.x) * HIDPI_COEFF, (GAMEMAIN_POS_Y + Pos.y) * HIDPI_COEFF);
+			m_pImgMainGageDP[i]->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 			m_pImgMainGageDP[i]->Render();
 		}
 	}
@@ -2721,7 +2732,8 @@ void CINFGameMainUnitInfoBar::RenderMainGage(BOOL bShowAll)
 		if(i > 0)
 		{
 			Pos = m_pGageBarInfo->GetFindControlTargetofMinPos("skil00");		// 2011. 10. 10 by jskim UI시스템 변경
-			m_pImgMainGageSP[i]->Move( GAMEMAIN_POS_X + Pos.x, GAMEMAIN_POS_Y + Pos.y );
+			m_pImgMainGageSP[i]->Move((GAMEMAIN_POS_X + Pos.x) * HIDPI_COEFF, (GAMEMAIN_POS_Y + Pos.y) * HIDPI_COEFF);
+			m_pImgMainGageSP[i]->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 			m_pImgMainGageSP[i]->Render();
 		}
 	}
@@ -2733,8 +2745,8 @@ void CINFGameMainUnitInfoBar::RenderMainGage(BOOL bShowAll)
 		i = min(i, GAMEMAIN_GAGE_BOOSTER_MAX_GRADE-1); // 2013-06-17 by bhsohn 체력게이지 메모리 버그 수정
 
 		Pos = m_pGageBarInfo->GetFindControlTargetofMinPos("Bost00");		// 2011. 10. 10 by jskim UI시스템 변경
-		m_pImgMainGageBooster[i]->Move(GAMEMAIN_POS_X + Pos.x , GAMEMAIN_POS_Y + Pos.y );
-		//m_pImgMainGageBooster[i]->SetScale(1,1);
+		m_pImgMainGageBooster[i]->Move((GAMEMAIN_POS_X + Pos.x) * HIDPI_COEFF, (GAMEMAIN_POS_Y + Pos.y) * HIDPI_COEFF);
+		m_pImgMainGageBooster[i]->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 		m_pImgMainGageBooster[i]->Render();
 	}
 	if(m_fGageRate[GAMEMAIN_GAGE_EP_UP]>0)
@@ -2745,20 +2757,23 @@ void CINFGameMainUnitInfoBar::RenderMainGage(BOOL bShowAll)
 		i = min(i, GAMEMAIN_GAGE_FUEL_MAX_GRADE-1); // 2013-06-17 by bhsohn 체력게이지 메모리 버그 수정
 
 		Pos = m_pGageBarInfo->GetFindControlTargetofMinPos("fue00");		// 2011. 10. 10 by jskim UI시스템 변경
-		m_pImgMainGageFuel[i]->Move(GAMEMAIN_POS_X + Pos.x , GAMEMAIN_POS_Y + Pos.y );
+		m_pImgMainGageFuel[i]->Move((GAMEMAIN_POS_X + Pos.x) * HIDPI_COEFF, (GAMEMAIN_POS_Y + Pos.y) * HIDPI_COEFF);
+		m_pImgMainGageFuel[i]->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 		m_pImgMainGageFuel[i]->Render();
 	}
 	if(m_fGageRate[GAMEMAIN_GAGE_EP_UP]>0.2f || !m_bWarning)
 	{
 
 		Pos = m_pGageBarInfo->GetFindControlTargetofMinPos("fuelG00");		// 2011. 10. 10 by jskim UI시스템 변경
-		m_pImgMainIconFuel[0]->Move(GAMEMAIN_POS_X + Pos.x, GAMEMAIN_POS_Y + Pos.y);
+		m_pImgMainIconFuel[0]->Move((GAMEMAIN_POS_X + Pos.x) * HIDPI_COEFF, (GAMEMAIN_POS_Y + Pos.y) * HIDPI_COEFF);
+		m_pImgMainIconFuel[0]->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 		m_pImgMainIconFuel[0]->Render();
 	}
 	else
 	{
 		Pos = m_pGageBarInfo->GetFindControlTargetofMinPos("fuelG00"); 		// 2011. 10. 10 by jskim UI시스템 변경
-		m_pImgMainIconFuel[1]->Move( GAMEMAIN_POS_X + Pos.x, GAMEMAIN_POS_Y + Pos.y );
+		m_pImgMainIconFuel[1]->Move((GAMEMAIN_POS_X + Pos.x) * HIDPI_COEFF, (GAMEMAIN_POS_Y + Pos.y) * HIDPI_COEFF);
+		m_pImgMainIconFuel[1]->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 		m_pImgMainIconFuel[1]->Render();
 	}
 	if(VOICE_NONE != g_pGameMain->GetVoiceType())
@@ -2799,7 +2814,8 @@ void CINFGameMainUnitInfoBar::RenderMainGage(BOOL bShowAll)
 	if(m_fGageRate[GAMEMAIN_GAGE_HP_UP]<0.35f && m_bWarning)
 	{ 
 		Pos = m_pGageBarInfo->GetFindControlTargetofMinPos("ene00");
-		m_pImgMainWarning->Move(GAMEMAIN_POS_X + 2 + Pos.x, GAMEMAIN_POS_Y + Pos.y);
+		m_pImgMainWarning->Move((GAMEMAIN_POS_X + 2 + Pos.x)* HIDPI_COEFF, (GAMEMAIN_POS_Y + Pos.y)* HIDPI_COEFF);
+		m_pImgMainWarning->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 		m_pImgMainWarning->Render();
 	}	   
 #else

@@ -5,16 +5,47 @@
 #define _ATUM_DEVELOP										// 서버용) 서버소스상 디버깅일 때 활성화 해줘야 함
 #endif
 
-#if defined(WIKIGAMES_ENG)
-#define S_CAN_SERVER_SETTING_HSSON							//this remains here just for valid compiler profile setting validation
+#define S_CAN_SERVER_SETTING_HSSON	//this remains here just for valid compiler profile setting validation
+
+#if defined(_KOR)
+#define KOR_YEDANG_WEB_LAUNCHER_HSSON				// 예당 웹런쳐
+#define YEDANG_RELEASE								// 핵쉴드, 몇가지 기능 한국만 수행
+#define S_ARARIO_HSSON								// used to strtok email to get first token as username
+#define KOR_INPUT_LANGUAGE_HSSON					// 입력 언어 변환
+#define KOR_HANGEUL_START_HSSON						// 한글 모드로 시작
+#define KOR_CASHSHOP_INTERFACE_HSSON				// 캐쉬샵 인터페이스
+#define KOR_GAME_RATINGS_HSSON						// 게임 등급물 위원회 아이콘 추가
+#define KOR_CHARACTER_INTERFACE_POS_HSSON			// 언어에 따라 위치 수정
+#include "Str_KOR/StringDefineCommon.h"
+#include "Str_KOR/StringDefineServer.h"
+#include "Str_KOR/StringDefineClient.h"
 #endif
 
-#if defined(WIKIGAMES_ENG)
+#if defined(_JPN)
+#define LANGUAGE_JAPAN								// 일본에 기존에 사용하던 디파인
+#define S_ARARIO_HSSON								// 아라리오 채널링
+#include "Str_JPN/StringDefineCommon.h"
+#include "Str_JPN/StringDefineServer.h"
+#include "Str_JPN/StringDefineClient.h"
+#endif
+
+#if defined(_ENG)
 #include "Str_CAN/StringDefineCommon.h"
 #include "Str_CAN/StringDefineServer.h"
 #include "Str_CAN/StringDefineClient.h"
 #endif
 
+#if defined(_RUS)
+#include "Str_RUS/StringDefineCommon.h"
+#include "Str_RUS/StringDefineServer.h"
+#include "Str_RUS/StringDefineClient.h"
+#endif
+
+#if defined(_VIE)
+#include "Str_VIE/StringDefineCommon.h"
+#include "Str_VIE/StringDefineServer.h"
+#include "Str_VIE/StringDefineClient.h"
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // predefinitions - checked by Inetpub
@@ -115,7 +146,7 @@
 #define SC_BUFF_PENALTY_JHSEOL_BCKIM						// BUFF penalty feature (251 des param)
 #define GUILD_WAREHOUSE_ACCESS_HSSON						// allow using guild wh
 #define NEW_CASHSHOP_INTERFACE_HSSON						// ItemShop:: used to enable GIFT button NOTE! if C_CASHSHOP_IMAGE_REMOVE is defined then gift button would be disabled
-#define KOR_CASHSHOP_REFILL_WEB_HSSON						// ItemShop:: Show refill button if defined YEDANG_RELEASE ItemShop will be disabled NOTE! Changed by Inet - when defined C_CASH_SHOP_CHARGE_NOT_USE_JWLEE it will not be shown
+//#define KOR_CASHSHOP_REFILL_WEB_HSSON						// ItemShop:: Show refill button if defined YEDANG_RELEASE ItemShop will be disabled NOTE! Changed by Inet - when defined C_CASH_SHOP_CHARGE_NOT_USE_JWLEE it will not be shown
 #define WAREHOUSE_SHARES_HSSON								// allow shared wh between characters on the same account (tabs in wh)
 #define SC_GROWING_PARTNER_HSKIM_JHAHN						// allow PET leveling
 #define S_INFINITY1_HSKIM									// Enable IF1 - switch added by Inetpub
@@ -229,7 +260,7 @@
 #define S_MSWAR_CALLOFHERO_SKILL_JEKIM						// cannot coh 60s before ms start
 #define C_DATE_SHORT_FORM									// shorter date representation ingame - changed by inet to ex. 17-Jul-2021
 #define C_NOT_COLOR_TEXT									// dont use colors in notice
-#define C_END_GAME_STATE_FADE_OUT_AUTO_CANCEL_YMJOO			// auto close game after fade out effect
+//#define C_END_GAME_STATE_FADE_OUT_AUTO_CANCEL_YMJOO			// auto close game after fade out effect
 #define S_SERVER_CRASH_MSGBOX_REMOVE_MSPARK					// Remove messagebox when server crashed with xc005 (stay defined for auto reboot)
 #define SC_DESTROY_AUCTION_JHSEOL_BCKIM_SSJUNG				// Destroy auction feature
 #define C_CAPSULE_CASH_ITEM_MESSAGE_YMJOO					//"Once you open %s, exchange or refund will not be available.\\nWould you still like to open it?"
@@ -246,7 +277,7 @@
 #define C_TUTORIAL_SPEED_YMJOO								// predefined 260 speed for tutorial
 #define C_MINIMAP_SIGHT_IMG_YMJOO							// show fov at minimap
 #define SC_PREMIUM_COLLECTION_ARMOR_YMJOO_BCKIM				// premium armor collecion
-#define C_GAME_SINGLE_THREAD_YMJOO							// single threaded game
+//#define C_GAME_SINGLE_THREAD_YMJOO							// single threaded game
 #define SC_INCREASE_BULLETS_OF_ADVANCED_WEAPONS_BY_EFFECT	// 20% more bullets when effect applied
 #define C_SYSTEMMSG_BACK_INF_NO_MOUSE_EVENT					// mouse behavior fixed for sys window msg box
 #define SC_OLD_COLLECTION_ARMOR_SHCHOI						// DES_OLD_OPTION_ITEM_DEFAULT_DESPARAM enable handler
@@ -263,12 +294,22 @@
 #define S_ATUM_EXE_INSTALLPATH_REGISTRY_DELECT				// prelauncher registry path dont create
 #define C_FALL_OF_BOOSTER_USE_STOP_MSPARK					// falling when not using booster
 #define S_ACCLAIM_OF_VICTORY_JEKIM							// Leveling SP and Turn Around buff enable according to consecutive victories
-#define S_DIRECT_DB_ITEM_INSERT_SECURITY_HSKIM				// directly insert items to db for saefty when server fall (usage of storeextension)
+//#define S_DIRECT_DB_ITEM_INSERT_SECURITY_HSKIM				// directly insert items to db for saefty when server fall (usage of storeextension)
 #define C_SERVER_DOWN_ALARM									// play alarm when server fall down instead of brutl message and game exit
 #define S_AUTO_BLOCK_REATTACKETIME_EXCEPT_JHSEOL			// dont ban re attack time pseudo hack due to bug
+//#define _SHOW_LATENCY
 #endif
 
-
+#ifdef _ATUM_CLIENT
+//#define _DBG_INFO
+#define _WIREFRAME
+#define _NOCLIP
+#define _DRAW_EVENTS
+#define _ENHANCED_MIXING_DISPLAY
+#define _DISABLE_BSTOP_AUTOHORIZONT
+#define _INSTANT_LAUNCH
+#define _NO_FADE
+#endif
 
 
 

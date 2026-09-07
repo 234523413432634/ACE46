@@ -203,13 +203,6 @@
 	#define STRERR_S_SCADMINTOOL_0054 "ЖДЖ®іК Б¤єё ѕчµҐАМЖ®°Ў ЅЗЖР µЗѕъЅАґПґЩ"
 	#define STRERR_S_SCADMINTOOL_0055 "ЖДЖ®іК·№є§ Б¤єё ·ОµщАМ ЅЗЖРµЗѕъЅАґПґЩ"
 
-///////////////////////////////////////////////////////////////////////////////
-// 2012-11-21 by bckim, їоїµЕш±вґЙГЯ°Ў, АОГ¦Ж®ѕЖАМЕЫБ¦°Е±вґЙ
-#define STRERR_S_SCADMINTOOL_0056 "'''' + l.PeerCharacterName + '''worked ['+CAST(l.EnchantCardNumber AS VARCHAR(10)) + '] : ' + CAST(l.ChangeEnchantCount AS VARCHAR(10)) + ' Count Enchanted,  Current :  ' + CAST(l.ResultEnchantCount AS VARCHAR(10)) + ' Enchant'"
-#define STRERR_S_SCADMINTOOL_0057 "'''' + l.PeerCharacterName + '''worked ['+CAST(l.EnchantCardNumber AS VARCHAR(10)) + '] : ' + CAST(l.ChangeEnchantCount AS VARCHAR(10)) + ' Count DisEnchanted,  Current : ' + CAST(l.ResultEnchantCount AS VARCHAR(10)) + ' Enchant'"
-#define STRMSG_S_SCADMINTOOL_0058 "( ======== !! Completely DisEnchant !! ======= )"
-// 2012-11-21 by bckim, їоїµЕш±вґЙГЯ°Ў, АОГ¦Ж®ѕЖАМЕЫБ¦°Е±вґЙ. End
-
 	// 3-3 AtumLaAtumAdminTool -
 //	#define STRMSG_S_SCAT_COLNAME_0000 "Имя аккаунта"
 //	#define STRMSG_S_SCAT_COLNAME_0001 "Тип"
@@ -577,6 +570,9 @@
 	#define STRMSG_S_F2NOTIFY_0148 "%s - ивент завершен."
 	#define STRMSG_S_F2NOTIFY_0149 "%s - ивент проходит (увеличение %4.2f, осталось:%3dмин.)"
 	#define STRMSG_S_F2NOTIFY_0150 "Команда не была выполнена."
+	#define STRMSG_S_F2NOTIFY_0151 "\\cYour last connection was at: \\c\\y%s\\y"
+	#define STRMSG_S_F2NOTIFY_0152 "\\cYour gear was created on the: \\c\\y%s\\y"
+	#define STRMSG_S_F2NOTIFY_0153 "\\cYou played \\y%u Day(s) %u Hour(s) %u Minute(s)\\y and \\y%u Seconds(s)\\y until now!\\c"
 
 
 	// 5-5 Field - NOTIFY Error
@@ -736,6 +732,8 @@
 
 	// 2006-11-07 by cmkwon
 	#define STRMSG_061107_0000			"Вас сбил пилот %s."
+	#define STRMSG_061107_0001			"\\rWarning!\\g Crossfeeding will result in a ban.\\g"
+
 
 	// 2006-11-07 by cmkwon
 	#define STRMSG_070410_0000   	"Инициализация базы данных сервера atum2_db_20 должна выполняться после выключения сервера."
@@ -839,9 +837,9 @@
 #define STRMSG_080201_0005									"'%s' - аккаунт был удален из списка заблокированных." 
 
 // 2008-02-11 by cmkwon, ЗШ»уµµ ГЯ°Ў(1440x900) - 
-#define STRMSG_WINDOW_DEGREE_1440x900_LOW			"1440x900 (низкое - широкий экран)"
-#define STRMSG_WINDOW_DEGREE_1440x900_MEDIUM		"1440x900 (среднее - широкий экран)"
-#define STRMSG_WINDOW_DEGREE_1440x900_HIGH			"1440x900 (высокое - широкий экран)"
+#define STRMSG_WINDOW_DEGREE_1440x900_LOW			"1440x900 (низкое)"
+#define STRMSG_WINDOW_DEGREE_1440x900_MEDIUM		"1440x900 (среднее)"
+#define STRMSG_WINDOW_DEGREE_1440x900_HIGH			"1440x900 (высокое)"
 
 // 2007-12-27 by dhjin, ѕЖ·№іЄЕлЗХ- ѕЖ·№іЄј­№цї¬°б°ь·ГїА·щ
 #define STRMSG_S_MF2AFCONNECT_0000                       "[Error] WndProc(), Невозможно подключиться к серверу Арены [%15s:%4d] Повторное соединение\r\n"
@@ -853,6 +851,91 @@
 #define STRMSG_ARENAEVENT_080310_0002                    "Number \\y%d Комната ожидания Арены лишилась атрибута эвента.\r\n"
 #define STRMSG_ARENAEVENT_080310_0003                    "\\yНевозможно отдать атрибут Арены.\r\n"
 #define STRMSG_080428_0001					"%s был сбит."          // 2008-04-28 by dhjin, Arena integration - String is added when taking down the opponent, only in Arena map 
+#define STRERR_S_ATUMLAUNCHER_0037			"18ЁщЁщ ©цIў¬ў¬ AЎнЁщO©шaўЇў®ЎЖO AuўЇeҐмCўҐA ЎЖOAOЁцAЎЖЎМ ЁщЎѕAAA| Ёщ©шAўґAў¬Ў¤I AICIўЇЁП, CoAc ЁцAЎЖЎМўЇў®ўҐA ЎЖOAO A©ЄCaAI Ё¬OЎЖў®ўҐECOўҐIўҐU.\n\nAUЁщЁщCN ЎнcCЎїAЁ¬ ўЇў®AIЁцЁ¬ўЇAўТoAI ЎЖiЎЖўҐЁщЁъAIЎ¤I ©цўзAC©цUўТ©ЄўҐIўҐU."
+#define STRMSG_120712_0001					"18ЁщЁщ ©цIў¬ў¬ AЎнЁщO©шaўЇў®ЎЖO AuўЇeҐмCўҐA ЎЖOAOЁцAЎЖЎМ ЁщЎѕAAA| Ёщ©шAўґAў¬Ў¤I AICIўЇЁП, %d Ё¬Ёў EAўЇў® ЎЖOAOAI AЁъЎ¤aҐмEўҐIўҐU."
+#define STRMSG_130726_0001					"Character is already on that nation."
+#define STRMSG_130726_0002					"Character is a Leader or Sub-leader, therefore cannot change nation."
+#define STRMSG_130726_0003					"Character is in a Brigade; nation cannot be changed."
+#define STRMSG_130726_0004					"There is no character left to change the nation."
+#define STRMSG_130726_0005					"Changing nation failed [AUID(%d), CUID(%d), ToInflType(%d)] ErrorCode [%d]"
+#define STRMSG_130726_0006					"Changing nation succesful [AUID(%d), CUID(%d), ToInflType(%d)]!"
+#define	STRMSG_130726_0007					"Account does not exist."
+#define STRMSG_130726_0008					"Account is logged in, cannot change nation."
+#define STRMSG_121126_0001					"\\yWar is in progress. Crystal Trigger system has been taken offline for the duration.\\y"
+#define STRMSG_121129_0001					"\\yўЇiўЇҐмAUўЇў® ACCIўЇЁП AIҐмўЇAI A|CNҐмE AoўЇЁЈ AOўҐIўҐU.\\y"
+#define STRMSG_S_F2NOTIFY_0130_1			"\\cWelcome to\\c \\mDreamACE\\m: \\g%s\\g"	
+
+// 2013-08-30 by bckim, ?????????
+#define STRMSG_130830_0001					"\\y%s flight privileges revoked by nation leader.\\y"
+#define STRMSG_130830_0002					"\\yFlight privileges revoked by nation leader.\\y"
+#define STRMSG_130830_0003					"\\yField movement of the user has been limited by the authority of the chairman.\\y"
+// End. 2013-08-30 by bckim, ?????????
+
+// 2013-08-28 by bckim, ????? ????
+#define STRMSG_130828_0001					"\\y[%s has contributed in destroying \\y%s\\y.]\\y"
+#define STRMSG_130828_0002					"\\y[%s has initiated first strike against the \\y%s\\y.]\\y"
+#define STRMSG_130828_0003					"\\y[%s has made most attacks overall against the \\y%s\\y.]\\y"
+#define STRMSG_130828_0004					"\\y[%s has made final strike against the \\y%s\\y.]\\y"
+#define STRMSG_130828_0005					"\\y%s\\y\\n has been defeated."
+// End. 2013-08-28 by bckim, ????? ????
+
+// 2AЎА AIЁ¬ЎНЁЎўз
+
+#define STRMSG_120508_0001					"%s obtains %d War Points in Lost Oasis."
+#define STRMSG_120508_0002					"%s summons a boss monster in Lost Oasis!"
+#define STRMSG_120508_0003					"%s activates 150%%%% increase for monster EXP (1 hour) in Lost Oasis."
+#define STRMSG_120508_0004					"%s activates 150%%%% increase for item drop rate (1 hour) in Lost Oasis."
+#define STRMSG_120508_0005					"%s activates 150%%%% increase for item drop rate/monster EXP/SPI (1 hur) in Lost Oasis."
+#define STRMSG_120508_0006					"%s obtains Ancient Ice in Lost Oasis."
+#define STRMSG_120508_0007					"%s activates Advanced Item Shop in Lost Oasis."
+#define STRMSG_120508_0008					"%s activates Kit Shop in Lost Oasis."
+#define STRMSG_120508_0009					"%s activates Hyper Card Shop in Lost Oasis."
+#define STRMSG_120508_0010					"%s activates Weapon Shop in Lost Oasis."
+#define STRMSG_120508_0011					"%s activates the warp gate to Hidden Place in Lost Oasis."
+
+// 2013-08-14 by jhseol, ??? ??? - ???? GM ??? ???
+#define STRMSG_130814_0001					"\\y[%s] has won the NGC Strategic Point war.\\y"
+// end 2013-08-14 by jhseol, ??? ??? - ???? GM ??? ???
+
+// 2014-03-12 by bckim, ????(????)
+#define STRMSG_130318_0001					"%s has summoned the boss monster in restricted area."
+#define STRMSG_130318_0002					"%s has summoned the boss monster in city of ruins."
+// End. 2014-03-12 by bckim, ????(????)
+
+// // 2013-07-08 by jhseol, ЁЎўзў¬ўзЎЖA ЁцAЁцЁ¬AU EўзAa - STRMSG A©¬ЎЖў®
+#define STRMSG_130708_0001					"\\cCommand:\\c NGC shields have been activated. Destroy the \\rNGC Controllers\\r to disable \\rGomora's\\r shields!"
+#define STRMSG_130708_0002					"\\cCommand:\\c NGC Military Base defenses are down. Begin the attack!"
+#define STRMSG_130708_0003					"\\cScouts:\\c \\rNGC Shield Generator\\r has been sighted."
+#define STRMSG_130708_0004					"\\cScouts:\\c \\rNGC Shield Generator\\r has been destroyed."
+
+// 2013-05-31 by jhseol,bckim ЁъЁЎў¬O AAЎ¤Ё¬ЁщC - STRMSG A©¬ЎЖў®
+#define STRMSG_130531_0001					"\\g[\\g%s\\g]\\g \\gContour has been added to your Contour Collection.\\g"
+#define STRMSG_130531_0002					"\\g[\\g%s\\g]\\g \\gContour has been applied [%2d] times.\\g"
+#define STRMSG_130531_0003					"\\g[\\g%s\\g]\\g \\gContour has reached its maximum application. It has been changed to [%s].\\g"
+#define STRMSG_130531_0004					"Your Contour has expired and stats have been removed. Your engine has been unequipped."
+#define STRMSG_130531_0005					"\\yNo engine is equipped. Teleporting back to city.\\y"
+#define STRMSG_130531_0006					"\\gYou cannot use the Contour currently applied to your armor.\\g"
+#define STRMSG_130531_0007					"\\gContour has been changed.\\g"
+#define STRMSG_130531_0008					"\\r[%s] Contour has expired.\\r"
+#define STRMSG_130531_0009					"\\yArmors with Contours applied cannot be sold.\\y"
+#define STRMSG_130531_0010					"\\yGEAR types do not match.\\y"
+
+// 2013-01-21 by jhseol, NGC AuAuЎѕaAo ЁЎўзў¬ўзЎЖA ЁцAЁцЁ¬AU
+#define STRMSG_130121_0001					"\\cSystem has been captured by NGC forces. Immediate evacuation has begun."
+#define STRMSG_130121_0002					"\\cScouts:\\c \\rNGC Controller\\r has been confirmed."
+#define STRMSG_130121_0003					"\\cScouts:\\c \\rNGC Controller\\r has been destroyed."
+#define STRMSG_130121_0004					"\\cCommand:\\c \\rGomora's\\r shields are online. Destroy \\rNGC Controllers\\r to disable its shields!"
+#define STRMSG_130121_0005					"\\cCommand:\\c \\rGomora's\\r shields are down! Attack now!"
+#define STRMSG_130121_0006					"\\cCommand:\\c \\rGomora\\r has been destroyed! Everyone move forward!"
+#define STRMSG_130121_0007					"\\cCommand:\\c \\rGomora\\r must be destroyed first."
+#define STRMSG_130121_0008					"\\c[%s] activated by \\c\\rNGC Controller\\r overload."
+#define STRMSG_130121_0009					"\\y[NGC Outpost Base System]\\y."
+
+///////////////////////////////////////////////////////////////////////////////
+// 2013-04-22 by jhseol, ??? ??? - ???? ???? ??? ??
+#define STRMSG_130422_0001					"\\y%s %d is restricted from the Arena. The item has been sent to your warehouse.\\y"
+
+///////////////////////////////////////////////////////////////////////////////
 
 // 2008-04-29 by cmkwon, ј­№ц±є Б¤єё DBїЎ ГЯ°Ў(ЅЕ±Ф °иБ¤ ДіёЇЕН »эјє Б¦ЗС ЅГЅєЕЫГЯ°Ў) - 
 #define STRMSG_080430_0001					"На выбранном сервере создание новых персонажей недоступно."
@@ -868,6 +951,7 @@
 #define STRMSG_081230_0001					"\\yЧат персонажа %s был заблокирован на %d минут.\\y"
 #define STRMSG_081230_0002					"\\yЧат был заблокирован лидером на %d минут.\\y" 
 #define STRMSG_081230_0003					"\\yБлокировка чата лидером снята.\\y"
+#define STRMSG_081230_0004					"Not enough Money for chatting. You need at least %d SPI to use this chat!"
 
 ///////////////////////////////////////////////////////////////////////////////
 // 2009-08-31 by cmkwon, Gameforge4D °ФАУ°Ўµе µїАЗГў ¶зїм±в - 
@@ -882,6 +966,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 // 2009-10-16 by cmkwon, Бцїш ЗШ»уµµ ГЯ°Ў(1680x1050,1920x1080,1920x1200) - 
+#define	STRMSG_WINDOW_DEGREE_1920x1440_HIGH			"1920x1440 (high)"
 #define STRMSG_WINDOW_DEGREE_1680x1050_LOW			"1680x1050 (low)"
 #define STRMSG_WINDOW_DEGREE_1680x1050_MEDIUM		"1680x1050 (medium)"
 #define STRMSG_WINDOW_DEGREE_1680x1050_HIGH			"1680x1050 (high)"
@@ -891,6 +976,13 @@
 #define STRMSG_WINDOW_DEGREE_1920x1200_LOW			"1920x1200 (low)"
 #define STRMSG_WINDOW_DEGREE_1920x1200_MEDIUM		"1920x1200 (medium)"
 #define STRMSG_WINDOW_DEGREE_1920x1200_HIGH			"1920x1200 (high)"
+#define STRMSG_WINDOW_DEGREE_3440x1440_LOW			"3440x1440 (low)"
+#define STRMSG_WINDOW_DEGREE_3440x1440_MEDIUM		"3440x1440 (medium)"
+#define STRMSG_WINDOW_DEGREE_3440x1440_HIGH			"3440x1440 (high)"
+#define	STRMSG_WINDOW_DEGREE_2560x1440_HIGH			"2560x1440 (high)"
+#define	STRMSG_WINDOW_DEGREE_2560x1080_HIGH			"2560x1080 (high)"
+#define	STRMSG_WINDOW_DEGREE_3840x2160_HIGH			"3840x2160 (high)"
+#define	STRMSG_WINDOW_DEGREE_5120x2160_HIGH			"5120x2160 (high)"
 
 
 // Rovenia update
@@ -900,6 +992,11 @@
 #define STRMSG_AUTHENTICATION_ACCEPT_COMMENT_BLOCKED "IP сервера зарегистрирован, но в доступе отказано."
 #define STRMSG_AUTHENTICATION_ACCEPT_COMMENT_SHUTDOWN				"Команда завершения работы Windows отправлена на сервер."
 
+// 2014-03-18 by bckim, ў¬ўТAI ON/OFF
+#define STRMSG_130318_0003					"\\yYou can't use the trade shop at the moment.\\y"
+// End. 2014-03-18 by bckim, ў¬ўТAI ON/OFF
+
+#define STRMSG_KILL_0001					"%s has been shot down. Reward %d SPI %d WP"
 ///////////////////////////////////////////////////////////////////////////////
 // 2012-03-30 by hskim, EP4 Ж®ё®°Е ЅГЅєЕЫ АМєҐЖ® ѕЛёІ
 #define STRMSG_120330_0001					"%sАМ ѕЦЅ¬·№АОїЎј­ јы°ЬБш °ш°Ј їцЗБ °ФАМЖ®ё¦ №Яµї ЗПїґЅАґПґЩ."
@@ -911,6 +1008,5 @@
 #define STRMSG_120330_0007					"%sґФАМ ѕЦЅ¬·№АОїЎј­ Е°Ж® »уБЎА» №Яµї ЗПїґЅАґПґЩ."
 #define STRMSG_120330_0008					"%sґФАМ ѕЦЅ¬·№АОїЎј­ ґлЗь ёуЅєЕНё¦ јТИЇЗПјМЅАґПґЩ."
 #define STRMSG_120330_0009					"Е©ё®ЅєЕ»АМ јТёкЗПїґЅАґПґЩ."
-
 
 #endif // end_#ifndef _STRING_DEFINE_SERVER_H_

@@ -3460,9 +3460,10 @@ void CINFMessageBox::OnButtonClick(int i, BOOL bTimerClick/*=FALSE*/)// if i==0 
 				MSG_FC_QUEST_DISCARD_QUEST sMsg;
 				sMsg.QuestIndex = (INT)m_dwData;
 				g_pFieldWinSocket->SendMsg( T_FC_QUEST_DISCARD_QUEST, (char*)&sMsg, sizeof(sMsg) );
+#ifdef OLD_UNUSED_QUEST_STUFF
 				if(g_pInterface->m_pCityBase->m_pMission->m_nCancerSelect < CITY_MISSION_MAX_NUMBER)
 				g_pInterface->m_pCityBase->m_pMission->m_bProgressMission[g_pInterface->m_pCityBase->m_pMission->m_nCancerSelect] = FALSE;				
-
+#endif 
 				// 2008-06-17 by bhsohn 편대 관련 처리
 				// 퀘스트 포기
 				if(g_pShuttleChild->m_pClientParty 

@@ -12,13 +12,8 @@
 #include "AtumThread.h"
 #include "AtumApplication.h"
 
-#define GAMEDATA_LOADING_TIME 5
-class CMeshInitThread 
-// 2014-08-18 by ymjoo 싱글스레드로 변경
-#ifndef C_GAME_SINGLE_THREAD_YMJOO
-: public CAtumThread
-#endif
-// END 2014-08-18 by ymjoo 싱글스레드로 변경
+#define GAMEDATA_LOADING_TIME 1
+class CMeshInitThread : public CAtumThread
 {
 private:
 	queue<structLoadingGameInfo*> m_queLoadingGameInfo;

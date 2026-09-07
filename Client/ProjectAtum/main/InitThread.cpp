@@ -27,12 +27,12 @@ DWORD CInitThread::Run()
 //	g_pD3dApp->ResourceRestoreThread();
 	m_bRunning = FALSE;
 	int count = 0;
-	while(TRUE)
+	while (!m_bThreadMustStop)	// 2015-07-08 Future, added proper Shutdown of threads
 	{
-		if(g_pD3dApp->m_pFieldWinSocket && g_pD3dApp->m_pFieldWinSocket->IsConnected())
+		if (g_pD3dApp->m_pFieldWinSocket && g_pD3dApp->m_pFieldWinSocket->IsConnected())
 		{
 			MSG_FC_CONNECT_LOGIN sMsg;
-			memset(&sMsg,0x00,sizeof(sMsg));
+			memset(&sMsg, 0x00, sizeof(sMsg));
 			char buffer[SIZE_MAX_PACKET];
 			strcpy(sMsg.AccountName, g_pD3dApp->m_strUserID);
 			strcpy(sMsg.Password, g_pD3dApp->m_strUserPassword);
