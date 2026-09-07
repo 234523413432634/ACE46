@@ -1,8 +1,8 @@
 # AceOnline-ep46
 
 Requirements
-1.	Visual Studio 2022
-2.	MFC for v143 build tools (x86 & x64)
+1.	Visual Studio 2026
+2.	C++ MFC for x64/x86 (Latest MSVC)
 
 Build once:
 1.	AceOnline-ep46\Server\XmlRpc\XmlRpc.sln in "Release" configuration
