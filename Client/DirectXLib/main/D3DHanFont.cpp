@@ -19,7 +19,7 @@ extern CD3DApplication* g_pApp;
 // Atlas Config
 #define ATLAS_WIDTH  256
 #define ATLAS_HEIGHT 256
-#define MAX_BATCH_CHARS 256
+#define MAX_BATCH_CHARS 768
 
 
 // Helper to swap Red and Blue channels (ABGR -> ARGB) for DirectX9
