@@ -145,6 +145,9 @@ protected:
 	// 2009. 11. 02 by ckPark 인피니티 필드 인스턴스 던젼 시스템
 	std::vector< std::pair<ItemNum_t, InfinityShopItemCnt_t> >	m_vecExchageMtrl;
 	// end 2009. 11. 02 by ckPark 인피니티 필드 인스턴스 던젼 시스템
+
+	static CGameData* m_sBigItemData;
+
 public:
 	CINFItemInfo(CAtumNode* pParent);
 	virtual ~CINFItemInfo();
@@ -213,6 +216,9 @@ public:
 	BOOL IsEnableItem(ITEM* pITEM);
 	BOOL IsStringColor(char *i_szStr);
 // end 2013-11-29 by ssjung 거래소 구현
+
+	static void InitBigItemData();
+	static void ReleaseBigItemData();
 
 protected:
 	//void SetParameter(int* index, BOOL bLinkItem = FALSE);				// 2006-04-25 by ispark

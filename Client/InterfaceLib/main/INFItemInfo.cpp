@@ -30,6 +30,8 @@
 #include "INFArmorCollectWnd.h" // 2013-06-10 by ssjung 아머 컬렉션 툴팁 표시
 #include "StoreData.h"				// 2014-07-18 by ymjoo 프리미엄 아머컬렉션 구현
 
+CGameData* CINFItemInfo::m_sBigItemData = NULL;
+
 // 2008-04-14 by bhsohn 유럽 아이템 설명 스트링문제 처리
 #if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
 #define STRING_CULL ::StringCullingUserData_ToBlank
@@ -5858,6 +5860,21 @@ BOOL CINFItemInfo::IsEnableItem(ITEM* pITEM)
 	}
 }
 
+
+void CINFItemInfo::ReleaseBigItemData()
+{
+	SAFE_DELETE(m_sBigItemData);
+}
+
+void CINFItemInfo::InitBigItemData()
+{
+	if (m_sBigItemData == NULL)
+	{
+		m_sBigItemData = new CGameData;
+		m_sBigItemData->SetFile(".\\Res-Tex\\bigitem.tex", FALSE, NULL, 0, TRUE);
+	}
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 /// \fn			CINFItemInfo::LoadNPCImage(int nNPCIndex)
 /// \brief		
@@ -5870,35 +5887,35 @@ BOOL CINFItemInfo::IsEnableItem(ITEM* pITEM)
 ///////////////////////////////////////////////////////////////////////////////
 CINFImageEx* CINFItemInfo::FindBigIcon(int nItemNum)
 {
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	char szName[32];
-	wsprintf(szName, "%08d", nItemNum);	
-	DataHeader*	pDataHeader = g_pInterface->m_pGameBigIconData->FindFromFile(szName);
-	if(pDataHeader == NULL)
+	// 1. Lazy Load: Ensure the cache is loaded.
+	if (m_sBigItemData == NULL)
 	{
-		return NULL;
+		InitBigItemData();
 	}
 
-	CINFImageEx *pImage = new CINFImageEx;
-	pImage->InitDeviceObjects( pDataHeader );
-	pImage->RestoreDeviceObjects();
-#else
+	// 2. Clean up previous specific header if it exists.
+	// We set it to NULL because the data returned by Find() is owned by the static m_sBigItemData.
+	// If we leave it assigned to m_pDataHeader, ~CINFItemInfo() will delete it and corrupt the cache.
 	SAFE_DELETE(m_pDataHeader);
-	CGameData gameData;
-	gameData.SetFile( ".\\Res-Tex\\bigitem.tex", FALSE, NULL, 0, FALSE );
+
+	// 3. Find the data in Memory
 	char szName[32];
 	wsprintf(szName, "%08d", nItemNum);
-	m_pDataHeader = gameData.FindFromFile(szName);
-	if(m_pDataHeader == NULL)
+
+	// Use Find() (Memory) instead of FindFromFile() (Disk)
+	DataHeader* pHeader = m_sBigItemData->Find(szName);
+
+	if (pHeader == NULL)
 	{
 		return NULL;
 	}
 
-	CINFImageEx *pImage = new CINFImageEx;
-	pImage->InitDeviceObjects( m_pDataHeader );
-	pImage->RestoreDeviceObjects();
-#endif
+	// 4. Create and Initialize the Image
+	CINFImageEx* pImage = new CINFImageEx;
 
+	// Pass the cached header. CINFImageEx copies the texture data to the GPU.
+	pImage->InitDeviceObjects(pHeader);
+	pImage->RestoreDeviceObjects();
 
 	return pImage;
 }
