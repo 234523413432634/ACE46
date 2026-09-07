@@ -1,26 +1,11 @@
 // D3DHanFont.cpp: implementation of the CD3DHanFont class.
-//
-//////////////////////////////////////////////////////////////////////
-
-
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include <stdio.h>
-#include <tchar.h>
-// 2005-01-03 by jschoi
-//#include <D3DX8.h>
-#include <d3dx9.h>
 #include "D3DHanFont.h"
 #include "D3DApp.h"
 #include "D3DUtil.h"
 #include "DXUtil.h"
-#include "DbgOut_C.h"
-#include "FunctionLog.h"
-#include "FunctionLogGFunctions.h"
 #include "d3dfont.h"
 
 extern CD3DApplication* g_pApp;
@@ -30,1118 +15,516 @@ extern CD3DApplication* g_pApp;
 #else
 #define LANGUAGE_CHARSET DEFAULT_CHARSET
 #endif
-//-----------------------------------------------------------------------------
-// Custom vertex types for rendering text
-//-----------------------------------------------------------------------------
 
-struct FONT2DVERTEX { D3DXVECTOR4 p;   DWORD color ;  FLOAT tu, tv; };
-struct FONT3DVERTEX { D3DXVECTOR3 p;   D3DXVECTOR3 n;   FLOAT tu, tv; };
+// Atlas Config
+#define ATLAS_WIDTH  256
+#define ATLAS_HEIGHT 256
+#define MAX_BATCH_CHARS 256
 
 
-#define D3DFVF_FONT2DVERTEX (D3DFVF_XYZRHW|D3DFVF_DIFFUSE|D3DFVF_TEX1)
-#define D3DFVF_FONT3DVERTEX (D3DFVF_XYZ|D3DFVF_NORMAL|D3DFVF_TEX1)
-
-inline FONT2DVERTEX InitFont2DVertex( const D3DXVECTOR4& p, D3DCOLOR color,
-                                      FLOAT tu, FLOAT tv )
+// Helper to swap Red and Blue channels (ABGR -> ARGB) for DirectX9
+inline DWORD SwapRB(DWORD color)
 {
-    FONT2DVERTEX v;   v.p = p;   v.color = color;   v.tu = tu;   v.tv = tv;
-    return v;
+    return (color & 0xFF00FF00) | ((color & 0x00FF0000) >> 16) | ((color & 0x000000FF) << 16);
 }
 
-inline FONT3DVERTEX InitFont3DVertex( const D3DXVECTOR3& p, const D3DXVECTOR3& n,
-                                      FLOAT tu, FLOAT tv )
+// Safe string copy helper
+inline void SafeStrCpy(char* dest, const char* src, size_t destSize)
 {
-    FONT3DVERTEX v;   v.p = p;   v.n = n;   v.tu = tu;   v.tv = tv;
-    return v;
+    if (!dest || destSize == 0) return;
+    if (!src) { dest[0] = '\0'; return; }
+    strncpy(dest, src, destSize - 1);
+    dest[destSize - 1] = '\0';
 }
 
-// 2006-04-17 by ispark, 전역으로 뺀다
-//#define RED_FONT		'r'
-//#define GREEN_FONT		'g'
-//#define BLUE_FONT		'b'
-//#define YELLOW_FONT		'y'
-//#define CYAN_FONT		'c'
-//#define MAGENTA_FONT	'm'
-//#define WHITE_FONT		'w'
-//#define ENCHANT_FONT	'e'
-//#define GRAY_FONT		'q'
-//#define DARKBLUE_FONT	'a'
-//
-//#define HFONT_ARGB(a,r,g,b) \
-//    ((D3DCOLOR)((((a)&0xff)<<24)|(((b)&0xff)<<16)|(((g)&0xff)<<8)|((r)&0xff)))
-//
-//DWORD GetFontColor( char chr )
-//{
-//	switch( chr )
-//	{
-//	case RED_FONT:
-//		return (HFONT_ARGB(0x00,(BYTE)255,(BYTE)0,(BYTE)0));
-//	case GREEN_FONT:
-//		return (HFONT_ARGB(0x00,(BYTE)0,(BYTE)255,(BYTE)0));
-//	case BLUE_FONT:
-//		return (HFONT_ARGB(0x00,(BYTE)0,(BYTE)0,(BYTE)255));
-//	case YELLOW_FONT:
-//		return (HFONT_ARGB(0x00,(BYTE)255,(BYTE)255,(BYTE)0));
-//	case CYAN_FONT:
-//		return (HFONT_ARGB(0x00,(BYTE)0,(BYTE)255,(BYTE)255));
-//	case MAGENTA_FONT:
-//		return (HFONT_ARGB(0x00,(BYTE)255,(BYTE)0,(BYTE)255));
-//	case WHITE_FONT:
-//		return (HFONT_ARGB(0x00,(BYTE)255,(BYTE)255,(BYTE)255));
-//	case ENCHANT_FONT:
-//		return (HFONT_ARGB(0x00,(BYTE)245,(BYTE)185,(BYTE)48));
-//	case GRAY_FONT:
-//		return (HFONT_ARGB(0x00,(BYTE)208,(BYTE)208,(BYTE)208));
-//	case DARKBLUE_FONT:
-//		return (HFONT_ARGB(0x00,(BYTE)178,(BYTE)190,(BYTE)255));
-//	default:
-//		return (HFONT_ARGB(0x00,(BYTE)0,(BYTE)0,(BYTE)0));
-//	}
-//
-//}
-//-----------------------------------------------------------------------------
-// Name: CD3DHanFont()
-// Desc: Font class constructor
-//-----------------------------------------------------------------------------
-CD3DHanFont::CD3DHanFont( TCHAR* strFontName, 
-						 DWORD dwHeight,
-						 DWORD dwFlags , 
-						 BOOL outline ,
-						 DWORD dwMaxWidth , 
-						 DWORD dwMaxHeight,
-						 BOOL bCullText, 
-						 BOOL bCullUV)
+CD3DHanFont::CD3DHanFont(TCHAR* strFontName, DWORD dwHeight, DWORD dwFlags,
+    BOOL outline, DWORD dwMaxWidth, DWORD dwMaxHeight,
+    BOOL bCullText, BOOL bCullUV)
+    : m_pd3dDevice(NULL),
+    m_pTexture(NULL),
+    m_pVB(NULL),
+    m_hFontGD(NULL),
+    m_hDC(NULL),
+    m_hBitmap(NULL),
+    m_pBitmapBits(NULL),
+    m_dwTexWidth(ATLAS_WIDTH),
+    m_dwTexHeight(ATLAS_HEIGHT),
+    m_dwCurrentX(0),
+    m_dwCurrentY(0),
+    m_dwRowHeight(0),
+    m_dwFontHeight(dwHeight),
+    m_dwFontFlags(dwFlags),
+    m_bOutLine(outline),
+    m_bCullText(bCullText),
+    m_bCullUV(bCullUV),
+    m_fPosX(0), m_fPosY(0),
+    m_dwColor(0),
+    m_fTx1(0), m_fTy1(0), m_fTx2(0), m_fTy2(0),
+    m_fWidth(0),
+    m_fTextScale(1.0f),
+    m_bReset(FALSE),
+    m_bReLoadString(FALSE),
+    m_bTextColor(TRUE)
 {
-	FLOG( "CD3DHanFont( TCHAR* strFontName, DWORD dwHeight,DWORD dwFlags , BOOL outline ,DWORD dwMaxWidth , DWORD dwMaxHeight,BOOL bCullText, BOOL bCullUV)" );
-	memset(m_strText,0x00,sizeof(m_strText));   
-	_tcscpy( m_strFontName, strFontName );
-    m_dwFontHeight			= dwHeight;
-    m_dwFontFlags			= dwFlags;	// 글씨옵션
-	m_bOutLine				= outline;	// 글씨 윤곽선
-	m_bCullText				= bCullText;
-	m_bCullUV				= bCullUV;
+    SafeStrCpy(m_strFontName, strFontName, sizeof(m_strFontName));
+    memset(m_strText, 0, sizeof(m_strText));
+    memset(m_fTexCoords, 0, sizeof(m_fTexCoords));
 
-	m_dwTexWidth			= dwMaxWidth;		// 텍스쳐 최대 넓이 : 2자승단위..
-	m_dwTexHeight			= dwMaxHeight;		// 텍스쳐 최대 높이 : 2자승단위..
-
-    m_pd3dDevice			= NULL;
-    m_pTexture				= NULL;
-    m_pVB					= NULL;
-
-    m_dwSavedStateBlock		= 0L;
-    m_dwDrawTextStateBlock	= 0L;
-
-	m_fPosX = 0;
-	m_fPosY = 0;
-	m_dwColor = 0;
-	m_fTx1 = 0.0f;
-	m_fTy1 = 0.0f;
-	m_fTx2 = 0.0f;
-	m_fTy2 = 0.0f;
-	m_fWidth= 0;
-	m_bReset = FALSE;
-
-	m_bReLoadString = FALSE;
-
-	// 2008-09-19 by bhsohn CD3DHanFont::GetStringSize 속도 개선
-	memset(m_strSizeCheckText,0x00,sizeof(m_strSizeCheckText));   	
-	m_szCheckSize.cx = m_szCheckSize.cy = 0;
-	// end 2008-09-19 by bhsohn CD3DHanFont::GetStringSize 속도 개선
-
-	m_bTextColor = TRUE;					   // 2013-11-13 by ssjung 캐나다 세력 공지사항에서 \관련 이슈 수정
+    memset(m_strSizeCheckText, 0, sizeof(m_strSizeCheckText));
+    m_szCheckSize.cx = m_szCheckSize.cy = 0;
 }
 
-
-
-
-//-----------------------------------------------------------------------------
-// Name: ~CD3DHanFont()
-// Desc: Font class destructor
-//-----------------------------------------------------------------------------
 CD3DHanFont::~CD3DHanFont()
 {
-	FLOG( "~CD3DHanFont()" );
     InvalidateDeviceObjects();
     DeleteDeviceObjects();
 }
 
-//-----------------------------------------------------------------------------
-// Name: SetUV(float tx1, float ty1, float tx2, float ty2)
-// Desc: UV 좌표 세팅 : 권동혁 추가
-//-----------------------------------------------------------------------------
-
-void CD3DHanFont::SetUV(float tx1, 
-						float ty1, 
-						float tx2, 
-						float ty2)
+void CD3DHanFont::SetUV(float tx1, float ty1, float tx2, float ty2)
 {
-	FLOG( "CD3DHanFont::SetUV(float tx1, float ty1, float tx2, float ty2)" );
-	m_fTx1 = tx1;
-	m_fTy1 = ty1;
-	m_fTx2 = tx2;
-	m_fTy2 = ty2;
-/*
-	FONT2DVERTEX* pVertices = NULL;
-	m_pVB->Lock( 0, 0, (BYTE**)&pVertices, D3DLOCK_DISCARD );
-
-	FLOAT w = (tx2-tx1) *  m_dwTexWidth / m_fTextScale;
-	FLOAT h = (ty2-ty1) * m_dwTexHeight / m_fTextScale;
-
-	pVertices[0].tu = m_fTx1;
-	pVertices[0].tv = m_fTy2;
-	pVertices[1].tu = m_fTx1;
-	pVertices[1].tv = m_fTy1;
-	pVertices[2].tu = m_fTx2;
-	pVertices[2].tv = m_fTy2;
-	pVertices[3].tu = m_fTx2;
-	pVertices[3].tv = m_fTy1;
-	pVertices[4].tu = m_fTx2;
-	pVertices[4].tv = m_fTy2;
-	pVertices[5].tu = m_fTx1;
-	pVertices[5].tv = m_fTy1;
-
-	m_pVB->Unlock();
-*/
+    m_fTx1 = tx1; m_fTy1 = ty1; m_fTx2 = tx2; m_fTy2 = ty2;
 }
 
-
 //-----------------------------------------------------------------------------
-// Name: InitDeviceObjects()
-// Desc: Initializes device-dependent objects, including the vertex buffer used
-//       for rendering text and the texture map which stores the font image.
+// GDI Resource Management
 //-----------------------------------------------------------------------------
-HRESULT CD3DHanFont::InitDeviceObjects( LPDIRECT3DDEVICE9 pd3dDevice )
+void CD3DHanFont::PrepareGDIResources()
 {
-	FLOG( "CD3DHanFont::InitDeviceObjects( LPDIRECT3DDEVICE9 pd3dDevice )" );
+    if (m_hDC) return;
 
-   // Keep a local copy of the device
+    HDC hDC = GetDC(NULL);
+    m_hDC = CreateCompatibleDC(hDC);
+    ReleaseDC(NULL, hDC);
+
+    if (!m_hDC) return;
+
+    INT nHeight = -MulDiv(m_dwFontHeight, GetDeviceCaps(m_hDC, LOGPIXELSY), 72);
+    DWORD dwBold = (m_dwFontFlags & D3DFONT_BOLD) ? FW_BOLD : FW_NORMAL;
+    DWORD dwItalic = (m_dwFontFlags & D3DFONT_ITALIC) ? TRUE : FALSE;
+
+    m_hFontGD = CreateFont(nHeight, 0, 0, 0, dwBold, dwItalic,
+        FALSE, FALSE, LANGUAGE_CHARSET, OUT_DEFAULT_PRECIS,
+        CLIP_DEFAULT_PRECIS, ANTIALIASED_QUALITY,
+        FIXED_PITCH, m_strFontName);
+
+    BITMAPINFO bmi;
+    ZeroMemory(&bmi.bmiHeader, sizeof(BITMAPINFOHEADER));
+    bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+    bmi.bmiHeader.biWidth = m_dwFontHeight * 2;
+    bmi.bmiHeader.biHeight = -(int)(m_dwFontHeight * 2 + 4);
+    bmi.bmiHeader.biPlanes = 1;
+    bmi.bmiHeader.biCompression = BI_RGB;
+    bmi.bmiHeader.biBitCount = 32;
+
+    m_hBitmap = CreateDIBSection(m_hDC, &bmi, DIB_RGB_COLORS, (VOID**)&m_pBitmapBits, NULL, 0);
+
+    if (m_hBitmap) SelectObject(m_hDC, m_hBitmap);
+    if (m_hFontGD) SelectObject(m_hDC, m_hFontGD);
+
+    SetMapMode(m_hDC, MM_TEXT);
+    SetBkMode(m_hDC, TRANSPARENT);
+    SetTextAlign(m_hDC, TA_TOP | TA_LEFT);
+}
+
+void CD3DHanFont::CleanupGDIResources()
+{
+    if (m_hFontGD) { DeleteObject(m_hFontGD); m_hFontGD = NULL; }
+    if (m_hBitmap) { DeleteObject(m_hBitmap); m_hBitmap = NULL; }
+    if (m_hDC) { DeleteDC(m_hDC); m_hDC = NULL; }
+    m_pBitmapBits = NULL;
+}
+
+HRESULT CD3DHanFont::InitDeviceObjects(LPDIRECT3DDEVICE9 pd3dDevice)
+{
     m_pd3dDevice = pd3dDevice;
-
-    return S_OK;
+    return RestoreDeviceObjects();
 }
 
-
-
-
-//-----------------------------------------------------------------------------
-// Name: RestoreDeviceObjects()
-// Desc:
-//-----------------------------------------------------------------------------
 HRESULT CD3DHanFont::RestoreDeviceObjects()
 {
-	FLOG( "CD3DHanFont::RestoreDeviceObjects()" );
     HRESULT hr;
 
- 
-    // Establish the font and texture size
-    m_fTextScale  = 1.0f; // Draw fonts into texture without scaling
-
-
-    // If requested texture is too big, use a smaller texture and smaller font,
-    // and scale up when rendering.
-    D3DCAPS9 d3dCaps;
-    m_pd3dDevice->GetDeviceCaps( &d3dCaps );
-
-    if( m_dwTexWidth > d3dCaps.MaxTextureWidth )
-    {
-        m_fTextScale = (FLOAT)d3dCaps.MaxTextureWidth / (FLOAT)m_dwTexWidth;
-        m_dwTexWidth = m_dwTexHeight = d3dCaps.MaxTextureWidth;
+    if (!m_pTexture) {
+        hr = CreateAtlasTexture();
+        if (FAILED(hr)) return hr;
     }
 
-    // Create a new texture for the font
-    SAFE_RELEASE( m_pTexture );
-	hr = m_pd3dDevice->CreateTexture( m_dwTexWidth, m_dwTexHeight, 1,
-                                      0, D3DFMT_A4R4G4B4,
-                                    D3DPOOL_MANAGED, &m_pTexture,NULL );
-    if( FAILED(hr) )
-        return hr;
-
-
-    // Create vertex buffer for the letters
-   SAFE_RELEASE( m_pVB );
-   if( FAILED( hr = m_pd3dDevice->CreateVertexBuffer( /*MAX_NUM_VERTICES*/6*sizeof(FONT2DVERTEX),
-                                                       D3DUSAGE_WRITEONLY, D3DFVF_FONT2DVERTEX,
-                                                       D3DPOOL_MANAGED, &m_pVB,NULL ) ) )
-    {
-        return hr;
+    if (!m_pVB) {
+        if (FAILED(hr = m_pd3dDevice->CreateVertexBuffer(MAX_BATCH_CHARS * 6 * sizeof(FONT2DVERTEX),
+            D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, D3DFVF_FONT2DVERTEX,
+            D3DPOOL_DEFAULT, &m_pVB, NULL)))
+        {
+            return hr;
+        }
     }
 
-    // Create the state blocks for rendering text
- //   for( UINT which=0; which<2; which++ )
-//    {
-/*        m_pd3dDevice->BeginStateBlock();
-//        m_pd3dDevice->SetTexture( 0, m_pTexture );
-
-        if ( D3DFONT_ZENABLE & m_dwFontFlags )
-            m_pd3dDevice->SetRenderState( D3DRS_ZENABLE, TRUE );
-        else
-            m_pd3dDevice->SetRenderState( D3DRS_ZENABLE, FALSE );
-
-        m_pd3dDevice->SetRenderState( D3DRS_ALPHABLENDENABLE, TRUE );
-        m_pd3dDevice->SetRenderState( D3DRS_SRCBLEND,   D3DBLEND_SRCALPHA );
-        m_pd3dDevice->SetRenderState( D3DRS_DESTBLEND,  D3DBLEND_INVSRCALPHA );
-        m_pd3dDevice->SetRenderState( D3DRS_ALPHATESTENABLE,  TRUE );
-        m_pd3dDevice->SetRenderState( D3DRS_ALPHAREF,         0x08 );
-        m_pd3dDevice->SetRenderState( D3DRS_ALPHAFUNC,  D3DCMP_GREATEREQUAL );
-        m_pd3dDevice->SetRenderState( D3DRS_FILLMODE,   D3DFILL_SOLID );
-        m_pd3dDevice->SetRenderState( D3DRS_CULLMODE,   D3DCULL_CCW );
-        m_pd3dDevice->SetRenderState( D3DRS_STENCILENABLE,    FALSE );
-        m_pd3dDevice->SetRenderState( D3DRS_CLIPPING,         TRUE );
-        m_pd3dDevice->SetRenderState( D3DRS_EDGEANTIALIAS,    FALSE );
-        m_pd3dDevice->SetRenderState( D3DRS_CLIPPLANEENABLE,  FALSE );
-        m_pd3dDevice->SetRenderState( D3DRS_VERTEXBLEND,      FALSE );
-        m_pd3dDevice->SetRenderState( D3DRS_INDEXEDVERTEXBLENDENABLE, FALSE );
-        m_pd3dDevice->SetRenderState( D3DRS_FOGENABLE,        FALSE );
-        
-		m_pd3dDevice->SetTextureStageState( 0, D3DTSS_COLOROP,   D3DTA_TEXTURE );
-        m_pd3dDevice->SetTextureStageState( 0, D3DTSS_COLORARG1, D3DTA_TEXTURE );
-        m_pd3dDevice->SetTextureStageState( 0, D3DTSS_COLORARG2, D3DTA_DIFFUSE );
-        m_pd3dDevice->SetTextureStageState( 0, D3DTSS_ALPHAOP,  D3DTA_TEXTURE );
-        m_pd3dDevice->SetTextureStageState( 0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE );
-        m_pd3dDevice->SetTextureStageState( 0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE );
-        m_pd3dDevice->SetTextureStageState( 0, D3DTSS_MINFILTER, D3DTEXF_POINT );
-        m_pd3dDevice->SetTextureStageState( 0, D3DTSS_MAGFILTER, D3DTEXF_POINT );
-        m_pd3dDevice->SetTextureStageState( 0, D3DTSS_MIPFILTER, D3DTEXF_NONE );
-        m_pd3dDevice->SetTextureStageState( 0, D3DTSS_TEXCOORDINDEX, 0 );
-        m_pd3dDevice->SetTextureStageState( 0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_DISABLE );
-        m_pd3dDevice->SetTextureStageState( 1, D3DTSS_COLOROP,   D3DTOP_DISABLE );
-        m_pd3dDevice->SetTextureStageState( 1, D3DTSS_ALPHAOP,   D3DTOP_DISABLE );
-
-//        if( which==0 )
-//            m_pd3dDevice->EndStateBlock( &m_dwSavedStateBlock );
-//        else
-            m_pd3dDevice->EndStateBlock( &m_dwDrawTextStateBlock );
-//    }
-*/
-	if(strlen(m_strText))
-	{
-		m_bReset = TRUE;
-		SetText(0, 0, m_strText, m_dwColor);
-	}
+    PrepareGDIResources();
     return S_OK;
 }
 
+HRESULT CD3DHanFont::CreateAtlasTexture()
+{
+    SAFE_RELEASE(m_pTexture);
+    return m_pd3dDevice->CreateTexture(m_dwTexWidth, m_dwTexHeight, 1, 0,
+        D3DFMT_A4R4G4B4, D3DPOOL_MANAGED, &m_pTexture, NULL);
+}
 
-
-
-//-----------------------------------------------------------------------------
-// Name: InvalidateDeviceObjects()
-// Desc: Destroys all device-dependent objects
-//-----------------------------------------------------------------------------
 HRESULT CD3DHanFont::InvalidateDeviceObjects()
 {
-	FLOG( "CD3DHanFont::InvalidateDeviceObjects()" );
-    SAFE_RELEASE( m_pVB );
-
-    // Delete the state blocks
-//	if( m_pd3dDevice )
-//	{
-//        if( m_dwSavedStateBlock )
-//            m_pd3dDevice->DeleteStateBlock( m_dwSavedStateBlock );
-//        if( m_dwDrawTextStateBlock )
-//            m_pd3dDevice->DeleteStateBlock( m_dwDrawTextStateBlock );
-//	}
-
-    m_dwSavedStateBlock    = 0L;
-    m_dwDrawTextStateBlock = 0L;
-//	memset(m_strText,0x00,sizeof(m_strText));			// 2006-05-15 by ispark
-    SAFE_RELEASE( m_pTexture );
-
+    SAFE_RELEASE(m_pVB);
+    SAFE_RELEASE(m_pTexture);
+    CleanupGDIResources();
+    m_GlyphCache.clear();
     return S_OK;
 }
 
-
-
-
-//-----------------------------------------------------------------------------
-// Name: DeleteDeviceObjects()
-// Desc: Destroys all device-dependent objects
-//-----------------------------------------------------------------------------
 HRESULT CD3DHanFont::DeleteDeviceObjects()
 {
-	FLOG( "CD3DHanFont::DeleteDeviceObjects()" );
     m_pd3dDevice = NULL;
-	memset(m_strText,0x00,sizeof(m_strText));   
-	memset(m_strFontName,0x00,sizeof(m_strFontName));
+    return S_OK;
+}
 
-	// 2008-09-19 by bhsohn CD3DHanFont::GetStringSize 속도 개선
-	memset(m_strSizeCheckText,0x00,sizeof(m_strSizeCheckText));   	
-	m_szCheckSize.cx =  m_szCheckSize.cy = 0;		
-	// end 2008-09-19 by bhsohn CD3DHanFont::GetStringSize 속도 개선
+void CD3DHanFont::FlushGlyphCache()
+{
+    m_GlyphCache.clear();
+    m_dwCurrentX = 0;
+    m_dwCurrentY = 0;
+    m_dwRowHeight = 0;
+}
+
+const GlyphInfo* CD3DHanFont::GetGlyph(unsigned int charCode)
+{
+    if (!m_hDC || !m_hBitmap) return NULL;
+
+    std::map<unsigned int, GlyphInfo>::iterator it = m_GlyphCache.find(charCode);
+    if (it != m_GlyphCache.end()) return &it->second;
+
+    char str[3] = { 0,0,0 };
+    if (charCode > 0xFF) {
+        str[0] = (charCode >> 8) & 0xFF;
+        str[1] = charCode & 0xFF;
+    }
+    else {
+        str[0] = (char)charCode;
+    }
+
+    SIZE size;
+    GetTextExtentPoint32(m_hDC, str, strlen(str), &size);
+
+    int outlineThickness = 1;
+    if (m_dwFontHeight > 10) {
+        outlineThickness = 2;
+    }
+
+    int padding = m_bOutLine ? (outlineThickness * 2) : 1;
+    int width = size.cx + padding * 2;
+    int height = size.cy + padding * 2 + 4;
+
+    if (m_dwCurrentX + width >= m_dwTexWidth) {
+        m_dwCurrentX = 0;
+        m_dwCurrentY += m_dwRowHeight;
+        m_dwRowHeight = 0;
+    }
+
+    if (m_dwCurrentY + height >= m_dwTexHeight) {
+        FlushGlyphCache();
+    }
+
+    RECT r = { 0, 0, width, height };
+    FillRect(m_hDC, &r, (HBRUSH)GetStockObject(BLACK_BRUSH));
+
+    int drawX = padding;
+    int drawY = padding;
+
+    if (m_bOutLine) {
+        SetTextColor(m_hDC, RGB(1, 1, 1));
+        for (int i = -outlineThickness; i <= outlineThickness; i++) {
+            for (int j = -outlineThickness; j <= outlineThickness; j++) {
+                if (i == 0 && j == 0) continue;
+                TextOut(m_hDC, drawX + i, drawY + j, str, strlen(str));
+            }
+        }
+    }
+
+    // Draw main face
+    SetTextColor(m_hDC, RGB(255, 255, 255));
+    TextOut(m_hDC, drawX, drawY, str, strlen(str));
+
+    D3DLOCKED_RECT lr;
+    if (!m_pTexture || FAILED(m_pTexture->LockRect(0, &lr, NULL, 0)))
+        return NULL;
+
+    BYTE* pDstBase = (BYTE*)lr.pBits + (m_dwCurrentY * lr.Pitch) + (m_dwCurrentX * 2);
+
+    for (int y = 0; y < height; ++y) {
+        WORD* pDst = (WORD*)(pDstBase + y * lr.Pitch);
+        DWORD* pSrc = m_pBitmapBits + (y * m_dwFontHeight * 2);
+
+        for (int x = 0; x < width; ++x) {
+            DWORD color = pSrc[x] & 0x00FFFFFF;
+            WORD outColor = 0x0000;
+            if (color != 0) {
+                outColor = 0xF000 |
+                    ((color & 0x00F00000) >> 12) |
+                    ((color & 0x0000F000) >> 8) |
+                    ((color & 0x000000F0) >> 4);
+            }
+            *pDst++ = outColor;
+        }
+    }
+    m_pTexture->UnlockRect(0);
+
+    GlyphInfo info;
+    info.tu1 = (float)m_dwCurrentX / m_dwTexWidth;
+    info.tv1 = (float)m_dwCurrentY / m_dwTexHeight;
+    info.tu2 = (float)(m_dwCurrentX + width) / m_dwTexWidth;
+    info.tv2 = (float)(m_dwCurrentY + height) / m_dwTexHeight;
+    info.nWidth = width;
+    info.nHeight = height;
+    info.nAdvanceX = size.cx;
+
+    m_GlyphCache[charCode] = info;
+
+    m_dwCurrentX += width + 1;
+    if (height > (int)m_dwRowHeight) m_dwRowHeight = height;
+
+    return &m_GlyphCache[charCode];
+}
+
+//-----------------------------------------------------------------------------
+// DrawText
+//-----------------------------------------------------------------------------
+HRESULT CD3DHanFont::DrawText(FLOAT sx, FLOAT sy, DWORD dwColor,
+    TCHAR* strText, DWORD dwFlags, RECT* i_pFillRect, BOOL bColorState)
+{
+    if (!m_pd3dDevice || !m_pVB || !m_pTexture || !strText || strText[0] == 0) return S_OK;
+
+    if (strcmp(m_strText, strText) != 0) {
+        SafeStrCpy(m_strText, strText, sizeof(m_strText));
+        m_dwColor = dwColor;
+    }
+    m_fPosX = sx; m_fPosY = sy;
+
+    // Draw Cursor/FillRect (Legacy GDI call)
+    DrawFillRect(i_pFillRect);
+
+    m_pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+    m_pd3dDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+    m_pd3dDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+    m_pd3dDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+    m_pd3dDevice->SetRenderState(D3DRS_ALPHAREF, 0x08);
+    m_pd3dDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATEREQUAL);
+    m_pd3dDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
+    m_pd3dDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
+
+    m_pd3dDevice->SetTexture(0, m_pTexture);
+    m_pd3dDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+    m_pd3dDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+    m_pd3dDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+    m_pd3dDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+    m_pd3dDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+
+    if (dwFlags & D3DFONT_NOTFILTERED) {
+        m_pd3dDevice->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
+        m_pd3dDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+    }
+    else {
+        m_pd3dDevice->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+        m_pd3dDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    }
+
+    FONT2DVERTEX* pVerts = NULL;
+    if (FAILED(m_pVB->Lock(0, 0, (void**)&pVerts, D3DLOCK_DISCARD)))
+        return S_OK;
+
+    int i = 0;
+    float currX = sx;
+    float currY = sy;
+
+    // Color Setup: Swap R/B for DirectX
+    DWORD baseColor = SwapRB(dwColor);
+    DWORD currColor = baseColor;
+
+    int vCount = 0;
+    int len = strlen(strText);
+
+    while (i < len)
+    {
+        if (bColorState && m_bTextColor)
+        {
+            if (strText[i] == '\\' && i + 1 < len) {
+                DWORD targetColorRaw = GetFontColor(strText[i + 1]);
+                if (targetColorRaw != 0) {
+                    DWORD targetColor = SwapRB(targetColorRaw);
+                    if (currColor == targetColor) {
+                        currColor = baseColor;
+                    }
+                    else {
+                        currColor = targetColor;
+                    }
+                    i += 2;
+                    continue;
+                }
+            }
+        }
+
+        unsigned int charCode = (unsigned char)strText[i];
+        if (IsDBCSLeadByte((BYTE)strText[i]) && i + 1 < len) {
+            charCode = (charCode << 8) | (unsigned char)strText[i + 1];
+            i += 2;
+        }
+        else {
+            i++;
+        }
+
+        if (i >= 256) break;
+
+        const GlyphInfo* pGlyph = GetGlyph(charCode);
+        if (!pGlyph) continue;
+
+        if (vCount >= MAX_BATCH_CHARS * 6) break;
+
+        if (m_bCullText) {
+            float fGap = 0;
+            if ((currX - sx) + pGlyph->nAdvanceX > m_fWidth) {
+                break;
+            }
+        }
+
+        float w = (float)pGlyph->nWidth;
+        float h = (float)pGlyph->nHeight;
+        float drawX = currX;
+        float drawY = currY;
+
+        pVerts[vCount].p = D3DXVECTOR4(drawX - 0.5f, drawY + h - 0.5f, 0.5f, 1.0f);
+        pVerts[vCount].color = currColor;
+        pVerts[vCount].tu = pGlyph->tu1; pVerts[vCount].tv = pGlyph->tv2;
+        vCount++;
+
+        pVerts[vCount].p = D3DXVECTOR4(drawX - 0.5f, drawY - 0.5f, 0.5f, 1.0f);
+        pVerts[vCount].color = currColor;
+        pVerts[vCount].tu = pGlyph->tu1; pVerts[vCount].tv = pGlyph->tv1;
+        vCount++;
+
+        pVerts[vCount].p = D3DXVECTOR4(drawX + w - 0.5f, drawY - 0.5f, 0.5f, 1.0f);
+        pVerts[vCount].color = currColor;
+        pVerts[vCount].tu = pGlyph->tu2; pVerts[vCount].tv = pGlyph->tv1;
+        vCount++;
+
+        pVerts[vCount].p = D3DXVECTOR4(drawX + w - 0.5f, drawY - 0.5f, 0.5f, 1.0f);
+        pVerts[vCount].color = currColor;
+        pVerts[vCount].tu = pGlyph->tu2; pVerts[vCount].tv = pGlyph->tv1;
+        vCount++;
+
+        pVerts[vCount].p = D3DXVECTOR4(drawX + w - 0.5f, drawY + h - 0.5f, 0.5f, 1.0f);
+        pVerts[vCount].color = currColor;
+        pVerts[vCount].tu = pGlyph->tu2; pVerts[vCount].tv = pGlyph->tv2;
+        vCount++;
+
+        pVerts[vCount].p = D3DXVECTOR4(drawX - 0.5f, drawY + h - 0.5f, 0.5f, 1.0f);
+        pVerts[vCount].color = currColor;
+        pVerts[vCount].tu = pGlyph->tu1; pVerts[vCount].tv = pGlyph->tv2;
+        vCount++;
+
+        currX += pGlyph->nAdvanceX;
+    }
+
+    m_pVB->Unlock();
+
+    if (vCount > 0) {
+        m_pd3dDevice->SetFVF(D3DFVF_FONT2DVERTEX);
+        m_pd3dDevice->SetStreamSource(0, m_pVB, 0, sizeof(FONT2DVERTEX));
+        m_pd3dDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, vCount / 3);
+    }
 
     return S_OK;
 }
 
-
-//-----------------------------------------------------------------------------
-// Name: DrawText()
-// Desc: Draws 2D text
-//-----------------------------------------------------------------------------
-HRESULT CD3DHanFont::DrawText( FLOAT sx, 
-							  FLOAT sy, 
-							  DWORD dwColor,
-							  TCHAR* strText, 
-							  DWORD dwFlags,
-							  RECT*	i_pFillRect,/*=NULL*/  // 2009-03-18 by bhsohn 채팅창 커서 이동 시스템 추가
-							  BOOL bColorState) // TRUE		 // 2013-11-13 by ssjung 캐나다 세력 공지사항에서 \관련 이슈 수정
+HRESULT CD3DHanFont::SetText(FLOAT sx, FLOAT sy, TCHAR* texts, DWORD color, RECT* i_pFillRect, BOOL bColorState)
 {
-	FLOG( "CD3DHanFont::DrawText( FLOAT sx, FLOAT sy, DWORD dwColor,TCHAR* strText, DWORD dwFlags)" );
-    HRESULT hr;
-	
-	if( m_pd3dDevice == NULL )
-        return E_FAIL;
-
-	// 2012-11-09 by bhsohn 채팅창 Null오류 소지 제거
-	if(NULL == strText)
-	{
-		return S_OK;
-	}
-	// END 2012-11-09 by bhsohn 채팅창 Null오류 소지 제거
-
-	// Draw할 문자가 NULL이면 넘어간다.
-	if(strText[0]==0x00) 
-	{
-		return S_OK;
-	}
-	// Draw할 문자가 이전에 출력한 문자와 다르면 스트링을 저장.
-//		TCHAR str[SIZE_MAX_CHAT_MESSAGE + SIZE_MAX_CHARACTER_NAME+4];
-//		if(strlen(strText) > SIZE_MAX_CHAT_MESSAGE + SIZE_MAX_CHARACTER_NAME+4)
-//			strncpy(str,strText,SIZE_MAX_CHAT_MESSAGE + SIZE_MAX_CHARACTER_NAME+4);
-//		else
-//			strncpy(str,strText,strlen(strText));
-	
-	// 2009-03-18 by bhsohn 채팅창 커서 이동 시스템 추가
-	//if(FAILED(SetText(sx,sy,strText, dwColor)))
-	if(FAILED(SetText(sx,sy,strText, dwColor, i_pFillRect, bColorState)))			 // 2013-11-13 by ssjung 캐나다 세력 공지사항에서 \관련 이슈 수정
-	{
-		DBGOUT("%s\n",strText);
-		return E_FAIL;
-	}
-
-	// Setup renderstate
- //   m_pd3dDevice->CaptureStateBlock( m_dwSavedStateBlock );
-    m_pd3dDevice->SetRenderState( D3DRS_ALPHABLENDENABLE, TRUE );
-    m_pd3dDevice->SetRenderState( D3DRS_SRCBLEND,   D3DBLEND_SRCALPHA );
-    m_pd3dDevice->SetRenderState( D3DRS_DESTBLEND,  D3DBLEND_INVSRCALPHA );
-    m_pd3dDevice->SetRenderState( D3DRS_ALPHATESTENABLE,  TRUE );
-    m_pd3dDevice->SetRenderState( D3DRS_ALPHAREF,         0x08 );
-    m_pd3dDevice->SetRenderState( D3DRS_ALPHAFUNC,  D3DCMP_GREATEREQUAL );
-    m_pd3dDevice->SetRenderState( D3DRS_FILLMODE,   D3DFILL_SOLID );
-    m_pd3dDevice->SetRenderState( D3DRS_CULLMODE,   D3DCULL_CCW );
-    m_pd3dDevice->SetRenderState( D3DRS_STENCILENABLE,    FALSE );
-    m_pd3dDevice->SetRenderState( D3DRS_CLIPPING,         TRUE );
-		// 2005-01-04 by jschoi
-//       m_pd3dDevice->SetRenderState( D3DRS_EDGEANTIALIAS,    FALSE );
-    m_pd3dDevice->SetRenderState( D3DRS_CLIPPLANEENABLE,  FALSE );
-    m_pd3dDevice->SetRenderState( D3DRS_VERTEXBLEND,      FALSE );
-    m_pd3dDevice->SetRenderState( D3DRS_INDEXEDVERTEXBLENDENABLE, FALSE );
-    m_pd3dDevice->SetRenderState( D3DRS_FOGENABLE,        FALSE );
-    
-	m_pd3dDevice->SetTextureStageState( 0, D3DTSS_COLOROP,   D3DTA_TEXTURE );
-    m_pd3dDevice->SetTextureStageState( 0, D3DTSS_COLORARG1, D3DTA_TEXTURE );
-    m_pd3dDevice->SetTextureStageState( 0, D3DTSS_COLORARG2, D3DTA_DIFFUSE );
-    m_pd3dDevice->SetTextureStageState( 0, D3DTSS_ALPHAOP,  D3DTA_TEXTURE );
-    m_pd3dDevice->SetTextureStageState( 0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE );
-    m_pd3dDevice->SetTextureStageState( 0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE );
-		// 2005-01-03 by jschoi
-//        m_pd3dDevice->SetTextureStageState( 0, D3DTSS_MINFILTER, D3DTEXF_POINT );
-//        m_pd3dDevice->SetTextureStageState( 0, D3DTSS_MAGFILTER, D3DTEXF_POINT );
-//        m_pd3dDevice->SetTextureStageState( 0, D3DTSS_MIPFILTER, D3DTEXF_NONE );
-
-	// 2005-03-10 by jschoi
-	if(dwFlags & D3DFONT_NOTFILTERED)
-	{
-		m_pd3dDevice->SetSamplerState(0,D3DSAMP_MINFILTER,D3DTEXF_POINT);
-		m_pd3dDevice->SetSamplerState(0,D3DSAMP_MAGFILTER,D3DTEXF_POINT);
-		m_pd3dDevice->SetSamplerState(0,D3DSAMP_MIPFILTER,D3DTEXF_NONE);
-	}
-
-    m_pd3dDevice->SetTextureStageState( 0, D3DTSS_TEXCOORDINDEX, 0 );
-    m_pd3dDevice->SetTextureStageState( 0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_DISABLE );
-    m_pd3dDevice->SetTextureStageState( 1, D3DTSS_COLOROP,   D3DTOP_DISABLE );
-    m_pd3dDevice->SetTextureStageState( 1, D3DTSS_ALPHAOP,   D3DTOP_DISABLE );
-//    m_pd3dDevice->ApplyStateBlock( m_dwDrawTextStateBlock );
-	m_pd3dDevice->SetRenderState( D3DRS_ZENABLE,   FALSE );
-	m_pd3dDevice->SetTexture( 0, m_pTexture );
-	m_pd3dDevice->SetFVF( D3DFVF_FONT2DVERTEX );
-	m_pd3dDevice->SetPixelShader( NULL );
-	m_pd3dDevice->SetStreamSource( 0, m_pVB,0, sizeof(FONT2DVERTEX) );
-
-	// 2005-03-10 by jschoi
-	if(dwFlags & D3DFONT_NOTFILTERED)
-	{
-		m_pd3dDevice->SetSamplerState(0,D3DSAMP_MINFILTER,D3DTEXF_LINEAR);
-		m_pd3dDevice->SetSamplerState(0,D3DSAMP_MAGFILTER,D3DTEXF_LINEAR);
-		m_pd3dDevice->SetSamplerState(0,D3DSAMP_MIPFILTER,D3DTEXF_LINEAR);
-	}
-
-	// Set filter states
-//    if( dwFlags & D3DFONT_FILTERED )
-//    {
-		// 2005-01-03 by jschoi
-//       m_pd3dDevice->SetTextureStageState( 0, D3DTSS_MINFILTER, D3DTEXF_LINEAR );
-//       m_pd3dDevice->SetTextureStageState( 0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR );
-//		m_pd3dDevice->SetSamplerState(0,D3DSAMP_MINFILTER,D3DTEXF_LINEAR);
-//		m_pd3dDevice->SetSamplerState(0,D3DSAMP_MAGFILTER,D3DTEXF_LINEAR);
-
-//    }
-
-	// 2005-01-06 by jschoi - Set Filter States - 현재 사용 안함.
-//	if( dwFlags & D3DFONT_FILTERED )
-//	{
-//		m_pd3dDevice->SetSamplerState(0,D3DSAMP_MINFILTER,D3DTEXF_LINEAR);
-//		m_pd3dDevice->SetSamplerState(0,D3DSAMP_MAGFILTER,D3DTEXF_LINEAR);
-//		m_pd3dDevice->SetSamplerState(0,D3DSAMP_MIPFILTER,D3DTEXF_LINEAR);
-//	}
-//	else
-//	{
-//		m_pd3dDevice->SetSamplerState(0,D3DSAMP_MINFILTER,D3DTEXF_NONE);
-//		m_pd3dDevice->SetSamplerState(0,D3DSAMP_MAGFILTER,D3DTEXF_NONE);
-//		m_pd3dDevice->SetSamplerState(0,D3DSAMP_MIPFILTER,D3DTEXF_NONE);
-//	}
-
-	
-//	if( dwNumTriangles > 0 )
-	m_pd3dDevice->DrawPrimitive( D3DPT_TRIANGLELIST, 0, 2 );
-
-
-	// 2005-01-06 by jschoi
-//	if( !(dwFlags & D3DFONT_FILTERED) )
-//	{
-//		m_pd3dDevice->SetSamplerState(0,D3DSAMP_MINFILTER,D3DTEXF_LINEAR);
-//		m_pd3dDevice->SetSamplerState(0,D3DSAMP_MAGFILTER,D3DTEXF_LINEAR);
-//		m_pd3dDevice->SetSamplerState(0,D3DSAMP_MIPFILTER,D3DTEXF_LINEAR);
-//	}
-
-	D3DVERTEXBUFFER_DESC pDesc;
-	if(m_pVB)
-		hr=m_pVB->GetDesc(&pDesc);
-
-    // Restore the modified renderstates
- //   m_pd3dDevice->ApplyStateBlock( m_dwSavedStateBlock );
-
+    if (texts) SafeStrCpy(m_strText, texts, sizeof(m_strText));
+    m_fPosX = sx;
+    m_fPosY = sy;
+    m_dwColor = color;
     return S_OK;
 }
 
-
-
-HRESULT CD3DHanFont::SetText( FLOAT sx, 
-							 FLOAT sy,
-							 TCHAR *texts, 
-							 DWORD color, 
-							 RECT*	i_pFillRect,/*=NULL*/ // 2009-03-18 by bhsohn 채팅창 커서 이동 시스템 추가
-							 BOOL bColorState) //TRUE	 // 2013-11-13 by ssjung 캐나다 세력 공지사항에서 \관련 이슈 수정
+SIZE CD3DHanFont::GetStringSize(TCHAR* strText)
 {
-	FLOG( "CD3DHanFont::SetText( FLOAT sx, FLOAT sy,TCHAR *texts, DWORD color)" );
-//	HRESULT hr;
-	int outlineThickness = 1;
-	if (m_dwFontHeight > 10) {
-		outlineThickness = 2;
-	}
-	
-	bool bReset = FALSE;
-	// 2007-08-07 by bhsohn 스피커 아이템 추가
-	if(strcmp(m_strText,texts) || color != m_dwColor || m_bReset || m_bReLoadString) 
-	{
-		// 2007-08-07 by bhsohn 스피커 아이템 추가
-		m_bReLoadString = FALSE;
+    if (!strcmp(m_strSizeCheckText, strText))
+        return m_szCheckSize;
 
-		m_dwColor = color;
-		if(m_bReset == FALSE)
-		{
-			memset(m_strText,0x00,sizeof(m_strText));   
-			strcpy(m_strText,texts);
-		}
-		m_bReset = FALSE;
+    if (!m_hDC) PrepareGDIResources();
+    if (!m_hDC) {
+        SIZE err = { 0, 0 };
+        return err;
+    }
 
-	  // Prepare to create a bitmap
-		DWORD*      pBitmapBits;
-		BITMAPINFO bmi;
-		ZeroMemory( &bmi.bmiHeader,  sizeof(BITMAPINFOHEADER) );
-		bmi.bmiHeader.biSize        = sizeof(BITMAPINFOHEADER);
-		bmi.bmiHeader.biWidth       =  (int)m_dwTexWidth;
-		bmi.bmiHeader.biHeight      = -(int)m_dwTexHeight;
-		bmi.bmiHeader.biPlanes      = 1;
-		bmi.bmiHeader.biCompression = BI_RGB;
-		bmi.bmiHeader.biBitCount    = 32;
+    // Strip colors logic (CheckFontColor)
+    char strTemp[2048] = { 0, };
+    int nCount = 0;
+    int len = strlen(strText);
 
-		// Create a DC and a bitmap for the font
-		HBITMAP hbmBitmap = CreateDIBSection( g_pApp->GetHDC(), &bmi, DIB_RGB_COLORS,
-											  (VOID**)&pBitmapBits, NULL, 0 );
-		if(!hbmBitmap || !pBitmapBits)
-		{
-//			DBGOUT("ERROR : CD3DHanFont::SetText( FLOAT sx, FLOAT sy,TCHAR *texts, DWORD color) CreateDIBSection Failed\n");
-			return E_FAIL;
-		}
-		SetMapMode( g_pApp->GetHDC(), MM_TEXT);
+    for (int i = 0; i < len; i++)
+    {
+        if (strText[i] == '\\' && i + 1 < len && CheckFontColor(strText[i + 1])) {
+            if (!m_bTextColor) {
+                strTemp[nCount++] = strText[i];
+            }
+            else {
+                i++;
+            }
+        }
+        else {
+            strTemp[nCount++] = strText[i];
+        }
+    }
 
-		// Create a font.  By specifying ANTIALIASED_QUALITY, we might get an
-		// antialiased font, but this is not guaranteed.
-		INT nHeight    = -MulDiv( m_dwFontHeight, 
-			(INT)(GetDeviceCaps(g_pApp->GetHDC(), LOGPIXELSY) * m_fTextScale), 72 );
-		DWORD dwBold   = (m_dwFontFlags&D3DFONT_BOLD)   ? FW_BOLD : FALSE;
-		DWORD dwItalic = (m_dwFontFlags&D3DFONT_ITALIC) ? TRUE    : FALSE;
-// 2008-04-15 by dgwoo ClearType 설정시 글씨가 깨지는 버그로 게임시 강제로 글씨 옵션을 변경.
-//		HFONT hFont    = CreateFont( nHeight, 0, 0, 0, dwBold, dwItalic,
-//							  FALSE, FALSE, LANGUAGE_CHARSET, OUT_DEFAULT_PRECIS,
-//							  CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
-//							  FIXED_PITCH , m_strFontName );
-		HFONT hFont    = CreateFont( nHeight, 0, 0, 0, dwBold, dwItalic,
-							  FALSE, FALSE, LANGUAGE_CHARSET, OUT_DEFAULT_PRECIS,
-							  CLIP_DEFAULT_PRECIS, ANTIALIASED_QUALITY,
-							  FIXED_PITCH , m_strFontName );
-		if( NULL==hFont )
-			return E_FAIL;
+    SIZE size;
+    GetTextExtentPoint32(m_hDC, strTemp, nCount, &size);
 
-		HGDIOBJ hOldBitmap = SelectObject( g_pApp->GetHDC(), hbmBitmap );
-		HGDIOBJ hOldFont = SelectObject( g_pApp->GetHDC(), hFont );
-
-		DWORD x = 0;
-		DWORD y = 0;
-    
-		// 글씨의 싸이즈 측정.
-		SIZE size;
-		int  iStringLength = lstrlen(m_strText);
-		// add by jsy *******************************************//
-
-		// 2006-02-03 by ispark, 영문에 맞지 않는 관계로 밑에서 다시 계산한다.
-		GetTextExtentPoint32( g_pApp->GetHDC(), m_strText, iStringLength, &size );
-
-		int xCharSize = size.cx / iStringLength;
-		
-		size.cx+=10;
-		size.cy+=10;
-		
-
-		SetBkColor(   g_pApp->GetHDC(), 0xff000000 );
-		SetTextAlign( g_pApp->GetHDC(), TA_TOP|TA_LEFT );
-
-/*
-		// 폰트 윤곽선 처리.
-		if (m_bOutLine==TRUE)
-		{
-			SetBkMode(g_pApp->GetHDC(),TRANSPARENT);
-			SetTextColor( g_pApp->GetHDC(), RGB(1,1,1));
-			ExtTextOut( g_pApp->GetHDC(), x, y+1, ETO_CLIPPED, NULL, m_strText, iStringLength, NULL );
-			ExtTextOut( g_pApp->GetHDC(), x+1, y, ETO_CLIPPED, NULL, m_strText, iStringLength, NULL );
-			ExtTextOut( g_pApp->GetHDC(), x+2, y+1, ETO_CLIPPED, NULL, m_strText, iStringLength, NULL );
-			ExtTextOut( g_pApp->GetHDC(), x+1, y+2, ETO_CLIPPED, NULL, m_strText, iStringLength, NULL );
-		}
-*/
-		// Set text properties
-
-		// Loop through all printable character and output them to the bitmap..
-		// Meanwhile, keep track of the corresponding tex coords for each character.
-		SetTextAlign( g_pApp->GetHDC(), TA_TOP|TA_LEFT );
-		//SetTextColor( g_pApp->GetHDC(), (COLORREF)color );
-
-		int chrTotalCount = 0;
-		int chrBitCount   = 0;
-		int totalBitCount = 0;
-		int chrStartPos   = 0;
-		int chrFirstPos	  = 0;
-		char totalString[256];
-		char bitString[256];
-		DWORD bitFirstColor = color;
-		DWORD bitColor = color;
-		
-		int prebitlength = 0;
-
-		// 2009-03-18 by bhsohn 채팅창 커서 이동 시스템 추가
-		DrawFillRect(i_pFillRect); // 커서 위치를 그린다.
-		// end 2009-03-18 by bhsohn 채팅창 커서 이동 시스템 추가
-		
-		strcpy( totalString , m_strText );
-		//memset( chrCount,0, sizeof(chrCount) );
-
-		while( true )
-		{
-			// 2009-01-22 by bhsohn Japan IME
-			if(chrTotalCount >= 256 || chrStartPos >= 256)
-			{
-				break;
-			}
-			// end 2009-01-22 by bhsohn Japan IME
-			if( totalString[chrTotalCount] == 0 )
-			{
-				if( chrStartPos > 0 )
-				{
-					strcpy( bitString, &totalString[chrStartPos]  );
-
-					if (m_bOutLine==TRUE)
-					{
-						SetBkMode(g_pApp->GetHDC(), TRANSPARENT);
-						SetTextColor(g_pApp->GetHDC(), RGB(1, 1, 1));
-						// Draw outline with dynamic thickness in all directions
-						for (int i = -outlineThickness; i <= outlineThickness; i++) {
-							for (int j = -outlineThickness; j <= outlineThickness; j++) {
-								if (i == 0 && j == 0) continue;
-								ExtTextOut(g_pApp->GetHDC(),
-									x + outlineThickness + i + (prebitlength),
-									y + outlineThickness + j,
-									ETO_CLIPPED, NULL, bitString, chrBitCount, NULL);
-							}
-						}
-					}
-
-					SetTextColor( g_pApp->GetHDC(), (COLORREF)bitFirstColor );
-				
-//					ExtTextOut( g_pApp->GetHDC(), (x+1)+(totalBitCount*xCharSize), y+1,
-//								ETO_OPAQUE, NULL, bitString, chrBitCount, NULL );
-					ExtTextOut(g_pApp->GetHDC(),
-						(x + outlineThickness) + (prebitlength),
-						y + outlineThickness,
-						ETO_OPAQUE, NULL, bitString, chrBitCount, NULL);
-
-					SIZE tsize;
-					int nstrlen = strlen(bitString);
-					GetTextExtentPoint32( g_pApp->GetHDC(), bitString, nstrlen, &tsize );
-					prebitlength += tsize.cx;
-					
-					break;
-				}
-
-				if (m_bOutLine==TRUE)
-				{
-					SetBkMode(g_pApp->GetHDC(), TRANSPARENT);
-					SetTextColor(g_pApp->GetHDC(), RGB(1, 1, 1));
-					// Draw outline with dynamic thickness in all directions
-					for (int i = -outlineThickness; i <= outlineThickness; i++) {
-						for (int j = -outlineThickness; j <= outlineThickness; j++) {
-							if (i == 0 && j == 0) continue;
-							ExtTextOut(g_pApp->GetHDC(),
-								x + outlineThickness + i,
-								y + outlineThickness + j,
-								ETO_CLIPPED, NULL, m_strText, iStringLength, NULL);
-						}
-					}
-				}
-				SetTextColor( g_pApp->GetHDC(), (COLORREF)color );
-				ExtTextOut(g_pApp->GetHDC(),
-					x + outlineThickness,
-					y + outlineThickness,
-					ETO_OPAQUE, NULL, m_strText, iStringLength, NULL);
-				break;
-			}
-
-// 2013-11-13 by ssjung 캐나다 세력 공지사항에서 \관련 이슈 수정		
-			if(bColorState)
-			{
-				if( totalString[chrTotalCount] == '\\' )
-				{
-					bitColor = GetFontColor( totalString[chrTotalCount+1] );
-					if( bitColor != 0 )
-					{
-						if( chrFirstPos == 0 && chrTotalCount == 0)
-						{
-							chrFirstPos = chrTotalCount + 2;
-							chrStartPos = chrTotalCount + 2;
-							chrBitCount = -1;
-
-							bitFirstColor = bitColor;//GetFontColor( totalString[chrTotalCount+1] );
-
-							chrTotalCount++;
-							continue;
-						}
-						
-						totalString[chrTotalCount] = 0;
-						strcpy( bitString, &totalString[chrStartPos]  );
-
-						if (m_bOutLine==TRUE)
-						{
-							SetBkMode(g_pApp->GetHDC(), TRANSPARENT);
-							SetTextColor(g_pApp->GetHDC(), RGB(1, 1, 1));
-							// Draw outline with dynamic thickness in all directions
-							for (int i = -outlineThickness; i <= outlineThickness; i++) {
-								for (int j = -outlineThickness; j <= outlineThickness; j++) {
-									if (i == 0 && j == 0) continue;
-									ExtTextOut(g_pApp->GetHDC(),
-										x + outlineThickness + i + (prebitlength),
-										y + outlineThickness + j,
-										ETO_CLIPPED, NULL, bitString, chrBitCount, NULL);
-								}
-							}
-						}
-
-
-						SetTextColor( g_pApp->GetHDC(), (COLORREF)bitFirstColor );
-
-	//					ExtTextOut( g_pApp->GetHDC(), (x+1)+(totalBitCount*xCharSize), y+1,
-	//								ETO_OPAQUE, NULL, bitString, chrBitCount, NULL );
-						ExtTextOut(g_pApp->GetHDC(),
-							(x + outlineThickness) + (prebitlength),
-							y + outlineThickness,
-							ETO_OPAQUE, NULL, bitString, chrBitCount, NULL);
-
-						
-
-						if( bitFirstColor == bitColor )
-							bitFirstColor = color;
-						else
-							bitFirstColor = bitColor;
-
-
-
-						chrStartPos = chrTotalCount+2;
-						totalBitCount += chrBitCount;
-						chrBitCount = -2;
-
-						SIZE tsize;
-						int nstrlen = strlen(bitString);
-						GetTextExtentPoint32( g_pApp->GetHDC(), bitString, nstrlen, &tsize );
-						prebitlength += tsize.cx;
-					}
-				}
-			}
-// end 2013-11-13 by ssjung 캐나다 세력 공지사항에서 \관련 이슈 수정
-
-			chrTotalCount++;
-			chrBitCount++;
-		}
-
-/*
-		while( true )
-		{
-			if( totalString[chrTotalCount] == 0 )
-			{
-				if( chrStartPos > 0 )
-					break;
-
-				if (m_bOutLine==TRUE)
-				{
-					SetBkMode(g_pApp->GetHDC(),TRANSPARENT);
-					SetTextColor( g_pApp->GetHDC(), RGB(1,1,1));
-					ExtTextOut( g_pApp->GetHDC(), x, y+1, ETO_CLIPPED, NULL, m_strText, iStringLength, NULL );
-					ExtTextOut( g_pApp->GetHDC(), x+1, y, ETO_CLIPPED, NULL, m_strText, iStringLength, NULL );
-					ExtTextOut( g_pApp->GetHDC(), x+2, y+1, ETO_CLIPPED, NULL, m_strText, iStringLength, NULL );
-					ExtTextOut( g_pApp->GetHDC(), x+1, y+2, ETO_CLIPPED, NULL, m_strText, iStringLength, NULL );
-				}
-				SetTextColor( g_pApp->GetHDC(), (COLORREF)color );
-				ExtTextOut( g_pApp->GetHDC(), x+1, y+1, ETO_OPAQUE, NULL, m_strText, iStringLength, NULL );
-				break;
-			}
-			
-			if( totalString[chrTotalCount] == '\\' )
-			{
-				totalString[chrTotalCount] = 0;
-				strcpy( bitString, &totalString[chrStartPos]  );
-
-				bitColor = GetFontColor( totalString[chrTotalCount+1] );
-
-
-				if (m_bOutLine==TRUE)
-				{
-					SetBkMode(g_pApp->GetHDC(),TRANSPARENT);
-					SetTextColor( g_pApp->GetHDC(), RGB(1,1,1));
-					ExtTextOut( g_pApp->GetHDC(), x+(totalBitCount*xCharSize), y+1, ETO_CLIPPED, NULL, bitString, chrBitCount, NULL );
-					ExtTextOut( g_pApp->GetHDC(), x+1+(totalBitCount*xCharSize), y, ETO_CLIPPED, NULL, bitString, chrBitCount, NULL );
-					ExtTextOut( g_pApp->GetHDC(), x+2+(totalBitCount*xCharSize), y+1, ETO_CLIPPED, NULL, bitString, chrBitCount, NULL );
-					ExtTextOut( g_pApp->GetHDC(), x+1+(totalBitCount*xCharSize), y+2, ETO_CLIPPED, NULL, bitString, chrBitCount, NULL );
-				}
-
-				SetTextColor( g_pApp->GetHDC(), (COLORREF)bitColor );
-
-				ExtTextOut( g_pApp->GetHDC(), (x+1)+(totalBitCount*xCharSize), y+1,
-							ETO_OPAQUE, NULL, bitString, chrBitCount, NULL );
-
-				chrStartPos = chrTotalCount+2;
-				totalBitCount += chrBitCount;
-				chrBitCount = -1;
-			}
-			else
-			{
-			}
-
-			chrTotalCount++;
-			chrBitCount++;
-		}
-	*/	
-		//ExtTextOut( g_pApp->GetHDC(), x+1, y+1, ETO_OPAQUE, NULL, m_strText, iStringLength, NULL );
-		//ExtTextOut( g_pApp->GetHDC(), x+1, y+1, ETO_OPAQUE, NULL, m_strText, lstrlen(m_strText), NULL );
-		
-		m_fTexCoords[0][0] = ((FLOAT)(x+0))/m_dwTexWidth;
-		m_fTexCoords[0][1] = ((FLOAT)(y+0))/m_dwTexHeight;
-		m_fTexCoords[0][2] = ((FLOAT)(x+0+size.cx))/m_dwTexWidth;
-		m_fTexCoords[0][3] = ((FLOAT)(y+0+size.cy))/m_dwTexHeight;
-
-		SIZE sizeLen = GetStringSize(m_strText);
-		float fgap = size.cx - sizeLen.cx;
-
-		if(m_bCullText && size.cx > (m_fWidth + fgap))
-		{
-			m_fTexCoords[0][0] = ((FLOAT)(size.cx-(m_fWidth + fgap)))/m_dwTexWidth;
-		}
-
-		x += size.cx+1;
-
-		//////////////////////////임시코드//////////////////////
-		if(m_fTexCoords[0][2]>1.0f)
-		{
-			m_fTexCoords[0][2] = 1.0f;
-		}
-
-		// Lock the surface and write the alpha values for the set pixels
-		D3DLOCKED_RECT d3dlr;
-		if(m_pTexture)
-		{
-			m_pTexture->LockRect( 0, &d3dlr, 0, 0 );
-			BYTE* pDstRow = (BYTE*)d3dlr.pBits;
-			WORD* pDst16;
-			unsigned short mcolor=0x0000;
-
-			// 32비트를 16비트 형태로 변환.
-			for( y=0; y < m_dwTexHeight; y++ )
-			{
-				pDst16 = (WORD*)pDstRow;
-				for( x=0; x < m_dwTexWidth; x++ )
-				{
-					if ((pBitmapBits[m_dwTexWidth*y + x]) & 0x00ffffff)
-					{
-						mcolor=0xf000;
-						mcolor=mcolor | (unsigned short)(((pBitmapBits[m_dwTexWidth*y + x]) & 0x00f00000) >> 12);
-						mcolor=mcolor | (unsigned short)(((pBitmapBits[m_dwTexWidth*y + x]) & 0x0000f000) >> 8);
-						mcolor=mcolor | (unsigned short)(((pBitmapBits[m_dwTexWidth*y + x]) & 0x000000f0) >> 4);
-					}
-					else mcolor=0x0000;
-					*pDst16++=mcolor;
-				}
-				pDstRow += d3dlr.Pitch;
-			}
-
-			// Done updating texture, so clean up used objects
-			m_pTexture->UnlockRect(0);
-		}
-		SelectObject( g_pApp->GetHDC(), hOldBitmap );
-		SelectObject( g_pApp->GetHDC(), hOldFont );
-		DeleteObject( hbmBitmap );
-		DeleteObject( hFont );
-		bReset = TRUE;
-	}
-	if(sx != m_fPosX || sy != m_fPosY)
-		bReset = TRUE;
-	if(bReset && m_pVB)
-	{
-		m_fPosX = sx;
-		m_fPosY = sy;
-		// Fill vertex buffer
-		FONT2DVERTEX* pVertices = NULL;
-//		DWORD         dwNumTriangles = 0;
-		// 2005-01-04 by jschoi
-		m_pVB->Lock( 0, 0, (void**)&pVertices, 0 );
-
-		FLOAT tx1,ty1,tx2,ty2;
-		if(!m_bCullUV)
-		{
-			tx1 = m_fTexCoords[0][0];
-			ty1 = m_fTexCoords[0][1];
-			tx2 = m_fTexCoords[0][2];
-			ty2 = m_fTexCoords[0][3];
-		}
-		else
-		{
-			tx1 = m_fTx1;
-			ty1 = m_fTy1;
-			tx2 = m_fTx2;
-			ty2 = m_fTy2;
-		}
-
-		FLOAT w = (tx2-tx1) *  m_dwTexWidth / m_fTextScale;
-		FLOAT h = (ty2-ty1) * m_dwTexHeight / m_fTextScale;
-		*pVertices++ = InitFont2DVertex( D3DXVECTOR4(m_fPosX+0-0.5f,m_fPosY+h-0.5f,0.9f,1.0f) ,0, tx1, ty2 );
-		*pVertices++ = InitFont2DVertex( D3DXVECTOR4(m_fPosX+0-0.5f,m_fPosY+0-0.5f,0.9f,1.0f) ,0, tx1, ty1 );
-		*pVertices++ = InitFont2DVertex( D3DXVECTOR4(m_fPosX+w-0.5f,m_fPosY+h-0.5f,0.9f,1.0f) ,0, tx2, ty2 );
-		*pVertices++ = InitFont2DVertex( D3DXVECTOR4(m_fPosX+w-0.5f,m_fPosY+0-0.5f,0.9f,1.0f) ,0, tx2, ty1 );
-		*pVertices++ = InitFont2DVertex( D3DXVECTOR4(m_fPosX+w-0.5f,m_fPosY+h-0.5f,0.9f,1.0f) ,0, tx2, ty2 );
-		*pVertices++ = InitFont2DVertex( D3DXVECTOR4(m_fPosX+0-0.5f,m_fPosY+0-0.5f,0.9f,1.0f) ,0, tx1, ty1 );
-
-		// Unlock and render the vertex buffer
-		m_pVB->Unlock();
-	}
-
-	return S_OK;
+    SafeStrCpy(m_strSizeCheckText, strText, sizeof(m_strSizeCheckText));
+    m_szCheckSize = size;
+    return size;
 }
 
-///////////////////////////////////////////////////////////////////////////////
-/// \fn			
-/// \brief		// 커서 위치를 그린다.
-/// \author		// 2009-03-18 by bhsohn 채팅창 커서 이동 시스템 추가
-/// \date		2009-03-18 ~ 2009-03-18
-/// \warning	
-///
-/// \param		
-/// \return		
-///////////////////////////////////////////////////////////////////////////////
+void CD3DHanFont::SetReLoadString(BOOL bReset)
+{
+    m_bReLoadString = bReset;
+}
+
+extern int GetStringBuffPos(char* str, int pos);
+
 void CD3DHanFont::DrawFillRect(RECT* i_pFillRect)
 {
-	if(NULL == i_pFillRect)
-	{
-		return;
-	}
-	
-	int nStartPos = GetStringBuffPos(m_strText, i_pFillRect->left);
-	int nEndPos = GetStringBuffPos(m_strText, i_pFillRect->right);
+    if (NULL == i_pFillRect || !m_hDC) return;
 
-	if((-1 == nStartPos) || (-1 == nEndPos))
-	{
-		return;
-	}
-		
-	int nCopyLen = nEndPos - nStartPos;
+    HDC hDC = g_pApp->GetHDC();
 
-	if(nCopyLen <= 0)
-	{
-		return;
-	}
-	RECT rcRender;
-	
-	
-	char chPreString[256];
-	ZERO_MEMORY(chPreString);
-	
-	char chRectString[256];
-	ZERO_MEMORY(chRectString);
+    int nStartPos = GetStringBuffPos(m_strText, i_pFillRect->left);
+    int nEndPos = GetStringBuffPos(m_strText, i_pFillRect->right);
 
-	SIZE sizePre, sizeRect;
-	strncpy(chPreString, m_strText, nStartPos);
-	strncpy(chRectString, &m_strText[nStartPos], nCopyLen);		
-	
-	GetTextExtentPoint32( g_pApp->GetHDC(), chPreString, strlen(chPreString), &sizePre );
-	GetTextExtentPoint32( g_pApp->GetHDC(), chRectString, strlen(chRectString), &sizeRect );
+    if ((-1 == nStartPos) || (-1 == nEndPos)) return;
 
-	rcRender.left = sizePre.cx;
-	rcRender.top = 0;
-	rcRender.right = rcRender.left+sizeRect.cx;
-	rcRender.bottom = rcRender.top+sizeRect.cy;
-	
-	FillRect(g_pApp->GetHDC(), &rcRender, (HBRUSH)(COLOR_GRAYTEXT));
-	
-}
+    int nCopyLen = nEndPos - nStartPos;
+    if (nCopyLen <= 0) return;
 
-///////////////////////////////////////////////////////////////////////////////
-/// \fn			SIZE GetStringSize(HDC hdc, TCHAR strText, char* FontStyle)
-/// \brief		글자 길이 알아오기
-/// \author		ispark
-/// \date		2006-03-06 ~ 2006-03-06
-/// \warning	
-///
-/// \param		
-/// \return		
-///////////////////////////////////////////////////////////////////////////////
-SIZE CD3DHanFont::GetStringSize(TCHAR *strText)
-{
-	// 2008-09-19 by bhsohn CD3DHanFont::GetStringSize 속도 개선
-	if(!strcmp(m_strSizeCheckText, strText))
-	{
-		return m_szCheckSize;
-	}	
-	// end 2008-09-19 by bhsohn CD3DHanFont::GetStringSize 속도 개선
+    RECT rcRender;
+    char chPreString[256] = { 0 };
+    char chRectString[256] = { 0 };
 
-	// 2014-07-01 by ymjoo GetStringSize 성능 개선 작업
-#ifdef C_DRAWTEXT_UPGRADE_YMJOO
-	wchar_t pszSizeCheckText[256];
-	wchar_t pszText[256];
-	wchar_t pszTemp[256] = {0, };
-	MultiByteToWideChar(CP_ACP, 0, m_strSizeCheckText, -1, pszSizeCheckText, 256);
-	MultiByteToWideChar(CP_ACP, 0, strText, -1, pszText, 256);
-	int nPszTextLen = lstrlenW(pszText);
-	int nPszSizeCheckTextLen = lstrlenW(pszSizeCheckText);
-	for(int nStrCnt = 0 ; nStrCnt < nPszTextLen ; ++nStrCnt)
-	{
-		if(nStrCnt < nPszSizeCheckTextLen)
-		{
-			if(pszSizeCheckText[nStrCnt] == pszText[nStrCnt])
-			{
-				pszTemp[nStrCnt] = pszText[nStrCnt];
-				continue;
-			}
-		}
-		if(nStrCnt > 0 && nPszSizeCheckTextLen == nStrCnt)
-		{
-			TCHAR strTemp[256];
-			WideCharToMultiByte(CP_ACP, 0, pszTemp, -1, strTemp, 256, 0, 0);
-			SIZE size = m_szCheckSize;
-			SIZE size2 = GetStringSize(strText + lstrlen(strTemp));
-			size.cx += size2.cx;
-			m_szCheckSize = size;
-			strncpy(m_strSizeCheckText, strText, 255);
-			return size;
-		}
-		break;
-	}
-#endif
-	// END 2014-07-01 by ymjoo GetStringSize 성능 개선 작업
+    SIZE sizePre, sizeRect;
 
-	// Create a font.  By specifying ANTIALIASED_QUALITY, we might get an
-	// antialiased font, but this is not guaranteed.
-	INT nHeight    = -MulDiv( m_dwFontHeight, 
-		(INT)(GetDeviceCaps(g_pApp->GetHDC(), LOGPIXELSY) * m_fTextScale), 72 );
-	DWORD dwBold   = (m_dwFontFlags&D3DFONT_BOLD)   ? FW_BOLD : FALSE;
-	DWORD dwItalic = (m_dwFontFlags&D3DFONT_ITALIC) ? TRUE    : FALSE;
+    if (nStartPos < 256) SafeStrCpy(chPreString, m_strText, nStartPos + 1);
+    if (nCopyLen < 256)  SafeStrCpy(chRectString, &m_strText[nStartPos], nCopyLen + 1);
 
-	HFONT hFont    = CreateFont( nHeight, 0, 0, 0, dwBold, dwItalic,
-						  FALSE, FALSE, LANGUAGE_CHARSET, OUT_DEFAULT_PRECIS,
-						  CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
-						  FIXED_PITCH , m_strFontName );
-	if( NULL==hFont )
-	{
-		SIZE errsize;
-		errsize.cx = errsize.cy = 0;
-		return errsize;
-	}
+    GetTextExtentPoint32(hDC, chPreString, strlen(chPreString), &sizePre);
+    GetTextExtentPoint32(hDC, chRectString, strlen(chRectString), &sizeRect);
 
-	HGDIOBJ hOldFont = SelectObject(g_pApp->GetHDC(), hFont);
+    rcRender.left = sizePre.cx;
+    rcRender.top = 0;
+    rcRender.right = rcRender.left + sizeRect.cx;
+    rcRender.bottom = rcRender.top + sizeRect.cy;
 
-	DWORD x = 0;
-	DWORD y = 0;
-
-	// 색깔 빼기
-	char strTemp[2048] = {0,};
-	int nCount = 0;
-	for(int i = 0; i < lstrlen(strText); i++)
-	{
-		if(strText[i] == '\\' && 
-			i+1 < lstrlen(strText) &&
-			CheckFontColor(strText[i+1]))
-		{ 
-// 2013-11-13 by ssjung 캐나다 세력 공지사항에서 \관련 이슈 수정
-			if(!m_bTextColor)
-			{
-				strTemp[nCount] = strText[i];
-				nCount++;
-			}
-			else
-				i += 1;											
-// end 2013-11-13 by ssjung 캐나다 세력 공지사항에서 \관련 이슈 수정
-		}
-		else
-		{
-			strTemp[nCount] = strText[i];
-			nCount++;
-		}
-	}
-	// 글씨의 싸이즈 측정.
-	SIZE size;
-//	int  iStringLength = lstrlen(strText);
-	int  iStringLength = lstrlen(strTemp);
-	// add by jsy *******************************************//
-
-	// 2006-02-03 by ispark, 영문에 맞지 않는 관계로 밑에서 다시 계산한다.
-	GetTextExtentPoint32(g_pApp->GetHDC(), strTemp, iStringLength, &size);
-//	GetTextExtentPoint32(g_pApp->GetHDC(), strText, iStringLength, &size);
-
-	SelectObject(g_pApp->GetHDC(), hOldFont);
-	DeleteObject(hFont);
-
-	// 2008-09-19 by bhsohn CD3DHanFont::GetStringSize 속도 개선
-	strncpy(m_strSizeCheckText, strText, 255);
-	m_szCheckSize = size;		
-	// end 2008-09-19 by bhsohn CD3DHanFont::GetStringSize 속도 개선
-
-	return size;
-}
-
-// 2007-08-07 by bhsohn 스피커 아이템 추가
-void CD3DHanFont::SetReLoadString (BOOL bReset)
-{
-	m_bReLoadString = bReset;
+    FillRect(hDC, &rcRender, (HBRUSH)(COLOR_GRAYTEXT));
 }
