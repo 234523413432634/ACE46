@@ -56,6 +56,14 @@ typedef vector<SSERVER_GROUP_FOR_LAUNCHER>		vectSSERVER_GROUP_FOR_LAUNCHER;
 
 typedef vector<DEVMODE>			vectDEVMODE;		// 2008-01-03 by cmkwon, 지원하는 해상도 리스트만 보여주기 - 
 
+struct SWINDOW_DEGREE
+{
+	char	szWindowDegreeName[64];
+	int		nCX;
+	int		nCY;
+	int		nDegree;
+};
+
 /////////////////////////////////////////////////////////////////////////////
 // CAtumLauncherDlg dialog
 class CFTPManager;
@@ -104,6 +112,7 @@ public:
 	CButton	m_ctlBtnRememberID;
 	CComboBoxEBX	m_comboServerList;
 	
+
 	CEdit		m_ctrlEditAccount;
 
 
@@ -127,6 +136,8 @@ public:
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 	//}}AFX_VIRTUAL
+
+	vector<SWINDOW_DEGREE>	m_ResolutionList;
 
 // Implementation
 public:
@@ -238,6 +249,10 @@ public:
 	int InsertWindowDegreeList(CComboBox *i_pComboBox, BOOL i_bWindowsMode);
 	int FindWindowDegreeComboBoxIndex(CComboBox *i_pComboBox, char *i_szWindowDegreeName);
 
+	// 2008-01-03 by cmkwon, 지원하는 해상도 리스트만 보여주기 - 
+	vectDEVMODE				m_vectSupportedResolutionList;
+	int InitSupportedWindowResolutionList(void);
+	BOOL IsSupportedResolution(int i_nWidth, int i_nHeight);
 
 	///////////////////////////////////////////////////////////////////////////////
 	// 2008-02-14 by cmkwon, 런처에서 서버그룹 명이 깨져도 게임 실행에 문제가 없도록 수정 - 
