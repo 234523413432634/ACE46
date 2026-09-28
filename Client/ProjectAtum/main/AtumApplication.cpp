@@ -4023,6 +4023,10 @@ VOID CAtumApplication::CleanIMEControl()
 	ImmReleaseContext( GetHwnd(), hIMC );
 }
 
+// How close to the eye the camera starts drawing, for each of the two cameras.
+#define CAMERA_NEAR_ON_FOOT		1.0f
+#define CAMERA_NEAR_IN_FLIGHT	6.0f
+
 void CAtumApplication::SetCamPosInit()
 {
 	FLOG("CAtumApplication::SetCamPosInit()");
@@ -4052,7 +4056,15 @@ void CAtumApplication::SetCamPosInit()
 			m_pCamera->Init(m_pShuttleChild->m_vPos,m_pShuttleChild->m_vVel, 3.14f/13.0f, 60.0f);		// 2014-02-06 by ymjoo 카메라가 지나치게 가까워지는 현상 수정
 			//m_pCamera->Init(m_pShuttleChild->m_vPos,m_pShuttleChild->m_vVel, 3.14f/13.0f, 30.0f);//3.14f/13.0f : 유닛과 카메라 높이가 15가 되는 것을 만듬 // 2005.6.13 by dhkwon
 		}
-		m_pCamera->SetProjParams( D3DX_PI/2.5, fAspect, 1.0f, 100000.0f );		//AO 2022 increased fov
+		// The near plane is not the same for the two cameras.
+		//
+		// Depth precision at a distance z goes as z^2 * (f - n) / (n * f), and with
+		// a far plane this large the (f - n) / f part is pinned at one - so the
+		// expression is really z^2 / n, the *near* plane is the only lever of the
+		// two, and lowering the far plane buys nothing at all.
+		const float fNearPlane = (g_pD3dApp->m_bCharacter == TRUE)
+							   ? CAMERA_NEAR_ON_FOOT : CAMERA_NEAR_IN_FLIGHT;
+		m_pCamera->SetProjParams( D3DX_PI/2.5, fAspect, fNearPlane, 100000.0f );		//AO 2022 increased fov
 	}
 }
 

@@ -77,7 +77,6 @@
 //#define S_AUTO_UPDATE_VERSION_BY_PRESVR_HSSON				// Load version info from HTTP server instead of version.ver from config (requires proper .ver files on update server)
 //#define _USING_INNOVA_FROST_								// Frost game guard
 //#define CUSTOM_OPTIMIZER_HSSON							// ini configs for freak things
-//#define MULTI_LOADER_HSSON								// allow multiple client instances
 //#define GAMEGUARD_NOT_EXECUTE_HSSON						// dont start game guard
 //#define S_GLOG_HSSON										// GLog on off
 //#define S_GLOG_1ST_BCKIM									// GLog 1st stage
@@ -125,6 +124,8 @@
 //#define C_GM_MESSAGE_BOX_ENTER_YMJOO						// only GM can use enter to fast write in chat
 //#define S_DELETE_BUY_CASH_GIVE							// disable gifts (server side)
 //#define ONLY_FULL_WINDOW_HSSON							// possible to play only full screen
+
+#define MULTI_LOADER_HSSON								// allow multiple client instances
 
 // Ep 4-2
 #define EP402
