@@ -2293,6 +2293,30 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Common\ResourcePack.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Parallel.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Server\ZipArchive\zlib\adler32.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Server\ZipArchive\zlib\crc32.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Server\ZipArchive\zlib\inffast.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Server\ZipArchive\zlib\inflate.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Server\ZipArchive\zlib\inftrees.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Server\ZipArchive\zlib\zutil.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\..\Common\AtumData.cpp" />
     <ClCompile Include="..\..\Common\AtumDateTime.cpp" />
     <ClCompile Include="..\..\Common\AtumGlobal.cpp" />
@@ -2328,6 +2352,8 @@
     <ClCompile Include="main\WeaponItemInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Common\Parallel.h" />
+    <ClInclude Include="..\..\Common\ResourcePack.h" />
     <ClInclude Include="..\..\Common\AtumDataLoader.h" />
     <ClInclude Include="..\..\Common\AtumDateTime.h" />
     <ClInclude Include="..\..\Common\AtumSJ.h" />

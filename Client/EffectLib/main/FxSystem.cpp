@@ -10,10 +10,25 @@
 #include "TutorialSystem.h"
 #include "D3DUtil.h"
 #include "dxutil.h"
+#include "ResourcePack.h"	// Res-Eff may be an archive rather than a folder
+#include <vector>
 
 
 #define GAUSS_FILTER_TEX_SIZE	256
 #define BLUR_FILTER_TEX_SIZE	512
+
+// D3DXCreateTextureFromFile() goes to the file system itself, which an
+// archived resource is not in.
+static HRESULT AtumCreateTextureFromResource(const char *i_szPath, LPDIRECT3DTEXTURE9 *o_ppTexture)
+{
+	std::vector<BYTE> vectData;
+	if(FALSE == CResourcePack::Instance().Read(i_szPath, vectData) || vectData.empty())
+	{
+		return E_FAIL;
+	}
+	return D3DXCreateTextureFromFileInMemory(g_pD3dDev, &vectData[0],
+											 (UINT)vectData.size(), o_ppTexture);
+}
 
 // 단축매크로
 #define RS   g_pD3dDev->SetRenderState
@@ -268,27 +283,29 @@ void CFxSystem::InitDeviceObjects()
 	{
 		HRESULT hr;
 		
-		// 텍스처 읽기
-		D3DXCreateTextureFromFile(g_pD3dDev, "Res-Eff/circle.bmp", &m_pTex);
-		D3DXCreateTextureFromFile(g_pD3dDev, "Res-Eff/Dummy.bmp", &m_pDummyTex);
+		// 텍스처 읽기 Through CResourcePack, so Res-Eff may be a folder or an
+		// archive - what D3DX gets is the same bytes either way.
+		AtumCreateTextureFromResource("Res-Eff/circle.bmp", &m_pTex);
+		AtumCreateTextureFromResource("Res-Eff/Dummy.bmp", &m_pDummyTex);
 		// 셰이더 읽기
-		LPD3DXBUFFER pErr;
-		FILE *fp;
-		fp = fopen("Res-Eff/hlsl.fx","rb");
-		fseek( fp, 0L, SEEK_END );
-		long size = ftell( fp );
-		fseek( fp, 0L, SEEK_SET );
-		char* pSrc = new char[size];
-		fread( pSrc, size, sizeof( char ), fp );
-		fclose( fp );
-		
-		
+		LPD3DXBUFFER pErr = NULL;
+		std::vector<BYTE> vectSource;
+		if( FALSE == CResourcePack::Instance().Read("Res-Eff/hlsl.fx", vectSource)
+			|| vectSource.empty() )
+		{	// this used to dereference a NULL FILE* instead
+			MessageBox( NULL, "Res-Eff/hlsl.fx is missing", "ERROR", MB_OK);
+			return;
+		}
+		const char* pSrc = (const char*)&vectSource[0];
+		const long size = (long)vectSource.size();
+
 		if( FAILED(hr = D3DXCreateEffect(g_pD3dDev,pSrc,size,NULL,NULL,0,NULL,&m_pEffect2,&pErr)))
-		
+
 //		if( FAILED( hr = D3DXCreateEffectFromFile(g_pD3dDev, "Res-Eff/hlsl.fx2", NULL, NULL, D3DXSHADER_DEBUG , NULL, &m_pEffect2, &pErr )))
 		{
-		
-			MessageBox( NULL, (LPCTSTR)pErr->GetBufferPointer() , "ERROR", MB_OK);
+
+			MessageBox( NULL, pErr ? (LPCTSTR)pErr->GetBufferPointer()
+								   : "Res-Eff/hlsl.fx would not compile", "ERROR", MB_OK);
 			return;
 		}
 		m_hTechnique2 = m_pEffect2->GetTechniqueByName( "TShader" );
@@ -971,35 +988,23 @@ void CFxSystem::DrawGaussFilterSurface()
 HRESULT CFxSystem::CreatePSFromCompiledFile (LPDIRECT3DDEVICE9 pd3dDevice,TCHAR* strPSPath,LPDIRECT3DPIXELSHADER9& pPS)
 {
 	char szBuffer[128];		// debug output
-	DWORD*	pdwPS;			// pointer to address space of the calling process
-	HANDLE hFile, hMap;		// handle file and handle mapped file
     TCHAR tchTempVSPath[512];	// temporary file path
-	HRESULT hr;				// error 
+	HRESULT hr;				// error
 
-    if( FAILED( hr = DXUtil_FindMediaFileCb( tchTempVSPath,sizeof(tchTempVSPath), strPSPath ) ) )
-        return D3DAPPERR_MEDIANOTFOUND;
-	
-	hFile = CreateFile(tchTempVSPath, GENERIC_READ,0,0,OPEN_EXISTING,
-		FILE_ATTRIBUTE_NORMAL,0);
+    // On failure this still writes the path back, and the resource may be in an
+    // archive rather than on disk, so the answer is the pack's to give.
+    hr = DXUtil_FindMediaFileCb( tchTempVSPath,sizeof(tchTempVSPath), strPSPath );
 
-	if(hFile != INVALID_HANDLE_VALUE) 
+	// This used to memory map the file itself.
+	std::vector<BYTE> vectShader;
+	if( FALSE == CResourcePack::Instance().Read(tchTempVSPath, vectShader)
+		|| vectShader.empty() )
 	{
-		if(GetFileSize(hFile,0) > 0) 
-			hMap = CreateFileMapping(hFile,0,PAGE_READONLY,0,0,0);
-		else
-		{
-			CloseHandle(hFile);
-			return E_FAIL;		
-		}
-	}	
-	else
-		return E_FAIL;	
-	
-	// maps a view of a file into the address space of the calling process
-	pdwPS = (DWORD *)MapViewOfFile(hMap, FILE_MAP_READ, 0, 0, 0);
-		
+		return E_FAIL;
+	}
+
 	// Create the pixel shader
-	hr = pd3dDevice->CreatePixelShader(pdwPS, &pPS);
+	hr = pd3dDevice->CreatePixelShader((const DWORD*)&vectShader[0], &pPS);
 	if ( FAILED(hr) )
 	{
 		OutputDebugString( "Failed to create Pixel Shader, errors:\n" );
@@ -1007,11 +1012,7 @@ HRESULT CFxSystem::CreatePSFromCompiledFile (LPDIRECT3DDEVICE9 pd3dDevice,TCHAR*
 		OutputDebugString( "\n" );
 	  return hr;
 	}
-	
-	UnmapViewOfFile(pdwPS);
-	CloseHandle(hMap);
-	CloseHandle(hFile);
-	
+
   return S_OK;
 }
 
@@ -1023,18 +1024,17 @@ HRESULT CFxSystem::CreateEffectFromCompiledFile(
 	// 셰이더 읽기
 	HRESULT hr;
 	TCHAR strTotalPath[512];
-    if( FAILED( hr = DXUtil_FindMediaFileCb( strTotalPath,sizeof(strTotalPath), strFilePath ) ) )
-        return D3DAPPERR_MEDIANOTFOUND;
+    // As above: a resource that is not on disk may still be in an archive.
+    hr = DXUtil_FindMediaFileCb( strTotalPath,sizeof(strTotalPath), strFilePath );
 
-	FILE *fp;
-	if( NULL == (fp = fopen(strTotalPath,"rb")) ) return -1;
-	fseek( fp, 0L, SEEK_END );
-	long size = ftell( fp );
-	fseek( fp, 0L, SEEK_SET );
-	char* pSrc = new char[size];
-	fread( pSrc, size, sizeof( char ), fp );
-	fclose( fp );
-	
+	// Through CResourcePack, so the shader may sit in Res-Eff on disk or in an
+	// archive; what reaches D3DX is the same either way.
+	std::vector<BYTE> vectSource;
+	if( FALSE == CResourcePack::Instance().Read(strTotalPath, vectSource)
+		|| vectSource.empty() ) return -1;
+	const char* pSrc = (const char*)&vectSource[0];
+	const long size = (long)vectSource.size();
+
 	LPD3DXBUFFER pErr = NULL;
 	if( FAILED(hr = D3DXCreateEffect(pd3dDevice,pSrc,size,NULL,NULL,0,NULL,&pEffect,&pErr)))
 	{
@@ -1043,7 +1043,6 @@ HRESULT CFxSystem::CreateEffectFromCompiledFile(
 	}
 
 	SAFE_RELEASE(pErr);
-	delete[] pSrc;
 
 	return hr;
 }

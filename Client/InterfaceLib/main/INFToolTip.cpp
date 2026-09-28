@@ -8,6 +8,7 @@
 #include "INFImage.h"
 #include "GameDataLast.h"
 #include "dxutil.h"
+#include "ResourcePack.h"							   // Res-Tex may be an archive rather than a folder
 #include "INFImageEx.h"								   // 2011. 10. 10 by jskim UI시스템 변경
 #include "INFGameMain.h"
 
@@ -181,7 +182,11 @@ TCHAR* CINFToolTip::ExecuteDirFullName() /* ini파일 경로 */
 	
 	GetCurrentDirectory( TOOLTIP_FONTSIZE, szCurrentDirectory );
 	wsprintf( szExecuteFullName, _T("%s\\Res-Tex\\%s"), szCurrentDirectory, sziniFileName );
-	
+
+	// ToolTipList.tex is an .ini file read by GetPrivateProfileString, which only
+	// knows about the file system, so this one resource has to be a real file.
+	CResourcePack::Instance().EnsureLooseCopy( szExecuteFullName );
+
 	return szExecuteFullName;
 }
 

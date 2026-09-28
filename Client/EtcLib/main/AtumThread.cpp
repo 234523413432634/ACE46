@@ -16,7 +16,13 @@ DWORD WINAPI ThreadProc(LPVOID pParam)
 
 CAtumThread::CAtumThread()
 {
-	m_bRunning = FALSE;
+	m_bRunning			= FALSE;
+	// Run() loops on this in the two threads that have one, and nothing ever
+	// initialised it - so each of those loops was reading uninitialised memory
+	// to decide whether to keep going.
+	m_bThreadMustStop	= FALSE;
+	m_hThread			= NULL;
+	m_dThreadID			= 0;
 }
 
 HANDLE CAtumThread::CreateThread(DWORD dwCreattionFlags)
@@ -28,6 +34,11 @@ HANDLE CAtumThread::CreateThread(DWORD dwCreattionFlags)
 
 CAtumThread::~CAtumThread()
 {
+	if(NULL == m_hThread)
+	{
+		return;						// CreateThread() was never called
+	}
+
 	DWORD dExitCode;
 	if(m_bRunning)
 	{

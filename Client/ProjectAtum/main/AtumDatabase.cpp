@@ -15,6 +15,8 @@
 
 #include "MonsterData.h"
 #include "dxutil.h"
+#include "ResourcePack.h"	// Res-Tex may be an archive rather than a folder
+#include <vector>
 
 #include "StoreData.h" // 2013-05-28 by bhsohn 아머 컬렉션 시스템
 
@@ -1875,6 +1877,12 @@ void CAtumDatabase::InitDeviceObjects()
 	// omi.tex 로딩 시스템 변경. 파일에 이상 유무를 판단한다. 이상시 게임 종료. 
 	// 그외 게임상 omi 이상시는 그 때 체크해서 게임 종료를 시킨다.
 	// 두번 체크(omi.tex, omi_o.tex)
+
+	// omi.tex is the one resource the client rewrites while it runs - the server
+	// sends item table updates and they are saved back here - so it has to be a
+	// real file, and the recovery below renames one over the other.
+	CResourcePack::Instance().EnsureLooseCopy(".\\Res-Tex\\omi.tex");
+
 	for(int nFileCount = 0; nFileCount < 2 ; nFileCount++)
 	{
 		fd = fopen(".\\Res-Tex\\omi.tex","rb");
@@ -3975,25 +3983,19 @@ void	CAtumDatabase::GetOMICheckSum( const char* szFilePath, BYTE omiCheckSum[32]
 	{
 		return;
 	}
-	FILE *fp;
-    fp=fopen(szFilePath, "rb");  
-	if(NULL == fp)
+	// Through CResourcePack, so that the digest is over the same bytes whether
+	// the file is loose or archived - packing a client must not change what it
+	// reports to the server.
+	std::vector<BYTE> vectFileData;
+	if(FALSE == CResourcePack::Instance().Read(szFilePath, vectFileData))
 	{
 		return;
 	}
-	fseek( fp, 0L, SEEK_END );
-	long lFileSize = ftell( fp );
+
+	const long lFileSize = (long)vectFileData.size();
 	*pFileSize = lFileSize;			// 2007-05-28 by cmkwon
-	fseek( fp, 0L, SEEK_SET );	
 
-	BYTE *pFileData = new BYTE [lFileSize];
-	memset(pFileData, 0x00, lFileSize);
-	fread(pFileData, lFileSize, 1, fp);	
-
-	sha256_encode(pFileData, lFileSize, omiCheckSum);
-	
-	fclose(fp);
-	delete [] pFileData;
+	sha256_encode(lFileSize > 0 ? &vectFileData[0] : NULL, lFileSize, omiCheckSum);
 }
 // end 2009. 06. 09 by ckPark OMI 게임 시작시 체크섬 계산하도록 변경
 

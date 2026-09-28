@@ -4,6 +4,7 @@
 
 #include "stdafx.h"
 #include "SceneData.h"
+#include "ResourcePack.h"	// Res-Map may be an archive rather than a folder
 #include "AtumApplication.h"
 
 
@@ -998,7 +999,7 @@ BOOL CSceneData::InitBackground()
 		RestoreRes();
 		m_bIsRestore = FALSE;
 	}
-	FILE * readMap;
+	CResourceFile readMap;
 	int re = -1;
 	WORKSPACE iWorkspace;
 	PROJECTINFO iProject;
@@ -1006,13 +1007,22 @@ BOOL CSceneData::InitBackground()
 	g_pD3dApp->LoadPath( strPath, IDS_DIRECTORY_MAP, "ms.wok");//RC_MAP_WORKSPACE );//
 	if( strlen( strPath ) > 0 )
 	{
- 		readMap = fopen(strPath,"rb");
-		fseek(readMap,20,SEEK_SET);
-		fread(&iWorkspace,sizeof(WORKSPACE),1,readMap);
+ 		// Through CResourcePack, so ms.wok may be loose in Res-Map or inside an
+		// archive; the reads below are the same sequence either way.
+		if( FALSE == CResourcePack::Instance().Open(strPath, readMap) )
+		{
+			return FALSE;
+		}
+		unsigned __int64 nReadAt = 20;		// the header in front of the workspace
+		nReadAt += readMap.Read(nReadAt, &iWorkspace, sizeof(WORKSPACE));
 		int a = iWorkspace.numberOfProject;
 		for(i=0;i<a;i++)
 		{
-			fread(&iProject,sizeof(PROJECTINFO),1,readMap);
+			if( readMap.Read(nReadAt, &iProject, sizeof(PROJECTINFO)) != sizeof(PROJECTINFO) )
+			{
+				break;
+			}
+			nReadAt += sizeof(PROJECTINFO);
 			char buf[32];
 			wsprintf( buf, "%04d", g_pD3dApp->m_pShuttleChild->m_myShuttleInfo.MapChannelIndex.MapIndex);
 			re = strcmp( iProject.strProjectName, buf );
@@ -1047,7 +1057,6 @@ BOOL CSceneData::InitBackground()
 				break;
 			}
 		}
-		fclose(readMap);
 	}
 	else
 		return FALSE;// error
@@ -5237,20 +5246,29 @@ void	CSceneData::StepBackground_Step2()
 void	CSceneData::StepBackground_Step3()
 {
 	int i;
-	FILE * readMap;
+	CResourceFile readMap;
 	int re = -1;
 	WORKSPACE iWorkspace;
 	char strPath[256];
 	g_pD3dApp->LoadPath( strPath, IDS_DIRECTORY_MAP, "ms.wok");//RC_MAP_WORKSPACE );//
 	if( strlen( strPath ) > 0 )
 	{
- 		readMap = fopen(strPath,"rb");
-		fseek(readMap,20,SEEK_SET);
-		fread(&iWorkspace,sizeof(WORKSPACE),1,readMap);
+ 		// Through CResourcePack, so ms.wok may be loose in Res-Map or inside an
+		// archive; the reads below are the same sequence either way.
+		if( FALSE == CResourcePack::Instance().Open(strPath, readMap) )
+		{
+			return;
+		}
+		unsigned __int64 nReadAt = 20;		// the header in front of the workspace
+		nReadAt += readMap.Read(nReadAt, &iWorkspace, sizeof(WORKSPACE));
 		int a = iWorkspace.numberOfProject;
 		for(i=0;i<a;i++)
 		{
-			fread(&m_prProject,sizeof(PROJECTINFO),1,readMap);
+			if( readMap.Read(nReadAt, &m_prProject, sizeof(PROJECTINFO)) != sizeof(PROJECTINFO) )
+			{
+				break;
+			}
+			nReadAt += sizeof(PROJECTINFO);
 			char buf[32];
 			wsprintf( buf, "%04d", g_pD3dApp->m_pShuttleChild->m_myShuttleInfo.MapChannelIndex.MapIndex);
 			re = strcmp( m_prProject.strProjectName, buf );
@@ -5285,7 +5303,6 @@ void	CSceneData::StepBackground_Step3()
 				break;
 			}
 		}
-		fclose(readMap);
 	}
 	else
 	{

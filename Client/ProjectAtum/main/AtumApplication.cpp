@@ -923,7 +923,7 @@ CAtumApplication::CAtumApplication()
 	m_pMeshInitThread	= new CMeshInitThread;
 	// 2014-08-18 by ymjoo 싱글스레드로 변경
 #ifndef C_GAME_SINGLE_THREAD_YMJOO
-	m_pMeshInitThread->CreateThread();
+	m_pMeshInitThread->CreateLoaderThreads();
 #endif
 	// END 2014-08-18 by ymjoo 싱글스레드로 변경
 	m_pLoadingGameData = NULL;
@@ -1647,6 +1647,17 @@ HRESULT CAtumApplication::OneTimeSceneInit()
 DWORD CAtumApplication::ResourceLoadThread()// by dhkwon, InitDeviceObjects()
 {
 	FLOG("CAtumApplication::ResourceLoadThread()");
+
+	// The textures the interface reads one image at a time - bigitem.tex and
+	// friends - get their directory of names built here, across every core, while
+	// the loading screen is up.
+	{
+		CGameData::PreloadInterfaceTextures();
+
+		char szPreloadSummary[256] = {0,};
+		CGameData::GetPreloadSummary(szPreloadSummary, sizeof(szPreloadSummary));
+		DbgOut("Resource preload: %s\n", szPreloadSummary);
+	}
 
 	// 2014-06-27 by ymjoo DrawText 성능 개선 작업 (DBG 텍스트)
 #ifdef C_DRAWTEXT_UPGRADE_YMJOO
@@ -46135,19 +46146,18 @@ void CAtumApplication::LoadMeshPorcess()
 	LeaveCriticalSection(&m_cs);
 }
 
+// "At most one loading step every LOAD_TIME_CHECK milliseconds", which is what
+// keeps the Direct3D half of a mesh load from taking a frame with it.
 BOOL CAtumApplication::ObjectLoadingTimeChack()
 {
 	DWORD dwTime = timeGetTime();
-	if(dwTime - m_dwTimeCheck < LOAD_TIME_CHECK)		
-	{		
-		m_dwTimeCheck = dwTime;
-		return FALSE;
-	}	
-	else
+	if(dwTime - m_dwTimeCheck < LOAD_TIME_CHECK)
 	{
-		m_dwTimeCheck = dwTime;
-		return TRUE;
-	}	
+		return FALSE;
+	}
+
+	m_dwTimeCheck = dwTime;
+	return TRUE;
 }
 
 structLoadingGameData* CAtumApplication::vecFrontGameData()

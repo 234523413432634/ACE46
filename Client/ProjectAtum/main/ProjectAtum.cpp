@@ -15,6 +15,7 @@
 
 #include "DarkCrash.h" // 2011-08-17 by hsson 클라이언트 크래쉬 날때 서버로 클라 정보 전송
 #include "ShuttleChild.h"		// 2014-02-10 by ssjung, 버그 트랩
+#include "ResourcePack.h"		// Res-Eff, Res-Map, Res-Obj, Res-Tex from .zip as well as from disk
 
  #define  SET_CRT_DEBUG_FIELD(a) \
                  _CrtSetDbgFlag((a) | _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG))
@@ -222,6 +223,14 @@ int APIENTRY WinMain(HINSTANCE hInstance,
                      int       nCmdShow)
 {
 	CAtumApplication pD3dApp;
+
+	// Before anything reads a resource: index whatever .zip archives sit next to
+	// the game and inside its resource folders.
+	{
+		char szArchiveSummary[1024] = {0,};
+		AtumMountClientArchives(szArchiveSummary, sizeof(szArchiveSummary));
+		DbgOut("Resource archives: %s\n", szArchiveSummary);
+	}
 
 	pD3dApp.b_CanadaMutex = true;// 2012-09-17 by jhahn	캐나다 핵쉴드 제거 버전
 	g_cCustomOptimizer.AutoLauncher();
