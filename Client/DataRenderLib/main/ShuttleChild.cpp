@@ -123,6 +123,25 @@
 #define MOVEFRAME_TIMER		        0.5f
 #define SIGEMODE_MOUSE_FITPOINT     50.0f
 #define A_GEAR_SIGEMODE_MOVETIMING  0.1f
+
+///////////////////////////////////////////////////////////////////////////////
+//  How far the siege aim should move toward the mouse this frame.
+//
+//  It took a tenth of the remaining distance every frame, so the camera swung
+//  sixteen times faster at a thousand frames a second than at sixty; this
+//  solves for the same fraction over the time that really passed.
+///////////////////////////////////////////////////////////////////////////////
+static float SiegeAimLerp(float i_fPerFrameAt60, float i_fElapsedTime)
+{
+	if(i_fElapsedTime <= 0.0f)		{ return 0.0f; }
+	if(i_fPerFrameAt60 <= 0.0f)		{ return 0.0f; }
+	if(i_fPerFrameAt60 >= 1.0f)		{ return 1.0f; }
+
+	const float fLeft = (float)pow(1.0f - i_fPerFrameAt60, i_fElapsedTime * 60.0f);
+	if(fLeft <= 0.0f)		{ return 1.0f; }
+	if(fLeft >= 1.0f)		{ return 0.0f; }
+	return 1.0f - fLeft;
+}
 #define ANIMATION_UNIT_TIMING		0.01f
 
 #define SHUTTLE_CONNER_MOVE_SPEED	30
@@ -10016,7 +10035,8 @@ void CShuttleChild::GetSiegeUpVelVector(D3DXVECTOR3	*o_vWeaponVel,	D3DXVECTOR3* 
 	D3DXVECTOR3 v, MouseD;				// 위치관련 마우스 관련 
 	D3DXMATRIX matProj,matView,matTemp;;
 	
-	float fAnimationShotMove = A_GEAR_SIGEMODE_MOVETIMING;
+	float fAnimationShotMove = SiegeAimLerp(A_GEAR_SIGEMODE_MOVETIMING,
+											g_pD3dApp->GetElapsedTime());
 	D3DXVec3Lerp(&Av, &vTmpWeaponVel, &m_vMouseDir, fAnimationShotMove);				
 	
 	// 2007-04-13 by bhsohn A기어 포대문제
@@ -10070,7 +10090,8 @@ void CShuttleChild::GetAirSiegeUpVelVector(D3DXVECTOR3	*o_vWeaponVel,	D3DXVECTOR
 
 	BOOL bRefreshUpVector = FALSE;
 	BOOL bRefreshVelVector = FALSE;
-	float fAnimationShotMove = A_GEAR_SIGEMODE_MOVETIMING;
+	float fAnimationShotMove = SiegeAimLerp(A_GEAR_SIGEMODE_MOVETIMING,
+											g_pD3dApp->GetElapsedTime());
 	
 	D3DXVECTOR3 Av, Uv;					// 포이동 속도관련 
 	D3DXMATRIX matV;

@@ -128,6 +128,7 @@ CBackground::CBackground(PROJECTINFO info)//,int n)
 	m_bMiniMap = FALSE;
 
 	m_pDetailMap = NULL;
+	m_bDetailMapBlockByBlock = FALSE;
 	m_bBazaar = FALSE;
 }
 
@@ -240,6 +241,7 @@ HRESULT CBackground::InitDeviceObjects()
 	DataHeader *pDataHeader;
 	CGameData MiniMapData;
 	m_pDetailMap = NULL;
+	m_bDetailMapBlockByBlock = FALSE;
 	wsprintf(buf, ".\\Res-Map\\%04d.tex", m_pMapInfo->Tex);
 	MiniMapData.SetFile( buf, FALSE, NULL, 0, FALSE );
 	wsprintf(buf, "%04dd",m_pMapInfo->MapIndex);
@@ -1428,10 +1430,11 @@ void CBackground::Render()
 		g_pD3dDev->SetTextureStageState( 1, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_COUNT2 );
 		g_pD3dDev->SetTransform( D3DTS_TEXTURE1, &matWorld );
 		
-		g_pD3dDev->SetSamplerState( 0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR );
-		g_pD3dDev->SetSamplerState(1,D3DSAMP_MINFILTER,D3DTEXF_LINEAR);
-		g_pD3dDev->SetSamplerState(1,D3DSAMP_MAGFILTER,D3DTEXF_LINEAR);
-		g_pD3dDev->SetSamplerState(1,D3DSAMP_MIPFILTER,D3DTEXF_LINEAR);
+		// Both stages. The ground is nearly all of what a flight game looks at edge
+		// on, and the detail map on stage one is the half of it with the high
+		// frequencies in.
+		g_pD3dApp->SetBestTextureFilter(0);
+		g_pD3dApp->SetBestTextureFilter(1);
 		g_pD3dDev->SetTextureStageState( 0, D3DTSS_TEXCOORDINDEX, 0 );		// 0번 텍스처 : 0번 텍스처 인덱스 사용
 		g_pD3dDev->SetTextureStageState( 1, D3DTSS_TEXCOORDINDEX, 0 );		// 1번 텍스처 : 0번 텍스처 인덱스 사용
 		g_pD3dDev->SetTextureStageState( 0, D3DTSS_COLOROP,   D3DTOP_MODULATE );
@@ -1445,7 +1448,28 @@ void CBackground::Render()
 
 
 
-		m_pQuad->Render();	
+		///////////////////////////////////////////////////////////////////////
+		// The detail map goes on here, for the whole of the ground, instead of a
+		// block at a time inside CQuadGround::Render().
+		///////////////////////////////////////////////////////////////////////
+		m_bDetailMapBlockByBlock = (NULL != m_pDetailMap
+									&& NULL != g_pSOption && g_pSOption->sLowQuality);
+
+		if(!m_bDetailMapBlockByBlock)
+		{
+			g_pD3dDev->SetTexture( 1, m_pDetailMap );
+			g_pD3dDev->SetTextureStageState( 1, D3DTSS_COLOROP,
+											 (NULL != m_pDetailMap) ? D3DTOP_ADDSIGNED
+																	: D3DTOP_DISABLE );
+		}
+
+		m_pQuad->Render();
+
+		if(!m_bDetailMapBlockByBlock)
+		{
+			g_pD3dDev->SetTexture( 1, NULL );
+			g_pD3dDev->SetTextureStageState( 1, D3DTSS_COLOROP, D3DTOP_DISABLE );
+		}
 
 //		// 렌더 상태 복원
 //		g_pD3dDev->SetSamplerState(0,D3DSAMP_ADDRESSU,D3DTADDRESS_CLAMP);

@@ -1901,6 +1901,9 @@ public:
 	void	InitItemList();
 	void	AddItemList(MSG_FC_TRADE_INSERT_ITEM* pMsg);
 	void	SaveItemList();
+	// Puts the best filtering this adapter will actually give onto a sampler.
+	void	SetBestTextureFilter(DWORD i_dwSampler);
+
 	void	SetUnitDetailInfo(CHARACTER* pCharac);
 	void	SaveUnitDetailInfo();
 	void	SetLoginOkInfo(MSG_FC_CONNECT_LOGIN_OK* pLoginInfo);

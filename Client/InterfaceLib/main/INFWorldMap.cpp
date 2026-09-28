@@ -126,6 +126,7 @@ CINFWorldMap::CINFWorldMap()
 	m_pOutPostMapImg = NULL;
 	m_pMSWarMapImg = NULL;
 	m_nMapTwinkleStep = 0;
+	m_fMapTwinkleCarry = 0.0f;
 	m_pCannotMoveMapImg = NULL;
 	
 	// ¸Ê ÅøÆÁ
@@ -1160,6 +1161,7 @@ void CINFWorldMap::ShowWnd(BOOL bShow)
 		
 		m_nCurrentMapTwinkleStep = 0;
 		m_nMapTwinkleStep = 0;
+		m_fMapTwinkleCarry = 0.0f;
 		m_pOutPostMapImg->SetColor(m_pOutPostMapImg->GetColor() | 0xff000000);
 		m_pStrategyPointMapImg->SetColor(m_pStrategyPointMapImg->GetColor() | 0xff000000);
 		m_pMSWarMapImg->SetColor(m_pMSWarMapImg->GetColor() | 0xff000000);
@@ -1265,30 +1267,42 @@ void CINFWorldMap::RenderWorldMap()
 	
 	RenderLineHighlight();
 	
+	// How many sixtieths of a second have gone by, carrying the fraction over.
+	m_fMapTwinkleCarry += g_pD3dApp->GetElapsedTime() * 60.0f;
+	int nTwinkleSteps = (int)m_fMapTwinkleCarry;
+	m_fMapTwinkleCarry -= (float)nTwinkleSteps;
+	if(nTwinkleSteps > 90)
+	{
+		nTwinkleSteps = 90;		// after a stall, catch up once rather than spin
+	}
+
 	D3DCOLOR argb = m_pStrategyPointMapImg->GetColor();
-	if(m_nMapTwinkleStep < 20)
+	while(nTwinkleSteps-- > 0)
 	{
-		if(0x00000000 < (argb & 0xff000000))
+		if(m_nMapTwinkleStep < 20)
 		{
-			argb -= 0x05000000;
+			if(0x00000000 < (argb & 0xff000000))
+			{
+				argb -= 0x05000000;
+			}
+			else
+			{
+				++m_nMapTwinkleStep;
+			}
 		}
 		else
 		{
-			++m_nMapTwinkleStep;
+			if((argb & 0xff000000) < 0xff000000)
+			{
+				argb += 0x05000000;
+			}
+			else
+			{
+				m_nMapTwinkleStep = (m_nMapTwinkleStep + 1) % 60;
+			}
 		}
+		m_nCurrentMapTwinkleStep = (m_nCurrentMapTwinkleStep + 1) % 90;
 	}
-	else
-	{
-		if((argb & 0xff000000) < 0xff000000)
-		{
-			argb += 0x05000000;
-		}
-		else
-		{
-			m_nMapTwinkleStep = (m_nMapTwinkleStep + 1) % 60;
-		}
-	}
-	m_nCurrentMapTwinkleStep = (m_nCurrentMapTwinkleStep + 1) % 90;
 
 	for(vector<WorldMap_MapInfo>::iterator it = m_vecMapInfo.begin() ; it != m_vecMapInfo.end() ; ++it)
 	{

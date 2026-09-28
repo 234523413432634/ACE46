@@ -88,6 +88,9 @@ private:
 	CINFImageEx*					m_pOutPostMapImg;			// 전진기지전 맵 이미지
 	CINFImageEx*					m_pMSWarMapImg;				// 모선전 맵 이미지
 	int								m_nMapTwinkleStep;			// 세력전도 반짝이게 만들어 주세요.
+	// Both of the steps above used to move once a frame, so how fast the map
+	// blinked was however fast the client was drawing.
+	float							m_fMapTwinkleCarry;
 	CINFImageEx*					m_pCannotMoveMapImg;		// 이동 불가 맵 이미지
 	
 	/// 맵 툴팁 ///

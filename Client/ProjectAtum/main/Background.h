@@ -107,6 +107,11 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	LPDIRECT3DTEXTURE9			m_pDetailMap;					// 디테일
 
+	// TRUE while the detail map is put on a block at a time, the way it always
+	// was: only where the ship is below that block's own highest point plus six
+	// hundred.
+	BOOL						m_bDetailMapBlockByBlock;
+
 
 	// 2008. 12. 11 by ckPark 물렌더링
 	// One index buffer over the whole of m_pToRenderWaterVB, so that every

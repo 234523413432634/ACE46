@@ -727,7 +727,7 @@ void CQuadGround::Render()
 			g_pD3dDev->SetTexture( 0, m_pTexture );
 
 			// 디테일 맵 코드
-			if(g_pGround->m_pDetailMap && g_pShuttleChild->m_vPos.y < m_nMaxHeight + 600)	// m_nMaxHeight + 600는 디테일 맵 허용 높이이다
+			if(g_pGround->m_bDetailMapBlockByBlock && g_pGround->m_pDetailMap && g_pShuttleChild->m_vPos.y < m_nMaxHeight + 600)	// m_nMaxHeight + 600는 디테일 맵 허용 높이이다
 			{
 				
 				
@@ -796,8 +796,12 @@ void CQuadGround::Render()
 				0, 
 				m_nTriangleNumber );
 			m_nTriangleNumber = 0;
-			g_pD3dDev->SetTexture(1 , NULL);
-			g_pD3dDev->SetTextureStageState( 1, D3DTSS_COLOROP,   D3DTOP_DISABLE  );
+			if(g_pGround->m_bDetailMapBlockByBlock)
+			{
+				// Only where this block put it on.
+				g_pD3dDev->SetTexture(1 , NULL);
+				g_pD3dDev->SetTextureStageState( 1, D3DTSS_COLOROP,   D3DTOP_DISABLE  );
+			}
 		}
 /*		vector<int>::iterator itTile = m_vecRenderTileList.begin();
 		while ( itTile != m_vecRenderTileList.end() )

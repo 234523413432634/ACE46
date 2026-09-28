@@ -1204,7 +1204,7 @@ VOID CAtumApplication::ChangeGameState(DWORD dwType, BOOL bUseThread/*=FALSE*/)
 		break;
 	case _GAME:
 		{
-			// 2007-07-25 by bhsohn À¯Àú°¡ Æ©Åä¸®¾ó¸Ê¿¡ ÀÖ¾î¼­ ¸¶À»·Î °¬À»½Ã, Ã¹¹ø¤Š À¯Àú·Î °£ÁÖ
+			// 2007-07-25 by bhsohn À¯Àú°¡ Æ©Åä¸®¾ó¸Ê¿¡ ÀÖ¾î¼­ ¸¶À»·Î °¬À»½Ã, Ã¹¹ø? À¯Àú·Î °£ÁÖ
 			CHARACTER myShuttle = m_pShuttleChild->GetMyShuttleInfo();
 			if(g_pTutorial->GetFirstUserIntoFreeSka() == TRUE	// ÇÁ¸®½ºÄ« ¸Ê¿¡ Ã³À½ ÁøÃâÀÌ³Ä?
 				&&(FALSE == IS_TUTORIAL_MAP_INDEX(myShuttle.MapChannelIndex.MapIndex)))	// ÇöÀç ¸ÊÀÌ Æ©Åä¸®¾óÀÌ ¾Æ´Ï´Ù.
@@ -1264,7 +1264,7 @@ VOID CAtumApplication::ChangeGameState(DWORD dwType, BOOL bUseThread/*=FALSE*/)
 			m_pShuttleChild->InitUnitState();
 			// 2007-10-05 by dgwoo ¸Ê·Îµù»óÅÂ¿¡¼± FADE IN & OUTÀ» Àû¿ëÇÏÁö ¾Ê´Â´Ù.
 			EndFadeEffect();
-			// 2007-07-25 by bhsohn À¯Àú°¡ Æ©Åä¸®¾ó¸Ê¿¡ ÀÖ¾î¼­ ¸¶À»·Î °¬À»½Ã, Ã¹¹ø¤Š À¯Àú·Î °£ÁÖ
+			// 2007-07-25 by bhsohn À¯Àú°¡ Æ©Åä¸®¾ó¸Ê¿¡ ÀÖ¾î¼­ ¸¶À»·Î °¬À»½Ã, Ã¹¹ø? À¯Àú·Î °£ÁÖ
 			g_pInterface->ShowOpUserHelper(FALSE, 0, NULL);	
 
 			if ( g_pInterface->m_pBazaarShop )
@@ -2460,10 +2460,7 @@ HRESULT CAtumApplication::Render()
 			// 2005-01-03 by jschoi
 //			g_pD3dDev->SetTextureStageState( 0, D3DTSS_MINFILTER, D3DTEXF_LINEAR );
 //			g_pD3dDev->SetTextureStageState( 0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR );
-			g_pD3dDev->SetSamplerState(0,D3DSAMP_MINFILTER, D3DTEXF_ANISOTROPIC); //AO 2022 Enable 16x AF by default
-			g_pD3dDev->SetSamplerState(0,D3DSAMP_MAGFILTER, D3DTEXF_ANISOTROPIC);
-			g_pD3dDev->SetSamplerState(0,D3DSAMP_MIPFILTER, D3DTEXF_ANISOTROPIC);
-			g_pD3dDev->SetSamplerState(0, D3DSAMP_MAXANISOTROPY, 16);
+			SetBestTextureFilter(0);	// AO 2022 asked for 16x AF here; this is what the card has
 			g_pD3dDev->SetRenderState(D3DRS_MULTISAMPLEANTIALIAS, TRUE);
 
 			g_pD3dDev->SetTextureStageState( 0, D3DTSS_COLOROP,   D3DTOP_MODULATE );
@@ -9341,13 +9338,13 @@ void CAtumApplication::InitOnlyGameStartOk(AVECTOR3 vPos, BitFlag16_t MapWeather
 		m_pInterface->InitGameObjects();
 		m_pInterface->RestoreGameObjects();
 
-		// 2008-02-27 by bhsohn ¾Æ·¹³ª ÀÌµ¿½Ã Ã¤ÆÃÁ¤º¸ •ü¾÷
+		// 2008-02-27 by bhsohn ¾Æ·¹³ª ÀÌµ¿½Ã Ã¤ÆÃÁ¤º¸ •ü¾?
 		if(bArenaRestart)
 		{			
 			// Ã¤ÆÃÃ¢ Á¤º¸¸¦ °»½Å
 			m_pInterface->RefreshChatInfo();
 		}
-		// end 2008-02-27 by bhsohn ¾Æ·¹³ª ÀÌµ¿½Ã Ã¤ÆÃÁ¤º¸ •ü¾÷
+		// end 2008-02-27 by bhsohn ¾Æ·¹³ª ÀÌµ¿½Ã Ã¤ÆÃÁ¤º¸ •ü¾?
 		
 		m_pInterface->InitCityObjects();
 		m_pInterface->RestoreCityObjects();
@@ -13044,9 +13041,9 @@ VOID CAtumApplication::FieldSocketShopPutItemDone(MSG_FC_SHOP_PUT_ITEM_DONE* pMs
 					((CINFCityCashShop*)it->second)->InputCashColorShopItem();
 					// end 2009-01-28 by bhsohn Ä³½¬¼¥ Ã³¸®
 
-// 2013-09-25 by ssjung Ä³½¬˜Þ ÃßÃµÅÇ °ú ÀÏ¹ÝÅÇÀÇ ¼ø¼­ °ü·Ã »çÇ× ¼öÁ¤
+// 2013-09-25 by ssjung Ä³½¬˜?ÃßÃµÅÇ °ú ÀÏ¹ÝÅÇÀÇ ¼ø¼­ °ü·Ã »çÇ× ¼öÁ¤
 					((CINFCityCashShop*)it->second)->RecommendItemSort();	//ÃßÃµÅÇ Á¤·Ä 
-// end 2013-09-25 by ssjung Ä³½¬˜Þ ÃßÃµÅÇ °ú ÀÏ¹ÝÅÇÀÇ ¼ø¼­ °ü·Ã »çÇ× ¼öÁ¤
+// end 2013-09-25 by ssjung Ä³½¬˜?ÃßÃµÅÇ °ú ÀÏ¹ÝÅÇÀÇ ¼ø¼­ °ü·Ã »çÇ× ¼öÁ¤
 				}
 				else if(IS_WARPOINT_SHOP_TYPE(nBuildingKind))
 				{
@@ -20107,7 +20104,7 @@ VOID	CAtumApplication::FieldSocketInfinityCreateOK( MSG_FC_INFINITY_CREATE_OK* p
 {
 	// 2010. 03. 03 by ckPark ÀÎÇÇ´ÏÆ¼ ÇÊµå 2Â÷(ÀÔÀå UIº¯°æ)
 
-// 	// ¹æ »ý¼ºÀÌ ¿Ï·á ‰çÀ» °æ¿ì, ´ë±â¹æÈ­¸éÀ¸·Î ÀüÈ¯
+// 	// ¹æ »ý¼ºÀÌ ¿Ï·á ‰çÀ?°æ¿ì, ´ë±â¹æÈ­¸éÀ¸·Î ÀüÈ¯
 // 	CMapCityShopList::iterator it = m_pInterface->m_pCityBase->m_mapCityShop.find( BUILDINGKIND_INFINITY );
 // 	if( it != m_pInterface->m_pCityBase->m_mapCityShop.end() )
 // 		((CINFCityInfinityField*)((*it).second))->ShowWndEx( CINFCityInfinityField::INFINITY_INROOM, TRUE );
@@ -20285,7 +20282,7 @@ VOID	CAtumApplication::FieldSocketInfinityJoinOK( MSG_FC_INFINITY_JOIN_OK* pMsg 
 	// ¹æ ÀÔÀå ¿äÃ»¿¡ ´ëÇÑ ÀÀ´ä(³»°¡ ¾Æ´Ñ ´Ù¸¥ Å¬¶óÀÌ¾ðÆ®ÀÏ°æ¿ì)
 	if( m_pArenaManager->GetArenaCharacterInfo()->ClientIndex != pMsg->JoinClientIdx )
 	{
-		// Çã°¡ ‰çÀ» °æ¿ì¸¸
+		// Çã°¡ ‰çÀ?°æ¿ì¸¸
 		if( pMsg->bAccept )
 		{
 			INFINITY_MEMBER_INFO_LIST memberinfo;
@@ -20317,7 +20314,7 @@ VOID	CAtumApplication::FieldSocketInfinityJoinOK( MSG_FC_INFINITY_JOIN_OK* pMsg 
 // 		CMapCityShopList::iterator it = m_pInterface->m_pCityBase->m_mapCityShop.find( BUILDINGKIND_INFINITY );
 // 		if( it != m_pInterface->m_pCityBase->m_mapCityShop.end() )
 // 		{
-// 			// Çã°¡ ‰çÀ» °æ¿ì¸¸
+// 			// Çã°¡ ‰çÀ?°æ¿ì¸¸
 // 			if( pMsg->bAccept )
 // 			{
 // 				((CINFCityInfinityField*)((*it).second))->ShowWndEx( CINFCityInfinityField::INFINITY_INROOM, TRUE );
@@ -20330,7 +20327,7 @@ VOID	CAtumApplication::FieldSocketInfinityJoinOK( MSG_FC_INFINITY_JOIN_OK* pMsg 
 
 		if( m_pInterface && m_pInterface->m_pInfinityPopup )
 		{
-			// Çã°¡ ‰çÀ» °æ¿ì¸¸
+			// Çã°¡ ‰çÀ?°æ¿ì¸¸
 			if( pMsg->bAccept )
 			{
 				m_pInterface->m_pInfinityPopup->ShowWndEx( CINFCityInfinityFieldPopUp::INFINITY_INROOM, TRUE );
@@ -20419,7 +20416,7 @@ VOID	CAtumApplication::FieldSocketInfinityEnter( MSG_FC_INFINITY_ENTER* pMsg )
 		m_pInterface->m_pInfinity->SetInfinityLimitTime( &(pMsg->StartTime), pMsg->LimitTime );
 	// end 2010. 04. 16 by ckPark ÀÎÇÇ´ÏÆ¼ ÇÊµå 2Â÷(¹ö±× ¼öÁ¤)
 
-	// ÀÎÇÇ´ÏÆ¼ ¸Ê ·ÎµùÀÌ ´Ù ‰ç´Ù
+	// ÀÎÇÇ´ÏÆ¼ ¸Ê ·ÎµùÀÌ ´Ù ‰ç´?
 	m_bInfinityMapload	= FALSE;
 
 	// ÀÎÇÇ´ÏÆ¼ ÀÔÀå Çã°¡
@@ -20897,7 +20894,7 @@ VOID	CAtumApplication::FieldSocketInfinityEnterByDisConnect( MSG_FC_INFINITY_ENT
 	}
 	// end 2010. 04. 16 by ckPark ÀÎÇÇ´ÏÆ¼ ÇÊµå 2Â÷(¹ö±× ¼öÁ¤)
 
-	// ÀÎÇÇ´ÏÆ¼ ¸Ê ·ÎµùÀÌ ´Ù ‰ç´Ù
+	// ÀÎÇÇ´ÏÆ¼ ¸Ê ·ÎµùÀÌ ´Ù ‰ç´?
 	m_bInfinityMapload	= FALSE;
 
 	// ÀÎÇÇ´ÏÆ¼ ÀÔÀå Çã°¡
@@ -21021,7 +21018,7 @@ VOID	CAtumApplication :: FieldSocketInfinityCinemaSkip ( MSG_FC_INFINITY_SKIP_EN
 // 2010. 02. 11 by ckPark ¹ßµ¿·ù ÀåÂø¾ÆÀÌÅÛ
 VOID	CAtumApplication::FieldSocketInfoApplyDestParam( MSG_FC_INFO_APPLY_DESTPARAM* pMsg )
 {
-	// ³ªÇÑÅ× Àû¿ë ‰çÀ» °æ¿ì
+	// ³ªÇÑÅ× Àû¿ë ‰çÀ?°æ¿ì
 	if( m_pShuttleChild->m_myShuttleInfo.ClientIndex == pMsg->ApplyClientIdx )
 	{
 		CItemInfo* pItem = g_pStoreData->FindItemInInventoryByUniqueNumber( pMsg->ApplyItemUID );
@@ -31034,7 +31031,7 @@ BOOL CAtumApplication::FieldSocketErrorByMsgType(MSG_ERROR* pMsg)
 				case ERR_CASH_CASH_SHOP_NO_SERVICE :
 					
 					g_pInterface->m_pCityBase->OnCityNPCButtonDown(CITY_NPC_BUTTON_CLOSE);
-					g_pGameMain->m_pInfWindow->AddMsgBox(STRMSG_C_070110_0100, _MESSAGE);	// "¾ÆÀÌÅÛ˜ÞÀÌ ¿ÀÇÂµÇÁö ¾Ê¾Ò½À´Ï´Ù."
+					g_pGameMain->m_pInfWindow->AddMsgBox(STRMSG_C_070110_0100, _MESSAGE);	// "¾ÆÀÌÅÛ˜ÞÀ?¿ÀÇÂµÇÁö ¾Ê¾Ò½À´Ï´Ù."
 					break;
 
 				default :
@@ -39660,8 +39657,8 @@ void CAtumApplication::ReCreateAllGameObject()
 	m_pQuestData->Init();
 	if(m_pInterface )
 	{		
-		// Ã¤³ÎÁ¤º¸¸¦ •ü¾÷¹ÞÀ½ Á¤º¸ ¾ò¾î¿È
-		// 2008-02-27 by bhsohn ¾Æ·¹³ª ÀÌµ¿½Ã Ã¤ÆÃÁ¤º¸ •ü¾÷
+		// Ã¤³ÎÁ¤º¸¸¦ •ü¾÷¹ÞÀ?Á¤º¸ ¾ò¾î¿È
+		// 2008-02-27 by bhsohn ¾Æ·¹³ª ÀÌµ¿½Ã Ã¤ÆÃÁ¤º¸ •ü¾?
 		m_pInterface->BackupChatInfo();
 
 		m_pInterface->InvalidateCityObjects();
@@ -40355,7 +40352,7 @@ void CAtumApplication::SendFCArenaCharacterGameStart()
 // 	}
 
 
-	// ¾Æ·¡³ª ¸Ê ·ÎµùÀÌ ´Ù ‰ç´Ù
+	// ¾Æ·¡³ª ¸Ê ·ÎµùÀÌ ´Ù ‰ç´?
 	if( m_ArenaSocketType == ARENASOCKET_ARENA )
 	{
 		if(g_pInterface->m_pGameArena->IsAlreadyArenaStart())
@@ -42901,6 +42898,29 @@ void CAtumApplication::SaveItemList()
 /// \param		
 /// \return		
 ///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+//  The best filtering this adapter will actually give, on one sampler.
+
+void CAtumApplication::SetBestTextureFilter(DWORD i_dwSampler)
+{
+	if(NULL == g_pD3dDev)
+		return;
+
+	const BOOL bMinAnisotropic = (0 != (m_d3dCaps.TextureFilterCaps & D3DPTFILTERCAPS_MINFANISOTROPIC));
+	const BOOL bMagAnisotropic = (0 != (m_d3dCaps.TextureFilterCaps & D3DPTFILTERCAPS_MAGFANISOTROPIC));
+
+	DWORD dwMaxAnisotropy = m_d3dCaps.MaxAnisotropy;
+	if(dwMaxAnisotropy > 16)	{ dwMaxAnisotropy = 16; }
+	if(dwMaxAnisotropy < 1)		{ dwMaxAnisotropy = 1; }
+
+	g_pD3dDev->SetSamplerState(i_dwSampler, D3DSAMP_MINFILTER,
+							   bMinAnisotropic ? D3DTEXF_ANISOTROPIC : D3DTEXF_LINEAR);
+	g_pD3dDev->SetSamplerState(i_dwSampler, D3DSAMP_MAGFILTER,
+							   bMagAnisotropic ? D3DTEXF_ANISOTROPIC : D3DTEXF_LINEAR);
+	g_pD3dDev->SetSamplerState(i_dwSampler, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+	g_pD3dDev->SetSamplerState(i_dwSampler, D3DSAMP_MAXANISOTROPY, dwMaxAnisotropy);
+}
+
 void CAtumApplication::SetUnitDetailInfo(CHARACTER* pCharac)
 {	
 	m_pSinglePlayGame->SetUnitDetailInfo(pCharac);
@@ -42994,7 +43014,7 @@ void CAtumApplication::SaveGameStartOkInfo()
 }
 ///////////////////////////////////////////////////////////////////////////////
 /// \fn			
-/// \brief		•ü¾÷ ¹Þ¾Æ³õÀº Á¤º¸¸¦ ÀúÀåÇÑ´Ù.
+/// \brief		•ü¾?¹Þ¾Æ³õÀº Á¤º¸¸¦ ÀúÀåÇÑ´Ù.
 /// \author		// 2008-08-11 by bhsohn ´Üµ¶À¸·Î ½ÇÇà µÇ°Ô²û
 /// \date		2008-08-11 ~ 2008-08-11
 /// \warning	
@@ -44320,8 +44340,8 @@ VOID CAtumApplication::FieldSocketMoveXignCodeReqScanInit(UINT nSocketNotifyType
 		
 		// ´Ù½Ã ¿¬°á
 		// ¼­¹ö·ÎºÎÅÍ Àü´Þ¹ÞÀº ÀÏÈ¸¿ë ½ÇÇà ÄÚµå
-		// ÄÉ¸¯ÅÍ¿¡ ´ëÇÑ Ã¹¹ø¤Š·Î ZCWAVE_Probe°¡ TRUE¸¦ ¸®ÅÏ½Ã,
-		// T_FC_CHARACTER_GAMESTART ¸¦ º¸³» Ã¹¹ø¤Š ZCWAVE_ProbeÇÔ¼ö TRUEÀÓÀ» ¾Ë·ÁÁÖ¾î¾ßÇÑ´Ù.
+		// ÄÉ¸¯ÅÍ¿¡ ´ëÇÑ Ã¹¹ø?·Î ZCWAVE_Probe°¡ TRUE¸¦ ¸®ÅÏ½Ã,
+		// T_FC_CHARACTER_GAMESTART ¸¦ º¸³» Ã¹¹ø? ZCWAVE_ProbeÇÔ¼ö TRUEÀÓÀ» ¾Ë·ÁÁÖ¾î¾ßÇÑ´Ù.
 		{
 			MSG_FC_CHARACTER_GAMESTART sGameStartMsg;
 			memset(&sGameStartMsg,0x00,sizeof(sGameStartMsg));
