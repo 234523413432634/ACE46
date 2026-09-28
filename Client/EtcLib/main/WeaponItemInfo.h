@@ -77,7 +77,8 @@ public:
 	BYTE	GetAttackMode() { return m_nAttackMode; }
 //	void	SetServerSyncReattackOk(BOOL bOK);
 	float	GetOverHeatRate() {	return m_fOverHeatCheckTime/CAtumSJ::GetOverheatTime(m_pItemInfo->GetRealItemInfo(),m_pCharacterParamFactor); }
-	float	GetReattackTimeRate() { return m_fReattackCheckTime/CAtumSJ::GetShotCountReattackTime(m_pItemInfo->GetRealItemInfo(),m_pCharacterParamFactor); }
+	// the timer is allowed to run past its threshold now, the gauge is not
+	float	GetReattackTimeRate() { return min(1.0f, m_fReattackCheckTime/CAtumSJ::GetShotCountReattackTime(m_pItemInfo->GetRealItemInfo(),m_pCharacterParamFactor)); }
 	float	GetOverHeatTime() { return CAtumSJ::GetOverheatTime(m_pItemInfo->GetRealItemInfo(),m_pCharacterParamFactor); }
 	float	GetOverHeatCheckTime() { return m_fOverHeatCheckTime; }
 	BOOL	IsOverHeat() { return m_bOverHeat; }

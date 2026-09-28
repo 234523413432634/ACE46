@@ -297,6 +297,9 @@
 //#define S_DIRECT_DB_ITEM_INSERT_SECURITY_HSKIM				// directly insert items to db for saefty when server fall (usage of storeextension)
 #define C_SERVER_DOWN_ALARM									// play alarm when server fall down instead of brutl message and game exit
 #define S_AUTO_BLOCK_REATTACKETIME_EXCEPT_JHSEOL			// dont ban re attack time pseudo hack due to bug
+
+// Standard weapons fire one shot every ReAttacktime/ShotNum seconds.
+#define STD_REATTACK_FIX
 //#define _SHOW_LATENCY
 #endif
 

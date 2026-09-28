@@ -40,6 +40,9 @@
 #define OVERHEAT_REPAIR_TIME			10.0f	// 10초
 #define PRIMARY_NEAR_DISTANCE_IN_NET	50.0f			// 1형 무기가 원뿔형 화망 적용시 거리
 #define TOGGLE_WEAPON_CLICK_GAP_TIME		1.5f	// 1.5초
+
+// Most shots a single frame may fire when STD_REATTACK_FIX is on.
+#define WEAPON_ATTACK_MAX_SHOT_PER_TICK		3
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -194,6 +197,10 @@ void CWeaponItemInfo::TickNormalWeapon(float fElapsedTime, BOOL bUse)
 	float fOverHeatTime = CAtumSJ::GetOverheatTime(pITEM,m_pCharacterParamFactor);
 	// 리어택 타임, 샷넘
 	float fReattackTime = CAtumSJ::GetShotCountReattackTime(pITEM,m_pCharacterParamFactor);
+#ifdef STD_REATTACK_FIX
+	// gap between two shots of one burst, the rate the weapon advertises
+	float fShotTime = CAtumSJ::GetShotNumReattackTime( pITEM, &g_pShuttleChild->m_paramFactor );
+#endif
 
 	if( m_bOverHeat == FALSE && IsExistBullet() )
 	{
@@ -250,6 +257,18 @@ void CWeaponItemInfo::TickNormalWeapon(float fElapsedTime, BOOL bUse)
 			}
 		}
 
+#ifdef STD_REATTACK_FIX
+		// Counting on past fReattackTime rather than stopping at it : the overshoot
+		// is time the next shot is owed.
+		m_fReattackCheckTime += fElapsedTime;
+
+		float fMaxReattackTime = (bUse == TRUE) ? fReattackTime * WEAPON_ATTACK_MAX_SHOT_PER_TICK : fReattackTime;
+
+		if( m_fReattackCheckTime > fMaxReattackTime )
+		{
+			m_fReattackCheckTime = fMaxReattackTime;
+		}
+#else
 		if( m_fReattackCheckTime < fReattackTime ) // 재 공격가능 시간을 기다리는 중이다.
 		{
 			m_fReattackCheckTime += fElapsedTime;
@@ -259,11 +278,16 @@ void CWeaponItemInfo::TickNormalWeapon(float fElapsedTime, BOOL bUse)
 		{
 			m_fReattackCheckTime = fReattackTime;			// 재 공격 가능하다.
 		}
+#endif
 		
 		// 2004-10-27 by jschoi
 		// 1형/2형 통합처리
 		if( bUse == TRUE &&
+#ifdef STD_REATTACK_FIX
+			m_fReattackCheckTime >= fReattackTime)				// 무기 사용중인고 재 공격이 가능하다면
+#else
 			m_fReattackCheckTime == fReattackTime)				// 무기 사용중인고 재 공격이 가능하다면
+#endif
 		{
 			m_nAttackCount = g_pShuttleChild->GetTotalShotNumPerReattackTime(pITEM, &g_pShuttleChild->m_paramFactor);
 		}
@@ -272,11 +296,41 @@ void CWeaponItemInfo::TickNormalWeapon(float fElapsedTime, BOOL bUse)
 		{
 			m_fAttackCheckTime-= fElapsedTime;
 		}
+#ifdef STD_REATTACK_FIX
 
+		// The timer runs past zero by whatever was left of the frame; that overshoot
+		// is what the next shot is owed and is paid back when it fires.
+		float fMinAttackTime = (bUse == TRUE) ? -fShotTime * (WEAPON_ATTACK_MAX_SHOT_PER_TICK - 1) : 0.0f;
+
+		if( m_fAttackCheckTime < fMinAttackTime )
+		{
+			m_fAttackCheckTime = fMinAttackTime;
+		}
+#endif
+
+#ifdef STD_REATTACK_FIX
+		// A loop, not one shot : a frame longer than fShotTime owes more than one
+		// and used to fire just the one.
+		int nShotCount = 0;
+		BOOL bShotDone = TRUE;
+
+		while( bShotDone &&
+			nShotCount < WEAPON_ATTACK_MAX_SHOT_PER_TICK &&
+			m_fPrepareCheckTime == fPrepareTime &&
+			m_nAttackCount > 0 &&
+			m_fAttackCheckTime <= 0.0f) 
+		{
+			bShotDone = FALSE;
+
+			// Use() zeroes the reattack timer; hand back what it had run past the
+			// threshold, for the same reason the shot timer keeps its overshoot.
+			float fReattackCarry = m_fReattackCheckTime - fReattackTime;
+#else
 		if(	m_fPrepareCheckTime == fPrepareTime &&
 			m_nAttackCount > 0 &&
 			m_fAttackCheckTime <= 0.0f) 
 		{
+#endif
 			if((!g_pCamera->m_bIsCamControl || IS_PRIMARY_WEAPON(pITEM->Kind)))	// 유닛락이 아니거나 1형인 경우
 			{
 				if(IS_CLIENT_SET_AUTOMATIC_TIMER(pITEM->OrbitType))		// 오토매틱 발사 타입
@@ -287,7 +341,12 @@ void CWeaponItemInfo::TickNormalWeapon(float fElapsedTime, BOOL bUse)
 					fTempAutomaticAttackTime = g_pShuttleChild->GetAutomaticAttackTime(pITEM->OrbitType);
 					fTempNormalAttackTime = CAtumSJ::GetShotNumReattackTime( pITEM, &g_pShuttleChild->m_paramFactor );
 					// 만약 오토매틱 공격 타임보다 샷넘리어텍타임이 더 작다면 오토매틱 공격 타임대신 샷넘리어텍타임을 m_fAttackCheckTime으로 한다.
+#ifdef STD_REATTACK_FIX
+					bShotDone = TRUE;
+					m_fAttackCheckTime += fTempAutomaticAttackTime < fTempNormalAttackTime ? fTempAutomaticAttackTime : fTempNormalAttackTime;
+#else
 					m_fAttackCheckTime = fTempAutomaticAttackTime < fTempNormalAttackTime ? fTempAutomaticAttackTime : fTempNormalAttackTime;
+#endif
 					//				m_fAttackCheckTime = g_pShuttleChild->GetAutomaticAttackTime(pITEM->OrbitType);
 				}
 				else													// 오토매틱 발사 타입이 아님
@@ -296,14 +355,33 @@ void CWeaponItemInfo::TickNormalWeapon(float fElapsedTime, BOOL bUse)
 					{
 						Use();
 						m_nAttackCount--;
+#ifdef STD_REATTACK_FIX
+						bShotDone = TRUE;
+						m_fAttackCheckTime += fShotTime;
+#else
 						m_fAttackCheckTime = CAtumSJ::GetShotNumReattackTime( pITEM, &g_pShuttleChild->m_paramFactor );
+#endif
 					}
 				}
+#ifdef STD_REATTACK_FIX
+
+				if( bShotDone && fReattackCarry > 0.0f )
+				{
+					m_fReattackCheckTime = fReattackCarry;
+				}
+#endif
 			}
 			else
 			{
 				m_nAttackCount = 0;
 			}
+#ifdef STD_REATTACK_FIX
+
+			if( bShotDone )
+			{
+				nShotCount++;
+			}
+#endif
 			// 2008-04-01 by bhsohn 관리자 스크린샷 모드에서 는 무기 리어택타임 DBG에 찍게 수정
 			CHARACTER myShuttleInfo = g_pShuttleChild->GetMyShuttleInfo();		
 			if(g_pInterface->IsScreenShotMode() && 
@@ -486,6 +564,18 @@ void CWeaponItemInfo::TickPetWeapon(float fElapsedTime, BOOL bUse)
 
  	if( bUse == TRUE )
  	{
+#ifdef STD_REATTACK_FIX
+ 		// Counting on past fReattackTime rather than stopping at it : the overshoot
+ 		// is time the next shot is owed.
+ 		m_fReattackCheckTime += fElapsedTime;
+
+ 		float fMaxReattackTime = (bUse == TRUE) ? fReattackTime * WEAPON_ATTACK_MAX_SHOT_PER_TICK : fReattackTime;
+
+ 		if( m_fReattackCheckTime > fMaxReattackTime )
+ 		{
+ 			m_fReattackCheckTime = fMaxReattackTime;
+ 		}
+#else
  		if( m_fReattackCheckTime < fReattackTime ) // 재 공격가능 시간을 기다리는 중이다.
  		{
  			m_fReattackCheckTime += fElapsedTime;
@@ -494,8 +584,13 @@ void CWeaponItemInfo::TickPetWeapon(float fElapsedTime, BOOL bUse)
  		{
  			m_fReattackCheckTime = fReattackTime;			// 재 공격 가능하다.			
  		}
+#endif
 
+#ifdef STD_REATTACK_FIX
+		if(m_fReattackCheckTime >= fReattackTime)				// 무기 사용중인고 재 공격이 가능하다면
+#else
 		if(m_fReattackCheckTime == fReattackTime)				// 무기 사용중인고 재 공격이 가능하다면
+#endif
 		{
 			m_nAttackCount = pITEM->ShotNum;
 		}
@@ -504,20 +599,66 @@ void CWeaponItemInfo::TickPetWeapon(float fElapsedTime, BOOL bUse)
  		{
 			m_fAttackCheckTime-= fElapsedTime;
  		}
+#ifdef STD_REATTACK_FIX
+
+ 		// The timer runs past zero by whatever was left of the frame; that
+ 		// overshoot is what the next shot is owed and is paid back when it fires.
+ 		float fMinAttackTime = (bUse == TRUE) ? -fReattackTime * (WEAPON_ATTACK_MAX_SHOT_PER_TICK - 1) : 0.0f;
+
+ 		if( m_fAttackCheckTime < fMinAttackTime )
+ 		{
+ 			m_fAttackCheckTime = fMinAttackTime;
+ 		}
+#endif
  	
+#ifdef STD_REATTACK_FIX
+ 		// A loop, not one shot : a frame longer than the gap between two shots owes
+ 		// more than one and used to fire just the one.
+ 		int nShotCount = 0;
+ 		BOOL bShotDone = TRUE;
+
+ 		while( bShotDone &&
+ 			nShotCount < WEAPON_ATTACK_MAX_SHOT_PER_TICK &&
+ 			m_nAttackCount > 0 &&
+ 			m_fAttackCheckTime <= 0.0f) 
+ 		{
+ 			bShotDone = FALSE;
+
+			// Use() zeroes the reattack timer; hand back what it had run past the
+			// threshold, for the same reason the shot timer keeps its overshoot.
+			float fReattackCarry = m_fReattackCheckTime - fReattackTime;
+#else
  		if(	m_nAttackCount > 0 &&
  			m_fAttackCheckTime <= 0.0f) 
  		{
+#endif
 			if( (!g_pCamera->m_bIsCamControl ) )// 유닛락이 아니거나 1형인 경우			
  			{
 				Use();
 				m_nAttackCount--;
+#ifdef STD_REATTACK_FIX
+				bShotDone = TRUE;
+				m_fAttackCheckTime += fReattackTime;
+
+				if( fReattackCarry > 0.0f )
+				{
+					m_fReattackCheckTime = fReattackCarry;
+				}
+#else
 				m_fAttackCheckTime = fReattackTime;
+#endif
  			}
  			else
  			{
  				m_nAttackCount = 0;
  			}
+#ifdef STD_REATTACK_FIX
+
+ 			if( bShotDone )
+ 			{
+ 				nShotCount++;
+ 			}
+#endif
 
  			// 2008-04-01 by bhsohn 관리자 스크린샷 모드에서 는 무기 리어택타임 DBG에 찍게 수정
  			CHARACTER myShuttleInfo = g_pShuttleChild->GetMyShuttleInfo();		
