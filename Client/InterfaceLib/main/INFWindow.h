@@ -11,7 +11,6 @@
 
 #include "INFBase.h"
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 //정보 창들의 변화가 있을시 상태를 나타내는 것들..
 #define	LEFT_WEAPON_WINDOW_INIT		0	// 처음 무기 정보창을 보여줘야 할때.
 #define	LEFT_WEAPON_WINDOW_SHOWING	1	// 무기 정보창을 보여주는 동안..
@@ -64,60 +63,6 @@
 // end 2009. 11. 02 by ckPark 인피니티 필드 인스턴스 던젼 시스템
 
 #define SIZE_RIGNT_WINDOW_X			295	  
-#else
-//정보 창들의 변화가 있을시 상태를 나타내는 것들..
-#define	LEFT_WEAPON_WINDOW_INIT		0	// 처음 무기 정보창을 보여줘야 할때.
-#define	LEFT_WEAPON_WINDOW_SHOWING	1	// 무기 정보창을 보여주는 동안..
-#define	LEFT_WEAPON_WINDOW_HIDING	2	// 무기 정보창을 숨기는 동안..
-#define LEFT_WEAPON_WINDOW_END		3	// 보여주는 액션이 완료(무기정보 보임)
-#define	RIGHT_WEAPON_WINDOW_INIT	4
-#define	RIGHT_WEAPON_WINDOW_SHOWING	5
-#define	RIGHT_WEAPON_WINDOW_HIDING	6
-#define RIGHT_WEAPON_WINDOW_END		7	// 보여주는 액션이 완료(윈도우정보 보임)
-#define LEFT_WINDOW_INIT			8	// 왼쪽에 윈도우(파티,인벤등)을 보여주기 시작하는 시점.
-#define LEFT_WINDOW_SHOWING			9	// 윈도우를 보여지는 중.
-#define LEFT_WINDOW_HIDING			10	// 윈도우를 감추는 중.
-#define LEFT_WINDOW_END				11	// 작업을 마침.. 
-#define RIGHT_WINDOW_INIT			12
-#define RIGHT_WINDOW_SHOWING		13
-#define RIGHT_WINDOW_HIDING			14
-#define RIGHT_WINDOW_END			15
-
-
-#define SIZE_WEAPON_Y				71
-#define SIZE_WEAPON_X				101
-#define SIZE_ROLL_X					25
-#define SIZE_ROLL_Y					36
-//#define SIZE_RNORMAL_WINDOW_X		219
-#define SIZE_RNORMAL_WINDOW_X		426
-#define SIZE_NORMAL_WINDOW_X		219
-#define SIZE_BIG_WINDOW_X			445
-#define SIZE_NORMAL_WINDOW_Y		275
-#define SIZE_SUPPLY_WINDOW_X		423
-#define SIZE_SUPPLY_WINDOW_Y		336
-#define SIZE_ARENA_WINDOW_X			567
-#define SIZE_ARENA_WINDOW_Y			278
-#define	SIZE_CITYLEADER_WINDOWL_X	184
-#define	SIZE_CITYLEADER_WINDOWL_Y	275
-#define	SIZE_CITYLEADER_WINDOWR_X	338
-#define	SIZE_CITYLEADER_WINDOWR_WARINFO_X	536
-#define	SIZE_CITYLEADER_WINDOWR_Y	275
-#define	LEFT_WINDOW_MAX_Y			(g_pD3dApp->GetBackBufferDesc().Height-(600-448))//DEAULT_WINDOW_POS_Y*2 - SIZE_ROLL_Y
-#define DEAULT_WINDOW_POS_Y			(350.0f*(float)g_pD3dApp->GetBackBufferDesc().Height / 600.0f)
-#define	RIGHT_WINDOW_MAX_Y			g_pD3dApp->GetBackBufferDesc().Height-SIZE_ROLL_Y
-
-#define DELETE_MASSAGEBOX_TIME		30.0f
-
-#define INFO_LINE					14
-
-#define SIZE_SKILL_SHOP_WINDOW_X	720	// 2008-08-22 by bhsohn EP3 인벤토리 처리
-
-// 2009. 11. 02 by ckPark 인피니티 필드 인스턴스 던젼 시스템
-#define	WM_ADDMSGBOX	(WM_USER+18000)
-// end 2009. 11. 02 by ckPark 인피니티 필드 인스턴스 던젼 시스템
-
-#define SIZE_RIGNT_WINDOW_X			295
-#endif
 
 class CD3DHanFont;
 class CINFImage;
@@ -291,11 +236,7 @@ public:
 	CINFImageEx*	m_pAllBox;
 	CINFImageEx*	m_pAllButton[2]; // 0 : over, 1 : push
 	CINFImageEx*	m_pRadioButton[2]; // 0 : over, 1 : push
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*	m_pTradeBase;
-#else
-	CINFImageEx*	m_pTradeBase;
-#endif
 
 	BOOL			m_bLeftWindow ;			//왼쪽 총알 창이나 인벤토리 창을 찍을때 위치 변화를 적용할것인가?
 	BOOL			m_bRightWindow ;

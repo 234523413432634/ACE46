@@ -11,11 +11,7 @@
 
 #include "INFBase.h"
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	#define CHANNEL_LIST_NUMBER				8
-#else
-#define CHANNEL_LIST_NUMBER				5
-#endif
 #define CHANNEL_LIST_STRING_LENGTH		64
 #define CHANNEL_BUTTON_NUBER			4
 
@@ -47,11 +43,7 @@ public:
 
 protected:
 	BOOL		m_bRestored;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	CINFGroupImage*	m_pImgBack;
-#else
-	CINFImageEx	*m_pImgBack;
-#endif	
 	CINFImageEx	*m_pImgTitle;
 	CINFImageEx	*m_pImgButtonOk[CHANNEL_BUTTON_NUBER];
 	CINFImageEx	*m_pImgScrollBar;

@@ -48,7 +48,6 @@
 #define	COMMUNITY_OPINVITE_INVITE2_X		146
 #define	COMMUNITY_OPINVITE_INVITE2_Y		227
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 닫기
 #define	COMMUNITY_OPINVITE_START_X			86
 #define	COMMUNITY_OPINVITE_START_Y			69
@@ -58,16 +57,6 @@
 #define LETTER_USER_EDIT_Y						72
 #define LETTER_USER_EDIT_W						120
 #define LETTER_USER_READ_FONT_LINE_HEIGHT		15												  
-#else	   
-#define	COMMUNITY_OPINVITE_CLOSE_X			213
-#define	COMMUNITY_OPINVITE_CLOSE_Y			253
-
-// 편지쓰기 유저
-#define LETTER_USER_EDIT_X						53
-#define LETTER_USER_EDIT_Y						68
-#define LETTER_USER_EDIT_W						165
-#define LETTER_USER_READ_FONT_LINE_HEIGHT		15
-#endif
 
 #define MAX_ONEPATE_USER						5
 
@@ -92,9 +81,7 @@ CINFCommuPartyInvite::CINFCommuPartyInvite(CAtumNode* pParent)
 	m_bMove = FALSE;
 
 	m_pFormat = NULL;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pFormatControl = NULL;																	  
-#endif
 
 	m_ptCommOpBk.x = m_ptCommOpBk.y = 0;
 	m_ptCommOpMouse.x = m_ptCommOpMouse.y = 0;
@@ -149,16 +136,6 @@ HRESULT CINFCommuPartyInvite::InitDeviceObjects()
 	m_ptCommOpBk.y = (g_pD3dApp->GetBackBufferDesc().Height/2) - COMMUNITY_OPINVITEBK_HEIGHT/2;
 
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	{
-		if(NULL == m_pFormat)
-		{
- 			m_pFormat = new CINFImageEx;
-		}		
-		pDataHeader = FindResource("p_bk1");
- 		m_pFormat->InitDeviceObjects(pDataHeader);
- 	}							
-#else
 	if(m_pFormat == NULL)
 	{
 		DataHeader* pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("F_inv");	
@@ -171,21 +148,13 @@ HRESULT CINFCommuPartyInvite::InitDeviceObjects()
 		DataHeader* pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("F_invbtn1");	
 		m_pFormatControl = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 	}
-#endif		
 	{
 		// 초대
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf(szUpBtn, "invs03");
 		wsprintf(szDownBtn, "invs01");
 		wsprintf(szSelBtn, "invs00");
 		wsprintf(szDisBtn, "invs02");															  
-#else  
-		wsprintf(szUpBtn, "c_sbt03");
-		wsprintf(szDownBtn, "c_sbt01");
-		wsprintf(szSelBtn, "c_sbt00");
-		wsprintf(szDisBtn, "c_sbt02");
-#endif
 		if(NULL == m_pInviteBtn)
 		{
 			m_pInviteBtn = new CINFImageBtn;
@@ -199,17 +168,10 @@ HRESULT CINFCommuPartyInvite::InitDeviceObjects()
 	{
 		// 초대
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf(szUpBtn, "invs03");
 		wsprintf(szDownBtn, "invs01");
 		wsprintf(szSelBtn, "invs00");
 		wsprintf(szDisBtn, "invs02");															  
-#else		   
-		wsprintf(szUpBtn, "c_sbt03");
-		wsprintf(szDownBtn, "c_sbt01");
-		wsprintf(szSelBtn, "c_sbt00");
-		wsprintf(szDisBtn, "c_sbt02");
-#endif
 		if(NULL == m_pSelInviteBtn)
 		{
 			m_pSelInviteBtn = new CINFImageBtn;
@@ -223,17 +185,10 @@ HRESULT CINFCommuPartyInvite::InitDeviceObjects()
 	{
 		// 새로고침
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf(szUpBtn, "refs03");
 		wsprintf(szDownBtn, "refs01");
 		wsprintf(szSelBtn, "refs00");
 		wsprintf(szDisBtn, "refs02");															  
-#else					   
-		wsprintf(szUpBtn, "c_pr3");
-		wsprintf(szDownBtn, "c_pr1");
-		wsprintf(szSelBtn, "c_pr0");
-		wsprintf(szDisBtn, "c_pr2");		
-#endif
 		if(NULL == m_pRefreshBtn)
 		{
 			m_pRefreshBtn = new CINFImageBtn;
@@ -247,18 +202,10 @@ HRESULT CINFCommuPartyInvite::InitDeviceObjects()
 	{
 		// 닫기
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf(szUpBtn, "outs03");
 		wsprintf(szDownBtn, "outs01");
 		wsprintf(szSelBtn, "outs00");
 		wsprintf(szDisBtn, "outs02");															  
-#else	
-		wsprintf(szUpBtn, "shnpc063");
-		wsprintf(szDownBtn, "shnpc061");
-		wsprintf(szSelBtn, "shnpc060");
-		wsprintf(szDisBtn, "shnpc062");
-
-#endif
 		if(NULL == m_pCloseBtn)
 		{
 			m_pCloseBtn = new CINFImageBtn;
@@ -395,10 +342,8 @@ HRESULT CINFCommuPartyInvite::DeleteDeviceObjects()
 		}
 	}
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pFormatControl->DeleteDeviceObjects();
 	SAFE_DELETE( m_pFormatControl );															  
-#endif
 	return S_OK ;
 }
 
@@ -714,7 +659,6 @@ void CINFCommuPartyInvite::UpdateUIPos()
 	int nCnt = 0;
 	int nPosX, nPosY;
 	nPosX = nPosY = 0;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	
 	{
 		POINT sPos = m_pFormatControl->GetFindControlTargetofMinPos("cans01");
 		nPosX = ptBkPos.x + COMMUNITY_OPINVITE_START_X + sPos.x;
@@ -740,29 +684,6 @@ void CINFCommuPartyInvite::UpdateUIPos()
 		nPosY = ptBkPos.y + COMMUNITY_OPINVITE_START_Y + sPos.y;		
 		m_pSelInviteBtn->SetBtnPosition(nPosX, nPosY);	
 	}	
-#else		   
-	{
-		nPosX = ptBkPos.x + COMMUNITY_OPINVITE_CLOSE_X;
-		nPosY = ptBkPos.y + COMMUNITY_OPINVITE_CLOSE_Y;		
-		m_pCloseBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	{
-		nPosX = ptBkPos.x + COMMUNITY_OPINVITE_INVITE1_X;
-		nPosY = ptBkPos.y + COMMUNITY_OPINVITE_INVITE1_Y;		
-		m_pInviteBtn->SetBtnPosition(nPosX, nPosY);	
-	}	
-	{
-		nPosX = ptBkPos.x + COMMUNITY_OPINVITE_REFRESH_X;
-		nPosY = ptBkPos.y + COMMUNITY_OPINVITE_REFRESH_Y;		
-		m_pRefreshBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	
-	{
-		nPosX = ptBkPos.x + COMMUNITY_OPINVITE_INVITE2_X;
-		nPosY = ptBkPos.y + COMMUNITY_OPINVITE_INVITE2_Y;		
-		m_pSelInviteBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-#endif
 
 	{
 		nPosX = ptBkPos.x + LETTER_USER_EDIT_X;

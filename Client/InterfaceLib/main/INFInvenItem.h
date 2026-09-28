@@ -50,10 +50,8 @@ public:
 	void SetScrollEndLine();
 
 	POINT GetBkPos();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	POINT GetBkSize();
 	BOOL GetMove() { return m_bMove; }															  
-#endif
 
 	// 2013-02-26 by bhsohn 인게임 조합 검색 처리
 	void SetBkPos(POINT ptBkPos);	
@@ -99,9 +97,6 @@ private:
 private:
 	BOOL m_bShowWnd;
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	CINFImageEx*	m_pInvenBase;	// 배경
-#endif
 	POINT	m_ptBkPos;	
 
 	CAtumNode*		m_pParent;
@@ -134,9 +129,7 @@ private:
 	CINFImageBtn*		m_pEqShow;
 	CINFImageBtn*		m_pCloseBtn;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*		m_pInvenBG;
-#endif
 	
 	// 2013-02-19 by mspark, 인벤토리 정렬 버튼 범위 내에서만 클릭 적용
 	bool				m_bInvenSortBtnArea;

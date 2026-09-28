@@ -35,7 +35,6 @@
 
 #define MAX_PASSWORD									4
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 // 2012-05-29 by mspark, 아레나 통합(전달)
 #ifdef SC_ARENA_EX_1ST_JHSEOL_MSPARK
@@ -132,44 +131,6 @@
 #endif
 // end 2012-05-29 by mspark, 아레나 통합(전달)
 
-#else		
-#define ARENA_CREATE_BUTTON_X							136
-#define ARENA_CREATE_BUTTON_Y							168
-
-#define ARENA_CANCEL_BUTTON_X							179
-#define ARENA_CANCEL_BUTTON_Y							ARENA_CREATE_BUTTON_Y
-
-#define ARENA_BASE_BUTTON_W								38 
-#define ARENA_BASE_BUTTON_H								17
-
-#define ARENA_CREATE_COUNT_X							100	
-#define ARENA_CREATE_COUNT_Y							54
-#define ARENA_CREATE_COUNT_W							32
-#define ARENA_CREATE_COUNT_H							15
-#define ARENA_CREATE_COUNT_COMBO_X						119
-#define ARENA_CREATE_COUNT_COMBO_Y						55
-#define ARENA_CREATE_COUNT_FONT_X						117
-#define ARENA_CREATE_COUNT_FONT_Y						53
-
-#define ARENA_CREATE_MODE_X								100
-#define ARENA_CREATE_MODE_Y								82
-#define ARENA_CREATE_MODE_W								102
-#define ARENA_CREATE_MODE_H								15
-#define ARENA_CREATE_MODE_COMBO_X						188
-#define ARENA_CREATE_MODE_COMBO_Y						83
-#define ARENA_CREATE_MODE_FONT_X						147
-#define ARENA_CREATE_MODE_FONT_Y						81
-
-#define ARENA_CREATE_PASS_X								100
-#define ARENA_CREATE_PASS_Y								110
-#define ARENA_CREATE_PASS_W								85
-#define ARENA_CREATE_PASS_H								15
-#define ARENA_CREATE_PASS_FONT_X						106
-#define ARENA_CREATE_PASS_FONT_Y						110
-
-#define ARENA_MAP_01_NUMBER								9101	// 2012-04-13 by mspark, 아레나 UI 작업
-
-#endif
 
 
 
@@ -233,7 +194,6 @@ HRESULT CINFArenaCreate::InitDeviceObjects()
 	char buf[64];
 	for(i = 0 ; i < BUTTON_STATE_NUMBER ; i++)
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 // 2012-05-29 by mspark, 아레나 통합(전달)
 #ifdef SC_ARENA_EX_1ST_JHSEOL_MSPARK
@@ -243,9 +203,6 @@ HRESULT CINFArenaCreate::InitDeviceObjects()
 #endif
 // end 2012-05-29 by mspark, 아레나 통합(전달)
 
-#else				 
-		wsprintf(buf,"scre%d",i);
-#endif
 
 		pDataHeader = FindResource(buf);
 		m_pImgCreateB[i] = new CINFImageEx;
@@ -256,7 +213,6 @@ HRESULT CINFArenaCreate::InitDeviceObjects()
 //		m_pImgCbArr[i] = new CINFImage;
 //		m_pImgCbArr[i]->InitDeviceObjects( pDataHeader->m_pData, pDataHeader->m_DataSize );
 //
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 // 2012-05-29 by mspark, 아레나 통합(전달)
 #ifdef SC_ARENA_EX_1ST_JHSEOL_MSPARK
@@ -266,9 +222,6 @@ HRESULT CINFArenaCreate::InitDeviceObjects()
 #endif
 // end 2012-05-29 by mspark, 아레나 통합(전달)
 
-#else			   
-		wsprintf(buf,"shmcan0%d",i);
-#endif
 
 		pDataHeader = FindResource(buf);
 		m_pImgCancelB[i] = new CINFImageEx;
@@ -287,11 +240,7 @@ HRESULT CINFArenaCreate::InitDeviceObjects()
 	m_pImgAreCreate = new CINFImageEx;
 	m_pImgAreCreate->InitDeviceObjects( pDataHeader );
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
      pDataHeader = FindResource("c_ccbk");								 
-#else
-	pDataHeader = FindResource("cbcount");
-#endif
 	
 
 
@@ -302,7 +251,6 @@ HRESULT CINFArenaCreate::InitDeviceObjects()
 	m_pImgCbAmode = new CINFImageEx;
 	m_pImgCbAmode->InitDeviceObjects( pDataHeader );
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
     pDataHeader = FindResource("cbarena");
 	m_pImgCbCountBk	 = new CINFImageEx;
@@ -355,7 +303,6 @@ HRESULT CINFArenaCreate::InitDeviceObjects()
 	m_nOkCancelBaseImgMaxPos.y = m_pOkCancelImage->GetFindControlTargetofMaxPos("okb00").y;
 	// end 2012-04-13 by mspark, 아레나 UI 작업
 
-#endif
 	
 
 	
@@ -380,7 +327,6 @@ HRESULT CINFArenaCreate::RestoreDeviceObjects()
 	m_pImgCbCount->RestoreDeviceObjects();
 	m_pImgCbAmode->RestoreDeviceObjects();
 		  
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
     m_pRenewArenaCreateBackImage->RestoreDeviceObjects();
 	m_pImgCbCountBk->RestoreDeviceObjects();		
 	m_pImgCbAmodeBk->RestoreDeviceObjects();
@@ -394,7 +340,6 @@ HRESULT CINFArenaCreate::RestoreDeviceObjects()
 	m_pImgFadeBG->RestoreDeviceObjects();
 	// end 2012-04-13 by mspark, 아레나 UI 작업
 
-#endif
 	return S_OK;
 }
 HRESULT CINFArenaCreate::DeleteDeviceObjects()
@@ -422,7 +367,6 @@ HRESULT CINFArenaCreate::DeleteDeviceObjects()
 	SAFE_DELETE(m_pImgCbCount);
 	SAFE_DELETE(m_pImgCbCount);
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
     m_pRenewArenaCreateBackImage->DeleteDeviceObjects();
 	m_pImgCbCountBk->DeleteDeviceObjects();		
 	m_pImgCbAmodeBk->DeleteDeviceObjects();
@@ -447,7 +391,6 @@ HRESULT CINFArenaCreate::DeleteDeviceObjects()
 	SAFE_DELETE(m_pImgFadeBG);
 	// end 2012-04-13 by mspark, 아레나 UI 작업
 
-#endif
     
 
 	return S_OK;
@@ -468,7 +411,6 @@ HRESULT CINFArenaCreate::InvalidateDeviceObjects()
 	m_pImgAreCreate->InvalidateDeviceObjects();
 	m_pImgCbCount->InvalidateDeviceObjects();
 	m_pImgCbAmode->InvalidateDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
     m_pRenewArenaCreateBackImage->InvalidateDeviceObjects();
 	m_pImgCbCountBk->InvalidateDeviceObjects();		
 	m_pImgCbAmodeBk->InvalidateDeviceObjects();
@@ -482,7 +424,6 @@ HRESULT CINFArenaCreate::InvalidateDeviceObjects()
 	m_pImgFadeBG->InvalidateDeviceObjects();
 	// end 2012-04-13 by mspark, 아레나 UI 작업
 
-#endif  
 
 
 
@@ -506,13 +447,8 @@ void CINFArenaCreate::Render()
 #endif
 // end 2012-05-29 by mspark, 아레나 통합(전달)
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pRenewArenaCreateBackImage->Move(m_nStartX,m_nStartY);
 		m_pRenewArenaCreateBackImage->Render();
-#else		
-		m_pImgAreCreate->Move(m_nStartX,m_nStartY);
-		m_pImgAreCreate->Render();
-#endif
 
 // 2012-05-29 by mspark, 아레나 통합(전달)
 #ifdef SC_ARENA_EX_1ST_JHSEOL_MSPARK
@@ -563,14 +499,6 @@ void CINFArenaCreate::Render()
 
 		m_pFontMode->DrawText(m_nStartX + ARENA_CREATE_MODE_FONT_X - (size.cx/2),m_nStartY + ARENA_CREATE_MODE_FONT_Y-2,GUI_FONT_COLOR_W,ctemp);	// 2012-03-29 by mspark, 아레나 생성 창에서 모드표시 부분 위치 수정 - y값 -2 추가
 					
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		m_pImgCbCountBk->Move(m_nStartX + ARENA_CREATE_COUNT_X, m_nStartY + ARENA_CREATE_COUNT_Y);
-		m_pImgCbCountBk->Render();
-
-		m_pImgCbAmodeBk->Move(m_nStartX + ARENA_CREATE_MODE_X, m_nStartY + ARENA_CREATE_MODE_Y);
-		m_pImgCbAmodeBk->Render();
-
-#endif
 
 		if(m_bCbCount)
 		{// 인원 콤보 박스 열기.

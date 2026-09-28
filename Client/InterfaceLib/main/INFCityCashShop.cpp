@@ -284,21 +284,12 @@ CINFCityCashShop::CINFCityCashShop(CAtumNode* pParent, BUILDINGNPC* pBuilding)
 		m_nShopTapEndPosX[i] = -1;
 	}
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	for(i=0;i< CASH_SHOP_VIEW_TAB;i++)
 	{
 		m_nShopTapEndPosX[i] = NULL;		
 	}
 
 	m_pCloseBtn = NULL;
-#else
-	int nPosX = 91;	
-	for(i=0;i< CASH_SHOP_VIEW_TAB;i++)
-	{
-		m_nShopTapEndPosX[i] = nPosX;
-		nPosX += 75;
-	}
-#endif
 	for(i=0;i< CASH_SHOP_VIEW_TAB;i++)
 	{
 		m_nTabToItemIdx[i] = -1;		
@@ -602,7 +593,6 @@ HRESULT CINFCityCashShop::InitDeviceObjects()
 	memset(buf, 0x00, 32);
 	
 	// 2011. 11. 17 by jskim EP4 UI 변경
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("cash_sh");
 	m_pImgBack = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 	m_pImgBack->InitDeviceObjects( g_pD3dApp->m_pImageList );
@@ -610,13 +600,6 @@ HRESULT CINFCityCashShop::InitDeviceObjects()
 
 	m_pCloseBtn = new CINFImageBtn;
 	m_pCloseBtn->InitDeviceObjects("close","close","close","close");
-#else
-
-	wsprintf( buf, "ca_bas");
-	m_pImgBack = new CINFImageEx;
-	pDataHeader = FindResource(buf);
-	m_pImgBack->InitDeviceObjects(pDataHeader ) ;
-#endif
 	// end 2011. 11. 17 by jskim EP4 UI 변경
 	wsprintf( buf, "casel");
 	m_pImgSelectItem = new CINFImageEx;
@@ -747,20 +730,12 @@ HRESULT CINFCityCashShop::InitDeviceObjects()
 			}		
 			if(NULL == m_pImgChargeCloseBtn)
 			{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 				char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
 				wsprintf(szUpBtn, "close");
 				wsprintf(szDownBtn, "close");
 				wsprintf(szSelBtn, "close");
 				wsprintf(szDisBtn, "close");
 
-#else
-				char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-				wsprintf(szUpBtn, "xclose");
-				wsprintf(szDownBtn, "xclose");
-				wsprintf(szSelBtn, "xclose");
-				wsprintf(szDisBtn, "xclose");
-#endif
 				
 				m_pImgChargeCloseBtn = new CINFImageBtn;			
 				m_pImgChargeCloseBtn->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);		
@@ -830,11 +805,7 @@ HRESULT CINFCityCashShop::InitDeviceObjects()
 		//m_pFontItem[i] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE,  TRUE,256,32);		
 		if(0 == i%3)
 		{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM 
 			m_pFontItem[i] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE|D3DFONT_BOLD,  TRUE,512,32);		// 2008-10-22 by dgwoo 256 ->512 로 변경
-#else
-			m_pFontItem[i] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),10, D3DFONT_ZENABLE|D3DFONT_BOLD,  TRUE,512,32);		// 2008-10-22 by dgwoo 256 ->512 로 변경
-#endif
 		}
 		else
 		{
@@ -859,7 +830,6 @@ HRESULT CINFCityCashShop::InitDeviceObjects()
 		
 		m_pFontItemInfo[i]->InitDeviceObjects(g_pD3dDev) ;
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	m_pScroll = new CINFScrollBar(this,
 								CASHSHOP_SCROLL_START_X, 
 								CASHSHOP_SCROLL_START_Y, 
@@ -867,13 +837,6 @@ HRESULT CINFCityCashShop::InitDeviceObjects()
 								CASHSHOP_SHOW_ICON_MAX,
 								SCROLL_LINE_X_SIZE,
 								SCROLL_LINE_Y_SIZE);
-#else
-	m_pScroll = new CINFScrollBar(this,
-								CASHSHOP_SCROLL_START_X, 
-								CASHSHOP_SCROLL_START_Y, 
-								CASHSHOP_SCROLL_LINE_LENGTH,
-								CASHSHOP_SHOW_ICON_MAX);
-#endif	
 	m_pScroll->SetGameData( m_pGameData );
 	m_pScroll->InitDeviceObjects();
 	m_pScroll->SetWheelRect(CASHSHOP_SCROLL_RECT_START_X, 
@@ -908,11 +871,7 @@ HRESULT CINFCityCashShop::InitDeviceObjects()
 	for( i=0; i<2; ++i )
 	{
 		m_pLimitedEdtion[ i ]	= new CINFImageEx;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 		sprintf( buf, "limited0");
-#else
-		sprintf( buf, "limited%d", i );
-#endif		
 		pDataHeader	= FindResource( buf );
 		m_pLimitedEdtion[ i ]->InitDeviceObjects( pDataHeader );
 	}
@@ -1048,7 +1007,6 @@ HRESULT CINFCityCashShop::RestoreDeviceObjects()
 		m_pLimitedEdtion[ i ]->RestoreDeviceObjects();
 	// end 2010. 01. 27 by ckPark 캐쉬 아이템 한정 판매 시스템
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	memset(m_nShopTapEndPosX, 0x00, sizeof(m_nShopTapEndPosX));			// 2013-12-18 by ssjung 윈도우키 + L 하고 복귀 시 탭버튼 위치 버그 수정
 	int size = ( m_pImgBack->GetMaxPos().x - m_pImgBack->GetMinPos().x ) / ( CASH_SHOP_VIEW_TAB - 1 );
 	int nTemp = 0;
@@ -1058,7 +1016,6 @@ HRESULT CINFCityCashShop::RestoreDeviceObjects()
 		m_nShopTapEndPosX[i] += nTemp;
 	}
 	m_pCloseBtn->RestoreDeviceObjects();
-#endif
 	return S_OK;
 }
 
@@ -1066,9 +1023,7 @@ HRESULT CINFCityCashShop::InvalidateDeviceObjects()
 {
 	FLOG( "CINFCityCashShop::InvalidateDeviceObjects()" );
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM 
 	m_pCloseBtn->InvalidateDeviceObjects();
-#endif
 	m_pImgBack->InvalidateDeviceObjects();
 	m_pImgSelectItem->InvalidateDeviceObjects();
 	int i; for(i=0; i<CASH_SHOP_VIEW_TAB; i++)
@@ -1191,10 +1146,8 @@ HRESULT CINFCityCashShop::DeleteDeviceObjects()
 	
 	
 	///////////////////////////////////////////////////////////////////
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM 
 	m_pCloseBtn->DeleteDeviceObjects();
 	SAFE_DELETE(m_pCloseBtn);
-#endif
 	m_pImgBack->DeleteDeviceObjects();
 	m_pImgSelectItem->DeleteDeviceObjects();
 	int i; for(i=0; i<CASH_SHOP_VIEW_TAB; i++)
@@ -1381,16 +1334,12 @@ void CINFCityCashShop::Render()
 	// 2014-02-11 by ymjoo 캐시샵 추천 탭에서 스크롤바가 정상적으로 초기화되도록 수정
 	{
 		int nSelTab = GetTabToItemIdx(m_nCurrentSelectTab);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 		int temp = m_vecImgCashIcon[nSelTab].size() / CASHSHOP_TAB_W_SIZE;
 		if(m_vecImgCashIcon[nSelTab].size() % CASHSHOP_TAB_W_SIZE != 0)
 		{
 			temp += 1;
 		}
 		m_pScroll->SetNumberOfData( temp + 1 );
-#else
-		m_pScroll->SetNumberOfData( m_vecImgCashIcon[nSelTab].size() );
-#endif
 	}
 	// END 2014-02-11 by ymjoo 캐시샵 추천 탭에서 스크롤바가 정상적으로 초기화되도록 수정
 
@@ -1443,11 +1392,9 @@ void CINFCityCashShop::Render()
 	m_pImgBack->Render();
 	// 탭렌더링
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM 
 	m_pCloseBtn->SetBtnPosition(CASHSHOP_RENDER_START_X + m_nShopMovePosX + m_pImgBack->GetMaxPos().x - m_pImgBack->GetMinPos().x - CASHSHOP_ITEM_CLOSE_X,
 		                        CASHSHOP_RENDER_START_Y + m_nShopMovePosY + CASHSHOP_ITEM_CLOSE_Y);
 	m_pCloseBtn->Render();
-#endif
 	// 2008-10-28 by bhsohn 캐쉬 상점 구조 변경
 	if(m_pImgTab[m_nCurrentSelectTab])
 	{
@@ -1667,12 +1614,8 @@ void CINFCityCashShop::Render()
 //	wsprintf( buf, "%d", (int)(m_nMyCashPoint*1.1f));
 	wsprintf( buf, "%d", (int)((m_nMyCashPoint+m_nGiftCardPoint)*CASHSHOP_TEX));
 	MakeCurrencySeparator( buf2, buf, 3, ',' );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	SIZE Size = m_pFontItemInfo[CASH_SHOP_ITEM_INFO-1]->GetStringSize(buf2);
 	m_pFontItemInfo[CASH_SHOP_ITEM_INFO-1]->DrawText(CASHSHOP_RENDER_MYCASH_X+m_nShopMovePosX - Size.cx, CASHSHOP_RENDER_MYCASH_Y+m_nShopMovePosY,
-#else
-	m_pFontItemInfo[CASH_SHOP_ITEM_INFO-1]->DrawText(CASHSHOP_RENDER_MYCASH_X+m_nShopMovePosX, CASHSHOP_RENDER_MYCASH_Y+m_nShopMovePosY,
-#endif
 		GUI_FONT_COLOR_YM, buf2);			
 
 #ifdef LANGUAGE_CHINA
@@ -1710,10 +1653,6 @@ void CINFCityCashShop::Render()
 	}	
 #endif
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
-#else
-	RenderDescIcon();
-#endif
 	// 아이콘 설명
 	//RenderDescIcon();
 	
@@ -1787,7 +1726,6 @@ void CINFCityCashShop::Render()
 #endif
 // 2012-11-16 by mspark, 캐나다 선물, 충전 기능 제거
 	// end 2009-02-24 by bhsohn 캐쉬샵 충전 웹페이지 추가
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	POINT pt;
 	GetCursorPos(&pt);
 	ScreenToClient(g_pD3dApp->GetHwnd(), &pt);
@@ -1841,7 +1779,6 @@ void CINFCityCashShop::Render()
 			itCash++;
 		}
 	}
-#endif
 }
 
 void CINFCityCashShop::OnChangeWearItem()
@@ -2139,7 +2076,6 @@ int CINFCityCashShop::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_MOUSEWHEEL:
 		{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 			POINT pt;
 			GetCursorPos(&pt);
 			ScreenToClient(g_pD3dApp->GetHwnd(), &pt);
@@ -2149,7 +2085,6 @@ int CINFCityCashShop::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			{
 				return INF_MSGPROC_BREAK; 
 			}
-#endif			
 			OnChangeWearItem();
 		}
 		break;
@@ -2160,9 +2095,7 @@ int CINFCityCashShop::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			pt.y = HIWORD(lParam);
 			CheckMouseReverse(&pt);
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 			m_pCloseBtn->OnMouseMove(pt);
-#endif
 
 			if( pt.y > CASHSHOP_RENDER_CHARGE_BUTTON_Y+m_nShopMovePosY && 
 				pt.y < CASHSHOP_RENDER_CHARGE_BUTTON_Y+m_nShopMovePosY + CASHSHOP_RENDER_CHARGE_BUTTON_H &&
@@ -2276,7 +2209,6 @@ int CINFCityCashShop::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			{
 				m_nCurrentMouseStateCharge = CASHSHOP_BUTTON_STATE_NOM;
 			}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 			int i;
 			int nSelTab = GetTabToItemIdx(m_nCurrentSelectTab);
 			if(nSelTab != -1 && m_vecImgCashIcon[nSelTab].size() / CASHSHOP_TAB_W_SIZE > m_pScroll->GetCurrentScrollIndex())
@@ -2336,36 +2268,6 @@ int CINFCityCashShop::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					itCash++;
 				}
 			}
-#else
-			// 아이템 선택
-			int i; for(i=0; i<CASHSHOP_SHOW_ICON_MAX; i++)
-			{
-				if( pt.y > CASHSHOP_ITEM_SELECT_RECT_Y+m_nShopMovePosY && 
-					pt.y < CASHSHOP_ITEM_SELECT_RECT_Y+m_nShopMovePosY + CASHSHOP_ITEM_SELECT_RECT_H+(i*CASHSHOP_ITEM_SELECT_RECT_H) &&
-					pt.x > CASHSHOP_ITEM_SELECT_RECT_X+m_nShopMovePosX && 
-					pt.x < CASHSHOP_ITEM_SELECT_RECT_X+m_nShopMovePosX + CASHSHOP_ITEM_SELECT_RECT_W)
-				{
-					// 2009-01-28 by bhsohn 캐쉬샵 처리					
-					int nSelTab = GetTabToItemIdx(m_nCurrentSelectTab);
-
-					//if(m_vecImgCashIcon[m_nCurrentSelectTab].size() > (i+m_pScroll->GetCurrentScrollIndex()))
-					if(nSelTab != -1 && m_vecImgCashIcon[nSelTab].size() > (i+m_pScroll->GetCurrentScrollIndex()))
-					{
-					    m_nItemSelect = i;
-						// 2009-01-28 by bhsohn 캐쉬샵 처리
-						//if(m_nCurrentSelectTab == CASHSHOP_ITEM_SKIN_ITEM)
-						if(nSelTab != -1 && nSelTab == GetSkinItemIndex())						
-						{
-							OnChangeWearItem();
-						}
-						// 2009-01-28 by bhsohn 캐쉬샵 처리
-						UpdateGiftButton(nSelTab, m_nItemSelect);
-						// end 2009-01-28 by bhsohn 캐쉬샵 처리
-					}					
-					return INF_MSGPROC_BREAK;
-				}
-			}
-#endif
 			// 탭 선택
 			for(i=0; i<CASH_SHOP_VIEW_TAB; i++)
 			{
@@ -2412,16 +2314,12 @@ int CINFCityCashShop::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					if(nSelTab != -1)
 					{
 						m_pScroll->Reset();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 						int temp = m_vecImgCashIcon[nSelTab].size() / CASHSHOP_TAB_W_SIZE;
 						if(m_vecImgCashIcon[nSelTab].size() % CASHSHOP_TAB_W_SIZE != 0)
 						{
 							temp += 1;
 						}
 						m_pScroll->SetNumberOfData( temp + 1 );
-#else
-						m_pScroll->SetNumberOfData( m_vecImgCashIcon[nSelTab].size() );
-#endif
 					}
 
 					// 2007-08-10 by cmkwon, 아머 컬러 탭일 경우 컬러를 적용해준다
@@ -2438,33 +2336,16 @@ int CINFCityCashShop::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					return INF_MSGPROC_BREAK;
 				}
 			}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM 
 			if(m_pCloseBtn->OnLButtonDown(pt))
-#else
-			// 닫기 버튼 클릭
-			if( pt.y > CASHSHOP_ITEM_CLOSE_Y+m_nShopMovePosY && 
-				pt.y < CASHSHOP_ITEM_CLOSE_Y+m_nShopMovePosY+CASHSHOP_ITEM_CLOSE_BUTTON_H &&
-				pt.x > CASHSHOP_ITEM_CLOSE_X+m_nShopMovePosX && 
-				pt.x < CASHSHOP_ITEM_CLOSE_X+m_nShopMovePosX + CASHSHOP_ITEM_CLOSE_BUTTON_W)
-#endif
 			{	
 				g_pInterface->m_pCityBase->OnCityNPCButtonDown(CITY_NPC_BUTTON_CLOSE);
 			}
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM 
 			if(pt.x >= CASHSHOP_RENDER_START_X + m_nShopMovePosX && pt.x <= CASHSHOP_RENDER_START_X + m_nShopMovePosX + ( m_pImgBack->GetMaxPos().x - m_pImgBack->GetMinPos().x ) &&
 				pt.y >= CASHSHOP_RENDER_START_Y + m_nShopMovePosY && pt.y <= CASHSHOP_RENDER_START_Y + m_nShopMovePosY + ( m_pImgBack->GetMaxPos().y - m_pImgBack->GetMinPos().y ))
 			{
 				return INF_MSGPROC_BREAK;
 			}
-#else
-			// 사각 영역에 들어오면 클릭 제외
-			if(pt.x >= CASHSHOP_RENDER_START_X + m_nShopMovePosX && pt.x <= CASHSHOP_RENDER_START_X + m_nShopMovePosX + CASHSHOP_ITEM_SHOP_MOVE_W &&
-				pt.y >= CASHSHOP_RENDER_START_Y + m_nShopMovePosY && pt.y <= CASHSHOP_RENDER_START_Y + m_nShopMovePosY + 397)
-			{
-				return INF_MSGPROC_BREAK;
-			}
-#endif
 		}
 		break;
 	case WM_LBUTTONUP:
@@ -2632,7 +2513,6 @@ void CINFCityCashShop::RenderDescIcon()
 		// end 2010. 01. 27 by ckPark 캐쉬 아이템 한정 판매 시스템
 	}
 }
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 void CINFCityCashShop::RenderDescIcon( POINT pPos, ITEM* pItem, int nWidht, int nHeight )
 {
 	// 2014-03-05 by ymjoo 캐시샵 아이템 세부스펙 툴팁
@@ -2760,7 +2640,6 @@ void CINFCityCashShop::RenderDescIcon( POINT pPos, ITEM* pItem, int nWidht, int 
 #endif
 	// END 2014-03-05 by ymjoo 캐시샵 아이템 세부스펙 툴팁
 }
-#endif
 
 void CINFCityCashShop::SendBuyItem(ITEM *pItem)
 {
@@ -2848,9 +2727,6 @@ SHOP_ITEM* CINFCityCashShop::FindCashShopData(int nTabIndex, UINT ItemNum)
 void CINFCityCashShop::InputCashColorShopItem()
 {
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM
-	ReLoadSkinItemVector();
-#endif
 	
 	RefreshGetSkinItemIndex();	// 상점 정보 갱신		
 	int nVecPos = 0;	// 가장 앞에있는 벡터의 크기
@@ -2861,17 +2737,12 @@ void CINFCityCashShop::InputCashColorShopItem()
 	// 2009-03-02 by bhsohn 캐쉬샵 버그 수정
 	m_pScroll->Reset();
 	// end 2009-03-02 by bhsohn 캐쉬샵 버그 수정
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	int temp = m_vecImgCashIcon[nVecPos].size() / CASHSHOP_TAB_W_SIZE;
 	if(m_vecImgCashIcon[nVecPos].size() % CASHSHOP_TAB_W_SIZE != 0)
 	{
 		temp += 1;
 	}
 	m_pScroll->SetNumberOfData( temp );
-#else
-	m_pScroll->SetNumberOfData( m_vecImgCashIcon[nVecPos].size() );
-	// end 2009-01-28 by bhsohn 캐쉬샵 처리
-#endif
 
 	// 2009-03-02 by bhsohn 캐쉬샵 버그 수정
 	{
@@ -3088,13 +2959,6 @@ void CINFCityCashShop::RefreshGetSkinItemIndex()
 		}
 	}
 	m_nSkinItemIdx = -2;	//
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM
-	// 빈 벡터를 찾는다.	
-	if(m_vecItemInfo[CASH_ITEMKIND_COLOR_ITEM].size() > 0)	// 전에 스킨 벡터에 값이 있었다.
-	{			
-		m_nSkinItemIdx = CASH_ITEMKIND_COLOR_ITEM;
-	}	
-#endif
 }
 
 int CINFCityCashShop::GetSkinItemIndex()

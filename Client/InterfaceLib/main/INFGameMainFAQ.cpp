@@ -22,7 +22,6 @@
 #include "INFImageBtn.h"
 #include "INFToolTip.h"
 	 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define INF_FAQ_WINDOWS_WIDTH			418														// FAQ 전체 넒이
 #define INF_FAQ_WINDOWS_HEIGTH			512														// FAQ 전체 높이
 #define INF_FAQ_FONT_LINE_HEIGHT		15														// 한 라인의 높이
@@ -99,85 +98,6 @@
 #define INF_FAQ_QUESTION_MAX_LEN		72
 
 #define INF_FAQ_BASEVIEW_STRING_COUNT	5		
-#else
-#define INF_FAQ_WINDOWS_WIDTH			418														// FAQ 전체 넒이
-#define INF_FAQ_WINDOWS_HEIGTH			512														// FAQ 전체 높이
-#define INF_FAQ_FONT_LINE_HEIGHT		15														// 한 라인의 높이
-#define INF_FAQ_SEARCH_LENGTH			258														// 입력포지션 전체 길이
-#define INF_FAQ_INPUTTEXT_POS_X			28														// 입력시 폰트 렌더링 포지션 X
-#define INF_FAQ_INPUTTEXT_POS_Y			132//60														// 입력시 폰트 렌더링 포지션 Y
-#define INF_FAQ_SEARCH_QUESTION_POS_X	28														// 입력시 폰트 렌더링 포지션 X
-#define INF_FAQ_SEARCH_QUESTION_POS_Y	17														// 입력시 폰트 렌더링 포지션 Y
-#define INF_FAQ_SEARCH_QUESTION_START_Y	194														// 질문 렌더링 시작 위치
-#define INF_FAQ_FONT_LINE_HEIGHT		15														// 한 라인의 높이
-#define INF_FAQ_LINE_SIZE_X				160														// FAQ 전체 길이 X
-#define INF_FAQ_LINE_SIZE_Y				320														// FAQ 전체 길이 Y
-#define INF_FAQ_SEARCH_ANSWER_START_Y	339														// 답변 렌더링 시작 위치
-
-#define INF_FAQ_OPERATOR_X				(m_nStartFAQPositionX + 18)
-#define INF_FAQ_OPERATOR_Y				(m_nStartFAQPositionY + 31)
-
-#define INF_FAQ_SEARCH_X				(m_nStartFAQPositionX + 13)
-#define INF_FAQ_SEARCH_Y				(m_nStartFAQPositionY + 105)
-
-#define INF_FAQ_RESULT_X				(m_nStartFAQPositionX + 13)
-#define INF_FAQ_RESULT_Y				(m_nStartFAQPositionY + 164)
-
-//#define INF_FAQ_SCROLL_START_X			(INF_FAQ_INPUTTEXT_POS_X+366)
-//#define INF_FAQ_SCROLL_START_Y			(INF_FAQ_INPUTTEXT_POS_Y+57)
-//#define INF_FAQ_SCROLL_LINE_LENGTH		200
-//#define INF_FAQ_SCROLL_RAG_TOP			120
-//#define INF_FAQ_SCROLL_RAG_RIGHT		372
-//#define INF_FAQ_SCROLL_RAG_BOTTON		323
-
-
-#define INF_FAQ_SCROLL_START_X			(m_nStartFAQPositionX+390)
-#define INF_FAQ_SCROLL_START_Y			(m_nStartFAQPositionY+192)
-#define INF_FAQ_SCROLL_LINE_LENGTH		136
-#define INF_FAQ_SCROLL_RAG_TOP			192
-#define INF_FAQ_SCROLL_RAG_RIGHT		372
-#define INF_FAQ_SCROLL_RAG_BOTTON		328
-
-//#define INF_FAQ_SCROLLD_START_X			(INF_FAQ_INPUTTEXT_POS_X+366)
-//#define INF_FAQ_SCROLLD_START_Y			(INF_FAQ_INPUTTEXT_POS_Y+277)
-//#define INF_FAQ_SCROLLD_LINE_LENGTH		138
-//#define INF_FAQ_SCROLLD_RAG_TOP			339
-//#define INF_FAQ_SCROLLD_RAG_RIGHT		372
-//#define INF_FAQ_SCROLLD_RAG_BOTTON		476
-
-#define INF_FAQ_SCROLLD_START_X			(m_nStartFAQPositionX+390)
-#define INF_FAQ_SCROLLD_START_Y			(m_nStartFAQPositionY+337)
-#define INF_FAQ_SCROLLD_LINE_LENGTH		136
-#define INF_FAQ_SCROLLD_RAG_TOP			337
-#define INF_FAQ_SCROLLD_RAG_RIGHT		372
-#define INF_FAQ_SCROLLD_RAG_BOTTON		476
-
-#define INF_FAQ_SEARCH_ANSWER_SIZE		60
-#define INF_FAQ_SELECT_QUESTION_WIDTH	355
-
-#define INF_FAQ_BUTTON_START_X			353
-#define INF_FAQ_BUTTON_START_Y			130
-#define INF_FAQ_BUTTON_WIDTH			38
-#define INF_FAQ_BUTTON_HEIGHT			17
-#define INF_FAQ_BUTTON_FALSE			0
-#define INF_FAQ_BUTTON_OVER				1
-#define INF_FAQ_BUTTON_PUSH				2
-#define INF_FAQ_SEARCH_VIEW_X			22
-#define INF_FAQ_SEARCH_VIEW_Y			130//54
-#define INF_FAQ_SEARCH_VIEW_WIDTH		326
-#define INF_FAQ_SEARCH_VIEW_HEIGTH		28
-#define INF_FAQ_CLOSE_VIEW_X			398
-#define INF_FAQ_CLOSE_VIEW_Y			6
-#define INF_FAQ_CLOSE_VIEW_WIDTH		14
-#define INF_FAQ_CLOSE_VIEW_HEIGTH		12
-
-#define INF_FAQ_WINDOWSMOVE_WIDTH		418			
-#define INF_FAQ_WINDOWSMOVE_HEIGHT		19
-#define INF_FAQ_QUESTION_MAX_LEN		52
-
-#define INF_FAQ_BASEVIEW_STRING_COUNT	5
-
-#endif
 
 // 2008-10-23 by bhsohn 독일어 대문자 소문자로 변경
 typedef struct
@@ -213,11 +133,7 @@ CINFGameMainFAQ::CINFGameMainFAQ()
 	m_pScroll = NULL;
 	m_pScrollUnder = NULL;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_nStartFAQPositionX = ((g_pD3dApp->GetBackBufferDesc().Width/2));							  
-#else 
-	m_nStartFAQPositionX = ((g_pD3dApp->GetBackBufferDesc().Width/2)-(INF_FAQ_WINDOWS_WIDTH/2));
-#endif
 	m_nStartFAQPositionY = ((g_pD3dApp->GetBackBufferDesc().Height/2)-(INF_FAQ_WINDOWS_HEIGTH/2));
 	m_nSelectindexQuestion = -1;
 	m_nMouseButtonState = 0;
@@ -232,10 +148,6 @@ CINFGameMainFAQ::CINFGameMainFAQ()
 
 	// 이미지 관련
 	m_pImgBackg			= NULL;
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pImgSelectName	= NULL;
-	m_pcloseBtn = NULL;
-#endif
 	for(i=0; i<INF_FAQ_BUTTON_IMG; i++)
 	{
 		m_pImgButton[i]		= NULL;
@@ -267,10 +179,6 @@ CINFGameMainFAQ::~CINFGameMainFAQ()
 	// 이미지 관련
 	SAFE_DELETE(m_pImgBackg);
 	SAFE_DELETE(m_pImgSelect);
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	SAFE_DELETE(m_pImgSelectName);
-	SAFE_DELETE(m_pcloseBtn);
-#endif
 	for(i=0; i<INF_FAQ_BUTTON_IMG; i++)
 	{
 		SAFE_DELETE(m_pImgButton[i]);
@@ -327,7 +235,6 @@ HRESULT CINFGameMainFAQ::InitDeviceObjects()
 
 	// 이미지 관련
 	DataHeader *pDataHeader;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("FAQ");
 	m_pImgBackg = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 	m_pImgBackg->InitDeviceObjects( g_pD3dApp->m_pImageList );
@@ -335,11 +242,6 @@ HRESULT CINFGameMainFAQ::InitDeviceObjects()
 
 	m_pcloseBtn = new CINFImageBtn;
 	m_pcloseBtn->InitDeviceObjects("close","close","close","close");
-#else 
-	pDataHeader = m_pGameData->Find("Faq_b");
-	m_pImgBackg = new CINFImageEx;
-	m_pImgBackg->InitDeviceObjects( pDataHeader );
-#endif
 
 	pDataHeader = m_pGameData->Find("Faq_oper1");
 	m_pImgOper[0] = new CINFImageEx;
@@ -353,21 +255,6 @@ HRESULT CINFGameMainFAQ::InitDeviceObjects()
 	m_pImgSelect = new CINFImageEx;
 	m_pImgSelect->InitDeviceObjects( pDataHeader );
  
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경 
-#else
-	pDataHeader = m_pGameData->Find("Faq_ser");
- 	m_pImgSearch = new CINFImageEx;
- 	m_pImgSearch->InitDeviceObjects( pDataHeader );
-
-	pDataHeader = m_pGameData->Find("Faq_res");
- 	m_pImgResult = new CINFImageEx;
- 	m_pImgResult->InitDeviceObjects( pDataHeader );
-
-	pDataHeader = m_pGameData->Find("Faq_ti");
- 	m_pImgSelectName = new CINFImageEx;
- 	m_pImgSelectName->InitDeviceObjects( pDataHeader );											  
-
-#endif
 
 	char buf[64];
 	memset(buf, 0x00, 64);
@@ -387,10 +274,8 @@ HRESULT CINFGameMainFAQ::RestoreDeviceObjects()
 {
 	FLOG( "CINFGameMainFAQ::RestoreDeviceObjects()" );
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	int nPosX = (int)( m_nStartFAQPositionX - (m_pImgBackg->GetMaxPos().x - m_pImgBackg->GetMinPos().x) /2 );
 	int nPosY = (int)m_nStartFAQPositionY;
-#endif
 
 	m_pFontInput->RestoreDeviceObjects();
 	m_pFontQuestion[0]->RestoreDeviceObjects();
@@ -405,7 +290,6 @@ HRESULT CINFGameMainFAQ::RestoreDeviceObjects()
 	}
 	
 	m_pScroll->RestoreDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pScroll->SetWheelRect(nPosX+INF_FAQ_SEARCH_QUESTION_POS_X, 
 			nPosY+INF_FAQ_SCROLL_RAG_TOP,
 			nPosX+INF_FAQ_SEARCH_QUESTION_POS_X+INF_FAQ_SCROLL_RAG_RIGHT,
@@ -416,18 +300,6 @@ HRESULT CINFGameMainFAQ::RestoreDeviceObjects()
 		nPosY+INF_FAQ_SCROLLD_RAG_TOP,
 		nPosX+INF_FAQ_SEARCH_QUESTION_POS_X+INF_FAQ_SCROLLD_RAG_RIGHT,
 		nPosY+INF_FAQ_SCROLLD_RAG_BOTTON);					  
-#else			 
-	m_pScroll->SetWheelRect(m_nStartFAQPositionX+INF_FAQ_SEARCH_QUESTION_POS_X, 
-			m_nStartFAQPositionY+INF_FAQ_SCROLL_RAG_TOP,
-			m_nStartFAQPositionX+INF_FAQ_SEARCH_QUESTION_POS_X+INF_FAQ_SCROLL_RAG_RIGHT,
-			m_nStartFAQPositionY+INF_FAQ_SCROLL_RAG_BOTTON);
-
-	m_pScrollUnder->RestoreDeviceObjects();
-	m_pScrollUnder->SetWheelRect(m_nStartFAQPositionX+INF_FAQ_SEARCH_QUESTION_POS_X, 
-		m_nStartFAQPositionY+INF_FAQ_SCROLLD_RAG_TOP,
-		m_nStartFAQPositionX+INF_FAQ_SEARCH_QUESTION_POS_X+INF_FAQ_SCROLLD_RAG_RIGHT,
-		m_nStartFAQPositionY+INF_FAQ_SCROLLD_RAG_BOTTON);
-#endif
 
 	// 이미지 관련
 	m_pImgBackg->RestoreDeviceObjects();
@@ -435,13 +307,6 @@ HRESULT CINFGameMainFAQ::RestoreDeviceObjects()
 	m_pImgOper[1]->RestoreDeviceObjects();
 	m_pImgSelect->RestoreDeviceObjects();
 	m_pcloseBtn->RestoreDeviceObjects();
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pImgSearch->RestoreDeviceObjects();
-	m_pImgResult->RestoreDeviceObjects();
-
-	m_pImgSelectName->RestoreDeviceObjects();
-
-#endif
 	for(i=0; i<INF_FAQ_BUTTON_IMG; i++)
 	{
 		m_pImgButton[i]->RestoreDeviceObjects();
@@ -473,12 +338,6 @@ HRESULT CINFGameMainFAQ::InvalidateDeviceObjects()
 	m_pImgOper[0]->InvalidateDeviceObjects();
 	m_pImgOper[1]->InvalidateDeviceObjects();
 	m_pImgSelect->InvalidateDeviceObjects();
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pImgSearch->InvalidateDeviceObjects();
-	m_pImgResult->InvalidateDeviceObjects();
-	m_pImgSelectName->InvalidateDeviceObjects();
-	m_pcloseBtn->InvalidateDeviceObjects();
-#endif
 	for(i=0; i<INF_FAQ_BUTTON_IMG; i++)
 	{
 		m_pImgButton[i]->InvalidateDeviceObjects();
@@ -519,16 +378,6 @@ HRESULT CINFGameMainFAQ::DeleteDeviceObjects()
 	m_pImgSelect->DeleteDeviceObjects();
 	SAFE_DELETE(m_pImgSelect);
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pImgSearch->DeleteDeviceObjects();
-	m_pImgResult->DeleteDeviceObjects();
-	SAFE_DELETE(m_pImgSearch);
-	SAFE_DELETE(m_pImgResult);
-	m_pImgSelectName->DeleteDeviceObjects();
-	SAFE_DELETE(m_pImgSelectName);
-	m_pcloseBtn->DeleteDeviceObjects();
-	SAFE_DELETE(m_pcloseBtn);
-#endif
 	SAFE_DELETE(m_pImgBackg);
 	SAFE_DELETE(m_pImgOper[0]);
 	SAFE_DELETE(m_pImgOper[1]);
@@ -548,7 +397,6 @@ void CINFGameMainFAQ::Render()
 	
 	DWORD dwFontColor = GUI_FONT_COLOR;
 	// 백그라운드 렌더링
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	int nPosX = (int)( m_nStartFAQPositionX - (m_pImgBackg->GetMaxPos().x - m_pImgBackg->GetMinPos().x) /2 );
 	int nPosY = (int)m_nStartFAQPositionY;
 
@@ -591,44 +439,6 @@ void CINFGameMainFAQ::Render()
 			nPosY+INF_FAQ_INPUTTEXT_POS_Y-15);
 
 	}
-#else
-	m_pImgBackg->Move(m_nStartFAQPositionX, m_nStartFAQPositionY);
-	m_pImgBackg->Render();
-
-	m_pImgOper[m_nOperatorInfl]->Move(INF_FAQ_OPERATOR_X,INF_FAQ_OPERATOR_Y);
-	m_pImgOper[m_nOperatorInfl]->Render();
-
-	m_pImgSearch->Move(INF_FAQ_SEARCH_X,INF_FAQ_SEARCH_Y);
-	m_pImgSearch->Render();
-
-	m_pImgResult->Move(INF_FAQ_RESULT_X,INF_FAQ_RESULT_Y);
-	m_pImgResult->Render();
-
-
-	// 버튼 렌더링
-	m_pImgButton[m_nMouseButtonState]->Move(m_nStartFAQPositionX+INF_FAQ_BUTTON_START_X, m_nStartFAQPositionY+INF_FAQ_BUTTON_START_Y);
-	m_pImgButton[m_nMouseButtonState]->Render();
-	
-	if(m_bChatMode)
-	{
-		char chatbuf[INF_FAQ_QUESTION_SIZE+2];
-		memset(chatbuf,0x00,INF_FAQ_QUESTION_SIZE);
-		strncpy(chatbuf,m_strInputMessage,INF_FAQ_QUESTION_SIZE);
-		chatbuf[strlen(m_strInputMessage)] = '_';
-		chatbuf[strlen(m_strInputMessage)+1] = '\0';		
-		m_pFontInput->DrawText(m_nStartFAQPositionX+INF_FAQ_INPUTTEXT_POS_X,
-							   m_nStartFAQPositionY+INF_FAQ_INPUTTEXT_POS_Y,
-							   dwFontColor,chatbuf, 0L);
-		if(SET_FAQ_CANDIDATE == g_nRenderCandidate)
-			g_pD3dApp->RenderCandidate(m_nStartFAQPositionX+INF_FAQ_INPUTTEXT_POS_X,
-			m_nStartFAQPositionY+INF_FAQ_INPUTTEXT_POS_Y-15);
-
-		// 2007-05-21 by bhsohn China IME Working
-		g_pD3dApp->RenderIMEType(m_nStartFAQPositionX+INF_FAQ_INPUTTEXT_POS_X,
-			m_nStartFAQPositionY+INF_FAQ_INPUTTEXT_POS_Y-15);
-
-	}
-#endif
 	
 	// 질문 렌더링
 	int i; for(i=0; i<INF_FAQ_SEARCH_QUESTION_RENDER;i++)
@@ -683,19 +493,12 @@ void CINFGameMainFAQ::Render()
 				// 셀렉트 이미지
 				if(m_nSelectindexQuestion-m_pScroll->GetCurrentScrollIndex() == i)
 				{
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-					m_pImgSelect->Move(m_nStartFAQPositionX+INF_FAQ_SEARCH_QUESTION_POS_X,
-						m_nStartFAQPositionY+INF_FAQ_SEARCH_QUESTION_START_Y+(INF_FAQ_SEARCH_QUESTION_POS_Y*i)-1);
-					m_pImgSelect->Render();
-#else
 					m_pImgSelect->Move(m_nStartFAQPositionX+INF_FAQ_SEARCH_QUESTION_POS_X - 269,
 						m_nStartFAQPositionY+INF_FAQ_SEARCH_QUESTION_START_Y+(INF_FAQ_SEARCH_QUESTION_POS_Y*i)-3);
 					m_pImgSelect->Render();
-#endif
 				}				
 				
 				// 폰트 이미지
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				if((i) == m_nSelectindexQuestion-m_pScroll->GetCurrentScrollIndex())
 				{								
 					m_pFontSearchQusetion[i]->DrawText(nPosX+INF_FAQ_SEARCH_QUESTION_POS_X,
@@ -708,20 +511,6 @@ void CINFGameMainFAQ::Render()
 						nPosY+INF_FAQ_SEARCH_QUESTION_START_Y-3+(INF_FAQ_SEARCH_QUESTION_POS_Y*i),
 						GUI_FONT_COLOR,buffvec, 0L);
 				}
-#else			 
-				if((i) == m_nSelectindexQuestion-m_pScroll->GetCurrentScrollIndex())
-				{								
-					m_pFontSearchQusetion[i]->DrawText(m_nStartFAQPositionX+INF_FAQ_SEARCH_QUESTION_POS_X,
-						m_nStartFAQPositionY+INF_FAQ_SEARCH_QUESTION_START_Y-3+(INF_FAQ_SEARCH_QUESTION_POS_Y*i),
-						GUI_SELECT_FONT_COLOR, buffvec, 0L);
-				}
-				else
-				{
-					m_pFontSearchQusetion[i]->DrawText(m_nStartFAQPositionX+INF_FAQ_SEARCH_QUESTION_POS_X,
-						m_nStartFAQPositionY+INF_FAQ_SEARCH_QUESTION_START_Y-3+(INF_FAQ_SEARCH_QUESTION_POS_Y*i),
-						GUI_FONT_COLOR,buffvec, 0L);
-				}
-#endif
 			}
 		}
 	}
@@ -739,15 +528,9 @@ void CINFGameMainFAQ::Render()
 			{
 				strncpy(buffvec, m_vecAnswer[j+m_pScrollUnder->GetCurrentScrollIndex()].c_str(), INF_FAQ_QUESTION_SIZE);				
 				
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				m_pFontSearchAnswer[j]->DrawText(nPosX+INF_FAQ_SEARCH_QUESTION_POS_X,
 					nPosY+INF_FAQ_SEARCH_ANSWER_START_Y+(INF_FAQ_SEARCH_QUESTION_POS_Y*j),
 					dwFontColor,buffvec, 0L);											  
-#else 
-				m_pFontSearchAnswer[j]->DrawText(m_nStartFAQPositionX+INF_FAQ_SEARCH_QUESTION_POS_X,
-					m_nStartFAQPositionY+INF_FAQ_SEARCH_ANSWER_START_Y+(INF_FAQ_SEARCH_QUESTION_POS_Y*j),
-					dwFontColor,buffvec, 0L);
-#endif
 			}
 		}
 	}	
@@ -775,10 +558,8 @@ void CINFGameMainFAQ::Tick()
 {
 	FLOG( "CINFGameMainFAQ::Tick()" );
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	int nPosX = (int)( m_nStartFAQPositionX - (m_pImgBackg->GetMaxPos().x - m_pImgBackg->GetMinPos().x) /2 );
 	int nPosY = (int)m_nStartFAQPositionY;
-#endif
 
 	if(m_vecFAQAnswer.size()>0)
 	{
@@ -789,7 +570,6 @@ void CINFGameMainFAQ::Tick()
 			m_fQuestionScrollText = 0.0f;
 		}
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(m_pScroll)
 	{
 		m_pScroll->SetScrollLinePos( nPosX + INF_FAQ_SCROLL_START_X, nPosY + INF_FAQ_SCROLL_START_Y);
@@ -806,24 +586,6 @@ void CINFGameMainFAQ::Tick()
 			nPosX+INF_FAQ_SEARCH_QUESTION_POS_X+INF_FAQ_SCROLLD_RAG_RIGHT,
 			nPosY+INF_FAQ_SCROLLD_RAG_BOTTON);
 	}	
-#else 
-	if(m_pScroll)
-	{
-		m_pScroll->SetScrollLinePos( INF_FAQ_SCROLL_START_X, INF_FAQ_SCROLL_START_Y);
-		m_pScroll->SetWheelRect(m_nStartFAQPositionX+INF_FAQ_SEARCH_QUESTION_POS_X, 
-			m_nStartFAQPositionY+INF_FAQ_SCROLL_RAG_TOP,
-			m_nStartFAQPositionX+INF_FAQ_SEARCH_QUESTION_POS_X+INF_FAQ_SCROLL_RAG_RIGHT,
-			m_nStartFAQPositionY+INF_FAQ_SCROLL_RAG_BOTTON);
-	}
-	if(m_pScrollUnder)
-	{
-		m_pScrollUnder->SetScrollLinePos( INF_FAQ_SCROLLD_START_X,INF_FAQ_SCROLLD_START_Y);
-		m_pScrollUnder->SetWheelRect(m_nStartFAQPositionX+INF_FAQ_SEARCH_QUESTION_POS_X, 
-			m_nStartFAQPositionY+INF_FAQ_SCROLLD_RAG_TOP,
-			m_nStartFAQPositionX+INF_FAQ_SEARCH_QUESTION_POS_X+INF_FAQ_SCROLLD_RAG_RIGHT,
-			m_nStartFAQPositionY+INF_FAQ_SCROLLD_RAG_BOTTON);
-	}
-#endif
 
 }
 
@@ -1124,10 +886,8 @@ void CINFGameMainFAQ::InitBaseString()
 int CINFGameMainFAQ::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	FLOG( "CINFGameMainFAQ::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)" );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	int nPosX = (int)( m_nStartFAQPositionX - (m_pImgBackg->GetMaxPos().x - m_pImgBackg->GetMinPos().x) /2 );
 	int nPosY = (int)m_nStartFAQPositionY;														  
-#endif
 	
 	// 스크롤 관련
 	if(m_pScroll && m_pScrollUnder)
@@ -1151,7 +911,6 @@ int CINFGameMainFAQ::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			pt.y = HIWORD(lParam);
 			CheckMouseReverse(&pt);
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			//////////////////////////////////////////////////////////
 			// 버튼 관련
 			if( pt.x>(nPosX+INF_FAQ_BUTTON_START_X)
@@ -1195,42 +954,6 @@ int CINFGameMainFAQ::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					return INF_MSGPROC_BREAK;
 				}
 			} 
-#else
-			//////////////////////////////////////////////////////////
-			// 버튼 관련
-			if( pt.x>(m_nStartFAQPositionX+INF_FAQ_BUTTON_START_X)
-			 && pt.x<(m_nStartFAQPositionX+INF_FAQ_BUTTON_START_X+INF_FAQ_BUTTON_WIDTH))
-			{
-				// 버튼
-				if( pt.y>(m_nStartFAQPositionY+INF_FAQ_BUTTON_START_Y)
-				 && pt.y<(m_nStartFAQPositionY+INF_FAQ_BUTTON_START_Y+INF_FAQ_BUTTON_HEIGHT))
-				{
-					m_nMouseButtonState = INF_FAQ_BUTTON_OVER;
-					return INF_MSGPROC_BREAK;
-				}
-			}
-			m_nMouseButtonState = INF_FAQ_BUTTON_FALSE;			
-
-			// 윈도우 이동
-			if(m_bMoveWindow)
-			{			
-				m_nStartFAQPositionX = m_nFAQBoxStartXOld + pt.x - m_pointBeforeMousePoints.x;
-				m_nStartFAQPositionY = m_nFAQBoxStartYOld + pt.y - m_pointBeforeMousePoints.y;
-				
-				return INF_MSGPROC_BREAK;
-			}
-			// 2006-08-25 by dgwoo 인벤토리에 있는 아이템 정보창이 보이지 않도록.
-			if( pt.x>(m_nStartFAQPositionX)
-			 && pt.x<(m_nStartFAQPositionX+INF_FAQ_WINDOWS_WIDTH)
-			 && g_pGameMain->m_bFAQProsFlag)
-			{
-				if( pt.y>(m_nStartFAQPositionY)
-				 && pt.y<(m_nStartFAQPositionY+INF_FAQ_WINDOWS_HEIGTH))
-				{
-					return INF_MSGPROC_BREAK;
-				}
-			}
-#endif
 		}
 		break;	
 	case WM_LBUTTONDOWN:
@@ -1245,7 +968,6 @@ int CINFGameMainFAQ::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			/////////////////////////////////////////////////////////////////
 			// 닫기 선택			
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 			if( pt.x>(nPosX +(m_pImgBackg->GetMaxPos().x - m_pImgBackg->GetMinPos().x) - INF_FAQ_CLOSE_VIEW_WIDTH )
 // 			 && pt.x<(nPosX+(m_pImgBackg->GetMaxPos().x - m_pImgBackg->GetMinPos().x)))
 			{
@@ -1404,162 +1126,6 @@ int CINFGameMainFAQ::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 //#ifdef LANGUAGE_CHINA	
 			g_pD3dApp->m_inputkey.EnableIMEControl(g_pD3dApp->m_bChatMode);
 #endif
-#else
-			if( pt.x>(m_nStartFAQPositionX+INF_FAQ_CLOSE_VIEW_X)
-			 && pt.x<(m_nStartFAQPositionX+INF_FAQ_CLOSE_VIEW_X+INF_FAQ_CLOSE_VIEW_WIDTH))
-			{
-				if( pt.y>(m_nStartFAQPositionY+INF_FAQ_CLOSE_VIEW_Y)
-				 && pt.y<(m_nStartFAQPositionY+INF_FAQ_CLOSE_VIEW_Y+INF_FAQ_CLOSE_VIEW_HEIGTH))
-				{
-					g_pGameMain->m_bFAQProsFlag = FALSE;
-					g_pD3dApp->m_bChatMode = FALSE;
-					m_bChatMode = FALSE;
-					g_pD3dApp->CleanText();
-					memset(m_strInputMessage,0x00,INF_FAQ_QUESTION_SIZE);
-					g_pInterface->SetWindowOrder(WNDGameMainFaq);
-					// 2007.04.24 by bhsohn China IME Working
-					// 2009-01-12 by bhsohn Japan Working
-#ifdef IS_USE_ONOFF_IME
-//#ifdef LANGUAGE_CHINA	
-					g_pD3dApp->m_inputkey.EnableIMEControl(g_pD3dApp->m_bChatMode);
-#endif					
-					return INF_MSGPROC_BREAK;
-				}
-			}
-			//
-			/////////////////////////////////////////////////////////////////
-			
-			//////////////////////////////////////////////////////////
-			// 버튼 관련
-			if( pt.x>(m_nStartFAQPositionX+INF_FAQ_BUTTON_START_X)
-			 && pt.x<(m_nStartFAQPositionX+INF_FAQ_BUTTON_START_X+INF_FAQ_BUTTON_WIDTH))
-			{
-				if( pt.y>(m_nStartFAQPositionY+INF_FAQ_BUTTON_START_Y)
-				 && pt.y<(m_nStartFAQPositionY+INF_FAQ_BUTTON_START_Y+INF_FAQ_BUTTON_HEIGHT))
-				{
-					g_pInterface->SetWindowOrder(WNDGameMainFaq);
-					m_nMouseButtonState = INF_FAQ_BUTTON_PUSH;
-					return INF_MSGPROC_BREAK;
-				}
-			}
-
-			// 윈도우 이동 관련
-			if( pt.x>(m_nStartFAQPositionX)
-			 && pt.x<(m_nStartFAQPositionX+INF_FAQ_WINDOWSMOVE_WIDTH))
-			{
-				// 윈도우 이동
-				if( pt.y>(m_nStartFAQPositionY)
-				 && pt.y<(m_nStartFAQPositionY+INF_FAQ_WINDOWSMOVE_HEIGHT))
-				{
-					m_nFAQBoxStartXOld = m_nStartFAQPositionX;
-					m_nFAQBoxStartYOld = m_nStartFAQPositionY; 
-					m_pointBeforeMousePoints = pt;					
-					m_bMoveWindow = TRUE;
-					g_pInterface->SetWindowOrder(WNDGameMainFaq);
-					return INF_MSGPROC_BREAK;
-				}
-			}
-				
-			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			// 질문 선택
-			if( pt.x>(m_nStartFAQPositionX+INF_FAQ_SEARCH_QUESTION_POS_X)
-			 && pt.x<(m_nStartFAQPositionX+INF_FAQ_SEARCH_QUESTION_POS_X+INF_FAQ_SELECT_QUESTION_WIDTH))
-			{
-				for(int i=1;i<(INF_FAQ_SEARCH_QUESTION_RENDER+1);i++)
-				{
-					if( pt.y>(m_nStartFAQPositionY+INF_FAQ_SEARCH_QUESTION_START_Y)
-					 && pt.y<(m_nStartFAQPositionY+INF_FAQ_SEARCH_QUESTION_START_Y+(INF_FAQ_SEARCH_QUESTION_POS_Y*i))
-					 && g_pGameMain->m_bFAQProsFlag)
-					{						
-						g_pInterface->SetWindowOrder(WNDGameMainFaq);
-						m_nSelectindexQuestion = i+m_pScroll->GetCurrentScrollIndex()-1;
-						m_pScrollUnder->Reset();
-						
-						if(m_vecFAQAnswer.size() < m_nSelectindexQuestion+1)
-						{
-							return INF_MSGPROC_BREAK;
-						}
-							
-						SetNPCTalkInfo(m_vecFAQAnswer[m_nSelectindexQuestion].sFAQAnswer);
-						m_pScrollUnder->SetNumberOfData( m_vecAnswer.size() );
-						m_pointBeforeMousePoints = pt;						
-						
-						int line = strlen(m_vecFAQAnswer[m_nSelectindexQuestion].sFAQQuestion);
-						if( line>INF_FAQ_QUESTION_MAX_LEN )
-						{
-							// 길때
-							SetNPCTalkInfo( m_vecFAQAnswer[m_nSelectindexQuestion].sFAQQuestion, 1);
-							m_bToolTibQuestion = TRUE;
-						}
-						
-						return INF_MSGPROC_BREAK;
-					}
-				}
-			}
-
-			/////////////////////////////////////////////////////////////////
-			// 검색 선택			
-			if( pt.x>(m_nStartFAQPositionX+INF_FAQ_SEARCH_VIEW_X)
-			 && pt.x<(m_nStartFAQPositionX+INF_FAQ_SEARCH_VIEW_X+INF_FAQ_SEARCH_VIEW_WIDTH))
-			{
-				if( pt.y>(m_nStartFAQPositionY+INF_FAQ_SEARCH_VIEW_Y)
-				 && pt.y<(m_nStartFAQPositionY+INF_FAQ_SEARCH_VIEW_Y+INF_FAQ_SEARCH_VIEW_HEIGTH))
-				{
-					m_bChatMode = TRUE;
-					g_pD3dApp->m_bChatMode = m_bChatMode;
-					g_pD3dApp->CleanText();					
-					// 검색
-					if(strlen(m_strInputMessage))
-					{
-						// 입력되있는 상태에서 검색						
-						m_bToolTibQuestion = FALSE;
-						m_vecQuestion.clear();
-						m_vecAnswer.clear();
-						m_vecFAQAnswer.clear();
-						strncpy(m_strQuestionWord, m_strInputMessage, sizeof(m_strInputMessage));
-						SearchQuestionTxt(m_strQuestionWord);
-						m_pScroll->SetNumberOfData( m_vecFAQAnswer.size() );
-					}						
-					g_pD3dApp->CleanText();
-					memset(m_strInputMessage,0x00,INF_FAQ_QUESTION_SIZE);
-					m_nSelectindexQuestion = -1;
-
-					g_pInterface->SetWindowOrder(WNDGameMainFaq);
-					// 2007.04.24 by bhsohn China IME Working
-					// 2009-01-12 by bhsohn Japan Working
-#ifdef IS_USE_ONOFF_IME
-//#ifdef LANGUAGE_CHINA	
-				g_pD3dApp->m_inputkey.EnableIMEControl(g_pD3dApp->m_bChatMode);
-#endif
-
-
-					return INF_MSGPROC_BREAK;
-				}
-			}
-			
-			//////////////////////////////////////////////////////////////////////////
-			// 2005-08-02 by ispark
-			// 창안에서 클릭은 무효
-			if( pt.x>(m_nStartFAQPositionX)
-			 && pt.x<(m_nStartFAQPositionX+INF_FAQ_WINDOWS_WIDTH)
-			 && g_pGameMain->m_bFAQProsFlag)
-			{
-				if( pt.y>(m_nStartFAQPositionY)
-				 && pt.y<(m_nStartFAQPositionY+INF_FAQ_WINDOWS_HEIGTH))
-				{
-					g_pInterface->SetWindowOrder(WNDGameMainFaq);
-					return INF_MSGPROC_BREAK;
-				}
-			}
-			g_pD3dApp->CleanText();
-			g_pD3dApp->m_bChatMode = FALSE;
-			// 2007.04.24 by bhsohn China IME Working
-			// 2009-01-12 by bhsohn Japan Working
-#ifdef IS_USE_ONOFF_IME
-//#ifdef LANGUAGE_CHINA	
-			g_pD3dApp->m_inputkey.EnableIMEControl(g_pD3dApp->m_bChatMode);
-#endif
-#endif
 
 
 			//
@@ -1575,7 +1141,6 @@ int CINFGameMainFAQ::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			
 			m_bMoveWindow = FALSE;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			//////////////////////////////////////////////////////////
 			// 버튼 관련
 			if( pt.x>(nPosX+INF_FAQ_BUTTON_START_X)
@@ -1584,14 +1149,6 @@ int CINFGameMainFAQ::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				if( pt.y>(nPosY+INF_FAQ_BUTTON_START_Y)
 				 && pt.y<(nPosY+INF_FAQ_BUTTON_START_Y+INF_FAQ_BUTTON_HEIGHT))
 				{	
-#else
-			if( pt.x>(m_nStartFAQPositionX+INF_FAQ_BUTTON_START_X)
-			 && pt.x<(m_nStartFAQPositionX+INF_FAQ_BUTTON_START_X+INF_FAQ_BUTTON_WIDTH))
-			{
-				if( pt.y>(m_nStartFAQPositionY+INF_FAQ_BUTTON_START_Y)
-				 && pt.y<(m_nStartFAQPositionY+INF_FAQ_BUTTON_START_Y+INF_FAQ_BUTTON_HEIGHT))
-				{
-#endif
 					if(m_nMouseButtonState == INF_FAQ_BUTTON_PUSH)
 					{
 						m_bChatMode = FALSE;

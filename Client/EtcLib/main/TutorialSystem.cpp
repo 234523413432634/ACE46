@@ -70,7 +70,6 @@
 #define TUTORIAL_HELPER_X_GAP		100
 #define TUTORIAL_HELPER_RESETTIME	20.f
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 2007-07-03 by dgwoo
 #define	CHART_MAINCHART_LESSON_0_X		(m_fMainX + 241)
 #define	CHART_MAINCHART_LESSON_0_Y		(m_fMainY + 69)
@@ -100,37 +99,6 @@
 #define	SYSTEM_BUTTON_W					196
 #define	SYSTEM_BUTTON_H					29
 
-#else	   
-// 2007-07-03 by dgwoo
-#define	CHART_MAINCHART_LESSON_0_X		(m_fMainX + 241)
-#define	CHART_MAINCHART_LESSON_0_Y		(m_fMainY + 65)
-#define	CHART_MAINCHART_LESSON_4_Y		(m_fMainY + 231)
-#define	CHART_MAINCHART_LESSON_9_Y		(m_fMainY + 429)
-
-#define CHART_MAINCHART_SELECT_X		(m_fMainX + 19)
-
-#define	CHART_MAINCHART_LESSON_GAP_W	330
-#define	CHART_MAINCHART_LESSON_GAP_H	30
-#define	CHART_MAINCHART_LESSON_GAP		32
-
-#define	CHART_MAIN_START_BUTTON_X		(m_fMainX + 198)
-#define	CHART_MAIN_START_BUTTON_Y		(m_fMainY + 489)
-#define	CHART_MAIN_END_BUTTON_X			(m_fMainX + 274)
-#define	CHART_MAIN_END_BUTTON_Y			(m_fMainY + 489)
-
-#define CHART_MAIN_BUTTON_W				70
-#define CHART_MAIN_BUTTON_H				27
-
-#define	SYSTEM_BUTTON_X					(m_fSystemWinX + 18)
-#define	SYSTEM_PLAY_BUTTON_Y			(m_fSystemWinY + 33)
-#define	SYSTEM_AGAIN_BUTTON_Y			(m_fSystemWinY + 67)
-#define	SYSTEM_MAIN_BUTTON_Y			(m_fSystemWinY + 101)
-#define	SYSTEM_END_BUTTON_Y				(m_fSystemWinY + 135)
-
-#define	SYSTEM_BUTTON_W					196
-#define	SYSTEM_BUTTON_H					29
-
-#endif
 
 
 //--------------------------------------------------------------------------//
@@ -439,7 +407,6 @@ void CTutorialSystem::TickHelper(float fElapsedTime)
 
 void CTutorialSystem::RenderSystemWindow()
 {
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 	POINT pt = m_pImgFadeBG->GetImgSize();
 	float XScale = (float)pt.x;
@@ -448,7 +415,6 @@ void CTutorialSystem::RenderSystemWindow()
 	m_pImgFadeBG->Move(0,0);
 	m_pImgFadeBG->SetScale((INT)g_pD3dApp->GetBackBufferDesc().Width,(INT)g_pD3dApp->GetBackBufferDesc().Height);	
 	m_pImgFadeBG->Render();
-#endif
 
 
 	
@@ -525,11 +491,7 @@ void CTutorialSystem::Render()
 		// 현재 목표의 상태값을 보여준다.
 		if(GetLesson() == L9)
 		{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pRemainTime[m_Lesson9State.nDeadMonster]->Move(m_nImageGoalPos_X+190,m_nImageGoalPos_Y+18);
-#else	   
-			m_pRemainTime[m_Lesson9State.nDeadMonster]->Move(m_nImageGoalPos_X+190,m_nImageGoalPos_Y+15);
-#endif
 	
 			m_pRemainTime[m_Lesson9State.nDeadMonster]->Render();
 		}
@@ -624,7 +586,6 @@ void CTutorialSystem::RenderLesson0()
 	m_pImgChart->Move(m_fMainX,m_fMainY);
 	m_pImgChart->Render();
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	float fYPosition;
 	float fYCompeltePosition;
 	for(i = 0 ; i < TUTORIAL_LESSON_COUNT ; i++)
@@ -658,35 +619,6 @@ void CTutorialSystem::RenderLesson0()
 			m_pImgSelect->Render();
 		}
 	}
-#else  
-float fYPosition;
-	for(i = 0 ; i < TUTORIAL_LESSON_COUNT ; i++)
-	{
-		if(i == 9)
-		{
-			fYPosition = CHART_MAINCHART_LESSON_9_Y;
-		}
-		else if(i >= 4)
-		{
-			fYPosition = (CHART_MAINCHART_LESSON_4_Y + (i-4) * CHART_MAINCHART_LESSON_GAP);
-		}
-		else
-		{
-			fYPosition = (CHART_MAINCHART_LESSON_0_Y + (i * CHART_MAINCHART_LESSON_GAP));
-		}
-
-		if(m_bLessonComplete[i])
-		{
-			m_pImgComplete->Move(CHART_MAINCHART_LESSON_0_X,fYPosition);
-			m_pImgComplete->Render();
-		}
-		if((m_nSelect-1) == i)
-		{
-			m_pImgSelect->Move(CHART_MAINCHART_SELECT_X,fYPosition);
-			m_pImgSelect->Render();
-		}
-	}
-#endif
 	
 	m_pImgStartB[m_nStartB]->Move(CHART_MAIN_START_BUTTON_X,CHART_MAIN_START_BUTTON_Y);
 	m_pImgStartB[m_nStartB]->Render();
@@ -708,11 +640,7 @@ void CTutorialSystem::RenderLesson3()
 	{
 		DWORD dwColor = g_pGameMain->GetCurrentColor(m_fStateTime,ALPHA_WAVE);
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
         m_pImgETCSP->Move(42,64);
-#else	
-		m_pImgETCSP->Move(103,5);
-#endif
 		
 		m_pImgETCSP->SetColor(dwColor);
 		m_pImgETCSP->Render();
@@ -724,11 +652,7 @@ void CTutorialSystem::RenderLesson4()
 	{
 		DWORD dwColor = g_pGameMain->GetCurrentColor(m_fStateTime,ALPHA_WAVE);
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pImgETCBooster->Move(4,28);
-#else  
-		m_pImgETCBooster->Move(0,13);
-#endif
 
 
 		m_pImgETCBooster->SetColor(dwColor);
@@ -747,7 +671,6 @@ void CTutorialSystem::RenderLesson6()
 		POINT ptEqBkPos = g_pGameMain->m_pInven->GetEqInvenBkPos();
 
 		// 2008-08-22 by bhsohn EP3 인벤토리 처리
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	    m_pImgETCWeapone1->Move(ptEqBkPos.x + 11,ptEqBkPos.y + 55-128);
 		m_pImgETCWeapone1->SetColor(dwColor);
 		m_pImgETCWeapone1->Render();
@@ -756,16 +679,6 @@ void CTutorialSystem::RenderLesson6()
 		m_pImgETCWeapone2->Move(ptEqBkPos.x + 321,ptEqBkPos.y + 55-128);
 		m_pImgETCWeapone2->SetColor(dwColor);
 		m_pImgETCWeapone2->Render();
-#else				 
-		m_pImgETCWeapone1->Move(ptEqBkPos.x + 2,ptEqBkPos.y + 59-162);
-		m_pImgETCWeapone1->SetColor(dwColor);
-		m_pImgETCWeapone1->Render();
-
-		// 2008-08-22 by bhsohn EP3 인벤토리 처리
-		m_pImgETCWeapone2->Move(ptEqBkPos.x + 245,ptEqBkPos.y + 59-162);
-		m_pImgETCWeapone2->SetColor(dwColor);
-		m_pImgETCWeapone2->Render();
-#endif
 	
 	}
 	
@@ -777,7 +690,6 @@ void CTutorialSystem::RenderLesson7()
 		DWORD dwColor = g_pGameMain->GetCurrentColor(m_fStateTime,ALPHA_WAVE);
 		// 2008-07-14 by dgwoo 인터페이스 변경.
 		//m_pImgETCBull1->Move(0,g_pGameMain->m_nLeftWindowY + 48);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	    m_pImgETCBull1->Move(27,0);
 		m_pImgETCBull1->SetColor(dwColor);
 //		m_pImgETCBull1->Render();
@@ -787,18 +699,6 @@ void CTutorialSystem::RenderLesson7()
 		m_pImgETCHeat->Move(27,0);
 		m_pImgETCHeat->SetColor(dwColor);
 		m_pImgETCHeat->Render();
-#else		
-		m_pImgETCBull1->Move(55,179);
-		m_pImgETCBull1->SetColor(dwColor);
-		m_pImgETCBull1->Render();
-
-		// 2008-07-14 by dgwoo 인터페이스 변경.
-		//m_pImgETCHeat->Move(0,g_pGameMain->m_nLeftWindowY - 138);
-		m_pImgETCHeat->Move(55,188);
-		m_pImgETCHeat->SetColor(dwColor);
-		m_pImgETCHeat->Render();
-
-#endif
 	
 	}
 }
@@ -809,7 +709,6 @@ void CTutorialSystem::RenderLesson8()
 		DWORD dwColor = g_pGameMain->GetCurrentColor(m_fStateTime,ALPHA_WAVE);
 		// 2008-07-14 by dgwoo 인터페이스 변경.
 		//m_pImgETCBull2->Move(g_pD3dApp->GetBackBufferDesc().Width - 408,g_pGameMain->m_nLeftWindowY + 48);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pImgETCBull2->Move(151,0);
 		m_pImgETCBull2->SetColor(dwColor);
 //		m_pImgETCBull2->Render();
@@ -820,18 +719,6 @@ void CTutorialSystem::RenderLesson8()
 		m_pImgETCReAtt->SetColor(dwColor);
 		m_pImgETCReAtt->Render();
 
-#else	  
-		m_pImgETCBull2->Move(55,208);
-		m_pImgETCBull2->SetColor(dwColor);
-		m_pImgETCBull2->Render();
-
-		// 2008-07-14 by dgwoo 인터페이스 변경.
-		//m_pImgETCReAtt->Move(g_pD3dApp->GetBackBufferDesc().Width - 408,g_pGameMain->m_nLeftWindowY - 138);
-		m_pImgETCReAtt->Move(55,217);
-		m_pImgETCReAtt->SetColor(dwColor);
-		m_pImgETCReAtt->Render();
-
-#endif
 	}
 }
 void CTutorialSystem::RenderLesson9()
@@ -855,7 +742,6 @@ void CTutorialSystem::RenderInterface()
 	//--------------------------------------------------------------------------//
 	BOOL bMouseL = FALSE,bMouseR = FALSE,bMouse = FALSE;			// 깜빡임 처리.
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(m_bInterMouseL)
 	{
 		bMouseL = bFlash;
@@ -883,50 +769,12 @@ void CTutorialSystem::RenderInterface()
 		bMouse = bFlash;
 		if(bMouse)
 		{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			m_pImgInterMouse->Move(m_nImageInterPos_X + 210,m_nImageInterPos_Y + 46);
-#else		  
-			m_pImgInterMouse->Move(m_nImageInterPos_X + 210,m_nImageInterPos_Y + 43);
-#endif
 
 			m_pImgInterMouse->Render();
 		}
 
 	}
-#else	
-	if(m_bInterMouseL)
-	{
-		bMouseL = bFlash;
-		if(m_bLButtonState)
-			bMouseL = TRUE;
-		if(bMouseL)
-		{
-			m_pImgInterMouseL->Move(m_nImageInterPos_X+187,m_nImageInterPos_Y+36);
-			m_pImgInterMouseL->Render();
-		}
-	}
-	if(m_bInterMouseR)
-	{
-		bMouseR = bFlash;
-		if(m_bRButtonState)
-			bMouseR = TRUE;
-		if(bMouseR)
-		{
-			m_pImgInterMouseR->Move(m_nImageInterPos_X+220,m_nImageInterPos_Y+36);
-			m_pImgInterMouseR->Render();
-		}
-	}
-	if(m_bInterMouse)
-	{
-		bMouse = bFlash;
-		if(bMouse)
-		{
-			m_pImgInterMouse->Move(m_nImageInterPos_X + 181,m_nImageInterPos_Y + 32);
-			m_pImgInterMouse->Render();
-		}
-
-	}
-#endif
 	
 
 	// 키보드.
@@ -935,7 +783,6 @@ void CTutorialSystem::RenderInterface()
 	BOOL bSpace = FALSE,bShift = FALSE;
 	BOOL bWKey = FALSE,bAKey = FALSE,bSKey = FALSE,bDKey = FALSE,bBKey = FALSE,bCKey = FALSE;
 	// 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(m_bInterSpace)
 	{
 		bSpace = bFlash;
@@ -1043,115 +890,6 @@ void CTutorialSystem::RenderInterface()
 		}
 	}
 
-#else  
-	if(m_bInterSpace)
-	{
-		bSpace = bFlash;
-		// 2008-11-13 by bhsohn 조이스틱 작업
-		//if(g_pD3dApp->m_pKeyBoard->GetAsyncKeyState(DIK_SPACE))
-		if(g_pD3dApp->GetAsyncKeyState_DIK_DIJ(DIK_SPACE))
-			bSpace = TRUE;
-		if(bSpace)
-		{
-			m_pImgInterSpace->Move(m_nImageInterPos_X+114,m_nImageInterPos_Y+210);
-			m_pImgInterSpace->Render();
-		}
-	}
-	if(m_bInterShift)
-	{
-		bShift = bFlash;
-		// 2008-11-13 by bhsohn 조이스틱 작업
-		//if(g_pD3dApp->m_pKeyBoard->GetAsyncKeyState(DIK_LSHIFT))
-		if(g_pD3dApp->GetAsyncKeyState_DIK_DIJ(DIK_LSHIFT))
-			bShift = TRUE;
-		if(bShift)
-		{
-			m_pImgInterShift->Move(m_nImageInterPos_X+20,m_nImageInterPos_Y+165);
-			m_pImgInterShift->Render();
-		}
-	}
-	if(m_bInterKeyW)
-	{
-		bWKey = bFlash;
-		// 2008-11-13 by bhsohn 조이스틱 작업
-		//if(g_pD3dApp->m_pKeyBoard->GetAsyncKeyState(DIK_W))
-		if(g_pD3dApp->GetAsyncKeyState_DIK_DIJ(DIK_W))
-			bWKey = TRUE;
-		if(bWKey)
-		{
-			m_pImgInterKey->Move(m_nImageInterPos_X+106,m_nImageInterPos_Y+97);
-			m_pImgInterKey->Render();
-		}
-	}
-	if(m_bInterKeyA)
-	{
-		bAKey = bFlash;
-		// 2008-11-13 by bhsohn 조이스틱 작업
-		//if(g_pD3dApp->m_pKeyBoard->GetAsyncKeyState(DIK_A))
-		if(g_pD3dApp->GetAsyncKeyState_DIK_DIJ(DIK_A))
-			bAKey = TRUE;
-		if(bAKey)
-		{
-			m_pImgInterKey->Move(m_nImageInterPos_X+80,m_nImageInterPos_Y+131);
-			m_pImgInterKey->Render();
-		}
-	}
-
-	if(m_bInterKeyS)
-	{
-		bSKey = bFlash;
-		// 2008-11-13 by bhsohn 조이스틱 작업
-		//if(g_pD3dApp->m_pKeyBoard->GetAsyncKeyState(DIK_S))
-		if(g_pD3dApp->GetAsyncKeyState_DIK_DIJ(DIK_S))
-			bSKey = TRUE;
-		if(bSKey)
-		{
-			m_pImgInterKey->Move(m_nImageInterPos_X+114,m_nImageInterPos_Y+131);
-			m_pImgInterKey->Render();
-		}
-	}
-	if(m_bInterKeyD)
-	{
-		bDKey = bFlash;
-		// 2008-11-13 by bhsohn 조이스틱 작업
-		//if(g_pD3dApp->m_pKeyBoard->GetAsyncKeyState(DIK_D))
-		if(g_pD3dApp->GetAsyncKeyState_DIK_DIJ(DIK_D))
-			bDKey = TRUE;
-		if(bDKey)
-		{
-			m_pImgInterKey->Move(m_nImageInterPos_X+148,m_nImageInterPos_Y+131);
-			m_pImgInterKey->Render();
-		}
-	}
-
-	if(m_bInterKeyC)
-	{
-		bCKey = bFlash;
-		// 2008-11-13 by bhsohn 조이스틱 작업
-		//if(g_pD3dApp->m_pKeyBoard->GetAsyncKeyState(DIK_C))
-		if(g_pD3dApp->GetAsyncKeyState_DIK_DIJ(DIK_C))
-			bCKey = TRUE;
-		if(bCKey)
-		{
-			m_pImgInterKey->Move(m_nImageInterPos_X+114,m_nImageInterPos_Y+165);
-			m_pImgInterKey->Render();
-		}
-	}
-	if(m_bInterKeyB)
-	{
-		bBKey = bFlash;
-		// 2008-11-13 by bhsohn 조이스틱 작업
-		//if(g_pD3dApp->m_pKeyBoard->GetAsyncKeyState(DIK_B))
-		if(g_pD3dApp->GetAsyncKeyState_DIK_DIJ(DIK_B))
-			bBKey = TRUE;
-		if(bBKey)
-		{
-			m_pImgInterKey->Move(m_nImageInterPos_X+183,m_nImageInterPos_Y+165);
-			m_pImgInterKey->Render();
-		}
-	}
-
-#endif
 }
 
 void CTutorialSystem::RenderETC()
@@ -1413,7 +1151,6 @@ HRESULT CTutorialSystem::InitDeviceObjects()
 		m_pImgSysBG = new CINFImageEx;
 		m_pImgSysBG->InitDeviceObjects(pDataHeader);
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	wsprintf(strPath,"LM_inven");
 	pDataHeader = m_pGameData->Find(strPath);
 	if(pDataHeader)
@@ -1422,7 +1159,6 @@ HRESULT CTutorialSystem::InitDeviceObjects()
 		m_pImgFadeBG->InitDeviceObjects(pDataHeader);
 	}
 	
-#endif
 	
 	// 튜토리얼 준비단계에서의 이미지.
 
@@ -2083,10 +1819,8 @@ HRESULT CTutorialSystem::DeleteDeviceObjects()
 	m_pImgSysBG->DeleteDeviceObjects();
 	SAFE_DELETE(m_pImgSysBG);
  
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
     m_pImgFadeBG->DeleteDeviceObjects();
 	SAFE_DELETE(m_pImgFadeBG);	
-#endif
 	// 1 Lesson
 	for(i = 0 ; i < L1_7 ; i++)
 	{
@@ -2280,9 +2014,7 @@ HRESULT CTutorialSystem::RestoreDeviceObjects()
 	}
 	m_pImgSysBG->RestoreDeviceObjects();
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
     m_pImgFadeBG->RestoreDeviceObjects();
-#endif
 	
 
 	
@@ -2409,9 +2141,7 @@ HRESULT CTutorialSystem::InvalidateDeviceObjects()
 		m_pImgSysEndB[i]->InvalidateDeviceObjects();
 	}
 	m_pImgSysBG->InvalidateDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pImgFadeBG->InvalidateDeviceObjects();
-#endif
 
 	// 1 Lesson
 	for(i = 0 ; i < L1_7 ; i++)

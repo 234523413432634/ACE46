@@ -93,11 +93,7 @@ private:
 	// end 2009-04-23 by bhsohn 에디트창 커서 이동
 private:
 	//CINFImage*	m_pBkImage;		
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*	m_pBkImage;																	  
-#else								
-    CINFImageEx*	m_pBkImage;
-#endif
 
 	BOOL		m_bMove;
 	BOOL		m_bShow;

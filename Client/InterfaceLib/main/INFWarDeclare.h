@@ -39,12 +39,8 @@ private:
 
 	BOOL				m_bWarDeclareAct;			// 창 작동중인가?
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	CINFGroupImage*			m_pImgWarDeclareBG;			// 백그라운드
 	CINFGroupImage*			m_pImgWarDeclareControl;
-#else
-	CINFImageEx*			m_pImgWarDeclareBG;			// 백그라운드
-#endif
 	CINFImageBtn*		m_pCalendarLeftBtn;			// 달력 왼쪽 버튼
 	CINFImageBtn*		m_pCalendarRightBtn;		// 달력 오른쪽 버튼
 	

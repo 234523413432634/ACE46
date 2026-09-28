@@ -11,21 +11,12 @@
 
 #include "INFBase.h"
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define CRE_BUTTON_NUMBER					6
 #define CRE_CHARACTER_INFO_NUMBER			8
 #define CRE_CHARACTER_UNIT_NUMBER			4
 #define CRE_CHARACTER_RADIO_BUTTON_NUMBER	2
 #define CREATE_CHARACTER_RADIO_ALL_AUTTON	3
 #define CRE_TOTAL_NUMBER					10													  
-#else												
-#define CRE_BUTTON_NUMBER					4
-#define CRE_CHARACTER_INFO_NUMBER			8
-#define CRE_CHARACTER_UNIT_NUMBER			4
-#define CRE_CHARACTER_RADIO_BUTTON_NUMBER	2
-#define CREATE_CHARACTER_RADIO_ALL_AUTTON	3
-#define CRE_TOTAL_NUMBER					10
-#endif// 2011. 10. 10 by jskim UI시스템 변경
 class CINFGroupManager;
 class CINFGroupImage;
 // end 2011. 10. 10 by jskim UI시스템 변경
@@ -55,20 +46,12 @@ public:
 
 public:
 	BOOL			m_bRestored;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupManager* m_GruopCreatemanager;
 	CINFGroupImage*   m_pTitle;
 	CINFGroupImage*   m_pBack;
 	CINFGroupImage*   m_PControlCrebtn;
 	CINFImageEx*	  m_pBackTemp;
 	BOOL			  m_bEffectFrame;
-#else
-	CGameData*		m_pGameData;
-	//CINFImageEx*	m_pBack[CRE_CHARACTER_UNIT_NUMBER];
-	CINFImageEx*	m_pBack;
-	CINFImageEx*	m_pTitle;
-	CINFImageEx*	m_pImgToolTip[9];
-#endif
 	CINFImageEx*	m_pButton[CRE_BUTTON_NUMBER][4];
 //	CINFImage*		m_pImgRadio[CRE_CHARACTER_RADIO_BUTTON_NUMBER];
 	CINFImageEx*	m_pImgFocus[4];
@@ -96,7 +79,6 @@ public:
 	int				m_nFocusStat;
 	int				m_nCreateUnitStat;
 //	int				m_nRenderToolTipIndex;		// 2005-07-04 by ispark 자동 스탯 분배 삭제
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	BOOL			m_bRenderInfoBtn;
 
 	int				m_nBtnUpFadeMode;
@@ -110,7 +92,6 @@ public:
 	float					m_fTimeEffectBG;			// 배경 프레임 유지 시간
 	int						m_nEffStep;					// 이팩트 스텝
 
-#endif
 
 protected:
 	int				m_nFaceUseIndex[CRE_TOTAL_NUMBER];			// 페이스 넘버

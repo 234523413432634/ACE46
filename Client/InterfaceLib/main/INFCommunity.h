@@ -144,9 +144,7 @@ public:
 	// end 2008-04-04 by bhsohn Ep3 커뮤니티 창	
 	void SetMissionMasterOption(BOOL i_bMissionMaster);// 2008-12-09 by dgwoo 미션마스터.
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	int SetBtnClick(int nNum);																	  
-#endif
 
 protected:
 	BOOL					m_bRestored;
@@ -178,19 +176,15 @@ protected:
 	
 
 	CINFImageBtn*				m_pCloseBtn ;	// 닫기 버튼
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*				m_pCommunityBKImage;
 	CINFGroupImage*				m_pCommunityControl;
-#endif
 	int							m_nRqMemInfoWnd;
 
 	int							m_nLastRqSecretInfoOption;
 
 	BOOL						m_bMove;
 	POINT						m_ptCommOpMouse;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	
 	CINFImageBtn*				m_pCommMenuBtn[COMMUNITY_MAX];
-#endif
 
 };
 

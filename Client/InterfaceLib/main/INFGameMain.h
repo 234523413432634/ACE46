@@ -261,11 +261,7 @@ class CINFWorldMap;									// 2014-03-11 by ssjung&ymjoo 월드맵 구현
 class CINFGameMain : public CAtumNode
 {
 public:
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGameMain(CAtumNode* pParent, CGameData* pGameData);
-#else
-	CINFGameMain(CAtumNode* pParent);
-#endif
 	virtual ~CINFGameMain();
 
 	virtual HRESULT InitDeviceObjects();
@@ -756,12 +752,8 @@ public:
 	CINFMenuList			*	m_pMenuList;
 	CINFCouponWindow		*	m_pCouponWindow;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFImageBtn			*	m_pImgButton[GAMEMAIN_BUTTON_NUMBER];
 	CINFImageEx				*	m_pImgButtonBK;
-#else 
-	CINFImage				*	m_pImgButton[GAMEMAIN_BUTTON_NUMBER][BUTTON_STATE_NUMBER];
-#endif
 	CINFImageEx				*	m_pImgMission;
 	CINFImageEx				*	m_pHelp[HELP_NUM];	
 	CINFImageEx				*	m_pSelectIcon;
@@ -784,9 +776,6 @@ public:
 
 	int		m_nIconPosX;
 	int		m_nIconPosY;
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	int		m_nButtonState[GAMEMAIN_BUTTON_NUMBER];
-#endif
 	int		m_nLeftWindowState;	
 	int		m_nLeftWindowInfo;
 	int		m_nLeftWeaponInfoPosX;

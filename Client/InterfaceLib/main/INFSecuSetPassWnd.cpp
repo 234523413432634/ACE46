@@ -24,7 +24,6 @@
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define	SECU_WND_TITLEBAR_HEIGHT		20
 
 // OK 버튼 
@@ -46,29 +45,6 @@
 #define		SECURITY_WND_CONFIRM_EDIT_Y		97
 #define		SECURITY_WND_CONFIRM_EDIT_W		190
 #define		SECURITY_WND_CONFIRM_EDIT_H		23
-#else
-#define	SECU_WND_TITLEBAR_HEIGHT		20
-
-// OK 버튼 
-#define		SECURITY_WND_OK_X			140
-#define		SECURITY_WND_OK_Y			155
-
-// Cancel 버튼 
-#define		SECURITY_WND_CANCEL_X		180
-#define		SECURITY_WND_CANCEL_Y		155
-
-// Edit 컨트롤 (Pass)
-#define		SECURITY_WND_PASS_EDIT_X		19
-#define		SECURITY_WND_PASS_EDIT_Y		60
-#define		SECURITY_WND_PASS_EDIT_W		200
-#define		SECURITY_WND_PASS_EDIT_H		20
-
-// Edit 컨트롤 (확인)
-#define		SECURITY_WND_CONFIRM_EDIT_X		19
-#define		SECURITY_WND_CONFIRM_EDIT_Y		118
-#define		SECURITY_WND_CONFIRM_EDIT_W		200
-#define		SECURITY_WND_CONFIRM_EDIT_H		20
-#endif
 
 // 최대 글씨 수 
 #define		MAX_STRING_LEN					8
@@ -113,7 +89,6 @@ HRESULT CINFSecuSetPassWnd::InitDeviceObjects()
 	int nCnt = 0;
 	memset(buf, 0x00, 30);
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	{
 		DataHeader	* pDataHeader;
 		pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("setupPW");
@@ -144,41 +119,6 @@ HRESULT CINFSecuSetPassWnd::InitDeviceObjects()
 		}
 		m_pSetCancel->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);		
 	}
-#else
-	{
-		if(NULL == m_pSetPassBk)
-		{
-			m_pSetPassBk = new CINFImageEx;
-		}
-		wsprintf(buf,"se_pinbk");
-		pDataHeader = g_pGameMain->FindResource(buf);
-		m_pSetPassBk->InitDeviceObjects(pDataHeader);		
-	}
-	{	
-		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];		
-		wsprintf(szUpBtn, "shlaok00");
-		wsprintf(szDownBtn, "shlaok01");
-		wsprintf(szSelBtn, "shlaok03");
-		wsprintf(szDisBtn, "shlaok02");
-		if(NULL == m_pSetOk)
-		{
-			m_pSetOk = new CINFImageBtn;
-		}
-		m_pSetOk->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);		
-	}
-	{
-		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];		
-		wsprintf(szUpBtn, "shmcan00");
-		wsprintf(szDownBtn, "shmcan01");
-		wsprintf(szSelBtn, "shmcan03");
-		wsprintf(szDisBtn, "shmcan02");
-		if(NULL == m_pSetCancel)
-		{
-			m_pSetCancel = new CINFImageBtn;
-		}
-		m_pSetCancel->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);		
-	}
-#endif
 
 
 

@@ -7766,14 +7766,12 @@ int CAtumApplication::OnRecvFieldSocketMessage( DWORD wParam, UINT nSocketNotify
 					}
 					break;
 						
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
                 case T_FC_SHOP_BUY_ITEM_UPDATE:
 					{
 						FieldSocketShopBuyItemUpdate((MSG_FC_SHOP_BUY_ITEM_UPDATE*)(pPacket + SIZE_FIELD_TYPE_HEADER));
 					}
 					break;
 				
-#endif
 				case T_FC_CITY_POLL_LEADER_ELECTION_INFO:
 					{
 						FieldSocketCityPollLeaderElectionInfo((MSG_FC_CITY_POLL_LEADER_ELECTION_INFO*)(pPacket + SIZE_FIELD_TYPE_HEADER));
@@ -32284,7 +32282,6 @@ BOOL CAtumApplication::FieldSocketErrorByMsgType(MSG_ERROR* pMsg)
 
 				// 2007-09-14 dgwoo 전진기지 상공에서 전쟁중 마을로 진입할 경우. 발생.
 				
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
                     case ERR_CANNOT_WARP_TO_OUTPOST :	 
 // 2011. 12. 23 by jskim 전진기지 상공 진입시 메시지 에러 메시지 수정 
 // 					switch ( pMsg->ErrorCode )
@@ -32303,19 +32300,6 @@ BOOL CAtumApplication::FieldSocketErrorByMsgType(MSG_ERROR* pMsg)
 // 							}
 // 							break;
 //					}																			  
-#else		  
-					case ERR_CANNOT_WARP_TO_OUTPOST :	 
-					
-					switch ( pMsg->ErrorCode )
-					{
-						case T_FC_EVENT_REQUEST_OBJECT_EVENT :
-							{
-								wsprintf(szBuf,STRMSG_C_070816_0100);
-								m_pChat->CreateChatChild(szBuf,COLOR_ERROR);			//"\\y전진기지 소유 여단원이 아닙니다."
-							}
-							break;
-
-#endif
 						case T_FC_PARTY_REQUEST_PARTY_OBJECT_EVENT :
 							{
 								wsprintf(szBuf,STRMSG_C_070816_0117);
@@ -33238,7 +33222,7 @@ BOOL CAtumApplication::FieldSocketErrorByMsgType(MSG_ERROR* pMsg)
 					break;
 				// end 2007-09-12 by bhsohn 2차 암호 시스템 구현
 
-				// 2008-08-18 by bhsohn 1초 간격 아이템 ?絹?시스템 
+				// 2008-08-18 by bhsohn 1초 간격 아이템 이동 시스템 
 				case ERR_INTERVAL_SYSTEM_SECOND :
 				
 					break;
@@ -38851,7 +38835,6 @@ VOID CAtumApplication::FieldSocketShopBuyCashItemOK(MSG_FC_SHOP_BUY_CASH_ITEM_OK
 	}
 	// end 2010. 01. 27 by ckPark 캐쉬 아이템 한정 판매 시스템
 }
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 VOID	CAtumApplication::FieldSocketShopBuyItemUpdate(MSG_FC_SHOP_BUY_ITEM_UPDATE* pMsg)
 {
 
@@ -38865,7 +38848,6 @@ VOID	CAtumApplication::FieldSocketShopBuyItemUpdate(MSG_FC_SHOP_BUY_ITEM_UPDATE*
 
 }
 
-#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 /// \fn			VOID	FieldSocketCityPollLeaderElectionInfo(MSG_FC_CITY_POLL_LEADER_ELECTION_INFO* pMsg);
@@ -39758,11 +39740,7 @@ void CAtumApplication::ReCreateAllGameObject()
 		m_pInterface->BackupChatInfo();
 
 		m_pInterface->InvalidateCityObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 //m_pInterface->DeleteCityObjects();
-#else  
-m_pInterface->DeleteCityObjects();
-#endif
 		
 		m_pInterface->InvalidateGameObjects();
 		// 2007-11-22 by bhsohn 아레나 통합서버

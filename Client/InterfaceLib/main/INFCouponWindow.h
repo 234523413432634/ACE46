@@ -44,12 +44,8 @@ private:
 	CINFImageBtn*	m_pImgOkB;
 	CINFImageBtn*	m_pImgCancelB;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*	m_pImgBackGround;		// 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*	m_pCouponControl;												  
-#else
-	CINFImageEx*	m_pImgBackGround;
-#endif	
 
 	CD3DHanFont	*	m_pFont;								// 쿠폰 번호.
 

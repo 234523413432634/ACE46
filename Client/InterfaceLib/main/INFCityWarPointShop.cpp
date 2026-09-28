@@ -25,7 +25,6 @@
 #include "INFImageBtn.h"
 					   
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define CITY_SHOP_START_X			(CITY_BASE_NPC_BOX_START_X+427)
 #define CITY_SHOP_START_Y			(CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y)
 
@@ -184,151 +183,6 @@
 #define SHOP_TEX_X					CITY_SHOP_START_X + 282
 #define SHOP_TEX_Y					CITY_SHOP_START_Y + 405
 #endif 
-#else
-#define CITY_SHOP_START_X			(CITY_BASE_NPC_BOX_START_X+230)
-#define CITY_SHOP_START_Y			(CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y-9)
-
-//#define SHOP_TAB_START_X			(221+28)
-//#define SHOP_TAB_START_Y			33
-//#define SHOP_TAB_NUMBER				4
-//#define SHOP_ITEM_SLOT_START_X		(227+28)
-//#define SHOP_ITEM_SLOT_START_Y		51
-//#define SHOP_ITEM_SLOT_SIZE_X		157
-//#define SHOP_ITEM_SLOT_SIZE_Y		36
-//#define SHOP_ICON_START_X			(230+28)
-//#define SHOP_ICON_START_Y			53
-//#define SHOP_ICON_SIZE				30
-//#define SHOP_ITEM_SLOT_INTERVAL		36
-//#define SHOP_ITEM_NUMBER_X			(308+28)//346
-//#define SHOP_NUMBER_BUTTON_X		(336+28)//347
-//#define SHOP_NUMBER_UP_BUTTON_Y		58//69
-//#define SHOP_NUMBER_BUTTON_SIZE_X	8
-//#define SHOP_NUMBER_BUTTON_SIZE_Y	7
-//#define SHOP_NUMBER_DOWN_BUTTON_Y	71//79
-//#define SHOP_BUY_BUTTON_START_X		(344+28)
-//#define SHOP_BUY_BUTTON_START_Y		70
-//#define SHOP_BUY_BUTTON_SIZE_X		39
-//#define SHOP_BUY_BUTTON_SIZE_Y		14
-//#define SHOP_CASH_START_X			(223+28)
-#define SHOP_CASH_FONT_START_X		(223+28+98)
-//#define SHOP_OK_BUTTON_START_X		(333+28)
-//#define SHOP_OK_BUTTON_START_Y		240
-//#define SHOP_OK_BUTTON_SIZE_X		35
-//#define SHOP_OK_BUTTON_SIZE_Y		16
-//#define SHOP_CANCEL_BUTTON_START_X	(370+28)
-//#define SHOP_CANCEL_BUTTON_START_Y	240
-//
-//#define SHOP_SCROLL_START_X			(388+28)
-//#define SHOP_SCROLL_UP_START_Y		51
-//#define SHOP_SCROLL_SIZE_X			11
-//#define SHOP_SCROLL_SIZE_Y			12
-//#define SHOP_SCROLL_BAR_SIZE_Y		38//30
-//#define SHOP_SCROLL_DOWN_START_Y	217
-//
-//#define SHOP_SCROLL_BAR_START_Y		65
-//#define SHOP_SCROLL_BAR_END_Y		215
-//
-//#define SHOP_TAB_BUTTON_SIZE_X		47
-//#define SHOP_TAB_BUTTON_SIZE_Y		14
-//
-//#define SHOP_SCROLL_LENGTH			150	// 150 : scroll bar line length
-//#define SHOP_SCROLL_MOVE_LENGTH		(150-SHOP_SCROLL_BAR_SIZE_Y)
-////#define SHOP_SCROLL_NUMBER(i)		(m_mapItemInfo[i].size()<=0 ? 1:m_mapItemInfo[i].size())	// i번째 탭의 scroll number
-//#define SHOP_SCROLL_NUMBER(i)		(m_vecItemInfo[i].size()<=0 ? 0:m_vecItemInfo[i].size())	// i번째 탭의 scroll number
-//#define SHOP_SCROLL_INTERVAL(i)		(SHOP_SCROLL_LENGTH / SHOP_SCROLL_NUMBER(i))
-//
-//#define SHOP_ITEM_NAME_START_X		(260+28)
-//
-//#define SHOP_SELL_ITEM_START_X		(227+28)
-//#define SHOP_SELL_ITEM_START_Y		51
-//#define SHOP_SELL_ITEM_END_X		(383+28)
-//#define SHOP_SELL_ITEM_END_Y		228
-#define SHOP_TAB_START_X			(196+9)//(221+28)
-#define SHOP_TAB_START_Y			33
-#define SHOP_TAB_NUMBER				4
-#define SHOP_ITEM_SLOT_START_X		(SHOP_TAB_START_X + 2)//(227+28)
-#define SHOP_ITEM_SLOT_START_Y		51
-#define SHOP_ITEM_SLOT_SIZE_X		253//157
-#define SHOP_ITEM_SLOT_SIZE_Y		36
-#define SHOP_ICON_START_X			(SHOP_ITEM_SLOT_START_X + 3)//(230+28)
-#define SHOP_ICON_START_Y			53
-#define SHOP_ICON_SIZE				30
-#define SHOP_ITEM_SLOT_INTERVAL		36
-#define SHOP_ITEM_NUMBER_X			(SHOP_TAB_START_X+210)
-#define SHOP_NUMBER_BUTTON_X		(SHOP_TAB_START_X + 242)
-#define SHOP_NUMBER_UP_BUTTON_Y		58
-#define SHOP_NUMBER_BUTTON_SIZE_X	8
-#define SHOP_NUMBER_BUTTON_SIZE_Y	7
-#define SHOP_NUMBER_DOWN_BUTTON_Y	71
-#define SHOP_BUY_BUTTON_START_X		(344+28)
-#define SHOP_BUY_BUTTON_START_Y		70
-#define SHOP_BUY_BUTTON_SIZE_X		39
-#define SHOP_BUY_BUTTON_SIZE_Y		14
-#define SHOP_CASH_START_X			(SHOP_TAB_START_X + 95)
-#define SHOP_OK_BUTTON_START_X		(SHOP_TAB_START_X + 205)
-#define SHOP_OK_BUTTON_START_Y		240
-#define SHOP_OK_BUTTON_SIZE_X		35
-#define SHOP_OK_BUTTON_SIZE_Y		16
-#define SHOP_CANCEL_BUTTON_START_X	(SHOP_TAB_START_X + 242)
-#define SHOP_CANCEL_BUTTON_START_Y	240
-
-#define SHOP_SCROLL_START_X			(SHOP_TAB_START_X + 260)
-#define SHOP_SCROLL_UP_START_Y		51
-#define SHOP_SCROLL_SIZE_X			11
-#define SHOP_SCROLL_SIZE_Y			12
-#define SHOP_SCROLL_BAR_SIZE_Y		38//30
-#define SHOP_SCROLL_DOWN_START_Y	217
-
-#define SHOP_SCROLL_BAR_START_Y		65
-#define SHOP_SCROLL_BAR_END_Y		215
-
-#define SHOP_TAB_BUTTON_SIZE_X		60
-#define SHOP_TAB_BUTTON_SIZE_Y		14
-
-#define SHOP_SCROLL_LENGTH			150	// 150 : scroll bar line length
-#define SHOP_SCROLL_MOVE_LENGTH		(150-SHOP_SCROLL_BAR_SIZE_Y)
-//#define SHOP_SCROLL_NUMBER(i)		(m_mapItemInfo[i].size()<=0 ? 1:m_mapItemInfo[i].size())	// i번째 탭의 scroll number
-#define SHOP_SCROLL_NUMBER(i)		(m_vecItemInfo[i].size()<=0 ? 0:m_vecItemInfo[i].size())	// i번째 탭의 scroll number
-#define SHOP_SCROLL_INTERVAL(i)		(SHOP_SCROLL_LENGTH / SHOP_SCROLL_NUMBER(i))
-
-#define SHOP_ITEM_NAME_START_X		(SHOP_TAB_START_X + 46)
-
-#define SHOP_SELL_ITEM_START_X		(227+28)
-#define SHOP_SELL_ITEM_START_Y		51
-#define SHOP_SELL_ITEM_END_X		(383+28)
-#define SHOP_SELL_ITEM_END_Y		228
-#define SHOP_TAB_B_GEAR				0
-#define SHOP_TAB_I_GEAR				1
-#define SHOP_TAB_M_GEAR				2
-#define SHOP_TAB_A_GEAR				3
-
-#define BOX_SIZE_X					417
-#define BOX_SIZE_Y					275
-#define END_OF_INVEN_X				200
-
-#define SOURCEINDEXTOITEMNUM(i,j)	(((i/100)*100)+j)
-
-// 2006-03-07 by ispark, 언어에 따라 위치 수정
-#if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
-#define SHOP_ITEM_NUMBER_Y			68//70
-#define SHOP_CASH_START_Y			239//241
-#define SHOP_ITEM_NAME_START_Y		51//53
-#define SHOP_ITEM_PRICE_START_Y		68//70
-#define FONT_TOTAL_PRICE_X			35
-#define FONT_TOTAL_PRICE_Y			1
-#define SHOP_TEX_X					CITY_SHOP_START_X + 420
-#define SHOP_TEX_Y					CITY_SHOP_START_Y + 12
-#else
-#define SHOP_ITEM_NUMBER_Y			68//70//54
-#define SHOP_CASH_START_Y			239//241
-#define SHOP_ITEM_NAME_START_Y		51//53
-#define SHOP_ITEM_PRICE_START_Y		68//70
-#define FONT_TOTAL_PRICE_X			34
-#define FONT_TOTAL_PRICE_Y			1//3
-#define SHOP_TEX_X					CITY_SHOP_START_X + 420
-#define SHOP_TEX_Y					CITY_SHOP_START_Y + 12
-#endif
-#endif
 
 
 //////////////////////////////////////////////////////////////////////
@@ -727,25 +581,16 @@ CINFCityWarPointShop::CINFCityWarPointShop(CAtumNode* pParent, BUILDINGNPC* pBui
 	m_pParent = pParent;	// CGameMain*
 	m_pGameData = pGameData;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pOkButton= NULL;
 	m_pCancelButton = NULL;
-#endif
 	int i; for(i=0;i<4;i++)
 	{
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		m_pCancelButton[i] = NULL;
-		m_pBuyButton[i] = NULL;// [3]은 NULL
-#endif
 		m_pItemTab[i] = NULL;
 		m_pnSelectItemNumber[i] = NULL;
 		m_nCurrentScrollNumber[i] = 0;
 		m_nCurrentSelectSlot[i] = -1;
 		m_nMouseScrollPosition[i] = 0;
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pCash = NULL;
-#endif
 	m_pSlot = NULL;
 	m_pScrollUpDown = NULL;
 	m_pScrollBar = NULL;
@@ -786,17 +631,10 @@ CINFCityWarPointShop::CINFCityWarPointShop(CAtumNode* pParent, BUILDINGNPC* pBui
 
 CINFCityWarPointShop::~CINFCityWarPointShop()
 {
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	SAFE_DELETE(m_pOkButton);
 	SAFE_DELETE(m_pCancelButton);
-#endif
 		int i; for(i=0;i<4;i++)
 	{
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		SAFE_DELETE(m_pOkButton[i]);
-		SAFE_DELETE(m_pCancelButton[i]);
-		SAFE_DELETE(m_pBuyButton[i]);
-#endif
 		SAFE_DELETE(m_pItemTab[i]);
 		SAFE_DELETE_ARRAY(m_pnSelectItemNumber[i]);
 
@@ -835,9 +673,6 @@ CINFCityWarPointShop::~CINFCityWarPointShop()
 		SAFE_DELETE(m_pFontItemPrice[i]);
 		SAFE_DELETE(m_pFontItemNumber[i]);
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	SAFE_DELETE(m_pCash);
-#endif
 	SAFE_DELETE(m_pSlot);
 	SAFE_DELETE(m_pScrollUpDown);
 	SAFE_DELETE(m_pScrollBar);
@@ -855,7 +690,6 @@ HRESULT CINFCityWarPointShop::InitDeviceObjects()
 	{
 		char buf[16];
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pOkButton = new CINFImageBtn;
 		// 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
 		//m_pOkButton->InitDeviceObjects("sauok");
@@ -867,36 +701,12 @@ HRESULT CINFCityWarPointShop::InitDeviceObjects()
 		//m_pCancelButton->InitDeviceObjects("shmcan0");
 		m_pCancelButton->InitDeviceObjects("shmcan0","STRTOOLTIP41");
 		// end 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
-#else
-		m_pOkButton[i] = new CINFImageEx;
-		wsprintf(buf, "sauok%d",i);
-		pDataHeader = FindResource(buf);
-		m_pOkButton[i]->InitDeviceObjects(pDataHeader);
-
-		m_pCancelButton[i] = new CINFImageEx;
-		wsprintf(buf, "shmcan0%d",i);
-		pDataHeader = FindResource(buf);
-		m_pCancelButton[i]->InitDeviceObjects(pDataHeader);
-
-		wsprintf(buf, "sbuy%d",i);//sbuy3은 없음.
-		pDataHeader = FindResource(buf);
-		if(pDataHeader)
-		{
-			m_pBuyButton[i] = new CINFImageEx;
-			m_pBuyButton[i]->InitDeviceObjects(pDataHeader);
-		}
-#endif
 		m_pItemTab[i] = new CINFImageEx;
 		wsprintf(buf, "stab%d",i);
 		pDataHeader = FindResource(buf);
 		m_pItemTab[i]->InitDeviceObjects(pDataHeader) ;
 
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
- 	m_pCash = new CINFImageEx;
-	pDataHeader = FindResource("wcash");
- 	m_pCash->InitDeviceObjects(pDataHeader) ;
-#endif
 
 	m_pSlot = new CINFImageEx;
 	pDataHeader = FindResource("auslot");
@@ -942,26 +752,15 @@ HRESULT CINFCityWarPointShop::InitDeviceObjects()
 }
 HRESULT CINFCityWarPointShop::RestoreDeviceObjects()
 {
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pOkButton->RestoreDeviceObjects();
 	m_pOkButton->SetBtnPosition(CITY_SHOP_START_X+SHOP_OK_BUTTON_START_X, CITY_SHOP_START_Y+SHOP_OK_BUTTON_START_Y);
 	
 	m_pCancelButton->RestoreDeviceObjects();
 	m_pCancelButton->SetBtnPosition(CITY_SHOP_START_X+SHOP_CANCEL_BUTTON_START_X, CITY_SHOP_START_Y+SHOP_CANCEL_BUTTON_START_Y);
-#endif
 	int i; for(i=0;i<4;i++)
 	{
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		m_pOkButton[i]->RestoreDeviceObjects();
-		m_pCancelButton[i]->RestoreDeviceObjects();
-		if(m_pBuyButton[i])
-			m_pBuyButton[i]->RestoreDeviceObjects();
-#endif
 		m_pItemTab[i]->RestoreDeviceObjects();
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pCash->RestoreDeviceObjects();
-#endif
 	m_pSlot->RestoreDeviceObjects();
 	m_pScrollUpDown->RestoreDeviceObjects();
 	m_pScrollBar->RestoreDeviceObjects();
@@ -991,27 +790,16 @@ HRESULT CINFCityWarPointShop::RestoreDeviceObjects()
 HRESULT CINFCityWarPointShop::DeleteDeviceObjects()
 {
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 	m_pOkButton->DeleteDeviceObjects();
 	m_pCancelButton->DeleteDeviceObjects();
 	SAFE_DELETE(m_pOkButton);
 	SAFE_DELETE(m_pCancelButton);
-#endif
 // 	if(m_pBuyButton[i])
 // 			m_pBuyButton[i]->DeleteDeviceObjects();
 
 	int i; for(i=0;i<4;i++)
 	{
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		m_pOkButton[i]->DeleteDeviceObjects();
-		m_pCancelButton[i]->DeleteDeviceObjects();
-		if(m_pBuyButton[i])
-			m_pBuyButton[i]->DeleteDeviceObjects();
-		SAFE_DELETE(m_pOkButton[i]);
-		SAFE_DELETE(m_pCancelButton[i]);
-		SAFE_DELETE(m_pBuyButton[i]);
-#endif
 		m_pItemTab[i]->DeleteDeviceObjects();
 		SAFE_DELETE(m_pItemTab[i]);
 //		map<int, SHOP_ITEM*>::iterator it = m_mapItemInfo[i].begin();
@@ -1033,10 +821,6 @@ HRESULT CINFCityWarPointShop::DeleteDeviceObjects()
 		}
 		m_vecItemInfo[i].clear();
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pCash->DeleteDeviceObjects();
-    SAFE_DELETE(m_pCash);																		  
-#endif
 	m_pSlot->DeleteDeviceObjects();
 
 	SAFE_DELETE(m_pItemTab[3]);
@@ -1080,23 +864,12 @@ HRESULT CINFCityWarPointShop::DeleteDeviceObjects()
 }
 HRESULT CINFCityWarPointShop::InvalidateDeviceObjects()
 {
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pOkButton->InvalidateDeviceObjects();
 	m_pCancelButton->InvalidateDeviceObjects();
-#endif
 	int i; for(i=0;i<4;i++)
 	{
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		m_pOkButton[i]->InvalidateDeviceObjects();
-		m_pCancelButton[i]->InvalidateDeviceObjects();
-		if(m_pBuyButton[i])
-			m_pBuyButton[i]->InvalidateDeviceObjects();
-#endif
 		m_pItemTab[i]->InvalidateDeviceObjects();
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pCash->InvalidateDeviceObjects();
-#endif
 	m_pSlot->InvalidateDeviceObjects();
 	m_pScrollUpDown->InvalidateDeviceObjects();
 	m_pScrollBar->InvalidateDeviceObjects();
@@ -1126,11 +899,7 @@ HRESULT CINFCityWarPointShop::InvalidateDeviceObjects()
 }
 void CINFCityWarPointShop::Render()
 {
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	int nPosX = CITY_SHOP_START_X/*+SHOP_TAB_START_X*/;
-#else												   
-	int nPosX = CITY_SHOP_START_X+SHOP_TAB_START_X;
-#endif
 	int nPosY = CITY_SHOP_START_Y+SHOP_TAB_START_Y;
 	
 	m_pItemTab[m_nCurrentTab]->Move(nPosX, nPosY);
@@ -1155,7 +924,6 @@ void CINFCityWarPointShop::Render()
 	{
 		for(i=0;i<SHOP_ITEM_SLOT_NUMBER;i++)
 		{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			if(m_nCurrentSelectSlot[m_nCurrentTab] >= 0 && m_nCurrentSelectSlot[m_nCurrentTab] == nSelectNumber+i)
 			{
 				m_pSelectSlot->Move( nPosX, nPosY + SHOP_ITEM_SLOT_START_Y + SHOP_ITEM_SLOT_INTERVAL * i);
@@ -1166,18 +934,6 @@ void CINFCityWarPointShop::Render()
 				m_pSlot->Move( nPosX, nPosY + SHOP_ITEM_SLOT_START_Y + SHOP_ITEM_SLOT_INTERVAL * i);
 				m_pSlot->Render();
 			}
-#else 
-			if(m_nCurrentSelectSlot[m_nCurrentTab] >= 0 && m_nCurrentSelectSlot[m_nCurrentTab] == nSelectNumber+i)
-			{
-				m_pSelectSlot->Move(CITY_SHOP_START_X+SHOP_ITEM_SLOT_START_X, CITY_SHOP_START_Y+SHOP_ITEM_SLOT_START_Y+SHOP_ITEM_SLOT_INTERVAL*i);
-				m_pSelectSlot->Render();
-			}
-			else
-			{
-				m_pSlot->Move(CITY_SHOP_START_X+SHOP_ITEM_SLOT_START_X, CITY_SHOP_START_Y+SHOP_ITEM_SLOT_START_Y+SHOP_ITEM_SLOT_INTERVAL*i);
-				m_pSlot->Render();
-			}
-#endif
 			if(it != m_vecItemInfo[m_nCurrentTab].end())
 			{
 				SHOP_ITEM* pItem = *it;
@@ -1185,11 +941,7 @@ void CINFCityWarPointShop::Render()
 				// 2005-08-23 by ispark
 				ITEM* pOriItem = g_pDatabase->GetServerItemInfo(pItem->ItemNum);
 				wsprintf( buf, "%08d", pOriItem->SourceIndex);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				((CINFGameMain*)m_pParent)->m_pIcon->SetIcon( buf, nPosX + SHOP_ICON_START_X, nPosY + SHOP_ICON_START_Y + SHOP_ITEM_SLOT_INTERVAL*i, 1.0f );
-#else
-				((CINFGameMain*)m_pParent)->m_pIcon->SetIcon( buf,CITY_SHOP_START_X+SHOP_ICON_START_X,CITY_SHOP_START_Y+SHOP_ICON_START_Y+SHOP_ITEM_SLOT_INTERVAL*i+1, 1.0f );
-#endif
 				((CINFGameMain*)m_pParent)->m_pIcon->Render();
 
 				char temp1[64];
@@ -1219,7 +971,7 @@ void CINFCityWarPointShop::Render()
 														GUI_FONT_COLOR, (char*)vecMessage[j].c_str(), 0L);
 					}
 				}
-#elif defined C_EPSODE4_UI_CHANGE_JSKIM		
+#else
 				vector<string> vecMessage;
 				if(m_pFontItemName[i]->GetStringSize( pItem->ItemName ).cx <= SHOP_TEXT_SHOW_SIZE_X )
 				{
@@ -1234,75 +986,39 @@ void CINFCityWarPointShop::Render()
 						m_pFontItemName[i]->DrawText( nPosX + SHOP_ITEM_NAME_START_X, nPosY + SHOP_ITEM_NAME_START_Y - 8 + SHOP_ITEM_SLOT_INTERVAL*i + ( j * m_pFontItemName[i]->GetStringSize( pItem->ItemName ).cy), GUI_FONT_COLOR, (char*)vecMessage[j].c_str(), 0L);
 					}					
 				}
-#else
-				m_pFontItemName[i]->DrawText( CITY_SHOP_START_X+SHOP_ITEM_NAME_START_X, CITY_SHOP_START_Y+SHOP_ITEM_NAME_START_Y+SHOP_ITEM_SLOT_INTERVAL*i, GUI_FONT_COLOR, pItem->ItemName, 0L);
 #endif
 #if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
 				wsprintf(buf, "%s", temp2);
 #else
 				wsprintf(buf, "%7s", temp2);
 #endif
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				SIZE sPrice = m_pFontItemPrice[i]->GetStringSize( buf );
 				m_pFontItemPrice[i]->DrawText( nPosX + SHOP_ITEM_PRICE_START_X - sPrice.cx ,nPosY + SHOP_ITEM_NAME_START_Y + SHOP_ITEM_SLOT_INTERVAL*i, GUI_FONT_COLOR, buf, 0L);
-#else 
-				m_pFontItemPrice[i]->DrawText( CITY_SHOP_START_X+SHOP_ITEM_NAME_START_X,CITY_SHOP_START_Y+SHOP_ITEM_PRICE_START_Y+SHOP_ITEM_SLOT_INTERVAL*i, GUI_FONT_COLOR, buf, 0L);
-#endif
 				it++;
 				wsprintf(buf, "%3d", m_pnSelectItemNumber[m_nCurrentTab][i+m_nCurrentScrollNumber[m_nCurrentTab]]);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				SIZE sNum = m_pFontItemPrice[i]->GetStringSize( buf );
 				m_pFontItemNumber[i]->DrawText( nPosX + SHOP_ITEM_NUMBER_X - sNum.cx, nPosY + SHOP_ITEM_NAME_START_Y + SHOP_ITEM_SLOT_INTERVAL*i, GUI_FONT_COLOR, buf, 0L);
-#else
-				m_pFontItemNumber[i]->DrawText( CITY_SHOP_START_X+SHOP_ITEM_NUMBER_X, (CITY_SHOP_START_Y+SHOP_ITEM_NUMBER_Y+SHOP_ITEM_SLOT_INTERVAL*i)-1, GUI_FONT_COLOR, buf, 0L);
-#endif
 			}
 		}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		m_pCash->Move(CITY_SHOP_START_X+SHOP_CASH_START_X, CITY_SHOP_START_Y+SHOP_CASH_START_Y);
-		m_pCash->Render();
-#endif
 		char temp1[64];
 		char temp2[64];
 		wsprintf( temp1, "%d", GetTotalWarPointPrice() );
 		MakeCurrencySeparator( temp2, temp1, 3, ',' );
 		//SIZE size = m_pFontTotalPrice->GetStringSize(temp2);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		SIZE sTotal = m_pFontItemPrice[i]->GetStringSize( temp2 );
 		m_pFontTotalPrice->DrawText( nPosX + SHOP_CASH_START_X - sTotal.cx, nPosY + SHOP_CASH_START_Y, GUI_FONT_COLOR, temp2, 0L);
-#else
-		m_pFontTotalPrice->DrawText( CITY_SHOP_START_X+SHOP_CASH_START_X + FONT_TOTAL_PRICE_X, CITY_SHOP_START_Y+SHOP_CASH_START_Y + FONT_TOTAL_PRICE_Y, GUI_FONT_COLOR, temp2, 0L);
-#endif
 	}
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pOkButton->Render();
 	m_pCancelButton->Render();
-#else 
-	m_pOkButton[m_nOkButtonState]->Move(CITY_SHOP_START_X+SHOP_OK_BUTTON_START_X, CITY_SHOP_START_Y+SHOP_OK_BUTTON_START_Y);
-	m_pOkButton[m_nOkButtonState]->Render();
-	m_pCancelButton[m_nCancelButtonState]->Move(CITY_SHOP_START_X+SHOP_CANCEL_BUTTON_START_X, CITY_SHOP_START_Y+SHOP_CANCEL_BUTTON_START_Y);
-	m_pCancelButton[m_nCancelButtonState]->Render();
-#endif
 	//////////////////
 
 	// scroll rendering
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pScrollUpDown->Move( CITY_SHOP_START_X+SHOP_SCROLL_START_X, CITY_SHOP_START_Y+SHOP_SCROLL_UP_START_Y);
-	m_pScrollUpDown->Render();
-	m_pScrollUpDown->Move( CITY_SHOP_START_X+SHOP_SCROLL_START_X, CITY_SHOP_START_Y+SHOP_SCROLL_DOWN_START_Y);
-	m_pScrollUpDown->Render();
-#endif
 
 //	m_pScrollBar->Move( CITY_SHOP_START_X+SHOP_SCROLL_START_X,
 //		CITY_SHOP_START_Y+SHOP_SCROLL_BAR_START_Y+m_nCurrentScrollNumber[m_nCurrentTab]*SHOP_SCROLL_INTERVAL(m_nCurrentTab));
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pScrollBar->Move( CITY_SHOP_START_X + SHOP_SCROLL_START_X,
 						CITY_SHOP_START_Y+SHOP_SCROLL_BAR_START_Y+m_nMouseScrollPosition[m_nCurrentTab]);
-#else  
-	m_pScrollBar->Move( CITY_SHOP_START_X+SHOP_SCROLL_START_X,
-		CITY_SHOP_START_Y+SHOP_SCROLL_BAR_START_Y+m_nMouseScrollPosition[m_nCurrentTab]);
-#endif
 	m_pScrollBar->Render();
 }
 void CINFCityWarPointShop::Tick()
@@ -1388,51 +1104,15 @@ int CINFCityWarPointShop::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				pt.y > CITY_SHOP_START_Y &&
 				pt.y < CITY_SHOP_START_Y+BOX_SIZE_Y )
 			{
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-				if( pt.x> CITY_SHOP_START_X+SHOP_OK_BUTTON_START_X && 
-					pt.x<CITY_SHOP_START_X+SHOP_OK_BUTTON_START_X+SHOP_OK_BUTTON_SIZE_X &&
-					pt.y>CITY_SHOP_START_Y+SHOP_OK_BUTTON_START_Y && 
-					pt.y<CITY_SHOP_START_Y+SHOP_OK_BUTTON_START_Y+SHOP_OK_BUTTON_SIZE_Y)
-				{
-					if(m_nOkButtonState != BUTTON_STATE_DOWN)
-					{
-						m_nOkButtonState = BUTTON_STATE_UP;
-					}
-				}
-				else
-				{
-					m_nOkButtonState = BUTTON_STATE_NORMAL;
-				}
-				if( pt.x> CITY_SHOP_START_X+SHOP_CANCEL_BUTTON_START_X && 
-					pt.x<CITY_SHOP_START_X+SHOP_CANCEL_BUTTON_START_X+SHOP_OK_BUTTON_SIZE_X &&
-					pt.y>CITY_SHOP_START_Y+SHOP_CANCEL_BUTTON_START_Y &&
-					pt.y<CITY_SHOP_START_Y+SHOP_CANCEL_BUTTON_START_Y+SHOP_OK_BUTTON_SIZE_Y)
-				{
-					if(m_nCancelButtonState != BUTTON_STATE_DOWN)
-					{
-						m_nCancelButtonState = BUTTON_STATE_UP;
-					}
-				}
-				else
-				{
-					m_nCancelButtonState = BUTTON_STATE_NORMAL;
-				}
-#else
 				m_pOkButton->OnMouseMove(pt);
 				m_pCancelButton->OnMouseMove(pt);
-#endif
 
 				int i; for(i=0;i<SHOP_ITEM_SLOT_NUMBER;i++)
 				{
 					if( pt.x > CITY_SHOP_START_X+SHOP_ICON_START_X && 
 						pt.x < CITY_SHOP_START_X+SHOP_ICON_START_X+SHOP_ICON_SIZE &&
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 						pt.y > CITY_SHOP_START_Y+SHOP_TAB_START_Y+SHOP_ICON_START_Y+SHOP_ITEM_SLOT_INTERVAL*i &&
 						pt.y < CITY_SHOP_START_Y+SHOP_TAB_START_Y+SHOP_ICON_START_Y+SHOP_ITEM_SLOT_INTERVAL*i+SHOP_ICON_SIZE)
-#else
-						pt.y > CITY_SHOP_START_Y+SHOP_ICON_START_Y+SHOP_ITEM_SLOT_INTERVAL*i &&
-						pt.y < CITY_SHOP_START_Y+SHOP_ICON_START_Y+SHOP_ITEM_SLOT_INTERVAL*i+SHOP_ICON_SIZE)
-#endif
 					{
 						vector<SHOP_ITEM*>::iterator it = m_vecItemInfo[m_nCurrentTab].begin();
 						for( int j=0;j<i+m_nCurrentScrollNumber[m_nCurrentTab];j++)
@@ -1452,18 +1132,11 @@ int CINFCityWarPointShop::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						}
 						break;
 					}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 					else if( pt.x > CITY_SHOP_START_X+SHOP_ICON_START_X+SHOP_ICON_SIZE ||
 
 							( pt.x > CITY_SHOP_START_X+END_OF_INVEN_X && pt.x < CITY_SHOP_START_X+SHOP_ICON_START_X) ||
 							pt.y < CITY_SHOP_START_Y+SHOP_ICON_START_Y ||
 							pt.y > CITY_SHOP_START_Y+SHOP_ICON_START_Y+SHOP_ITEM_SLOT_INTERVAL*SHOP_ITEM_SLOT_NUMBER)
-#else 
-					else if( pt.x > CITY_SHOP_START_X+SHOP_ICON_START_X+SHOP_ICON_SIZE ||
-						(pt.x > CITY_SHOP_START_X+END_OF_INVEN_X && pt.x < CITY_SHOP_START_X+SHOP_ICON_START_X) ||
-						pt.y < CITY_SHOP_START_Y+SHOP_ICON_START_Y-5 ||
-						pt.y > CITY_SHOP_START_Y+SHOP_ICON_START_Y+SHOP_ITEM_SLOT_INTERVAL*SHOP_ITEM_SLOT_NUMBER)
-#endif
 
 					{
 						((CINFGameMain*)m_pParent)->SetItemInfo( 0, NULL, 0, 0);
@@ -1527,7 +1200,6 @@ int CINFCityWarPointShop::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			pt.y = HIWORD(lParam);
 			CheckMouseReverse(&pt);
 			m_bScrollLock = FALSE;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 			if( pt.x>CITY_SHOP_START_X+ SHOP_OK_BUTTON_START_X && 
 // 				pt.x<CITY_SHOP_START_X+SHOP_OK_BUTTON_START_X+SHOP_OK_BUTTON_SIZE_X &&
 // 				pt.y>CITY_SHOP_START_Y+SHOP_OK_BUTTON_START_Y && 
@@ -1671,142 +1343,6 @@ if( pt.x > CITY_SHOP_START_X+SHOP_SCROLL_START_X &&
 					}
 				}
 			}  
-#else
-			if( pt.x>CITY_SHOP_START_X+ SHOP_OK_BUTTON_START_X && 
-				pt.x<CITY_SHOP_START_X+SHOP_OK_BUTTON_START_X+SHOP_OK_BUTTON_SIZE_X &&
-				pt.y>CITY_SHOP_START_Y+SHOP_OK_BUTTON_START_Y && 
-				pt.y<CITY_SHOP_START_Y+SHOP_OK_BUTTON_START_Y+SHOP_OK_BUTTON_SIZE_Y)
-			{
-				m_nOkButtonState = BUTTON_STATE_DOWN;
-			}
-			if( pt.x>CITY_SHOP_START_X+SHOP_CANCEL_BUTTON_START_X && 
-				pt.x<CITY_SHOP_START_X+SHOP_CANCEL_BUTTON_START_X+SHOP_OK_BUTTON_SIZE_X &&
-				pt.y>CITY_SHOP_START_Y+SHOP_CANCEL_BUTTON_START_Y && 
-				pt.y<CITY_SHOP_START_Y+SHOP_CANCEL_BUTTON_START_Y+SHOP_OK_BUTTON_SIZE_Y)
-			{
-				m_nCancelButtonState = BUTTON_STATE_DOWN;
-			}
-			int i; for(i=0;i<SHOP_TAB_NUMBER;i++)
-			{
-				if( pt.x>CITY_SHOP_START_X+SHOP_TAB_START_X+SHOP_TAB_BUTTON_SIZE_X*i && 
-					pt.x<CITY_SHOP_START_X+SHOP_TAB_START_X+SHOP_TAB_BUTTON_SIZE_X*(i+1) &&
-					pt.y>CITY_SHOP_START_Y+SHOP_TAB_START_Y && 
-					pt.y<CITY_SHOP_START_Y+SHOP_TAB_START_Y+SHOP_TAB_BUTTON_SIZE_Y)
-				{
-					OnCancelButtonClicked();
-					m_nCurrentTab = i;
-				}
-			}
-			if( pt.x > CITY_SHOP_START_X+SHOP_SCROLL_START_X && 
-				pt.x < CITY_SHOP_START_X+SHOP_SCROLL_START_X+SHOP_SCROLL_SIZE_X &&
-				GetScrollLine() > 0)
-			{
-				if( pt.y > CITY_SHOP_START_Y+SHOP_SCROLL_UP_START_Y && 
-					pt.y<CITY_SHOP_START_Y+SHOP_SCROLL_UP_START_Y+SHOP_SCROLL_SIZE_Y)
-				{
-					m_nCurrentScrollNumber[m_nCurrentTab]--;
-					if(m_nCurrentScrollNumber[m_nCurrentTab]<0)
-					{
-						m_nCurrentScrollNumber[m_nCurrentTab] = 0;
-						m_nMouseScrollPosition[m_nCurrentTab] = 0;
-					}
-					else
-					{
-						m_nMouseScrollPosition[m_nCurrentTab] = GetScrollLineInterval(m_nCurrentScrollNumber[m_nCurrentTab]);
-					}
-				}
-				if( pt.y > CITY_SHOP_START_Y+SHOP_SCROLL_DOWN_START_Y && 
-					pt.y<CITY_SHOP_START_Y+SHOP_SCROLL_DOWN_START_Y+SHOP_SCROLL_SIZE_Y)
-				{
-					m_nCurrentScrollNumber[m_nCurrentTab]++;
-					if(m_nCurrentScrollNumber[m_nCurrentTab] > GetScrollLine())
-					{
-						m_nCurrentScrollNumber[m_nCurrentTab] = GetScrollLine();
-						m_nMouseScrollPosition[m_nCurrentTab] = SHOP_SCROLL_MOVE_LENGTH;
-					}
-					else
-					{
-						m_nMouseScrollPosition[m_nCurrentTab] = GetScrollLineInterval(m_nCurrentScrollNumber[m_nCurrentTab]);
-					}
-				}
-				if( pt.y > CITY_SHOP_START_Y+SHOP_SCROLL_BAR_START_Y+m_nMouseScrollPosition[m_nCurrentTab] &&
-					pt.y < CITY_SHOP_START_Y+SHOP_SCROLL_BAR_START_Y+m_nMouseScrollPosition[m_nCurrentTab]+SHOP_SCROLL_BAR_SIZE_Y)
-				{
-					m_bScrollLock = TRUE;
-					m_ptMouse = pt;
-				}
-			}
-			if( pt.x > CITY_SHOP_START_X+SHOP_NUMBER_BUTTON_X && 
-				pt.x < CITY_SHOP_START_X+SHOP_NUMBER_BUTTON_X+SHOP_NUMBER_BUTTON_SIZE_X)
-			{
-				for(i=0;i<SHOP_ITEM_SLOT_NUMBER;i++)
-				{
-					if( pt.y>CITY_SHOP_START_Y+SHOP_NUMBER_UP_BUTTON_Y+SHOP_ITEM_SLOT_INTERVAL*i &&
-						pt.y<CITY_SHOP_START_Y+SHOP_NUMBER_UP_BUTTON_Y+SHOP_ITEM_SLOT_INTERVAL*i+SHOP_NUMBER_BUTTON_SIZE_Y)
-					{
-						if(m_vecItemInfo[m_nCurrentTab].size() > i+m_nCurrentScrollNumber[m_nCurrentTab] )
-						{
-							int temp = m_pnSelectItemNumber[m_nCurrentTab][i+m_nCurrentScrollNumber[m_nCurrentTab]];
-							if(m_pBuildingInfo->BuildingKind == BUILDINGKIND_TUNING_COLOR)
-							{
-								if(m_pnSelectItemNumber[m_nCurrentTab][i+m_nCurrentScrollNumber[m_nCurrentTab]] >= 1)
-									m_pnSelectItemNumber[m_nCurrentTab][i+m_nCurrentScrollNumber[m_nCurrentTab]] = 1;
-								else
-									m_pnSelectItemNumber[m_nCurrentTab][i+m_nCurrentScrollNumber[m_nCurrentTab]] += 
-									m_vecItemInfo[m_nCurrentTab][i+m_nCurrentScrollNumber[m_nCurrentTab]]->MinTradeQuantity;
-							}
-							else
-							{
-								USHORT nCount = m_vecItemInfo[m_nCurrentTab][i+m_nCurrentScrollNumber[m_nCurrentTab]]->MinTradeQuantity;
-								m_pnSelectItemNumber[m_nCurrentTab][i+m_nCurrentScrollNumber[m_nCurrentTab]] += nCount;
-							}
-							// 2007-07-06 by dgwoo 스피에서 워포인트로..
-							//if( GetTotalWarPointPrice() > ((CINFGameMain*)m_pParent)->m_pInven->GetItemSpi())
-							if( GetTotalWarPointPrice() > g_pShuttleChild->GetMyShuttleInfo().WarPoint)
-							{//더한 후 price가 원래돈보다 많으면 취소해야 한다.
-								m_pnSelectItemNumber[m_nCurrentTab][i+m_nCurrentScrollNumber[m_nCurrentTab]] = temp;
-							}
-						}
-//						int temp = m_pnSelectItemNumber[m_nCurrentTab][i+m_nCurrentScrollNumber[m_nCurrentTab]]++;
-//						if( GetTotalPrice() > ((CINFGameMain*)m_pParent)->m_pInven->GetItemSpi())
-//						{//더한 후 price가 원래돈보다 많으면 취소해야 한다.
-//							m_pnSelectItemNumber[m_nCurrentTab][i+m_nCurrentScrollNumber[m_nCurrentTab]] = temp;
-//						}
-					}
-					if( pt.y>CITY_SHOP_START_Y+SHOP_NUMBER_DOWN_BUTTON_Y+SHOP_ITEM_SLOT_INTERVAL*i &&
-						pt.y<CITY_SHOP_START_Y+SHOP_NUMBER_DOWN_BUTTON_Y+SHOP_ITEM_SLOT_INTERVAL*i+SHOP_NUMBER_BUTTON_SIZE_Y)
-					{
-						if(m_vecItemInfo[m_nCurrentTab].size() > i+m_nCurrentScrollNumber[m_nCurrentTab] )
-						{
-							int temp = m_pnSelectItemNumber[m_nCurrentTab][i+m_nCurrentScrollNumber[m_nCurrentTab]];
-							m_pnSelectItemNumber[m_nCurrentTab][i+m_nCurrentScrollNumber[m_nCurrentTab]] -= 
-								m_vecItemInfo[m_nCurrentTab][i+m_nCurrentScrollNumber[m_nCurrentTab]]->MinTradeQuantity;
-							if(m_pnSelectItemNumber[m_nCurrentTab][i+m_nCurrentScrollNumber[m_nCurrentTab]]<0)
-								m_pnSelectItemNumber[m_nCurrentTab][i+m_nCurrentScrollNumber[m_nCurrentTab]] = 0;
-						}
-//						m_pnSelectItemNumber[m_nCurrentTab][i+m_nCurrentScrollNumber[m_nCurrentTab]] --;
-//						if(m_pnSelectItemNumber[m_nCurrentTab][i+m_nCurrentScrollNumber[m_nCurrentTab]]<0)
-//							m_pnSelectItemNumber[m_nCurrentTab][i+m_nCurrentScrollNumber[m_nCurrentTab]] = 0;
-					}
-				}
-			}
-			if( pt.x > CITY_SHOP_START_X+SHOP_ITEM_SLOT_START_X && 
-				pt.x < CITY_SHOP_START_X+SHOP_ITEM_SLOT_START_X + SHOP_ITEM_SLOT_SIZE_X)
-			{
-				for(i=0;i<SHOP_ITEM_SLOT_NUMBER;i++)
-				{
-					if( pt.y > CITY_SHOP_START_Y+SHOP_ITEM_SLOT_START_Y+SHOP_ITEM_SLOT_SIZE_Y*i &&
-						pt.y < CITY_SHOP_START_Y+SHOP_ITEM_SLOT_START_Y+SHOP_ITEM_SLOT_SIZE_Y*(i+1))
-					{
-//						OnCancelButtonClicked();
-						if(m_nCurrentSelectSlot[m_nCurrentTab] != m_nCurrentScrollNumber[m_nCurrentTab]+i)						
-							OnCancelButtonClicked();
-						m_nCurrentSelectSlot[m_nCurrentTab] = m_nCurrentScrollNumber[m_nCurrentTab]+i;
-						OnChangeWearItem();
-					}
-				}
-			}
-#endif
 		}
 		break;
 	case WM_MOUSEWHEEL:
@@ -1863,7 +1399,6 @@ if( pt.x > CITY_SHOP_START_X+SHOP_SCROLL_START_X &&
 			pt.y = HIWORD(lParam);
 			CheckMouseReverse(&pt);
 			m_bScrollLock = FALSE;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 			if( pt.x>CITY_SHOP_START_X+ SHOP_OK_BUTTON_START_X && 
 // 				pt.x<CITY_SHOP_START_X+SHOP_OK_BUTTON_START_X+SHOP_OK_BUTTON_SIZE_X &&
 // 				pt.y>CITY_SHOP_START_Y+SHOP_OK_BUTTON_START_Y &&
@@ -1907,48 +1442,6 @@ if( pt.x > CITY_SHOP_START_X+SHOP_SCROLL_START_X &&
 			}
 				//nCancelButtonState = BUTTON_STATE_UP;
 //	}	   
-#else
-			if( pt.x>CITY_SHOP_START_X+ SHOP_OK_BUTTON_START_X && 
-				pt.x<CITY_SHOP_START_X+SHOP_OK_BUTTON_START_X+SHOP_OK_BUTTON_SIZE_X &&
-				pt.y>CITY_SHOP_START_Y+SHOP_OK_BUTTON_START_Y &&
-				pt.y<CITY_SHOP_START_Y+SHOP_OK_BUTTON_START_Y+SHOP_OK_BUTTON_SIZE_Y)
-			{
-				int nBuy = 0;
-				if(m_nOkButtonState == BUTTON_STATE_DOWN)
-				{
-					int i; for(i=0; i<SHOP_ITEM_TAB_NUMBER; i++)
-					{
-						for(int j=0; j<m_vecItemInfo[i].size(); j++)
-						{
-							if(m_pnSelectItemNumber[i][j])
-							{
-								nBuy = 1;
-							}
-						}
-					}
-					if(nBuy)
-					{
-						OnOkButtonClicked();
-					}
-					else
-					{
-						OnBuyButtonClicked(m_nCurrentSelectSlot[m_nCurrentTab]);
-					}
-				}
-				m_nOkButtonState = BUTTON_STATE_UP;
-			}
-			if( pt.x>CITY_SHOP_START_X+SHOP_CANCEL_BUTTON_START_X && 
-				pt.x<CITY_SHOP_START_X+SHOP_CANCEL_BUTTON_START_X+SHOP_OK_BUTTON_SIZE_X &&
-				pt.y>CITY_SHOP_START_Y+SHOP_CANCEL_BUTTON_START_Y && 
-				pt.y<CITY_SHOP_START_Y+SHOP_CANCEL_BUTTON_START_Y+SHOP_OK_BUTTON_SIZE_Y)
-			{
-				if(m_nCancelButtonState == BUTTON_STATE_DOWN)
-				{
-					OnCancelButtonClicked();
-				}
-				m_nCancelButtonState = BUTTON_STATE_UP;
-			}
-#endif
 
 
 			if(((CINFGameMain*)m_pParent)->m_stSelectItem.pSelectItem &&
@@ -2069,7 +1562,6 @@ if( pt.x > CITY_SHOP_START_X+SHOP_SCROLL_START_X &&
 				if(nNumber != -1  && m_nCurrentSelectSlot[m_nCurrentTab]>=0)
 				{
 					int temp = m_pnSelectItemNumber[m_nCurrentTab][m_nCurrentSelectSlot[m_nCurrentTab]];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 					if(temp >= 9999 )
 					{
 						temp = 9999;
@@ -2079,10 +1571,6 @@ if( pt.x > CITY_SHOP_START_X+SHOP_SCROLL_START_X &&
 					m_pnSelectItemNumber[m_nCurrentTab][m_nCurrentSelectSlot[m_nCurrentTab]] *= 10;
 					m_pnSelectItemNumber[m_nCurrentTab][m_nCurrentSelectSlot[m_nCurrentTab]] += nNumber;
 					}
-#else
-					m_pnSelectItemNumber[m_nCurrentTab][m_nCurrentSelectSlot[m_nCurrentTab]] *= 10;
-					m_pnSelectItemNumber[m_nCurrentTab][m_nCurrentSelectSlot[m_nCurrentTab]] += nNumber;
-#endif
 					// 2007-07-06 by dgwoo 스피에서 워포인트로..
 					//if( GetTotalWarPointPrice() > ((CINFGameMain*)m_pParent)->m_pInven->GetItemSpi())
 					if( GetTotalWarPointPrice() > g_pShuttleChild->GetMyShuttleInfo().WarPoint)

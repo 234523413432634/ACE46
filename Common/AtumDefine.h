@@ -45,19 +45,11 @@
 
 
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 캐쉬상점관련 렌더링 위치
 #define CHAT_MENU_CASH_START_W		75 
 #define CHAT_MENU_CASH_START_H		57
 #define CHAT_MENU_CASH_START_X		(g_pD3dApp->GetBackBufferDesc().Width-CHAT_MENU_CASH_START_W)
 #define CHAT_MENU_CASH_START_Y		(g_pD3dApp->GetBackBufferDesc().Height-CHAT_MENU_CASH_START_H-84)
-#else
-// 캐쉬상점관련 렌더링 위치
-#define CHAT_MENU_CASH_START_W		65
-#define CHAT_MENU_CASH_START_H		19
-#define CHAT_MENU_CASH_START_X		(g_pD3dApp->GetBackBufferDesc().Width-CHAT_MENU_CASH_START_W)
-#define CHAT_MENU_CASH_START_Y		(g_pD3dApp->GetBackBufferDesc().Height-CHAT_MENU_CASH_START_H-42)
-#endif
 
 
 
@@ -427,11 +419,7 @@
 
 
 #define GUI_FONT_COLOR						RGB(222, 222, 222)		// 기본 색상(흰색)
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	#define GUI_SELECT_FONT_COLOR				RGB(161, 220, 252)			// 선택 색상(검은색)
-#else
-#define GUI_SELECT_FONT_COLOR				RGB(1, 1, 1)			// 선택 색상(검은색)
-#endif
 #define GUI_FONT_COLOR_YM					RGB(255, 168, 0)		// 기본 색상(주황색)
 #define GUI_FONT_COLOR_BM					RGB(178, 190, 255)		// 기본 색상(연한하늘색)
 #define GUI_FONT_COLOR_Y					RGB(255, 255, 0)		// 기본 색상(노란색)
@@ -601,11 +589,7 @@ typedef DWORD InfUnitState_t;
 
 
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define SHOP_ITEM_SLOT_NUMBER		8															  
-#else 
-#define SHOP_ITEM_SLOT_NUMBER		5
-#endif
 #define SHOP_ITEM_TAB_NUMBER		4
 
 

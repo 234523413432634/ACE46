@@ -21,7 +21,6 @@
 #include "INFGroupManager.h"
 #include "INFGroupImage.h"
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define	SECU_WND_TITLEBAR_HEIGHT		20
 
 // Lock 버튼 
@@ -33,19 +32,6 @@
 #define		SECURITY_WND_SETUPPASS_POS_Y		35
 
 #define		SECURITY_WND_SETUPPASS_CAP_Y		100
-#else
-#define	SECU_WND_TITLEBAR_HEIGHT		20
-
-// Lock 버튼 
-#define		SECURITY_WND_LOCK_POS_X		20
-#define		SECURITY_WND_LOCK_POS_Y		35
-
-// Lock 버튼 
-#define		SECURITY_WND_SETUPPASS_POS_X		120
-#define		SECURITY_WND_SETUPPASS_POS_Y		35
-
-#define		SECURITY_WND_SETUPPASS_CAP_Y		100
-#endif
 
 
 //////////////////////////////////////////////////////////////////////
@@ -85,24 +71,12 @@ HRESULT CINFSecuLockWnd::InitDeviceObjects()
 	int nCnt = 0;
 	memset(buf, 0x00, 30);
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	{
 		DataHeader	* pDataHeader;
 		pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("securesys");
 		m_pLockBk = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 		m_pLockBk->InitDeviceObjects( g_pD3dApp->m_pImageList );
 	}
-#else
-	{
-		if(NULL == m_pLockBk)
-		{
-			m_pLockBk = new CINFImageEx;
-		}
-		wsprintf(buf,"se_lbk");
-		pDataHeader = g_pGameMain->FindResource(buf);
-		m_pLockBk->InitDeviceObjects(pDataHeader);		
-	}
-#endif
 
 
 	{

@@ -235,13 +235,9 @@ private:
 	CINFImageEx*			m_pImgWriteB[BUTTON_STATE_NUMBER];
 	CINFImageEx*			m_pImgRevB[BUTTON_STATE_NUMBER];
 	CINFImageEx*			m_pImgTitle;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	CINFGroupImage*			m_pImgOutPostLBG;
 	CINFGroupImage*			m_pImgRightBG[2];
 	CINFGroupImage*			CityLeaderControl;
-#else
-	CINFImageEx*			m_pImgOutPostLBG;	
-#endif
 	CINFImageEx*			m_pImgBriNoticeBG;
 
 	//CINFImage*			m_pImgOutPostTimeSetBG;

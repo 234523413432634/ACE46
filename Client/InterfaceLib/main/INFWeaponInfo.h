@@ -35,25 +35,16 @@ public:
 	virtual HRESULT RestoreDeviceObjects();
 	virtual HRESULT DeleteDeviceObjects();
 	virtual HRESULT InvalidateDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	void RenderLeftWeapon(float x, float y);		// 2011. 10. 10 by jskim UI시스템 변경
 	void RenderRightWeapon(float x, float y);		// 2011. 10. 10 by jskim UI시스템 변경
 	void ChangeWeapon(int nWeapon);
 	void RenderWeaponNumber( int nWindowPosX, int nWindowPosY, int nValue);			// 2011. 10. 10 by jskim UI시스템 변경
 	void RenderWarningWeaponNumber( int nWindowPosX, int nWindowPosY, int nValue);		// 2011. 10. 10 by jskim UI시스템 변경
 	void RenderWeaponFuel( int nWindowPosX, int nWindowPosY, float fRate);		// 2011. 10. 10 by jskim UI시스템 변경
-#else
-	void RenderLeftWeapon();
-	void RenderRightWeapon();
-	void ChangeWeapon(int nWeapon);
-	void RenderWeaponNumber( int nWindowPosY, int nWindowPosX, int nValue);
-	void RenderWeaponFuel( int nWindowPosY, int nWindowPosX, float fRate);
-#endif
 	virtual void Tick();
 	virtual int WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
 public:
 	CGameData		*	m_pWeaponData ;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	// 2011. 10. 10 by jskim UI시스템 변경
 	CINFImageEx*	m_pStImage;
 	CINFImageEx*	m_pStWeaponImage;
@@ -76,24 +67,6 @@ public:
 	CINFImageEx*	m_pBulletLowImage;
 	CINFImageEx*	m_pBulletLowImage1;
 	// end 2011. 10. 10 by jskim UI시스템 변경													  
-#else 
- 	CINFImageEx*	m_pStImage;
-	CINFImageEx*	m_pStWeaponImage;
-	CINFImageEx*	m_pNdImage;
-	CINFImageEx*	m_pNdWeaponImage;
-	CINFImageEx*	m_pStOverHeatBar;
-	CINFImageEx*	m_pNdOverHeatBar;
-	CINFImageEx*	m_pEmptyWeaponImage;
-	CINFImageEx*	m_pWeaponNumberImage[10];
-	CINFImageEx*	m_pStFuelGageBar;
-	CINFImageEx*	m_pStFuelUnderGageBar;
-//	CINFImageEx*	m_pNdFuelGageBar;
-//	CINFImageEx*	m_pNdFuelUnderGageBar;
-	CINFImageEx*	m_pReloadImage;
-	CINFImageEx*	m_pOverHeatImage;
-	CINFImageEx*	m_pBulletEmptyImage;
-	CINFImageEx*	m_pBulletLowImage;
-#endif
 	int			m_nLeftWeaponInfoPosX ;
 	int			m_nRightWeaponInfoPosX ;
 	float		m_fFlashTime;

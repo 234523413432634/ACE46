@@ -46,7 +46,6 @@
 #define GUILD_INTRO_FONT_MOUSE_HEIGHT			185
 #define	MAX_GUILD_INTRO_LINE					13
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 여단 소개
 #define MEMBER_INTRO_EDIT_X						203
 #define MEMBER_INTRO_EDIT_Y						175
@@ -62,23 +61,6 @@
 #define MEMBER_LIST_EDIT_W						202
 #define MEMBER_LIST_FONT_LINE_HEIGHT			15
 #define	MAX_MEMBER_LIST_LINE					5												  
-#else 
-// 여단 소개
-#define MEMBER_INTRO_EDIT_X						197
-#define MEMBER_INTRO_EDIT_Y						164
-#define MEMBER_INTRO_EDIT_W						202
-#define MEMBER_INTRO_FONT_LINE_HEIGHT			15
-#define MEMBER_INTRO_FONT_MOUSE_HEIGHT			78
-#define	MAX_MEMBER_INTRO_LINE					5
-
-
-// 지원자 포지션 스크롤
-#define MEMBER_LIST_EDIT_X						190
-#define MEMBER_LIST_EDIT_Y						63
-#define MEMBER_LIST_EDIT_W						202
-#define MEMBER_LIST_FONT_LINE_HEIGHT			15
-#define	MAX_MEMBER_LIST_LINE					5
-#endif
 
 
 //////////////////////////////////////////////////////////////////////
@@ -154,16 +136,6 @@ HRESULT CINFCommunityGuildManager::InitDeviceObjects()
 	m_ptCommOpBk.x = ptBkPos.x + COMMUNITY_MANANERBK_X;
 	m_ptCommOpBk.y = (g_pD3dApp->GetBackBufferDesc().Height/2) - COMMUNITY_MANANERBK_HEIGHT/2;
 	
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	{
-		if(NULL == m_pFormat)
-		{
- 			m_pFormat = new CINFImageEx;	
-		}		
-		pDataHeader = FindResource("c_mabk");
- 		m_pFormat->InitDeviceObjects(pDataHeader);
- 	}
-#else
 	if(m_pFormat == NULL)
 	{
 		DataHeader* pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("B_adm");	
@@ -171,23 +143,15 @@ HRESULT CINFCommunityGuildManager::InitDeviceObjects()
 		m_pFormat->InitDeviceObjects( g_pD3dApp->m_pImageList );
 		m_pFormat->RestoreDeviceObjects();
 	}  
-#endif
 
 	
 	{
 		// 해제
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf(szUpBtn, "cans03");
 		wsprintf(szDownBtn, "cans01");
 		wsprintf(szSelBtn, "cans00");
 		wsprintf(szDisBtn, "cans02");															  
-#else
-		wsprintf(szUpBtn, "ocancel3");
-		wsprintf(szDownBtn, "ocancel1");
-		wsprintf(szSelBtn, "ocancel0");
-		wsprintf(szDisBtn, "ocancel2");
-#endif
 		if(NULL == m_pCancelBtn)
 		{
 			m_pCancelBtn = new CINFImageBtn;
@@ -219,17 +183,10 @@ HRESULT CINFCommunityGuildManager::InitDeviceObjects()
 	{
 		// 수락
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf(szUpBtn, "oks03");
 		wsprintf(szDownBtn, "oks01");
 		wsprintf(szSelBtn, "oks00");
 		wsprintf(szDisBtn, "oks02");															  
-#else 
-		wsprintf(szUpBtn, "c_acc3");
-		wsprintf(szDownBtn, "c_acc1");
-		wsprintf(szSelBtn, "c_acc0");
-		wsprintf(szDisBtn, "c_acc2");
-#endif
 		if(NULL == m_pAcceptBtn)
 		{
 			m_pAcceptBtn = new CINFImageBtn;
@@ -242,17 +199,10 @@ HRESULT CINFCommunityGuildManager::InitDeviceObjects()
 	{
 		// 거절
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf(szUpBtn, "cans03");
 		wsprintf(szDownBtn, "cans01");
 		wsprintf(szSelBtn, "cans00");
 		wsprintf(szDisBtn, "cans02");															  
-#else							  
-		wsprintf(szUpBtn, "c_ref3");
-		wsprintf(szDownBtn, "c_ref1");
-		wsprintf(szSelBtn, "c_ref0");
-		wsprintf(szDisBtn, "c_ref2");
-#endif
 		if(NULL == m_pRefuBtn)
 		{
 			m_pRefuBtn = new CINFImageBtn;
@@ -332,17 +282,10 @@ HRESULT CINFCommunityGuildManager::InitDeviceObjects()
 
 	{
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf(szUpBtn, "close");
 		wsprintf(szDownBtn, "close");
 		wsprintf(szSelBtn, "close");
 		wsprintf(szDisBtn, "close");															  
-#else	
-		wsprintf(szUpBtn, "xclose3");
-		wsprintf(szDownBtn, "xclose1");
-		wsprintf(szSelBtn, "xclose0");
-		wsprintf(szDisBtn, "xclose2");
-#endif
 		if(NULL == m_pCloseBtn)
 		{
 			m_pCloseBtn = new CINFImageBtn;
@@ -1077,7 +1020,6 @@ void CINFCommunityGuildManager::UpdateUIPos()
 	int nPosX, nPosY;
 	nPosX = nPosY = 0;
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	{
 		nPosX = ptBkPos.x + 60;
 		nPosY = ptBkPos.y + 260;		
@@ -1104,34 +1046,6 @@ void CINFCommunityGuildManager::UpdateUIPos()
 		nPosY = ptBkPos.y + 3;		
 		m_pCloseBtn->SetBtnPosition(nPosX, nPosY);
 	}											  
-#else 
-	{
-		nPosX = ptBkPos.x + 30;
-		nPosY = ptBkPos.y + 255;		
-		m_pRegesterBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	{
-		nPosX = ptBkPos.x + 97;
-		nPosY = ptBkPos.y + 255;		
-		m_pCancelBtn->SetBtnPosition(nPosX, nPosY);	
-	}	
-	{
-		nPosX = ptBkPos.x + 237;
-		nPosY = ptBkPos.y + 255;		
-		m_pAcceptBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	{
-		nPosX = ptBkPos.x + 304;
-		nPosY = ptBkPos.y + 255;		
-		m_pRefuBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	if(m_pCloseBtn)
-	{
-		nPosX = ptBkPos.x + 410;
-		nPosY = ptBkPos.y + 5;		
-		m_pCloseBtn->SetBtnPosition(nPosX, nPosY);
-	}
-#endif
 
 	{
 		nPosX = ptBkPos.x + GUILD_INTRO_EDIT_X;
@@ -1142,7 +1056,6 @@ void CINFCommunityGuildManager::UpdateUIPos()
 		RECT rcMouseWhell, rcMousePos;
 		POINT ptScrollPos = ptBkPos;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		ptScrollPos.x += 168;
 		ptScrollPos.y += 56;
 
@@ -1206,71 +1119,6 @@ void CINFCommunityGuildManager::UpdateUIPos()
 		rcMousePos.bottom		= rcMousePos.top + 81;
 		m_pScrollMemberList->SetMouseBallRect(rcMousePos);
 	}	
-#else  
-		ptScrollPos.x += 165;
-		ptScrollPos.y += 56;
-
-		m_pScrollGuildIntro->SetPosition(ptScrollPos.x ,ptScrollPos.y,11,156);
-		rcMouseWhell.left		= ptScrollPos.x - 300;
-		rcMouseWhell.top		= ptScrollPos.y - 30;
-		rcMouseWhell.right		= ptScrollPos.x + 30;
-		rcMouseWhell.bottom		= ptScrollPos.y + 170;
-		m_pScrollGuildIntro->SetMouseWhellRect(rcMouseWhell);
-		rcMousePos.left			= ptScrollPos.x - 11;
-		rcMousePos.top			= ptScrollPos.y ;
-		rcMousePos.right		= rcMousePos.left + 32;
-		rcMousePos.bottom		= rcMousePos.top + 180;
-		m_pScrollGuildIntro->SetMouseBallRect(rcMousePos);
-	}
-	{
-		nPosX = ptBkPos.x + MEMBER_INTRO_EDIT_X;
-		nPosY = ptBkPos.y + MEMBER_INTRO_EDIT_Y;		
-		m_pEditMemberIntro->SetPos(nPosX, nPosY);	
-	}
-	
-
-	{
-		RECT rcMouseWhell, rcMousePos;
-		POINT ptScrollPos = ptBkPos;
-
-		ptScrollPos.x += 406;
-		ptScrollPos.y += 173;
-
-		// 스크롤 height = 이미지 길이의 - 34
-		m_pScrollMemberIntro->SetPosition(ptScrollPos.x ,ptScrollPos.y,11,39);
-		rcMouseWhell.left		= ptScrollPos.x - 300;
-		rcMouseWhell.top		= ptScrollPos.y - 30;
-		rcMouseWhell.right		= ptScrollPos.x + 30;
-		rcMouseWhell.bottom		= ptScrollPos.y + 60;
-		m_pScrollMemberIntro->SetMouseWhellRect(rcMouseWhell);
-		rcMousePos.left			= ptScrollPos.x - 11;
-		rcMousePos.top			= ptScrollPos.y ;
-		rcMousePos.right		= rcMousePos.left + 32;
-		rcMousePos.bottom		= rcMousePos.top + 70;
-		m_pScrollMemberIntro->SetMouseBallRect(rcMousePos);
-	}
-	
-	{
-		RECT rcMouseWhell, rcMousePos;
-		POINT ptScrollPos = ptBkPos;
-		
-		ptScrollPos.x += 406;
-		ptScrollPos.y += 54;
-		
-		// 스크롤 height = 이미지 길이의 - 34
-		m_pScrollMemberList->SetPosition(ptScrollPos.x ,ptScrollPos.y,11,51);
-		rcMouseWhell.left		= ptScrollPos.x - 300;
-		rcMouseWhell.top		= ptScrollPos.y - 30;
-		rcMouseWhell.right		= ptScrollPos.x + 30;
-		rcMouseWhell.bottom		= ptScrollPos.y + 71;
-		m_pScrollMemberList->SetMouseWhellRect(rcMouseWhell);
-		rcMousePos.left			= ptScrollPos.x - 11;
-		rcMousePos.top			= ptScrollPos.y ;
-		rcMousePos.right		= rcMousePos.left + 32;
-		rcMousePos.bottom		= rcMousePos.top + 81;
-		m_pScrollMemberList->SetMouseBallRect(rcMousePos);
-	}
-#endif
 	
 }
 BOOL CINFCommunityGuildManager::OnIMEEvent(UINT uMsg, WPARAM wParam, LPARAM lParam, int nMaxLine, CINFEditBox* pEdit, CINFArenaScrollBar*	 pScroll)

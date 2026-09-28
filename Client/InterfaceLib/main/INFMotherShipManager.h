@@ -192,11 +192,7 @@ private:
 	//--------------------------------------------------------------------------//
 
 	BOOL				m_bOptionAct;						// 옵션창 활성화여부.
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	CINFGroupImage*		m_pImgOptionBG;						// 옵션 배경.
-#else
-	CINFImageEx*		m_pImgOptionBG;						// 옵션 배경.	
-#endif
 	
 	CINFImageEx*		m_pImgCheckB[RADIOBUTTON_STATE_NUMBER];  // 래디오 버튼.
 	CINFImageBtn*		m_pImgOKB;							// 승인.

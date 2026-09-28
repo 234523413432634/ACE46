@@ -178,11 +178,7 @@ HRESULT CINFInfinity::InitDeviceObjects()
 
 	if( m_pClearImage == NULL )
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		DataHeader* pHeader	= g_pGameMain->FindResource( "toimg0" );
-#else
-		DataHeader* pHeader	= g_pGameMain->FindResource( "if_clear" );
-#endif
 
 		if( pHeader )
 		{
@@ -194,11 +190,7 @@ HRESULT CINFInfinity::InitDeviceObjects()
 	if( m_pFailImage == NULL )
 	{
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		DataHeader* pHeader	= g_pGameMain->FindResource( "toimg1" );							  
-#else
-		DataHeader* pHeader	= g_pGameMain->FindResource( "if_fail" );
-#endif
 
 		if( pHeader )
 		{
@@ -230,7 +222,6 @@ HRESULT CINFInfinity::InitDeviceObjects()
 		}
 	}
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	{
 		DataHeader* pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource( "if_tender" );
 		m_pRenewInfiTenderImage = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
@@ -239,7 +230,6 @@ HRESULT CINFInfinity::InitDeviceObjects()
 		
 		
 	}
-#endif
 
 	
 
@@ -268,12 +258,7 @@ HRESULT CINFInfinity::InitDeviceObjects()
 
 	for( i=0; i<10; ++i )
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	sprintf( szBuff, "if_Ttimer%d", i );
-#else																							  
-		sprintf( szBuff, "pointa%d", i );
-	
-#endif
 		sprintf( szBuff, "if_Ttimer%d", i );
 		DataHeader* pHeader = g_pGameMain->FindResource( szBuff );
 		if( pHeader  )
@@ -408,9 +393,7 @@ HRESULT CINFInfinity::RestoreDeviceObjects()
 			m_pTimeNumImage[ i ]->RestoreDeviceObjects();
 	}
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pRenewInfiTenderImage->RestoreDeviceObjects();
-#endif
 	if( m_pColonImage )
 		m_pColonImage->RestoreDeviceObjects();
 
@@ -570,13 +553,11 @@ HRESULT CINFInfinity::DeleteDeviceObjects()
 			SAFE_DELETE( m_pTenderTime[ i ] );
 		}
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(m_pRenewInfiTenderImage)
 	{
 		m_pRenewInfiTenderImage->DeleteDeviceObjects();
 		SAFE_DELETE(m_pRenewInfiTenderImage);
 	}
-#endif
 
 	// 2010. 04. 13 by ckPark 인피니티 필드 2차(입찰 보상관련 변경)
 // 	if( m_pTenderYes )
@@ -767,10 +748,8 @@ HRESULT CINFInfinity::InvalidateDeviceObjects()
 	}
 
 	// End 2010. 05. 12 by hsLee 인피니티 필드 2차 UI 추가 수정. (인게임 거점 방어 단계 표시.)
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pRenewInfiTenderImage->InvalidateDeviceObjects();
 	
-#endif
 
 	return S_OK;
 }
@@ -1148,7 +1127,6 @@ void	CINFInfinity::RenderTimeLimit( void )
 	// 정지해 있을시 포기 버튼
 	if( g_pShuttleChild->m_bUnitStop && diffTime  && (g_pShuttleChild->m_myShuttleInfo.MapChannelIndex.MapIndex/100 != 44) )
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 		if( g_pGameMain->m_pQuickSlot->IsSlotOpen() == FALSE )
 		{
@@ -1161,9 +1139,6 @@ void	CINFInfinity::RenderTimeLimit( void )
 		m_pGiveUpBtn->SetBtnPosition( ( bkSize.cx - m_pGiveUpBtn->GetImgSize().x ) / 2, bkSize.cy - 84);
 		}
 		
-#else	
-		m_pGiveUpBtn->SetBtnPosition( ( bkSize.cx - m_pGiveUpBtn->GetImgSize().x ) / 2, bkSize.cy - 80 );
-#endif
 
 		m_pGiveUpBtn->Render();
 	}
@@ -1275,7 +1250,6 @@ void	CINFInfinity::RenderInfinityResult( void )
 // 	m_pResultImage->Render();
 //end 2010. 05. 27 by jskim 시네마 적용 카메라 구현 
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 	if( g_pGameMain->m_pQuickSlot->IsSlotOpen() == FALSE )
 	{
@@ -1287,9 +1261,6 @@ void	CINFInfinity::RenderInfinityResult( void )
 		
 	m_pReturnCityBtn->SetBtnPosition( ( bkSize.cx - m_pGiveUpBtn->GetImgSize().x ) / 2, bkSize.cy - 84);
 	}
-#else	 
-	m_pReturnCityBtn->SetBtnPosition( ( bkSize.cx - m_pGiveUpBtn->GetImgSize().x ) / 2, bkSize.cy - 80 );
-#endif
 
 	m_pReturnCityBtn->Render();
 }
@@ -1715,13 +1686,11 @@ void	CINFInfinity::RenderTenderItem()
 		}
 		
 		POINT bkPos = (*it)->m_pt;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 	m_pRenewInfiTenderImage->Move( bkPos.x, bkPos.y );
 	m_pRenewInfiTenderImage->Render();
 
 
-#endif
 
 
 
@@ -1772,12 +1741,8 @@ void	CINFInfinity::RenderTenderItem()
 		// 아이템 아이콘
 		if( (*it)->m_pTenderItemBigIcon )
 		{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 			(*it)->m_pTenderItemBigIcon->Move( bkPos.x + 103, bkPos.y + 42 );
-#else
-			(*it)->m_pTenderItemBigIcon->Move( bkPos.x + 113, bkPos.y + 45 );
-#endif
 
 			(*it)->m_pTenderItemBigIcon->Render();
 		}
@@ -1786,11 +1751,7 @@ void	CINFInfinity::RenderTenderItem()
 		if( (*it)->m_TenderItem.Count > 1 )
 		{
 			sprintf( szTemp, "%d", (*it)->m_TenderItem.Count );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 			m_pFontInfinity->DrawText( bkPos.x + 192, bkPos.y + 85, GUI_FONT_COLOR, szTemp );
-#else
-			m_pFontInfinity->DrawText( bkPos.x + 180, bkPos.y + 85, GUI_FONT_COLOR, szTemp );
-#endif
 		}
 
 		++it;
@@ -2162,11 +2123,7 @@ void	CINFInfinity::ReArrangeTenderItemPosition( void )
 
 	SIZE	bkSize	= { g_pD3dApp->GetBackBufferDesc().Width, g_pD3dApp->GetBackBufferDesc().Height };
 	POINT	imgSize = m_pTenderBG->GetImgSize();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	POINT	bkPos	= { (bkSize.cx - imgSize.x * nRow) / 2, (bkSize.cy - imgSize.y * nCol) / 2 - 14 };
-#else
-	POINT	bkPos	= { (bkSize.cx - imgSize.x * nRow) / 2, (bkSize.cy - imgSize.y * nCol) / 2 };
-#endif
 
 
 	int nX;

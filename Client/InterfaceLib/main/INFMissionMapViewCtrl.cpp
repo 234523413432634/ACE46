@@ -13,7 +13,6 @@
 
 #include "INFMissionMapViewCtrl.h"
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 맵에 대한 스케일
 #define	MAP_SCALE_X		0.25f
 #define	MAP_SCALE_Y		0.25f
@@ -42,35 +41,6 @@
 
 #define	MAP_SIZE_X							140
 #define	MAP_SIZE_Y							40
-#else	 
-// 맵에 대한 스케일
-#define	MAP_SCALE_X		0.25f
-#define	MAP_SCALE_Y		0.25f
-
-// 스트링 캡
-#define	MAP_VIEW_CAP_X		(10)
-#define	MAP_VIEW_CAP_Y		(-3)
-
-#define	MONSTER_INFO_TITLE_X	140
-#define	MONSTER_INFO_TITLE_Y	20
-
-#define	MONSTER_INFO1_X			140
-#define	MONSTER_INFO2_X			325
-
-#define	MONSTER_INFO1_Y			40
-#define	MONSTER_INFO_CAMY		20
-
-
-#define	SCROLL_BALL_POSX					495
-#define	SCROLL_BALL_POSY					0
-#define	SCROLL_BALL_WIDTH					11
-#define	SCROLL_BALL_SCROLL_CAP				30
-
-
-#define	MONINFO_TOOLTIP_WIDTH				160
-#define	MONINFO_TOOLTIP_HEIGHT				13
-
-#endif
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -85,14 +55,6 @@ CINFMissionMapViewCtrl::CINFMissionMapViewCtrl()
 	m_pFontMapName = NULL;
 
 	m_pImageItem = NULL;
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	
-	int nCnt = 0;
-	for(nCnt=0;nCnt < MAX_MONSTER_INFO;nCnt++)
-	{
-		m_ptMonPos[nCnt].x = 0;
-		m_ptMonPos[nCnt].y = 0;
-	}
-#endif
 	m_ptMonTitle.x = m_ptMonTitle.y =0;
 
 	m_fPosX = m_fPosY = 0;
@@ -167,11 +129,7 @@ HRESULT CINFMissionMapViewCtrl::InitDeviceObjects()
 			m_pINFScrollBar = new CINFArenaScrollBar;
 		}		
 		wsprintf(szScBall,"c_scrlb");
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경		
 		m_pINFScrollBar->InitDeviceObjects(MAX_MONSTER_INFO - 1, szScBall);
-#else 
-		m_pINFScrollBar->InitDeviceObjects(MAX_MONSTER_INFO/MONSTER_INFO_ITEM_LEN, szScBall);
-#endif
 	}
 
 	return S_OK;
@@ -349,7 +307,6 @@ void CINFMissionMapViewCtrl::RenderQuestMonsterPos()
 
 void CINFMissionMapViewCtrl::RenderMonsterInfo(vector<MEX_MONSTER_INFO>	*i_vecMonsterInfo)
 {		
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	char chBuf[256];
 	memset(chBuf, 0x00, 256);
 
@@ -382,49 +339,6 @@ void CINFMissionMapViewCtrl::RenderMonsterInfo(vector<MEX_MONSTER_INFO>	*i_vecMo
 		nLineCount++;
 		it++;
 	}	
-#else 
-	int nMonCnt = 0;
-	vector<MEX_MONSTER_INFO>::iterator it = i_vecMonsterInfo->begin();
-	char chBuf[256], chAttack[256];
-	memset(chBuf, 0x00, 256);
-	memset(chAttack, 0x00, 256);
-
-	int nCnt = 0;
-	for(nCnt=0; nCnt < (MONSTER_INFO_ITEM_LEN*m_pINFScrollBar->GetScrollStep());nCnt++)
-	{
-		if(it == i_vecMonsterInfo->end())
-		{
-			break;
-		}
-		it++;
-	}	
-
-	while(it != i_vecMonsterInfo->end())
-	{
-		if(nMonCnt >= MAX_MONSTER_INFO)
-		{
-			break;
-		}
-		float fPoxX = m_ptMonPos[nMonCnt].x;
-		float fPoxY = m_ptMonPos[nMonCnt].y;
-
-		m_pImageItem->Move(fPoxX, fPoxY);
-		m_pImageItem->Render();
-		
-		fPoxX	+= MAP_VIEW_CAP_X;
-		fPoxY	+= MAP_VIEW_CAP_Y;
-		MEX_MONSTER_INFO monsterInfo = (*it);
-		wsprintf(chBuf, "%s(Lv%d)", monsterInfo.MonsterName, monsterInfo.Level);
-
-		m_pFontMonInfo->DrawText(fPoxX, 
-										fPoxY, 
-										GUI_FONT_COLOR_W,
-										chBuf, 0L);				
-		
-		it++;
-		nMonCnt++;
-	}
-#endif
 }
 void CINFMissionMapViewCtrl::Tick()
 {
@@ -449,16 +363,7 @@ void CINFMissionMapViewCtrl::UpdateMapInfo(CQuest* pQuest, MapIndex_t	MapIndex)
 	if(IsLoadMapInfo(MapIndex, &nItemCnt))
 	{		
 		m_selMapIndex = MapIndex;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
  		nScrollStep = (int)(nItemCnt);
-#else	 
-		nScrollStep = (int)(nItemCnt/MONSTER_INFO_ITEM_LEN);
-		nMod = (nItemCnt%MONSTER_INFO_ITEM_LEN);
-		if(nMod > 0)
-		{
-			nScrollStep++;
-		}
-#endif
 		m_pINFScrollBar->SetMaxItem(nScrollStep);
 		return;		
 	}
@@ -467,17 +372,7 @@ void CINFMissionMapViewCtrl::UpdateMapInfo(CQuest* pQuest, MapIndex_t	MapIndex)
 	RestoreMapView(FALSE, MapIndex);	
 	m_selMapIndex = MapIndex;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	nScrollStep = (nItemCnt);  
-#else 
-	nScrollStep = (int)(nItemCnt/MONSTER_INFO_ITEM_LEN);
-	nMod = (nItemCnt%MONSTER_INFO_ITEM_LEN);
-	if(nMod > 0)
-	{
-		nScrollStep++;
-	}
-
-#endif
 
 	m_pINFScrollBar->SetMaxItem(nScrollStep);
 }
@@ -633,28 +528,6 @@ void CINFMissionMapViewCtrl::SetWindowPos(float fPosX, float fPosY, float fWidth
 	m_ptMonTitle.x = m_fPosX+MONSTER_INFO_TITLE_X;
 	m_ptMonTitle.y = m_fPosY+MONSTER_INFO_TITLE_Y;
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	POINT ptMonPos[MAX_MONSTER_INFO] = 
-	{
-		{m_fPosX+MONSTER_INFO1_X,  m_fPosY+MONSTER_INFO1_Y},
-		{m_fPosX+MONSTER_INFO2_X,  m_fPosY+MONSTER_INFO1_Y},
-
-		{m_fPosX+MONSTER_INFO1_X,  m_fPosY+MONSTER_INFO1_Y+MONSTER_INFO_CAMY},
-		{m_fPosX+MONSTER_INFO2_X,  m_fPosY+MONSTER_INFO1_Y+MONSTER_INFO_CAMY},
-
-		{m_fPosX+MONSTER_INFO1_X,  m_fPosY+MONSTER_INFO1_Y+(2*MONSTER_INFO_CAMY)},
-		{m_fPosX+MONSTER_INFO2_X,  m_fPosY+MONSTER_INFO1_Y+(2*MONSTER_INFO_CAMY)},
-
-		{m_fPosX+MONSTER_INFO1_X,  m_fPosY+MONSTER_INFO1_Y+(3*MONSTER_INFO_CAMY)},
-		{m_fPosX+MONSTER_INFO2_X,  m_fPosY+MONSTER_INFO1_Y+(3*MONSTER_INFO_CAMY)},		
-	};	
-
-	int nCnt = 0;
-	for(nCnt = 0;nCnt < MAX_MONSTER_INFO;nCnt++)
-	{
-		m_ptMonPos[nCnt] = ptMonPos[nCnt];
-	}	
-#endif
 	
 	UpdateScrollPos(m_fPosX, m_fPosY, m_fWidth, m_fHeight);
 }
@@ -668,11 +541,7 @@ BOOL CINFMissionMapViewCtrl::GetToolTipTxt(int nSelTooltip, char* chBuf)
 	}
 	vector<MEX_MONSTER_INFO>::iterator it = pMapViewInfo->vecMonsterInfo.begin();
 	int nCnt=0;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	for(nCnt=0; nCnt < ( m_pINFScrollBar->GetScrollStep());nCnt++)								  
-#else 
-	for(nCnt=0; nCnt < (MONSTER_INFO_ITEM_LEN*m_pINFScrollBar->GetScrollStep());nCnt++)
-#endif
 
 	{
 		if(it == pMapViewInfo->vecMonsterInfo.end())
@@ -742,7 +611,6 @@ void CINFMissionMapViewCtrl::UpdateScrollPos(float fPosX, float fPosY, float fWi
 	POINT ptScroll;
 	RECT rcMouseWhell, rcMousePos;
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	// 휠 위치지정 
 	rcMouseWhell.left		= fPosX + MAP_SIZE_X;
 	rcMouseWhell.top		= fPosY + MAP_SIZE_Y;
@@ -758,22 +626,6 @@ void CINFMissionMapViewCtrl::UpdateScrollPos(float fPosX, float fPosY, float fWi
 		
 	// Resotre를 해야지만 이미지 크기를 알수 있다. 
 	m_pINFScrollBar->SetPosition(rcMouseWhell.right - 2, rcMousePos.top, SCROLL_BALL_WIDTH, fHeight - 23 );
-#else 
-	// 휠 위치지정 
-	rcMouseWhell.left		= fPosX ;
-	rcMouseWhell.top		= fPosY;
-	rcMouseWhell.right		= rcMouseWhell.left + fWidth;
-	rcMouseWhell.bottom		= rcMouseWhell.top + fHeight;
-	
-	// 마우스 위치 지정
-	rcMousePos.left			= fPosX + SCROLL_BALL_POSX;
-	rcMousePos.top			= fPosY + SCROLL_BALL_POSY;
-	rcMousePos.right		= rcMousePos.left;
-	rcMousePos.bottom		= rcMousePos.top;
-		
-	// Resotre를 해야지만 이미지 크기를 알수 있다. 
-	m_pINFScrollBar->SetPosition(rcMousePos.left, rcMousePos.top, SCROLL_BALL_WIDTH, fHeight);
-#endif
 	m_pINFScrollBar->SetMouseWhellRect(rcMouseWhell);			
 
 	ptScroll = m_pINFScrollBar->GetImgBkSize();
@@ -838,7 +690,6 @@ BOOL CINFMissionMapViewCtrl::UpdateToolTipInfo(POINT pt)
 	{
 		return FALSE;
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	char chBuf[256];
 	memset(chBuf, 0x00, 256);
 	
@@ -876,24 +727,6 @@ BOOL CINFMissionMapViewCtrl::UpdateToolTipInfo(POINT pt)
 		nLineCount++;
 		it++;
 	}
-#else 
-	int nCnt = 0;
-	int nSelTooltip = -1;
-	for(nCnt=0;nCnt<MAX_MONSTER_INFO;nCnt++)
-	{
-		if((m_ptMonPos[nCnt].y <= pt.y)
-			&&(pt.y <= (m_ptMonPos[nCnt].y + MONINFO_TOOLTIP_HEIGHT)))
-		{
-			if((m_ptMonPos[nCnt].x <= pt.x)
-				&&(pt.x <= (m_ptMonPos[nCnt].x + MONINFO_TOOLTIP_WIDTH)))
-			{
-				nSelTooltip = nCnt;				
-				break;
-			}
-		}
-	}
-	char chBuf[64];
-#endif
 	if(nSelTooltip != -1)
 	{
 		if(GetToolTipTxt(nSelTooltip, chBuf))

@@ -16,7 +16,6 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define		SCORE_ARENA_BK_STARTX		(g_pD3dApp->GetBackBufferDesc().Width / 2)
 #define		SCORE_ARENA_BK_STARTY		22
 
@@ -47,38 +46,6 @@
 // 2007-05-15 by bhsohn 아레나 스코어 시간 표시 방법 변경
 #define		ARENA_GAMING_ALERT_TIME								60.0f
 
-#else	 
-#define		SCORE_ARENA_BK_STARTX		(g_pD3dApp->GetBackBufferDesc().Width-294)
-#define		SCORE_ARENA_BK_STARTY		22
-
-// 카운트 수치
-#define		SCORE_ARENA_FRIEND_CAPX			18
-#define		SCORE_ARENA_FRIEND_STARTX		SCORE_ARENA_BK_STARTX + 7
-#define		SCORE_ARENA_FRIEND_STARTY		SCORE_ARENA_BK_STARTY + 45
-#define		SCORE_ARENA_ENEMYNUM_STARTX		SCORE_ARENA_BK_STARTX + 82
-#define		SCORE_ARENA_ENEMYNUM_STARTY		SCORE_ARENA_BK_STARTY + 45
-
-// 진형 정보 
-#define		SCORE_ARENA_FRIEND_INFLUENCE_STARTX					SCORE_ARENA_BK_STARTX + 15
-#define		SCORE_ARENA_FRIEND_INFLUENCE_STARTY					SCORE_ARENA_BK_STARTY + 25
-#define		SCORE_ARENA_ENEMYNUM_INFLUENCE_STARTX				SCORE_ARENA_BK_STARTX + 82
-#define		SCORE_ARENA_ENEMYNUM_INFLUENCE_STARTY				SCORE_ARENA_BK_STARTY + 25
-
-// 시간 정보 
-#define		SCORE_ARENA_TIME_CAP								9
-// 분
-#define		SCORE_ARENA_TIME_MINUTE_STARTX						SCORE_ARENA_BK_STARTX + 54
-#define		SCORE_ARENA_TIME_MINUTE_STARTY						SCORE_ARENA_BK_STARTY + 7
-// 초
-#define		SCORE_ARENA_TIME_SECOND_STARTX						SCORE_ARENA_BK_STARTX + 76
-#define		SCORE_ARENA_TIME_SECOND_STARTY						SCORE_ARENA_BK_STARTY + 7
-
-#define		MAX_ARENA_GAMING_TIME								1800.0f
-
-// 2007-05-15 by bhsohn 아레나 스코어 시간 표시 방법 변경
-#define		ARENA_GAMING_ALERT_TIME								60.0f
-				
-#endif
 
 
 				
@@ -325,7 +292,6 @@ void CINFArenaScore::Render()
 {
 	CHARACTER myShuttleInfo = g_pShuttleChild->m_myShuttleInfo;// g_pD3dApp->GetMyShuttleInfo();
 	int nCnt = 0;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 	// 배경 
 	{
@@ -364,31 +330,6 @@ void CINFArenaScore::Render()
 			fPosX[ARENA_INFLUENCE_ANI] = SCORE_ARENA_FRIEND_INFLUENCE_STARTX;
 			fPosY[ARENA_INFLUENCE_ANI] = SCORE_ARENA_FRIEND_INFLUENCE_STARTY;			
 		}
-#else
-		// 배경 
-	{
-		m_pArenaScoreBk[m_nScoreMode]->Move(SCORE_ARENA_BK_STARTX, SCORE_ARENA_BK_STARTY);
-		m_pArenaScoreBk[m_nScoreMode]->Render();	
-	}
-	
-	// 진형 로그
-	{
-		float fPosX[MAX_ARENA_INFLUENCE], fPosY[MAX_ARENA_INFLUENCE];
-			
-		fPosX[ARENA_INFLUENCE_BCU] = SCORE_ARENA_FRIEND_INFLUENCE_STARTX;
-		fPosY[ARENA_INFLUENCE_BCU] = SCORE_ARENA_FRIEND_INFLUENCE_STARTY;
-		fPosX[ARENA_INFLUENCE_ANI] = SCORE_ARENA_ENEMYNUM_INFLUENCE_STARTX;
-		fPosY[ARENA_INFLUENCE_ANI] = SCORE_ARENA_ENEMYNUM_INFLUENCE_STARTY;		
-		
-		// 알링턴 정규군
-		if(COMPARE_INFLUENCE(myShuttleInfo.InfluenceType, INFLUENCE_TYPE_ANI))
-		{
-			fPosX[ARENA_INFLUENCE_BCU] = SCORE_ARENA_ENEMYNUM_INFLUENCE_STARTX;
-			fPosY[ARENA_INFLUENCE_BCU] = SCORE_ARENA_ENEMYNUM_INFLUENCE_STARTY;
-			fPosX[ARENA_INFLUENCE_ANI] = SCORE_ARENA_FRIEND_INFLUENCE_STARTX;
-			fPosY[ARENA_INFLUENCE_ANI] = SCORE_ARENA_FRIEND_INFLUENCE_STARTY;			
-		}
-#endif
 		
 		for(nCnt = 0; nCnt < MAX_ARENA_INFLUENCE; nCnt++)
 		{

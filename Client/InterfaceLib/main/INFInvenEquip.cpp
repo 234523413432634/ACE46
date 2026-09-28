@@ -628,22 +628,9 @@ int CINFInvenEquip::OnLButtonDown(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 	
 	pParent->SetWndOrder(INVEN_EQ_WND);
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	{
-		if(TRUE == m_pCloseBtn->OnLButtonDown(pt))
-		{
-			// 버튼위에 마우스가 있다.
-			return  INF_MSGPROC_BREAK;
-		}		
-	}
-#endif
 	
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		if(((CINFInvenExtend*)m_pParent)->GetInvenMove())										  
-#else 
-		if(IsMouseCaps(pt))
-#endif
 		{
 			m_ptCommOpMouse.x = pt.x - m_ptBkPos.x;
 			m_ptCommOpMouse.y = pt.y - m_ptBkPos.y;
@@ -695,11 +682,7 @@ int CINFInvenEquip::OnLButtonDown(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 		}
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	POINT ptSize = ((CINFInvenExtend*)m_pParent)->GetBkSize();
-#else
-	POINT ptSize = m_pBkImage->GetImgSize();
-#endif
 	if((pt.x >= ptBakPos.x && (pt.x <= ptBakPos.x+ptSize.x))
 		&& (pt.y >= ptBakPos.y && (pt.y <= ptBakPos.y+ptSize.y)))
 	{
@@ -726,9 +709,6 @@ int CINFInvenEquip::OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		return INF_MSGPROC_NORMAL;
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	
-	m_pCloseBtn->OnMouseMove(pt);
-#endif
 	
 	{
 		if(m_bMove)
@@ -736,9 +716,6 @@ int CINFInvenEquip::OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			m_ptBkPos.x = pt.x - m_ptCommOpMouse.x;
 			m_ptBkPos.y = pt.y - m_ptCommOpMouse.y;				
 			// UI유저 지정 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	
-			UpdateBtnPos();
-#endif
 			return INF_MSGPROC_BREAK;
 		}
 	}
@@ -746,11 +723,6 @@ int CINFInvenEquip::OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	POINT ptBkPos = m_ptBkPos;
 	
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	
-	g_pGameMain->SetToolTip(NULL, 0, 0);	
-	
-	pParent->SetItemInfo(NULL, 0, 0);
-#endif
 	
 	if(g_pGameMain->m_stSelectItem.pSelectItem 
 		&& g_pGameMain->m_stSelectItem.pSelectItem->pItem)
@@ -812,11 +784,7 @@ int CINFInvenEquip::OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 // 2013-08-14 by ssjung 캐나다 인벤토리안의 SPI, WP 툴팁 표시
 #ifdef C_INVEN_SPIWP_TOOLTIP	
-	#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		POINT ptSize = ((CINFInvenExtend*)m_pParent)->GetBkSize();									  
-	#else																							  
-		POINT ptSize = m_pBkImage->GetImgSize();
-	#endif
 		POINT ptBkPos;
 		ptBkPos.x = m_ptBkPos.x+25;
 		ptBkPos.y = ptSize.y + m_ptBkPos.y - 28;
@@ -845,11 +813,7 @@ BOOL CINFInvenEquip::IsMouseCaps(POINT ptPos)
 {
 	POINT ptBakPos = m_ptBkPos;	
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	POINT ptSize = ((CINFInvenExtend*)m_pParent)->GetBkSize();									  
-#else																							  
-	POINT ptSize = m_pBkImage->GetImgSize();
-#endif
 
 	if((ptPos.x >= ptBakPos.x && (ptPos.x <= ptBakPos.x+ptSize.x))
 		&& (ptPos.y >= ptBakPos.y && (ptPos.y <= ptBakPos.y+EXTEND_EQINVEN_CAPS_HEIGHT)))
@@ -862,11 +826,7 @@ BOOL CINFInvenEquip::IsMouseCaps(POINT ptPos)
 BOOL CINFInvenEquip::IsWndRect(POINT ptPos)
 {
 	POINT ptBakPos = m_ptBkPos;	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	POINT ptSize = ((CINFInvenExtend*)m_pParent)->GetBkSize();		 
-#else		 
-	POINT ptSize = m_pBkImage->GetImgSize();
-#endif
 
 	if((ptPos.x >= ptBakPos.x && (ptPos.x <= ptBakPos.x+ptSize.x))
 		&& (ptPos.y >= ptBakPos.y && (ptPos.y <= ptBakPos.y+ptSize.y)))
@@ -885,9 +845,6 @@ void CINFInvenEquip::UpdateBtnPos()
 		nPosX = ptBkPos.x + 267;
 		nPosY = ptBkPos.y + 5;		
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		m_pCloseBtn->SetBtnPosition(nPosX, nPosY);	
-#endif
 	}
 
 }
@@ -1145,15 +1102,9 @@ void CINFInvenEquip::RenderMirror(POINT *pMirrorPos/*=NULL*/)
 		float fUnitScaling = UNIT_SCALE * UNIT_SCALE_BASE_WIDTH / (float)g_pD3dApp->GetBackBufferDesc().Width;
 		float fEqPosX = ((float)(*pMirrorPos).x / (float)g_pD3dApp->GetBackBufferDesc().Width) * 2;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		float fEqCenterX	= ((float)((CINFInvenExtend*)m_pParent)->GetBkSize().x / (float)g_pD3dApp->GetBackBufferDesc().Width); 
 		float fEqPosY		= ((float)(*pMirrorPos).y / (float)g_pD3dApp->GetBackBufferDesc().Height) * 2;
 		float fEqCenterY	= ((float)((((CINFInvenExtend*)m_pParent)->GetBkSize().y - 20) / 2) / (float)g_pD3dApp->GetBackBufferDesc().Height);
-#else  
-		float fEqCenterX	= ((float)EXTEND_INVEN_BACK_W / (float)g_pD3dApp->GetBackBufferDesc().Width); 
-		float fEqPosY		= ((float)(*pMirrorPos).y / (float)g_pD3dApp->GetBackBufferDesc().Height) * 2;
-		float fEqCenterY	= ((float)EXTEND_INVEN_BACK_H / (float)g_pD3dApp->GetBackBufferDesc().Height);
-#endif
 		
 		if(g_pShuttleChild->GetMonsterTransformer())
 		{
@@ -1591,11 +1542,7 @@ int CINFInvenEquip::ProcessRotationUnit(POINT pt, UINT uMsg)
 		}
 	}
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	else if( pt.x>PosX+13 && pt.x<PosX+33 && pt.y>PosY+42 && pt.y<PosY+52)
-#else					
-	else if( pt.x>PosX+13 && pt.x<PosX+33 && pt.y>PosY+26 && pt.y<PosY+38)
-#endif
 	{	// 아래쪽 돌리기
 		switch(uMsg)
 		{
@@ -1622,11 +1569,7 @@ int CINFInvenEquip::ProcessRotationUnit(POINT pt, UINT uMsg)
 		}
 	}
  
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	else if( pt.x>PosX+13 && pt.x<PosX+33 && pt.y>PosY+13 && pt.y<PosY+40)
-#else
-	else if( pt.x>PosX+13 && pt.x<PosX+33 && pt.y>PosY+13 && pt.y<PosY+25)
-#endif
 	{	// 중앙 돌리기
 		switch(uMsg)
 		{
@@ -1732,9 +1675,6 @@ CPosData *CINFInvenEquip :: GetEquipPosInfo ( int iKind )
 void CINFInvenEquip::SetBkPos(POINT ptBkPos)
 {
 	m_ptBkPos = ptBkPos;
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	UpdateBtnPos();
-#endif
 }
 
 // 2013-08-14 by ssjung 캐나다 인벤토리안의 SPI, WP 툴팁 표시

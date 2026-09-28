@@ -26,13 +26,8 @@
 #endif
 // end 2012-06-14 by isshin 아템미리보기 - 메뉴 리스트 전체 수 (8 -> 9)
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	#define MENU_LIST_WIDTH						113		// 메뉴 리스트 폭
 	#define MENU_LIST_HEIGHT					18		// 메뉴 리스트 높이
-#else
-#define MENU_LIST_WIDTH						77		// 메뉴 리스트 폭
-#define MENU_LIST_HEIGHT					18		// 메뉴 리스트 높이
-#endif
 
 #define MENU_LIST_MAX_NAME					32
 

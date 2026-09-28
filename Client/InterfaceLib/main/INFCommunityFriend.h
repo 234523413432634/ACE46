@@ -79,11 +79,7 @@ private:
 	void TestDBFriendList();
 
 protected:
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*			m_pBack;															  
-#else 
-	CINFImageEx*            m_pBack;
-#endif
 	CINFImageEx*			m_pImgSelect;
 	//CINFImage*				m_pImgButton[4];
 

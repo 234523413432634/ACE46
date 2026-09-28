@@ -27,7 +27,6 @@
 #include "INFGroupManager.h"
 #include "INFToolTip.h"								// 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 커뮤니티 창 옵션
 #define	COMMUNITY_OPENBK_X				230
 #define	COMMUNITY_OPENBK_Y				0
@@ -76,35 +75,6 @@
 
 #define	RADIO_POS_CAP_X			66
 #define	RADIO_POS_CAP_Y			25
-#else
-// 커뮤니티 창 옵션
-#define	COMMUNITY_OPENBK_X				230
-#define	COMMUNITY_OPENBK_Y				0
-#define	COMMUNITY_OPENBK_WIDTH			471
-#define	COMMUNITY_OPENBK_HEIGHT			238
-#define	COMMUNITY_OPENBK_CAPS_HEIGHT	20
-#define	COMMUNITY_OPENBK_INFO_X			695
-
-// 확인 
-#define	COMMUNITY_OPENE_OK_X				169
-#define	COMMUNITY_OPENE_OK_Y				211
-// 닫기
-#define	COMMUNITY_OPENE_CLOSE_X			236
-#define	COMMUNITY_OPENE_CLOSE_Y			211
-
-#define	COMMUNITY_OPENE_XCLOSE_X			458
-#define	COMMUNITY_OPENE_XCLOSE_Y			5
-
-// 여단 정보 공개
-#define	RADIO_GUILD_POS_X				92
-#define	RADIO_GUILD_POS_Y				68
-// 일반 정보 공개
-#define	RADIO_NORMAL_POS_X				309
-#define	RADIO_NORMAL_POS_Y				68
-
-#define	RADIO_POS_CAP_X			66
-#define	RADIO_POS_CAP_Y			25
-#endif
 
 
 //////////////////////////////////////////////////////////////////////
@@ -172,7 +142,6 @@ HRESULT CINFCommunityUserOpenSetup::InitDeviceObjects()
 	m_ptCommOpBk.x = ptBkPos.x + COMMUNITY_OPENBK_X;
 	m_ptCommOpBk.y = (g_pD3dApp->GetBackBufferDesc().Height/2) - COMMUNITY_OPENBK_HEIGHT/2;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("open");	
 	m_pBkImage = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 	m_pBkImage->InitDeviceObjects( g_pD3dApp->m_pImageList );
@@ -217,56 +186,6 @@ HRESULT CINFCommunityUserOpenSetup::InitDeviceObjects()
 		}
 		m_pXCloseBtn->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);		
 	}
-#else
-	{
-		if(NULL == m_pBkImage)
-		{
-			m_pBkImage = new CINFImageEx;
-		}		
-		pDataHeader = FindResource("openbk");
-		m_pBkImage->InitDeviceObjects(pDataHeader);
-	}		
-	{
-		// 확인
-		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-		wsprintf(szUpBtn, "lr_ok3");
-		wsprintf(szDownBtn, "lr_ok1");
-		wsprintf(szSelBtn, "lr_ok0");
-		wsprintf(szDisBtn, "lr_ok2");
-		if(NULL == m_pOkBtn)
-		{
-			m_pOkBtn = new CINFImageBtn;
-		}
-		m_pOkBtn->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);		
-	}
-
-	{
-		// 닫기
-		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-		wsprintf(szUpBtn, "lr_can3");
-		wsprintf(szDownBtn, "lr_can1");
-		wsprintf(szSelBtn, "lr_can0");
-		wsprintf(szDisBtn, "lr_can2");
-		if(NULL == m_pCloseBtn)
-		{
-			m_pCloseBtn = new CINFImageBtn;
-		}
-		m_pCloseBtn->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);		
-	}
-	{
-		// 닫기
-		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-		wsprintf(szUpBtn, "xclose3");
-		wsprintf(szDownBtn, "xclose1");
-		wsprintf(szSelBtn, "xclose0");
-		wsprintf(szDisBtn, "xclose2");
-		if(NULL == m_pXCloseBtn)
-		{
-			m_pXCloseBtn = new CINFImageBtn;
-		}
-		m_pXCloseBtn->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);		
-	}
-#endif
 		
 
 	
@@ -446,10 +365,6 @@ void CINFCommunityUserOpenSetup::Render()
 	}
 	
 	m_pCloseBtn->Render();		
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-#else
-	m_pXCloseBtn->Render();		
-#endif
 	m_pOkBtn->Render();		
 
 	int nCnt =0;	
@@ -590,18 +505,6 @@ int CINFCommunityUserOpenSetup::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					return  INF_MSGPROC_BREAK;				
 				}
 			}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-#else			
-			{
-				if(TRUE == m_pXCloseBtn->OnLButtonUp(pt))
-				{			
-					// 버튼위에 마우스가 있다.
-					ShowWindow(FALSE, FALSE);					
-					g_pD3dApp->m_pSound->PlayD3DSound(SOUND_SELECT_BUTTON, D3DXVECTOR3(0,0,0), FALSE);											
-					return  INF_MSGPROC_BREAK;				
-				}
-			}
-#endif
 			{
 				if(TRUE == m_pOkBtn->OnLButtonUp(pt))
 				{						
@@ -635,17 +538,6 @@ void CINFCommunityUserOpenSetup::ShowWindow(BOOL bShow, BOOL bCharacter)
 //		POINT ptBkPos = ((CINFCommunity*)m_pParent)->GetCommunityBkPos();
 
 		// 커뮤니티 옵션배	
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		if(bCharacter)
-		{
-			m_ptCommOpBk.x = (g_pD3dApp->GetBackBufferDesc().Width / 2) - ( m_pBkImage->GetImgSize().x / 2 );
-		}
-		else
-		{
-			POINT ptBkPos = ((CINFCommunity*)m_pParent)->GetCommunityBkPos();
-			m_ptCommOpBk.x = ptBkPos.x + COMMUNITY_OPENBK_X;
-		}
-#endif
 		
 		m_ptCommOpBk.y = (g_pD3dApp->GetBackBufferDesc().Height/2) - COMMUNITY_OPENBK_HEIGHT/2;
 

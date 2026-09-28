@@ -86,17 +86,12 @@ protected:
 	CINFImageEx*		m_pInfluenceImage[3];
 	CINFImageEx*		m_pGuildImage[3];// 2012-04-09 by isshin 레이더 및 미니맵 파티,여단원 표시 - 레이다 여단원
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*		m_pMiniMapBK;
 	CINFGroupImage*		m_pBigMapBK;
 	//CINFImage*		m_pButtonZoom[3][BUTTON_STATE_NUMBER];
 	// 2008-11-3 by bhsohn 서버 시간 보기 버튼 추가
 	//CINFImage*		m_pButtonShowHide[2][BUTTON_STATE_NUMBER];
 	//CINFImageBtn*		m_pServerTimeBtn;														  
-#else	  														  
-      CINFImage*		m_pButtonZoom[3][BUTTON_STATE_NUMBER];
-	CINFImageBtn*		m_pServerTimeBtn;
-#endif
 
 	CINFImageEx*		m_pDeadImage;
 	CINFImageEx*		m_pLockonImage;

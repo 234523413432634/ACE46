@@ -21,7 +21,6 @@
 #include "CharacterChild.h"				// 2005-07-21 by ispark
 #include "dxutil.h"
 #include "INFToolTip.h"
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	// 기본 포지션 DEFINE
 	#define MP3PLAYER_BASE_POS_X		63
 	#define MP3PLAYER_BASE_POS_Y		198
@@ -95,60 +94,6 @@
 	#define MP3PLAYER_BASE_POS_MINUS		132
 	#endif
 
-#else
-// 기본 포지션 DEFINE
-#define MP3PLAYER_BASE_POS_X		(g_pD3dApp->GetBackBufferDesc().Width-251)
-#define MP3PLAYER_BASE_POS_Y		(g_pD3dApp->GetBackBufferDesc().Height-37)
-
-// 기본 버튼 상태
-#define MP3PLAYER_BUTTON_STATE_NOR		0
-#define MP3PLAYER_BUTTON_STATE_OVE		1
-#define MP3PLAYER_BUTTON_STATE_PUH		2
-
-// 버튼 종류
-#define MP3PLAYER_BUTTON_PRVE			0
-#define MP3PLAYER_BUTTON_PLAY			1
-#define MP3PLAYER_BUTTON_NEXT			2
-#define MP3PLAYER_BUTTON_STOP			3
-#define MP3PLAYER_BUTTON_FULL			4
-#define MP3PLAYER_BUTTON_MINI			5
-
-// 버튼 사이즈
-#define MP3PLAYER_BUTTON_SIZE_W			9
-#define MP3PLAYER_BUTTON_SIZE_H			13
-
-// 스크롤 위치
-#define MP3PLAYER_POS_X				(g_pD3dApp->GetBackBufferDesc().Width-126)
-#define MP3PLAYER_POS_Y				(g_pD3dApp->GetBackBufferDesc().Height-31)
-#define MP3PLAYER_LINE_LENGTH		72
-#define MP3PLAYER_VOLUM_STEP		20
-#define MP3PLAYER_VOLUM_LEVEL		50
-#define MP3PLAYER_LINE_GAB			12
-
-#define MP3PLAYER_LIST_POS_X		(g_pD3dApp->GetBackBufferDesc().Width-14)
-#define MP3PLAYER_LIST_POS_Y		(g_pD3dApp->GetBackBufferDesc().Height-164)
-#define MP3PLAYER_LIST_LINE_LENGTH	104
-#define MP3PLAYER_LIST_LINE_GAB		9
-
-#define MP3PLAYER_LOOP				100
-#define MP3PLAYER_END				0
-
-// 탭설정
-#define MP3PLAYER_TAB_DEFAULT		0	// 기본 재생방식 (리스트 순서가 끝나면 끝)
-#define MP3PLAYER_TAB_REPEAT		1	// 기본 재생방식 (리스트 순서가 끝나면 처음부터 다시 재생),
-#define MP3PLAYER_TAB_REPEAT1		2	// 한곡만 반복
-#define MP3PLAYER_TAB_RANDOM		3	// 무작위 재생 방식
-
-#define MP3PLAYER_TAB_WIDTH			61
-#define MP3PLAYER_TAB_HEIGHT		17
-
-#if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM) || defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
-#define MP3PLAYER_BASE_POS_MINUS		130
-#else
-#define MP3PLAYER_BASE_POS_MINUS		132
-#endif
-
-#endif
 //#define MP3PLAYER_
 //#define MP3PLAYER_
 //#define MP3PLAYER_
@@ -212,13 +157,11 @@ CINFMp3Player::CINFMp3Player()
 	{
 		m_bSetMp3Dir = FALSE;
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_fPlaytime = NULL;
 	m_nPlaytimeGab = NULL;
 	m_nMoveFontPos = 0;
 	m_pImgPlayImage = NULL;
 	m_pImgStopImage = NULL;
-#endif
 }
 
 CINFMp3Player::~CINFMp3Player()
@@ -249,10 +192,8 @@ CINFMp3Player::~CINFMp3Player()
 	SAFE_DELETE(m_pScrollVolum);
 //	SAFE_DELETE(m_pMp3);
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	SAFE_DELETE(m_pImgPlayImage);
 	SAFE_DELETE(m_pImgStopImage);
-#endif
 }
 
 HRESULT CINFMp3Player::InitDeviceObjects()
@@ -279,17 +220,10 @@ HRESULT CINFMp3Player::InitDeviceObjects()
 	
 	for(i=0; i<MP3PLAYER_BUTTON_STATE; i++)
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf( buf, "mp_sh%d", i);
 		m_pImgHidenButton[i] = new CINFImageEx;
 		pDataHeader = FindResource(buf);
 		m_pImgHidenButton[i]->InitDeviceObjects(pDataHeader) ;
-#else
-		wsprintf( buf, "mp_sh%d", i);
-		m_pImgHidenButton[i] = new CINFImageEx;
-		pDataHeader = FindResource(buf);
-		m_pImgHidenButton[i]->InitDeviceObjects(pDataHeader) ;
-#endif
 
 		wsprintf( buf, "mp_mi%d", i);
 		m_pImgMiniButton[i] = new CINFImageEx;
@@ -345,7 +279,6 @@ HRESULT CINFMp3Player::InitDeviceObjects()
 	}	
 
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pScroll = new CINFScrollBar(this,
 								MP3PLAYER_LIST_POS_X, 
 								MP3PLAYER_LIST_POS_Y, 
@@ -355,14 +288,6 @@ HRESULT CINFMp3Player::InitDeviceObjects()
 								25,
 								"c_scrlb",
 								INFSCROLL_TYPE_VERTICAL);
-#else
-	// 스크롤 관련
-	m_pScroll = new CINFScrollBar(this,
-								MP3PLAYER_LIST_POS_X, 
-								MP3PLAYER_LIST_POS_Y, 
-								MP3PLAYER_LIST_LINE_LENGTH,
-								MP3PLAYER_LIST_LINE_GAB);
-#endif
 	m_pScroll->SetGameData( m_pGameData );
 	m_pScroll->InitDeviceObjects();
 
@@ -392,7 +317,6 @@ HRESULT CINFMp3Player::InitDeviceObjects()
 	// end 2012-03-13 mspark, 게임 사운드 옵션 문제 해결 - 추가
 //	m_pMp3 = new CMusicMP3();
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_fPlaytime = MP3PLAYER_PLAYTIME;
 	m_nPlaytimeGab = MP3PLAYER_PLAYTIMEGAB;
 
@@ -403,7 +327,6 @@ HRESULT CINFMp3Player::InitDeviceObjects()
 	m_pImgStopImage = new CINFImageEx;
 	pDataHeader = FindResource("mp_file1");
 	m_pImgStopImage->InitDeviceObjects( pDataHeader ) ;
-#endif
 	return S_OK;
 }
 
@@ -454,10 +377,8 @@ HRESULT CINFMp3Player::RestoreDeviceObjects()
 							g_pD3dApp->GetBackBufferDesc().Width-4,
 							g_pD3dApp->GetBackBufferDesc().Height-39);
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pImgPlayImage->RestoreDeviceObjects();
 	m_pImgStopImage->RestoreDeviceObjects();
-#endif
 	return S_OK;
 }
 
@@ -489,10 +410,8 @@ HRESULT CINFMp3Player::InvalidateDeviceObjects()
 	m_pScroll->InvalidateDeviceObjects();
 	
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pImgPlayImage->InvalidateDeviceObjects();
 	m_pImgStopImage->InvalidateDeviceObjects();
-#endif
 	
 	return S_OK;
 }
@@ -554,16 +473,13 @@ HRESULT CINFMp3Player::DeleteDeviceObjects()
 //		m_pMp3->Atum_MusicStop();
 //		SAFE_DELETE(m_pMp3);
 //	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pImgPlayImage->DeleteDeviceObjects();
 	SAFE_DELETE(m_pImgPlayImage);
 	m_pImgStopImage->DeleteDeviceObjects();
 	SAFE_DELETE(m_pImgStopImage);
-#endif
 
 	return S_OK;
 }
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 void CINFMp3Player::Render(int posX, int posY)
 {
 	FLOG( "CINFMp3Player::Render()" );	
@@ -621,39 +537,10 @@ void CINFMp3Player::Render(int posX, int posY)
 		}
 	} 
 }
-#else
-void CINFMp3Player::Render()
-{
-	FLOG( "CINFMp3Player::Render()" );	
-	if(m_pImgBack && m_bBaseSizeFull == TRUE)
-	{
-		// 풀사이즈 엠피3
-		m_pImgBack->Move(MP3PLAYER_BASE_POS_X, MP3PLAYER_BASE_POS_Y);
-		m_pImgBack->Render();
-		// 버튼 관련 렌더링
-		RenderButtonState();
-		m_pScrollVolum->Render();
-	}
-	else
-	{
-		// 미니사이즈 엠피3
-		m_pImgMiniBase->Move(MP3PLAYER_BASE_POS_X+200, MP3PLAYER_BASE_POS_Y);
-		m_pImgMiniBase->Render();
-	}
-
-	// 리스트 박스 보이기
-	if(m_bMp3PlayListShow)
-	{
-		RenderPlayListBox();
-		m_pScroll->Render();
-	}	
-}
-#endif
 void CINFMp3Player::Tick()
 {
 	FLOG( "CINFMp3Player::Tick()" );
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	
 	if(g_pD3dApp->m_pSound->m_bPlayMusic && m_bMp3Play == TRUE && m_bPlay_Mute == TRUE )
 	{
@@ -677,7 +564,6 @@ void CINFMp3Player::Tick()
 			m_fPlaytime = 1.0f;
 		}
 	}
-#endif
 //	m_pScroll->SetScrollLinePos( MP3PLAYER_LIST_POS_X,
 //		MP3PLAYER_LIST_POS_Y);
 //	m_pScroll->SetWheelRect(MP3PLAYER_BASE_POS_X-1, 
@@ -742,9 +628,7 @@ void CINFMp3Player::Tick()
 						{
 							m_nCurrentRenderIndex = (*it).nIndex + 1;
 							Play_Mp3Music();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 							m_nMoveFontPos = 0;
-#endif
 							break;
 						}
 						else
@@ -876,7 +760,6 @@ int CINFMp3Player::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 //#endif
 	// end 2012-03-20 by mspark, mp3 추가 구현 - #ifdef C_EPSODE4_UI_CHANGE_JSKIM 부분 주석
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	switch(uMsg)
 	switch(uMsg)
 	{
 	case WM_MOUSEMOVE:
@@ -1370,494 +1253,8 @@ int CINFMp3Player::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 		} 
 	}
-#else
-	switch(uMsg)
-	{
-	case WM_MOUSEMOVE:
-		{
-			POINT pt;
-			pt.x = LOWORD(lParam);
-			pt.y = HIWORD(lParam);
-			CheckMouseReverse(&pt);
-			
-			// 미니 사이즈 일때는 브레이크 
-			if(m_bBaseSizeFull == FALSE)
-				break;				
-			
-			int i; for(i=0; i<MP3PLAYER_BUTTON_MAIN_STATE; i++)
-				m_nButtonStateMain[i] = MP3PLAYER_BUTTON_STATE_NOR;
-
-			//////////////////////////////////////////////////////////
-			// 버튼 관련
-			if( pt.y>(MP3PLAYER_BASE_POS_Y)
-				&& pt.y<(MP3PLAYER_BASE_POS_Y+MP3PLAYER_BUTTON_SIZE_H))
-			{
-				if( pt.x>(MP3PLAYER_BASE_POS_X+51)
-					&& pt.x<(MP3PLAYER_BASE_POS_X+51+MP3PLAYER_BUTTON_SIZE_W))
-				{	// 뒤로
-					m_nButtonStateMain[MP3PLAYER_BUTTON_PRVE] = MP3PLAYER_BUTTON_STATE_OVE;					
-				}
-				else if( pt.x>(MP3PLAYER_BASE_POS_X+67)
-					&& pt.x<(MP3PLAYER_BASE_POS_X+67+MP3PLAYER_BUTTON_SIZE_W))
-				{	// 재생
-					m_nButtonStateMain[MP3PLAYER_BUTTON_PLAY] = MP3PLAYER_BUTTON_STATE_OVE;					
-				}
-				else if( pt.x>(MP3PLAYER_BASE_POS_X+81)
-					&& pt.x<(MP3PLAYER_BASE_POS_X+81+MP3PLAYER_BUTTON_SIZE_W))
-				{	// 앞으로
-					m_nButtonStateMain[MP3PLAYER_BUTTON_NEXT] = MP3PLAYER_BUTTON_STATE_OVE;					
-				}
-				else if( pt.x>(MP3PLAYER_BASE_POS_X+95)
-					&& pt.x<(MP3PLAYER_BASE_POS_X+95+MP3PLAYER_BUTTON_SIZE_W))
-				{	// 정지
-					m_nButtonStateMain[MP3PLAYER_BUTTON_STOP] = MP3PLAYER_BUTTON_STATE_OVE;					
-				}
-				else if( pt.x>(MP3PLAYER_BASE_POS_X+225)
-					&& pt.x<(MP3PLAYER_BASE_POS_X+225+MP3PLAYER_BUTTON_SIZE_W))
-				{	// 플레이 리스트
-					m_nButtonStateMain[MP3PLAYER_BUTTON_FULL] = MP3PLAYER_BUTTON_STATE_OVE;					
-				}
-				else if( pt.x>(MP3PLAYER_BASE_POS_X+238)
-					&& pt.x<(MP3PLAYER_BASE_POS_X+238+MP3PLAYER_BUTTON_SIZE_W))
-				{	// 풀모드
-					m_nButtonStateMain[MP3PLAYER_BUTTON_MINI] = MP3PLAYER_BUTTON_STATE_OVE;					
-				}
-			}
-
-			// 리스트 박스 안
-			if(m_bMp3PlayListShow == TRUE)
-			{
-				if( pt.y>(MP3PLAYER_BASE_POS_Y-132)
-					&& pt.y<(MP3PLAYER_BASE_POS_Y+2))
-				{
-					if( pt.x>(MP3PLAYER_BASE_POS_X-1)
-						&& pt.x<(MP3PLAYER_BASE_POS_X+233))
-					{
-						return INF_MSGPROC_BREAK;
-					}
-				}
-			}
-
-			//
-			/////////////////////////////////////////////////////////
-		}
-		break;
-	case WM_LBUTTONDOWN:
-		{
-			POINT pt;
-			pt.x = LOWORD(lParam);
-			pt.y = HIWORD(lParam);
-			CheckMouseReverse(&pt);
-
-			// 2005-10-05 by ispark
-			// 정지시에만 사용하도록 수정
-//			if(g_pD3dApp->m_bCharacter == FALSE && (g_pShuttleChild->m_bUnitStop == FALSE && g_pShuttleChild->m_bLandedMove == FALSE))
-			if(!g_pShuttleChild->GetIsUseInterface())
-			{
-				break;
-			}
-
-			// 미니 사이즈 일때는 브레이크 
-			if(m_bBaseSizeFull == FALSE)
-			{
-				if( pt.y>(MP3PLAYER_BASE_POS_Y)
-					&& pt.y<(MP3PLAYER_BASE_POS_Y+MP3PLAYER_BUTTON_SIZE_H))
-				{
-					if( pt.x>(MP3PLAYER_BASE_POS_X+200)
-						&& pt.x<MP3PLAYER_BASE_POS_X+247)
-					{	// 풀사이즈
-						m_bBaseSizeFull = TRUE;
-						return INF_MSGPROC_BREAK;
-					}
-				}
-			}			
-			
-			int i; for(i=0; i<MP3PLAYER_BUTTON_MAIN_STATE; i++)
-				m_bButtonStateMain[i] = FALSE;
-			//////////////////////////////////////////////////////////
-			// 버튼 관련
-			if( pt.y>(MP3PLAYER_BASE_POS_Y)
-			 && pt.y<(MP3PLAYER_BASE_POS_Y+MP3PLAYER_BUTTON_SIZE_H))
-			{
-				if( pt.x>(MP3PLAYER_BASE_POS_X+51)
-					&& pt.x<(MP3PLAYER_BASE_POS_X+51+MP3PLAYER_BUTTON_SIZE_W))
-				{	// 뒤로					
-					m_nButtonStateMain[MP3PLAYER_BUTTON_PRVE] = MP3PLAYER_BUTTON_STATE_PUH;
-					m_bButtonStateMain[MP3PLAYER_BUTTON_PRVE] = TRUE;
-					return INF_MSGPROC_BREAK;
-				}
-				else if( pt.x>(MP3PLAYER_BASE_POS_X+67)
-					&& pt.x<(MP3PLAYER_BASE_POS_X+67+MP3PLAYER_BUTTON_SIZE_W))
-				{	// 재생
-					m_nButtonStateMain[MP3PLAYER_BUTTON_PLAY] = MP3PLAYER_BUTTON_STATE_PUH;
-					m_bButtonStateMain[MP3PLAYER_BUTTON_PLAY] = TRUE;
-					return INF_MSGPROC_BREAK;
-				}
-				else if( pt.x>(MP3PLAYER_BASE_POS_X+81)
-					&& pt.x<(MP3PLAYER_BASE_POS_X+81+MP3PLAYER_BUTTON_SIZE_W))
-				{	// 앞으로
-					m_nButtonStateMain[MP3PLAYER_BUTTON_NEXT] = MP3PLAYER_BUTTON_STATE_PUH;
-					m_bButtonStateMain[MP3PLAYER_BUTTON_NEXT] = TRUE;
-					return INF_MSGPROC_BREAK;
-				}
-				else if( pt.x>(MP3PLAYER_BASE_POS_X+95)
-					&& pt.x<(MP3PLAYER_BASE_POS_X+95+MP3PLAYER_BUTTON_SIZE_W))
-				{	// 정지
-					m_nButtonStateMain[MP3PLAYER_BUTTON_STOP] = MP3PLAYER_BUTTON_STATE_PUH;
-					m_bButtonStateMain[MP3PLAYER_BUTTON_STOP] = TRUE;
-					return INF_MSGPROC_BREAK;
-				}
-				else if( pt.x>(MP3PLAYER_BASE_POS_X+225)
-					&& pt.x<(MP3PLAYER_BASE_POS_X+225+MP3PLAYER_BUTTON_SIZE_W))
-				{	// 플레이 리스트
-					m_nButtonStateMain[MP3PLAYER_BUTTON_FULL] = MP3PLAYER_BUTTON_STATE_PUH;
-					m_bButtonStateMain[MP3PLAYER_BUTTON_FULL] = TRUE;
-					return INF_MSGPROC_BREAK;
-				}
-				else if( pt.x>(MP3PLAYER_BASE_POS_X+238)
-					&& pt.x<(MP3PLAYER_BASE_POS_X+238+MP3PLAYER_BUTTON_SIZE_W))
-				{	// 풀모드
-					m_nButtonStateMain[MP3PLAYER_BUTTON_MINI] = MP3PLAYER_BUTTON_STATE_PUH;
-					m_bButtonStateMain[MP3PLAYER_BUTTON_MINI] = TRUE;
-					return INF_MSGPROC_BREAK;
-				}
-				else if(pt.x>(MP3PLAYER_BASE_POS_X)
-					&& pt.x<(MP3PLAYER_BASE_POS_X+43)
-					&& TRUE == m_bSetMp3Dir)
-				{// 디렉토리 가져오기					
-					g_pGameMain->m_pInfWindow->AddMsgBox(STRMSG_C_ETC_0002,
-								_Q_MP3_DIRECTORY);
-				}
-			}
-			
-			// 리스트 박스 안
-			if(m_bMp3PlayListShow == TRUE)
-			{
-				// 탭
-				if( pt.y>(MP3PLAYER_BASE_POS_Y-19)
-					&& pt.y<(MP3PLAYER_BASE_POS_Y-2))
-				{
-					int i; for(i=0; i<MP3PLAYER_BASE_TAB; i++)
-					{
-						if( pt.x>(MP3PLAYER_BASE_POS_X-1-(i*MP3PLAYER_TAB_WIDTH))
-							&& pt.x<(MP3PLAYER_BASE_POS_X+MP3PLAYER_TAB_WIDTH+(i*MP3PLAYER_TAB_WIDTH)))
-						{
-							m_nSelectTab = i;
-							if(m_nSelectTab == MP3PLAYER_TAB_RANDOM)
-							{
-								RandomPlayList();
-							}
-							g_pInterface->SetWindowOrder(WNDMp3Player);
-							return INF_MSGPROC_BREAK;
-						}
-					}
-				}
-
-				// 리스트
-				if( pt.y>(MP3PLAYER_BASE_POS_Y-132)
-					&& pt.y<(MP3PLAYER_BASE_POS_Y+2))
-				{
-					if( pt.x>(MP3PLAYER_BASE_POS_X-1)
-						&& pt.x<(MP3PLAYER_BASE_POS_X+233))
-					{
-						// 2008-03-04 by dgwoo 배경음악 버그 수정.
-						for(int i = 0 ; i < MP3PLAYER_MAX_LIST ; i++)
-						{
-							if((MP3PLAYER_BASE_POS_Y - 130 + (i*MP3PLAYER_LINE_GAB)) < pt.y
-								&& (MP3PLAYER_BASE_POS_Y-130+(i*MP3PLAYER_LINE_GAB) + MP3PLAYER_LINE_GAB) > pt.y)
-							{
-								if(m_vecMp3FileNames.size()>m_pScroll->GetCurrentScrollIndex()+i)
-									m_nCurrentRenderSelect = m_vecMp3FileNames[m_pScroll->GetCurrentScrollIndex()+i].nIndex;
-							}
-						}
-						g_pInterface->SetWindowOrder(WNDMp3Player);
-						return INF_MSGPROC_BREAK;
-					}
-				}
-			}
-		}
-		break;
-	case WM_LBUTTONUP:
-		{
-			POINT pt;
-			pt.x = LOWORD(lParam);
-			pt.y = HIWORD(lParam);
-			CheckMouseReverse(&pt);
-			
-			// 미니 사이즈 일때는 브레이크 
-			if(m_bBaseSizeFull == FALSE)
-				break;
-			
-			//////////////////////////////////////////////////////////
-			// 버튼 관련
-			if( pt.y>(MP3PLAYER_BASE_POS_Y)
-			 && pt.y<(MP3PLAYER_BASE_POS_Y+MP3PLAYER_BUTTON_SIZE_H))
-			{
-				if( pt.x>(MP3PLAYER_BASE_POS_X+51)
-					&& pt.x<(MP3PLAYER_BASE_POS_X+51+MP3PLAYER_BUTTON_SIZE_W))
-				{	// 뒤로
-					if(m_bButtonStateMain[MP3PLAYER_BUTTON_PRVE] == TRUE)
-					{
-						//
-						if(m_vecMp3FileNames.size() <= 0)
-							break;
-						m_LnMutePos = 0;
-						m_bPlay_Mute = TRUE;
-						if(m_nCurrentRenderIndex <= m_vecMp3FileNames[0].nIndex)
-						{
-							m_nCurrentRenderIndex = m_vecMp3FileNames[m_vecMp3FileNames.size()-1].nIndex;
-							Play_Mp3Music();
-							break;
-						}
-						
-						BOOL bFalse = FALSE;
-						vector<Mp3File_t>::iterator it = m_vecMp3FileNames.begin();
-						while(it != m_vecMp3FileNames.end())
-						{
-							if(m_nCurrentRenderIndex == (*it).nIndex)
-							{
-								it--;
-								m_nCurrentRenderIndex = (*it).nIndex;
-								bFalse = TRUE;
-								break;
-							}
-							
-							it++;
-						}
-						if(FALSE == bFalse)
-						{
-							m_nCurrentRenderIndex = m_vecMp3FileNames[m_vecMp3FileNames.size()-1].nIndex;
-						}
-						Play_Mp3Music();
-
-					}
-				}
-				else if( pt.x>(MP3PLAYER_BASE_POS_X+67)
-					&& pt.x<(MP3PLAYER_BASE_POS_X+67+MP3PLAYER_BUTTON_SIZE_W))
-				{	// 재생, 멈춤.
-					if(m_bButtonStateMain[MP3PLAYER_BUTTON_PLAY] == TRUE)
-					{
-						if(m_vecMp3FileNames.size() <= 0)
-						{
-							g_pD3dApp->m_pSound->m_bPlayMusic = FALSE;
-							m_bStop_Flag = FALSE;
-							break;
-						}
-						if(m_bStop_Flag)
-						{// 정지 => 재생 일경우 선택된 음악을 재생시킨다.
-							m_nCurrentRenderIndex = m_nCurrentRenderSelect;
-							Play_Mp3Music();
-							m_bStop_Flag = FALSE;
-							break;
-						}
-
-						if(m_bPlay_Mute)
-						{// 멈춤.
-							if(m_bOriBGSound)
-							{
-								Play_Mp3Music();
-								m_bOriBGSound = FALSE;
-							}
-							else
-							{
-								// 2013-02-05 by bhsohn Sound 없는 장비에서 Exception오류 나는 현상 수정			
-								if(g_pD3dApp->m_pSound && g_pD3dApp->m_pSound->IsSoundDevice())
-								{
-									g_pD3dApp->m_pSound->GetMusicMp3()->Atum_MusicStop();
-									m_LnMutePos = g_pD3dApp->m_pSound->GetMusicMp3()->m_pLPos;
-								}
-								m_bPlay_Mute = FALSE;
-							}
-						}
-						else
-						{// 재생.
-							if(m_LnMutePos != 0)
-							{
-								Play_Mp3Music(TRUE);
-								m_bPlay_Mute = 0;
-							}
-							else
-							{
-								Play_Mp3Music();
-							}
-
-//							if(m_vecMp3FileNames.size() <= 0)
-//							{//
-//								g_pD3dApp->m_pSound->GetMusicMp3()->Atum_MusicStop();
-//								m_LnMutePos = g_pD3dApp->m_pSound->GetMusicMp3()->m_pLPos;
-//								m_bStop_Flag = FALSE;
-//								break;
-//							}
-//							else
-//							{// mp3파일 리스트가 있을경우.
-//								m_nCurrentRenderIndex = m_nCurrentRenderSelect;
-//								Play_Mp3Music();
-//								m_bStop_Flag = FALSE;
-//								break;
-//							}
-							m_bPlay_Mute = TRUE;
-						}
-						
-
-//						if(m_bStop_Flag == FALSE)
-//						{
-//							m_nCurrentRenderIndex = m_nCurrentRenderSelect;
-//							Play_Mp3Music();
-//							m_bStop_Flag = FALSE;
-//							break;
-//						}
-//						if(m_bPlay_Mute)
-//						{
-//							g_pD3dApp->m_pSound->GetMusicMp3()->Atum_MusicStop();
-//							m_LnMutePos = g_pD3dApp->m_pSound->GetMusicMp3()->m_pLPos;
-//							m_bPlay_Mute = FALSE;
-//						}
-//						else
-//						{
-//							if(m_LnMutePos != 0)
-//							{
-//								Play_Mp3Music(TRUE);
-//								m_bPlay_Mute = 0;
-//							}
-//							else
-//							{
-//								Play_Mp3Music();
-//							}
-//							
-//							m_bPlay_Mute = TRUE;
-//						}
-						
-					}
-				}
-				else if( pt.x>(MP3PLAYER_BASE_POS_X+81)
-					&& pt.x<(MP3PLAYER_BASE_POS_X+81+MP3PLAYER_BUTTON_SIZE_W))
-				{	// 앞으로
-					if(m_bButtonStateMain[MP3PLAYER_BUTTON_NEXT] == TRUE)
-					{
-						if(m_vecMp3FileNames.size() <= 0)
-							break;
-						m_LnMutePos = 0;
-						m_bPlay_Mute = TRUE;
-						if(m_vecMp3FileNames.size()-1 <= m_nCurrentRenderIndex)
-						{
-							m_nCurrentRenderIndex = m_vecMp3FileNames[0].nIndex;
-							Play_Mp3Music();
-							break;
-						}
-						
-						vector<Mp3File_t>::iterator it = m_vecMp3FileNames.begin();
-						while(it != m_vecMp3FileNames.end())
-						{
-							if(m_nCurrentRenderIndex == (*it).nIndex)
-							{
-								it++;
-								m_nCurrentRenderIndex = (*it).nIndex;								
-								break;
-							}
-							
-							it++;
-						}
-						
-						Play_Mp3Music();
-					}
-				}
-				else if( pt.x>(MP3PLAYER_BASE_POS_X+95)
-					&& pt.x<(MP3PLAYER_BASE_POS_X+95+MP3PLAYER_BUTTON_SIZE_W))
-				{	// 정지
-					if(m_bButtonStateMain[MP3PLAYER_BUTTON_STOP] == TRUE)
-					{
-						// 2013-02-05 by bhsohn Sound 없는 장비에서 Exception오류 나는 현상 수정			
-						if(g_pD3dApp->m_pSound && g_pD3dApp->m_pSound->IsSoundDevice())
-						{
-							g_pD3dApp->m_pSound->GetMusicMp3()->Atum_MusicStop();
-						}
-						m_bMp3Play = FALSE;
-						m_bStop_Flag = TRUE;
-						m_bOriBGSound = FALSE;
-					}
-				}
-				else if( pt.x>(MP3PLAYER_BASE_POS_X+225)
-					&& pt.x<(MP3PLAYER_BASE_POS_X+225+MP3PLAYER_BUTTON_SIZE_W))
-				{	// 플레이 리스트
-					if(m_bButtonStateMain[MP3PLAYER_BUTTON_FULL] == TRUE)
-					{
-						m_bMp3PlayListShow = !m_bMp3PlayListShow;
-						// 리스트 활성이 되면 누르면 자동으로 창 우선 순위에 넣어서 상위에 찍도록 한다.
-						if(m_bMp3PlayListShow == TRUE)
-							g_pInterface->SetWindowOrder(WNDMp3Player);
-					}
-				}
-				else if( pt.x>(MP3PLAYER_BASE_POS_X+238)
-					&& pt.x<(MP3PLAYER_BASE_POS_X+238+MP3PLAYER_BUTTON_SIZE_W))
-				{	// 풀모드
-					if(m_bButtonStateMain[MP3PLAYER_BUTTON_MINI] == TRUE)
-					{
-						m_bBaseSizeFull = !m_bBaseSizeFull;
-						if(m_bBaseSizeFull == FALSE)
-							m_bMp3PlayListShow = FALSE;
-					}
-				}
-			}
-			
-			int i; for(i=0; i<MP3PLAYER_BUTTON_MAIN_STATE; i++)
-			{	// 초기화
-				m_nButtonStateMain[i] = MP3PLAYER_BUTTON_STATE_NOR;
-				m_bButtonStateMain[i] = FALSE;
-			}
-		}
-		break;
-	case WM_LBUTTONDBLCLK:
-		{
-			POINT pt;
-			pt.x = LOWORD(lParam);
-			pt.y = HIWORD(lParam);
-			CheckMouseReverse(&pt);
-
-			// 리스트 박스 안(재생음악 선택)
-			if(m_bMp3PlayListShow == TRUE)
-			{
-				if( pt.y>(MP3PLAYER_BASE_POS_Y-132)
-					&& pt.y<(MP3PLAYER_BASE_POS_Y+2))
-				{
-					if( pt.x>(MP3PLAYER_BASE_POS_X-1)
-						&& pt.x<(MP3PLAYER_BASE_POS_X+233))
-					{
-						int nTemp=0;
-						int i; for(i=0; i<MP3PLAYER_MAX_LIST+1; i++)
-						{							
-							if((MP3PLAYER_BASE_POS_Y-130+nTemp)<pt.y 
-							&& (MP3PLAYER_BASE_POS_Y-130+nTemp+MP3PLAYER_LINE_GAB)>pt.y)
-							{
-								if(m_vecMp3FileNames.size()>m_pScroll->GetCurrentScrollIndex()+i-1)
-									m_nCurrentRenderIndex = m_vecMp3FileNames[m_pScroll->GetCurrentScrollIndex()+i-1].nIndex;
-								Play_Mp3Music();
-							}
-
-							nTemp = (i*MP3PLAYER_LINE_GAB);
-						}
-						return INF_MSGPROC_BREAK;
-					}
-				}
-			}
-		}
-		break;
-	case WM_KEYDOWN:
-		{
-			if(wParam == VK_DELETE)
-			{
-				if(m_bMp3PlayListShow == TRUE)
-				{
-					g_pGameMain->m_pInfWindow->AddMsgBox(STRMSG_C_ETC_0003,//"선택하신 곡을 플레이 리스트에서 삭제하시겠습니까?"
-						_Q_MP3_PLAYLIST_DEL);
-					return INF_MSGPROC_BREAK;					
-				}
-			}
-		}
-	}
-#endif
 	return INF_MSGPROC_NORMAL;
 }
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 void CINFMp3Player::RenderButtonState(int posX, int posY)
 {
@@ -1882,33 +1279,6 @@ void CINFMp3Player::RenderButtonState(int posX, int posY)
 		m_pImgHidenButton[m_nButtonStateMain[MP3PLAYER_BUTTON_FULL]]->Render();
 	}
 }
-#else
-void CINFMp3Player::RenderButtonState()
-{
-	// 버튼 상태 렌더링
-	m_pImgPrvButton[m_nButtonStateMain[MP3PLAYER_BUTTON_PRVE]]->Move(MP3PLAYER_BASE_POS_X+51,MP3PLAYER_BASE_POS_Y);
-	m_pImgPrvButton[m_nButtonStateMain[MP3PLAYER_BUTTON_PRVE]]->Render();
-	m_pImgPlayButton[m_nButtonStateMain[MP3PLAYER_BUTTON_PLAY]]->Move(MP3PLAYER_BASE_POS_X+67,MP3PLAYER_BASE_POS_Y);
-	m_pImgPlayButton[m_nButtonStateMain[MP3PLAYER_BUTTON_PLAY]]->Render();
-	m_pImgNextButton[m_nButtonStateMain[MP3PLAYER_BUTTON_NEXT]]->Move(MP3PLAYER_BASE_POS_X+81,MP3PLAYER_BASE_POS_Y);
-	m_pImgNextButton[m_nButtonStateMain[MP3PLAYER_BUTTON_NEXT]]->Render();
-	m_pImgStopButton[m_nButtonStateMain[MP3PLAYER_BUTTON_STOP]]->Move(MP3PLAYER_BASE_POS_X+95,MP3PLAYER_BASE_POS_Y);
-	m_pImgStopButton[m_nButtonStateMain[MP3PLAYER_BUTTON_STOP]]->Render();
-	
-	if(m_bMp3PlayListShow == FALSE)
-	{
-		m_pImgShowListButton[m_nButtonStateMain[MP3PLAYER_BUTTON_FULL]]->Move(MP3PLAYER_BASE_POS_X+225,MP3PLAYER_BASE_POS_Y);
-		m_pImgShowListButton[m_nButtonStateMain[MP3PLAYER_BUTTON_FULL]]->Render();
-	}
-	else
-	{
-		m_pImgHidenButton[m_nButtonStateMain[MP3PLAYER_BUTTON_FULL]]->Move(MP3PLAYER_BASE_POS_X+225,MP3PLAYER_BASE_POS_Y);
-		m_pImgHidenButton[m_nButtonStateMain[MP3PLAYER_BUTTON_FULL]]->Render();
-	}
-	m_pImgMiniButton[m_nButtonStateMain[MP3PLAYER_BUTTON_MINI]]->Move(MP3PLAYER_BASE_POS_X+238,MP3PLAYER_BASE_POS_Y);
-	m_pImgMiniButton[m_nButtonStateMain[MP3PLAYER_BUTTON_MINI]]->Render();
-}
-#endif
 
 void CINFMp3Player::FindMp3File()
 {
@@ -1984,7 +1354,6 @@ void CINFMp3Player::FindMp3File()
 	}
 }
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 void CINFMp3Player::RenderPlayListBox(int posX, int posY)
 {
 	m_pImgListBox->Move( posX + MP3PLAYER_PLATLIST_START_X, posY + MP3PLAYER_PLATLIST_START_Y );
@@ -2042,68 +1411,6 @@ void CINFMp3Player::RenderPlayListBox(int posX, int posY)
 	}
 	
 }
-#else
-void CINFMp3Player::RenderPlayListBox()
-{
-	m_pImgListBox->Move(MP3PLAYER_BASE_POS_X-1, MP3PLAYER_BASE_POS_Y-149);
-	m_pImgListBox->Render();
-	
-	// 탭 표시
-	m_pImgTab[m_nSelectTab]->Move(MP3PLAYER_BASE_POS_X-1, MP3PLAYER_BASE_POS_Y-19);
-	m_pImgTab[m_nSelectTab]->Render();
-	
-	int nLineGab = 0;
-	int i; for(i=0; i<MP3PLAYER_MAX_LIST; i++)
-	{
-		if(m_vecMp3FileNames.size() > m_pScroll->GetCurrentScrollIndex() +i)
-		{			
-			// 선택 표시
-			if(m_nCurrentRenderSelect == m_vecMp3FileNames[m_pScroll->GetCurrentScrollIndex()+i].nIndex)
-			{
-				m_pImgSelectMp3->Move(MP3PLAYER_BASE_POS_X+5, MP3PLAYER_BASE_POS_Y-130+nLineGab);
-				m_pImgSelectMp3->Render();
-			}
-			if(strlen(m_vecMp3FileNames[m_pScroll->GetCurrentScrollIndex()+i].szFileNameString)>37)
-			{
-				FileNameCull(m_vecMp3FileNames[m_pScroll->GetCurrentScrollIndex()+i].szFileNameString);
-			}
-			else
-			{
-				memset(m_strMp3Name, 0x00, MAX_PATH);
-				strncpy(m_strMp3Name, m_vecMp3FileNames[m_pScroll->GetCurrentScrollIndex()+i].szFileNameString, strlen(m_vecMp3FileNames[m_pScroll->GetCurrentScrollIndex()+i].szFileNameString));
-			}
-			// 곡명 표시
-			if(m_nCurrentRenderIndex == m_vecMp3FileNames[m_pScroll->GetCurrentScrollIndex()+i].nIndex)
-			{
-				if(m_nCurrentRenderSelect == m_vecMp3FileNames[m_pScroll->GetCurrentScrollIndex()+i].nIndex)
-				{					
-					m_pFontTitle[i]->DrawText(MP3PLAYER_BASE_POS_X+5, MP3PLAYER_BASE_POS_Y-MP3PLAYER_BASE_POS_MINUS+nLineGab, GUI_FONT_COLOR_G,
-						m_strMp3Name);
-				}
-				else
-				{
-					m_pFontTitle[i]->DrawText(MP3PLAYER_BASE_POS_X+5, MP3PLAYER_BASE_POS_Y-MP3PLAYER_BASE_POS_MINUS+nLineGab, GUI_FONT_COLOR_YM,
-						m_strMp3Name);
-				}
-			}
-			else
-				m_pFontTitle[i]->DrawText(MP3PLAYER_BASE_POS_X+5, MP3PLAYER_BASE_POS_Y-MP3PLAYER_BASE_POS_MINUS+nLineGab, GUI_SELECT_FONT_COLOR,
-					m_strMp3Name);		
-			
-			nLineGab += MP3PLAYER_LINE_GAB;			
-		}
-	}
-
-//	vector<Mp3File_t>::iterator it = m_vecMp3FileNames.begin();
-//	while(it != m_vecMp3FileNames.end())
-//	{
-//		if(nBreakCnt>MP3PLAYER_MAX_LIST)
-//			break;
-//		it++;
-//		nBreakCnt++;
-//	}
-}
-#endif
 
 void CINFMp3Player::DeleteSelectPlayList()
 {

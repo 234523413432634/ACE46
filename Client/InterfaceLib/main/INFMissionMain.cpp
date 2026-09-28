@@ -24,7 +24,6 @@
 // end 2011-03-02 by hsSon, 미션 글씨 위치 수정
 
 #define MISSION_FONT_HEIGHT_GAB				17*HIDPI_COEFF
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 출격 버튼 
 #define GO_MAP_POS_X						((g_pD3dApp->GetBackBufferDesc().Width-70)/2)//(g_pD3dApp->GetBackBufferDesc().Width-127)
 #define GO_MAP_POS_Y						(g_pD3dApp->GetBackBufferDesc().Height-110*HIDPI_COEFF)
@@ -32,15 +31,6 @@
 // Go Mission맵
 #define GO_MISSION_MAP_POS_X				((g_pD3dApp->GetBackBufferDesc().Width/2)-80)//(g_pD3dApp->GetBackBufferDesc().Width-253)
 #define GO_MISSION_MAP_POS_Y				(g_pD3dApp->GetBackBufferDesc().Height-110*HIDPI_COEFF)			  
-#else 
-// 출격 버튼 
-#define GO_MAP_POS_X						((g_pD3dApp->GetBackBufferDesc().Width-105)/2)//(g_pD3dApp->GetBackBufferDesc().Width-127)
-#define GO_MAP_POS_Y						(g_pD3dApp->GetBackBufferDesc().Height-75)
-
-// Go Mission맵
-#define GO_MISSION_MAP_POS_X				((g_pD3dApp->GetBackBufferDesc().Width/2)-105)//(g_pD3dApp->GetBackBufferDesc().Width-253)
-#define GO_MISSION_MAP_POS_Y				(g_pD3dApp->GetBackBufferDesc().Height-75)
-#endif
 
 
 // 첫 케릭 퀘스트
@@ -224,11 +214,7 @@ HRESULT CINFMissionMain::InitDeviceObjects()
 	// 출격 버튼 	
 	{
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf(szUpBtn, "goshn01");															  
-#else 
-		wsprintf(szUpBtn, "goshn");
-#endif
 		wsprintf(szDownBtn, "goshs");
 		wsprintf(szSelBtn, "gosho");
 		wsprintf(szDisBtn, "goshnot");
@@ -559,7 +545,6 @@ void CINFMissionMain::TickHideMission()
 void CINFMissionMain::Render()
 {
 	// 각각의 버튼들
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	int  nPosX, nPosY;
 	nPosX = g_pGameMain->m_pQuickSlot->m_nX;
 	nPosY = g_pGameMain->m_pQuickSlot->m_nY;
@@ -585,7 +570,6 @@ void CINFMissionMain::Render()
 		m_pGoMapBtn->SetBtnPosition(nGoBtnPos, GO_MAP_POS_Y);
 	}
 	// end 2011. 10. 10 by jskim UI시스템 변경													  
-#endif
 	m_pGoMapBtn->Render();
 	m_pGoMissionMapBtn->Render();
 

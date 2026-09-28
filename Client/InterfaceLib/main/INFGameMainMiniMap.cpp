@@ -82,13 +82,8 @@
 #define BUTTON_SHOW					0
 #define BUTTON_HIDE					1
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define UNIT_CENTER_POS_X			(UNIT_START_X-36)
 #define UNIT_CENTER_POS_Y			(UNIT_START_Y+2)		  
-#else		   
-#define UNIT_CENTER_POS_X			(UNIT_START_X-4)
-#define UNIT_CENTER_POS_Y			(UNIT_START_Y-4)
-#endif
 #define UNIT_ANIMATION_TICK_TIME	20
 
 #define UNIT_WIDTH					30
@@ -113,9 +108,6 @@ CINFGameMainMiniMap::CINFGameMainMiniMap(CAtumNode* pParent)
 	m_pSiteImage = NULL;
 	m_pPlayerImage = NULL;
 	m_pImgStateWarning = NULL;			// 2005-07-08 by ispark
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pMiniMapFrame = NULL;
-#endif
 	m_pMiniMapUnitImage = NULL;
 	// 2014-07-17 by ymjoo 미니맵 앞부분 시야표시 적용
 #ifdef C_MINIMAP_SIGHT_IMG_YMJOO
@@ -135,17 +127,6 @@ CINFGameMainMiniMap::CINFGameMainMiniMap(CAtumNode* pParent)
 		m_pGuildImage[i] = NULL;							// 2012-04-09 by isshin 레이더 및 미니맵 파티,여단원 표시 - 레이더 여단원
 		m_MiniMapSubDataHeader[i] = NULL;
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	for(i=0;i<BUTTON_STATE_NUMBER;i++)
-	{
-		m_pButtonZoom[BUTTON_ZOOM_IN][i] = NULL;
-		m_pButtonZoom[BUTTON_ZOOM_OUT][i] = NULL;
-		m_pButtonZoom[BUTTON_ZOOM_HIDE][i] = NULL;
-		// 2008-11-3 by bhsohn 서버 시간 보기 버튼 추가
-//		m_pButtonShowHide[BUTTON_SHOW][i] = NULL;
-//		m_pButtonShowHide[BUTTON_HIDE][i] = NULL;
-	}
-#endif
 	m_pDeadImage = NULL;
 	m_pLockonImage = NULL;
 	m_pFontPosition = NULL;
@@ -155,9 +136,6 @@ CINFGameMainMiniMap::CINFGameMainMiniMap(CAtumNode* pParent)
 	//m_nButtonState[BUTTON_SHOWHIDE] = BUTTON_STATE_NORMAL;
 	//m_bShowState = TRUE;
 	m_nZoomButtonState = BUTTON_STATE_NORMAL;
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pServerTimeBtn = NULL;
-#endif
 	// end 2008-11-3 by bhsohn 서버 시간 보기 버튼 추가
 
 	m_bZoomState = 0;
@@ -175,10 +153,8 @@ CINFGameMainMiniMap::CINFGameMainMiniMap(CAtumNode* pParent)
 	m_bMiniMapState = FALSE;
 	m_nTestMapPosX			= 0;
 	m_nTestMapPosY			= 0;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pMiniMapBK	= NULL;
 	m_pBigMapBK		= NULL;
-#endif
 }
 
 CINFGameMainMiniMap::~CINFGameMainMiniMap()
@@ -190,9 +166,6 @@ CINFGameMainMiniMap::~CINFGameMainMiniMap()
 	SAFE_DELETE(m_pSiteImage);
 	SAFE_DELETE(m_pPlayerImage);
 	SAFE_DELETE(m_pImgStateWarning);					// 2005-07-08 by ispark
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	SAFE_DELETE(m_pMiniMapFrame);
-#endif
 	SAFE_DELETE(m_pMiniMapUnitImage);
 	// 2014-07-17 by ymjoo 미니맵 앞부분 시야표시 적용
 #ifdef C_MINIMAP_SIGHT_IMG_YMJOO
@@ -212,19 +185,6 @@ CINFGameMainMiniMap::~CINFGameMainMiniMap()
 		SAFE_DELETE(m_MiniMapSubDataHeader[i]);
 		SAFE_DELETE(m_pGuildImage[i]);						// 2012-04-09 by isshin 레이더 및 미니맵 파티,여단원 표시
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	for(i=0;i<BUTTON_STATE_NUMBER;i++)
-	{
-		SAFE_DELETE(m_pButtonZoom[BUTTON_ZOOM_IN][i]);
-		SAFE_DELETE(m_pButtonZoom[BUTTON_ZOOM_OUT][i]);
-		SAFE_DELETE(m_pButtonZoom[BUTTON_ZOOM_HIDE][i]);
-		// 2008-11-3 by bhsohn 서버 시간 보기 버튼 추가
-//		SAFE_DELETE(m_pButtonShowHide[BUTTON_SHOW][i]);
-//		SAFE_DELETE(m_pButtonShowHide[BUTTON_HIDE][i]);
-	}
-	// 2008-11-3 by bhsohn 서버 시간 보기 버튼 추가
-	SAFE_DELETE(m_pServerTimeBtn);
-#endif
 	
 	SAFE_DELETE(m_pDeadImage);
 	SAFE_DELETE(m_pLockonImage);
@@ -247,13 +207,11 @@ CINFGameMainMiniMap::~CINFGameMainMiniMap()
 	}
 	m_vecMosterPosition.clear();
 							  
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if( m_pMiniMapBK )
 		SAFE_DELETE( m_pMiniMapBK );
 
 	if( m_pBigMapBK )
 		SAFE_DELETE( m_pBigMapBK );																  
-#endif
 }
 
 HRESULT CINFGameMainMiniMap::InitDeviceObjects()
@@ -285,11 +243,9 @@ HRESULT CINFGameMainMiniMap::InitDeviceObjects()
 	m_pImgQuestTarget->InitDeviceObjects(pDataHeader );
 	
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("minimap");
 	m_pMiniMapBK = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 	m_pMiniMapBK->InitDeviceObjects( g_pD3dApp->m_pImageList );
-#endif
 
 
 	int i; for(i=0;i<3;i++)
@@ -317,47 +273,6 @@ HRESULT CINFGameMainMiniMap::InitDeviceObjects()
 		m_pInfluenceImage[i] = new CINFImageEx;
 		m_pInfluenceImage[i]->InitDeviceObjects( pDataHeader );
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	for(i=0;i<BUTTON_STATE_NUMBER;i++)
-	{
-		wsprintf( buf, "mmzin%02d", i);
-		pDataHeader = m_pGameData->Find(buf);
-		m_pButtonZoom[BUTTON_ZOOM_IN][i] = new CINFImage;
-		m_pButtonZoom[BUTTON_ZOOM_IN][i]->InitDeviceObjects( pDataHeader->m_pData, pDataHeader->m_DataSize );
-		wsprintf( buf, "mmzout%02d", i);
-		pDataHeader = m_pGameData->Find(buf);
-		m_pButtonZoom[BUTTON_ZOOM_OUT][i] = new CINFImage;
-		m_pButtonZoom[BUTTON_ZOOM_OUT][i]->InitDeviceObjects( pDataHeader->m_pData, pDataHeader->m_DataSize );
-		wsprintf( buf, "mmzhide%02d", i);
-		pDataHeader = m_pGameData->Find(buf);
-		m_pButtonZoom[BUTTON_ZOOM_HIDE][i] = new CINFImage;
-		m_pButtonZoom[BUTTON_ZOOM_HIDE][i]->InitDeviceObjects( pDataHeader->m_pData, pDataHeader->m_DataSize );
-		wsprintf( buf, "mmshow%02d", i);
-		pDataHeader = m_pGameData->Find(buf);
-
-// 		// 2008-11-3 by bhsohn 서버 시간 보기 버튼 추가
-// //		m_pButtonShowHide[BUTTON_SHOW][i] = new CINFImage;
-// //		m_pButtonShowHide[BUTTON_SHOW][i]->InitDeviceObjects( pDataHeader->m_pData, pDataHeader->m_DataSize );
-// //		wsprintf( buf, "mmhide%02d", i);
-// //		pDataHeader = m_pGameData->Find(buf);
-// //		m_pButtonShowHide[BUTTON_HIDE][i] = new CINFImage;
-// //		m_pButtonShowHide[BUTTON_HIDE][i]->InitDeviceObjects( pDataHeader->m_pData, pDataHeader->m_DataSize );
-	}
-	// 2008-11-3 by bhsohn 서버 시간 보기 버튼 추가
-	{
-		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-		wsprintf(szUpBtn, "mmhide03");
-		wsprintf(szDownBtn, "mmhide01");
-		wsprintf(szSelBtn, "mmhide00");
-		wsprintf(szDisBtn, "mmhide02");
-		if(NULL == m_pServerTimeBtn)
-		{
-			m_pServerTimeBtn = new CINFImageBtn;
-		}
-		m_pServerTimeBtn->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);
-		
-	}
-#endif
 	// end 2008-11-3 by bhsohn 서버 시간 보기 버튼 추가
 
 	pDataHeader = m_pGameData->Find("mdead");
@@ -425,15 +340,9 @@ HRESULT CINFGameMainMiniMap::InitDeviceObjects()
 // 		m_pMiniMapFrame = new CINFImageEx;
 // 		m_pMiniMapFrame->InitDeviceObjects(m_MiniMapSubDataHeader[0]);
 // 		m_pMiniMapFrame->RestoreDeviceObjects();					  
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("minimapZI");
 		m_pBigMapBK = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 		m_pBigMapBK->InitDeviceObjects( g_pD3dApp->m_pImageList );								  
-#else
-		m_pMiniMapFrame = new CINFImageEx;
-		m_pMiniMapFrame->InitDeviceObjects(m_MiniMapSubDataHeader[0]);
-		m_pMiniMapFrame->RestoreDeviceObjects();
-#endif
 	}
 	m_MiniMapSubDataHeader[1] = MiniMapData.FindFromFile("gear1");
 	if(m_MiniMapSubDataHeader[1])
@@ -506,9 +415,6 @@ HRESULT CINFGameMainMiniMap::RestoreDeviceObjects()
 		m_pPlayerImage->RestoreDeviceObjects();
 		m_pImgStateWarning->RestoreDeviceObjects();			// 2005-07-08 by ispark
 		m_pImgQuestTarget->RestoreDeviceObjects();
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		m_pMiniMapFrame->RestoreDeviceObjects();
-#endif
 		m_pMiniMapUnitImage->RestoreDeviceObjects();
 		// 2014-07-17 by ymjoo 미니맵 앞부분 시야표시 적용
 #ifdef C_MINIMAP_SIGHT_IMG_YMJOO
@@ -526,23 +432,6 @@ HRESULT CINFGameMainMiniMap::RestoreDeviceObjects()
 			m_pInfluenceImage[i]->RestoreDeviceObjects();
 			m_pGuildImage[i]->RestoreDeviceObjects();		// 2012-04-09 by isshin 레이더 및 미니맵 파티,여단원 표시
 		}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		for(i=0;i<BUTTON_STATE_NUMBER;i++)
-		{
-			m_pButtonZoom[BUTTON_ZOOM_IN][i]->RestoreDeviceObjects();
-			m_pButtonZoom[BUTTON_ZOOM_OUT][i]->RestoreDeviceObjects();
-			m_pButtonZoom[BUTTON_ZOOM_HIDE][i]->RestoreDeviceObjects();
-			// 2008-11-3 by bhsohn 서버 시간 보기 버튼 추가
-//			m_pButtonShowHide[BUTTON_SHOW][i]->RestoreDeviceObjects();
-//			m_pButtonShowHide[BUTTON_HIDE][i]->RestoreDeviceObjects();
-		}
-		// 2008-11-3 by bhsohn 서버 시간 보기 버튼 추가
-		if(m_pServerTimeBtn)
-		{
-			m_pServerTimeBtn->RestoreDeviceObjects();						
-			m_pServerTimeBtn->SetBtnPosition(BUTTON_SHOW_START_X, BUTTON_SHOW_START_Y);	
-		}
-#endif
 		// end 2008-11-3 by bhsohn 서버 시간 보기 버튼 추가
 
 		m_pDeadImage->RestoreDeviceObjects();
@@ -566,10 +455,8 @@ HRESULT CINFGameMainMiniMap::RestoreDeviceObjects()
 		m_pMeshParty->RestoreDeviceObjects();
 		m_pMeshArea->RestoreDeviceObjects();
 */													  
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
         m_pMiniMapBK->RestoreDeviceObjects();
 		m_pBigMapBK->RestoreDeviceObjects();
-#endif
 		m_bRestored = TRUE;
 	}
 	return S_OK;
@@ -584,9 +471,6 @@ HRESULT CINFGameMainMiniMap::InvalidateDeviceObjects()
 		m_pPlayerImage->InvalidateDeviceObjects();
 		m_pImgStateWarning->InvalidateDeviceObjects();		// 2005-07-08 by ispark
 		m_pImgQuestTarget->InvalidateDeviceObjects();		// 2007-02-26 by dgwoo
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		m_pMiniMapFrame->InvalidateDeviceObjects();
-#endif
 		m_pMiniMapUnitImage->InvalidateDeviceObjects();
 		// 2014-07-17 by ymjoo 미니맵 앞부분 시야표시 적용
 #ifdef C_MINIMAP_SIGHT_IMG_YMJOO
@@ -604,22 +488,6 @@ HRESULT CINFGameMainMiniMap::InvalidateDeviceObjects()
 			m_pInfluenceImage[i]->InvalidateDeviceObjects();
 			m_pGuildImage[i]->InvalidateDeviceObjects();// 2012-04-09 by isshin 레이더 및 미니맵 파티,여단원 표시
 		}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		for(i=0;i<BUTTON_STATE_NUMBER;i++)
-		{
-			m_pButtonZoom[BUTTON_ZOOM_IN][i]->InvalidateDeviceObjects();
-			m_pButtonZoom[BUTTON_ZOOM_OUT][i]->InvalidateDeviceObjects();
-			m_pButtonZoom[BUTTON_ZOOM_HIDE][i]->InvalidateDeviceObjects();
-			// 2008-11-3 by bhsohn 서버 시간 보기 버튼 추가
-//			m_pButtonShowHide[BUTTON_SHOW][i]->InvalidateDeviceObjects();
-//			m_pButtonShowHide[BUTTON_HIDE][i]->InvalidateDeviceObjects();
-		}
-		// 2008-11-3 by bhsohn 서버 시간 보기 버튼 추가
-		if(m_pServerTimeBtn)
-		{
-			m_pServerTimeBtn->InvalidateDeviceObjects();		
-		}
-#endif
 		// end 2008-11-3 by bhsohn 서버 시간 보기 버튼 추가
 
 		m_pDeadImage->InvalidateDeviceObjects();
@@ -643,10 +511,8 @@ HRESULT CINFGameMainMiniMap::InvalidateDeviceObjects()
 		m_pMeshParty->InvalidateDeviceObjects();
 		m_pMeshArea->InvalidateDeviceObjects();
 */		
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
         m_pMiniMapBK->InvalidateDeviceObjects();
 		m_pBigMapBK->InvalidateDeviceObjects();	
-#endif
 		m_bRestored = FALSE;
 	}
 	return S_OK;
@@ -659,9 +525,6 @@ HRESULT CINFGameMainMiniMap::DeleteDeviceObjects()
 	m_pPlayerImage->DeleteDeviceObjects();
 	m_pImgStateWarning->DeleteDeviceObjects();
 	m_pImgQuestTarget->DeleteDeviceObjects();
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pMiniMapFrame->DeleteDeviceObjects();
-#endif
 	m_pMiniMapUnitImage->DeleteDeviceObjects();
 	// 2014-07-17 by ymjoo 미니맵 앞부분 시야표시 적용
 #ifdef C_MINIMAP_SIGHT_IMG_YMJOO
@@ -676,9 +539,6 @@ HRESULT CINFGameMainMiniMap::DeleteDeviceObjects()
 	SAFE_DELETE(m_pPlayerImage);
 	SAFE_DELETE(m_pImgStateWarning);						// 2005-07-08 by ispark
 	SAFE_DELETE(m_pImgQuestTarget);							// 2007-02-26 by dgwoo
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	SAFE_DELETE(m_pMiniMapFrame);
-#endif
 	SAFE_DELETE(m_pMiniMapUnitImage);
 	// 2014-07-17 by ymjoo 미니맵 앞부분 시야표시 적용
 #ifdef C_MINIMAP_SIGHT_IMG_YMJOO
@@ -701,29 +561,6 @@ HRESULT CINFGameMainMiniMap::DeleteDeviceObjects()
 		SAFE_DELETE(m_pInfluenceImage[i]);
 		SAFE_DELETE(m_pGuildImage[i]);
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	for(i=0;i<BUTTON_STATE_NUMBER;i++)
-	{
-		m_pButtonZoom[BUTTON_ZOOM_IN][i]->DeleteDeviceObjects();
-		m_pButtonZoom[BUTTON_ZOOM_OUT][i]->DeleteDeviceObjects();
-		m_pButtonZoom[BUTTON_ZOOM_HIDE][i]->DeleteDeviceObjects();
-		// 2008-11-3 by bhsohn 서버 시간 보기 버튼 추가
-//		m_pButtonShowHide[BUTTON_SHOW][i]->DeleteDeviceObjects();
-//		m_pButtonShowHide[BUTTON_HIDE][i]->DeleteDeviceObjects();
-		SAFE_DELETE(m_pButtonZoom[BUTTON_ZOOM_IN][i]);
-		SAFE_DELETE(m_pButtonZoom[BUTTON_ZOOM_OUT][i]);
-		SAFE_DELETE(m_pButtonZoom[BUTTON_ZOOM_HIDE][i]);
-		// 2008-11-3 by bhsohn 서버 시간 보기 버튼 추가
-//		SAFE_DELETE(m_pButtonShowHide[BUTTON_SHOW][i]);
-//		SAFE_DELETE(m_pButtonShowHide[BUTTON_HIDE][i]);
-	}
-	// 2008-11-3 by bhsohn 서버 시간 보기 버튼 추가
-	if(m_pServerTimeBtn)
-	{
-		m_pServerTimeBtn->DeleteDeviceObjects();	
-		SAFE_DELETE(m_pServerTimeBtn);
-	}
-#endif
 	// end 2008-11-3 by bhsohn 서버 시간 보기 버튼 추가
 	m_pDeadImage->DeleteDeviceObjects();
 	m_pLockonImage->DeleteDeviceObjects();
@@ -746,13 +583,11 @@ HRESULT CINFGameMainMiniMap::DeleteDeviceObjects()
 	// 2005-09-21 by ispark
 	// 레이더 미니맵
 	SAFE_DELETE(m_pRadarMiniMap);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pMiniMapBK->DeleteDeviceObjects();
 	SAFE_DELETE(m_pMiniMapBK);
 
 	m_pBigMapBK->DeleteDeviceObjects();
 	SAFE_DELETE(m_pBigMapBK);
-#endif
 	// 2005-09-13 by ispark 별도 처리
 /*	m_pMeshUnit->DeleteDeviceObjects();
 	SAFE_DELETE(m_pMeshUnit);
@@ -798,30 +633,10 @@ void CINFGameMainMiniMap::Render()
 //			m_pButtonZoom[BUTTON_ZOOM_HIDE][m_nButtonState[BUTTON_ZOOM]]->Render();
 //		}
 		// 2008-11-3 by bhsohn 서버 시간 보기 버튼 추가
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		m_pServerTimeBtn->Render();
-		
-		if(m_bZoomState == BUTTON_ZOOM_OUT)
-		{
-			m_pButtonZoom[BUTTON_ZOOM_OUT][m_nZoomButtonState]->Move( BUTTON_ZOOM_START_X, BUTTON_ZOOM_START_Y );
-			m_pButtonZoom[BUTTON_ZOOM_OUT][m_nZoomButtonState]->Render();
-		}
-		else if(m_bZoomState == BUTTON_ZOOM_IN)
-		{
-			m_pButtonZoom[BUTTON_ZOOM_IN][m_nZoomButtonState]->Move( BUTTON_ZOOM_START_X, BUTTON_ZOOM_START_Y );
-			m_pButtonZoom[BUTTON_ZOOM_IN][m_nZoomButtonState]->Render();
-		}
-		else if(m_bZoomState == BUTTON_ZOOM_HIDE)
-		{
-			m_pButtonZoom[BUTTON_ZOOM_HIDE][m_nZoomButtonState]->Move( BUTTON_ZOOM_START_X, BUTTON_ZOOM_START_Y );
-			m_pButtonZoom[BUTTON_ZOOM_HIDE][m_nZoomButtonState]->Render();
-		}
-#endif
 
 		// 레이다 미니맵
 		RenderRadarMap();
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경		
 		// 2013-02-15 by bhsohn 레이다 위치 수정
 		// 레이다 본체
 //		m_pBackImage->Move( SMALLMAP_START_X - 9  , BACK_START_Y  );
@@ -843,19 +658,6 @@ void CINFGameMainMiniMap::Render()
 		m_pPlayerImage->Move( SMALLMAP_START_X - 19 + m_pBackImage->GetImgSize().x /2 - m_pPlayerImage->GetImgSize().x /2, BACK_START_Y + 66);
 		// END 2013-02-15 by bhsohn 레이다 위치 수정
 		m_pPlayerImage->Render();
-#else				 
-		m_pBackImage->Move( BACK_START_X, BACK_START_Y );
-		m_pBackImage->Rotate( BACK_IMAGE_SIZE/2.0f, BACK_IMAGE_SIZE/2.0f, m_fRadarBackAngle);
-		m_pBackImage->Render();
-	
-		// 시야 삼각형
-		m_pSiteImage->Move( SITE_START_X, SITE_START_Y );
-		m_pSiteImage->Render();
-
-		// 레이다 중앙 - Unit Pos
-		m_pPlayerImage->Move( UNIT_START_X, UNIT_START_Y );
-		m_pPlayerImage->Render();
-#endif
 
 		if(m_bZoomState)
 		{
@@ -885,11 +687,7 @@ void CINFGameMainMiniMap::Render()
 		{
 			if(m_bMissileWarningRender)
 			{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				m_pImgStateWarning->Move(SMALLMAP_START_X , BACK_START_Y + 9);
-#else													   
-				m_pImgStateWarning->Move(MISSILE_WARNING_X, MISSILE_WARNING_Y);
-#endif
 				m_pImgStateWarning->Render();
 
 				if(0.5f < m_fMissileWarningTime)
@@ -979,11 +777,9 @@ void CINFGameMainMiniMap::RenderSmallMap()
 		fMyPosY = 0.0f;
 		GetMiniSmallMapPos(g_pShuttleChild->m_vPos, &fMyPosX, &fMyPosY);
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pMiniMapBK->Move(fMiniMapX - ( m_pMiniMapBK->GetMaxPos().x - ( pMiniBigMapImageTEMP->GetImgSize().x * SMALLMAP_SCALE ) )/2
 					 , fMiniMapY - ( m_pMiniMapBK->GetMaxPos().y - ( pMiniBigMapImageTEMP->GetImgSize().y * SMALLMAP_SCALE ) )/2 );
 	m_pMiniMapBK->Render();
-#endif
 	m_pMiniMapUnitImage->Move(fMiniMapX + fMyPosX, 
 								fMiniMapY + fMyPosY);
 	if(pMiniBigMapImageTEMP)
@@ -1312,11 +1108,9 @@ void CINFGameMainMiniMap::RenderBigMap()
 	
 	m_pMiniMapUnitImage->Move(fMiniMapX + fMyPosX, 
 								fMiniMapY + fMyPosY);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	
 	m_pBigMapBK->Move(fMiniMapX - ( m_pBigMapBK->GetMaxPos().x - pMiniBigMapImageTEMP->GetImgSize().x ) /2
 					, fMiniMapY - ( m_pBigMapBK->GetMaxPos().y - pMiniBigMapImageTEMP->GetImgSize().y ) /2 );
 	m_pBigMapBK->Render();
-#endif
 
 	if(pMiniBigMapImageTEMP)
 	{
@@ -1324,10 +1118,6 @@ void CINFGameMainMiniMap::RenderBigMap()
 		pMiniBigMapImageTEMP->Render();
 	}
 	// 2D Frame
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pMiniMapFrame->Move(fMiniMapX - 10.0f, fMiniMapY - 16.5f);
-	m_pMiniMapFrame->Render();
-#endif
 
 	// 관전 모드일때 모든 유저의 위치를 표시해준다.
 	if(g_pShuttleChild->IsOperation())
@@ -1903,9 +1693,6 @@ int CINFGameMainMiniMap::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 //				m_nButtonState[BUTTON_ZOOM] = BUTTON_STATE_NORMAL;
 //			}
 //			else 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경			
-			m_pServerTimeBtn->OnMouseMove(pt);
-#endif
 
 			if(GetButtonStateOnMouse(pt, BUTTON_ZOOM_START_X,BUTTON_ZOOM_START_Y, BUTTON_ZOOM_SIZE_X, BUTTON_ZOOM_SIZE_Y))
 			{
@@ -1960,13 +1747,6 @@ int CINFGameMainMiniMap::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 //			else 
 			
 			{
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-				if(TRUE == m_pServerTimeBtn->OnLButtonDown(pt))
-				{
-					// 버튼위에 마우스가 있다.
-					return  INF_MSGPROC_BREAK;
-				}		
-#endif
 			}
 			if(GetButtonStateOnMouse(pt, BUTTON_ZOOM_START_X,BUTTON_ZOOM_START_Y, BUTTON_ZOOM_SIZE_X, BUTTON_ZOOM_SIZE_Y))
 			{
@@ -2033,14 +1813,6 @@ int CINFGameMainMiniMap::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 //			else 
 
 			{
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-				if(TRUE == m_pServerTimeBtn->OnLButtonUp(pt))
-				{	
-					OnClickServerTime();
-					g_pD3dApp->m_pSound->PlayD3DSound(SOUND_SELECT_BUTTON, D3DXVECTOR3(0,0,0), FALSE);			
-					return  INF_MSGPROC_BREAK;
-				}
-#endif
 			}
 			if(GetButtonStateOnMouse(pt, BUTTON_ZOOM_START_X,BUTTON_ZOOM_START_Y, BUTTON_ZOOM_SIZE_X, BUTTON_ZOOM_SIZE_Y))
 			{
@@ -2346,7 +2118,6 @@ void CINFGameMainMiniMap::RenderRadarMap()
 	fAngle = ACOS(D3DXVec2Dot(&vUnitVel,&(D3DXVECTOR2(0,-1))));
 	if(vUnitVel.x > 0 )
 		fAngle *= -1;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFImageEx* pImageTEMP = NULL;
 	if( g_pD3dApp->m_bCharacter )
 	{
@@ -2365,11 +2136,6 @@ void CINFGameMainMiniMap::RenderRadarMap()
 		m_pRadarMiniMap->SetScale(1.1f, 1.1f);
 		m_pRadarMiniMap->Render();
 	}
-#else 
-	m_pRadarMiniMap->Move( RADAR_MINIMAP_X, RADAR_MINIMAP_Y );
-	m_pRadarMiniMap->Rotate( RADAR_MINIMAP_SIZE/2.0f, RADAR_MINIMAP_SIZE/2.0f, fAngle);
-	m_pRadarMiniMap->Render();
-#endif
 }
 
 

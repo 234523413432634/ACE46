@@ -29,7 +29,6 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 // 캡스 영역
 #define OPJOYSTIC_CAPS_HEIGHT		20
@@ -100,77 +99,6 @@
 // 키 콤보 박스 크기
 #define KEY_SETUP_COMBO_SIZE_Y				15
 #define KEY_SETUP_COMBO_SIZE_X				132
-#else
-// 캡스 영역
-#define OPJOYSTIC_CAPS_HEIGHT		20
-
-// 라디오 버튼
-
-// 조이스틱 사용 여부
-#define OPTION_RADIO_JOYSTIC_ONOFF_X		245
-#define OPTION_RADIO_JOYSTIC_ONOFF_Y		32
-#define OPTION_RADIO_JOYSTIC_ONOFF_CAP_X	70
-#define OPTION_RADIO_JOYSTIC_ONOFF_CAP_Y	16
-
-// 진동
-#define OPTION_RADIO_JOYSTIC_FEED_X			245
-#define OPTION_RADIO_JOYSTIC_FEED_Y			72
-
-// 감도 조절
-#define	JOY_COMBO_SENSE_X				244
-#define	JOY_COMBO_SENSE_Y				89
-#define JOY_COMBO_SENSE_MAIN_WIDTH			110
-#define JOY_COMBO_SENSE_MAIN_HEIGHT			17
-#define JOY_COMBO_SENSE_ELE_WIDTH			110
-#define JOY_COMBO_SENSE_ELE_HEIGHT			13
-
-// 키 설정 가지고 오기
-#define	JOY_COMBO_KEY_X				244
-#define	JOY_COMBO_KEY_Y				109
-#define JOY_COMBO_KEY_MAIN_WIDTH			110
-#define JOY_COMBO_KEY_MAIN_HEIGHT			17
-#define JOY_COMBO_KEY_ELE_WIDTH			110
-#define JOY_COMBO_KEY_ELE_HEIGHT			13
-
-// 조이스틱선택
-#define	JOY_COMBO_DEVICE_X				244
-#define	JOY_COMBO_DEVICE_Y				49
-#define JOY_COMBO_DEVICE_MAIN_WIDTH			110
-#define JOY_COMBO_DEVICE_MAIN_HEIGHT			17
-#define JOY_COMBO_DEVICE_ELE_WIDTH			110
-#define JOY_COMBO_DEVICE_ELE_HEIGHT			13
-
-
-// 조이스틱 키
-#define JOY_SETUP_KEY_CONFIG_X			51
-#define JOY_SETUP_KEY_CONFIG_Y			173
-#define JOY_SETUP_KEY_CONFIG_HEIGHT		26
-
-//저장
-#define	JOY_BTN_SAVE_X				322
-#define	JOY_BTN_SAVE_Y				437
-//닫기
-#define	JOY_BTN_CLOSE_X				388
-#define	JOY_BTN_CLOSE_Y				437
-//새이름으로 저장
-#define	JOY_BTN_SAVEAS_X				454
-#define	JOY_BTN_SAVEAS_Y				437
-
-
-// 키 설정 콤보 박스 
-#define	JOY_COMBO_SETUP_X				122
-#define	JOY_COMBO_SETUP_Y				173
-#define	JOY_COMBO_SETUP_CAP_X			138
-#define	JOY_COMBO_SETUP_CAP_Y			26
-#define JOY_COMBO_SETUP_MAIN_WIDTH			70
-#define JOY_COMBO_SETUP_MAIN_HEIGHT			17
-#define JOY_COMBO_SETUP_ELE_WIDTH			70
-#define JOY_COMBO_SETUP_ELE_HEIGHT			13
-
-// 키 콤보 박스 크기
-#define KEY_SETUP_COMBO_SIZE_Y				15
-#define KEY_SETUP_COMBO_SIZE_X				132
-#endif
 
 CINFOpJoystick::CINFOpJoystick(CAtumNode* pParent)
 {	
@@ -281,20 +209,11 @@ HRESULT CINFOpJoystick::InitDeviceObjects()
 	char buf[64];
 	
 	//CJoyStickInput *pJoyStick = g_pD3dApp->GetJoystickControl();	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	
 	{
 		DataHeader* pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("joystick");	
 		m_pBoxImage = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 		m_pBoxImage->InitDeviceObjects( g_pD3dApp->m_pImageList );
 	}
-#else
-	{
-		wsprintf(buf, "jobk");
-		m_pBoxImage = new CINFImageEx;
-		DataHeader* pDataHeader = FindResource(buf);
-		m_pBoxImage->InitDeviceObjects(pDataHeader);
-	}
-#endif	
 	{
 		wsprintf(buf, "joblk");
 		m_pSelImage = new CINFImageEx;
@@ -414,51 +333,29 @@ HRESULT CINFOpJoystick::InitDeviceObjects()
 	// 저장
 	{	
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];		
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf(szUpBtn, "oks03");
 		wsprintf(szDownBtn, "oks01");
 		wsprintf(szSelBtn, "oks00");
 		wsprintf(szDisBtn, "oks02");
-#else
-		wsprintf(szUpBtn, "josbtn3");
-		wsprintf(szDownBtn, "josbtn1");
-		wsprintf(szSelBtn, "josbtn0");
-		wsprintf(szDisBtn, "josbtn2");
-#endif
 
 		if(NULL == m_pOptionJoySave)
 		{
 			m_pOptionJoySave = new CINFImageBtn;
 		}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM		
 		m_pOptionJoySave->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn,"STRTOOLTIP11");
-#else
-		m_pOptionJoySave->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);		
-#endif
 	}
 	// 닫기
 	{	
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];		
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf(szUpBtn, "cans03");
 		wsprintf(szDownBtn, "cans01");
 		wsprintf(szSelBtn, "cans00");
 		wsprintf(szDisBtn, "cans02");
-#else
-		wsprintf(szUpBtn, "shnpc063");
-		wsprintf(szDownBtn, "shnpc061");
-		wsprintf(szSelBtn, "shnpc060");
-		wsprintf(szDisBtn, "shnpc062");
-#endif
 		if(NULL == m_pOptionClose)
 		{
 			m_pOptionClose = new CINFImageBtn;
 		}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pOptionClose->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn,"STRTOOLTIP41");
-#else
-		m_pOptionClose->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);		
-#endif
 	}
 	// 새이름으로 저장
 	{	
@@ -471,11 +368,7 @@ HRESULT CINFOpJoystick::InitDeviceObjects()
 		{
 			m_pOptionJoySaveAs = new CINFImageBtn;
 		}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM		
 		m_pOptionJoySaveAs->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn,"STRTOOLTIP10");	
-#else
-		m_pOptionJoySaveAs->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);		
-#endif
 
 	}
 
@@ -1485,13 +1378,8 @@ void CINFOpJoystick::UpdateBtnPos(int nBackPosX, int nBackPosY)
 	{
 		RECT rcMouseWhell, rcMousePos;
 		POINT ptScrollPos = ptBkPos;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		ptScrollPos.x += 802;
 		ptScrollPos.y += 194;
-#else
-		ptScrollPos.x += 813;
-		ptScrollPos.y += 176;
-#endif
 
 		m_pScroll->SetPosition(ptScrollPos.x ,ptScrollPos.y,11,210);
 		rcMouseWhell.left		= ptScrollPos.x - 790;

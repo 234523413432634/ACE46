@@ -1216,7 +1216,6 @@ void CAppEffectData::Tick()
 
 		// 플레이 시간이 다 끝나면 무조건 이펙트를 삭제한다
 		if( m_fPlayTime <= 0.0f )
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 // 2011-10-10 by jhahn EP4 트리거 시스템	화산재 이펙트 추가			
 		{
 			m_bUsing = FALSE;
@@ -1226,9 +1225,6 @@ void CAppEffectData::Tick()
 				
 			}*/
 		}						
-#else
-           m_bUsing = FALSE;   
-#endif
 //end 2011-10-10 by jhahn EP4 트리거 시스템	화산재 이펙트 추가		
 		else
 		{

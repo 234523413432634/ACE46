@@ -95,9 +95,7 @@ public:
 	void	SetIconName( CItemInfo* pItemInfo, char* szName );
 	void	UpdateIconName( CItemInfo* pItemInfo );
 	// end 2010. 04. 01 by ckPark 리소스 변경 시스템시 팩토리나 연구소에서 아이템 회수한 후 변경이 안되는 문제 해결
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	BOOL IsSlotOpen() { return m_pIsSlotOpen; }													  
-#endif
 
 	// 2012-12-21 by bhsohn [드레인모듈] 아이템 슬롯 등록 안되게 수정
 	BOOL IsPossibleSetQuickSlot(int nItemNum);
@@ -140,12 +138,8 @@ protected:
 
 	CINFImageEx*	m_pBack;
 	CINFImageEx*	m_pNumber;														
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	//CINFImageEx*	m_pImgTabButton[QSLOT_BUTTON_NUMBER][QSLOT_BUTTON_STATE_NUMBER];
 	CINFImageBtn*	m_pImgTabButton[ QSLOT_BUTTON_NUMBER ];	
-#else  
-	CINFImage*	m_pImgTabButton[QSLOT_BUTTON_NUMBER][QSLOT_BUTTON_STATE_NUMBER];
-#endif
 	CINFImageEx*	m_pImgDisSkill;
 	CINFImageEx*	m_pImgBlind;
 	int			m_nButtonState[QSLOT_BUTTON_NUMBER];	
@@ -169,9 +163,7 @@ protected:
 	// 2008-11-13 by bhsohn 조이스틱 작업
 	float					m_fJoystikcSkillList;
 	deque<structJoystikcSkillList>	m_vecJoystikcSkillList;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	BOOL					m_pIsSlotOpen;
-#endif
 	
 	float					m_fCheckQuiclSlotSave; // 2013-07-01 by bhsohn QuickSlot변경시 시간 체크하여 바로 저장하게 변경
 };

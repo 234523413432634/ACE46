@@ -31,11 +31,7 @@ typedef struct
 
 #define	MONSTER_INFO_ITEM_LEN	2
 // 몬스터 최대 탭
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
      #define	MAX_MONSTER_INFO		4																  
-#else																									  
-#define	MAX_MONSTER_INFO		8
-#endif
 
 class CINFMissionMapViewCtrl  : public CINFBase
 {
@@ -109,9 +105,6 @@ private:
 	CINFImageEx	*			m_pImageItem;
 	CINFImageEx	*			m_pImgQuestTarget;
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	POINT					m_ptMonPos[MAX_MONSTER_INFO];
-#endif
 	POINT					m_ptMonTitle;
 
 	// 스크롤 바 

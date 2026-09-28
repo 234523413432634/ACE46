@@ -36,7 +36,6 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 #define DIS_EFF_STEP_TIME							0.5
 
@@ -138,107 +137,8 @@
 #define CREATE_CHARACTER_FOCUS_NAME_X	232
 #endif		
 
-#else	
-#define CREATE_FONT_COLOR		RGB(222,222,222)
-
-#define CRE_BUTTON_STATE_UP		0
-#define CRE_BUTTON_STATE_DOWN	1
-#define CRE_BUTTON_STATE_NORMAL	2
-
-#define POS_CRE_TITLE_X		g_pD3dApp->GetBackBufferDesc().Width /2 - 294/2
-#define POS_CRE_BACK_X		g_pD3dApp->GetBackBufferDesc().Width /2 - 640/2	
-#define POS_CRE_BACK_Y		g_pD3dApp->GetBackBufferDesc().Height - 148
-
-#define POS_CRE_CHAR_FACE_X	POS_CRE_BACK_X+46
-#define POS_CRE_CHAR_FACE_Y	POS_CRE_BACK_Y+26
-
-// 2005-07-05 by ispark
-// CreateMenu UI 변경에 따른 좌표 수정
-//#define POS_CRE_OK_START_X		POS_CRE_BACK_X+448
-#define POS_CRE_OK_START_Y		POS_CRE_BACK_Y+67
-//#define POS_CRE_CANCEL_START_X	POS_CRE_BACK_X+525
-#define POS_CRE_CANCEL_START_Y	POS_CRE_BACK_Y+67
-#define POS_CRE_OK_START_X		POS_CRE_BACK_X+411
-#define POS_CRE_CANCEL_START_X	POS_CRE_BACK_X+488
-
-#define POS_CRE_LEFT_START_X		POS_CRE_BACK_X-21
-#define POS_CRE_LEFT_START_Y		POS_CRE_BACK_Y+61
-#define POS_CRE_RIGHT_START_X		POS_CRE_BACK_X+108
-#define POS_CRE_RIGHT_START_Y		POS_CRE_BACK_Y+61
-
-#define CRE_BUTTON_OK		0
-#define CRE_BUTTON_CANCEL	1
-#define CRE_BUTTON_LEFT		2
-#define CRE_BUTTON_RIGHT	3
-
-#define CRE_SIZE_BUTTON_X(i)	(i > 1 ? 28 : 77)
-#define CRE_SIZE_BUTTON_Y(i)	(i > 1 ? 36 : 36)
-
-#define POS_CRE_CHARACTER_INFO_START_X	256
-#define DISTANCE_CRE_CHARACTER_INFO_X	88
-#define DISTANCE_CRE_CHARACTER_INFO_Y	18
-
-// 캐릭터 추가시 아래 숫자를 증가시켜야 한다.
-//#define CRE_FEMALE_LAST_NUMBER	3
-//#define CRE_MAN_LAST_NUMBER		103
-
-#define CREATE_CHARACTER_INFO_RACE		0	// 종족
-
-#define CREATE_CHARACTER_INFO_DODGE		2	// 회피
-#define CREATE_CHARACTER_INFO_ATTACK	3	// 공격
-#define CREATE_CHARACTER_INFO_SOUL		4	// 감응
-#define CREATE_CHARACTER_INFO_FUEL		5	// 연료
-#define CREATE_CHARACTER_INFO_DEFENSE	6	// 방어
-#define CREATE_CHARACTER_INFO_ENDURANCE	7	// 내구
-
-#define CRE_CHANGE_SHOW_CURSOR_TIME		0.7f
-
-#define CREATE_CHARACTER_INFO_A			0
-#define CREATE_CHARACTER_INFO_B			1
-#define CREATE_CHARACTER_INFO_M			3
-#define CREATE_CHARACTER_INFO_I			2
-
-#define CREATE_CHARACTER_INFO_UNIT_STYLE_U	-1
-#define CREATE_CHARACTER_INFO_UNIT_STYLE_A	0
-#define CREATE_CHARACTER_INFO_UNIT_STYLE_D	1
-#define CREATE_CHARACTER_INFO_UNIT_STYLE_F	2
-
-#define CREATE_CHARACTER_INFO_RADIO_DEF		1
-#define CREATE_CHARACTER_INFO_RADIO_SEL		0
-
-#define CREATE_CHARACTER_FOCUS_NAME			0
-#define CREATE_CHARACTER_FOCUS_STEC			1
-#define CREATE_CHARACTER_FOCUS_NAME_UNABLE	2
-#define CREATE_CHARACTER_FOCUS_SAME_NAME	3
-#define CREATE_CHARACTER_FOCUS_NONE			-1
-
-#define CREATE_CHARACTER_INFO_STAT_X		((g_pD3dApp->GetBackBufferDesc().Width - 400)/2)
-#define CREATE_CHARACTER_INFO_STAT_Y		(g_pD3dApp->GetBackBufferDesc().Height-217)
-
-// 2006-03-07 by ispark, 언어에 따라 위치 수정
-#if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
-	//#define POS_CRE_CHARACTER_NAME_X		215//243
-	#ifdef INNOVA_RELEASE
-		#define POS_CRE_CHARACTER_NAME_X		225//243	// 2008-09-18 by bhsohn 러시아 캐릭 생성창에서 캐릭입력 위치 변경
-	#else
-		#define POS_CRE_CHARACTER_NAME_X		215//243
-	#endif
-	#define POS_CRE_CHARACTER_NAME_Y		28//32
-	#define POS_CRE_CHARACTER_INFO_START_Y	48//50
-	#define CREATE_CHARACTER_INFO_RACE_X	25
-	#define CREATE_CHARACTER_FOCUS_NAME_X	207
-#else
-#define POS_CRE_CHARACTER_NAME_X		243
-#define POS_CRE_CHARACTER_NAME_Y		28//32
-#define POS_CRE_CHARACTER_INFO_START_Y	47//48//50		// 2006-08-11 by dgwoo캐릭터 생성시 Y값 위치 변경.
-#define CREATE_CHARACTER_INFO_RACE_X	30
-#define CREATE_CHARACTER_FOCUS_NAME_X	232
-#endif
-
-#endif
 CINFCreateMenu::CINFCreateMenu(CAtumNode* pParent)
 {
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	FLOG( "CINFCreateMenu(CAtumNode* pParent)" );
 	m_pParent = pParent;
 	m_bRestored = FALSE;
@@ -352,99 +252,6 @@ CINFCreateMenu::CINFCreateMenu(CAtumNode* pParent)
 	m_dwBtnUDownpBkAlpha = 0xffffffff;
 
 	m_bRenderInfoBtn = TRUE;  
-#else
-	FLOG( "CINFCreateMenu(CAtumNode* pParent)" );
-	m_pParent = pParent;
-	m_bRestored = FALSE;
-	m_pGameData = NULL;
-
-	// 2005-07-05 by ispark
-	// 자동 스탯 분배 삭제
-//	int i; for(i=0; i<CRE_CHARACTER_UNIT_NUMBER; i++)
-//		m_pBack[i] = NULL;
-	m_pBack = NULL;
-	
-//	for(i=0; i<CRE_CHARACTER_RADIO_BUTTON_NUMBER; i++)
-//		m_pImgRadio[i] = NULL;
-	
-	m_pTitle = NULL;
-	m_pImgFocus[0] = NULL;
-	m_pImgFocus[1] = NULL;
-	m_pImgFocus[2] = NULL;
-	m_pImgFocus[3] = NULL;
-	int i; for(i=0;i<9;i++)
-		m_pImgToolTip[i] = NULL;
-	memset(&m_createUnit, 0x00, sizeof(MSG_FC_CHARACTER_CREATE));
-
-	for(i=0;i<2;i++)
-	{
-		m_pButton[CRE_BUTTON_OK][i] = NULL;
-		m_pButton[CRE_BUTTON_CANCEL][i] = NULL;
-		m_pButton[CRE_BUTTON_LEFT][i] = NULL;
-		m_pButton[CRE_BUTTON_RIGHT][i] = NULL;
-	}
-	m_fButtonPos[CRE_BUTTON_OK][0] = 0.0f;
-	m_fButtonPos[CRE_BUTTON_OK][1] = 0.0f;
-	m_fButtonPos[CRE_BUTTON_CANCEL][0] = 0.0f;
-	m_fButtonPos[CRE_BUTTON_CANCEL][1] = 0.0f;
-	m_fButtonPos[CRE_BUTTON_LEFT][0] = 0.0f;
-	m_fButtonPos[CRE_BUTTON_LEFT][1] = 0.0f;
-	m_fButtonPos[CRE_BUTTON_RIGHT][0] = 0.0f;
-	m_fButtonPos[CRE_BUTTON_RIGHT][1] = 0.0f;
-
-	m_nButtonState[CRE_BUTTON_OK] = CRE_BUTTON_STATE_NORMAL;
-	m_nButtonState[CRE_BUTTON_CANCEL] = CRE_BUTTON_STATE_NORMAL;
-	m_nButtonState[CRE_BUTTON_LEFT] = CRE_BUTTON_STATE_NORMAL;
-	m_nButtonState[CRE_BUTTON_RIGHT] = CRE_BUTTON_STATE_NORMAL;
-
-	// 2009-02-10 by bhsohn Japan Charcter Create
-	//memset(m_strCharacterName, 0x00, SIZE_MAX_CHARACTER_NAME);
-	ZERO_MEMORY(m_strCharacterName);
-	// end 2009-02-10 by bhsohn Japan Charcter Create
-	m_pFontCharacterName = NULL;
-	memset(m_pFontCharacterInfo, 0x00, sizeof(DWORD)*CRE_CHARACTER_INFO_NUMBER);
-	m_nCharacterNamePos[0] = 0;
-	m_nCharacterNamePos[1] = 0;
-	memset(*m_nCharacterInfoPos, 0x00, sizeof(DWORD)*SEL_CHARACTER_INFO_NUMBER*2);
-
-	m_bShowCursor = FALSE;
-	m_fChangeShowCursorTime = 0.0f;
-
-	m_bBlocking = FALSE;
-	m_nSelectUnit = UNITKIND_BGEAR;
-	for(i=0; i<CREATE_CHARACTER_RADIO_ALL_AUTTON; i++)
-		m_nRadioButton[i] = CREATE_CHARACTER_INFO_RADIO_DEF;
-//	m_nSelectUnitStyle = CREATE_CHARACTER_INFO_UNIT_STYLE_U;	// 2005-07-04 by ispark 자동 스탯 분배 삭제
-	m_nSelectUnitStyle = CREATE_CHARACTER_INFO_UNIT_STYLE_F;
-	m_nFocus = CREATE_CHARACTER_FOCUS_NONE;
-	m_nFocusStat  = CREATE_CHARACTER_FOCUS_NONE;
-//	m_nCreateUnitStat = -1;
-	m_nCreateUnitStat = AUTOSTAT_TYPE_FREESTYLE;				// 2005-07-04 by ispark 자동 스탯 분배 삭제
-//	m_nRenderToolTipIndex = -1;									// 2005-07-04 by ispark 자동 스탯 분배 삭제
-	for(i=0; i<3; i++)
-		m_pImgTextPopUp[i] = NULL;
-	// 2005-09-12 by ispark
-	// 사용할 수 있는 FACE 넘버를 부여한다.
-	for(i = 0; i < CRE_TOTAL_NUMBER; i++)
-		m_nFaceUseIndex[i] = -1;
-	//여자 캐릭터 
-	m_nFaceUseIndex[0] = 0;
-	m_nFaceUseIndex[1] = 1;
-	m_nFaceUseIndex[2] = 2;
-	m_nFaceUseIndex[3] = 3;
-	m_nFaceUseIndex[4] = 4;
-	//남자 캐릭터
-	m_nFaceUseIndex[5] = 100;
-	m_nFaceUseIndex[6] = 101;
-	m_nFaceUseIndex[7] = 102;
-	m_nFaceUseIndex[8] = 103;
-	m_nFaceUseIndex[9] = 104;
-	
-
-	// 남자를 기준으로 잡았다
-	m_nChoiseFaceIndex = 6;
-	m_createUnit.PilotFace = m_nFaceUseIndex[m_nChoiseFaceIndex];
-#endif
 
 }
 
@@ -459,7 +266,6 @@ CINFCreateMenu::~CINFCreateMenu()
 	SAFE_DELETE(m_pBack);
 //	for(i=0; i<CRE_CHARACTER_RADIO_BUTTON_NUMBER; i++)
 //		SAFE_DELETE( m_pImgRadio[i] );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	SAFE_DELETE( m_pTitle );	
 	// 2011. 10. 18 by jskim EP4 UI변경 - create창 변경
 	SAFE_DELETE( m_GruopCreatemanager );
@@ -477,20 +283,6 @@ CINFCreateMenu::~CINFCreateMenu()
 		SAFE_DELETE(m_pButton[i][2]);
 		SAFE_DELETE(m_pButton[i][3]);
 	} 
-#else 
-	SAFE_DELETE( m_pTitle );
-	SAFE_DELETE( m_pImgFocus[0] );
-	SAFE_DELETE( m_pImgFocus[1] );
-	SAFE_DELETE( m_pImgFocus[2] );
-	SAFE_DELETE( m_pImgFocus[3] );
-	int i; for(i=0;i<9;i++)
-		SAFE_DELETE( m_pImgToolTip[i]);
-	for(i=0;i<CRE_BUTTON_NUMBER;i++)
-	{
-		SAFE_DELETE(m_pButton[i][0]);
-		SAFE_DELETE(m_pButton[i][1]);
-	}
-#endif
 	SAFE_DELETE( m_pFontCharacterName );
 	for(i=0;i<SEL_CHARACTER_INFO_NUMBER; i++)
 		SAFE_DELETE( m_pFontCharacterInfo[i] );
@@ -505,7 +297,6 @@ HRESULT CINFCreateMenu::InitDeviceObjects()
 	char buf[32];
 	DataHeader * pDataHeader;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	// 2011. 10. 18 by jskim EP4 UI변경 - Create창 변경
 	m_GruopCreatemanager = new CINFGroupManager( g_pD3dApp->m_pImageList, m_pGameData );
 	m_GruopCreatemanager->InitDeviceObjects();	
@@ -617,86 +408,6 @@ HRESULT CINFCreateMenu::InitDeviceObjects()
 		pDataHeader = FindResource(buf);
 		m_pImgTextPopUp[i]->InitDeviceObjects( pDataHeader );
 	}
-#else 
-	m_pFontCharacterName = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),10, D3DFONT_ZENABLE,  TRUE,512,32);
-	m_pFontCharacterName->InitDeviceObjects(g_pD3dDev);
-
-	int i; for(i=0;i<CRE_CHARACTER_INFO_NUMBER; i++)
-	{
-		m_pFontCharacterInfo[i] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE,  FALSE,128,32);
-		m_pFontCharacterInfo[i]->InitDeviceObjects(g_pD3dDev);
-	}
-
-	// 2005-07-05 by ispark
-	// 자동 스탯 분배 삭제 
-//	for(i=0; i<CRE_CHARACTER_UNIT_NUMBER; i++)
-//	{
-		wsprintf(buf, "creback");
-//		m_pBack[i] = new CINFImage;
-//		pDataHeader = FindResource(buf);
-//		m_pBack[i]->InitDeviceObjects(pDataHeader->m_pData,pDataHeader->m_DataSize);
-		m_pBack = new CINFImageEx;
-		pDataHeader = FindResource(buf);
-		m_pBack->InitDeviceObjects(pDataHeader);
-
-
-	
-//	}
-
-//	m_pImgRadio[0] = new CINFImage;
-//	pDataHeader = FindResource("radio_a");
-//	m_pImgRadio[0]->InitDeviceObjects(pDataHeader->m_pData,pDataHeader->m_DataSize);
-//	m_pImgRadio[1] = new CINFImage;
-//	pDataHeader = FindResource("radio_b");
-//	m_pImgRadio[1]->InitDeviceObjects(pDataHeader->m_pData,pDataHeader->m_DataSize);
-	
-	m_pImgFocus[0] = new CINFImageEx;
-	pDataHeader = FindResource("selfocn");
-	m_pImgFocus[0]->InitDeviceObjects(pDataHeader);
-	m_pImgFocus[1] = new CINFImageEx;
-	pDataHeader = FindResource("selfocs");
-	m_pImgFocus[1]->InitDeviceObjects(pDataHeader);
-	m_pImgFocus[2] = new CINFImageEx;
-	pDataHeader = FindResource("selfoc1");
-	m_pImgFocus[2]->InitDeviceObjects(pDataHeader);
-	m_pImgFocus[3] = new CINFImageEx;
-	pDataHeader = FindResource("selfoc2");
-	m_pImgFocus[3]->InitDeviceObjects(pDataHeader);
-
-	for(i=0;i<9;i++)
-	{
-		wsprintf( buf, "toimg%d",i);
-		m_pImgToolTip[i] = new CINFImageEx;
-		pDataHeader = FindResource(buf);
-		m_pImgToolTip[i]->InitDeviceObjects(pDataHeader);
-	}	
-
-	m_pTitle = new CINFImageEx;
-	pDataHeader = FindResource("cretitle");
-	m_pTitle->InitDeviceObjects(pDataHeader);
-	
-	for(i=0;i<CRE_BUTTON_NUMBER;i++)
-	{
-		for(int j=0;j<2;j++)
-		{
-			wsprintf( buf, "crebtn%d%d",i,j);
-			m_pButton[i][j] =new CINFImageEx;
-			pDataHeader = FindResource(buf);
-			if(pDataHeader)
-				m_pButton[i][j]->InitDeviceObjects(pDataHeader);
-//			else
-//				ERROR Reporting ( exit )
-		}
-	}
-	
-	for(i=0; i<3; i++)
-	{
-		wsprintf(buf, "boxtip%d",i);		
-		m_pImgTextPopUp[i] = new CINFImageEx;
-		pDataHeader = FindResource(buf);
-		m_pImgTextPopUp[i]->InitDeviceObjects( pDataHeader );
-	}
-#endif						  
 
 	return S_OK ;
 }
@@ -709,7 +420,6 @@ HRESULT CINFCreateMenu::RestoreDeviceObjects()
 	m_pBack->RestoreDeviceObjects();
 
 	m_pFontCharacterName->RestoreDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 	m_nCharacterNamePos[0] = POS_CRE_BACK_X+POS_CRE_CHARACTER_NAME_X;
 // 	m_nCharacterNamePos[1] = POS_CRE_BACK_Y+POS_CRE_CHARACTER_NAME_Y;
 
@@ -718,13 +428,8 @@ HRESULT CINFCreateMenu::RestoreDeviceObjects()
 	int i; for(i=0;i<CRE_CHARACTER_INFO_NUMBER; i++)
 	{
 		m_pFontCharacterInfo[i]->RestoreDeviceObjects();
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM
-		m_nCharacterInfoPos[i][0] = POS_CRE_BACK_X+POS_CRE_CHARACTER_INFO_START_X+DISTANCE_CRE_CHARACTER_INFO_X*(i%2);
-		m_nCharacterInfoPos[i][1] = POS_CRE_BACK_Y+POS_CRE_CHARACTER_INFO_START_Y+DISTANCE_CRE_CHARACTER_INFO_Y*(i/2);
-#else
 		m_nCharacterInfoPos[i][0] = POS_CRE_LEFT_START_X+POS_CRE_INFO_X+DISTANCE_CRE_CHARACTER_INFO_X*(i%2);
 		m_nCharacterInfoPos[i][1] = POS_CRE_BACK_Y+POS_CRE_CHARACTER_INFO_START_Y+DISTANCE_CRE_CHARACTER_INFO_Y*(i/2);
-#endif
 	}
 	// 2005-07-05 by ispark
 	// 자동 스탯 분배 삭제
@@ -784,46 +489,6 @@ HRESULT CINFCreateMenu::RestoreDeviceObjects()
 
 	m_fButtonPos[CRE_BUTTON_DOWN][0] = g_pD3dApp->GetBackBufferDesc().Width /2 - m_pButton[CRE_BUTTON_DOWN][0]->GetImgSize().x / 2;
 	m_fButtonPos[CRE_BUTTON_DOWN][1] = (int)(CRE_UP + 455);
-#else			   
-	m_nCharacterNamePos[0] = POS_CRE_BACK_X+POS_CRE_CHARACTER_NAME_X;
-	m_nCharacterNamePos[1] = POS_CRE_BACK_Y+POS_CRE_CHARACTER_NAME_Y;
-	int i; for(i=0;i<CRE_CHARACTER_INFO_NUMBER; i++)
-	{
-		m_pFontCharacterInfo[i]->RestoreDeviceObjects();
-		m_nCharacterInfoPos[i][0] = POS_CRE_BACK_X+POS_CRE_CHARACTER_INFO_START_X+DISTANCE_CRE_CHARACTER_INFO_X*(i%2);
-		m_nCharacterInfoPos[i][1] = POS_CRE_BACK_Y+POS_CRE_CHARACTER_INFO_START_Y+DISTANCE_CRE_CHARACTER_INFO_Y*(i/2);
-	}
-
-	// 2005-07-05 by ispark
-	// 자동 스탯 분배 삭제
-//	for(i=0; i<CRE_CHARACTER_UNIT_NUMBER; i++)
-//		m_pBack[i]->RestoreDeviceObjects();
-//	m_pBack->RestoreDeviceObjects();
-//	for(i=0; i<CRE_CHARACTER_RADIO_BUTTON_NUMBER; i++)
-//		m_pImgRadio[i]->RestoreDeviceObjects();
-
-//	m_pTitle->RestoreDeviceObjects();
-	m_pImgFocus[0]->RestoreDeviceObjects();
-	m_pImgFocus[1]->RestoreDeviceObjects();
-	m_pImgFocus[2]->RestoreDeviceObjects();
-	m_pImgFocus[3]->RestoreDeviceObjects();
-	for(i=0;i<9;i++)
-		m_pImgToolTip[i]->RestoreDeviceObjects();
-	for(i=0;i<CRE_BUTTON_NUMBER;i++)
-	{
-		m_pButton[i][0]->RestoreDeviceObjects();
-		m_pButton[i][1]->RestoreDeviceObjects();
-	}
-	
-	m_fButtonPos[CRE_BUTTON_OK][0] = POS_CRE_OK_START_X;
-	m_fButtonPos[CRE_BUTTON_OK][1] = POS_CRE_OK_START_Y;
-	m_fButtonPos[CRE_BUTTON_CANCEL][0] = POS_CRE_CANCEL_START_X;
-	m_fButtonPos[CRE_BUTTON_CANCEL][1] = POS_CRE_CANCEL_START_Y;
-	m_fButtonPos[CRE_BUTTON_LEFT][0] = POS_CRE_LEFT_START_X;
-	m_fButtonPos[CRE_BUTTON_LEFT][1] = POS_CRE_LEFT_START_Y;
-	m_fButtonPos[CRE_BUTTON_RIGHT][0] = POS_CRE_RIGHT_START_X;
-	m_fButtonPos[CRE_BUTTON_RIGHT][1] = POS_CRE_RIGHT_START_Y;
-#endif
 	for(i=0; i<3; i++)
 	{
 		if(m_pImgTextPopUp[i])
@@ -855,18 +520,12 @@ HRESULT CINFCreateMenu::InvalidateDeviceObjects()
 	m_pImgFocus[1]->InvalidateDeviceObjects();
 	m_pImgFocus[2]->InvalidateDeviceObjects();
 	m_pImgFocus[3]->InvalidateDeviceObjects();
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	for(i=0;i<9;i++)
-		m_pImgToolTip[i]->InvalidateDeviceObjects();
-#endif
 	for(i=0;i<CRE_BUTTON_NUMBER;i++)
 	{
 		m_pButton[i][0]->InvalidateDeviceObjects();
 		m_pButton[i][1]->InvalidateDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pButton[i][2]->InvalidateDeviceObjects();
 		m_pButton[i][3]->InvalidateDeviceObjects();	   
-#endif
 	}
 	for(i=0; i<3; i++)
 	{
@@ -913,30 +572,16 @@ HRESULT CINFCreateMenu::DeleteDeviceObjects()
 	SAFE_DELETE(m_pImgFocus[2]);
 	m_pImgFocus[3]->DeleteDeviceObjects();
 	SAFE_DELETE(m_pImgFocus[3]);
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	for(i=0;i<9;i++)
-	{
-		m_pImgToolTip[i]->DeleteDeviceObjects();
-		SAFE_DELETE(m_pImgToolTip[i]);
-	}
-	m_pBackTemp->DeleteDeviceObjects();
-	SAFE_DELETE(m_pBackTemp);
-	
-#endif
 	for(i=0;i<CRE_BUTTON_NUMBER;i++)
 	{
 		m_pButton[i][0]->DeleteDeviceObjects();
 		m_pButton[i][1]->DeleteDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pButton[i][2]->DeleteDeviceObjects();
 		m_pButton[i][3]->DeleteDeviceObjects();
-#endif
 		SAFE_DELETE(m_pButton[i][0]);
 		SAFE_DELETE(m_pButton[i][1]);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		SAFE_DELETE(m_pButton[i][2]);
 		SAFE_DELETE(m_pButton[i][3]);
-#endif
 	}
 	
 	for(i=0; i<3; i++)
@@ -960,7 +605,6 @@ void CINFCreateMenu::Tick()
 		m_bShowCursor = !m_bShowCursor;
 		m_fChangeShowCursorTime = 0;
 	}
- #ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 	//2011-10-06 by jhahn 파트너 성장형 시스템
 	m_fTimeEffectBG += g_pD3dApp->GetElapsedTime();		
@@ -1038,7 +682,6 @@ void CINFCreateMenu::Tick()
 		}
 	break;
 	}	 
-#endif
 }
 
 void CINFCreateMenu::Render()
@@ -1062,7 +705,6 @@ void CINFCreateMenu::Render()
 
 	int i; for(i=0;i<CRE_BUTTON_NUMBER;i++)
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		if( m_bRenderInfoBtn == FALSE &&  i == CRE_BUTTON_UP || m_bRenderInfoBtn == TRUE &&  i == CRE_BUTTON_DOWN )
 		{
 			continue;
@@ -1113,14 +755,6 @@ void CINFCreateMenu::Render()
 			
 			
 		}  
-#else
-		if(m_nButtonState[i] != CRE_BUTTON_STATE_NORMAL)
-		{
-			m_pButton[i][m_nButtonState[i]]->Move(m_fButtonPos[i][0]+37,m_fButtonPos[i][1]);
-			m_pButton[i][m_nButtonState[i]]->Render();
-		}
-
-#endif
 	}
 
 	CINFImageEx* pFace = ((CINFSelect*)m_pParent)->m_pPilotFace->FindPilotImage(m_createUnit.PilotFace);
@@ -1138,12 +772,8 @@ void CINFCreateMenu::Render()
 		wsprintf(buf, "%s ", m_strCharacterName);
 	if(buf[0])
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		SIZE size = m_pFontCharacterName->GetStringSize( buf );
 		m_pFontCharacterName->DrawText(POS_CRE_CHARACTER_NAME_X, POS_CRE_CHARACTER_NAME_Y, CREATE_FONT_COLOR, buf, 0L);
-#else 
-		m_pFontCharacterName->DrawText(m_nCharacterNamePos[0], m_nCharacterNamePos[1], CREATE_FONT_COLOR, buf, 0L);
-#endif
 	}
 
 	if(SET_CREATEMENU_CANDIDATE == g_nRenderCandidate)
@@ -1194,7 +824,6 @@ void CINFCreateMenu::Render()
 //	}
 
 	// 이름이 없거나 이름이 같거나 이름에 형식이 틀릴때
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(m_nFocus != CREATE_CHARACTER_FOCUS_NONE)
 	{
 		if(m_nFocus == CREATE_CHARACTER_FOCUS_NAME)
@@ -1219,32 +848,6 @@ void CINFCreateMenu::Render()
 		m_pImgFocus[CREATE_CHARACTER_FOCUS_STEC]->Move(POS_CRE_BACK_X + 450,POS_CRE_BACK_Y-31);
 		m_pImgFocus[CREATE_CHARACTER_FOCUS_STEC]->Render();
 	}	
-#else 
-	if(m_nFocus != CREATE_CHARACTER_FOCUS_NONE)
-	{
-		if(m_nFocus == CREATE_CHARACTER_FOCUS_NAME)
-		{
-			m_pImgFocus[CREATE_CHARACTER_FOCUS_NAME]->Move(POS_CRE_BACK_X+CREATE_CHARACTER_FOCUS_NAME_X, POS_CRE_BACK_Y-10);
-			m_pImgFocus[CREATE_CHARACTER_FOCUS_NAME]->Render();
-		}
-		else if(m_nFocus == CREATE_CHARACTER_FOCUS_NAME_UNABLE)
-		{
-			m_pImgFocus[CREATE_CHARACTER_FOCUS_NAME_UNABLE]->Move(POS_CRE_BACK_X+CREATE_CHARACTER_FOCUS_NAME_X, POS_CRE_BACK_Y-10);
-			m_pImgFocus[CREATE_CHARACTER_FOCUS_NAME_UNABLE]->Render();
-		}
-		else if(m_nFocus == CREATE_CHARACTER_FOCUS_SAME_NAME)
-		{
-			m_pImgFocus[CREATE_CHARACTER_FOCUS_SAME_NAME]->Move(POS_CRE_BACK_X+CREATE_CHARACTER_FOCUS_NAME_X, POS_CRE_BACK_Y-10);
-			m_pImgFocus[CREATE_CHARACTER_FOCUS_SAME_NAME]->Render();
-		}
-	}
-	
-	if(m_nFocusStat == CREATE_CHARACTER_FOCUS_STEC)
-	{
-		m_pImgFocus[CREATE_CHARACTER_FOCUS_STEC]->Move(POS_CRE_BACK_X+376,POS_CRE_BACK_Y+4);
-		m_pImgFocus[CREATE_CHARACTER_FOCUS_STEC]->Render();
-	}	
-#endif
 	// 2005-07-04 by ispark 
 	// 자동 스탯 분배 삭제
 	// 툴팁관련 렌더링
@@ -1281,7 +884,6 @@ int CINFCreateMenu::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			
 			int i; for(i=0; i<CRE_BUTTON_NUMBER; i++)
 			{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				if( m_bRenderInfoBtn == FALSE &&  i == CRE_BUTTON_UP || m_bRenderInfoBtn == TRUE &&  i == CRE_BUTTON_DOWN )
 				{
 					continue;
@@ -1296,18 +898,6 @@ int CINFCreateMenu::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				{
 					m_nButtonState[i] = CRE_BUTTON_STATE_NORMAL;
 				}
-#else
-				if( pt.x > m_fButtonPos[i][0]+37 && pt.x < m_fButtonPos[i][0]+37 + CRE_SIZE_BUTTON_X(i) &&
-					pt.y > m_fButtonPos[i][1] && pt.y < m_fButtonPos[i][1] + CRE_SIZE_BUTTON_Y(i) )
-				{
-					m_nButtonState[i] = CRE_BUTTON_STATE_DOWN;
-					g_pD3dApp->m_pSound->PlayD3DSound(SOUND_SELECT_BUTTON, D3DXVECTOR3(0,0,0), FALSE);
-				}
-				else
-				{
-					m_nButtonState[i] = CRE_BUTTON_STATE_NORMAL;
-				}
-#endif
 			}
 
 			// 2005-07-04 by ispark 
@@ -1336,7 +926,6 @@ int CINFCreateMenu::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			CheckMouseReverse(&pt);
 			int i; for(i=0; i<CRE_BUTTON_NUMBER; i++)
 			{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				if( m_bRenderInfoBtn == FALSE &&  i == CRE_BUTTON_UP || m_bRenderInfoBtn == TRUE &&  i == CRE_BUTTON_DOWN )
 				{
 					continue;
@@ -1358,25 +947,6 @@ int CINFCreateMenu::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				{
 					m_nButtonState[i] = CRE_BUTTON_STATE_NORMAL;
 				}  
-#else
-				if( pt.x > m_fButtonPos[i][0]+37 && pt.x < m_fButtonPos[i][0]+37 + CRE_SIZE_BUTTON_X(i) &&
-					pt.y > m_fButtonPos[i][1] && pt.y < m_fButtonPos[i][1] + CRE_SIZE_BUTTON_Y(i) )
-				{
-					if(m_nButtonState[i] == CRE_BUTTON_STATE_DOWN)
-					{
-						m_nButtonState[i] = CRE_BUTTON_STATE_UP;
-						OnButtonClicked(i);
-					}
-					else
-					{
-						m_nButtonState[i] = CRE_BUTTON_STATE_NORMAL;
-					}
-				}
-				else
-				{
-					m_nButtonState[i] = CRE_BUTTON_STATE_NORMAL;
-				}
-#endif
 			}
 			for(i=0; i<CRE_BUTTON_NUMBER; i++)
 				m_nButtonState[i] = CRE_BUTTON_STATE_NORMAL;
@@ -1392,7 +962,6 @@ int CINFCreateMenu::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 //			m_nRenderToolTipIndex = -1;						// 2005-07-04 by ispark 자동 스탯 분배 삭제
 			int i; for(i=0; i<CRE_BUTTON_NUMBER; i++)
 			{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				if( m_bRenderInfoBtn == FALSE &&  i == CRE_BUTTON_UP || m_bRenderInfoBtn == TRUE &&  i == CRE_BUTTON_DOWN )
 				{
 					continue;
@@ -1400,11 +969,6 @@ int CINFCreateMenu::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				if( pt.x > m_fButtonPos[i][0] && pt.x < m_fButtonPos[i][0] + CRE_SIZE_BUTTON_X(i) &&
 					pt.y > m_fButtonPos[i][1] && pt.y < m_fButtonPos[i][1] + CRE_SIZE_BUTTON_Y(i) )
 				{				
-#else
-				if( pt.x > m_fButtonPos[i][0]+37 && pt.x < m_fButtonPos[i][0]+37 + CRE_SIZE_BUTTON_X(i) &&
-					pt.y > m_fButtonPos[i][1] && pt.y < m_fButtonPos[i][1] + CRE_SIZE_BUTTON_Y(i) )
-				{
-#endif
 					if(m_nButtonState[i] != CRE_BUTTON_STATE_DOWN)
 					{
 						m_nButtonState[i] = CRE_BUTTON_STATE_UP;
@@ -1601,7 +1165,6 @@ void CINFCreateMenu::OnButtonClicked(int i)
 			}			
 		}
 		break;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	case CRE_BUTTON_DOWN:
 		{
 			if( m_bRenderInfoBtn == FALSE )
@@ -1625,7 +1188,6 @@ void CINFCreateMenu::OnButtonClicked(int i)
 			}			
 		}
 		break;
-#endif
 	}
 }
 
@@ -1662,7 +1224,6 @@ void CINFCreateMenu::CharacterSet(USHORT uUnitKind)
 	case UNITKIND_AGEAR:	m_nSelectUnit = CREATE_CHARACTER_INFO_A;	break;
 	case UNITKIND_IGEAR:	m_nSelectUnit = CREATE_CHARACTER_INFO_I;	break;
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if( m_bRenderInfoBtn == FALSE )
 	{
 // 		m_dwBtnUDownpBkAlpha = 0x00ffffff;
@@ -1676,7 +1237,6 @@ void CINFCreateMenu::CharacterSet(USHORT uUnitKind)
 		((CINFSelect*)m_pParent)->SetBKInfoFadeIn();											  
 
 	}
-	#endif
 }
 
 BOOL CINFCreateMenu::ErrCheckCharacterName(char * strName)

@@ -41,11 +41,7 @@ public:
 	virtual HRESULT RestoreDeviceObjects();
 	virtual HRESULT DeleteDeviceObjects();
 	virtual HRESULT InvalidateDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	void Render(int posX, int posY);
-#else
-	virtual void Render();
-#endif
 	virtual void Tick();
 	virtual int WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -61,13 +57,8 @@ public:
 	void Play_Mp3Music(BOOL bMute = FALSE);	
 	
 protected:
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	void RenderButtonState(int posX, int posY);
 	void RenderPlayListBox(int posX, int posY);
-#else
-	void RenderButtonState();
-	void RenderPlayListBox();
-#endif
 
 	void FileNameCull(char *strName);
 
@@ -88,10 +79,8 @@ protected:
 	CINFImageEx			*	m_pImgListBox;
 	CINFImageEx			*	m_pImgMiniBase;
 	CINFImageEx			*	m_pImgSelectMp3;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFImageEx			*	m_pImgPlayImage;
 	CINFImageEx			*	m_pImgStopImage;
-#endif
 	CD3DHanFont			*	m_pFontTitle[MP3PLAYER_MAX_LIST];	
 	CINFScrollBar		*	m_pScrollVolum;
 	CMusicMP3			*	m_pMp3;
@@ -117,13 +106,11 @@ public:
 	vector<Mp3File_t>		m_vecMp3FileNames;
 	CINFScrollBar		*	m_pScroll;
 	BOOL					m_bSetMp3Dir;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	int						m_nBkPosX;
 	int						m_nBkPosY;
 	float					m_fPlaytime;
 	int						m_nPlaytimeGab;
 	int		 	 		    m_nMoveFontPos;
-#endif
 };
 
 #endif

@@ -285,9 +285,7 @@ private:
 
 	CINFImageEx*		m_pTenderTime[ 10 ];		// 입찰 카운트 시간
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*		m_pRenewInfiTenderImage;
-#endif
 
 
 	// 2010. 04. 13 by ckPark 인피니티 필드 2차(입찰 보상관련 변경)

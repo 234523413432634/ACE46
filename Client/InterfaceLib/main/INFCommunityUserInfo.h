@@ -40,11 +40,7 @@ private:
 	void GetUIPos(POINT *ptGMarkPos, POINT *ptGPos, POINT *ptClassPos, POINT *ptFamePos, POINT *ptRegionPos, POINT *ptLoginPos);
 		
 private:
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*	 m_pBkImage;
-#else
-	CINFImageEx*	m_pBkImage;	
-#endif
 
 	BOOL		m_bMove;
 	BOOL		m_bShow;

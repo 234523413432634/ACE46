@@ -132,9 +132,7 @@ public:
 	void SetShowItemNumShowWnd(BOOL bShow, int nShowItemNum, UID64_t uItemUniNum);
 
 protected:
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					       
 	CINFGroupImage*		m_pImgBackg;
-#endif
 	CINFAutoEditBox*		m_pEditItemName;		// Edit박스
 	CINFImageBtn*		m_pSearchBtn;			// 버튼
 	//CINFComboBoxEX*		m_pComboKindEx;

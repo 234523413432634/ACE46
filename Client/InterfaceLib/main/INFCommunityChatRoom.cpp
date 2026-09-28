@@ -218,7 +218,7 @@
 	#define CHATROOM_INFO_SCR_BALL_R			(m_ptChatRoomInfoPos.x + 234)
 	#define CHATROOM_INFO_SCR_BALL_T			(m_ptChatRoomInfoPos.y + 105)
 	#define CHATROOM_INFO_SCR_BALL_B			(m_ptChatRoomInfoPos.y + 245)
-#elif defined C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
+#else
 	#define CHATROOM_TAB_LIST_X					(m_ptCommunityPos.x + 47)
 	#define CHATROOM_TAB_LIST_Y					(m_ptCommunityPos.y + 40)
 	#define CHATROOM_TAB_ROOM_X					(m_ptCommunityPos.x + 203)
@@ -395,183 +395,6 @@
 	#define CHATROOM_INFO_SCR_BALL_R			(m_ptChatRoomInfoPos.x + 234)
 	#define CHATROOM_INFO_SCR_BALL_T			(m_ptChatRoomInfoPos.y + 105)
 	#define CHATROOM_INFO_SCR_BALL_B			(m_ptChatRoomInfoPos.y + 245)
-#else
-	#define CHATROOM_TAB_LIST_X					(m_ptCommunityPos.x + 21)
-	#define CHATROOM_TAB_LIST_Y					(m_ptCommunityPos.y + 49)
-	#define CHATROOM_TAB_ROOM_X					(m_ptCommunityPos.x + 148)
-	#define CHATROOM_TAB_ROOM_Y					(m_ptCommunityPos.y + 49)
-	#define CHATROOM_TAB_W						124
-	#define CHATROOM_TAB_H						23
-
-	#define CHATROOM_LIST_BG_X					(m_ptCommunityPos.x + 21)
-	#define CHATROOM_LIST_BG_Y					(m_ptCommunityPos.y + 50)
-	#define CHATROOM_LIST_INFO_BTN_X			(m_ptCommunityPos.x + 216)
-	#define CHATROOM_LIST_INFO_BTN_Y			(m_ptCommunityPos.y + 363)
-	#define CHATROOM_LIST_CRE_BTN_X				(m_ptCommunityPos.x + 283)
-	#define CHATROOM_LIST_CRE_BTN_Y				(m_ptCommunityPos.y + 363)
-	#define CHATROOM_LIST_ADMIS_BTN_X			(m_ptCommunityPos.x + 350)
-	#define CHATROOM_LIST_ADMIS_BTN_Y			(m_ptCommunityPos.y + 363)
-	#define CHATROOM_LIST_UPDATE_BTN_X			(m_ptCommunityPos.x + 417)
-	#define CHATROOM_LIST_UPDATE_BTN_Y			(m_ptCommunityPos.y + 363)
-	#define CHATROOM_LIST_DATA_START_X			(m_ptCommunityPos.x + 30)
-	#define CHATROOM_LIST_DATA_START_Y			(m_ptCommunityPos.y + 103)
-	#define CHATROOM_LIST_DATA_START_W			452
-	#define CHATROOM_LIST_DATA_START_H			253
-	#define CHATROOM_LIST_DATA_GAP_H			(21)
-	#define CHATROOM_LIST_DATA_NUMBER_FONT_X	(m_ptCommunityPos.x + 53)
-	#define CHATROOM_LIST_DATA_LOCK_FONT_X		(m_ptCommunityPos.x + 86)
-	#define CHATROOM_LIST_DATA_SUBJECT_FONT_X	(m_ptCommunityPos.x + 209)	// 2012-03-29 by mspark, 채팅방 정보창에서 제목 / 캐릭터 이름 등 내용 위치 수정 - 기존 210에서 209로 수정
-	#define CHATROOM_LIST_DATA_RM_FONT_X		(m_ptCommunityPos.x + 346)	// 2012-03-29 by mspark, 채팅방 정보창에서 제목 / 캐릭터 이름 등 내용 위치 수정 - 기존 350에서 346로 수정
-	#define CHATROOM_LIST_DATA_VOICE_X			(m_ptCommunityPos.x + 340)
-	#define CHATROOM_LIST_DATA_MAXMEMBER_FONT_X	(m_ptCommunityPos.x + 460)
-
-	// 채팅방 리스트 스크롤
-	#define CHATROOM_LIST_SCR_COUNT				12
-	#define CHATROOM_LIST_SCR_X					(m_ptCommunityPos.x + 486)
-	#define CHATROOM_LIST_SCR_Y					(m_ptCommunityPos.y + 108)
-	#define CHATROOM_LIST_SCR_W					13
-	#define CHATROOM_LIST_SCR_H					245
-	#define CHATROOM_LIST_SCR_WHELL_L			(m_ptCommunityPos.x + 30)
-	#define CHATROOM_LIST_SCR_WHELL_R			(m_ptCommunityPos.x + 505)
-	#define CHATROOM_LIST_SCR_WHELL_T			(m_ptCommunityPos.y + 100)
-	#define CHATROOM_LIST_SCR_WHELL_B			(m_ptCommunityPos.y + 355)
-	#define CHATROOM_LIST_SCR_BALL_L			(m_ptCommunityPos.x + 480)
-	#define CHATROOM_LIST_SCR_BALL_R			(m_ptCommunityPos.x + 505)
-	#define CHATROOM_LIST_SCR_BALL_T			(m_ptCommunityPos.y + 108)
-	#define CHATROOM_LIST_SCR_BALL_B			(m_ptCommunityPos.y + 355)
-
-	#define CHATROOM_BG_X						(m_ptCommunityPos.x + 21)
-	#define CHATROOM_BG_Y						(m_ptCommunityPos.y + 50)
-	#define CHATROOM_SELECT_X					(m_ptCommunityPos.x + 43)
-	#define CHATROOM_SELECT_Y					(m_ptCommunityPos.y + 142)
-	#define CHATROOM_SELECT_W					(202)
-	#define CHATROOM_SELECT_H					(21)
-
-	#define CHATROOM_DATA_MAXMEMBER_X			(m_ptCommunityPos.x + 130)
-	#define CHATROOM_DATA_MAXMEMBER_Y			(m_ptCommunityPos.y + 101)
-	#define CHATROOM_DATA_START_Y				(m_ptCommunityPos.y + 142)
-	#define CHATROOM_DATA_CHEIF_X				(m_ptCommunityPos.x + 44)
-	#define CHATROOM_DATA_NAME_X				(m_ptCommunityPos.x + 95)	// 2012-03-29 by mspark, 채팅방 정보창에서 제목 / 캐릭터 이름 등 내용 위치 수정 - 기존 75에서 95으로 수정
-	#define CHATROOM_DATA_VOICE_X				(m_ptCommunityPos.x + 196)
-	#define CHATROOM_DATA_GAP_H					(21)
-
-
-	#define CHATROOM_CHARGE_BTN_X				(m_ptCommunityPos.x + 33)
-	#define CHATROOM_CHARGE_BTN_Y				(m_ptCommunityPos.y + 342)
-	#define CHATROOM_INVITE_BTN_X				(m_ptCommunityPos.x + 90)
-	#define CHATROOM_INVITE_BTN_Y				(m_ptCommunityPos.y + 342)
-	#define CHATROOM_OUT_BTN_X					(m_ptCommunityPos.x + 147)
-	#define CHATROOM_OUT_BTN_Y					(m_ptCommunityPos.y + 342)
-	#define CHATROOM_EXIT_BTN_X					(m_ptCommunityPos.x + 204)
-	#define CHATROOM_EXIT_BTN_Y					(m_ptCommunityPos.y + 342)
-	#define CHATROOM_VOICE_OK_BTN_X				(m_ptCommunityPos.x + 311)
-	#define CHATROOM_VOICE_OK_BTN_Y				(m_ptCommunityPos.y + 329)
-	#define CHATROOM_VOICE_CAN_BTN_X			(m_ptCommunityPos.x + 378)
-	#define CHATROOM_VOICE_CAN_BTN_Y			(m_ptCommunityPos.y + 329)
-	#define CHATROOM_COUNT_MAIN_LB_X			(m_ptCommunityPos.x + 358)
-	#define CHATROOM_COUNT_MAIN_LB_Y			(m_ptCommunityPos.y + 179)
-	#define CHATROOM_COUNT_ELEMENT_LB_X			(m_ptCommunityPos.x + 369)
-	#define CHATROOM_COUNT_ELEMENT_LB_Y			(m_ptCommunityPos.y + 192)
-	#define CHATROOM_COUNT_MAIN_LB_W			(70)
-	#define CHATROOM_COUNT_MAIN_LB_H			(17)
-	#define CHATROOM_COUNT_ELEMENT_LB_W			(70)
-	#define CHATROOM_COUNT_ELEMENT_LB_H			(13)
-	#define CHATROOM_EDIT_SUBJECT_X				(m_ptCommunityPos.x + 289)
-	#define CHATROOM_EDIT_SUBJECT_Y				(m_ptCommunityPos.y + 131)
-	#define CHATROOM_EDIT_SUBJECT_W				(190)
-	#define CHATROOM_EDIT_SUBJECT_H				(19)
-	#define CHATROOM_VOICE_SPK_VOLUM_X			(m_ptCommunityPos.x + 316)
-	#define CHATROOM_VOICE_SPK_VOLUM_Y			(m_ptCommunityPos.y + 296)
-	#define CHATROOM_VOICE_CHAT_ING_X			(m_ptCommunityPos.x + 294)
-	#define CHATROOM_VOICE_CHAT_ING_Y			(m_ptCommunityPos.y + 235)
-	#define CHATROOM_INPUT_KEY_POS_X			(m_ptCommunityPos.x + 296)
-	#define CHATROOM_INPUT_KEY_POS_Y			(m_ptCommunityPos.y + 257)
-	#define CHATROOM_INPUT_FREE_POS_X			(m_ptCommunityPos.x + 296)
-	#define CHATROOM_INPUT_FREE_POS_Y			(m_ptCommunityPos.y + 275)
-	#define CHATROOM_SECU_X						(m_ptCommunityPos.x + 362)
-	#define CHATROOM_SECU_Y						(m_ptCommunityPos.y + 159)
-	#define CHATROOM_SECU_W						(76)
-	#define CHATROOM_SECU_H						(16)
-
-
-	// 채팅방 스크롤 
-	#define CHATROOM_SCR_COUNT					9
-	#define CHATROOM_SCR_X						(m_ptCommunityPos.x + 247)
-	#define CHATROOM_SCR_Y						(m_ptCommunityPos.y + 145)
-	#define CHATROOM_SCR_W						13
-	#define CHATROOM_SCR_H						180
-	#define CHATROOM_SCR_WHELL_L				(m_ptCommunityPos.x + 43)
-	#define CHATROOM_SCR_WHELL_R				(m_ptCommunityPos.x + 260)
-	#define CHATROOM_SCR_WHELL_T				(m_ptCommunityPos.y + 142)
-	#define CHATROOM_SCR_WHELL_B				(m_ptCommunityPos.y + 330)
-	#define CHATROOM_SCR_BALL_L					(m_ptCommunityPos.x + 243)
-	#define	CHATROOM_SCR_BALL_R					(m_ptCommunityPos.x + 263)
-	#define CHATROOM_SCR_BALL_T					(m_ptCommunityPos.y + 140)
-	#define CHATROOM_SCR_BALL_B					(m_ptCommunityPos.y + 337)
-
-	// 채팅방 새로 만들기 창.
-	#define CHATROOM_CREATE_DEFUALT_X			((g_pD3dApp->GetBackBufferDesc().Width - 238)/2)
-	#define CHATROOM_CREATE_DEFUALT_Y			((g_pD3dApp->GetBackBufferDesc().Height - 258)/2)
-	#define CHATROOM_CREATE_W					238
-	#define CHATROOM_CREATE_H					256
-	#define CHATROOM_CREATE_OK_BTN_X			(m_ptCreatePos.x + 53)
-	#define CHATROOM_CREATE_OK_BTN_Y			(m_ptCreatePos.y + 232)
-	#define CHATROOM_CREATE_CAN_BTN_X			(m_ptCreatePos.x + 120)
-	#define CHATROOM_CREATE_CAN_BTN_Y			(m_ptCreatePos.y + 232)
-	#define CHATROOM_CREATE_COUNT_MAIN_LB_X		(m_ptCreatePos.x + 100)
-	#define CHATROOM_CREATE_COUNT_MAIN_LB_Y		(m_ptCreatePos.y + 98)
-	#define CHATROOM_CREATE_COUNT_ELEMENT_LB_X	(m_ptCreatePos.x + 106)
-	#define CHATROOM_CREATE_COUNT_ELEMENT_LB_Y	(m_ptCreatePos.y + 111)
-	#define CHATROOM_CREATE_EDIT_SUBJECT_X		(m_ptCreatePos.x + 25)
-	#define CHATROOM_CREATE_EDIT_SUBJECT_Y		(m_ptCreatePos.y + 57)
-	#define CHATROOM_CREATE_EDIT_SUBJECT_W		(194)
-	#define CHATROOM_CREATE_EDIT_SUBJECT_H		(19)
-	#define CHATROOM_CREATE_VOICE_SPK_VOLUM_X	(m_ptCreatePos.x + 58)
-	#define CHATROOM_CREATE_VOICE_SPK_VOLUM_Y	(m_ptCreatePos.y + 203)
-	#define CHATROOM_CREATE_VOICE_CHAT_ING_X	(m_ptCreatePos.x + 36)
-	#define CHATROOM_CREATE_VOICE_CHAT_ING_Y	(m_ptCreatePos.y + 142)
-	#define CHATROOM_CREATE_INPUT_KEY_POS_X		(m_ptCreatePos.x + 38)
-	#define CHATROOM_CREATE_INPUT_KEY_POS_Y		(m_ptCreatePos.y + 165)
-	#define CHATROOM_CREATE_INPUT_FREE_POS_X	(m_ptCreatePos.x + 38)
-	#define CHATROOM_CREATE_INPUT_FREE_POS_Y	(m_ptCreatePos.y + 183)
-	#define CHATROOM_CREATE_SECU_X				(m_ptCreatePos.x + 101)
-	#define CHATROOM_CREATE_SECU_Y				(m_ptCreatePos.y + 79)
-	#define CHATROOM_CREATE_SECU_W				(76)
-	#define CHATROOM_CREATE_SECU_H				(16)
-
-
-	// 채팅방 정보.
-	#define CHATROOM_INFO_DEFUALT_X				((g_pD3dApp->GetBackBufferDesc().Width - 225)/2)
-	#define CHATROOM_INFO_DEFUALT_Y				((g_pD3dApp->GetBackBufferDesc().Height - 282)/2)
-	#define CHATROOM_INFO_DEFUALT_W				(225)
-	#define CHATROOM_INFO_DEFUALT_H				(282)
-	#define CHATROOM_INFO_BAR_H					(27)
-
-	#define CHATROOM_INFO_CLOSE_BTN_X			(m_ptChatRoomInfoPos.x + 80)
-	#define CHATROOM_INFO_CLOSE_BTN_Y			(m_ptChatRoomInfoPos.y + 257)
-	#define CHATROOM_INFO_DATA_START_X			(m_ptChatRoomInfoPos.x + 8)
-	#define CHATROOM_INFO_DATA_START_Y			(m_ptChatRoomInfoPos.y + 101)	// 2012-03-29 by mspark, 채팅방 정보창에서 제목 / 캐릭터 이름 등 내용 위치 수정 - 기존 97에서 101로 수정
-	#define CHATROOM_INFO_DATA_CHIEF_X			(m_ptChatRoomInfoPos.x + 12)
-	#define CHATROOM_INFO_DATA_NAME_X			(m_ptChatRoomInfoPos.x + 80)	// 2012-03-29 by mspark, 채팅방 정보창에서 제목 / 캐릭터 이름 등 내용 위치 수정 - 기존 39에서 80으로 수정
-	#define CHATROOM_INFO_DATA_GAP_H			(21)
-	#define CHATROOM_INFO_DATA_SUBEJCT_X		(m_ptChatRoomInfoPos.x + 20)	// 2012-03-29 by mspark, 채팅방 정보창에서 제목 / 캐릭터 이름 등 내용 위치 수정 - 기존 10에서 20으로 수정
-	#define CHATROOM_INFO_DATA_SUBEJCT_Y		(m_ptChatRoomInfoPos.y + 56)	// 2012-03-29 by mspark, 채팅방 정보창에서 제목 / 캐릭터 이름 등 내용 위치 수정 - 기존 54에서 56으로 수정
-	#define CHATROOM_INFO_DATA_MEXMEMBER_X		(m_ptChatRoomInfoPos.x + 172)
-	#define CHATROOM_INFO_DATA_MEXMEMBER_Y		(m_ptChatRoomInfoPos.y + 36)
-
-	#define CHATROOM_INFO_SCR_COUNT				7
-	#define CHATROOM_INFO_SCR_X					(m_ptChatRoomInfoPos.x + 211)
-	#define CHATROOM_INFO_SCR_Y					(m_ptChatRoomInfoPos.y + 103)
-	#define CHATROOM_INFO_SCR_W					13
-	#define CHATROOM_INFO_SCR_H					140
-	#define CHATROOM_INFO_SCR_WHELL_L			(m_ptChatRoomInfoPos.x + 8)
-	#define CHATROOM_INFO_SCR_WHELL_R			(m_ptChatRoomInfoPos.x + 209)
-	#define CHATROOM_INFO_SCR_WHELL_T			(m_ptChatRoomInfoPos.y + 96)
-	#define CHATROOM_INFO_SCR_WHELL_B			(m_ptChatRoomInfoPos.y + 244)
-	#define CHATROOM_INFO_SCR_BALL_L			(m_ptChatRoomInfoPos.x + 209)
-	#define CHATROOM_INFO_SCR_BALL_R			(m_ptChatRoomInfoPos.x + 225)
-	#define CHATROOM_INFO_SCR_BALL_T			(m_ptChatRoomInfoPos.y + 75)
-	#define CHATROOM_INFO_SCR_BALL_B			(m_ptChatRoomInfoPos.y + 253)
 #endif
 
 
@@ -662,7 +485,6 @@ HRESULT CINFCommunityChatRoom::InitDeviceObjects()
 {
 	m_ptCommunityPos =  ((CINFCommunity*)m_pParent)->GetCommunityBkPos();
 	DataHeader	* pDataHeader= NULL;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(m_pImgRoomListBG == NULL)
 	{
 		DataHeader* pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("commu_C1");	
@@ -670,15 +492,6 @@ HRESULT CINFCommunityChatRoom::InitDeviceObjects()
 		m_pImgRoomListBG->InitDeviceObjects( g_pD3dApp->m_pImageList );
 		m_pImgRoomListBG->RestoreDeviceObjects();
 	}
-#else 
-	m_pImgBG = new CINFImageEx;
-	pDataHeader = FindResource("commubk3");
-	m_pImgBG->InitDeviceObjects(pDataHeader);
-	m_pImgRoomListBG = new CINFImageEx;
-	pDataHeader = FindResource("RlistBG");
-	m_pImgRoomListBG->InitDeviceObjects(pDataHeader);
-	m_pImgLock[0] = new CINFImageEx;
-#endif
 
 	m_pImgLock[0] = new CINFImageEx;
 	pDataHeader = FindResource("lock0");
@@ -707,7 +520,6 @@ HRESULT CINFCommunityChatRoom::InitDeviceObjects()
 	{
 		m_pBtnCreate = new CINFImageBtn;
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	// 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
 	//m_pBtnCreate->InitDeviceObjects("cres0");
 	m_pBtnCreate->InitDeviceObjects("cres0","STRTOOLTIP47");
@@ -875,115 +687,6 @@ HRESULT CINFCommunityChatRoom::InitDeviceObjects()
 		m_pLBChatRoom = new CINFListBox("cbopa","s_combo");
 		m_pLBChatRoom->InitDeviceObjects();
 	}
-#else 
-	m_pBtnCreate->InitDeviceObjects("createb");
-	if(NULL == m_pBtnAdmission)
-	{
-		m_pBtnAdmission = new CINFImageBtn;
-	}
-	m_pBtnAdmission->InitDeviceObjects("rooment");
-	if(NULL == m_pBtnRoomListUpdate)
-	{
-		m_pBtnRoomListUpdate = new CINFImageBtn;
-	}
-	m_pBtnRoomListUpdate->InitDeviceObjects("RlistUpd");
-	if(NULL == m_pScrRoomList)
-	{
-		m_pScrRoomList = new CINFArenaScrollBar;
-	}
-	m_pScrRoomList->InitDeviceObjects(CHATROOM_LIST_SCR_COUNT,"c_scrlb");
-	if(NULL == m_pScrRoomInfo)
-	{
-		m_pScrRoomInfo = new CINFArenaScrollBar;
-	}
-	m_pScrRoomInfo->InitDeviceObjects(CHATROOM_INFO_SCR_COUNT,"c_scrlb");
-	//--------------------------------------------------------------------------//
-	m_pImgRoomBg = new CINFImageEx;
-	pDataHeader = FindResource("RMinfoBG");
-	m_pImgRoomBg->InitDeviceObjects(pDataHeader);
-	m_pImgChatRoomSel = new CINFImageEx;
-	pDataHeader = FindResource("sel_CU");
-	m_pImgChatRoomSel->InitDeviceObjects(pDataHeader);
-	if(NULL == m_pScrRoom)
-	{
-		m_pScrRoom = new CINFArenaScrollBar;
-	}
-	m_pScrRoom->InitDeviceObjects(CHATROOM_SCR_COUNT,"c_scrlb");
-
-	m_pImgRoomChief = new CINFImageEx;
-	pDataHeader = FindResource("roomchief");
-	m_pImgRoomChief->InitDeviceObjects(pDataHeader);
-
-	if(NULL == m_pBtnCharge)
-	{
-		m_pBtnCharge = new CINFImageBtn;
-	}
-	m_pBtnCharge->InitDeviceObjects("c_sbt3");
-	if(NULL == m_pBtnInvite)
-	{
-		m_pBtnInvite = new CINFImageBtn;
-	}
-	m_pBtnInvite->InitDeviceObjects("p_bt0");
-	if(NULL == m_pBtnOut)
-	{
-		m_pBtnOut = new CINFImageBtn;
-	}
-	m_pBtnOut->InitDeviceObjects("p_bt2");
-	if(NULL == m_pBtnExit)
-	{
-		m_pBtnExit = new CINFImageBtn;
-	}
-	m_pBtnExit->InitDeviceObjects("Rexit");
-	
-
-	if(NULL == m_pBtnVoiceOk)
-	{
-		m_pBtnVoiceOk = new CINFImageBtn;
-	}
-	m_pBtnVoiceOk->InitDeviceObjects("lr_ok");
-	if(NULL == m_pBtnVoiceCan)
-	{
-		m_pBtnVoiceCan = new CINFImageBtn;
-	}
-	m_pBtnVoiceCan->InitDeviceObjects("lr_can");
-
-	// 채팅방 새로 만들기.
-	m_pRoomCreateBG = new CINFImageEx;
-	pDataHeader = FindResource("Rcreate");
-	m_pRoomCreateBG->InitDeviceObjects(pDataHeader);
-
-	if(NULL == m_pBtnCreateOk)
-	{
-		m_pBtnCreateOk = new CINFImageBtn;
-	}
-	m_pBtnCreateOk->InitDeviceObjects("createb");
-	if(NULL == m_pBtnCreateCan)
-	{
-		m_pBtnCreateCan = new CINFImageBtn;
-	}
-	m_pBtnCreateCan->InitDeviceObjects("lr_can");
-	if(m_pLBCreateRoom == NULL)
-	{
-		m_pLBCreateRoom = new CINFListBox("cbopa","s_combo");
-		m_pLBCreateRoom->InitDeviceObjects();
-	}
-
-	// 채팅방 정보창.
-	m_pRoomInfoBG = new CINFImageEx;
-	pDataHeader = FindResource("RinfoBG");
-	m_pRoomInfoBG->InitDeviceObjects(pDataHeader);
-
-	if(NULL == m_pBtnRoomInfoClose)
-	{
-		m_pBtnRoomInfoClose = new CINFImageBtn;
-	}
-	m_pBtnRoomInfoClose->InitDeviceObjects("shnpc06");
-	if(m_pLBChatRoom == NULL)
-	{
-		m_pLBChatRoom = new CINFListBox("cbopa","s_combo");
-		m_pLBChatRoom->InitDeviceObjects();
-	}
-#endif
 	int i;
 	char szTemp[16],szTemp1[16];
 
@@ -1049,9 +752,6 @@ HRESULT CINFCommunityChatRoom::InitDeviceObjects()
 }
 HRESULT CINFCommunityChatRoom::RestoreDeviceObjects()
 {
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pImgBG->RestoreDeviceObjects();
-#endif
 	m_pImgRoomListBG->RestoreDeviceObjects();
 	m_pImgLock[0]->RestoreDeviceObjects();
 	m_pImgLock[1]->RestoreDeviceObjects();
@@ -1100,9 +800,6 @@ HRESULT CINFCommunityChatRoom::RestoreDeviceObjects()
 }
 HRESULT CINFCommunityChatRoom::InvalidateDeviceObjects()
 {
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pImgBG->InvalidateDeviceObjects();
-#endif
 	m_pImgRoomListBG->InvalidateDeviceObjects();
 	m_pImgLock[0]->InvalidateDeviceObjects();
 	m_pImgLock[1]->InvalidateDeviceObjects();
@@ -1150,10 +847,6 @@ HRESULT CINFCommunityChatRoom::InvalidateDeviceObjects()
 }
 HRESULT CINFCommunityChatRoom::DeleteDeviceObjects()
 {
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pImgBG->DeleteDeviceObjects();
-    SAFE_DELETE(m_pImgBG);
-#endif
 	m_pImgRoomListBG->DeleteDeviceObjects();
 	m_pImgLock[0]->DeleteDeviceObjects();
 	m_pImgLock[1]->DeleteDeviceObjects();
@@ -1257,10 +950,6 @@ void CINFCommunityChatRoom::Tick()
 
 void CINFCommunityChatRoom::Render(POINT i_ptParent)
 {
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pImgBG->Move(i_ptParent.x,i_ptParent.y);
-	m_pImgBG->Render();
-#endif
 	switch(m_nChatRoomTab)
 	{
 		case CHATROOM_TAB_LIST:

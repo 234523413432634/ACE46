@@ -20,7 +20,6 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 #define NUM_OF_INFUNITSTATE_BIT		32
 
 #define UNIT_STATE_SIZE_X			311
@@ -36,23 +35,6 @@
 #define TIME_POSITION_1				0
 #define TIME_POSITION_2				1
 #define INSERT_STATE_VIEWING_TIME	5
-#else
-#define NUM_OF_INFUNITSTATE_BIT		32
-
-#define UNIT_STATE_SIZE_X			311
-#define UNIT_STATE_SIZE_Y			60
-#define UNIT_STATE_STR_SIZE_X		311
-#define UNIT_STATE_STR_SIZE_Y		60
-
-#define UNIT_STATE_START_X			((g_pD3dApp->GetBackBufferDesc().Width - UNIT_STATE_SIZE_X)/2)
-#define UNIT_STATE_START_Y			(UNIT_STATE_SIZE_Y-7)
-#define UNIT_STATE_STR_START_X		((g_pD3dApp->GetBackBufferDesc().Width - UNIT_STATE_SIZE_X)/2)
-#define UNIT_STATE_STR_START_Y		(UNIT_STATE_SIZE_Y-7)
-
-#define TIME_POSITION_1				0
-#define TIME_POSITION_2				1
-#define INSERT_STATE_VIEWING_TIME	5
-#endif
 
 
 CINFUnitState::CINFUnitState()
@@ -319,7 +301,6 @@ void CINFUnitState::Render()
 	
 
 //RENDER:
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	m_pImgState[index]->Move(UNIT_STATE_START_X - m_pImgState[index]->GetImgSize().x / 2, UNIT_STATE_START_Y);
 	m_pImgState[index]->Render();
 	
@@ -328,16 +309,6 @@ void CINFUnitState::Render()
 		m_pImgStateStr[index]->Move(UNIT_STATE_STR_START_X - m_pImgStateStr[index]->GetImgSize().x / 2, UNIT_STATE_STR_START_Y);
 		m_pImgStateStr[index]->Render();
 	}
-#else
-	m_pImgState[index]->Move(UNIT_STATE_START_X, UNIT_STATE_START_Y);
-	m_pImgState[index]->Render();
-	
-	if( g_pShuttleChild->m_myShuttleInfo.Level <= 11  )
-	{
-		m_pImgStateStr[index]->Move(UNIT_STATE_STR_START_X, UNIT_STATE_STR_START_Y);
-		m_pImgStateStr[index]->Render();
-	}
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

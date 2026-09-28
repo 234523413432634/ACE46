@@ -788,9 +788,7 @@ protected:
 	VOID	FieldSocketEventLeaveBuildingOk(MSG_FC_EVENT_LEAVE_BUILDING_OK* pMsg);
 	VOID	FieldSocketShopCheckGiveTargetOK(MSG_FC_SHOP_CHECK_GIVE_TARGET_OK* pMsg);
 	VOID	FieldSocketShopBuyCashItemOK(MSG_FC_SHOP_BUY_CASH_ITEM_OK* pMsg);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
     VOID	FieldSocketShopBuyItemUpdate(MSG_FC_SHOP_BUY_ITEM_UPDATE* pMsg);
-#endif
 	
 	VOID	FieldSocketShopPutItemHeader(MSG_FC_SHOP_PUT_ITEM_HEADER* pMsg);
 	VOID	FieldSocketShopPutItem(MSG_FC_SHOP_PUT_ITEM* pMsg);

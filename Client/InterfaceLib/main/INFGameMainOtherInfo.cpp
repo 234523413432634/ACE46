@@ -43,7 +43,6 @@
 #define AI_LOCK_ON_TARGET_OTHER		1
 #define AI_LOCK_ON_TARGET_MONSTER	2
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define TARGET_INFO_BACK_START_X	((g_pD3dApp->GetBackBufferDesc().Width)/2)
 #define TARGET_INFO_BACK_START_Y	22.5*HIDPI_COEFF+3
 
@@ -51,14 +50,6 @@
 #define TARGET_INFO_BAR_START_X		((g_pD3dApp->GetBackBufferDesc().Width)/2)
 #define TARGET_INFO_BAR_START_Y		22.5*HIDPI_COEFF+3
 
-#else
-#define TARGET_INFO_BACK_START_X	((g_pD3dApp->GetBackBufferDesc().Width - 154)/2)
-#define TARGET_INFO_BACK_START_Y	22
-
-#define TARGET_INFO_BAR_SIZE		125
-#define TARGET_INFO_BAR_START_X		((g_pD3dApp->GetBackBufferDesc().Width - TARGET_INFO_BAR_SIZE)/2)
-#define TARGET_INFO_BAR_START_Y		25
-#endif
 
 
 
@@ -248,21 +239,12 @@ HRESULT CINFGameMainOtherInfo::RestoreDeviceObjects()
 		m_pFontOtherInfo[0]->RestoreDeviceObjects();
 		m_pFontOtherInfo[1]->RestoreDeviceObjects();	
 		
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		// 2004-12-09 by jschoi
 		m_pImgTargetInfoBack->RestoreDeviceObjects();
 		m_pImgTargetInfoBack->Move(TARGET_INFO_BACK_START_X - m_pImgTargetInfoBack->GetImgSize().x / 2,TARGET_INFO_BACK_START_Y);
 		
 		m_pImgTargetInfoBar->RestoreDeviceObjects();
 		m_pImgTargetInfoBar->Move(TARGET_INFO_BAR_START_X - m_pImgTargetInfoBack->GetImgSize().x / 2,TARGET_INFO_BACK_START_Y);
-#else
-		// 2004-12-09 by jschoi
-		m_pImgTargetInfoBack->RestoreDeviceObjects();
-		m_pImgTargetInfoBack->Move(TARGET_INFO_BACK_START_X,TARGET_INFO_BACK_START_Y);
-
-		m_pImgTargetInfoBar->RestoreDeviceObjects();
-		m_pImgTargetInfoBar->Move(TARGET_INFO_BAR_START_X,TARGET_INFO_BAR_START_Y);
-#endif
 
 		m_bRestored = TRUE;
 	}
@@ -341,11 +323,7 @@ void CINFGameMainOtherInfo::Render(  )
 
 	if( m_iLockOnTarget == AI_LOCK_ON_TARGET_MONSTER )
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pImgTargetInfoBar->SetRect(0,0,m_fHpRate*TARGET_INFO_BAR_SIZE,16);
-#else
-		m_pImgTargetInfoBar->SetRect(0,0,m_fHpRate*TARGET_INFO_BAR_SIZE,9);
-#endif
 		m_pImgTargetInfoBar->Render();
 	}
 

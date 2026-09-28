@@ -38,7 +38,6 @@
 #include "INFGroupManager.h"				   // 2011. 10. 10 by jskim UI시스템 변경
 #include "INFToolTip.h"
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	// 2014-09-04 by ymjoo 컴파일 경고 제거 작업
 	//#define SHOP_ITEM_SLOT_NUMBER			5
 	#define BAZAAR_ITEM_SLOT_NUMBER			5
@@ -200,164 +199,6 @@
 	#else
 	#define STRING_CULL ::StringCullingUserDataEx
 	#endif
-#else
-#define CITY_SHOP_START_X				(CITY_BASE_NPC_BOX_START_X + 230)
-#define CITY_SHOP_START_Y				(CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y - 9)
-
-// 2006-08-29 by dgwoo 
-#define BAZAAR_SHOP_MINIBAR_W			210
-#define	BAZAAR_SHOP_MINIBAR_H			18
-#define BAZAAR_SHOP_MINIBAR_Y			(g_pD3dApp->GetBackBufferDesc().Height - 39 - BAZAAR_SHOP_MINIBAR_H)
-#define BAZAAR_SHOP_MINIBAR_X			((g_pD3dApp->GetBackBufferDesc().Width-BAZAAR_SHOP_MINIBAR_W))
-
-#define BAZAAR_SHOP_WINDOW_X			(CITY_SHOP_START_X + 194)
-#define BAZAAR_SHOP_WINDOW_Y			(CITY_SHOP_START_Y + 9)
-#define BAZAAR_SHOP_WINDOW_W			339
-#define BAZAAR_SHOP_WINDOW_H			275
-
-#define BAZAAR_SHOP_TAB_START_X			(BAZAAR_SHOP_WINDOW_X + 11)
-#define BAZAAR_SHOP_TAB_START_Y			(BAZAAR_SHOP_WINDOW_Y + 30)
-#define BAZAAR_SHOP_TAB_W				46
-#define BAZAAR_SHOP_TAB_H				14
-#define BAZAAR_SHOP_TAB_BACK_W			316
-#define BAZAAR_SHOP_TAB_BACK_H			208
-
-#define BAZAAR_SHOP_OPEN_TOTAL_PRICE_X	(BAZAAR_SHOP_WINDOW_X + 181)
-#define BAZAAR_SHOP_OPEN_TOTAL_PRICE_Y	(BAZAAR_SHOP_WINDOW_Y + 22)
-#define BAZAAR_SHOP_OPEN_TOTAL_PRICE_W	132
-
-
-#define BAZAAR_OPEN_NAME_X				BAZAAR_VISIT_TOTAL_PRICE_X
-#define BAZAAR_OPEN_NAME_Y				BAZAAR_VISIT_TOTAL_PRICE_Y
-
-#define BAZAAR_SHOP_OPEN_START_X		(BAZAAR_SHOP_WINDOW_X + 253)
-#define BAZAAR_SHOP_OPEN_START_Y		(BAZAAR_SHOP_WINDOW_Y + 243)
-#define BAZAAR_SHOP_OPEN_STOP_X			(BAZAAR_SHOP_WINDOW_X + 292)
-#define BAZAAR_SHOP_OPEN_STOP_Y			BAZAAR_SHOP_OPEN_START_Y
-
-
-#define BAZAAR_SHOP_ITEM_X				(BAZAAR_SHOP_WINDOW_X + 17)
-#define BAZAAR_SHOP_ITEM_Y				(BAZAAR_SHOP_WINDOW_Y + 51)
-#define BAZAAR_SHOP_ITEM_W				290
-#define BAZAAR_SHOP_ITEM_H				36
-#define BAZAAR_SHOP_SELITEM_X			(BAZAAR_SHOP_WINDOW_X + 16)
-#define BAZAAR_SHOP_SELITEM_Y			(BAZAAR_SHOP_WINDOW_Y + 50)
-
-//최소화 활성화 버튼.
-#define	BAZAAR_SHOP_MIN_X				(BAZAAR_SHOP_WINDOW_X + 316)
-#define	BAZAAR_SHOP_MIN_Y				(BAZAAR_SHOP_WINDOW_Y + 5)
-#define BAZAAR_SHOP_ACT_X				(BAZAAR_SHOP_MINIBAR_X + 195)
-#define BAZAAR_SHOP_ACT_Y				(BAZAAR_SHOP_MINIBAR_Y + 4)
-#define	BAZAAR_SHOP_MIN_H				12
-#define BAZAAR_SHOP_MIN_W				10
-
-#define BAZAAR_SHOP_ICON_X				(BAZAAR_SHOP_ITEM_X + 4)
-#define BAZAAR_SHOP_ICON_Y				(BAZAAR_SHOP_ITEM_Y + 4)
-#define BAZAAR_SHOP_ICON_WH				28
-
-#define BAZAAR_SHOP_RIGHT_BTN_X			(BAZAAR_SHOP_WINDOW_X + 267)
-#define BAZAAR_SHOP_RIGHT_BTN_Y			(BAZAAR_SHOP_WINDOW_Y + 60)
-
-#define BAZAAR_SHOP_LOG_STRING_LENGTH	282
-#define BAZAAR_SHOP_LOG_X				(BAZAAR_SHOP_WINDOW_X + 21)
-#define BAZAAR_SHOP_LOG_Y				(BAZAAR_SHOP_WINDOW_Y + 51)
-#define BAZAAR_SHOP_LOG_LINE_COUNT		12
-
-//|-------------------------------------------------|
-//|		1	  			|			2		   	    |
-//|-------------------------------------------------|
-//|		3				|			4			    |
-//|-------------------------------------------------|
-
-#define BAZAAR_OPEN_1_BUY_X				(BAZAAR_SHOP_ITEM_X+40)
-#define BAZAAR_OPEN_1_SEL_X				(BAZAAR_SHOP_ITEM_X+62)
-#define BAZAAR_OPEN_1_Y					(BAZAAR_SHOP_ITEM_Y+2)
-#define BAZAAR_OPEN_1_BUY_W				75
-#define BAZAAR_OPEN_1_SEL_W				67
-#define BAZAAR_OPEN_1_H					13
-
-#define BAZAAR_OPEN_2_SEL_X				(BAZAAR_SHOP_ITEM_X+160)
-#define BAZAAR_OPEN_2_BUY_X				(BAZAAR_SHOP_ITEM_X+161)
-#define BAZAAR_OPEN_2_Y					(BAZAAR_SHOP_ITEM_Y+2)
-#define	BAZAAR_OPEN_2_SEL_W				85
-#define	BAZAAR_OPEN_2_BUY_W				BAZAAR_OPEN_2_SEL_W
-#define BAZAAR_OPEN_3_BUY_X				(BAZAAR_SHOP_ITEM_X+40)
-#define BAZAAR_OPEN_3_Y					(BAZAAR_SHOP_ITEM_Y+16)
-#define BAZAAR_OPEN_4_SEL_X				BAZAAR_OPEN_2_SEL_X
-#define BAZAAR_OPEN_4_BUY_X				BAZAAR_OPEN_2_SEL_X
-#define BAZAAR_OPEN_4_Y					(BAZAAR_SHOP_ITEM_Y+16)
-
-
-
-//콤보 박스를 생성하기 위한 아이콘.
-#define BAZAAR_OPEN_1_ICON_X			(BAZAAR_SHOP_ITEM_X+118)
-#define BAZAAR_OPEN_1_ICON_Y			(BAZAAR_SHOP_ITEM_Y+7)
-#define BAZAAR_OPEN_1_ICON_W			100
-#define BAZAAR_OPEN_2_ICON_X			(BAZAAR_SHOP_ITEM_X+118)
-#define BAZAAR_OPEN_2_ICON_Y			(BAZAAR_SHOP_ITEM_Y+BAZAAR_OPEN_1_H+8)
-
-//콤보 박스를 찍기위한 자리.
-#define BAZAAR_OPEN_COMBO_KIND_X		BAZAAR_OPEN_1_X
-#define BAZAAR_OPEN_COMBO_KIND_Y		(BAZAAR_OPEN_1_Y+BAZAAR_OPEN_1_H)
-#define BAZAAR_OPEN_COMBO_NAME_X		BAZAAR_OPEN_1_X
-#define BAZAAR_OPEN_COMBO_NAME_Y		(BAZAAR_OPEN_1_Y+BAZAAR_OPEN_1_H+BAZAAR_OPEN_1_H)
-
-#define BAZAAR_SHOP_BTN_W				36
-#define BAZAAR_SHOP_BTN_H				19
-#define BAZAAR_SHOP_BTN_OUT_W			48
-
-#define BAZAAR_SHOP_SCROLL_MAX_LINE		(BAZAARSHOP_ITEMCOUNT - BAZAAR_ITEM_SLOT_NUMBER)		// 2014-09-04 by ymjoo 컴파일 경고 제거 작업
-#define BAZAAR_SHOP_OPEN_SCROLL_X		(BAZAAR_SHOP_TAB_START_X + 301)
-#define BAZAAR_SHOP_SCROLL_Y			(BAZAAR_SHOP_WINDOW_Y + 52)
-#define BAZAAR_SHOP_SCROLL_W			11
-#define BAZAAR_SHOP_SCROLL_H			38
-#define BAZAAR_SHOP_SCROLL_LINE_LENGTH	(181 - BAZAAR_SHOP_SCROLL_H)
-
-
-/*--------------------------------------------------------------------------*/
-//   Visit
-#define BAZAAR_VISIT_TOTAL_PRICE_X	(BAZAAR_SHOP_WINDOW_X + 11)
-#define BAZAAR_VISIT_TOTAL_PRICE_Y	(BAZAAR_SHOP_WINDOW_Y + 243)
-#define BAZAAR_VISIT_TOTAL_PRICE_W	230
-
-#define	BAZAAR_VISIT_TEXT_H             13
-
-#define BAZAAR_VISIT_NAME_X				(BAZAAR_SHOP_ITEM_X+38)
-#define BAZAAR_VISIT_NAME_Y				(BAZAAR_SHOP_ITEM_Y+2)
-#define BAZAAR_VISIT_NAME_W				208
-
-#define BAZAAR_VISIT_OUT_X				(BAZAAR_SHOP_WINDOW_X + 279)
-#define BAZAAR_VISIT_OUT_Y				BAZAAR_SHOP_OPEN_START_Y
-
-#define BAZAAR_SHOP_VISIT_SCROLL_X			(BAZAAR_SHOP_TAB_START_X + 300)
-
-//SEL
-#define	BAZAAR_VISIT_SEL_PRICE_X		(BAZAAR_SHOP_ITEM_X+66)
-#define	BAZAAR_VISIT_SEL_PRICE_Y		(BAZAAR_SHOP_ITEM_Y+17)
-#define	BAZAAR_VISIT_SEL_PRICE_W		85
-
-#define BAZAAR_VISIT_SEL_COUNT_X		(BAZAAR_SHOP_ITEM_X+201)
-#define BAZAAR_VISIT_SEL_COUNT_Y		(BAZAAR_SHOP_ITEM_Y+17)
-#define BAZAAR_VISIT_SEL_COUNT_W		45
-
-#define BAZAAR_VISIT_SEL_ITEM_COUNT_X	(BAZAAR_SHOP_ICON_X + 25)
-#define BAZAAR_VISIT_SEL_ITEM_COUNT_Y	BAZAAR_SHOP_ICON_Y
-
-//BUY
-#define	BAZAAR_VISIT_BUY_PRICE_X		(BAZAAR_SHOP_ITEM_X+67)
-#define	BAZAAR_VISIT_BUY_PRICE_Y		(BAZAAR_SHOP_ITEM_Y+17)
-#define	BAZAAR_VISIT_BUY_PRICE_W		70
-
-#define BAZAAR_VISIT_BUY_COUNT_X		(BAZAAR_SHOP_ITEM_X+182)
-#define BAZAAR_VISIT_BUY_COUNT_Y		(BAZAAR_SHOP_ITEM_Y+17)
-#define BAZAAR_VISIT_BUY_COUNT_W		64
-
-#if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
-#define STRING_CULL ::StringCullingUserData_ToBlank
-#else
-#define STRING_CULL ::StringCullingUserDataEx
-#endif
-#endif
 
 
 //////////////////////////////////////////////////////////////////////
@@ -575,11 +416,7 @@ BOOL CINFCityBazaar::GetPointInType(POINT &pt,int type,int Num)
 	else if(type == BAZAAR_OPEN_2_SEL)
 	{
 		if(pt.x > BAZAAR_OPEN_2_SEL_X &&
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 					pt.x < BAZAAR_OPEN_2_SEL_X + BAZAAR_OPEN_2_SEL_W &&
-#else 
-					pt.x < BAZAAR_OPEN_2_SEL_X + BAZAAR_OPEN_1_SEL_W &&
-#endif
 					pt.y > BAZAAR_OPEN_2_Y + (BAZAAR_SHOP_ITEM_H * Num)&&
 					pt.y < BAZAAR_OPEN_2_Y + (BAZAAR_SHOP_ITEM_H * Num) + BAZAAR_OPEN_1_H)
 		{
@@ -610,7 +447,6 @@ BOOL CINFCityBazaar::GetPointInType(POINT &pt,int type,int Num)
 			return TRUE;
 		}
 		return FALSE;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	}else if(type == BAZAAR_SHOP_TAB)
 	{
 		if(pt.x >= (BAZAAR_SHOP_TAB_START_X + 31 + (Num * BAZAAR_SHOP_TAB_W)) && 
@@ -622,19 +458,6 @@ BOOL CINFCityBazaar::GetPointInType(POINT &pt,int type,int Num)
 		}
 		return FALSE;
 	}
-#else
-	}else if(type == BAZAAR_SHOP_TAB)
-	{
-		if(pt.x >= (BAZAAR_SHOP_TAB_START_X + (Num * BAZAAR_SHOP_TAB_W)) && 
-					pt.x <= (BAZAAR_SHOP_TAB_START_X + ((Num + 1) * BAZAAR_SHOP_TAB_W)) &&
-					pt.y >= BAZAAR_SHOP_TAB_START_Y && 
-					pt.y <= BAZAAR_SHOP_TAB_START_Y + BAZAAR_SHOP_TAB_H)
-		{
-			return TRUE;
-		}
-		return FALSE;
-	}
-#endif
 
 	else if(type == BAZAAR_SHOP_SCROLL)
 	{
@@ -702,7 +525,6 @@ BOOL CINFCityBazaar::GetPointInType(POINT &pt,int type,int Num)
 		}
 		return FALSE;
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	else if(type == BAZAAR_OPEN_NAME)
 	{
 		if(pt.x >= BAZAAR_OPEN_NAME_X + 51 &&
@@ -714,19 +536,6 @@ BOOL CINFCityBazaar::GetPointInType(POINT &pt,int type,int Num)
 		}
 		return FALSE;
 	}
-#else
-	else if(type == BAZAAR_OPEN_NAME)
-	{
-		if(pt.x >= BAZAAR_OPEN_NAME_X + 38 &&
-					pt.x <= BAZAAR_OPEN_NAME_X + 231 &&
-					pt.y >= BAZAAR_OPEN_NAME_Y &&
-					pt.y <= BAZAAR_OPEN_NAME_Y + 18)
-		{
-			return TRUE;
-		}
-		return FALSE;
-	}
-#endif
 	else if(type == BAZAAR_SHOP_ITEM_AREA)
 	{
 		if(pt.x > BAZAAR_SHOP_ITEM_X &&
@@ -862,7 +671,6 @@ HRESULT CINFCityBazaarOpen::InitDeviceObjects()
 	DataHeader	* pDataHeader;
 	
 	CheckBtnState();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("Psh");
 	m_pBackWindow = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 	m_pBackWindow->InitDeviceObjects( g_pD3dApp->m_pImageList );
@@ -870,15 +678,8 @@ HRESULT CINFCityBazaarOpen::InitDeviceObjects()
 	m_pSelectBar = new CINFImageEx;
 	pDataHeader = FindResource("Selitem");
 	m_pSelectBar->InitDeviceObjects(pDataHeader );
-#else
-	m_pBackWindow = new CINFImageEx;
-	wsprintf(buf,"sellback");
-	pDataHeader = FindResource(buf);
-	m_pBackWindow->InitDeviceObjects(pDataHeader );
-#endif
 	for(i = 0 ; i < 4; i++)
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 		//취소 버튼
 		m_pDelItemBtn[i] = new CINFImageEx;
 		wsprintf(buf, "cans0%d",i);
@@ -912,48 +713,10 @@ HRESULT CINFCityBazaarOpen::InitDeviceObjects()
 		m_pActBtn[i] = new CINFImageEx;
 		pDataHeader = FindResource("w_wMax");
 		m_pActBtn[i]->InitDeviceObjects(pDataHeader );
-#else
-		//취소 버튼
-		m_pDelItemBtn[i] = new CINFImageEx;
-		wsprintf(buf, "canBtn_%d",i);
-		pDataHeader = FindResource(buf);
-		m_pDelItemBtn[i]->InitDeviceObjects(pDataHeader );
-
-		//등록 버튼
-		m_pPutItemBtn[i] = new CINFImageEx;
-		wsprintf(buf, "putBtn_%d",i);
-		pDataHeader = FindResource(buf);
-		m_pPutItemBtn[i]->InitDeviceObjects(pDataHeader );
-
-		//시작 버튼.
-		m_pStartBtn[i] = new CINFImageEx;
-		wsprintf(buf, "startBtn_%d",i);
-		pDataHeader = FindResource(buf);
-		m_pStartBtn[i]->InitDeviceObjects(pDataHeader );
-
-		//중단 버튼.
-		m_pStopBtn[i] = new CINFImageEx;
-		wsprintf(buf, "stopBtn_%d",i);
-		pDataHeader = FindResource(buf);
-		m_pStopBtn[i]->InitDeviceObjects(pDataHeader );
-	
-		//최소화.
-		m_pMinBtn[i] = new CINFImageEx;
-		wsprintf(buf,"c_down0%d",i);
-		pDataHeader = FindResource(buf);
-		m_pMinBtn[i]->InitDeviceObjects(pDataHeader );
-
-		//활성화.
-		m_pActBtn[i] = new CINFImageEx;
-		wsprintf(buf,"c_up0%d",i);
-		pDataHeader = FindResource(buf);
-		m_pActBtn[i]->InitDeviceObjects(pDataHeader );
-#endif
 
 
 		
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	//최소화 바.
 	m_pMinBar = new CINFImageEx;
 	wsprintf(buf, "buyTab_0");
@@ -964,13 +727,6 @@ HRESULT CINFCityBazaarOpen::InitDeviceObjects()
 	wsprintf(buf, "sellTab_0");
 	pDataHeader = FindResource(buf);
 	m_pMinBar1->InitDeviceObjects( pDataHeader );
-#else
-	//최소화 바.
-	m_pMinBar = new CINFImageEx;
-	wsprintf(buf, "selbar");
-	pDataHeader = FindResource(buf);
-	m_pMinBar->InitDeviceObjects(pDataHeader );
-#endif
 
 
 	//방제 .
@@ -1004,13 +760,6 @@ HRESULT CINFCityBazaarOpen::InitDeviceObjects()
 	pDataHeader = FindResource(buf);
 	m_pBackItem->InitDeviceObjects(pDataHeader );
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
-	// 선택 배경
-	m_pSelectBar = new CINFImageEx;
-	wsprintf(buf, "SelItem_%d", m_byBazaarType - 1);
-	pDataHeader = FindResource(buf);
-	m_pSelectBar->InitDeviceObjects(pDataHeader );
-#endif
 
 	if(m_byBazaarType == 1)
 	{
@@ -1025,12 +774,10 @@ HRESULT CINFCityBazaarOpen::InitDeviceObjects()
 		wsprintf(buf, "BackList_0");
 		pDataHeader = FindResource(buf);
 		m_pBackList->InitDeviceObjects(pDataHeader );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 		m_pBackListBox = new CINFImageEx;
 		wsprintf(buf, "BackList");
 		pDataHeader = FindResource(buf);
 		m_pBackListBox->InitDeviceObjects( pDataHeader );		
-#endif
 	}
 	else if(m_byBazaarType == 2)
 	{
@@ -1046,12 +793,10 @@ HRESULT CINFCityBazaarOpen::InitDeviceObjects()
 		pDataHeader = FindResource(buf);
 		m_pBackList->InitDeviceObjects(pDataHeader );
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 		m_pBackListBox = new CINFImageEx;
 		wsprintf(buf, "BackList");
 		pDataHeader = FindResource(buf);
 		m_pBackListBox->InitDeviceObjects( pDataHeader );		
-#endif
 
 		//comboBox 아이콘.
 		m_pArrowIcon[0] = new CINFImageEx;
@@ -1067,7 +812,6 @@ HRESULT CINFCityBazaarOpen::InitDeviceObjects()
 		OnReadyBuyItem();
 	}
 	/*--------------------------------------------------------------------------*/
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	//m_pFontItemPrice = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,BAZAAR_OPEN_2_SEL_W,32);
 	m_pFontItemPrice = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),8, D3DFONT_ZENABLE, TRUE,128,32);
 	m_pFontItemPrice->InitDeviceObjects(g_pD3dDev);
@@ -1094,50 +838,13 @@ HRESULT CINFCityBazaarOpen::InitDeviceObjects()
 	//m_pFontShopType= new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,BAZAAR_SHOP_LOG_STRING_LENGTH,32);
 	m_pFontShopType= new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),8, D3DFONT_ZENABLE, TRUE,512,32);
 	m_pFontShopType->InitDeviceObjects(g_pD3dDev);
-#else
-	//m_pFontItemPrice = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,BAZAAR_OPEN_2_SEL_W,32);
-	m_pFontItemPrice = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,128,32);
-	m_pFontItemPrice->InitDeviceObjects(g_pD3dDev);
-	//m_pFontItemCount = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,BAZAAR_OPEN_1_BUY_W,32);
-	m_pFontItemCount = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,128,32);
-	m_pFontItemCount->InitDeviceObjects(g_pD3dDev);
-	//m_pFontItemSum = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,BAZAAR_OPEN_2_SEL_W,32);
-	m_pFontItemSum = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,128,32);
-	m_pFontItemSum->InitDeviceObjects(g_pD3dDev);
-	//m_pFontItemName = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,70,32);
-	//m_pFontItemName->InitDeviceObjects(g_pD3dDev);
-	//m_pFontItemName = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,BAZAAR_OPEN_1_SEL_W,32);
-	m_pFontItemName = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,128,32);
-	m_pFontItemName->InitDeviceObjects(g_pD3dDev);
-	//m_pFontName = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,190,32);
-	m_pFontName = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,256,32);
-	m_pFontName->InitDeviceObjects(g_pD3dDev);
-	//m_pFontTotal = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,107,32);
-	m_pFontTotal = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,128,32);
-	m_pFontTotal->InitDeviceObjects(g_pD3dDev);
-	//m_pFontLogMsg = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,BAZAAR_SHOP_LOG_STRING_LENGTH,32);
-	m_pFontLogMsg = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,512,32);
-	m_pFontLogMsg->InitDeviceObjects(g_pD3dDev);
-	//m_pFontShopType= new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,BAZAAR_SHOP_LOG_STRING_LENGTH,32);
-	m_pFontShopType= new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,512,32);
-	m_pFontShopType->InitDeviceObjects(g_pD3dDev);
-#endif
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	m_pComboKindEx = new CINFComboBoxEX(this, m_pGameData);
 	m_pComboKindEx->CreateImage("Name","SelName","c_scrlb");
 	m_pComboKindEx->InitDeviceObjects();
 	m_pComboNameEx = new CINFComboBoxEX(this, m_pGameData);
 	m_pComboNameEx->CreateImage("Name","SelName","c_scrlb");
 	m_pComboNameEx->InitDeviceObjects();
-#else
-	m_pComboKindEx = new CINFComboBoxEX(this, m_pGameData);
-	m_pComboKindEx->CreateImage("Name","SelName","Sm-Scroll");
-	m_pComboKindEx->InitDeviceObjects();
-	m_pComboNameEx = new CINFComboBoxEX(this, m_pGameData);
-	m_pComboNameEx->CreateImage("Name","SelName","Sm-Scroll");
-	m_pComboNameEx->InitDeviceObjects();
-#endif
 
 	return S_OK;
 }
@@ -1157,9 +864,7 @@ HRESULT CINFCityBazaarOpen::RestoreDeviceObjects()
 		m_pActBtn[i]->RestoreDeviceObjects();
 	}
 	m_pMinBar->RestoreDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	m_pMinBar1->RestoreDeviceObjects();
-#endif
 
 	for(i = 0; i < 2; i++)
 	{
@@ -1170,9 +875,7 @@ HRESULT CINFCityBazaarOpen::RestoreDeviceObjects()
 	m_pFontItemCount->RestoreDeviceObjects();
 	m_pFontItemName->RestoreDeviceObjects();
 	m_pFontItemSum->RestoreDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	m_pBackListBox->RestoreDeviceObjects();
-#endif
 	m_pBackList->RestoreDeviceObjects();
 	m_pBackItem->RestoreDeviceObjects();
 	m_pShopName->RestoreDeviceObjects();
@@ -1222,10 +925,8 @@ HRESULT CINFCityBazaarOpen::DeleteDeviceObjects()
 	m_pMinBar->DeleteDeviceObjects();
 	SAFE_DELETE(m_pMinBar);
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	m_pMinBar1->DeleteDeviceObjects();
 	SAFE_DELETE(m_pMinBar1);
-#endif
 	
 	for(i = 0; i < 2; i++)
 	{
@@ -1246,10 +947,8 @@ HRESULT CINFCityBazaarOpen::DeleteDeviceObjects()
 	SAFE_DELETE(m_pScrollButton);
 	SAFE_DELETE(m_pSelectBar);
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	m_pBackListBox->DeleteDeviceObjects();
 	SAFE_DELETE( m_pBackListBox );
-#endif
 
 	m_pFontItemName->DeleteDeviceObjects();
 	m_pFontItemPrice->DeleteDeviceObjects();
@@ -1308,9 +1007,7 @@ HRESULT CINFCityBazaarOpen::InvalidateDeviceObjects()
 	}
 	m_pMinBar->InvalidateDeviceObjects();
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	m_pMinBar1->InvalidateDeviceObjects();
-#endif
 	
 	for(i = 0; i < 2; i++)
 	{
@@ -1324,9 +1021,7 @@ HRESULT CINFCityBazaarOpen::InvalidateDeviceObjects()
 	m_pScrollButton->InvalidateDeviceObjects();
 	m_pSelectBar->InvalidateDeviceObjects();
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	m_pBackListBox->InvalidateDeviceObjects();
-#endif
 	
 	m_pFontItemName->InvalidateDeviceObjects();
 	m_pFontItemPrice->InvalidateDeviceObjects();
@@ -1470,7 +1165,6 @@ void CINFCityBazaarOpen::Render()
 void CINFCityBazaarOpen::Render_Disable()
 {
 	char temp[64] = {0,};
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	if(m_byBazaarType == 1)
 	{
 		m_pMinBar1->Move(BAZAAR_SHOP_MINIBAR_X,BAZAAR_SHOP_MINIBAR_Y);
@@ -1481,16 +1175,6 @@ void CINFCityBazaarOpen::Render_Disable()
 	m_pMinBar->Move(BAZAAR_SHOP_MINIBAR_X,BAZAAR_SHOP_MINIBAR_Y);
 	m_pMinBar->Render();
 	}	
-#else
-	m_pMinBar->Move(BAZAAR_SHOP_MINIBAR_X,BAZAAR_SHOP_MINIBAR_Y);
-	m_pMinBar->Render();
-
-	if(m_byBazaarType == 1)
-		wsprintf(temp,STRMSG_C_060829_0100);
-	else
-		wsprintf(temp,STRMSG_C_060829_0101);
-	m_pFontShopType->DrawText(BAZAAR_SHOP_MINIBAR_X + 5,BAZAAR_SHOP_MINIBAR_Y + 2,GUI_FONT_COLOR_W,temp,0L);
-#endif	
 	m_pActBtn[m_nMinBtnState]->Move(BAZAAR_SHOP_ACT_X,BAZAAR_SHOP_ACT_Y);
 	m_pActBtn[m_nMinBtnState]->Render();
 }
@@ -1501,10 +1185,6 @@ void CINFCityBazaarOpen::Render_Common()
 	m_pBackTab[0]->Render();
 
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
-	m_pBackList->Move(BAZAAR_SHOP_ITEM_X, BAZAAR_SHOP_ITEM_Y);
-	m_pBackList->Render();
-#endif
 
 	//최소화 버튼.
 	m_pMinBtn[m_nMinBtnState]->Move(BAZAAR_SHOP_MIN_X,BAZAAR_SHOP_MIN_Y);
@@ -1528,17 +1208,10 @@ void CINFCityBazaarOpen::Render_Common()
 	m_pShopName->Move(BAZAAR_OPEN_NAME_X, BAZAAR_OPEN_NAME_Y);
 	m_pShopName->Render();
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	if(m_byFocusText == TEXT_NAME)
 		UnderBarDrawText(m_pFontName,BAZAAR_OPEN_NAME_X+51, BAZAAR_OPEN_NAME_Y + 4,GUI_FONT_COLOR_W,m_strInputMessage,0L);
 	else
 	 	m_pFontName->DrawText(BAZAAR_OPEN_NAME_X+51, BAZAAR_OPEN_NAME_Y + 4,GUI_FONT_COLOR_W,m_strInputMessage,0L);
-#else
- 	if(m_byFocusText == TEXT_NAME)
-		UnderBarDrawText(m_pFontName,BAZAAR_OPEN_NAME_X+40, BAZAAR_OPEN_NAME_Y,GUI_FONT_COLOR_W,m_strInputMessage,0L);
-	else
-	m_pFontName->DrawText(BAZAAR_OPEN_NAME_X+40, BAZAAR_OPEN_NAME_Y,GUI_FONT_COLOR_W,m_strInputMessage,0L);
-#endif
 
 // 	//버튼 삽입.
 	m_pStartBtn[m_nStartBtnState]->Move(BAZAAR_SHOP_OPEN_START_X, BAZAAR_SHOP_OPEN_START_Y);
@@ -1558,10 +1231,6 @@ void CINFCityBazaarOpen::Render_Sell()
 	//아이템 배경 넣는 곳 삽입.	
 	int i = 0;
 	int nItemCount = m_vecOpenBazaarItem.size();
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
-	if(nItemCount < m_nScrollLine)
-		return;
-#endif
 	
 	vector<OPEN_BAZAAR_ITEM>::iterator ite = m_vecOpenBazaarItem.begin();
 	while(ite != m_vecOpenBazaarItem.end())
@@ -1573,7 +1242,6 @@ void CINFCityBazaarOpen::Render_Sell()
 			{
 				break;
 			}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 			m_pBackListBox->Move(BAZAAR_SHOP_ITEM_X, BAZAAR_SHOP_ITEM_Y + ( nLineCount * BAZAAR_SHOP_ITEM_H ) );
 			m_pBackListBox->Render();
 
@@ -1585,19 +1253,6 @@ void CINFCityBazaarOpen::Render_Sell()
 				m_pSelectBar->Move(BAZAAR_SHOP_ITEM_X, BAZAAR_SHOP_ITEM_Y + (nLineCount * BAZAAR_SHOP_ITEM_H));
 				m_pSelectBar->Render();
 			}
-#else
-			// 선택
-			if(m_nSelectIndex == i)
-			{
-				m_pSelectBar->Move(BAZAAR_SHOP_ITEM_X, BAZAAR_SHOP_ITEM_Y + (nLineCount * BAZAAR_SHOP_ITEM_H));
-				m_pSelectBar->Render();
-			}
-			else
-			{
-				m_pBackItem->Move(BAZAAR_SHOP_ITEM_X, BAZAAR_SHOP_ITEM_Y + (nLineCount * BAZAAR_SHOP_ITEM_H));
-				m_pBackItem->Render();
-			}
-#endif
 
 
 			// 아이콘
@@ -1654,7 +1309,6 @@ void CINFCityBazaarOpen::Render_Sell()
 			SIZE size = m_pFontItemCount->GetStringSize(buf1);
 			if(size.cx > BAZAAR_OPEN_1_SEL_W)
 				size.cx = BAZAAR_OPEN_1_SEL_W;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 			if(m_byFocusText == TEXT_COUNT && m_nSelectIndex == i)
 				UnderBarDrawText(m_pFontItemName,BAZAAR_OPEN_1_SEL_X + BAZAAR_OPEN_1_SEL_W - size.cx - 5,BAZAAR_OPEN_3_Y+(nLineCount * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,buf1,0L);
 			else
@@ -1669,22 +1323,6 @@ void CINFCityBazaarOpen::Render_Sell()
 				UnderBarDrawText(m_pFontItemPrice,BAZAAR_OPEN_2_SEL_X+BAZAAR_OPEN_2_SEL_W-size.cx,BAZAAR_OPEN_2_Y+(nLineCount * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,buf,0L);
 			else
 			    m_pFontItemPrice->DrawText(BAZAAR_OPEN_2_SEL_X+BAZAAR_OPEN_2_SEL_W-size.cx,BAZAAR_OPEN_2_Y+(nLineCount * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,buf,0L);
-#else
-if(m_byFocusText == TEXT_COUNT && m_nSelectIndex == i)
-				UnderBarDrawText(m_pFontItemName,BAZAAR_OPEN_1_SEL_X,BAZAAR_OPEN_3_Y+(nLineCount * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,buf1,0L);
-			else
-			    m_pFontItemName->DrawText(BAZAAR_OPEN_1_SEL_X+(BAZAAR_OPEN_1_SEL_W-size.cx)/2,BAZAAR_OPEN_3_Y+(nLineCount * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,buf1,0L);
-
-			wsprintf( buf1, "%d", ite->nItemPrice);
-			MakeCurrencySeparator(buf,buf1,3,',');
-			size = m_pFontItemPrice->GetStringSize(buf);
-			if(size.cx > BAZAAR_OPEN_2_SEL_W)
-				size.cx = BAZAAR_OPEN_2_SEL_W;
-			if(m_byFocusText == TEXT_PRICE && m_nSelectIndex == i)
-				UnderBarDrawText(m_pFontItemPrice,BAZAAR_OPEN_2_SEL_X,BAZAAR_OPEN_2_Y+(nLineCount * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,buf,0L);
-			else
-			    m_pFontItemPrice->DrawText(BAZAAR_OPEN_2_SEL_X+BAZAAR_OPEN_2_SEL_W-size.cx,BAZAAR_OPEN_2_Y+(nLineCount * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,buf,0L);
-#endif
 
 			wsprintf( buf1, "%d", ite->nItemTotal);
 			MakeCurrencySeparator(buf,buf1,3,',');
@@ -1709,7 +1347,6 @@ if(m_byFocusText == TEXT_COUNT && m_nSelectIndex == i)
 		ite++;
 		i++;
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	int j = i - m_nScrollLine;
 	if(j < 0)
 		j = 0;
@@ -1720,7 +1357,6 @@ if(m_byFocusText == TEXT_COUNT && m_nSelectIndex == i)
 		m_pBackList->Move(BAZAAR_SHOP_ITEM_X, BAZAAR_SHOP_ITEM_Y +  j * BAZAAR_SHOP_ITEM_H);
 		m_pBackList->Render();
 	}
-#endif
 }
 
 void CINFCityBazaarOpen::Render_Buy()
@@ -1732,10 +1368,6 @@ void CINFCityBazaarOpen::Render_Buy()
 	char buf[64] = {0,};
 	char buf1[64] = {0,};
 	int nItemCount = m_vecOpenBazaarItem.size();
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
-	if(nItemCount < m_nScrollLine)
-		return;
-#endif
 	
 	vector<OPEN_BAZAAR_ITEM>::iterator ite = m_vecOpenBazaarItem.begin();
 	while(ite != m_vecOpenBazaarItem.end())
@@ -1748,7 +1380,6 @@ void CINFCityBazaarOpen::Render_Buy()
 				break;
 			}
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 			m_pBackListBox->Move(BAZAAR_SHOP_ITEM_X, BAZAAR_SHOP_ITEM_Y + ( nLineCount * BAZAAR_SHOP_ITEM_H ) );
 			m_pBackListBox->Render();
 			
@@ -1760,20 +1391,6 @@ void CINFCityBazaarOpen::Render_Buy()
 				m_pSelectBar->Move(BAZAAR_SHOP_ITEM_X, BAZAAR_SHOP_ITEM_Y + (nLineCount * BAZAAR_SHOP_ITEM_H));
 				m_pSelectBar->Render();
 			}
-#else
-			// 선택
-			if(m_nSelectIndex == i)
-			{
-				m_pSelectBar->Move(BAZAAR_SHOP_ITEM_X, BAZAAR_SHOP_ITEM_Y + (nLineCount * BAZAAR_SHOP_ITEM_H));
-				m_pSelectBar->Render();
-
-			}
-			else
-			{
-				m_pBackItem->Move(BAZAAR_SHOP_ITEM_X, BAZAAR_SHOP_ITEM_Y + (nLineCount * BAZAAR_SHOP_ITEM_H));
-				m_pBackItem->Render();
-			}
-#endif
 
 			//콤보박스에 있는 세모 아이콘 붙이기
 			if(m_nComboState[nLineCount][0] == COMBO_UNDER)
@@ -1786,13 +1403,11 @@ void CINFCityBazaarOpen::Render_Buy()
 				m_pArrowIcon[1]->Move(BAZAAR_OPEN_1_ICON_X,BAZAAR_OPEN_1_ICON_Y+(nLineCount * BAZAAR_SHOP_ITEM_H));
 					m_pArrowIcon[1]->Render();
 			}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 			else
 			{
 				m_pArrowIcon[0]->Move(BAZAAR_OPEN_1_ICON_X,BAZAAR_OPEN_1_ICON_Y+(nLineCount * BAZAAR_SHOP_ITEM_H));
 				m_pArrowIcon[0]->Render();
 			}
-#endif
 			if(m_nComboState[nLineCount][1] == COMBO_UNDER)
 			{
 				m_pArrowIcon[0]->Move(BAZAAR_OPEN_2_ICON_X,BAZAAR_OPEN_2_ICON_Y+(nLineCount * BAZAAR_SHOP_ITEM_H));
@@ -1803,13 +1418,11 @@ void CINFCityBazaarOpen::Render_Buy()
 				m_pArrowIcon[1]->Move(BAZAAR_OPEN_2_ICON_X,BAZAAR_OPEN_2_ICON_Y+(nLineCount * BAZAAR_SHOP_ITEM_H));
 					m_pArrowIcon[1]->Render();
 			}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 			else
 			{
 				m_pArrowIcon[0]->Move(BAZAAR_OPEN_2_ICON_X,BAZAAR_OPEN_2_ICON_Y+(nLineCount * BAZAAR_SHOP_ITEM_H));
 				m_pArrowIcon[0]->Render();
 			}
-#endif
 
 			if(ite->pItemBase)
 			{
@@ -1853,7 +1466,6 @@ void CINFCityBazaarOpen::Render_Buy()
 			size = m_pFontItemPrice->GetStringSize(buf1);
 			if(size.cx > BAZAAR_OPEN_2_BUY_W)
 				size.cx = BAZAAR_OPEN_2_BUY_W;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 			if(m_byFocusText == TEXT_COUNT && m_nSelectIndex == i)
 				UnderBarDrawText(m_pFontItemPrice,BAZAAR_OPEN_2_BUY_X + BAZAAR_OPEN_2_BUY_W - size.cx - 5,BAZAAR_OPEN_2_Y+(nLineCount * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,buf1,0L);
 			else
@@ -1868,22 +1480,6 @@ void CINFCityBazaarOpen::Render_Buy()
 				UnderBarDrawText(m_pFontItemPrice,BAZAAR_OPEN_4_BUY_X + BAZAAR_OPEN_2_BUY_W-size.cx - 5,BAZAAR_OPEN_4_Y+(nLineCount * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,buf,0L);
 			else
 			    m_pFontItemPrice->DrawText(BAZAAR_OPEN_4_BUY_X + BAZAAR_OPEN_2_BUY_W-size.cx,BAZAAR_OPEN_4_Y+(nLineCount * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,buf,0L);
-#else 
-	if(m_byFocusText == TEXT_COUNT && m_nSelectIndex == i)
-				UnderBarDrawText(m_pFontItemPrice,BAZAAR_OPEN_2_BUY_X,BAZAAR_OPEN_2_Y+(nLineCount * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,buf1,0L);
-			else
-			    m_pFontItemPrice->DrawText(BAZAAR_OPEN_2_BUY_X+(BAZAAR_OPEN_2_BUY_W-size.cx)/2,BAZAAR_OPEN_2_Y+(nLineCount * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,buf1,0L);
-
-			wsprintf( buf1, "%d", ite->nItemPrice);
-			MakeCurrencySeparator(buf,buf1,3,',');
-			size = m_pFontItemPrice->GetStringSize(buf);
-			if(size.cx > BAZAAR_OPEN_2_BUY_W)
-				size.cx = BAZAAR_OPEN_2_BUY_W;
-			if(m_byFocusText == TEXT_PRICE && m_nSelectIndex == i)
-				UnderBarDrawText(m_pFontItemPrice,BAZAAR_OPEN_4_BUY_X,BAZAAR_OPEN_4_Y+(nLineCount * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,buf,0L);
-			else
-			    m_pFontItemPrice->DrawText(BAZAAR_OPEN_4_BUY_X+BAZAAR_OPEN_2_BUY_W-size.cx,BAZAAR_OPEN_4_Y+(nLineCount * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,buf,0L);
-#endif
 			//버튼 삽입.
 			if(ite->bRegister)
 			{
@@ -1900,7 +1496,6 @@ void CINFCityBazaarOpen::Render_Buy()
 		ite++;
 		i++;
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	int j = i - m_nScrollLine;
 	if(j < 0)
 		j = 0;
@@ -1911,7 +1506,6 @@ void CINFCityBazaarOpen::Render_Buy()
 		m_pBackList->Move(BAZAAR_SHOP_ITEM_X, BAZAAR_SHOP_ITEM_Y +  j * BAZAAR_SHOP_ITEM_H);
 		m_pBackList->Render();
 	}
-#endif
 
 	// 종류
 	int nBuyItemIndex = nItemCount - 1;
@@ -1929,7 +1523,6 @@ void CINFCityBazaarOpen::Render_Buy()
 			size = m_pFontItemCount->GetStringSize((char*)vecChatMessage[0].c_str());
 			m_pFontItemCount->DrawText(BAZAAR_OPEN_1_BUY_X,BAZAAR_OPEN_1_Y+(nRenderIndex * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,(char*)vecChatMessage[0].c_str(),0L);
 		}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 
 		else if(m_vecOpenBazaarItem[nBuyItemIndex].pItemBase == NULL &&
 				m_pComboKindEx->m_nSelectDataIndex == -1)
@@ -1941,17 +1534,6 @@ void CINFCityBazaarOpen::Render_Buy()
 		{
 			m_pFontItemCount->DrawText(BAZAAR_OPEN_1_BUY_X, BAZAAR_OPEN_3_Y+(nRenderIndex * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,STRMSG_C_060801_0101,0L);
 		}
-#else
-		else if(m_vecOpenBazaarItem[nBuyItemIndex].pItemBase == NULL &&
-			m_pComboKindEx->m_nSelectDataIndex == -1)
-		{
-			m_pFontItemCount->DrawText(BAZAAR_OPEN_1_BUY_X + ( BAZAAR_OPEN_1_BUY_W - size.cx ) / 2,BAZAAR_OPEN_1_Y+(nRenderIndex * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,STRMSG_C_060801_0100,0L);
-		}
-		if(m_vecOpenBazaarItem[nBuyItemIndex].pItemBase == NULL)
-		{
-			m_pFontItemCount->DrawText(BAZAAR_OPEN_3_BUY_X + ( BAZAAR_OPEN_1_BUY_W - size.cx ) / 2,BAZAAR_OPEN_3_Y+(nRenderIndex * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,STRMSG_C_060801_0101,0L);
-		}
-#endif
 	}
 
 	//콤보 박스를 그려준다.
@@ -2032,11 +1614,7 @@ int CINFCityBazaarOpen::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	int nResultProc = INF_MSGPROC_NORMAL;
 	int i;
 	// 2006-08-29 by dgwoo 비활성화시 모든 메시지를 막는다.
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	if( !m_bBazaarMinAct )
-#else
-	if(!m_bBazaarMinAct && m_byTabIndex == 0)
-#endif
 	{//비활성화시.
 		if(INF_MSGPROC_BREAK == WndProc_Disable(uMsg, wParam,  lParam))
 		{
@@ -2107,7 +1685,6 @@ int CINFCityBazaarOpen::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 					return INF_MSGPROC_BREAK;
 				}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 				if(m_nStopBtnState != BTN_STATE_DEACTIVE &&
 						GetPointInType(pt,BAZAAR_SHOP_MIN))
 				{//최소화 버튼을 눌렀을때.
@@ -2118,7 +1695,6 @@ int CINFCityBazaarOpen::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					
 					return INF_MSGPROC_BREAK;
 				}
-#endif
 			}
 
 			// 스크롤
@@ -4722,7 +4298,6 @@ HRESULT CINFCityBazaarVisit::InitDeviceObjects()
 	char buf[16] = {0,};
 	DataHeader	* pDataHeader;
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("Psh");
 	m_pBackWindow = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 	m_pBackWindow->InitDeviceObjects( g_pD3dApp->m_pImageList );
@@ -4746,27 +4321,6 @@ HRESULT CINFCityBazaarVisit::InitDeviceObjects()
 		pDataHeader = FindResource(buf);
 		m_pStopBtn[i]->InitDeviceObjects(pDataHeader );
 	}
-#else
-	m_pBackWindow = new CINFImageEx;
-	wsprintf(buf,"sellback");
-	pDataHeader = FindResource(buf);
-	m_pBackWindow->InitDeviceObjects(pDataHeader );
-	
-	for(i = 0; i < 4; i++)
-	{
-		//취소 버튼
-		m_pDelItemBtn[i] = new CINFImageEx;
-		wsprintf(buf, "canBtn_%d",i);
-		pDataHeader = FindResource(buf);
-		m_pDelItemBtn[i]->InitDeviceObjects(pDataHeader );
-
-		//나가기 버튼.
-		m_pStopBtn[i] = new CINFImageEx;
-		wsprintf(buf, "exitBtn_%d",i);
-		pDataHeader = FindResource(buf);
-		m_pStopBtn[i]->InitDeviceObjects(pDataHeader );
-	}
-#endif
 	//리스트 배경.
 	m_pBackList = new CINFImageEx;
 	wsprintf(buf, "BackList");
@@ -4798,7 +4352,6 @@ HRESULT CINFCityBazaarVisit::InitDeviceObjects()
 	pDataHeader = FindResource(buf);
 	m_pBackItem->InitDeviceObjects(pDataHeader );
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	// 선택 배경
 	m_pSelectBar = new CINFImageEx;
 	pDataHeader = FindResource("Selitem");
@@ -4827,38 +4380,7 @@ HRESULT CINFCityBazaarVisit::InitDeviceObjects()
 			m_pOKBtn[i]->InitDeviceObjects(pDataHeader );
 		}
 	}
-#else
-	m_pSelectBar = new CINFImageEx;
-	wsprintf(buf, "SelItemV_%d", m_byBazaarType - 1);
-	pDataHeader = FindResource(buf);
-	m_pSelectBar->InitDeviceObjects(pDataHeader );
-
-	if(m_byBazaarType == 1)
-	{
-		for(i = 0; i < 4; i++)
-		{
-			//구입 버튼.
-			m_pOKBtn[i] = new CINFImageEx;
-			wsprintf(buf, "buyBtn_%d",i);
-			pDataHeader = FindResource(buf);
-			m_pOKBtn[i]->InitDeviceObjects(pDataHeader );
-		}
-
-	}
-	else if(m_byBazaarType == 2)
-	{
-		for(i = 0; i < 4; i++)
-		{
-			//판매 버튼.
-			m_pOKBtn[i] = new CINFImageEx;
-			wsprintf(buf, "sellBtn_%d",i);
-			pDataHeader = FindResource(buf);
-			m_pOKBtn[i]->InitDeviceObjects(pDataHeader );
-		}
-	}
-#endif
 	/*--------------------------------------------------------------------------*/
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	// 2006-11-01 by dgwoo	
 	//m_pFontItemName = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,BAZAAR_VISIT_NAME_W,32);
 	m_pFontItemName = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),8, D3DFONT_ZENABLE, TRUE,256,32);
@@ -4875,24 +4397,6 @@ HRESULT CINFCityBazaarVisit::InitDeviceObjects()
 
 	m_pFontSumPrice = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,128,32);
 	m_pFontSumPrice->InitDeviceObjects(g_pD3dDev);
-#else
-	// 2006-11-01 by dgwoo	
-	//m_pFontItemName = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,BAZAAR_VISIT_NAME_W,32);
-	m_pFontItemName = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,256,32);
-	m_pFontItemName->InitDeviceObjects(g_pD3dDev);
-	//m_pFontItemPrice = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,BAZAAR_VISIT_SEL_PRICE_W,32);
-	m_pFontItemPrice = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,128,32);
-	m_pFontItemPrice->InitDeviceObjects(g_pD3dDev);
-	//m_pFontItemCount = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,BAZAAR_VISIT_SEL_COUNT_W,32);
-	m_pFontItemCount = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,64,32);
-	m_pFontItemCount->InitDeviceObjects(g_pD3dDev);
-	//m_pFontBuySellItemCount = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),8, D3DFONT_ZENABLE, TRUE,BAZAAR_VISIT_SEL_COUNT_W,32);
-	m_pFontBuySellItemCount = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),8, D3DFONT_ZENABLE, TRUE,64,32);
-	m_pFontBuySellItemCount->InitDeviceObjects(g_pD3dDev);
-
-	m_pFontSumPrice = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,128,32);
-	m_pFontSumPrice->InitDeviceObjects(g_pD3dDev);
-#endif
 	return S_OK;
 }
 
@@ -4900,9 +4404,7 @@ HRESULT CINFCityBazaarVisit::RestoreDeviceObjects()
 {
 	int i;
 	m_pBackWindow->RestoreDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	m_pBackListBox->RestoreDeviceObjects();	
-#endif
 	for(i = 0; i < 4; i++)
 	{
 		m_pDelItemBtn[i]->RestoreDeviceObjects();
@@ -4932,10 +4434,8 @@ HRESULT CINFCityBazaarVisit::DeleteDeviceObjects()
 {
 	int i;
 	m_pBackWindow->DeleteDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	m_pBackListBox->DeleteDeviceObjects();	
 	SAFE_DELETE(m_pBackListBox);
-#endif
 	for(i = 0; i < 4; i++)
 	{
 		m_pDelItemBtn[i]->DeleteDeviceObjects();
@@ -4990,9 +4490,7 @@ HRESULT CINFCityBazaarVisit::InvalidateDeviceObjects()
 {
 	int i;
 	m_pBackWindow->InvalidateDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	m_pBackListBox->InvalidateDeviceObjects();
-#endif
 	for(i = 0; i < 4; i++)
 	{
 		m_pDelItemBtn[i]->InvalidateDeviceObjects();
@@ -5051,10 +4549,6 @@ void CINFCityBazaarVisit::Render_Common()
 	m_pBackTab->Move(BAZAAR_SHOP_TAB_START_X, BAZAAR_SHOP_TAB_START_Y);
 	m_pBackTab->Render();
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
-	m_pBackList->Move(BAZAAR_SHOP_ITEM_X, BAZAAR_SHOP_ITEM_Y);
-	m_pBackList->Render();
-#endif
 	//합계
 	m_pSum->Move(BAZAAR_VISIT_TOTAL_PRICE_X, BAZAAR_VISIT_TOTAL_PRICE_Y);
 	m_pSum->Render();
@@ -5083,10 +4577,6 @@ void CINFCityBazaarVisit::Render_Sell()
 	//아이템 배경 넣는 곳 삽입.	
 	int i = 0;
 	int nItemCount = m_vecVisitBazaarItem.size();
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
-	if(nItemCount < m_nScrollLine)
-		return;
-#endif
 	
 	vector<VISIT_BAZAAR_ITEM>::iterator ite = m_vecVisitBazaarItem.begin();
 	while(ite != m_vecVisitBazaarItem.end())
@@ -5098,7 +4588,6 @@ void CINFCityBazaarVisit::Render_Sell()
 			{
 				break;
 			}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 			m_pBackListBox->Move(BAZAAR_SHOP_ITEM_X, BAZAAR_SHOP_ITEM_Y + ( nLineCount * BAZAAR_SHOP_ITEM_H ) );
 			m_pBackListBox->Render();
 			
@@ -5110,19 +4599,6 @@ void CINFCityBazaarVisit::Render_Sell()
 				m_pSelectBar->Move(BAZAAR_SHOP_ITEM_X, BAZAAR_SHOP_ITEM_Y + (nLineCount * BAZAAR_SHOP_ITEM_H));
 				m_pSelectBar->Render();
 			}
-#else
-			// 선택
-			if(m_nSelectIndex == i)
-			{
-				m_pSelectBar->Move(BAZAAR_SHOP_ITEM_X, BAZAAR_SHOP_ITEM_Y + (nLineCount * BAZAAR_SHOP_ITEM_H));
-				m_pSelectBar->Render();
-			}
-			else
-			{
-				m_pBackItem->Move(BAZAAR_SHOP_ITEM_X, BAZAAR_SHOP_ITEM_Y + (nLineCount * BAZAAR_SHOP_ITEM_H));
-				m_pBackItem->Render();
-			}
-#endif
 
 
 			// 아이콘
@@ -5187,17 +4663,10 @@ void CINFCityBazaarVisit::Render_Sell()
 			// 선택 갯수
 			wsprintf( buf1, "%d", ite->nCurrentCount);
 			size = m_pFontItemCount->GetStringSize(buf1);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 			if(m_byFocusText == TEXT_COUNT && m_nSelectIndex == i)
 				UnderBarDrawText(m_pFontItemCount,BAZAAR_VISIT_SEL_COUNT_X + BAZAAR_VISIT_SEL_COUNT_W - size.cx - 5,BAZAAR_VISIT_SEL_COUNT_Y+(nLineCount * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,buf1,0L);
 			else
 			    m_pFontItemCount->DrawText(BAZAAR_VISIT_SEL_COUNT_X+BAZAAR_VISIT_SEL_COUNT_W - size.cx,BAZAAR_VISIT_SEL_COUNT_Y+(nLineCount * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,buf1,0L);
-#else 
-			if(m_byFocusText == TEXT_COUNT && m_nSelectIndex == i)
-				UnderBarDrawText(m_pFontItemCount,BAZAAR_VISIT_SEL_COUNT_X,BAZAAR_VISIT_SEL_COUNT_Y+(nLineCount * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,buf1,0L);
-			else
-			    m_pFontItemCount->DrawText(BAZAAR_VISIT_SEL_COUNT_X+(BAZAAR_VISIT_SEL_COUNT_W-size.cx)/2,BAZAAR_VISIT_SEL_COUNT_Y+(nLineCount * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,buf1,0L);
-#endif
 			// 합계
 			wsprintf( buf1, "%d", m_nSum);
 			MakeCurrencySeparator(buf,buf1,3,',');
@@ -5212,7 +4681,6 @@ void CINFCityBazaarVisit::Render_Sell()
 		ite++;
 		i++;
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	int j = i - m_nScrollLine;
 	if(j < 0)
 		j = 0;
@@ -5223,7 +4691,6 @@ void CINFCityBazaarVisit::Render_Sell()
 		m_pBackList->Move(BAZAAR_SHOP_ITEM_X, BAZAAR_SHOP_ITEM_Y +  j * BAZAAR_SHOP_ITEM_H);
 		m_pBackList->Render();
 	}
-#endif
 }
 
 void CINFCityBazaarVisit::Render_Buy()
@@ -5232,10 +4699,6 @@ void CINFCityBazaarVisit::Render_Buy()
 	//아이템 배경 넣는 곳 삽입.	
 	int i = 0;
 	int nItemCount = m_vecVisitBazaarItem.size();
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
-	if(nItemCount < m_nScrollLine)
-		return;
-#endif
 	
 	vector<VISIT_BAZAAR_ITEM>::iterator ite = m_vecVisitBazaarItem.begin();
 	while(ite != m_vecVisitBazaarItem.end())
@@ -5248,7 +4711,6 @@ void CINFCityBazaarVisit::Render_Buy()
 				break;
 			}
 			// 선택
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 			m_pBackListBox->Move(BAZAAR_SHOP_ITEM_X, BAZAAR_SHOP_ITEM_Y + ( nLineCount * BAZAAR_SHOP_ITEM_H ) );
 			m_pBackListBox->Render();
 			
@@ -5260,18 +4722,6 @@ void CINFCityBazaarVisit::Render_Buy()
 				m_pSelectBar->Move(BAZAAR_SHOP_ITEM_X, BAZAAR_SHOP_ITEM_Y + (nLineCount * BAZAAR_SHOP_ITEM_H));
 				m_pSelectBar->Render();
 			}
-#else
-			if(m_nSelectIndex == i)
-			{
-				m_pSelectBar->Move(BAZAAR_SHOP_ITEM_X, BAZAAR_SHOP_ITEM_Y + (nLineCount * BAZAAR_SHOP_ITEM_H));
-				m_pSelectBar->Render();
-			}
-			else
-			{
-				m_pBackItem->Move(BAZAAR_SHOP_ITEM_X, BAZAAR_SHOP_ITEM_Y + (nLineCount * BAZAAR_SHOP_ITEM_H));
-				m_pBackItem->Render();
-			}
-#endif
 
 			// 아이콘
 			SIZE size;
@@ -5315,7 +4765,6 @@ void CINFCityBazaarVisit::Render_Buy()
 			wsprintf( buf1, "%d", ite->nEachPrice0);
 			MakeCurrencySeparator(buf,buf1,3,',');
 			size = m_pFontItemPrice->GetStringSize(buf);  
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 		    m_pFontItemPrice->DrawText(BAZAAR_VISIT_BUY_PRICE_X + BAZAAR_OPEN_1_BUY_W - size.cx,BAZAAR_VISIT_SEL_PRICE_Y+(nLineCount * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,buf,0L);
 
 			// 선택 갯수
@@ -5325,18 +4774,6 @@ void CINFCityBazaarVisit::Render_Buy()
 				UnderBarDrawText(m_pFontItemCount,BAZAAR_VISIT_BUY_COUNT_X+BAZAAR_VISIT_BUY_COUNT_W-size.cx - 5, BAZAAR_VISIT_BUY_COUNT_Y+(nLineCount * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,buf1,0L);
 			else
 			    m_pFontItemCount->DrawText(BAZAAR_VISIT_BUY_COUNT_X+BAZAAR_VISIT_BUY_COUNT_W-size.cx,BAZAAR_VISIT_BUY_COUNT_Y+(nLineCount * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,buf1,0L);
-#else			
-			size = m_pFontItemPrice->GetStringSize(buf);
-		    m_pFontItemPrice->DrawText(BAZAAR_VISIT_SEL_PRICE_X+BAZAAR_OPEN_1_BUY_W-size.cx,BAZAAR_VISIT_SEL_PRICE_Y+(nLineCount * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,buf,0L);
-
-			// 선택 갯수
-			wsprintf( buf1, "%d", ite->nCurrentCount);
-			size = m_pFontItemCount->GetStringSize(buf1);
-			if(m_byFocusText == TEXT_COUNT && m_nSelectIndex == i)
-				UnderBarDrawText(m_pFontItemCount,BAZAAR_VISIT_BUY_COUNT_X,BAZAAR_VISIT_SEL_COUNT_Y+(nLineCount * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,buf1,0L);
-			else
-			    m_pFontItemCount->DrawText(BAZAAR_VISIT_BUY_COUNT_X+(BAZAAR_VISIT_BUY_COUNT_W-size.cx)/2,BAZAAR_VISIT_SEL_COUNT_Y+(nLineCount * BAZAAR_SHOP_ITEM_H),GUI_FONT_COLOR_W,buf1,0L);
-#endif
 
 			// 합계
 			wsprintf( buf1, "%d", m_nSum);
@@ -5361,7 +4798,6 @@ void CINFCityBazaarVisit::Render_Buy()
 		ite++;
 		i++;
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	int j = i - m_nScrollLine;
 	if(j < 0)
 		j = 0;
@@ -5372,7 +4808,6 @@ void CINFCityBazaarVisit::Render_Buy()
 		m_pBackList->Move(BAZAAR_SHOP_ITEM_X, BAZAAR_SHOP_ITEM_Y +  j * BAZAAR_SHOP_ITEM_H);
 		m_pBackList->Render();
 	}
-#endif
 }
 
 void CINFCityBazaarVisit::Tick()

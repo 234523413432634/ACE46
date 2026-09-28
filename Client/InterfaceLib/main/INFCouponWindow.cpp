@@ -14,20 +14,12 @@
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 
 #define	COUPON_WINDOW_OK_X				(m_ptWindow.x + 108)
 #define	COUPON_WINDOW_OK_Y				(m_ptWindow.y + 148)
 #define	COUPON_WINDOW_CANCEL_X			(m_ptWindow.x + 163)
 #define	COUPON_WINDOW_CANCEL_Y			(m_ptWindow.y + 148)
 
-#else
-#define	COUPON_WINDOW_OK_X				(m_ptWindow.x + 210)
-#define	COUPON_WINDOW_OK_Y				(m_ptWindow.y + 148)
-#define	COUPON_WINDOW_CANCEL_X			(m_ptWindow.x + 256)
-#define	COUPON_WINDOW_CANCEL_Y			(m_ptWindow.y + 148)
-
-#endif
 
 #define	COUPON_WINDOW_CLOSE_X			(m_ptWindow.x + 280)
 #define	COUPON_WINDOW_CLOSE_W			26
@@ -114,7 +106,6 @@ HRESULT CINFCouponWindow::InitDeviceObjects()
 		m_pImgCancelB->InitDeviceObjects(szButtonName);	
 	}
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("coupon");	
 	m_pImgBackGround = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 	m_pImgBackGround->InitDeviceObjects( g_pD3dApp->m_pImageList );
@@ -122,14 +113,6 @@ HRESULT CINFCouponWindow::InitDeviceObjects()
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("ok_cancel");
 	m_pCouponControl = g_pGameMain->m_GruopImagemanager->GetGroupImage(pDataHeader);	
 
-#else
-	if(NULL == m_pImgBackGround)
-	{
-		m_pImgBackGround = new CINFImageEx;
-		pDataHeader = FindResource("couponW");
-		m_pImgBackGround->InitDeviceObjects(pDataHeader);
-	}
-#endif
 	if(NULL == m_pFont)
 	{
 		m_pFont = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, FALSE,512,32);
@@ -141,7 +124,6 @@ HRESULT CINFCouponWindow::InitDeviceObjects()
 }
 HRESULT CINFCouponWindow::RestoreDeviceObjects()
 {
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	POINT pBkSize;
 	pBkSize.x = m_pImgBackGround->GetMaxPos().x - m_pImgBackGround->GetMinPos().x;
 	int nSizeX = m_pCouponControl->GetFindControlTargetofMinPos("okb00").x - m_pCouponControl->GetFindControlTargetofMinPos("canb00").x;// 2011-02-08 by jhahn EP4 용해  UI 변경
@@ -153,13 +135,6 @@ HRESULT CINFCouponWindow::RestoreDeviceObjects()
 	m_pImgOkB->SetBtnPosition( COUPON_WINDOW_OK_X, COUPON_WINDOW_OK_Y - 12);	
 	m_pImgCancelB->RestoreDeviceObjects();
 	m_pImgCancelB->SetBtnPosition( COUPON_WINDOW_CANCEL_X, COUPON_WINDOW_CANCEL_Y - 12);
-#else
-	m_pImgOkB->RestoreDeviceObjects();
-	m_pImgOkB->SetBtnPosition(COUPON_WINDOW_OK_X,COUPON_WINDOW_OK_Y);
-	
-	m_pImgCancelB->RestoreDeviceObjects();
-	m_pImgCancelB->SetBtnPosition(COUPON_WINDOW_CANCEL_X,COUPON_WINDOW_CANCEL_Y);
-#endif
 	
 	
 

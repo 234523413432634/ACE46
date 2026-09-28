@@ -46,9 +46,7 @@ private:
 	
 	// 2009-02-13 by bhsohn 월드 랭킹 시스템
 	CBoardData	*		m_pWBoard;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
     CBoardData	*		m_pWBoard2;
-#endif
 	
 	// end 2009-02-13 by bhsohn 월드 랭킹 시스템
 

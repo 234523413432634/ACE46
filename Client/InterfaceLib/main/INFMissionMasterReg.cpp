@@ -51,7 +51,6 @@ void CINFMissionMasterReg::SetWindowShow(BOOL i_bShow)
 HRESULT CINFMissionMasterReg::InitDeviceObjects()
 {
 	DataHeader	* pDataHeader = NULL;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(NULL == m_pImgBG)
 	{
 		pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("MMaster");
@@ -69,25 +68,6 @@ HRESULT CINFMissionMasterReg::InitDeviceObjects()
 		m_pCancel = new CINFImageBtn;
 	}
 	m_pCancel->InitDeviceObjects("canb0");
-#else
-	if(NULL == m_pImgBG)
-	{
-		m_pImgBG = new CINFImageEx;
-	}
-	pDataHeader = g_pGameMain->FindResource("MMregW");
-	m_pImgBG->InitDeviceObjects(pDataHeader);
-
-	if(NULL == m_pOK)
-	{
-		m_pOK = new CINFImageBtn;
-	}
-	m_pOK->InitDeviceObjects("Ook");
-	if(NULL == m_pCancel)
-	{
-		m_pCancel = new CINFImageBtn;
-	}
-	m_pCancel->InitDeviceObjects("lr_can");
-#endif
 
 	return S_OK;
 }

@@ -2051,7 +2051,6 @@ void CINFSelect::ShowOption(BOOL i_bShow)
 {
 	m_pINFSelectOption->SetShow(i_bShow);
 }
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 void CINFSelect::SetBKInfoFadeOut()
 {
 	m_pUnitCreateInfo->SetFadeMode(FADE_IN);
@@ -2060,5 +2059,4 @@ void CINFSelect::SetBKInfoFadeOut()
 void CINFSelect::SetBKInfoFadeIn()
 {
 	m_pUnitCreateInfo->SetFadeMode(FADE_OUT);
-}
-#endif
+}

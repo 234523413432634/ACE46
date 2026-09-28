@@ -104,10 +104,8 @@ public:
 	void AddMsgBox(char* strMsg, int nType);
 	// 2008-09-23 by dgwoo 옵션 버튼 구현.
 	void ShowOption(BOOL i_bShow);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	void SetBKInfoFadeOut();		// 2011. 10. 10 by jskim UI시스템 변경
 	void SetBKInfoFadeIn();			// 2011. 10. 10 by jskim UI시스템 변경
-#endif
 	
 	// 2014-06-10 by ymjoo 세력 변경 아이템
 	void		SetInfluenceChange(BOOL bInfluenceChange)		{ m_bInfluenceChange = bInfluenceChange; }
@@ -164,11 +162,7 @@ public:
 	// end 2012-02-28 by mspark, 튜토리얼 시작 시(튜토리얼을 시작하시겠습니까?) 화면에서 배경 어둡게 처리
 
 	// 2009. 10. 14 by jskim 프리스카 제거 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*	m_pInfluenceSelectImage;		// 2011. 10. 10 by jskim UI시스템 변경
-#else
-	CINFImageEx*	m_pInfluenceSelectImage;		// 2011. 10. 10 by jskim UI시스템 변경
-#endif
 	CINFImageEx*	m_pInfluenceSelectANI[4];		// 2011. 10. 10 by jskim UI시스템 변경
 	CINFImageEx*	m_pInfluenceSelectBCU[4];		// 2011. 10. 10 by jskim UI시스템 변경
 	BOOL			m_binfluenceSelect;

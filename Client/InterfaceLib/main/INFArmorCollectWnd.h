@@ -134,9 +134,7 @@ protected:
 
 
 protected:
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					       
 	CINFGroupImage*		m_pImgBackg;
-#endif	
 	CINFArenaScrollBar*		m_pScroll;
 	
 	// 2014-07-02 by ymjoo DrawText 성능 개선 작업 (아머컬렉션)

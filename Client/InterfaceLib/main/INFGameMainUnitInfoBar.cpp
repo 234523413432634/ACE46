@@ -26,7 +26,6 @@
 #include "INFGroupImage.h"		// 2011. 10. 10 by jskim UI시스템 변경
 #include "INFGameMainWisperChat.h"	// 2014-12-09 by jwLee 시스템 메세지창 활성화 상태에서 마우스 오버시 뒤에있는 인터페이스 이벤트 발생 안하도록 수정
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	#define GAMEMAIN_GAGE_EXP_LENGTH					219//110// 미정
 
 	#define GAMEMAIN_BACK_GAGE_UP_SIZE_X				179
@@ -135,114 +134,6 @@
 	#define MOTHERSHIP_BUTTON_X					(nBoldPosX+nBalonWidth)
 	#define MOTHERSHIP_BUTTON_Y					(nBoldPosY)
 															 
-#else
-#define GAMEMAIN_GAGE_EXP_LENGTH					219//110// 미정
-
-#define GAMEMAIN_BACK_GAGE_UP_SIZE_X				179
-#define GAMEMAIN_BACK_GAGE_UP_SIZE_Y				48
-
-#define GAMEMAIN_BACK_MINIMAP_SIZE_X				145
-#define GAMEMAIN_BACK_MINIMAP_SIZE_Y				69
-#define GAMEMAIN_BACK_MINIMAP_START_X				(g_pD3dApp->GetBackBufferDesc().Width - GAMEMAIN_BACK_MINIMAP_SIZE_X)
-#define GAMEMAIN_BACK_MINIMAP_START_Y				0
-
-#define GAMEMAIN_BACK_UP_SIZE_Y						22	// 화면 상단
-#define GAMEMAIN_BACK_DOWN_SIZE_Y					39	// 화면 하단
-#define GAMEMAIN_BACK_DOWN_START_Y					(g_pD3dApp->GetBackBufferDesc().Height - GAMEMAIN_BACK_DOWN_SIZE_Y)
-
-#define GAMEMAIN_EXP_GAGE_START_X					((g_pD3dApp->GetBackBufferDesc().Width - 219)/2)
-#define GAMEMAIN_EXP_GAGE_START_Y					(GAMEMAIN_BACK_DOWN_START_Y - 9)
-
-#define GAMEMAIN_UNIT_POS_START_X					(g_pD3dApp->GetBackBufferDesc().Width - 30)
-#define GAMEMAIN_UNIT_POS_START_Y					5
-
-#define GAMEMAIN_BACK_GAGE_EXP_START_X				((g_pD3dApp->GetBackBufferDesc().Width - 234)/2)
-#define GAMEMAIN_BACK_GAGE_EXP_START_Y				(GAMEMAIN_BACK_DOWN_START_Y - 12)
-
-#define GAMEMAIN_STRING_FUEL_START_X				22
-
-#define GAMEMAIN_STRING_EXP_START_X					((g_pD3dApp->GetBackBufferDesc().Width)/2 - 35)
-
-// 스트링 위치 정의
-#define GAMEMAIN_NEW_STRING_HP_START_X				17
-#define GAMEMAIN_NEW_STRING_HP_START_Y				80
-#define GAMEMAIN_GAGE_HP_UP_START_X					21
-#define GAMEMAIN_GAGE_HP_UP_START_Y					92
-#define GAMEMAIN_NEW_STRING_MAX_HP_START_Y			104
-#define GAMEMAIN_NEW_STRING_DP_START_Y				80
-#define GAMEMAIN_GAGE_DP_UP_START_X					114
-#define GAMEMAIN_GAGE_DP_UP_START_Y					92
-#define GAMEMAIN_NEW_STRING_MAX_DP_START_X			108
-#define GAMEMAIN_NEW_STRING_MAX_DP_START_Y			104
-#define GAMEMAIN_GAGE_SP_UP_START_X					130
-#define GAMEMAIN_GAGE_SP_UP_START_Y					50
-#define GAMEMAIN_NEW_STRING_MAX_SP_START_Y			62
-
-
-// 메인 게이지 관련 정의
-
-#define GAMEMAIN_GAGE_HP_START_X					15
-#define GAMEMAIN_GAGE_HP_START_Y					29
-#define GAMEMAIN_GAGE_DP_START_X					83
-#define GAMEMAIN_GAGE_DP_START_Y					29
-#define GAMEMAIN_GAGE_SP_START_X					120
-#define GAMEMAIN_GAGE_SP_START_Y					22
-#define GAMEMAIN_GAGE_BOOSTER_START_X				9
-#define GAMEMAIN_GAGE_BOOSTER_START_Y				21
-#define GAMEMAIN_GAGE_FUEL_START_X					6
-#define GAMEMAIN_GAGE_FUEL_START_Y					5
-#define GAMEMAIN_VOICECHAT_X						(g_pD3dApp->GetBackBufferDesc().Width-32)
-#define GAMEMAIN_VOICECHAT_Y						(156)
-#define GAMEMAIN_VOICECHAT_W						26
-#define GAMEMAIN_VOICECHAT_H						26
-
-
-// SPEED 스트링 관련 정의
-#define SPEED_STRING_START_X						80	
-#define SPEED_STRING_START_Y						90
-#define SPEED_STRING_WIDTH							19
-#define SPEED_STRING_HEIGHT							17
-
-// 맵이름 관련 정의
-#define GAME_MAP_NAME_RENDER_X						(g_pD3dApp->GetBackBufferDesc().Width-30)
-#define GAME_MAP_NAME_RENDER_Y						4
-#define GAME_MAP_NAME_TEXT_COLOR					RGB(200,200,200)
-#define GAME_UNIT_POS_COLOR							RGB(200,200,200)
-
-// 레이더 위치 정의
-#define RADER_CENTER_POS_X							(g_pD3dApp->GetBackBufferDesc().Width-75)	
-#define RADER_CENTER_POS_Y							82 + 16
-#define RADER_RADIUS								64
-
-#define GAME_EVENT_BASICPOS_X						192
-#define GAME_EVENT_BASICPOS_Y						32
-
-// 2006-03-07 by ispark, 언어에 따라 위치 수정
-#if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
-#define GAMEMAIN_STRING_FUEL_START_Y				3//5
-#define GAMEMAIN_STRING_EXP_START_Y					(GAMEMAIN_BACK_DOWN_START_Y - 13)//11)
-#define GAMEMAIN_NEW_STRING_MAX_HP_START_X			25//21
-#define GAMEMAIN_NEW_STRING_DP_START_X				112//114
-#define GAMEMAIN_NEW_STRING_MAX_SP_START_X			135//130
-#define GAMEMAIN_EVENT_FONT_Y						2
-#else
-#define GAMEMAIN_STRING_FUEL_START_Y				3//5
-#define GAMEMAIN_STRING_EXP_START_Y					(GAMEMAIN_BACK_DOWN_START_Y - 13)//11)
-#define GAMEMAIN_NEW_STRING_MAX_HP_START_X			25//21
-#define GAMEMAIN_NEW_STRING_DP_START_X				112//114
-#define GAMEMAIN_NEW_STRING_MAX_SP_START_X			135//130
-#define GAMEMAIN_EVENT_FONT_Y						2//0
-#endif
-
-
-#define INFOMAIN_GIFT_ICON_X				70
-#define INFOMAIN_GIFT_CITY_ICON_Y			130
-#define INFOMAIN_GIFT_FIELD_ICON_Y			89
-
-// 2008-03-25 by dgwoo 모선전 진행 버튼.
-#define MOTHERSHIP_BUTTON_X					(nBoldPosX+nBalonWidth)
-#define MOTHERSHIP_BUTTON_Y					(nBoldPosY)
-#endif
 
 	// 2012-10-12 by jhjang 해피 아워 경험치 보너스 시스템 리뉴얼
 	#define RESTCOUNT_STRING_WIDTH				24
@@ -333,12 +224,6 @@ CINFGameMainUnitInfoBar::CINFGameMainUnitInfoBar(CAtumNode* pParent)
 	m_v2MousePt.y = g_pD3dApp->GetBackBufferDesc().Height/2;
 
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경// 	
-	m_pImgBackPixel[GAMEMAIN_BACK_UP_PIXEL] = NULL;
-	m_pImgBackPixel[GAMEMAIN_BACK_DOWN_PIXEL] = NULL;
-
-	m_pImgBackMinimap = NULL;
-#endif
 	m_pFontUnitPosInfo = NULL;
 	m_fWarningTime = 0;
 
@@ -353,9 +238,7 @@ CINFGameMainUnitInfoBar::CINFGameMainUnitInfoBar(CAtumNode* pParent)
 	m_pImgMainGageBack = NULL;
 	m_pImgMainExpBack = NULL;
 	m_pImgMainExpBar = NULL;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pImgMainExpBar1 = NULL;
-#endif
 	m_pImgMainSpeedNum = NULL;
 	m_pImgMainMinus = NULL;
 	m_pImgMainWarning = NULL;
@@ -432,9 +315,7 @@ CINFGameMainUnitInfoBar::CINFGameMainUnitInfoBar(CAtumNode* pParent)
 	// 2008-10-20 by bhsohn VOIP 버그 수정
 	m_pImgVoiceSPKIcon = NULL;
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pGageBarInfo = NULL;
-#endif
 	
 	// 2012-10-12 by jhjang 해피 아워 경험치 보너스 시스템 리뉴얼
 	m_pImgBonusExpRate = NULL;
@@ -497,12 +378,6 @@ CINFGameMainUnitInfoBar::CINFGameMainUnitInfoBar(CAtumNode* pParent)
 
 CINFGameMainUnitInfoBar::~CINFGameMainUnitInfoBar()
 {
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	SAFE_DELETE(m_pImgBackPixel[GAMEMAIN_BACK_UP_PIXEL]);
-	SAFE_DELETE(m_pImgBackPixel[GAMEMAIN_BACK_DOWN_PIXEL]);
-
-	SAFE_DELETE(m_pImgBackMinimap);
-#endif
 	SAFE_DELETE(m_pFontUnitPosInfo);
 
 	int i=0;
@@ -521,9 +396,7 @@ CINFGameMainUnitInfoBar::~CINFGameMainUnitInfoBar()
 	SAFE_DELETE(m_pImgMainGageBack);
 	SAFE_DELETE(m_pImgMainExpBack);
 	SAFE_DELETE(m_pImgMainExpBar);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	SAFE_DELETE(m_pImgMainExpBar1);
-#endif
 	SAFE_DELETE(m_pImgMainSpeedNum);
 	SAFE_DELETE(m_pImgMainMinus);
 	SAFE_DELETE(m_pImgMainWarning);
@@ -569,9 +442,7 @@ CINFGameMainUnitInfoBar::~CINFGameMainUnitInfoBar()
 	SAFE_DELETE(m_pFontDecaToolTip);						// 2013-07-15 by ssjung 캐나다 데카의 축복, 기운 관련 툴팁 표시
 	m_vecGiftMsg.clear();
 					  
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	SAFE_DELETE( m_pGageBarInfo );																  
-#endif
 
 	// 2012-10-12 by jhjang 해피 아워 경험치 보너스 시스템 리뉴얼
 	SAFE_DELETE(m_pImgBonusExpRate);
@@ -611,13 +482,8 @@ void CINFGameMainUnitInfoBar::SetHP(float fCurrent, float fMax)
 	if(fMax< fCurrent)
 		fCurrent = fMax;
 	wsprintf(m_szGageInfo[GAMEMAIN_NEW_STRING_HP], STRMSG_C_INTERFACE_0022);//"에너지"
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	wsprintf(m_szGageInfo[GAMEMAIN_GAGE_HP_UP], "%4d/", (int)fCurrent);
 	wsprintf(m_szGageInfo[GAMEMAIN_NEW_STRING_MAX_HP], "%d", (int)fMax);
-#else
-	wsprintf(m_szGageInfo[GAMEMAIN_GAGE_HP_UP], "%4d", (int)fCurrent);
-	wsprintf(m_szGageInfo[GAMEMAIN_NEW_STRING_MAX_HP], "/%d", (int)fMax);
-#endif
 	m_fGageRate[GAMEMAIN_GAGE_HP_UP] = fCurrent/fMax;
 }
 
@@ -626,13 +492,8 @@ void CINFGameMainUnitInfoBar::SetDP(float fCurrent, float fMax)
 	if(fMax< fCurrent)
 		fCurrent = fMax;
 	wsprintf(m_szGageInfo[GAMEMAIN_NEW_STRING_DP], STRMSG_C_INTERFACE_0023);//"쉴드"
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	wsprintf(m_szGageInfo[GAMEMAIN_GAGE_DP_UP], "%d/", (int)fCurrent);
 	wsprintf(m_szGageInfo[GAMEMAIN_NEW_STRING_MAX_DP], "%d", (int)fMax);
-#else
-	wsprintf(m_szGageInfo[GAMEMAIN_GAGE_DP_UP], "%d", (int)fCurrent);
-	wsprintf(m_szGageInfo[GAMEMAIN_NEW_STRING_MAX_DP], "/%d", (int)fMax);
-#endif
 	m_fGageRate[GAMEMAIN_GAGE_DP_UP] = fCurrent/fMax;
 }
 
@@ -712,7 +573,6 @@ HRESULT CINFGameMainUnitInfoBar::InitDeviceObjects()
 {
 	ASSERT_ASSERT(m_pGameData);
 	// 2011. 10. 10 by jskim UI시스템 변경	  
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	DataHeader *pDataHeader;
 // 	DataHeader *pDataHeader = m_pGameData->Find("mnupbkpx");
 // 	m_pImgBackPixel[GAMEMAIN_BACK_UP_PIXEL] = new CINFImage;
@@ -728,39 +588,18 @@ HRESULT CINFGameMainUnitInfoBar::InitDeviceObjects()
 // 	pDataHeader = m_pGameData->Find("mnMinibk");
 // 	m_pImgBackMinimap = new CINFImageEx;
 // 	m_pImgBackMinimap->InitDeviceObjects( pDataHeader, g_pD3dApp->m_pImageList );				  
-#else													   
-	DataHeader *pDataHeader = m_pGameData->Find("mnupbkpx");
-	m_pImgBackPixel[GAMEMAIN_BACK_UP_PIXEL] = new CINFImageEx;
-	m_pImgBackPixel[GAMEMAIN_BACK_UP_PIXEL]->InitDeviceObjects(pDataHeader);
-
-	pDataHeader = m_pGameData->Find("mndnbkpx");
-	m_pImgBackPixel[GAMEMAIN_BACK_DOWN_PIXEL] = new CINFImageEx;
-	m_pImgBackPixel[GAMEMAIN_BACK_DOWN_PIXEL]->InitDeviceObjects(pDataHeader);
-
-	pDataHeader = m_pGameData->Find("mnMinibk");
-	m_pImgBackMinimap = new CINFImageEx;
-	m_pImgBackMinimap->InitDeviceObjects(pDataHeader);
-#endif
 
 	char buf[64];
 	int i=0;
 	for(i=0;i<GAMEMAIN_GAGE_LINE_NUMBER;i++)
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pFontGageInfo[i] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 7 * HIDPI_COEFF, D3DFONT_ZENABLE, TRUE, 256 * HIDPI_COEFF, 32 * HIDPI_COEFF);
-#else
-		m_pFontGageInfo[i] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 8, D3DFONT_ZENABLE, TRUE, 256, 32);
-#endif
 		m_pFontGageInfo[i]->InitDeviceObjects(g_pD3dDev) ;
 	}	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	// 2014-11-15 by shchoi 좌표 폰트 테두리 추가
 	//m_pFontUnitPosInfo = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 7, D3DFONT_ZENABLE, FALSE, 256, 32);
 	m_pFontUnitPosInfo = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 7 * HIDPI_COEFF, D3DFONT_ZENABLE, TRUE, 256 * HIDPI_COEFF, 32 * HIDPI_COEFF);
 	// end 2014-11-15 by shchoi 좌표 폰트 테두리 추가
-#else																										
-	m_pFontUnitPosInfo = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 8, D3DFONT_ZENABLE, FALSE, 256, 32);
-#endif
 
 	m_pFontUnitPosInfo->InitDeviceObjects(g_pD3dDev) ;
 //	for(i=0;i<BUTTON_STATE_NUMBER;i++)
@@ -788,11 +627,9 @@ HRESULT CINFGameMainUnitInfoBar::InitDeviceObjects()
 	m_pImgMainExpBar = new CINFImageEx;
 	m_pImgMainExpBar->InitDeviceObjects( pDataHeader );
 													 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	pDataHeader = m_pGameData->Find("expbar1");
 	m_pImgMainExpBar1 = new CINFImageEx;
 	m_pImgMainExpBar1->InitDeviceObjects( pDataHeader );										  
-#endif
 
 	pDataHeader = m_pGameData->Find("speedm");
 	m_pImgMainSpeedNum = new CINFImageEx;
@@ -1017,11 +854,6 @@ HRESULT CINFGameMainUnitInfoBar::RestoreDeviceObjects()
 {
 	if(!m_bRestored)
 	{
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		m_pImgBackPixel[GAMEMAIN_BACK_UP_PIXEL]->RestoreDeviceObjects();
-		m_pImgBackPixel[GAMEMAIN_BACK_DOWN_PIXEL]->RestoreDeviceObjects();
-		m_pImgBackMinimap->RestoreDeviceObjects();
-#endif
 		m_pFontUnitPosInfo->RestoreDeviceObjects();
 		int i=0;
 		for(i=0;i<GAMEMAIN_GAGE_LINE_NUMBER;i++)
@@ -1039,9 +871,7 @@ HRESULT CINFGameMainUnitInfoBar::RestoreDeviceObjects()
 		m_pImgMainGageBack->RestoreDeviceObjects();
 		m_pImgMainExpBack->RestoreDeviceObjects();
 		m_pImgMainExpBar->RestoreDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pImgMainExpBar1->RestoreDeviceObjects(); 
-#endif
 		m_pImgMainSpeedNum->RestoreDeviceObjects();
 		m_pImgMainMinus->RestoreDeviceObjects();
 		m_pImgMainWarning->RestoreDeviceObjects();
@@ -1150,11 +980,6 @@ HRESULT CINFGameMainUnitInfoBar::InvalidateDeviceObjects()
 {
 	if(m_bRestored)
 	{
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		m_pImgBackPixel[GAMEMAIN_BACK_UP_PIXEL]->InvalidateDeviceObjects();
-		m_pImgBackPixel[GAMEMAIN_BACK_DOWN_PIXEL]->InvalidateDeviceObjects();
-		m_pImgBackMinimap->InvalidateDeviceObjects();
-#endif
 		m_pFontUnitPosInfo->InvalidateDeviceObjects();
 		int i=0;
 		for(i=0;i<GAMEMAIN_GAGE_LINE_NUMBER;i++)
@@ -1171,9 +996,7 @@ HRESULT CINFGameMainUnitInfoBar::InvalidateDeviceObjects()
 		m_pImgMainGageBack->InvalidateDeviceObjects();
 		m_pImgMainExpBack->InvalidateDeviceObjects();
 		m_pImgMainExpBar->InvalidateDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pImgMainExpBar1->InvalidateDeviceObjects();
-#endif
 		m_pImgMainSpeedNum->InvalidateDeviceObjects();
 		m_pImgMainMinus->InvalidateDeviceObjects();
 		m_pImgMainWarning->InvalidateDeviceObjects();
@@ -1230,10 +1053,8 @@ HRESULT CINFGameMainUnitInfoBar::InvalidateDeviceObjects()
 		if(m_pFontDecaToolTip)
 			m_pFontDecaToolTip->InvalidateDeviceObjects();				// 2013-07-15 by ssjung 캐나다 데카의 축복, 기운 관련 툴팁 표시
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		if(m_pGageBarInfo)
 			m_pGageBarInfo->InvalidateDeviceObjects();											  
-#endif
 
 		// 2012-10-12 by jhjang 해피 아워 경험치 보너스 시스템 리뉴얼
 #ifdef S_BONUSEXPSYSTEM_RENEWAL
@@ -1283,18 +1104,8 @@ HRESULT CINFGameMainUnitInfoBar::InvalidateDeviceObjects()
 
 HRESULT CINFGameMainUnitInfoBar::DeleteDeviceObjects()
 {
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pImgBackPixel[GAMEMAIN_BACK_UP_PIXEL]->DeleteDeviceObjects();
-	m_pImgBackPixel[GAMEMAIN_BACK_DOWN_PIXEL]->DeleteDeviceObjects();
-	m_pImgBackMinimap->DeleteDeviceObjects();
-#endif
 	m_pFontUnitPosInfo->DeleteDeviceObjects();
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	SAFE_DELETE(m_pImgBackPixel[GAMEMAIN_BACK_UP_PIXEL]);
-	SAFE_DELETE(m_pImgBackPixel[GAMEMAIN_BACK_DOWN_PIXEL]);
-	SAFE_DELETE(m_pImgBackMinimap);
-#endif
 	SAFE_DELETE(m_pFontUnitPosInfo);
 
 	int i=0;
@@ -1319,10 +1130,8 @@ HRESULT CINFGameMainUnitInfoBar::DeleteDeviceObjects()
 	SAFE_DELETE(m_pImgMainExpBack);
 	m_pImgMainExpBar->DeleteDeviceObjects();
 	SAFE_DELETE(m_pImgMainExpBar);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pImgMainExpBar1->DeleteDeviceObjects();
 	SAFE_DELETE(m_pImgMainExpBar1);																  
-#endif
 	m_pImgMainSpeedNum->DeleteDeviceObjects();
 	SAFE_DELETE(m_pImgMainSpeedNum);
 	m_pImgMainMinus->DeleteDeviceObjects();
@@ -1398,10 +1207,8 @@ HRESULT CINFGameMainUnitInfoBar::DeleteDeviceObjects()
 			SAFE_DELETE(m_pImgGiftIcon[i]);
 		}
 	}	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pGageBarInfo->DeleteDeviceObjects();
 	SAFE_DELETE(m_pGageBarInfo);																  
-#endif
 	
 	// 2012-10-12 by jhjang 해피 아워 경험치 보너스 시스템 리뉴얼
 #ifdef S_BONUSEXPSYSTEM_RENEWAL
@@ -1471,7 +1278,6 @@ HRESULT CINFGameMainUnitInfoBar::DeleteDeviceObjects()
 
 void CINFGameMainUnitInfoBar::Render()//RenderCityUpInfo() 에서 같은 코드 사용 : 수정시 주의할것
 {
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 2011. 10. 10 by jskim UI시스템 변경
 // 	// down window - 아래 까만줄
 // 	m_pImgBackPixel[GAMEMAIN_BACK_DOWN_PIXEL]->Move(0, GAMEMAIN_BACK_DOWN_START_Y);
@@ -1536,65 +1342,6 @@ void CINFGameMainUnitInfoBar::Render()//RenderCityUpInfo() 에서 같은 코드 사용 :
 	// END 2013-03-21 by bhsohn 해피아워 스트링 툴팁 순서 문제 처리
 	RenderGiftIcon(FALSE);
 	// end 2011. 10. 10 by jskim UI시스템 변경					
-#else
-	// down window - 아래 까만줄
-	m_pImgBackPixel[GAMEMAIN_BACK_DOWN_PIXEL]->Move(0, GAMEMAIN_BACK_DOWN_START_Y);
-	m_pImgBackPixel[GAMEMAIN_BACK_DOWN_PIXEL]->SetScale(g_pD3dApp->GetBackBufferDesc().Width, GAMEMAIN_BACK_DOWN_SIZE_Y);
-	m_pImgBackPixel[GAMEMAIN_BACK_DOWN_PIXEL]->Render();
-	
-	// 상점에선 기타 정보 렌더링을 안한다
-	if(g_pD3dApp->m_dwGameState == _SHOP)
-		return;
-
-	// up window - 위에 까만줄
-	m_pImgBackPixel[GAMEMAIN_BACK_UP_PIXEL]->Move(GAMEMAIN_BACK_GAGE_UP_SIZE_X, 0);
-	m_pImgBackPixel[GAMEMAIN_BACK_UP_PIXEL]->SetScale(g_pD3dApp->GetBackBufferDesc().Width-GAMEMAIN_BACK_GAGE_UP_SIZE_X-GAMEMAIN_BACK_MINIMAP_SIZE_X,GAMEMAIN_BACK_UP_SIZE_Y);
-	m_pImgBackPixel[GAMEMAIN_BACK_UP_PIXEL]->Render();
-	
-	
-	// 메인 배경
-	m_pImgMainGageBack->Move(0,0);
-	m_pImgMainGageBack->Render();
-
-	// 경험치 배경
-	m_pImgMainExpBack->Move(GAMEMAIN_BACK_GAGE_EXP_START_X,GAMEMAIN_BACK_GAGE_EXP_START_Y);
-	m_pImgMainExpBack->Render();
-
-	RenderMainGage();
-
-	RenderSpeed();
-
-	// minimap back
-	m_pImgBackMinimap->Move(GAMEMAIN_BACK_MINIMAP_START_X, GAMEMAIN_BACK_MINIMAP_START_Y);
-	m_pImgBackMinimap->Render();
-
-	// gage string
-	RenderGageString();
-	
-	const UINT nMapPosX = g_pD3dApp->GetBackBufferDesc().Width - 110;
-	const UINT nMapPosY = 20;
-	RenderMapPosition(nMapPosX,nMapPosY);
-
-	UINT nStartX = g_pD3dApp->GetBackBufferDesc().Width;
-	UINT nStartY = 4;
-
-	MAP_INFO* mapname = g_pDatabase->GetMapInfo(g_pShuttleChild->m_myShuttleInfo.MapChannelIndex.MapIndex);
-	if(mapname)
-	{
-		nStartX -= (strlen(mapname->MapName)*6 + 30);
-		ShowMapNameTitle(nStartX,nStartY);
-	}
-
-	nStartX -= 110;
-	RenderCurrentEvent(nStartX, nStartY);		//도시 점령전이나 PK지역 렌더링.
-
-
-	RenderPremiumCard(FALSE);					// 일반
-	RenderHappyHourEvent(FALSE);
-	RenderEventRecovery();						// 2006-04-24 by ispark, 이벤트 회복율
-	RenderStringBar();							// 2006-06-08 by ispark, 이벤트 설명
-	RenderGiftIcon(FALSE);
-#endif
 	// 2006-04-25 by ispark, 해피 아우어 스트링을 함수 안으로 옮겼다.	
 
 	// 2012-10-12 by jhjang 해피 아워 경험치 보너스 시스템 리뉴얼
@@ -1648,11 +1395,6 @@ void CINFGameMainUnitInfoBar::RenderGiftIcon(BOOL i_bCity)
 void CINFGameMainUnitInfoBar::HideRender()
 {
 	// up window - 위에 까만줄
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pImgBackPixel[GAMEMAIN_BACK_UP_PIXEL]->Move(GAMEMAIN_BACK_GAGE_UP_SIZE_X, 0);
-	m_pImgBackPixel[GAMEMAIN_BACK_UP_PIXEL]->SetScale(g_pD3dApp->GetBackBufferDesc().Width-GAMEMAIN_BACK_GAGE_UP_SIZE_X-GAMEMAIN_BACK_MINIMAP_SIZE_X,GAMEMAIN_BACK_UP_SIZE_Y);
-	m_pImgBackPixel[GAMEMAIN_BACK_UP_PIXEL]->Render();
-#endif
 	
 	// 2004-12-08 by jschoi 
 	// 메인 배경
@@ -1664,10 +1406,6 @@ void CINFGameMainUnitInfoBar::HideRender()
 	RenderSpeed();
 
 	// minimap back
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pImgBackMinimap->Move(GAMEMAIN_BACK_MINIMAP_START_X, GAMEMAIN_BACK_MINIMAP_START_Y);
-	m_pImgBackMinimap->Render();
-#endif
 
 	// gage string
 	RenderGageString(FALSE);
@@ -1694,15 +1432,6 @@ void CINFGameMainUnitInfoBar::HideRender()
 void CINFGameMainUnitInfoBar::RenderCityUpInfo()
 {
 	// up window
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pImgBackPixel[GAMEMAIN_BACK_UP_PIXEL]->Move(GAMEMAIN_BACK_GAGE_UP_SIZE_X, 0);
-	m_pImgBackPixel[GAMEMAIN_BACK_UP_PIXEL]->SetScale(g_pD3dApp->GetBackBufferDesc().Width - GAMEMAIN_BACK_GAGE_UP_SIZE_X,GAMEMAIN_BACK_UP_SIZE_Y);
-	m_pImgBackPixel[GAMEMAIN_BACK_UP_PIXEL]->Render();
-	// down window - 아래 까만줄
-	m_pImgBackPixel[GAMEMAIN_BACK_DOWN_PIXEL]->Move(0, GAMEMAIN_BACK_DOWN_START_Y);
-	m_pImgBackPixel[GAMEMAIN_BACK_DOWN_PIXEL]->SetScale(g_pD3dApp->GetBackBufferDesc().Width, GAMEMAIN_BACK_DOWN_SIZE_Y);
-	m_pImgBackPixel[GAMEMAIN_BACK_DOWN_PIXEL]->Render();
-#endif
 	
 	// 2004-12-08 by jschoi 
 	// 메인 배경
@@ -1710,11 +1439,7 @@ void CINFGameMainUnitInfoBar::RenderCityUpInfo()
 	m_pImgMainGageBack->Render();
 
 	// 경험치 배경
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pImgMainExpBack->Move( 0, GAMEMAIN_BACK_GAGE_EXP_START_Y);
-#else 
-	m_pImgMainExpBack->Move(GAMEMAIN_BACK_GAGE_EXP_START_X,GAMEMAIN_BACK_GAGE_EXP_START_Y);
-#endif
 	m_pImgMainExpBack->Render();
 
 	RenderMainGage();
@@ -2028,7 +1753,6 @@ void CINFGameMainUnitInfoBar::RenderRestKillCount(BOOL bIsMinimap)
 void CINFGameMainUnitInfoBar::RenderGageString(BOOL bShowAll)
 {
 	if(m_szGageInfo[GAMEMAIN_GAGE_HP_UP])
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	{					
 
 // 2011. 10. 10 by jskim UI시스템 변경
@@ -2103,66 +1827,6 @@ void CINFGameMainUnitInfoBar::RenderGageString(BOOL bShowAll)
 														m_szGageInfo[GAMEMAIN_GAGE_EXP_UP],0L);
 	}
 // end 2011. 10. 10 by jskim UI시스템 변경 
-#else
-	{
-		m_pFontGageInfo[GAMEMAIN_NEW_STRING_HP]->DrawText( GAMEMAIN_NEW_STRING_HP_START_X, 
-														GAMEMAIN_NEW_STRING_HP_START_Y,
-														GUI_FONT_COLOR,
-														m_szGageInfo[GAMEMAIN_NEW_STRING_HP],0L);		
-		m_pFontGageInfo[GAMEMAIN_GAGE_HP_UP]->DrawText( GAMEMAIN_GAGE_HP_UP_START_X, 
-														GAMEMAIN_GAGE_HP_UP_START_Y,
-														GUI_FONT_COLOR,
-														m_szGageInfo[GAMEMAIN_GAGE_HP_UP],0L);
-		m_pFontGageInfo[GAMEMAIN_NEW_STRING_MAX_HP]->DrawText( GAMEMAIN_NEW_STRING_MAX_HP_START_X, 
-														GAMEMAIN_NEW_STRING_MAX_HP_START_Y,
-														GUI_FONT_COLOR,
-														m_szGageInfo[GAMEMAIN_NEW_STRING_MAX_HP],0L);
-	}
-	if(m_szGageInfo[GAMEMAIN_GAGE_DP_UP])
-	{
-		m_pFontGageInfo[GAMEMAIN_NEW_STRING_DP]->DrawText( GAMEMAIN_NEW_STRING_DP_START_X, 
-														GAMEMAIN_NEW_STRING_DP_START_Y,
-														GUI_FONT_COLOR,
-														m_szGageInfo[GAMEMAIN_NEW_STRING_DP],0L);		
-		m_pFontGageInfo[GAMEMAIN_GAGE_DP_UP]->DrawText( GAMEMAIN_GAGE_DP_UP_START_X, 
-														GAMEMAIN_GAGE_DP_UP_START_Y,
-														GUI_FONT_COLOR,
-														m_szGageInfo[GAMEMAIN_GAGE_DP_UP],0L);
-		m_pFontGageInfo[GAMEMAIN_NEW_STRING_MAX_DP]->DrawText( GAMEMAIN_NEW_STRING_MAX_DP_START_X, 
-														GAMEMAIN_NEW_STRING_MAX_DP_START_Y,
-														GUI_FONT_COLOR,
-														m_szGageInfo[GAMEMAIN_NEW_STRING_MAX_DP],0L);
-	}
-
-	if(m_szGageInfo[GAMEMAIN_GAGE_SP_UP])
-	{
-		m_pFontGageInfo[GAMEMAIN_GAGE_SP_UP]->DrawText( GAMEMAIN_GAGE_SP_UP_START_X, 
-														GAMEMAIN_GAGE_SP_UP_START_Y,
-														GUI_FONT_COLOR,
-														m_szGageInfo[GAMEMAIN_GAGE_SP_UP],0L);		
-		m_pFontGageInfo[GAMEMAIN_NEW_STRING_MAX_SP]->DrawText( GAMEMAIN_NEW_STRING_MAX_SP_START_X, 
-														GAMEMAIN_NEW_STRING_MAX_SP_START_Y,
-														GUI_FONT_COLOR,
-														m_szGageInfo[GAMEMAIN_NEW_STRING_MAX_SP],0L);
-	}
-
-	if(m_szGageInfo[GAMEMAIN_GAGE_EP_UP])
-	{
-		m_pFontGageInfo[GAMEMAIN_GAGE_EP_UP]->DrawText( GAMEMAIN_STRING_FUEL_START_X, 
-														GAMEMAIN_STRING_FUEL_START_Y,
-														GUI_FONT_COLOR,
-														m_szGageInfo[GAMEMAIN_GAGE_EP_UP],0L);
-	}	
-
-	if(	bShowAll &&
-		m_szGageInfo[GAMEMAIN_GAGE_EXP_UP])
-	{
-		m_pFontGageInfo[GAMEMAIN_GAGE_EXP_UP]->DrawText( GAMEMAIN_STRING_EXP_START_X, 
-														GAMEMAIN_STRING_EXP_START_Y,
-														GUI_FONT_COLOR,
-														m_szGageInfo[GAMEMAIN_GAGE_EXP_UP],0L);
-	}
-#endif
 }
 
 
@@ -2178,9 +1842,7 @@ void CINFGameMainUnitInfoBar::Tick()
 		m_bWarning = !m_bWarning;
 		m_fWarningTime -= RENDER_TIME;
 	}	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	g_pGameMain->m_pWeaponInfo->Tick();		// 2011. 10. 10 by jskim UI시스템 변경				  
-#endif
 	// 2012-10-12 by jhjang 해피 아워 경험치 보너스 시스템 리뉴얼
 #ifdef S_BONUSEXPSYSTEM_RENEWAL
 	if(m_bChangeKillCount)
@@ -2387,7 +2049,6 @@ int CINFGameMainUnitInfoBar::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				{
 					x = g_pD3dApp->GetBackBufferDesc().Width -120;
 				}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				y = g_pD3dApp->GetBackBufferDesc().Height - 74;
 				// 2012-10-12 by jhjang 해피 아워 경험치 보너스 시스템 리뉴얼
 #ifdef S_BONUSEXPSYSTEM_RENEWAL
@@ -2402,21 +2063,6 @@ int CINFGameMainUnitInfoBar::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				{
 					m_bRenderEvent = TRUE;
 				}
-#else
-				y = g_pD3dApp->GetBackBufferDesc().Height - 54;
-#ifdef S_BONUSEXPSYSTEM_RENEWAL
-				y -= RESTKILLCOUNT_MOVE_HAPPYHOUR;
-#endif // S_BONUSEXPSYSTEM_RENEWAL
-
-//				if(g_pD3dApp->m_bCharacter && !g_pGround->m_bBazaar)
-//					y -= GAME_EVENT_BASICPOS_Y;
-
-				if( pt.x > x &&
-					pt.x < x + 120 && pt.y > y && pt.y < y + 12)
-				{
-					m_bRenderEvent = TRUE;
-				}
-#endif
 			}
 	// 2012-10-12 by jhjang 해피 아워 경험치 보너스 시스템 리뉴얼
 #ifdef S_BONUSEXPSYSTEM_RENEWAL
@@ -2635,16 +2281,8 @@ int CINFGameMainUnitInfoBar::WndProcCity(UINT uMsg, WPARAM wParam, LPARAM lParam
 
 
 			// 2009. 03. 16 by ckPark 멤버쉽 툴팁 추가
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			int	x	= g_pD3dApp->GetBackBufferDesc().Width - 104;
 			int	y	= g_pD3dApp->GetBackBufferDesc().Height - 52 - GAME_EVENT_BASICPOS_Y;
-#else
-			int	x	= g_pD3dApp->GetBackBufferDesc().Width - 64;
-			int	y	= g_pD3dApp->GetBackBufferDesc().Height - 82
-
-			if(g_pD3dApp->m_bCharacter && !g_pGround->m_bBazaar)
-				y -= GAME_EVENT_BASICPOS_Y;
-#endif
 			if(m_bMemberPCBang)
 			{
 				POINT	pt = m_pImgGeneralPremiumCard->GetImgSize();
@@ -2690,7 +2328,6 @@ int CINFGameMainUnitInfoBar::WndProcCity(UINT uMsg, WPARAM wParam, LPARAM lParam
 void CINFGameMainUnitInfoBar::RenderMainGage(BOOL bShowAll)
 {
 	UINT i;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	POINT Pos = { 0, 0 };
 	if(m_fGageRate[GAMEMAIN_GAGE_HP_UP]>0)
 	{
@@ -2818,102 +2455,6 @@ void CINFGameMainUnitInfoBar::RenderMainGage(BOOL bShowAll)
 		m_pImgMainWarning->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 		m_pImgMainWarning->Render();
 	}	   
-#else
-	if(m_fGageRate[GAMEMAIN_GAGE_HP_UP]>0)
-	{
-		i = m_fGageRate[GAMEMAIN_GAGE_HP_UP]*GAMEMAIN_GAGE_HP_MAX_GRADE;
-		if(i>=GAMEMAIN_GAGE_HP_MAX_GRADE){i--;}
-
-		if(i > 0)
-		{
-			m_pImgMainGageHP[i]->Move(GAMEMAIN_GAGE_HP_START_X, GAMEMAIN_GAGE_HP_START_Y);
-			m_pImgMainGageHP[i]->Render();
-		}
-	}
-	if(m_fGageRate[GAMEMAIN_GAGE_DP_UP]>0)
-	{
-		i = m_fGageRate[GAMEMAIN_GAGE_DP_UP]*GAMEMAIN_GAGE_DP_MAX_GRADE;
-		if(i>=GAMEMAIN_GAGE_DP_MAX_GRADE){i--;}
-
-		if(i > 0)
-		{
-			m_pImgMainGageDP[i]->Move(GAMEMAIN_GAGE_DP_START_X, GAMEMAIN_GAGE_DP_START_Y);
-			m_pImgMainGageDP[i]->Render();
-		}
-	}
-	if(m_fGageRate[GAMEMAIN_GAGE_SP_UP]>0)
-	{
-		i = m_fGageRate[GAMEMAIN_GAGE_SP_UP]*GAMEMAIN_GAGE_SP_MAX_GRADE;
-		if(i>=GAMEMAIN_GAGE_SP_MAX_GRADE){i--;}
-
-		if(i > 0)
-		{
-			m_pImgMainGageSP[i]->Move(GAMEMAIN_GAGE_SP_START_X, GAMEMAIN_GAGE_SP_START_Y);
-			m_pImgMainGageSP[i]->Render();
-		}
-	}
-	if(m_fGageRate[GAMEMAIN_GAGE_BURN_UP]>0)
-	{
-		i = m_fGageRate[GAMEMAIN_GAGE_BURN_UP]*GAMEMAIN_GAGE_BOOSTER_MAX_GRADE;
-		if(i>=GAMEMAIN_GAGE_BOOSTER_MAX_GRADE){i--;}
-		m_pImgMainGageBooster[i]->Move(GAMEMAIN_GAGE_BOOSTER_START_X, GAMEMAIN_GAGE_BOOSTER_START_Y);
-		m_pImgMainGageBooster[i]->SetScale(1.125,1.125);
-		m_pImgMainGageBooster[i]->Render();
-	}
-	if(m_fGageRate[GAMEMAIN_GAGE_EP_UP]>0)
-	{
-		i = m_fGageRate[GAMEMAIN_GAGE_EP_UP]*GAMEMAIN_GAGE_FUEL_MAX_GRADE;
-		if(i>=GAMEMAIN_GAGE_FUEL_MAX_GRADE){i--;}
-		m_pImgMainGageFuel[i]->Move(GAMEMAIN_GAGE_FUEL_START_X,GAMEMAIN_GAGE_FUEL_START_Y);
-		m_pImgMainGageFuel[i]->Render();
-	}
-	if(m_fGageRate[GAMEMAIN_GAGE_EP_UP]>0.2f || !m_bWarning)
-	{
-		m_pImgMainIconFuel[0]->Move(GAMEMAIN_GAGE_FUEL_START_X,GAMEMAIN_GAGE_FUEL_START_Y);
-		m_pImgMainIconFuel[0]->Render();
-	}
-	else
-	{
-		m_pImgMainIconFuel[1]->Move(GAMEMAIN_GAGE_FUEL_START_X,GAMEMAIN_GAGE_FUEL_START_Y);
-		m_pImgMainIconFuel[1]->Render();
-	}
-	if(VOICE_NONE != g_pGameMain->GetVoiceType())
-	{
-		if(g_pGameMain->GetVOIPSpeaking())
-		{
-			m_pImgVoiceSPKIcon->Move(GAMEMAIN_VOICECHAT_X,GAMEMAIN_VOICECHAT_Y);
-			m_pImgVoiceSPKIcon->Render();
-		}
-		else
-		{
-			m_pImgVoiceChatIcon->Move(GAMEMAIN_VOICECHAT_X,GAMEMAIN_VOICECHAT_Y);
-			m_pImgVoiceChatIcon->Render();
-		}		
-	}
-
-
-	// 2008-05-29 by dgwoo 메인 인터페이스 변경 기획.
-	g_pGameMain->m_pWeaponInfo->RenderLeftWeapon();
-	g_pGameMain->m_pWeaponInfo->RenderRightWeapon();
-
-	//--------------------------------------------------------------------------//
-	
-
-
-
-	if(	bShowAll &&
-		m_fGageRate[GAMEMAIN_GAGE_EXP_UP]>0)
-	{
-		m_pImgMainExpBar->Move(GAMEMAIN_EXP_GAGE_START_X, GAMEMAIN_EXP_GAGE_START_Y);
-		m_pImgMainExpBar->SetRect(0,0,GAMEMAIN_GAGE_EXP_LENGTH*m_fGageRate[GAMEMAIN_GAGE_EXP_UP],9);
-		m_pImgMainExpBar->Render();
-	}
-	if(m_fGageRate[GAMEMAIN_GAGE_HP_UP]<0.35f && m_bWarning)
-	{
-		m_pImgMainWarning->Move(GAMEMAIN_GAGE_HP_START_X+2, GAMEMAIN_GAGE_HP_START_Y);
-		m_pImgMainWarning->Render();
-	}
-#endif
 }
 // end 2011. 10. 10 by jskim UI시스템 변경
 void CINFGameMainUnitInfoBar::RenderSpeed()
@@ -3093,32 +2634,15 @@ BOOL CINFGameMainUnitInfoBar::IsRenderMapName()
 void CINFGameMainUnitInfoBar::RenderPremiumCard(BOOL bIsCity)
 {
 	int x,y;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	x = g_pD3dApp->GetBackBufferDesc().Width - 104;
-#else
-	x = g_pD3dApp->GetBackBufferDesc().Width - 64;
-#endif
 
 //	if(bIsCity)
 //		y = g_pD3dApp->GetBackBufferDesc().Height - 107;
 //	else
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		y = g_pD3dApp->GetBackBufferDesc().Height - 52 - GAME_EVENT_BASICPOS_Y;
 
 // 	if(g_pD3dApp->m_bCharacter && !g_pGround->m_bBazaar)
 // 		y -= GAME_EVENT_BASICPOS_Y;
-#else
-		y = g_pD3dApp->GetBackBufferDesc().Height - 82;
-
-	if(g_pD3dApp->m_bCharacter && !g_pGround->m_bBazaar)
-		y -= GAME_EVENT_BASICPOS_Y;
-
-	if(m_bMemberPCBang)
-	{
-		POINT	pt = m_pImgGeneralPremiumCard->GetImgSize();
-		y -= pt.y;
-	}
-#endif
 
 	// 2006-07-05 by ispark, 프리미엄 개념 변경
 	if(g_pD3dApp->GetPrimiumCardInfo()->nCardItemNum1)
@@ -3145,11 +2669,7 @@ void CINFGameMainUnitInfoBar::RenderPremiumCard(BOOL bIsCity)
 
 			POINT	drawPt;
 			SIZE	strSize = m_pFontEventRecovery->GetStringSize(szBuff);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			drawPt.x	= g_pD3dApp->GetBackBufferDesc().Width - strSize.cx;
-#else
-			drawPt.x	= x - strSize.cx;
-#endif
 			drawPt.y	= y - strSize.cy;
 
 			g_pGameMain->RenderPopUpWindowImage(drawPt.x, drawPt.y + strSize.cy * 0.1f, strSize.cx, 1);
@@ -3163,7 +2683,6 @@ void CINFGameMainUnitInfoBar::RenderPremiumCard(BOOL bIsCity)
 
 void CINFGameMainUnitInfoBar::RenderHappyHourEvent(BOOL bIsCity)
 {
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(IsHappyHourEvent())
 	{	
 		m_nHappyHourY = g_pD3dApp->GetBackBufferDesc().Height - 77;
@@ -3193,46 +2712,6 @@ void CINFGameMainUnitInfoBar::RenderHappyHourEvent(BOOL bIsCity)
 		m_pImgPCHappyHourEvent->Move(m_nPCHappyHourX - 277,m_nPCHappyHourY + 37);	// 2012-03-29 by mspark, 가맹PC방 이미지 위치 수정 - 기존 41에서 37로 수정
 		m_pImgPCHappyHourEvent->Render();		
 	}
-#else
-	// 2007-11-01 by bhsohn 해피 아우어 이벤트 처리 방식 변경
-	//if(m_BHappyHourEvent)
-	if(IsHappyHourEvent())
-	{	
-// 2008-05-19 by dgwoo 메인 인터페이스 위치 변경.
-//		if(bIsCity)
-//			m_nHappyHourY = g_pD3dApp->GetBackBufferDesc().Height - 99;
-//		else
-			m_nHappyHourY = g_pD3dApp->GetBackBufferDesc().Height - 57;
-//		if(g_pD3dApp->m_bCharacter && !g_pGround->m_bBazaar)
-//			m_nHappyHourY -= GAME_EVENT_BASICPOS_Y;
-
-		m_pImgHappyHourEvent->Move(m_nHappyHourX, m_nHappyHourY);
-		m_pImgHappyHourEvent->Render();
-	}
-
-	// 2010. 06. 08 by jskim 홈프리미엄 UI 작업
-	if(m_pMemberPremiumEvent)
-	{
-		m_nPCHappyHourY = g_pD3dApp->GetBackBufferDesc().Height - 87;
-		m_pImgPCHomePremiumEvent->Move(m_nPCHappyHourX,m_nPCHappyHourY);
-		m_pImgPCHomePremiumEvent->Render();
-	}
-	//end 2010. 06. 08 by jskim 홈프리미엄 UI 작업
-	else if(m_bMemberPCBang)
-	{
-// 2008-05-19 by dgwoo 메인 인터페이스 위치 변경.
-//		if(bIsCity)
-//			m_nPCHappyHourY = g_pD3dApp->GetBackBufferDesc().Height - 107;
-//		else
-			m_nPCHappyHourY = g_pD3dApp->GetBackBufferDesc().Height - 82;
-		
-//		if(g_pD3dApp->m_bCharacter && !g_pGround->m_bBazaar)
-//			m_nPCHappyHourY -= GAME_EVENT_BASICPOS_Y;
-		
-		m_pImgPCHappyHourEvent->Move(m_nPCHappyHourX,m_nPCHappyHourY);
-		m_pImgPCHappyHourEvent->Render();		
-	}
-#endif
 }
 
 void CINFGameMainUnitInfoBar::RenderEventRecovery()
@@ -3240,13 +2719,8 @@ void CINFGameMainUnitInfoBar::RenderEventRecovery()
 	if(TRUE == g_bEventRecovery)
 	{
 		int nCount = ((int)(g_fEventRecoveryRate * 100.0f) / 5.0f) - 1;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		int nEventX = g_pD3dApp->GetBackBufferDesc().Width - 196 ;
 		int nEventY = g_pD3dApp->GetBackBufferDesc().Height - 102;	// 2012-08-14 by mspark, 이벤트 회복율 이미지 위치 수정 - 기존 94에서 102로 수정
-#else
-		int nEventX = g_pD3dApp->GetBackBufferDesc().Width - 105;
-		int nEventY = g_pD3dApp->GetBackBufferDesc().Height - 83;
-#endif
 	// 2012-10-12 by jhjang 해피 아워 경험치 보너스 시스템 리뉴얼
 #ifdef S_BONUSEXPSYSTEM_RENEWAL
 		nEventY -= RESTKILLCOUNT_MOVE_HAPPYHOUR;

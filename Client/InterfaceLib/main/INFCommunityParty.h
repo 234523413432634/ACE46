@@ -279,9 +279,6 @@ protected:
 	//CINFImage	*	m_pPartySecedeButton[3];
 	//CINFImage	*	m_pPartyBanButton[3];
 	//CINFImage	*	m_pPartyTrustButton[3];
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	CINFImageEx	*	m_pFormat;
-#endif
 	CINFImageEx	*	m_pForcus;
 	//CINFImage	*	m_pCombo;
 	//CINFImage	*	m_pCaptainCombo;
@@ -310,12 +307,8 @@ protected:
 
 	int				m_nVOIPButtonState;	
 	// 2008-04-04 by bhsohn Ep3 커뮤니티 창
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*				m_pImgBk[MAX_WND_PARTYMODE];	// 배경
 	CINFGroupImage*				m_pPartyControlBtn[MAX_WND_PARTYMODE];	// 컨트롤 버튼			  
-#else					
-	CINFImageEx*				m_pImgBk[MAX_WND_PARTYMODE];	// 배경
-#endif
 
 	//////////// 편대 검색 //////////// 	
 	CINFImageBtn*				m_pSCrateBtn;			// 생성

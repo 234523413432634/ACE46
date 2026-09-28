@@ -35,7 +35,6 @@
 // 2008-04-04 by bhsohn Ep3 커뮤니티 창
 //#define MAX_FRIEND_NUMBER					10	// 화면상 라인 수
 //#define MAX_FRIEND_LIST						50  // 저장할수 있는 최대 친구 수
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define SCROLL_START_X						197
 #define SCROLL_START_Y						80
 #define SCROLL_LINE_LENGTH					172
@@ -77,49 +76,6 @@
 #define SELECT_FRIEND_MACRO_X				19
 #define SELECT_FRIEND_MACRO_Y				63
 
-#else 
-#define SCROLL_START_X						197
-#define SCROLL_START_Y						55
-#define SCROLL_LINE_LENGTH					172
-
-#define LIST_BOX_START_X					19
-#define LIST_BOX_START_Y					72
-#define LIST_BOX_SIZE_X						171
-#define LIST_BOX_SIZE_Y						154
-#define LIST_BOX_INTERVAL					17
-
-// 2008-04-04 by bhsohn Ep3 커뮤니티 창
-//#define LIST_BOX_NAME_START_X				22
-#define LIST_BOX_NAME_START_X				258
-#define LIST_BOX_NAME_START_Y				123
-
-#define LIST_FRIEND_START_X					381
-#define LIST_FRIEND_START_Y					73
-// end 2008-04-04 by bhsohn Ep3 커뮤니티 창
-
-#define BACK_START_X						13
-#define BACK_START_Y						30
-
-#define FRIEND_MEMBER_ONLINE_COLOR			GUI_FONT_COLOR
-#define FRIEND_MEMBER_OFFLINE_COLOR			RGB(222, 0, 0)
-
-// 친구 설정
-#define ADD_FRIEND_START_X					BACK_START_X + 106
-#define ADD_FRIEND_START_Y					BACK_START_Y + 201
-#define ADD_FRIEND_WIDTH					35
-#define ADD_FRIEND_HEIGHT					15
-
-#define FRIEND_STATE_ONLINE					TRUE
-#define FRIEND_STATE_OFFLINE				FALSE
-
-#define SELECT_FRIEND_NAME_X				18
-#define SELECT_FRIEND_NAME_Y				54
-#define SELECT_FRIEND_NAME_WIDTH			171
-#define SELECT_FRIEND_NAME_HEIGHT			17
-#define SELECT_FRIEND_MACRO_X				19
-#define SELECT_FRIEND_MACRO_Y				38
-
-#endif
 #define ON_OFF_LINE_WIDTH					130
 
 #define BOTTON_STATE_0						0
@@ -222,7 +178,6 @@ HRESULT CINFCommunityFriend::InitDeviceObjects()
 	DataHeader *pDataHeader;
 
 	//pDataHeader = m_pGameData->Find("frselect");
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(m_pBack == NULL)
 	{
 		DataHeader* pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("commu_Fri");	
@@ -230,11 +185,6 @@ HRESULT CINFCommunityFriend::InitDeviceObjects()
 		m_pBack->InitDeviceObjects( g_pD3dApp->m_pImageList );
 		m_pBack->RestoreDeviceObjects();
 	}
-#else 
-    pDataHeader = m_pGameData->Find("commubk1");
- 	m_pBack = new CINFImageEx;
- 	m_pBack->InitDeviceObjects( pDataHeader );
-#endif
 
 	pDataHeader = m_pGameData->Find("friselect");	
 	m_pImgSelect = new CINFImageEx;
@@ -298,17 +248,10 @@ HRESULT CINFCommunityFriend::InitDeviceObjects()
 	}
 	{	
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];				
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경			
 		wsprintf(szUpBtn, "cans03");
 		wsprintf(szDownBtn, "cans01");
 		wsprintf(szSelBtn, "cans00");
 		wsprintf(szDisBtn, "cans02");															  
-#else 
-		wsprintf(szUpBtn, "ocancel3");
-		wsprintf(szDownBtn, "ocancel1");
-		wsprintf(szSelBtn, "ocancel0");
-		wsprintf(szDisBtn, "ocancel2");
-#endif
 		if(NULL == m_pDelFriend)
 		{
 			m_pDelFriend = new CINFImageBtn;
@@ -334,7 +277,6 @@ HRESULT CINFCommunityFriend::RestoreDeviceObjects()
 	// 배경위치
 	POINT ptBkPos = ((CINFCommunity*)m_pParent)->GetCommunityBkPos();
 	// 스크롤 위치
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	{
 		// 스크롤
 		m_pScroll->RestoreDeviceObjects();
@@ -374,48 +316,6 @@ HRESULT CINFCommunityFriend::RestoreDeviceObjects()
 		m_pDelFriend->SetBtnPosition(nPosX, nPosY);	
 	}											 
 	// end 2008-04-04 by bhsohn Ep3 커뮤니티 창
-#else
-	{
-		// 스크롤
-		m_pScroll->RestoreDeviceObjects();
-
-		
-		RECT rcMouseWhell, rcMousePos;
-		POINT ptScrollPos = ptBkPos;
-
-		ptScrollPos.x += 462;
-		ptScrollPos.y += 123;
-
-		m_pScroll->SetPosition(ptScrollPos.x ,ptScrollPos.y,11,180);
-		rcMouseWhell.left		= ptScrollPos.x - 220;
-		rcMouseWhell.top		= ptScrollPos.y - 30;
-		rcMouseWhell.right		= ptScrollPos.x + 30;
-		rcMouseWhell.bottom		= ptScrollPos.y + 240;
-		m_pScroll->SetMouseWhellRect(rcMouseWhell);
-		rcMousePos.left			= ptScrollPos.x - 11;
-		rcMousePos.top			= ptScrollPos.y ;
-		rcMousePos.right		= rcMousePos.left + 32;
-		rcMousePos.bottom		= rcMousePos.top + 270;
-		m_pScroll->SetMouseBallRect(rcMousePos);
-	}
-	if(m_pRegisterFriend)
-	{
-		m_pRegisterFriend->RestoreDeviceObjects();		
-		int nPosX, nPosY;
-		nPosX = ptBkPos.x + 317;
-		nPosY = ptBkPos.y + 357;		
-		m_pRegisterFriend->SetBtnPosition(nPosX, nPosY);	
-	}
-	if(m_pDelFriend)
-	{
-		m_pDelFriend->RestoreDeviceObjects();		
-		int nPosX, nPosY;
-		nPosX = ptBkPos.x + 386;
-		nPosY = ptBkPos.y + 357;		
-		m_pDelFriend->SetBtnPosition(nPosX, nPosY);	
-	}
-	// end 2008-04-04 by bhsohn Ep3 커뮤니티 창
-#endif
 
 //	int i; for(i=0; i<4; i++)
 //	{
@@ -540,11 +440,7 @@ void CINFCommunityFriend::Render(POINT ptPos)
 
 	// 2008-04-04 by bhsohn Ep3 커뮤니티 창
 	//m_pBack->Move(BACK_START_X, nWindowPosY + BACK_START_Y );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pBack->Move(ptPos.x, nWindowPosY + BACK_START_Y);
-#else
-	m_pBack->Move(ptPos.x, nWindowPosY);
-#endif
 	m_pBack->Render();
 
 	
@@ -1291,7 +1187,6 @@ void CINFCommunityFriend::UpdateBtnPos()
 {
 	// 배경위치
 	POINT ptBkPos = ((CINFCommunity*)m_pParent)->GetCommunityBkPos();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	{
 		RECT rcMouseWhell, rcMousePos;
 		POINT ptScrollPos = ptBkPos;
@@ -1323,40 +1218,6 @@ void CINFCommunityFriend::UpdateBtnPos()
 		nPosY = ptBkPos.y + 342;		
 		m_pDelFriend->SetBtnPosition(nPosX, nPosY);	
 	}
-#else
-	{
-		RECT rcMouseWhell, rcMousePos;
-		POINT ptScrollPos = ptBkPos;
-		
-		ptScrollPos.x += 462;
-		ptScrollPos.y += 123;
-		
-		m_pScroll->SetPosition(ptScrollPos.x ,ptScrollPos.y,11,180);
-		rcMouseWhell.left		= ptScrollPos.x - 220;
-		rcMouseWhell.top		= ptScrollPos.y - 30;
-		rcMouseWhell.right		= ptScrollPos.x + 30;
-		rcMouseWhell.bottom		= ptScrollPos.y + 240;
-		m_pScroll->SetMouseWhellRect(rcMouseWhell);
-		rcMousePos.left			= ptScrollPos.x - 11;
-		rcMousePos.top			= ptScrollPos.y ;
-		rcMousePos.right		= rcMousePos.left + 32;
-		rcMousePos.bottom		= rcMousePos.top + 270;
-		m_pScroll->SetMouseBallRect(rcMousePos);
-	}
-	{
-		int nPosX, nPosY;
-		nPosX = ptBkPos.x + 317;
-		nPosY = ptBkPos.y + 357;		
-		m_pRegisterFriend->SetBtnPosition(nPosX, nPosY);	
-	}
-	{
-		int nPosX, nPosY;
-		nPosX = ptBkPos.x + 386;
-		nPosY = ptBkPos.y + 357;		
-		m_pDelFriend->SetBtnPosition(nPosX, nPosY);	
-	}
-
-#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////

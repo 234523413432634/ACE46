@@ -3011,7 +3011,6 @@ HRESULT CINFCityInfinityField::InitDeviceObjects()
 		}
 	}
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 	{
 		DataHeader* pDataHeader = NULL;
@@ -3021,17 +3020,12 @@ HRESULT CINFCityInfinityField::InitDeviceObjects()
 		m_pRenewInfiImage->RestoreDeviceObjects();
 	}	
 
-#endif
 	
 
 	if( m_pDescScroll == NULL )
 	{
 		m_pDescScroll = new CINFArenaScrollBar;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 		m_pDescScroll->InitDeviceObjects( 1, "c_scrlb" );
-#else
-		m_pDescScroll->InitDeviceObjects( 1, "c_scrlbt" );
-#endif
 	
 	}
 
@@ -3082,9 +3076,7 @@ HRESULT CINFCityInfinityField::RestoreDeviceObjects()
 	if( m_pCloseXBtn )
 		m_pCloseXBtn->RestoreDeviceObjects();
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pRenewInfiImage->RestoreDeviceObjects();
-#endif
 	
 	UpdateBtnPos();
 
@@ -3136,13 +3128,11 @@ HRESULT CINFCityInfinityField::DeleteDeviceObjects()
 		SAFE_DELETE( m_pCloseXBtn );
 	}
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(m_pRenewInfiImage)
 	{
 		m_pRenewInfiImage->DeleteDeviceObjects();
 		SAFE_DELETE(m_pRenewInfiImage);
 	}
-#endif
 
 	return S_OK;
 }
@@ -3175,10 +3165,8 @@ HRESULT CINFCityInfinityField::InvalidateDeviceObjects()
 
 	if( m_pCloseXBtn )
 		m_pCloseXBtn->InvalidateDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pRenewInfiImage->InvalidateDeviceObjects();
 	
-#endif
 	
 
 	return S_OK;
@@ -3209,17 +3197,10 @@ void	CINFCityInfinityField::Render()
 		return;
 
 	POINT bkPos = GetBkPos();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pRenewInfiImage->Move( bkPos.x, bkPos.y );
 	m_pRenewInfiImage->Render();
 
 
-#else
-	m_pDescBack->Move( bkPos.x, bkPos.y );
-	m_pDescBack->Render();
-
-
-#endif
 
 
 
@@ -3290,25 +3271,15 @@ void	CINFCityInfinityField::Render()
 			++nRenderCnt;
 		}
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
     m_pDescOKBtn->SetBtnPosition( bkPos.x + 577, bkPos.y + 320 );
 	m_pDescOKBtn->Render();
-#else
-    m_pDescOKBtn->SetBtnPosition( bkPos.x + 497, bkPos.y + 320 );
-	m_pDescOKBtn->Render();
-#endif
 
 	
 
 	m_pDescScroll->SetOnlyMaxItem( vecTotalMessage.size() );
 	m_pDescScroll->Render();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
     m_pCloseXBtn->SetBtnPosition( bkPos.x + 641, bkPos.y + 8 );
 //	m_pCloseXBtn->Render();
-#else
-	m_pCloseXBtn->SetBtnPosition( bkPos.x + 619, bkPos.y + 6 );
-	m_pCloseXBtn->Render();
-#endif
 }
 
 int		CINFCityInfinityField::WndProc( UINT uMsg, WPARAM wParam, LPARAM lParam )
@@ -3686,7 +3657,6 @@ HRESULT CINFCityInfinityFieldPopUp::InitDeviceObjects()
 			m_pInfinityBackGround[i]->InitDeviceObjects( pHeader );
 		}
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	{
 		DataHeader* pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource( "if02_BG" );
 		m_pRenewInfiBackImage = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
@@ -3695,7 +3665,6 @@ HRESULT CINFCityInfinityFieldPopUp::InitDeviceObjects()
 
 
 	}
-#endif
 	
 	
 	
@@ -3705,14 +3674,10 @@ HRESULT CINFCityInfinityFieldPopUp::InitDeviceObjects()
 		m_pZoneEnterBtn = new CINFImageBtn;
 
 		{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			// 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
 			//m_pZoneEnterBtn->InitDeviceObjects(  "if_exok3", "if_exok1", "if_exok0", "if_exok2"  );
 			m_pZoneEnterBtn->InitDeviceObjects(  "if_exok3", "if_exok1", "if_exok0", "if_exok2","STRTOOLTIP6" );
 			// end 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
-#else
-		m_pZoneEnterBtn->InitDeviceObjects( "if_zse3", "if_zse1", "if_zse0", "if_zse2" );
-#endif //C_EPSODE4_UI_CHANGE_JSKIM
 
 		}
 	
@@ -3745,24 +3710,16 @@ HRESULT CINFCityInfinityFieldPopUp::InitDeviceObjects()
 	if( m_pZonSelScroll == NULL )
 	{
 		m_pZonSelScroll = new CINFArenaScrollBar;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 		m_pZonSelScroll->InitDeviceObjects( 1, "c_scrlb" );
-#else
-		m_pZonSelScroll->InitDeviceObjects( 1, "c_scrlbt" );
-#endif
 	}
 
 	if( m_pRoomStartBtn == NULL )
 	{
 		m_pRoomStartBtn	= new CINFImageBtn;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 		// 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
 		//m_pRoomStartBtn->InitDeviceObjects( "if_rse3", "if_rse1", "if_rse0", "if_rse2" );
 		m_pRoomStartBtn->InitDeviceObjects( "if_rse3", "if_rse1", "if_rse0", "if_rse2","STRTOOLTIP6" );
 		// end 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
-#else
-		m_pRoomStartBtn->InitDeviceObjects( "if_roe3", "if_roe1", "if_roe0", "if_roe2" );
-#endif //C_EPSODE4_UI_CHANGE_JSKIM
 		
 	}
 
@@ -3824,14 +3781,10 @@ HRESULT CINFCityInfinityFieldPopUp::InitDeviceObjects()
 	if( m_pRoomRdyBtn == NULL )
 	{
 		m_pRoomRdyBtn	= new CINFImageBtn;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		// 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
 		//m_pRoomRdyBtn->InitDeviceObjects( "wpmove03", "wpmove01", "wpmove00", "wpmove02" );
 		m_pRoomRdyBtn->InitDeviceObjects( "wpmove03", "wpmove01", "wpmove00", "wpmove02","STRTOOLTIP107" );
 		// end 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
-#else			 
-		m_pRoomRdyBtn->InitDeviceObjects( "if_rordy3", "if_rordy1", "if_rordy0", "if_rordy2" );
-#endif
 
 	}
 
@@ -3865,14 +3818,10 @@ HRESULT CINFCityInfinityFieldPopUp::InitDeviceObjects()
 	if( m_pRejectOKBtn == NULL )
 	{
 		m_pRejectOKBtn = new CINFImageBtn;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	// 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
 	//m_pRejectOKBtn->InitDeviceObjects( "okb03", "okb01", "okb00", "okb02" );
 		m_pRejectOKBtn->InitDeviceObjects( "okb03", "okb01", "okb00", "okb02", "STRTOOLTIP42" );
 	// end 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
-#else
-		m_pRejectOKBtn->InitDeviceObjects( "shlaok03", "shlaok01", "shlaok00", "shlaok02" );
-#endif
 	
 	
 	}
@@ -3880,11 +3829,7 @@ HRESULT CINFCityInfinityFieldPopUp::InitDeviceObjects()
 	if( m_pRejectCancelBtn == NULL )
 	{
 		m_pRejectCancelBtn = new CINFImageBtn;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	m_pRejectCancelBtn->InitDeviceObjects( "canb03", "canb01", "canb00", "canb02" );
-#else
-		m_pRejectCancelBtn->InitDeviceObjects( "shmcan03", "shmcan01", "shmcan00", "shmcan02" );
-#endif
 	
 	
 	}
@@ -3892,20 +3837,15 @@ HRESULT CINFCityInfinityFieldPopUp::InitDeviceObjects()
 	if( m_pJoinRequestOK == NULL )
 	{
 		m_pJoinRequestOK = new CINFImageBtn;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	// 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
 	//m_pJoinRequestOK->InitDeviceObjects( "oks03", "oks01", "oks00", "oks02" );
 	m_pJoinRequestOK->InitDeviceObjects( "oks03", "oks01", "oks00", "oks02","STRTOOLTIP42" );
 	// end 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
-#else
-		m_pJoinRequestOK->InitDeviceObjects( "c_acc3", "c_acc1", "c_acc0", "c_acc2" );
-#endif
 
 
 
 	}
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	if( m_pJoinRequestCancel == NULL )
 	{
 		m_pJoinRequestCancel = new CINFImageBtn;
@@ -3950,52 +3890,6 @@ HRESULT CINFCityInfinityFieldPopUp::InitDeviceObjects()
 			m_pRoomChatScroll->InitDeviceObjects( 1, "c_scrlb" );
 	}
 
-#else
-
-	if( m_pJoinRequestCancel == NULL )
-	{
-		m_pJoinRequestCancel = new CINFImageBtn;
-		m_pJoinRequestCancel->InitDeviceObjects( "c_ref3", "c_ref1", "c_ref0", "c_ref2" );
-	}
-
-
-	if( m_pRoomPartyMemberScroll == NULL )
-	{
-		m_pRoomPartyMemberScroll = new CINFArenaScrollBar;
-		m_pRoomPartyMemberScroll->InitDeviceObjects( 1, "c_scrlbt" );
-	}
-
-	if( m_pRoomDescScroll == NULL )
-	{
-		m_pRoomDescScroll = new CINFArenaScrollBar;
-		m_pRoomDescScroll->InitDeviceObjects( 1, "c_scrlbt" );
-	}
-
-	if( m_pRoomChatScroll == NULL )
-	{
-		m_pRoomChatScroll = new CINFArenaScrollBar;
-		m_pRoomChatScroll->InitDeviceObjects( 1, "c_scrlbt" );
-	}
-
-	if( m_pRoomPartyMemberScroll == NULL )
-	{
-		m_pRoomPartyMemberScroll = new CINFArenaScrollBar;
-		m_pRoomPartyMemberScroll->InitDeviceObjects( 1, "c_scrlbt" );
-	}
-	
-	if( m_pRoomDescScroll == NULL )
-	{
-		m_pRoomDescScroll = new CINFArenaScrollBar;
-		m_pRoomDescScroll->InitDeviceObjects( 1, "c_scrlbt" );
-	}
-	
-	if( m_pRoomChatScroll == NULL )
-	{
-		m_pRoomChatScroll = new CINFArenaScrollBar;
-		m_pRoomChatScroll->InitDeviceObjects( 1, "c_scrlbt" );
-	}
-
-#endif
 
 	if( m_pRoomSelBackBtn == NULL )
 	{
@@ -4027,12 +3921,8 @@ HRESULT CINFCityInfinityFieldPopUp::InitDeviceObjects()
 	if( m_pRoomCreateOK == NULL )
 	{
 		m_pRoomCreateOK = new CINFImageBtn;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	
 		m_pRoomCreateOK->InitDeviceObjects( "okb03", "okb01", "okb00", "okb02" );
-#else
-		m_pRoomCreateOK->InitDeviceObjects( "lr_ok3", "lr_ok1", "lr_ok0", "lr_ok2" );
-#endif
 
 
 		
@@ -4041,11 +3931,7 @@ HRESULT CINFCityInfinityFieldPopUp::InitDeviceObjects()
 	if( m_pRoomCreateCancel == NULL )
 	{
 		m_pRoomCreateCancel = new CINFImageBtn;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 		m_pRoomCreateCancel->InitDeviceObjects( "canb03", "canb01", "canb00", "canb02" );
-#else
-		m_pRoomCreateCancel->InitDeviceObjects( "lr_can3", "lr_can1", "lr_can0", "lr_can2" );
-#endif
 
 
 	
@@ -4054,14 +3940,10 @@ HRESULT CINFCityInfinityFieldPopUp::InitDeviceObjects()
 	if( m_pRoomListRefreshBtn == NULL )
 	{
 		m_pRoomListRefreshBtn = new CINFImageBtn;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 		// 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
 		//m_pRoomListRefreshBtn->InitDeviceObjects( "refs03", "refs01", "refs00", "refs02" );
 		m_pRoomListRefreshBtn->InitDeviceObjects( "refs03", "refs01", "refs00", "refs02","STRTOOLTIP46" );
 		// end 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
-#else
-		m_pRoomListRefreshBtn->InitDeviceObjects( "refresh3", "refresh1", "refresh0", "refresh2" );
-#endif
 
 		
 	}
@@ -4105,11 +3987,9 @@ HRESULT CINFCityInfinityFieldPopUp::InitDeviceObjects()
 		m_pRenewInfiCreatImage->InitDeviceObjects( g_pD3dApp->m_pImageList );
 		m_pRenewInfiCreatImage->RestoreDeviceObjects();
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
         pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("ok_cancel");	
 		m_pCreateControl = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 
-#endif
 		
 
 
@@ -4150,7 +4030,6 @@ HRESULT CINFCityInfinityFieldPopUp::InitDeviceObjects()
 		
 		
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if( m_pRoomSelRoomScroll == NULL )
 	{
 		m_pRoomSelRoomScroll = new CINFArenaScrollBar;
@@ -4163,7 +4042,6 @@ HRESULT CINFCityInfinityFieldPopUp::InitDeviceObjects()
 		m_pRoomSelDescScroll->InitDeviceObjects( 1, "c_scrlb" );
 	}
 
-#endif
 	if( m_pRoomSelRoomScroll == NULL )
 	{
 		m_pRoomSelRoomScroll = new CINFArenaScrollBar;
@@ -4198,7 +4076,6 @@ HRESULT CINFCityInfinityFieldPopUp::InitDeviceObjects()
 		}
 	}
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 {
 		DataHeader* pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("B_admbtn2");	
 		m_pRoomDifficultSetGroup = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
@@ -4217,7 +4094,6 @@ HRESULT CINFCityInfinityFieldPopUp::InitDeviceObjects()
 		
 	}
 	
-#endif
 	
 
 
@@ -4232,11 +4108,7 @@ HRESULT CINFCityInfinityFieldPopUp::InitDeviceObjects()
 	if ( m_pRoomDifficultCloseBtn == NULL )
 	{
 		m_pRoomDifficultCloseBtn = new CINFImageBtn;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 		m_pRoomDifficultCloseBtn->InitDeviceObjects( "cans03", "cans01", "cans00", "cans02" );
-#else
-		m_pRoomDifficultCloseBtn->InitDeviceObjects( "shnpc063", "shnpc061", "shnpc060", "shnpc062" );
-#endif
 
 
 	}
@@ -4244,11 +4116,7 @@ HRESULT CINFCityInfinityFieldPopUp::InitDeviceObjects()
 	if ( m_pRoomDifficultSetBtn == NULL )
 	{
 		m_pRoomDifficultSetBtn = new CINFImageBtn;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 		m_pRoomDifficultSetBtn->InitDeviceObjects( "oks03", "oks01", "oks00", "oks02" );		
-#else
-		m_pRoomDifficultSetBtn->InitDeviceObjects( "if_lvapp3", "if_lvapp1", "if_lvapp0", "if_lvapp2" );
-#endif
 	
 		
 	}
@@ -4590,14 +4458,12 @@ HRESULT CINFCityInfinityFieldPopUp::RestoreDeviceObjects()
 	if( m_pClosePopupBtn )
 		m_pClosePopupBtn->RestoreDeviceObjects();
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pRenewInfiBackImage ->RestoreDeviceObjects();
 	m_pRenewInfiCreatImage ->RestoreDeviceObjects();
 	m_pRenewInfiJoinBackImage ->RestoreDeviceObjects();
 	m_pRenewInfiLevelImage ->RestoreDeviceObjects();
 	m_pRenewInfiRejectImage ->RestoreDeviceObjects();
 	m_pRenewInfiJoinRejectImage ->RestoreDeviceObjects();
-#endif
 
 	UpdateBtnPos();
 
@@ -5004,7 +4870,6 @@ HRESULT CINFCityInfinityFieldPopUp::DeleteDeviceObjects()
 		m_pClosePopupBtn->DeleteDeviceObjects();
 		SAFE_DELETE( m_pClosePopupBtn );
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(m_pRenewInfiBackImage )
 	{
 		m_pRenewInfiBackImage ->DeleteDeviceObjects();
@@ -5035,7 +4900,6 @@ HRESULT CINFCityInfinityFieldPopUp::DeleteDeviceObjects()
 		m_pRenewInfiJoinRejectImage->DeleteDeviceObjects();
 		SAFE_DELETE(m_pRenewInfiJoinRejectImage );
 	}
-#endif
 
 
 	return S_OK;
@@ -5278,7 +5142,6 @@ HRESULT CINFCityInfinityFieldPopUp::InvalidateDeviceObjects()
 
 	if( m_pClosePopupBtn )
 		m_pClosePopupBtn->InvalidateDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(m_pRenewInfiBackImage )
 	{
 		m_pRenewInfiBackImage->InvalidateDeviceObjects();
@@ -5309,7 +5172,6 @@ HRESULT CINFCityInfinityFieldPopUp::InvalidateDeviceObjects()
 		m_pRenewInfiJoinRejectImage->InvalidateDeviceObjects();
 	
 	}
-#endif
 
 	return S_OK;
 }
@@ -5322,11 +5184,7 @@ void	CINFCityInfinityFieldPopUp::UpdateBtnPos( void )
 	{
 	case INFINITY_ZONESEL:
 		{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 		m_pZonSelScroll->SetPosition( ptShowPos.x + 761, ptShowPos.y + 42, 11, 371 );
-#else
-		m_pZonSelScroll->SetPosition( ptShowPos.x + 786, ptShowPos.y + 75, 11, 361 );
-#endif
 
 		
 			RECT rect = {
@@ -5346,11 +5204,7 @@ void	CINFCityInfinityFieldPopUp::UpdateBtnPos( void )
 
 	case INFINITY_ROOMSEL:
 		{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	m_pRoomSelRoomScroll->SetPosition( ptShowPos.x + 745, ptShowPos.y + 100, 11, 300 );
-#else
-			m_pRoomSelRoomScroll->SetPosition( ptShowPos.x + 786, ptShowPos.y + 119, 11, 300 );
-#endif
 
 
 			RECT rect = {
@@ -5365,11 +5219,7 @@ void	CINFCityInfinityFieldPopUp::UpdateBtnPos( void )
 			rect.top	= ptShowPos.y + 119;
 			rect.bottom	= rect.top + 310;
 			m_pRoomSelRoomScroll->SetMouseBallRect( rect );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	m_pRoomSelDescScroll->SetPosition( ptShowPos.x + 257, ptShowPos.y + 190, 11, 215 );
-#else
-			m_pRoomSelDescScroll->SetPosition( ptShowPos.x + 302, ptShowPos.y + 293, 11, 112 );
-#endif
 
 
 			rect.left	= ptShowPos.x + 72;
@@ -5387,11 +5237,7 @@ void	CINFCityInfinityFieldPopUp::UpdateBtnPos( void )
 
 	case INFINITY_INROOM:
 		{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	m_pRoomPartyMemberScroll->SetPosition( ptShowPos.x + 745, ptShowPos.y + 79, 11, 178 );
-#else
-			m_pRoomPartyMemberScroll->SetPosition( ptShowPos.x + 786, ptShowPos.y + 94, 11, 178 );
-#endif
 
 
 			RECT rect = {
@@ -5407,11 +5253,7 @@ void	CINFCityInfinityFieldPopUp::UpdateBtnPos( void )
 			rect.bottom	= rect.top + 192;
 			m_pRoomPartyMemberScroll->SetMouseBallRect( rect );
 			
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	m_pRoomDescScroll->SetPosition( ptShowPos.x + 257, ptShowPos.y + 190, 11, 215 );
-#else
-			m_pRoomDescScroll->SetPosition( ptShowPos.x + 302, ptShowPos.y + 293, 11, 112 );
-#endif
 			
 			rect.left	= ptShowPos.x + 72;
 			rect.right	= rect.left + 227;
@@ -5424,11 +5266,7 @@ void	CINFCityInfinityFieldPopUp::UpdateBtnPos( void )
 			rect.bottom	= rect.top + 123;
 			m_pRoomDescScroll->SetMouseBallRect( rect );
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	m_pRoomChatScroll->SetPosition( ptShowPos.x + 745, ptShowPos.y + 271, 11, 101 );
-#else
-			m_pRoomChatScroll->SetPosition( ptShowPos.x + 786, ptShowPos.y + 301, 11, 101 );
-#endif
 			
 			rect.left	= ptShowPos.x + 360;
 			rect.right	= rect.left + 420;
@@ -5454,14 +5292,12 @@ void	CINFCityInfinityFieldPopUp::Render()
 		RenderMinimizeWindow();
 	else
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 
 	POINT bkPos = GetBkPos();
 		m_pRenewInfiBackImage->Move(bkPos.x - 2, bkPos.y - 25);
 		m_pRenewInfiBackImage->Render();
 
 
-#endif
 	
 		switch( m_InfinityState )
 		{
@@ -5564,17 +5400,11 @@ void	CINFCityInfinityFieldPopUp::RenderZoneSel( void )
 			std::map<MapIndex_t, CINFImageEx*>::iterator it = m_mapInfinityMapImg.find( pInfo->InfinityMapIdx );
 			if( it != m_mapInfinityMapImg.end() )
 			{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 
 	((*it).second)->Move( bkPos.x + 17, bkPos.y + 54 + nRenderCnt * 96 );
-#else
-				((*it).second)->Move( bkPos.x + 40, bkPos.y + 82 + nRenderCnt * 72 );
-
-#endif
 	
 				((*it).second)->Render();
 			}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 			// 맵 이름
 			MAP_INFO* pMapInfo = g_pDatabase->GetMapInfo( pInfo->InfinityMapIdx );
 			if( pMapInfo )
@@ -5651,51 +5481,6 @@ void	CINFCityInfinityFieldPopUp::RenderZoneSel( void )
 	
 	m_pCloseXBtn->SetBtnPosition( bkPos.x + 770, bkPos.y - 17 );
 //	m_pCloseXBtn->Render();
-#else	   
-
-			// 맵 이름
-			MAP_INFO* pMapInfo = g_pDatabase->GetMapInfo( pInfo->InfinityMapIdx );
-			if( pMapInfo )
-				m_pFont->DrawText( bkPos.x + 365 - m_pFont->GetStringSize( pMapInfo->MapName ).cx / 2, bkPos.y + 110 + nRenderCnt * 72, GUI_FONT_COLOR, pMapInfo->MapName );
-
-			// 레벨 제한
-			sprintf( szBuff, STRMSG_C_091103_0309, pInfo->MinLv, pInfo->MaxLv );
-			m_pFont->DrawText( bkPos.x + 540 - m_pFont->GetStringSize( szBuff ).cx / 2, bkPos.y + 110 + nRenderCnt * 72, GUI_FONT_COLOR, szBuff );
-
-			// 입장 가능 여부
-			if( pInfo->Join )
-			{
-				m_pFont->DrawText( bkPos.x + 700 - m_pFont->GetStringSize( STRMSG_C_091103_0310 ).cx / 2, bkPos.y + 110 + nRenderCnt * 72, GUI_FONT_COLOR, STRMSG_C_091103_0310) ;
-			}
-			else
-			{
-				m_pZoneDisable->Move( bkPos.x + 40, bkPos.y + 82 + nRenderCnt * 72 );
-				m_pZoneDisable->Render();
-				m_pFont->DrawText( bkPos.x + 700 - m_pFont->GetStringSize( STRMSG_C_091103_0311 ).cx / 2, bkPos.y + 110 + nRenderCnt * 72, GUI_FONT_COLOR, STRMSG_C_091103_0311 );
-			}
-
-			if( i == g_pD3dApp->GetInfinityManager()->GetInfinityModeIdx() )
-			{
-				m_pZoneSelect->Move( bkPos.x + 40, bkPos.y + 82 + nRenderCnt * 72 );
-				m_pZoneSelect->Render();
-			}
-
-			++nRenderCnt;
-		}
-	}
-
-	m_pZoneEnterBtn->SetBtnPosition( bkPos.x + 660, bkPos.y + 465 );
-	m_pZoneEnterBtn->Render();
-
-	m_pZonSelScroll->SetOnlyMaxItem( g_pD3dApp->GetInfinityManager()->GetInfinityModeCount() );
-	m_pZonSelScroll->Render();
-
-	m_pMinimize->SetBtnPosition( bkPos.x + 807, bkPos.y + 6 );
-	m_pMinimize->Render();
-
-	m_pCloseXBtn->SetBtnPosition( bkPos.x + 822, bkPos.y + 6 );
-	m_pCloseXBtn->Render();
-#endif
 }
 
 void	CINFCityInfinityFieldPopUp::RenderRoomSel( void )
@@ -5706,7 +5491,6 @@ void	CINFCityInfinityFieldPopUp::RenderRoomSel( void )
 	
 	INFINITY_MODE_INFO* pModeInfo = g_pD3dApp->GetInfinityManager()->GetInfinityModeByIndex( g_pD3dApp->GetInfinityManager()->GetInfinityModeIdx() );
 	MAP_INFO* pMapInfo	= g_pDatabase->GetMapInfo( pModeInfo->InfinityMapIdx );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	if( pMapInfo )
 	{
 		// 대표 이미지
@@ -5903,128 +5687,6 @@ void	CINFCityInfinityFieldPopUp::RenderRoomSel( void )
 
 	m_pCloseXBtn->SetBtnPosition( bkPos.x + 770, bkPos.y - 17 );
 //	m_pCloseXBtn->Render();	
-#else	
-	if( pMapInfo )
-	{
-		// 대표 이미지
-		std::map<MapIndex_t, CINFImageEx*>::iterator it = m_mapInfinityMapImg.find( pModeInfo->InfinityMapIdx );
-		if( it != m_mapInfinityMapImg.end() )
-		{
-			((*it).second)->Move( bkPos.x + 71, bkPos.y + 79 );
-			((*it).second)->Render();
-		}
-
-		// 맵이름
-		m_pFont->DrawText( bkPos.x + 185 - m_pFont->GetStringSize( pMapInfo->MapName ).cx / 2, bkPos.y + 162 , GUI_FONT_COLOR, pMapInfo->MapName );
-
-		// 레벨 제한
-		char szBuff[64];
-		sprintf( szBuff, STRMSG_C_091103_0309, pModeInfo->MinLv, pModeInfo->MaxLv );
-		m_pFont->DrawText( bkPos.x + 185 - m_pFont->GetStringSize( szBuff ).cx / 2, bkPos.y + 179 , GUI_FONT_COLOR, szBuff );
-	}
-
-	int i=0;
-	int nRenderCnt = 0;
-
-	char szStrBuff[256] = {0, };
-	char szStrCol[16] = "\\g";
-
-	// 각 방 목록
-	for( i=0; i<g_pD3dApp->GetInfinityManager()->GetInfinityReadyInfoCount(); ++i )
-	{
-		if( i >= m_pRoomSelRoomScroll->GetScrollStep() && nRenderCnt < 10 )
-		{
-			INFINITY_READY_LIST* pRoomInfo = g_pD3dApp->GetInfinityManager()->GetInfinityReadyByIndex( i );
-
-			// 방 제목.
-			//m_pFont->DrawText( bkPos.x + 370, bkPos.y + 128 + nRenderCnt * 31, GUI_FONT_COLOR, pRoomInfo->InfinityTeamName );
-			// 2010. 04. 28 by hsLee 인피니티 필드 2차 난이도 조절.
-			sprintf ( szStrBuff , "%s%s%s" , szStrCol , pRoomInfo->InfinityTeamName , szStrCol );
-			m_pFont->DrawText( bkPos.x + 370, bkPos.y + 128 + nRenderCnt * 31, GUI_FONT_COLOR, szStrBuff );
-			// End. 2010. 04. 28 by hsLee 인피니티 필드 2차 난이도 조절.
-
-			// 방장 이름.
-			m_pFont->DrawText( bkPos.x + 602, bkPos.y + 128 + nRenderCnt * 31, GUI_FONT_COLOR, pRoomInfo->MasterName );
-
-			// 인원수
-			char szBuff[64];
-				sprintf( szBuff, "%d/%d", pRoomInfo->PlayingRoomMemberCount, pRoomInfo->MaxMemberCount );
-
-			m_pFont->DrawText( bkPos.x + 743 - m_pFont->GetStringSize( szBuff ).cx / 2, bkPos.y + 128 + nRenderCnt * 31, GUI_FONT_COLOR, szBuff );
-
-			if( i == g_pD3dApp->GetInfinityManager()->GetInfinityReadyIdx() )
-			{
-				m_pRoomSel->Move( bkPos.x + 361, bkPos.y + 120 + nRenderCnt * 31 );
-				m_pRoomSel->Render();
-			}
-
-			++nRenderCnt;
-		}
-	}
-
-	m_pRoomSelRoomScroll->SetOnlyMaxItem( g_pD3dApp->GetInfinityManager()->GetInfinityReadyInfoCount() );
-	m_pRoomSelRoomScroll->Render();
-
-	m_pRoomListRefreshBtn->SetBtnPosition( bkPos.x + 757, bkPos.y + 77 );
-	m_pRoomListRefreshBtn->Render();
-
-	m_pRoomSelEnterBtn->SetBtnPosition( bkPos.x + 698, bkPos.y + 468 );
-	m_pRoomSelEnterBtn->Render();
-
-	m_pRoomSelBackBtn->SetBtnPosition( bkPos.x + 522, bkPos.y + 468 );
-	m_pRoomSelBackBtn->Render();
-
-	m_pRoomSelCreateBtn->SetBtnPosition( bkPos.x + 610, bkPos.y + 468 );
-	m_pRoomSelCreateBtn->Render();
-
-	if( pMapInfo )
-	{
-		// 맵 이름
-		m_pFont->DrawText( bkPos.x + 186 - m_pFont->GetStringSize( pMapInfo->MapName ).cx / 2, bkPos.y + 259, GUI_FONT_COLOR, pMapInfo->MapName );
-
-		// 맵 설명
-		vector<string> vecMessage;
-		STRING_CULL( pMapInfo->MapDescription, 227, &vecMessage, m_pFont );
-
-		std::string str;
-		char szBuff[ 256 ];
-		sprintf( szBuff, STRMSG_C_091103_0345, pModeInfo->MaxMemberCount );	// "최대 참여 인원: %d인"
-		vecMessage.insert( vecMessage.begin(), std::string(szBuff) );
-
-		sprintf( szBuff, STRMSG_C_091103_0344, pModeInfo->MinMemberCount ); // "최소 필요 인원: %d인"
-		vecMessage.insert( vecMessage.begin(), std::string(szBuff) );
-
-		float	fHeight = bkPos.y + 293;
-		i = 0;
-		nRenderCnt = 0;
-		for( i=0; i<vecMessage.size(); ++i )
-		{
-			if( i >= m_pRoomSelDescScroll->GetScrollStep() && nRenderCnt < 7 )
-			{
-				strcpy( szBuff, vecMessage[i].c_str() );
-				m_pFont->DrawText( bkPos.x + 71, (int)(fHeight), GUI_FONT_COLOR, szBuff );
-				fHeight += m_pFont->GetStringSize( szBuff ).cy * 1.3f;
-
-				++nRenderCnt;
-			}
-		}
-
-		m_pRoomSelDescScroll->SetOnlyMaxItem( vecMessage.size() );
-	}
-
-	m_pRoomSelDescScroll->Render();
-
-	RenderRoomJoin();
-
-	RenderRoomCreate();
-
-	m_pMinimize->SetBtnPosition( bkPos.x + 807, bkPos.y + 6 );
-	m_pMinimize->Render();
-
-	m_pCloseXBtn->SetBtnPosition( bkPos.x + 822, bkPos.y + 6 );
-	m_pCloseXBtn->Render();
-
-#endif
 }
 
 void	CINFCityInfinityFieldPopUp::RenderRoomJoin( void )
@@ -6036,24 +5698,14 @@ void	CINFCityInfinityFieldPopUp::RenderRoomJoin( void )
 		pt.x		= (g_pD3dApp->GetBackBufferDesc().Width - pt.x)/2;
 		pt.y		= (g_pD3dApp->GetBackBufferDesc().Height - pt.y)/2;
 		
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 		m_pRenewInfiJoinBackImage->Move( pt.x, pt.y );
 		m_pRenewInfiJoinBackImage->Render();													  
-#endif
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 		m_pRoomJoinWaitBG->Move( pt.x, pt.y );
 		m_pRoomJoinWaitBG->Render();
 
 		m_pRoomCreateCancel->SetBtnPosition( pt.x + 149, pt.y + 58 );
 		m_pRoomCreateCancel->Render();
-#else	
-		m_pRoomJoinWaitBG->Move( pt.x, pt.y );
-		m_pRoomJoinWaitBG->Render();
-		
-		m_pRoomCreateCancel->SetBtnPosition( pt.x + 117, pt.y + 75 );
-		m_pRoomCreateCancel->Render();
-#endif
 	}
 }
 
@@ -6069,7 +5721,6 @@ void	CINFCityInfinityFieldPopUp::RenderRoomCreate( void )
 		
 		m_pRoomCreateBG->Move( pt.x, pt.y );
 		m_pRoomCreateBG->Render();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 
 		m_pRenewInfiCreatImage->Move( pt.x, pt.y );
 		m_pRenewInfiCreatImage->Render();
@@ -6093,23 +5744,11 @@ void	CINFCityInfinityFieldPopUp::RenderRoomCreate( void )
 	//	m_pRoomCreateCancel->SetBtnPosition( pt.x + 179, pt.y + 99 );
 	//	m_pRoomCreateCancel->Render();
 
-#else  
-		
-		m_pRoomCreateTitleEdit->SetPos( pt.x + 97, pt.y + 81 );
-		m_pRoomCreateTitleEdit->Render();
-		
-		m_pRoomCreateOK->SetBtnPosition( pt.x + 115, pt.y + 115 );
-		m_pRoomCreateOK->Render();
-		
-		m_pRoomCreateCancel->SetBtnPosition( pt.x + 195, pt.y + 115 );
-		m_pRoomCreateCancel->Render();
-#endif
 	}
 }
 
 void	CINFCityInfinityFieldPopUp::RenderInRoom( void )
 {
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	POINT bkPos = GetBkPos();
 	m_pInfinityBackGround[ INFINITY_INROOM ]->Move( bkPos.x, bkPos.y );
 	m_pInfinityBackGround[ INFINITY_INROOM ]->Render();
@@ -6412,229 +6051,6 @@ void	CINFCityInfinityFieldPopUp::RenderInRoom( void )
 	
 	m_pCloseXBtn->SetBtnPosition( bkPos.x + 770, bkPos.y - 17 );
 //	m_pCloseXBtn->Render();									  
-#else			 
-	POINT bkPos = GetBkPos();
-	m_pInfinityBackGround[ INFINITY_INROOM ]->Move( bkPos.x, bkPos.y );
-	m_pInfinityBackGround[ INFINITY_INROOM ]->Render();
-
-	INFINITY_MODE_INFO* pModeInfo = g_pD3dApp->GetInfinityManager()->GetInfinityModeByIndex( g_pD3dApp->GetInfinityManager()->GetInfinityModeIdx() );
-	MAP_INFO* pMapInfo	= g_pDatabase->GetMapInfo( pModeInfo->InfinityMapIdx );
-
-	if( pMapInfo )
-	{
-		// 맵 이미지
-		std::map<MapIndex_t, CINFImageEx*>::iterator it = m_mapInfinityMapImg.find( pModeInfo->InfinityMapIdx );
-		if( it != m_mapInfinityMapImg.end() )
-		{
-			((*it).second)->Move( bkPos.x + 71, bkPos.y + 79 );
-			((*it).second)->Render();
-		}
-
-		// 맵 이름
-		m_pFont->DrawText( bkPos.x + 185 - m_pFont->GetStringSize( pMapInfo->MapName ).cx / 2, bkPos.y + 162 , GUI_FONT_COLOR, pMapInfo->MapName );
-		
-		// 레벨 제한
-		char szBuff[64];
-		sprintf( szBuff, STRMSG_C_091103_0309, pModeInfo->MinLv, pModeInfo->MaxLv );
-		m_pFont->DrawText( bkPos.x + 185 - m_pFont->GetStringSize( szBuff ).cx / 2, bkPos.y + 179 , GUI_FONT_COLOR, szBuff );
-	}
-
-	int i=0;
-	int nRenderCnt = 0;
-
-	// 각 멤버 정보
-	for( i=0; i<g_pD3dApp->GetInfinityManager()->GetMemberCount(); ++i )
-	{
-		if( i >= m_pRoomPartyMemberScroll->GetScrollStep() && nRenderCnt < 6 )
-		{
-			INFINITY_MEMBER_INFO_LIST* pMember = g_pD3dApp->GetInfinityManager()->GetMemberInfoByIndex( i );
-
-			char szBuff[64];
-
-			// 방장 표시
-			if( pMember->ClientIdx == g_pD3dApp->GetInfinityManager()->GetMyRoomInfo()->MasterIndex )
-			{
-				m_pRoomMaster->Move( bkPos.x + 480 - m_pFont->GetStringSize( pMember->CharacterName ).cx / 2 - m_pRoomMaster->GetImgSize().x - 5,
-									 bkPos.y + 101 + nRenderCnt * 31 );
-				m_pRoomMaster->Render();
-			}
-
-			// 캐릭터 이름
-			m_pFont->DrawText( bkPos.x + 480 - m_pFont->GetStringSize( pMember->CharacterName ).cx / 2, bkPos.y + 104 + nRenderCnt * 31, GUI_FONT_COLOR, pMember->CharacterName );
-
-			// 기어 정보
-			if(IS_BT(pMember->Gear))
-				sprintf(szBuff, "%s", STRCMD_CS_UNITKIND_BGEAR);
-			if(IS_OT(pMember->Gear))
-				sprintf(szBuff, "%s", STRCMD_CS_UNITKIND_MGEAR);
-			if(IS_DT(pMember->Gear))
-				sprintf(szBuff, "%s", STRCMD_CS_UNITKIND_AGEAR);
-			if(IS_ST(pMember->Gear))
-				sprintf(szBuff, "%s", STRCMD_CS_UNITKIND_IGEAR);
-
-			m_pFont->DrawText( bkPos.x + 653 - m_pFont->GetStringSize( szBuff ).cx / 2, bkPos.y + 104 + nRenderCnt * 31, GUI_FONT_COLOR, szBuff );
-
-			// 레벨
-			sprintf( szBuff, "%d", pMember->Lv );
-			m_pFont->DrawText( bkPos.x + 745 - m_pFont->GetStringSize( szBuff ).cx / 2, bkPos.y + 104 + nRenderCnt * 31, GUI_FONT_COLOR, szBuff );
-
-			// 레디 상태
-			if( pMember->State == INFINITY_STATE_READY )
-			{
-				m_pRoomRdy->Move( bkPos.x + 361, bkPos.y + 95 + nRenderCnt * 31 );
-				m_pRoomRdy->Render();
-			}
-
-			// 선택
-			if( i == g_pD3dApp->GetInfinityManager()->GetMemberIdx() )
-			{
-				m_pRoomSel->Move( bkPos.x + 361, bkPos.y + 95 + nRenderCnt * 31 );
-				m_pRoomSel->Render();
-			}
-
-			++nRenderCnt;
-		}
-	}
-
-	m_pRoomPartyMemberScroll->SetOnlyMaxItem( g_pD3dApp->GetInfinityManager()->GetMemberCount() );
-	m_pRoomPartyMemberScroll->Render();
-
-	// 방장시 버튼 표시
-	if( g_pD3dApp->GetArenaCharacterInfo()->ClientIndex
-		== g_pD3dApp->GetInfinityManager()->GetMyRoomInfo()->MasterIndex )
-	{
-
-		m_pRoomBackBtn->SetBtnPosition( bkPos.x + 522, bkPos.y + 468 );
-		m_pRoomBackBtn->Render();
-
-		m_pRoomRejectBtn->SetBtnPosition( bkPos.x + 610, bkPos.y + 468 );
-		m_pRoomRejectBtn->Render();
-
-		m_pRoomStartBtn->SetBtnPosition( bkPos.x + 698, bkPos.y + 468 );
-		m_pRoomStartBtn->Render();
-
-		if ( m_pRoomDifficultOpenBtn )
-		{
-			m_pRoomDifficultOpenBtn->SetBtnPosition( bkPos.x + 414 , bkPos.y + 468 );
-			m_pRoomDifficultOpenBtn->Render();
-		}
-	}
-	else
-	{
-
-		m_pRoomBackBtn->SetBtnPosition( bkPos.x + 610, bkPos.y + 468 );
-		m_pRoomBackBtn->Render();
-
-		// 일반 멤버 버튼 표시
-		INFINITY_MEMBER_INFO_LIST* pMember = g_pD3dApp->GetInfinityManager()->GetMemberInfoByClientIdx( g_pD3dApp->GetArenaCharacterInfo()->ClientIndex );
-		if( pMember )
-		{
-			if( pMember->State == INFINITY_STATE_UNPREPARED )
-			{
-				m_pRoomRdyBtn->SetBtnPosition( bkPos.x + 698, bkPos.y + 468 );
-				m_pRoomRdyBtn->Render();
-			}
-			else
-			{
-				m_pRoomUnRdyBtn->SetBtnPosition( bkPos.x + 698, bkPos.y + 468 );
-				m_pRoomUnRdyBtn->Render();
-			}
-		}
-
-		if ( m_pRoomDifficultOpenBtn )
-		{
-			m_pRoomDifficultOpenBtn->SetBtnPosition( bkPos.x + 501 , bkPos.y + 468 );
-			m_pRoomDifficultOpenBtn->Render();
-		}
-	}
-
-	if( pMapInfo )
-	{
-		m_pFont->DrawText( bkPos.x + 186 - m_pFont->GetStringSize( pMapInfo->MapName ).cx / 2, bkPos.y + 259, GUI_FONT_COLOR, pMapInfo->MapName );
-
-		vector<string> vecMessage;
-		STRING_CULL( pMapInfo->MapDescription, 227, &vecMessage, m_pFont );
-
-		std::string str;
-		char szBuff[ 256 ];
-		sprintf( szBuff, STRMSG_C_091103_0345, pModeInfo->MaxMemberCount );	// "최대 참여 인원: %d인"
-		vecMessage.insert( vecMessage.begin(), std::string(szBuff) );
-
-		sprintf( szBuff, STRMSG_C_091103_0344, pModeInfo->MinMemberCount ); // "최소 필요 인원: %d인"
-		vecMessage.insert( vecMessage.begin(), std::string(szBuff) );
-
-		float	fHeight = bkPos.y + 293;
-		i = 0;
-		nRenderCnt = 0;
-		for( i=0; i<vecMessage.size(); ++i )
-		{
-			if( i >= m_pRoomDescScroll->GetScrollStep() && nRenderCnt < 7 )
-			{
-				strcpy( szBuff, vecMessage[i].c_str() );
-				m_pFont->DrawText( bkPos.x + 71, (int)(fHeight), GUI_FONT_COLOR, szBuff );
-				fHeight += m_pFont->GetStringSize( szBuff ).cy * 1.3f;
-				
-				++nRenderCnt;
-			}
-		}
-
-		m_pRoomDescScroll->SetOnlyMaxItem( vecMessage.size() );
-	}
-
-	m_pRoomDescScroll->Render();
-	
-	// 채팅 리스트
-	if( !m_ChatList.empty() )
-	{
-		float	fHeight = bkPos.y + 390;
-		char szBuff[ 256 ];
-		i = 0;
-		nRenderCnt = 0;
-		// 밑에서부터 거꾸로 찍어줌
-		for( i=m_CullStringVec.size()-1; i>=0 && nRenderCnt < 6 ; --i )
-		{
-			if( i <= m_pRoomChatScroll->GetScrollStep()
-				&& i > m_pRoomChatScroll->GetScrollStep() - 6 )
-			{
-				strcpy( szBuff, m_CullStringVec[i].c_str() );
-				m_pFont->DrawText( bkPos.x + 372, (int)(fHeight), GUI_FONT_COLOR, szBuff );
-				fHeight -= m_pFont->GetStringSize( szBuff ).cy * 1.3f;
-
-				++nRenderCnt;
-			}
-		}
-
-		m_pRoomChatScroll->SetOnlyMaxItem( m_CullStringVec.size() );
-	}
-
-	// 언어 타입
-	int nSelectLanguage = g_pD3dApp->m_inputkey.GetInputLanguage() - 1;
-	if(nSelectLanguage < 0)
-		nSelectLanguage = 0;
-	m_pChatLanguageType[nSelectLanguage]->Move( bkPos.x + 364, bkPos.y + 414 );
-	m_pChatLanguageType[nSelectLanguage]->Render();
-
-	m_pChatEditBox->SetPos( bkPos.x + 384, bkPos.y + 415 );
-	m_pChatEditBox->Tick();
-	m_pChatEditBox->Render(0, 1);
-
-	m_pRoomChatScroll->Render();
-
-	// 2010. 04. 28 by hsLee 인피니티 필드 2차 난이도 조절.
-	RenderRoomDifficultSetWnd();
-	// End. 2010. 04. 28 by hsLee 인피니티 필드 2차 난이도 조절.
-
-
-	RenderJoinRequest();
-
-	RenderMemberBan();
-
-	m_pMinimize->SetBtnPosition( bkPos.x + 807, bkPos.y + 6 );
-	m_pMinimize->Render();
-
-	m_pCloseXBtn->SetBtnPosition( bkPos.x + 822, bkPos.y + 6 );
-	m_pCloseXBtn->Render();
-#endif
 }
 
 void	CINFCityInfinityFieldPopUp::RenderJoinRequest( void )
@@ -6647,18 +6063,12 @@ void	CINFCityInfinityFieldPopUp::RenderJoinRequest( void )
 		POINT pt	= m_pJoinRequestBG->GetImgSize();
 		pt.x		= (g_pD3dApp->GetBackBufferDesc().Width - pt.x)/2;
 		pt.y		= (g_pD3dApp->GetBackBufferDesc().Height - pt.y)/2;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 		m_pRenewInfiJoinRejectImage->Move( pt.x, pt.y );
 		m_pRenewInfiJoinRejectImage->Render();
 		
 //		m_pJoinRequestBG->Move( pt.x, pt.y );
 //		m_pJoinRequestBG->Render();																  
-#else	
-		m_pJoinRequestBG->Move( pt.x, pt.y );
-		m_pJoinRequestBG->Render();
-#endif
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 		// 2011-04-19 by hsson 인피니티 파티 수락창 캐릭터 닉네임 중앙 정렬
 		// 2014-07-01 by ymjoo DrawText 성능 개선 작업 (아레나 입장)
 #ifdef C_DRAWTEXT_UPGRADE_YMJOO
@@ -6720,41 +6130,6 @@ void	CINFCityInfinityFieldPopUp::RenderJoinRequest( void )
 		
 		m_pJoinRequestCancel->SetBtnPosition( pt.x + 157, pt.y + 134 );
 		m_pJoinRequestCancel->Render();
-#else			   
-// 2011-04-19 by hsson 인피니티 파티 수락창 캐릭터 닉네임 중앙 정렬
-		int StrSizeCenter = m_pFont->GetStringSize( pRequest->ReQuestCharacterName ).cx / 2;
-		int nLeft = pt.x;
-		int nRight = pt.x + 300;
-		int nWindowCenter = (nLeft + nRight) / 2;
-   
-		m_pFont->DrawText( nWindowCenter - StrSizeCenter, pt.y + 39,
- 			GUI_FONT_COLOR, pRequest->ReQuestCharacterName );
-		// end 2011-04-19 by hsson 인피니티 파티 수락창 캐릭터 닉네임 중앙 정렬
-		
-		char szBuff[64];
-		
-		// 레벨 
-		sprintf( szBuff, "%d", pRequest->Lv );
-		m_pFont->DrawText( pt.x + 149, pt.y + 93, GUI_FONT_COLOR, szBuff );
-		
-		// 기어
-		if(IS_BT(pRequest->Gear))
-			sprintf(szBuff, "%s", STRCMD_CS_UNITKIND_BGEAR);
-		if(IS_OT(pRequest->Gear))
-			sprintf(szBuff, "%s", STRCMD_CS_UNITKIND_MGEAR);
-		if(IS_DT(pRequest->Gear))
-			sprintf(szBuff, "%s", STRCMD_CS_UNITKIND_AGEAR);
-		if(IS_ST(pRequest->Gear))
-			sprintf(szBuff, "%s", STRCMD_CS_UNITKIND_IGEAR);
-		
-		m_pFont->DrawText( pt.x + 149, pt.y + 109, GUI_FONT_COLOR, szBuff );
-		
-		m_pJoinRequestOK->SetBtnPosition( pt.x + 78, pt.y + 152 );
-		m_pJoinRequestOK->Render();
-		
-		m_pJoinRequestCancel->SetBtnPosition( pt.x + 157, pt.y + 152 );
-		m_pJoinRequestCancel->Render();
-#endif
 	}
 }
 
@@ -6772,7 +6147,6 @@ void	CINFCityInfinityFieldPopUp::RenderMemberBan( void )
 			POINT pt	= m_pRejectBG->GetImgSize();
 			pt.x		= (g_pD3dApp->GetBackBufferDesc().Width - pt.x)/2;
 			pt.y		= (g_pD3dApp->GetBackBufferDesc().Height - pt.y)/2;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 			m_pRenewInfiRejectImage->Move( pt.x, pt.y );
 			m_pRenewInfiRejectImage->Render();
 
@@ -6795,22 +6169,6 @@ void	CINFCityInfinityFieldPopUp::RenderMemberBan( void )
 
 			m_pRejectCancelBtn->SetBtnPosition( pt.x + 182, pt.y + 75 );
 			m_pRejectCancelBtn->Render();
-#else		
-			m_pRejectBG->Move( pt.x, pt.y );
-			m_pRejectBG->Render();
-
-			//m_pFont->DrawText( pt.x + 190 - m_pFont->GetStringSize( pMember->CharacterName ).cx, pt.y + 27, GUI_FONT_COLOR, pMember->CharacterName );
-			m_pFont->DrawText( pt.x + ( m_pRejectBG->GetImgSize().x - m_pFont->GetStringSize( pMember->CharacterName ).cx ) /2, pt.y + 27, GUI_FONT_COLOR, pMember->CharacterName );
-
-			m_pRejectOKBtn->SetBtnPosition( pt.x + 105, pt.y + 75);
-			m_pRejectOKBtn->Render();
-
-			m_pRejectCancelBtn->SetBtnPosition( pt.x + 157, pt.y + 75 );
-			m_pRejectCancelBtn->Render();
-
-			m_pRejectBG->Move( pt.x, pt.y );
-
-#endif
 
 		
 		}
@@ -6841,20 +6199,11 @@ void	CINFCityInfinityFieldPopUp::RenderMinimizeWindow( void )
 	}
 
 	RenderJoinRequest();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	m_pMaximizeBtn->SetBtnPosition( m_MinimizeWindowPos.x + 209, m_MinimizeWindowPos.y + 5 );
 //	m_pMaximizeBtn->Render();
 
 	m_pClosePopupBtn->SetBtnPosition( m_MinimizeWindowPos.x + 223, m_MinimizeWindowPos.y + 5 );
 //	m_pClosePopupBtn->Render();																	  
-#else 			  
-	m_pMaximizeBtn->SetBtnPosition( m_MinimizeWindowPos.x + 144, m_MinimizeWindowPos.y + 5 );
-	m_pMaximizeBtn->Render();
-
-	m_pClosePopupBtn->SetBtnPosition( m_MinimizeWindowPos.x + 157, m_MinimizeWindowPos.y + 5 );
-	m_pClosePopupBtn->Render();
-
-#endif
 }
 
 
@@ -6886,12 +6235,10 @@ void CINFCityInfinityFieldPopUp::RenderRoomDifficultSetWnd( void )
 		pt.x		= (g_pD3dApp->GetBackBufferDesc().Width - pt.x)/2;
 		pt.y		= (g_pD3dApp->GetBackBufferDesc().Height - pt.y)/2;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 
 	m_pRenewInfiLevelImage->Move( pt.x , pt.y );
 	m_pRenewInfiLevelImage->Render();
 
-#endif
 	
 
 		m_pRoomDifficultSetBG->Move( pt.x , pt.y );
@@ -6975,7 +6322,6 @@ void CINFCityInfinityFieldPopUp::RenderRoomDifficultSetWnd( void )
 		//m_pFont->DrawText( m_pRoomDifficultLevelEditBox->rtnPos()->x , m_pRoomDifficultLevelEditBox->rtnPos()->y , GUI_FONT_COLOR , szStrBuff ); 
 
 		_stprintf ( szStrBuff , STRMSG_C_100428_0102 , szStrCol[1] , (INT)( sMonsterBalanceData.fIncreaseExpRatio * 100.0f ) , szStrCol[1] );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 		m_pFont_EditInfinityLevel->DrawText( pt.x + 236 - m_pFont_EditInfinityLevel->GetStringSize( szStrBuff ).cx/2  , pt.y + 92 , GUI_FONT_COLOR , szStrBuff );
 
 
@@ -7025,53 +6371,6 @@ void CINFCityInfinityFieldPopUp::RenderRoomDifficultSetWnd( void )
 			m_pRoomDifficultUpDownBtn[i]->SetBtnPosition( pt.x + 140 - m_pRoomDifficultUpDownBtn[i]->GetImgSize().x/2 , pt.y + 102 + ( i == 0 ? (-(m_pRoomDifficultUpDownBtn[i]->GetImgSize().y+iGabY)) : iGabY ) );
 			m_pRoomDifficultUpDownBtn[i]->Render();
 		}  
-#else  
-		m_pFont_EditInfinityLevel->DrawText( pt.x + 263 - m_pFont_EditInfinityLevel->GetStringSize( szStrBuff ).cx/2  , pt.y + 100 , GUI_FONT_COLOR , szStrBuff );
-
-		
-		_stprintf ( szStrBuff , STRMSG_C_100428_0103 , szStrCol[1] , (INT)( sMonsterBalanceData.fIncreaseDropItemProbabilityRatio * 100.0f ) , szStrCol[1] );
-		m_pFont_EditInfinityLevel->DrawText( pt.x + 441 - m_pFont_EditInfinityLevel->GetStringSize( szStrBuff ).cx/2  , pt.y - m_pFont_EditInfinityLevel->GetStringSize( szStrBuff ).cy + 108 , GUI_FONT_COLOR , szStrBuff );
-
-
-		_stprintf ( szStrBuff , STRMSG_C_100428_0104 , szStrCol[1] , (INT)( sMonsterBalanceData.fIncreaseDropItemCountRatio * 100.0f ) , szStrCol[1] );
-		m_pFont_EditInfinityLevel->DrawText( pt.x + 441 - m_pFont_EditInfinityLevel->GetStringSize( szStrBuff ).cx/2  , pt.y + 108 , GUI_FONT_COLOR , szStrBuff );
-
-
-		m_pRoomDifficultCloseXBtn->SetBtnPosition( pt.x + 575 , pt.y + 2 );
-		m_pRoomDifficultCloseXBtn->Render();
-
-		m_pRoomDifficultCloseBtn->SetBtnPosition( pt.x + 499 , pt.y + 158 );
-		m_pRoomDifficultCloseBtn->Render();
-
-		m_pRoomDifficultSetBtn->SetBtnPosition( pt.x + 420 , pt.y + 158 );
-		m_pRoomDifficultSetBtn->Render();
-
-		// 2010. 06. 21 by hsLee. 인티니티 난이도 조절. ( 난이도 조절창 정보 표시(String 구성) 수정. ) + 생성 클릭시 방제 입력 활성화.  
-		//	- 파장이 아닌 경우 난이도 레벨값이 제대로 표시 안되는 문제 수정.
-		m_pRoomDifficultLevelEditBox->SetPos ( pt.x + 108 , pt.y + 99 );
-
-		if ( bMaster )
-		{	
-			m_pRoomDifficultLevelEditBox->Tick();
-			m_pRoomDifficultLevelEditBox->Render(0 , 1);
-
-			m_pRoomDifficultLevelEditBox->SetStringWidth ( 35 );
-		}
-
-// 		m_pRoomDifficultLevelEditBox->SetPos( pt.x + 384, pt.y + 415 );
-// 		m_pRoomDifficultLevelEditBox->Tick();
-// 		m_pRoomDifficultLevelEditBox->Render(0, 1);
-
-
-		int iGabY = 2;
-
-		for ( i = 0; i < 2; ++i )
-		{
-			m_pRoomDifficultUpDownBtn[i]->SetBtnPosition( pt.x + 178 - m_pRoomDifficultUpDownBtn[i]->GetImgSize().x/2 , pt.y + 109 + ( i == 0 ? (-(m_pRoomDifficultUpDownBtn[i]->GetImgSize().y+iGabY)) : iGabY ) );
-			m_pRoomDifficultUpDownBtn[i]->Render();
-		}
-
-#endif
 
 	}
 

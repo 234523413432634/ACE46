@@ -25,7 +25,6 @@
 #include "INFImageEx.h"								  // 2011. 10. 10 by jskim UI시스템 변경
 #include "INFToolTip.h"								// 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현	
 #include "Interface.h"
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define CITY_SHOP_START_X			CITY_BASE_NPC_BOX_START_X
 #define CITY_SHOP_START_Y			(CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y)
 
@@ -123,105 +122,6 @@
 #define SHOP_TEX_X					CITY_SHOP_START_X + 375 + 346
 #define SHOP_TEX_Y					CITY_SHOP_START_Y + 301
 #endif 
-#else
-#define CITY_SHOP_START_X			CITY_BASE_NPC_BOX_START_X
-#define CITY_SHOP_START_Y			(CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y)
-
-// 2008-08-22 by bhsohn EP3 인벤토리 처리
-//#define SHOP_TAB_START_X			(221+28)
-//#define SHOP_TAB_START_Y			33
-//#define SHOP_ITEM_SLOT_START_X		(227+28)
-//#define SHOP_ITEM_SLOT_START_Y		51
-//#define SHOP_ICON_START_X			(230+28)
-//#define SHOP_ICON_START_Y			53
-#define SHOP_TAB_BK_START_X			(10)
-#define SHOP_TAB_BK_START_Y			(24)
-#define SHOP_TAB_START_X			(525)
-#define SHOP_TAB_START_Y			(31)
-#define SHOP_ITEM_SLOT_START_X		(227+28+276)
-#define SHOP_ITEM_SLOT_START_Y		51
-#define SHOP_ICON_START_X			(230+28+276)
-#define SHOP_ICON_START_Y			53
-// end 2008-08-22 by bhsohn EP3 인벤토리 처리
-#define SHOP_TAB_NUMBER				4
-#define SHOP_ITEM_SLOT_SIZE_X		157
-#define SHOP_ITEM_SLOT_SIZE_Y		36
-#define SHOP_ICON_SIZE				30
-#define SHOP_ITEM_SLOT_INTERVAL		36
-#define SHOP_ITEM_NUMBER_X			(308+28+276)//346
-#define SHOP_ITEM_NUMBER_Y			70//54
-#define SHOP_NUMBER_BUTTON_X		(336+28+276)//347
-#define SHOP_NUMBER_UP_BUTTON_Y		58//69
-#define SHOP_NUMBER_BUTTON_SIZE_X	8
-#define SHOP_NUMBER_BUTTON_SIZE_Y	7
-#define SHOP_NUMBER_DOWN_BUTTON_Y	71//79
-#define SHOP_BUY_BUTTON_START_X		(344+28+276)
-#define SHOP_BUY_BUTTON_START_Y		70
-#define SHOP_BUY_BUTTON_SIZE_X		39
-#define SHOP_BUY_BUTTON_SIZE_Y		14
-#define SHOP_CASH_START_Y			238
-#define SHOP_OK_BUTTON_START_X		(333+28+276)
-#define SHOP_OK_BUTTON_START_Y		240
-#define SHOP_OK_BUTTON_SIZE_X		35
-#define SHOP_OK_BUTTON_SIZE_Y		16
-#define SHOP_CANCEL_BUTTON_START_X	(370+28+276)
-#define SHOP_CANCEL_BUTTON_START_Y	240
-
-#define SHOP_SCROLL_START_X			(388+28+274)
-#define SHOP_SCROLL_UP_START_Y		51
-#define SHOP_SCROLL_SIZE_X			11
-#define SHOP_SCROLL_SIZE_Y			12
-#define SHOP_SCROLL_BAR_SIZE_Y		30
-#define SHOP_SCROLL_DOWN_START_Y	217
-
-#define SHOP_SCROLL_BAR_START_Y		65
-#define SHOP_SCROLL_BAR_END_Y		215
-
-#define SHOP_TAB_BUTTON_SIZE_X		47
-#define SHOP_TAB_BUTTON_SIZE_Y		14
-
-#define SHOP_SCROLL_LENGTH				(151-SHOP_SCROLL_BAR_SIZE_Y)	// 151 : scroll bar line length
-//#define SHOP_SCROLL_NUMBER(i)			(m_mapItemInfo[i].size()<=0 ? 1:m_mapItemInfo[i].size())	// i번째 탭의 scroll number
-#define SHOP_SCROLL_NUMBER(i)			(m_vecItemInfo[i].size()<=0 ? 1:m_vecItemInfo[i].size())	// i번째 탭의 scroll number
-#define SHOP_SCROLL_INTERVAL(i)			(SHOP_SCROLL_LENGTH / SHOP_SCROLL_NUMBER(i))
-
-#define SHOP_ITEM_NAME_START_X		(260+28+276)
-
-#define SHOP_SELL_ITEM_START_X	(227+28+276)
-#define SHOP_SELL_ITEM_START_Y	51
-#define SHOP_SELL_ITEM_END_X	(383+28+276)
-#define SHOP_SELL_ITEM_END_Y	228
-
-#define SHOP_TAB_ATTACK				0		// SHOP_TAB_B_GEAR	
-#define SHOP_TAB_DEFENSE			1		// SHOP_TAB_I_GEAR	
-#define SHOP_TAB_CONTROL			2		// SHOP_TAB_M_GEAR	
-#define SHOP_TAB_ATTRIBUTE			3		// SHOP_TAB_A_GEAR	
-
-// 2008-08-22 by bhsohn EP3 인벤토리 처리
-//#define BOX_SIZE_X					417
-#define BOX_SIZE_X					720
-#define BOX_SIZE_Y					275
-#define END_OF_INVEN_X				200
-
-// 2006-03-07 by ispark, 언어에 따라 위치 수정
-#if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
-#define SHOP_CASH_START_X			(223+29+275)
-#define SHOP_ITEM_NAME_START_Y		51//53
-#define SHOP_ITEM_PRICE_START_Y		68//70
-#define FONT_TOTAL_PRICE_X			1
-#define FONT_TOTAL_PRICE_Y			1
-#define SHOP_TEX_X					CITY_SHOP_START_X + 375
-#define SHOP_TEX_Y					CITY_SHOP_START_Y + 3
-#else
-#define SHOP_CASH_START_X			(223+28+275)
-#define SHOP_ITEM_NAME_START_Y		51//53
-#define SHOP_ITEM_PRICE_START_Y		68//70
-#define FONT_TOTAL_PRICE_X			0
-#define FONT_TOTAL_PRICE_Y			1//3
-#define SHOP_TEX_X					CITY_SHOP_START_X + 375
-#define SHOP_TEX_Y					CITY_SHOP_START_Y + 3
-#endif
-#endif
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -608,11 +508,7 @@ void CINFCitySkillShop::Render()
 	}
 	if(m_pnSelectItemNumber[m_nCurrentTab])
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		for(i=0;i<SHOP_ITEM_SLOT_NUMBER-3 ;i++)
-#else						  
-		for(i=0;i<SHOP_ITEM_SLOT_NUMBER;i++)
-#endif
 		{
 			if(m_nCurrentSelectSlot[m_nCurrentTab] >= 0 && m_nCurrentSelectSlot[m_nCurrentTab] == nSelectNumber+i)
 			{
@@ -655,12 +551,8 @@ void CINFCitySkillShop::Render()
 				MakeCurrencySeparator( temp2, temp1, 3, ',' );
 				m_pFontItemName[i]->DrawText( CITY_SHOP_START_X+SHOP_ITEM_NAME_START_X, CITY_SHOP_START_Y+SHOP_ITEM_NAME_START_Y+SHOP_ITEM_SLOT_INTERVAL*i, GUI_FONT_COLOR, pItem->ItemName, 0L);
 				wsprintf(buf, "%7s", temp2);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				SIZE sSize = m_pFontItemPrice[i]->GetStringSize( buf );
 				m_pFontItemPrice[i]->DrawText( CITY_SHOP_START_X+SHOP_ITEM_NAME_START_X + 200 - sSize.cx, CITY_SHOP_START_Y+SHOP_ITEM_NAME_START_Y+SHOP_ITEM_SLOT_INTERVAL*i, GUI_FONT_COLOR, buf, 0L);
-#else
-				m_pFontItemPrice[i]->DrawText( CITY_SHOP_START_X+SHOP_ITEM_NAME_START_X,CITY_SHOP_START_Y+SHOP_ITEM_PRICE_START_Y+SHOP_ITEM_SLOT_INTERVAL*i, GUI_FONT_COLOR, buf, 0L);
-#endif
 				it++;
 
 				
@@ -686,23 +578,13 @@ void CINFCitySkillShop::Render()
 					{
 						if(g_pShuttleChild->m_myShuttleInfo.Level >= pITEM->ReqMinLevel)
 						{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 							m_pFontItemNumber[i]->DrawText( CITY_SHOP_START_X+SHOP_ITEM_NUMBER_X+40,
 								(CITY_SHOP_START_Y+SHOP_ITEM_NAME_START_Y+SHOP_ITEM_SLOT_INTERVAL*i)-1, GUI_FONT_COLOR_Y, buf, 0L);
-#else
-							m_pFontItemNumber[i]->DrawText( CITY_SHOP_START_X+SHOP_ITEM_NUMBER_X+30,
-								(CITY_SHOP_START_Y+SHOP_ITEM_NUMBER_Y+SHOP_ITEM_SLOT_INTERVAL*i)-1, GUI_FONT_COLOR_Y, buf, 0L);
-#endif
 						}
 						else
 						{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 							m_pFontItemNumber[i]->DrawText( CITY_SHOP_START_X+SHOP_ITEM_NUMBER_X+40,
 								(CITY_SHOP_START_Y+SHOP_ITEM_NAME_START_Y+SHOP_ITEM_SLOT_INTERVAL*i)-1, RGB(255,0,0), buf, 0L);
-#else							
-							m_pFontItemNumber[i]->DrawText( CITY_SHOP_START_X+SHOP_ITEM_NUMBER_X+30,
-								(CITY_SHOP_START_Y+SHOP_ITEM_NUMBER_Y+SHOP_ITEM_SLOT_INTERVAL*i)-1, RGB(255,0,0), buf, 0L);
-#endif
 						}
 					}					
 				}
@@ -715,12 +597,8 @@ void CINFCitySkillShop::Render()
 		char temp2[64];
 		wsprintf( temp1, "%d", GetTotalPrice() );
 		MakeCurrencySeparator( temp2, temp1, 3, ',' );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		SIZE sSize = m_pFontTotalPrice->GetStringSize( temp2 );
 		m_pFontTotalPrice->DrawText( CITY_SHOP_START_X+SHOP_CASH_START_X + FONT_TOTAL_PRICE_X - sSize.cx, CITY_SHOP_START_Y+SHOP_CASH_START_Y + FONT_TOTAL_PRICE_Y, GUI_FONT_COLOR, temp2, 0L);
-#else
-		m_pFontTotalPrice->DrawText( CITY_SHOP_START_X+SHOP_CASH_START_X + FONT_TOTAL_PRICE_X, CITY_SHOP_START_Y+SHOP_CASH_START_Y + FONT_TOTAL_PRICE_Y, GUI_FONT_COLOR, temp2, 0L);
-#endif
 	}
 
 	m_pOkButton[m_nOkButtonState]->Move(CITY_SHOP_START_X+SHOP_OK_BUTTON_START_X, CITY_SHOP_START_Y+SHOP_OK_BUTTON_START_Y);
@@ -731,12 +609,6 @@ void CINFCitySkillShop::Render()
 	//////////////////
 
 	// scroll rendering
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pScrollUpDown->Move( CITY_SHOP_START_X+SHOP_SCROLL_START_X, CITY_SHOP_START_Y+SHOP_SCROLL_UP_START_Y);
-	m_pScrollUpDown->Render();
-	m_pScrollUpDown->Move( CITY_SHOP_START_X+SHOP_SCROLL_START_X, CITY_SHOP_START_Y+SHOP_SCROLL_DOWN_START_Y);
-	m_pScrollUpDown->Render();
-#endif
 
 	m_pScrollBar->Move( CITY_SHOP_START_X+SHOP_SCROLL_START_X,
 		CITY_SHOP_START_Y+SHOP_SCROLL_BAR_START_Y+m_nCurrentScrollNumber[m_nCurrentTab]*SHOP_SCROLL_INTERVAL(m_nCurrentTab));

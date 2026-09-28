@@ -30,16 +30,10 @@
 #define PLAY_TIME				3.0f
 #define PLAY_ADD_TIME			1.0f
 #define MAX_PLAY_TIME			6.0f
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 #define OPWND_POS_X				(g_pD3dApp->GetBackBufferDesc().Width-332)
 #define OPWND_POS_Y				(g_pD3dApp->GetBackBufferDesc().Height-197)
 
-#else	  
-#define OPWND_POS_X				(g_pD3dApp->GetBackBufferDesc().Width-342)
-#define OPWND_POS_Y				(g_pD3dApp->GetBackBufferDesc().Height-187)
-
-#endif		
 
 
 #define OPWND_BOTTOM_POS_Y		(g_pD3dApp->GetBackBufferDesc().Height)

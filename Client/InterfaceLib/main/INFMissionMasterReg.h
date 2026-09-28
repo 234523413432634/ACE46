@@ -32,11 +32,7 @@ public:
 
 	BOOL					m_bShow;
 	POINT					m_ptWindow;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*			m_pImgBG;
-#else
-	CINFImageEx*			m_pImgBG;
-#endif
 
 	CINFImageBtn*			m_pOK;
 	CINFImageBtn*			m_pCancel;

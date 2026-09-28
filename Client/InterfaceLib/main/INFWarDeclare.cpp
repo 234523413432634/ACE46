@@ -24,7 +24,6 @@
 
 #include "CHAT.h"
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	#define MOTHERSHIP_WAR_DECLARE_BG_W			395
 	#define MOTHERSHIP_WAR_DECLARE_BG_H			420
 
@@ -95,78 +94,6 @@
 	#define MOTHERSHIP_WAR_DECLARE_YEAR_CENTER_X	222
 	#define MOTHERSHIP_WAR_DECLARE_MONTH_CENTER_X	318
 	// end 2009. 05. 27 by ckPark 선전포고 문자열 위치 조정
-#else
-#define MOTHERSHIP_WAR_DECLARE_BG_W			395
-#define MOTHERSHIP_WAR_DECLARE_BG_H			420
-
-#define MOTHERSHIP_WAR_DECLARE_BAR_W		MOTHERSHIP_WAR_DECLARE_BG_W
-#define MOTHERSHIP_WAR_DECLARE_BAR_H		20
-
-#define MOTHERSHIP_WAR_DECLARE_CAL_LEFT_X	283
-#define MOTHERSHIP_WAR_DECLARE_CAL_LEFT_Y	69
-
-#define MOTHERSHIP_WAR_DECLARE_CAL_RIGHT_X	343
-#define MOTHERSHIP_WAR_DECLARE_CAL_RIGHT_Y	69
-
-#define MOTHERSHIP_WAR_DECLARE_DAY_X		182
-#define MOTHERSHIP_WAR_DECLARE_DAY_Y		96
-
-#define MOTHERSHIP_WAR_DECLARE_DAY_RECT_X	174
-#define MOTHERSHIP_WAR_DECLARE_DAY_RECT_Y	94
-
-#define MOTHERSHIP_WAR_DECLARE_CAL_X		182
-#define MOTHERSHIP_WAR_DECLARE_CAL_Y		120
-
-#define MOTHERSHIP_WAR_DECLARE_CAL_GAP_W	26
-#define MOTHERSHIP_WAR_DECLARE_CAL_GAP_H	24
-
-#define MOTHERSHIP_WAR_DECLARE_TIMESELUP_X	233
-#define MOTHERSHIP_WAR_DECLARE_TIMESELUP_Y	284
-
-#define MOTHERSHIP_WAR_DECLARE_TIMESELDOWN_X	233
-#define MOTHERSHIP_WAR_DECLARE_TIMESELDOWN_Y	295
-
-#define MOTHERSHIP_WAR_DECLARE_FLAG_X		27
-#define MOTHERSHIP_WAR_DECLARE_FLAG_Y		61
-
-#define	MOTHERSHIP_WAR_DECLARE_GIVEUP_X		65
-#define	MOTHERSHIP_WAR_DECLARE_GIVEUP_Y		383
-
-#define MOTHERSHIP_WAR_DECLARE_SAVE_X		165
-#define MOTHERSHIP_WAR_DECLARE_SAVE_Y		383
-
-#define MOTHERSHIP_WAR_DECLARE_CLOSE_X		266
-#define MOTHERSHIP_WAR_DECLARE_CLOSE_Y		383
-
-#define MOTHERSHIP_WAR_DECLARE_YEAR_X		203
-#define MOTHERSHIP_WAR_DECLARE_YEAR_Y		68
-
-#define MOTHERSHIP_WAR_DECLARE_MONTH_X		308
-#define MOTHERSHIP_WAR_DECLARE_MONTH_Y		68
-
-#define MOTHERSHIP_WAR_DECLARE_NOON_X		200
-#define MOTHERSHIP_WAR_DECLARE_NOON_Y		288
-
-#define MOTHERSHIP_WAR_DECLARE_TIME_HOUR_X	247
-#define MOTHERSHIP_WAR_DECLARE_TIME_HOUR_Y	287
-
-// 2009. 05. 27 by ckPark 선전포고 문자열 위치 조정
-
-// #define MOTHERSHIP_WAR_DECLARE_DESC_X		147
-#define MOTHERSHIP_WAR_DECLARE_DESC_X		30
-
-// end 2009. 05. 27 by ckPark 선전포고 문자열 위치 조정
-
-#define MOTHERSHIP_WAR_DECLARE_DESC_Y		332
-
-// end 2009. 01. 12 by ckPark 선전 포고 시스템
-
-
-// 2009. 05. 27 by ckPark 선전포고 문자열 위치 조정
-#define MOTHERSHIP_WAR_DECLARE_YEAR_CENTER_X	222
-#define MOTHERSHIP_WAR_DECLARE_MONTH_CENTER_X	318
-// end 2009. 05. 27 by ckPark 선전포고 문자열 위치 조정
-#endif
 
 
 
@@ -184,9 +111,7 @@ CINFWarDeclare::CINFWarDeclare(CGameData * pData)
 	
 	m_bWarDeclareAct			= FALSE;
 	m_pImgWarDeclareBG			= NULL;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	m_pImgWarDeclareControl		= NULL;
-#endif
 	
 	m_pCalendarLeftBtn			= NULL;
 	m_pCalendarRightBtn			= NULL;
@@ -229,21 +154,12 @@ HRESULT CINFWarDeclare::InitDeviceObjects()
 	char buf[MAX_PATH];
 	DataHeader	* pDataHeader;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("chief_de");
 	m_pImgWarDeclareBG = g_pGameMain->m_GruopImagemanager->GetGroupImage(pDataHeader);
 	m_pImgWarDeclareBG->InitDeviceObjects( g_pD3dApp->m_pImageList );
 
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("chief_btn2");
 	m_pImgWarDeclareControl = g_pGameMain->m_GruopImagemanager->GetGroupImage(pDataHeader);
-#else
-	wsprintf(buf,"wdbg");
-	pDataHeader = FindResource(buf);
-	if(pDataHeader == NULL)
-		return S_FALSE;
-	m_pImgWarDeclareBG	= new CINFImageEx;
-	m_pImgWarDeclareBG->InitDeviceObjects( pDataHeader );
-#endif
 	{
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
 		wsprintf(szUpBtn, "call3");
@@ -389,17 +305,10 @@ HRESULT CINFWarDeclare::InitDeviceObjects()
 	}
 	{
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 		wsprintf(szUpBtn, "apps03");
 		wsprintf(szDownBtn, "apps01");
 		wsprintf(szSelBtn, "apps00");
 		wsprintf(szDisBtn, "apps02");
-#else
-		wsprintf(szUpBtn, "wdsbtn3");
-		wsprintf(szDownBtn, "wdsbtn1");
-		wsprintf(szSelBtn, "wdsbtn0");
-		wsprintf(szDisBtn, "wdsbtn2");
-#endif
 		if(NULL == m_pSaveWarDeclareOptionBtn)
 		{
 			m_pSaveWarDeclareOptionBtn	= new CINFImageBtn;
@@ -412,17 +321,10 @@ HRESULT CINFWarDeclare::InitDeviceObjects()
 
 	{
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 		wsprintf(szUpBtn, "cans03");
 		wsprintf(szDownBtn, "cans01");
 		wsprintf(szSelBtn, "cans00");
 		wsprintf(szDisBtn, "cans02");
-#else
-		wsprintf(szUpBtn, "shnpc063");
-		wsprintf(szDownBtn, "shnpc061");
-		wsprintf(szSelBtn, "shnpc060");
-		wsprintf(szDisBtn, "shnpc062");
-#endif
 		if(NULL == m_pCloseDeclareOption)
 		{
 			m_pCloseDeclareOption	= new CINFImageBtn;
@@ -445,9 +347,7 @@ HRESULT CINFWarDeclare::RestoreDeviceObjects()
 	// 2009. 01. 12 by ckPark 선전 포고 시스템
 	
 	m_pImgWarDeclareBG->RestoreDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	
-#endif
 	m_pCalendarLeftBtn->RestoreDeviceObjects();
 	m_pCalendarRightBtn->RestoreDeviceObjects();
 	
@@ -484,13 +384,11 @@ HRESULT CINFWarDeclare::DeleteDeviceObjects()
 		m_pImgWarDeclareBG->DeleteDeviceObjects();
 		SAFE_DELETE(m_pImgWarDeclareBG);
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	if( m_pImgWarDeclareControl )
 	{
 		m_pImgWarDeclareControl->DeleteDeviceObjects();
 		SAFE_DELETE( m_pImgWarDeclareControl );
 	}	
-#endif
 	
 	if(m_pCalendarLeftBtn)
 	{
@@ -596,12 +494,10 @@ HRESULT CINFWarDeclare::InvalidateDeviceObjects()
 {
 	// 2009. 01. 12 by ckPark 선전 포고 시스템
 	m_pImgWarDeclareBG->InvalidateDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	if( m_pImgWarDeclareControl )
 	{
 		m_pImgWarDeclareControl->InvalidateDeviceObjects();
 	}	
-#endif
 	m_pCalendarLeftBtn->InvalidateDeviceObjects();
 	m_pCalendarRightBtn->InvalidateDeviceObjects();
 
@@ -977,7 +873,6 @@ void	CINFWarDeclare::Render(void)
 								szBuff);
 	// end 2009. 02. 10 by ckPark 선전 포고 시스템 추가 수정
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	// 포기 버튼
 	POINT pPos = m_pImgWarDeclareControl->GetFindControlTargetofMinPos("wdgbtn0");
 	m_pGiveupWarBtn->SetBtnPosition(m_nWarDeclarePosX + MOTHERSHIP_WAR_DECLARE_GIVEUP_X + pPos.x, m_nWarDeclarePosY + MOTHERSHIP_WAR_DECLARE_GIVEUP_Y + pPos.y );
@@ -992,19 +887,6 @@ void	CINFWarDeclare::Render(void)
 	pPos = m_pImgWarDeclareControl->GetFindControlTargetofMinPos("cans00");
 	m_pCloseDeclareOption->SetBtnPosition(m_nWarDeclarePosX + MOTHERSHIP_WAR_DECLARE_GIVEUP_X + pPos.x, m_nWarDeclarePosY + MOTHERSHIP_WAR_DECLARE_CLOSE_Y + pPos.y );
 	m_pCloseDeclareOption->Render();
-#else
-	// 포기 버튼
-	m_pGiveupWarBtn->SetBtnPosition(m_nWarDeclarePosX + MOTHERSHIP_WAR_DECLARE_GIVEUP_X, m_nWarDeclarePosY + MOTHERSHIP_WAR_DECLARE_GIVEUP_Y);
-	m_pGiveupWarBtn->Render();
-
-	// 저장 버튼
-	m_pSaveWarDeclareOptionBtn->SetBtnPosition(m_nWarDeclarePosX + MOTHERSHIP_WAR_DECLARE_SAVE_X, m_nWarDeclarePosY + MOTHERSHIP_WAR_DECLARE_SAVE_Y);
-	m_pSaveWarDeclareOptionBtn->Render();
-
-	// 닫기 버튼
-	m_pCloseDeclareOption->SetBtnPosition(m_nWarDeclarePosX + MOTHERSHIP_WAR_DECLARE_CLOSE_X, m_nWarDeclarePosY + MOTHERSHIP_WAR_DECLARE_CLOSE_Y);
-	m_pCloseDeclareOption->Render();
-#endif
 }
 
 void	CINFWarDeclare::OnClickCalLeft(void)

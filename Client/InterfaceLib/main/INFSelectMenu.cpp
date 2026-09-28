@@ -111,7 +111,6 @@ CINFSelectMenu::CINFSelectMenu(CAtumNode* pParent)
 	m_bRestored = FALSE;
 	m_pGameData = NULL;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_GruopSelectmanager = NULL;				
 		
 	for (int i = 0 ; i < SEL_BUTTON_NUMBER ; i++)
@@ -122,11 +121,6 @@ CINFSelectMenu::CINFSelectMenu(CAtumNode* pParent)
 		}
 	}
 
-#else
-	m_pBack = NULL;
-	m_pTitle = NULL;
-	memset(*m_pButton, 0x00, SEL_BUTTON_NUMBER*2);
-#endif
 
 
 	m_nButtonState[SEL_BUTTON_NEW]		= SEL_BUTTON_STATE_NORMAL;
@@ -170,20 +164,13 @@ CINFSelectMenu::CINFSelectMenu(CAtumNode* pParent)
 CINFSelectMenu::~CINFSelectMenu()
 {
 	FLOG( "~CINFSelectMenu()" );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	SAFE_DELETE( m_GruopSelectmanager );
-#else
-	SAFE_DELETE( m_pBack );
-	SAFE_DELETE( m_pTitle );
-#endif
 	int i; for(i=0;i<SEL_BUTTON_NUMBER;i++)
 	{
 		SAFE_DELETE(m_pButton[i][0]);
 		SAFE_DELETE(m_pButton[i][1]);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		SAFE_DELETE(m_pButton[i][2]);
 		SAFE_DELETE(m_pButton[i][3]);															  
-#endif
 	}
 	for(i=0;i<SEL_CHARACTER_INFO_NUMBER; i++)
 		SAFE_DELETE( m_pFontCharacterInfo[i] );
@@ -241,16 +228,11 @@ HRESULT CINFSelectMenu::InitDeviceObjects()
 	char buf[32];
 	for(i=0;i<SEL_BUTTON_NUMBER;i++)
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		// 2015-03-11 by jwLee 캐릭터 선택창 버튼 상태 갯수 오류 수정
 		//for(int j=0;j<5;j++)
 		for(int j=0;j<4;j++)
 		// end 2015-03-11 by jwLee 캐릭터 선택창 버튼 상태 갯수 오류 수정
 		{
-#else	  
-		for(int j=0;j<2;j++)
-		{
-#endif
 			wsprintf( buf, "selbtn%d%d",i,j);
 			m_pButton[i][j] =new CINFImageEx;		// 2011. 10. 10 by jskim UI시스템 변경
 			pDataHeader = FindResource(buf);
@@ -409,25 +391,19 @@ HRESULT CINFSelectMenu::DeleteDeviceObjects()
 	{
 		m_pButton[i][0]->DeleteDeviceObjects();
 		m_pButton[i][1]->DeleteDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pButton[i][2]->DeleteDeviceObjects();
 		m_pButton[i][3]->DeleteDeviceObjects();
-#endif
 		SAFE_DELETE(m_pButton[i][0]);
 		SAFE_DELETE(m_pButton[i][1]);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		SAFE_DELETE(m_pButton[i][2]);
 		SAFE_DELETE(m_pButton[i][3]);															  
-#endif
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_GruopSelectmanager->DeleteDeviceObjects();
 	m_PSelTitle->DeleteDeviceObjects();
 	m_PBack->DeleteDeviceObjects();
 	SAFE_DELETE( m_GruopSelectmanager );
 	SAFE_DELETE( m_PSelTitle );
 	SAFE_DELETE( m_PBack );
-#endif
 	return S_OK ;
 }
 
@@ -453,13 +429,11 @@ void CINFSelectMenu::Render()
 			m_pButton[i][m_nButtonState[i]]->Move(m_fButtonPos[i][0],m_fButtonPos[i][1]);
 			m_pButton[i][m_nButtonState[i]]->Render();
 		}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		else
 		{
 			m_pButton[i][3]->Move(m_fButtonPos[i][0],m_fButtonPos[i][1]);
 			m_pButton[i][3]->Render();
 		}	
-#endif
 	}
 
 //	if(((CINFSelect*)m_pParent)->m_pSelectBack->GetRotateMode() == ROTATE_NONE)//회전시에는 안보여준다.
@@ -503,11 +477,7 @@ void CINFSelectMenu::Render()
 
 			//m_pFontCharacterInfo[SELECT_CHARACTER_INFO_RACE]->DrawText(m_nCharacterInfoPos[SELECT_CHARACTER_INFO_RACE][0], m_nCharacterInfoPos[SELECT_CHARACTER_INFO_RACE][1], SELECT_FONT_COLOR, buf, 0L);
 			if(unit.GuildUniqueNumber != 0)
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM	
 				m_pFontCharacterInfo[SELECT_CHARACTER_INFO_GUILD]->DrawText(m_nCharacterInfoPos[SELECT_CHARACTER_INFO_GUILD][0] - 10, m_nCharacterInfoPos[SELECT_CHARACTER_INFO_GUILD][1], SELECT_FONT_COLOR, unit.GuildName, 0L);
-#else
-				m_pFontCharacterInfo[SELECT_CHARACTER_INFO_GUILD]->DrawText(m_nCharacterInfoPos[SELECT_CHARACTER_INFO_GUILD][0]-18, m_nCharacterInfoPos[SELECT_CHARACTER_INFO_GUILD][1], SELECT_FONT_COLOR, unit.GuildName, 0L);
-#endif
 			if(unit.TotalGearStat.AttackPart <= COUNT_MAX_STAT_POINT)
 			{				
 				if(unit.TotalGearStat.AttackPart == COUNT_MAX_STAT_POINT)

@@ -231,7 +231,6 @@ void CINFImageListBox::SetScrollPos(float fPosX, float fPosY, float fWidth, floa
 	RECT rcMouseWhell, rcMousePos;
 	
 	// 휠 위치지정 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	rcMouseWhell.left		= fPosX ;
 	rcMouseWhell.top		= fPosY;
 	rcMouseWhell.right		= rcMouseWhell.left + fWidth;
@@ -254,31 +253,6 @@ void CINFImageListBox::SetScrollPos(float fPosX, float fPosY, float fWidth, floa
 // 	rcMousePos.left			-= SCROLL_BALL_SCROLL_CAP;					
 	
 	m_pINFScrollBar->SetMouseBallRect(rcMousePos);	
-#else 
-	rcMouseWhell.left		= fPosX ;
-	rcMouseWhell.top		= fPosY;
-	rcMouseWhell.right		= rcMouseWhell.left + fScrollWidth;
-	rcMouseWhell.bottom		= rcMouseWhell.top + fScrollWidth;
-	
-	
-	// 마우스 위치 지정
-	rcMousePos.left			= fPosX + fScrollPosX;
-	rcMousePos.top			= fPosY + fScrollPosY;
-	rcMousePos.right		= rcMousePos.left;
-	rcMousePos.bottom		= rcMousePos.top;
-
-	m_pINFScrollBar->SetPosition(rcMousePos.left, rcMousePos.top, SCROLL_BALL_WIDTH, fHeight);
-	m_pINFScrollBar->SetMouseWhellRect(rcMouseWhell);			
-	
-	ptScroll = m_pINFScrollBar->GetImgBkSize();
-	
-	rcMousePos.bottom		= rcMousePos.top + ptScroll.y + SCROLL_BALL_SCROLL_CAP;
-	rcMousePos.top			-= SCROLL_BALL_SCROLL_CAP;
-	rcMousePos.right		= rcMousePos.left + SCROLL_BALL_SCROLL_CAP;
-	rcMousePos.left			-= SCROLL_BALL_SCROLL_CAP;					
-	
-	m_pINFScrollBar->SetMouseBallRect(rcMousePos);
-#endif
 }
 
 structEditBoxFont*	CINFImageListBox::GetListFont(int i_nLine)

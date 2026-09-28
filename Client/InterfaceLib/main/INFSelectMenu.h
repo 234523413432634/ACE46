@@ -42,7 +42,6 @@ public:
 
 public:
 	BOOL			m_bRestored;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 	CINFGroupManager* m_GruopSelectmanager;
 	CINFGroupImage*   m_PSelTitle;
@@ -50,12 +49,6 @@ public:
 	CINFGroupImage*   m_PControlSelbtn;
 	CINFImageEx*	m_pButton[SEL_BUTTON_NUMBER][4];
 	CINFImageEx*	m_pGage[3];
-#else		   
- 	CINFImageEx*	m_pBack;
- 	CINFImageEx*	m_pTitle;	  
-	CINFImageEx*	m_pButton[SEL_BUTTON_NUMBER][4];
-	CINFImageEx*	m_pGage[3];
-#endif
 	float			m_fButtonPos[SEL_BUTTON_NUMBER][2];
 	CD3DHanFont*	m_pFontLevel;
 	CD3DHanFont*	m_pFontCharacterName;

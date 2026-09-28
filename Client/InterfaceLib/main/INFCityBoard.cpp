@@ -46,9 +46,7 @@ CINFCityBoard::CINFCityBoard()
 	m_pBoardBack = NULL;
 	// 2009-02-13 by bhsohn 월드 랭킹 시스템
 	m_pWBoard = NULL;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pWBoard2 = NULL;
-#endif
 
 	int nCnt = 0;	
 	m_fCheckWorldRankTime = 5.0f;

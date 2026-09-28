@@ -23,7 +23,6 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define MOTHERSHIP_IMPORTANT_GAP			53
 #define MOTHERSHIP_BUTTON_IMPORTANT_GAP		20
 
@@ -82,66 +81,6 @@
 #define GAMEMAIN_MOTHERSHIP_INFLUENCE_WIDTH						145
 #define GAMEMAIN_MOTHERSHIP_INFLUENCE_EACH_HEIGHT				15		// 각각의 글씨 높이 
 #define GAMEMAIN_MOTHERSHIP_INFLUENCE_CAP_HEIGHT				10		// 진행 표시시 여백 
-#else
-#define MOTHERSHIP_IMPORTANT_GAP			53
-#define MOTHERSHIP_BUTTON_IMPORTANT_GAP		20
-
-#define MOTHERSHIP_OPTION_ATT_COUNT			5
-#define MOTHERSHIP_OPTION_DEF_COUNT			2
-
-#define MOTHERSHIP_OPTION_CHECK_ATT_X		(m_nOptionPosX + 25)
-#define MOTHERSHIP_OPTION_CHECK_ATT_Y		(m_nOptionPosY + 42)
-#define MOTHERSHIP_OPTION_CHECK_ATT_GAP		17
-
-#define MOTHERSHIP_OPTION_CHECK_DEF_X		(m_nOptionPosX + 25)
-#define MOTHERSHIP_OPTION_CHECK_DEF_Y		(m_nOptionPosY + 155)
-#define MOTHERSHIP_OPTION_CHECK_DEF_GAP		17
-
-#define MOTHERSHIP_OPTION_CHECK_ORDER_X		(m_nOptionPosX + 56)
-#define MOTHERSHIP_OPTION_CHECK_ORDER_Y		(m_nOptionPosY + 194)
-
-#define MOTHERSHIP_OPTION_CHECK_W			20
-
-#define MOTHERSHIP_OPTION_OK_X				(m_nOptionPosX + 75)
-#define MOTHERSHIP_OPTION_OK_Y				(m_nOptionPosY + 220)
-#define MOTHERSHIP_OPTION_CANCEL_X			(m_nOptionPosX + 121)
-#define MOTHERSHIP_OPTION_CANCEL_Y			(m_nOptionPosY + 220)
-
-#define MOTHERSHIP_OPTION_BG_W					(234)
-#define MOTHERSHIP_OPTION_BG_H					(251)
-
-#define MOTHERSHIP_OPTON_BAR_W					MOTHERSHIP_OPTION_BG_W
-#define MOTHERSHIP_OPTON_BAR_H					20
-
-#define MOTHERSHIP_OPTION_CHANGE_GAP			60.0f
-
-
-// 2007-02-06 by bhsohn 모선전 진행 사항 체크
-// 모선이 출격한 첫 진형
-#define GAMEMAIN_MOTHERSHIP_INFLUENCE1_START_X					179
-#define GAMEMAIN_MOTHERSHIP_INFLUENCE1_START_Y					45//22
-
-#define GAMEMAIN_MOTHERSHIP_INFLUENCE2_START_X					179
-#define GAMEMAIN_MOTHERSHIP_INFLUENCE2_START_Y					100//77
-
-#define GAMEMAIN_MOTHERSHIP_INFLUENCE1_INFLUENCE_START_X		185
-#define GAMEMAIN_MOTHERSHIP_INFLUENCE1_INFLUENCE_START_Y		(GAMEMAIN_MOTHERSHIP_INFLUENCE1_START_Y + 3)//25
-#define GAMEMAIN_MOTHERSHIP_INFLUENCE1_TIME_START_X				185
-#define GAMEMAIN_MOTHERSHIP_INFLUENCE1_TIME_START_Y				(GAMEMAIN_MOTHERSHIP_INFLUENCE1_START_Y + 18)//40
-#define GAMEMAIN_MOTHERSHIP_INFLUENCE1_AREA_START_X				185
-#define GAMEMAIN_MOTHERSHIP_INFLUENCE1_AREA_START_Y				(GAMEMAIN_MOTHERSHIP_INFLUENCE1_START_Y + 33)//55
-
-#define GAMEMAIN_MOTHERSHIP_INFLUENCE2_INFLUENCE_START_X		185
-#define GAMEMAIN_MOTHERSHIP_INFLUENCE2_INFLUENCE_START_Y		(GAMEMAIN_MOTHERSHIP_INFLUENCE2_START_Y + 3)//80
-#define GAMEMAIN_MOTHERSHIP_INFLUENCE2_TIME_START_X				185
-#define GAMEMAIN_MOTHERSHIP_INFLUENCE2_TIME_START_Y				(GAMEMAIN_MOTHERSHIP_INFLUENCE2_START_Y + 18)//95
-#define GAMEMAIN_MOTHERSHIP_INFLUENCE2_AREA_START_X				185
-#define GAMEMAIN_MOTHERSHIP_INFLUENCE2_AREA_START_Y				(GAMEMAIN_MOTHERSHIP_INFLUENCE2_START_Y + 33)//110
-
-#define GAMEMAIN_MOTHERSHIP_INFLUENCE_WIDTH						145
-#define GAMEMAIN_MOTHERSHIP_INFLUENCE_EACH_HEIGHT				15		// 각각의 글씨 높이 
-#define GAMEMAIN_MOTHERSHIP_INFLUENCE_CAP_HEIGHT				10		// 진행 표시시 여백 
-#endif
 
 // 모선전 테두리
 #define ID_MOTHERSHIP_BALON_TLH				6
@@ -553,21 +492,13 @@ HRESULT CINFMotherShipManager::InitDeviceObjects()
 	{
 		m_pImgOKB = new CINFImageBtn;
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	m_pImgOKB->InitDeviceObjects("oks0","STRTOOLTIP9");
-#else
-	m_pImgOKB->InitDeviceObjects("shlaok0");
-#endif
 
 	if(NULL == m_pImgCancelB)
 	{
 		m_pImgCancelB = new CINFImageBtn;
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	m_pImgCancelB->InitDeviceObjects("cans0","STRTOOLTIP41");
-#else
-	m_pImgCancelB->InitDeviceObjects("shmcan0");
-#endif
 	if(NULL == m_pImgCheckB[0])
 	{
 		wsprintf(buf,"radio_17a");
@@ -589,20 +520,9 @@ HRESULT CINFMotherShipManager::InitDeviceObjects()
 		m_pImgCheckB[1]->InitDeviceObjects( pDataHeader );
 	}
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("MS_option");
 	m_pImgOptionBG = g_pGameMain->m_GruopImagemanager->GetGroupImage(pDataHeader);
 	m_pImgOptionBG->InitDeviceObjects( g_pD3dApp->m_pImageList );
-#else
-	wsprintf(buf,"mopt");
-	pDataHeader = FindResource(buf);
-	if(pDataHeader == NULL)
-	{
-		return S_FALSE;
-	}
-	m_pImgOptionBG = new CINFImageEx;
-	m_pImgOptionBG->InitDeviceObjects( pDataHeader );
-#endif
 	{
 		// 2007-02-06 by bhsohn 모선전 진행 사항 체크
 		int i =0;
@@ -1377,11 +1297,7 @@ void CINFMotherShipManager::RenderMothershipInfo()
 		{
 			SetButtonPos1(nBoldPosX+nBalonWidth+2,nBoldPosY+2);
 		}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		RenderMothershipInfoBalon(nBoldPosX - 8,
-#else
-		RenderMothershipInfoBalon(nBoldPosX,
-#endif
 									nBoldPosY,
 								nBalonWidth, nBalonHeight);
 	}

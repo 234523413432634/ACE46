@@ -218,7 +218,7 @@
 
 
 	// end 2008-04-04 by bhsohn Ep3 커뮤니티 창	 
-#elif defined C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
+#else
 	// 2008-04-04 by bhsohn Ep3 커뮤니티 창
 	// 배경
 	#define	COMMU_BK_START_X		2
@@ -376,154 +376,6 @@
 
 
 	// end 2008-04-04 by bhsohn Ep3 커뮤니티 창	 
-#else
-	// 2008-04-04 by bhsohn Ep3 커뮤니티 창
-	// 배경
-	#define	COMMU_BK_START_X		21
-	#define	COMMU_BK_START_Y		48
-	#define	COMMU_BK_START_WIDTH	120
-	#define	COMMU_BK_START_HEIGHT	23
-
-	////////////////////// 편대 검색////////////////////// 
-	#define	COMMU_BK_SEARCH_WIDTH	450	// 편대 검색 너비
-	// 생성
-	#define	CURRENT_PARTY_CREATE_BTN_X		283
-	#define	CURRENT_PARTY_CREATE_BTN_Y		361
-	// 참여
-	#define	CURRENT_PARTY_JOIN_BTN_X		350
-	#define	CURRENT_PARTY_JOIN_BTN_Y		361
-	// 새로고침
-	#define	CURRENT_PARTY_REFRESH_BTN_X		417
-	#define	CURRENT_PARTY_REFRESH_BTN_Y		361
-
-	#define MAX_PARTY_LIST_LINE				12
-
-	// 셀렉트 이미지
-	#define	SEL_IMAGE_POS_X					52
-	#define	SEL_IMAGE_POS_Y					102
-	#define	SEL_IMAGE_POS_CAP_Y				21
-	////////////////////// 편대 옵션////////////////////// 
-	// 초대
-	#define	COMMUNITY_OP_INVITE_X			256
-	#define	COMMUNITY_OP_INVITE_Y			355
-	// 탈퇴
-	#define	COMMUNITY_OP_LEAVE_X			315
-	#define	COMMUNITY_OP_LEAVE_Y			355
-	// 추방
-	#define	COMMUNITY_OP_PURGE_X			374
-	#define	COMMUNITY_OP_PURGE_Y			355
-	// 위임
-	#define	COMMUNITY_OP_CHARE_X			433
-	#define	COMMUNITY_OP_CHARE_Y			355
-	// 확인 
-	#define	COMMUNITY_OP_OK_X				187
-	#define	COMMUNITY_OP_OK_Y				359
-	// 편대전투 
-	#define	COMMUNITY_OP_PARTY_BATTLE_X		103
-	#define	COMMUNITY_OP_PARTY_BATTLE_Y		359
-
-
-	// 편대원 ID
-	#define	PARTYOP_LIST_START_X			258
-	#define	PARTYOP_LIST_START_Y			254
-	#define PARTYOP_LIST_VOIP_START_X		385
-	#define PARTYOP_LIST_VOIP_START_Y		254
-	#define PARTYOP_LIST_HEIGHT				16
-	// 2008-12-02 by bhsohn 편대원 온오프라인 상태체크
-	#define	PARTYOP_LIST_ON_START_X			448
-	#define	PARTYOP_LIST_ON_START_Y			254
-
-	#define	COMMUNITY_OPBK_WIDTH			230
-	#define	COMMUNITY_OPBK_HEIGHT			623
-
-	// Edit 컨트롤 (Pass)
-	#define		SECURITY_WND_PASS_EDIT_X		127
-	#define		SECURITY_WND_PASS_EDIT_Y		164
-	#define		SECURITY_WND_PASS_EDIT_W		85
-	#define		SECURITY_WND_PASS_EDIT_H		20
-
-	// 최소 에디트 컨트롤
-	#define		MIN_NUM_EDIT_X		(127)
-	#define		MIN_NUM_EDIT_Y		(182)
-	#define		MIN_NUM_EDIT_W		(35)
-	#define		MIN_NUM_EDIT_H		(20)
-
-	// 최대 에디트 컨트롤
-	#define		MAX_NUM_EDIT_X		(187)
-	#define		MAX_NUM_EDIT_Y		(182)
-	#define		MAX_NUM_EDIT_W		(35)
-	#define		MAX_NUM_EDIT_H		(20)
-
-	// 여단 소개
-	#define		PARTY_NAME_EDIT_X						93
-	#define		PARTY_NAME_EDIT_Y						87
-	#define		PARTY_NAME_EDIT_W						150
-	#define		PARTY_NAME_FONT_LINE_HEIGHT			15
-
-	// 참여 방식 라디오
-	#define	PARTYCRE_JOIN_X				46
-	#define	PARTYCRE_JOIN_Y				126
-	#define	PARTYCRE_JOIN_CAP_Y			18
-
-	// 음성 옵션 라디오
-	#define	PARTYCRE_AUDIO_X				46
-	#define	PARTYCRE_AUDIO_Y				279
-	#define	PARTYCRE_AUDIO_CAP_Y			18
-
-	// 콤보 박스 
-	#define DIVISION_COMBO_MAIN_WIDTH			110
-	#define DIVISION_COMBO_MAIN_HEIGHT		17
-	#define DIVISION_COMBO_ELE_WIDTH			110
-	#define DIVISION_COMBO_ELE_HEIGHT			13
-
-	// 콤보박스
-	#define	PARTY_FORMAT_COMBO_MAIN_X				258
-	#define	PARTY_FORMAT_COMBO_MAIN_Y				107
-	#define PARTY_FORMAT_COMBO_MAIN_WIDTH			110
-	#define PARTY_FORMAT_COMBO_MAIN_HEIGHT			17
-	#define PARTY_FORMAT_COMBO_ELE_WIDTH			110
-	#define PARTY_FORMAT_COMBO_ELE_HEIGHT			13
-
-	// 편대 포맷 설명
-	#define	COMMUNITY_FORMATTXT_X				23
-	#define	COMMUNITY_FORMATTXT_Y				355
-	#define	COMMUNITY_FORMATTXT_WIDTH			130
-	#define	COMMUNITY_FORMATTXT_LINE			4
-	#define	COMMUNITY_FORMATTXT_CAP_Y			18
-	// 편대 포맷
-	#define	COMMUNITY_FORMAT_X				391
-	#define	COMMUNITY_FORMAT_Y				142
-	// 최대 파티수 
-	#define	MAX_PARTY_LEN					6
-
-
-	// 최대 파티수 
-	#define	RQ_PARTYLIST_TIME				(900)
-
-
-	#define VOICECHAT_SPK_POS_X			(m_ptWindowPos.x + 67)
-	#define VOICECHAT_SPK_POS_Y			(m_ptWindowPos.y + 340)
-	#define VOICECHAT_SPK_W				65
-	#define VOICECHAT_SPK_CONTROL_TIME_GAP		0.25f
-
-	#define EDIT_SIZE_MAX_PARTY_NAME		20
-
-
-
-	// 2009. 08. 11 by ckPark 편대 대형 스킬
-
-	// 편대 포맷 설명
-	#define	COMMUNITY_FORMATION_SKILL_DESC_X		265
-	#define	COMMUNITY_FORMATION_SKILL_DESC_Y		130
-	#define	COMMUNITY_FORMATION_SKILL_DESC_WIDTH	120
-	#define	CCOMMUNITY_FORMATION_SKILL_DESC_LINE	4
-	#define	CCOMMUNITY_FORMATION_SKILL_DESC_CAP_Y	18
-
-	// end 2009. 08. 11 by ckPark 편대 대형 스킬
-
-
-
-	// end 2008-04-04 by bhsohn Ep3 커뮤니티 창
 #endif
 
 //////////////////////////////////////////////////////////////////////
@@ -549,9 +401,6 @@ CINFCommunityParty::CINFCommunityParty(CAtumNode* pParent)
 //		m_pPartyVOIPButton[i] = NULL;
 //	}
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pFormat = NULL;
-#endif
 	m_pForcus = NULL;
 	//m_pCombo = NULL;
 //	m_pLogo = NULL;
@@ -660,9 +509,7 @@ CINFCommunityParty::CINFCommunityParty(CAtumNode* pParent)
 	for(nCnt = 0;nCnt < MAX_WND_PARTYMODE;nCnt++)
 	{
 		m_pImgBk[nCnt] = NULL;	// 배경
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pPartyControlBtn[nCnt] = NULL;														  
-#endif
 	}
 	
 	m_pComboForMation = NULL;		// 콤보 박스
@@ -700,9 +547,6 @@ CINFCommunityParty::~CINFCommunityParty()
 //		SAFE_DELETE(m_pPartyVOIPButton[i]);
 //	}
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	SAFE_DELETE(m_pFormat);
-#endif
 	SAFE_DELETE(m_pForcus);
 	//SAFE_DELETE( m_pCombo );
 //	SAFE_DELETE( m_pLogo );
@@ -772,9 +616,7 @@ CINFCommunityParty::~CINFCommunityParty()
 	for(nCnt = 0;nCnt < MAX_WND_PARTYMODE;nCnt++)
 	{
 		SAFE_DELETE(m_pImgBk[nCnt]);	// 배경
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pPartyControlBtn[nCnt] = NULL;
-#endif
 	}
 	SAFE_DELETE(m_pComboForMation);	
 	// end 2008-04-04 by bhsohn Ep3 커뮤니티 창	
@@ -885,13 +727,6 @@ HRESULT CINFCommunityParty::InitDeviceObjects()
 //	pDataHeader = FindResource("Ydis");
 //	m_pPartyTrustButton[2]->InitDeviceObjects(pDataHeader->m_pData,pDataHeader->m_DataSize) ;
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pFormat = new CINFImageEx;	
-	// 2008-04-04 by bhsohn Ep3 커뮤니티 창
-	//pDataHeader = FindResource("Format");
-	pDataHeader = FindResource("commubk0");
-	m_pFormat->InitDeviceObjects(pDataHeader ) ;
-#endif
 
 //	m_pFriend = new CINFImage;
 //	pDataHeader = FindResource("Friend");
@@ -963,17 +798,10 @@ HRESULT CINFCommunityParty::InitDeviceObjects()
 	{	
 		// 생성
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];				
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf(szUpBtn, "cres03");
 		wsprintf(szDownBtn, "cres01");
 		wsprintf(szSelBtn, "cres00");
 		wsprintf(szDisBtn, "cres02");															  
-#else						  
-		wsprintf(szUpBtn, "createb3");
-		wsprintf(szDownBtn, "createb1");
-		wsprintf(szSelBtn, "createb0");
-		wsprintf(szDisBtn, "createb2");
-#endif
 		if(NULL == m_pSCrateBtn)
 		{
 			m_pSCrateBtn = new CINFImageBtn;
@@ -987,17 +815,10 @@ HRESULT CINFCommunityParty::InitDeviceObjects()
 	{	
 		// 참여
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];				
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경				
 		wsprintf(szUpBtn, "pars03");
 		wsprintf(szDownBtn, "pars01");
 		wsprintf(szSelBtn, "pars00");
 		wsprintf(szDisBtn, "pars02");															  
-#else	
-		wsprintf(szUpBtn, "c_pj3");
-		wsprintf(szDownBtn, "c_pj1");
-		wsprintf(szSelBtn, "c_pj0");
-		wsprintf(szDisBtn, "c_pj2");
-#endif
 		if(NULL == m_pSJoinBtn)
 		{
 			m_pSJoinBtn = new CINFImageBtn;
@@ -1010,17 +831,10 @@ HRESULT CINFCommunityParty::InitDeviceObjects()
 	{	
 		// 새로고침
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];				
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경						
 		wsprintf(szUpBtn, "refs03");
 		wsprintf(szDownBtn, "refs01");
 		wsprintf(szSelBtn, "refs00");
 		wsprintf(szDisBtn, "refs02");																			
-#else				 
-		wsprintf(szUpBtn, "c_pr3");
-		wsprintf(szDownBtn, "c_pr1");
-		wsprintf(szSelBtn, "c_pr0");
-		wsprintf(szDisBtn, "c_pr2");		
-#endif
 		
 		if(NULL == m_pSRefreshBtn)
 		{
@@ -1070,17 +884,10 @@ HRESULT CINFCommunityParty::InitDeviceObjects()
 
 	{	
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];				
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경					
 		wsprintf(szUpBtn, "invs03");
 		wsprintf(szDownBtn, "invs01");
 		wsprintf(szSelBtn, "invs00");
 		wsprintf(szDisBtn, "invs02");																	
-#else	   
-		wsprintf(szUpBtn, "p_bt03");
-		wsprintf(szDownBtn, "p_bt01");
-		wsprintf(szSelBtn, "p_bt00");
-		wsprintf(szDisBtn, "p_bt02");
-#endif
 		if(NULL == m_pOJoinBtn)
 		{
 			m_pOJoinBtn = new CINFImageBtn;
@@ -1093,17 +900,10 @@ HRESULT CINFCommunityParty::InitDeviceObjects()
 
 	{	
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];				
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경									
 		wsprintf(szUpBtn, "outs03");
 		wsprintf(szDownBtn, "outs01");
 		wsprintf(szSelBtn, "outs00");
 		wsprintf(szDisBtn, "outs02");																				
-#else  
-		wsprintf(szUpBtn, "c_sbt13");
-		wsprintf(szDownBtn, "c_sbt11");
-		wsprintf(szSelBtn, "c_sbt10");
-		wsprintf(szDisBtn, "c_sbt12");
-#endif
 		if(NULL == m_pOLeaveBtn)
 		{
 			m_pOLeaveBtn = new CINFImageBtn;
@@ -1134,17 +934,10 @@ HRESULT CINFCommunityParty::InitDeviceObjects()
 	
 	{	
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];				
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경		
 		wsprintf(szUpBtn, "coms03");
 		wsprintf(szDownBtn, "coms01");
 		wsprintf(szSelBtn, "coms00");
 		wsprintf(szDisBtn, "coms02");
-#else									
-		wsprintf(szUpBtn, "c_sbt33");
-		wsprintf(szDownBtn, "c_sbt31");
-		wsprintf(szSelBtn, "c_sbt30");
-		wsprintf(szDisBtn, "c_sbt32");
-#endif
 		
 		if(NULL == m_pOChargeBtn)
 		{
@@ -1159,17 +952,10 @@ HRESULT CINFCommunityParty::InitDeviceObjects()
 	{
 		// 확인
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf(szUpBtn, "apps03");
 		wsprintf(szDownBtn, "apps01");
 		wsprintf(szSelBtn, "apps00");
 		wsprintf(szDisBtn, "apps02");															  
-#else		 
-		wsprintf(szUpBtn, "Ook3");
-		wsprintf(szDownBtn, "Ook1");
-		wsprintf(szSelBtn, "Ook0");
-		wsprintf(szDisBtn, "Ook2");
-#endif
 		if(NULL == m_pOOkBtn)
 		{
 			m_pOOkBtn = new CINFImageBtn;
@@ -1277,13 +1063,8 @@ HRESULT CINFCommunityParty::InitDeviceObjects()
 
 		char chRadioOff1[30], chRadioOn1[30];
 		
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경		
 		wsprintf(chRadioOff1, "radio_17b");
 		wsprintf(chRadioOn1, "radio_17a");														  
-#else	
-		wsprintf(chRadioOff1, "radio_b");
-		wsprintf(chRadioOn1, "radio_a");
-#endif
 
 		for(nCnt = 0;nCnt < MAX_RADIO_JOINT;nCnt++)
 		{		
@@ -1375,34 +1156,21 @@ HRESULT CINFCommunityParty::InitDeviceObjects()
 			//m_pImgBk[nCnt] = g_pGameMain->m_p;
 			
 //		}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf(chBuff, "commu_F%d", nCnt + 1 );
 		pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource( chBuff );
 		m_pImgBk[nCnt] = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 		m_pImgBk[nCnt]->InitDeviceObjects( g_pD3dApp->m_pImageList );
 		m_pImgBk[nCnt]->RestoreDeviceObjects();													  
-#else  
-		if(NULL == m_pImgBk[nCnt])
-		{
-			m_pImgBk[nCnt] = new CINFImageEx;	
-		}				
-		wsprintf(chBuff, "commu0_%d", nCnt);
-		pDataHeader = FindResource(chBuff);
-
-		m_pImgBk[nCnt]->InitDeviceObjects(pDataHeader);
-#endif
 	}
 	m_pImgSpkVolBar = new CINFImageEx;
 	pDataHeader = FindResource("scrl_b");
 	m_pImgSpkVolBar->InitDeviceObjects(pDataHeader);
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource( "F1_btn1" );
 	m_pPartyControlBtn[ WND_PARTYMODE_OPTION ] = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource( "F2_btn1" );
 	m_pPartyControlBtn[ WND_PARTYMODE_SEARCH ] = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
-#endif
 	// end 2008-04-04 by bhsohn Ep3 커뮤니티 창
 
 	return S_OK ;
@@ -1444,10 +1212,6 @@ HRESULT CINFCommunityParty::RestoreDeviceObjects()
 //		m_pPartyFormation[i]->RestoreDeviceObjects();
 //	}
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	if(m_pFormat )
-		m_pFormat->RestoreDeviceObjects();
-#endif
 //	if(m_pFriend )
 //		m_pFriend->RestoreDeviceObjects();
 //	if(m_pReject )
@@ -1483,7 +1247,6 @@ HRESULT CINFCommunityParty::RestoreDeviceObjects()
 	
 	int nPosX, nPosY;
 	nPosX = nPosY =0;	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	
 	if(m_pSCrateBtn)
 	{
 		m_pSCrateBtn->RestoreDeviceObjects();				
@@ -1531,55 +1294,6 @@ HRESULT CINFCommunityParty::RestoreDeviceObjects()
 		rcMousePos.bottom		= ptScrollPos.y;
 		m_pScrollPartyList->SetMouseBallRect(rcMousePos);
 	}		
-#else		 
-	if(m_pSCrateBtn)
-	{
-		m_pSCrateBtn->RestoreDeviceObjects();				
-		nPosX = ptBkPos.x + CURRENT_PARTY_CREATE_BTN_X;
-		nPosY = ptBkPos.y + CURRENT_PARTY_CREATE_BTN_Y;		
-		m_pSCrateBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	
-	if(m_pSJoinBtn)
-	{
-		m_pSJoinBtn->RestoreDeviceObjects();				
-		nPosX = ptBkPos.x + CURRENT_PARTY_JOIN_BTN_X;
-		nPosY = ptBkPos.y + CURRENT_PARTY_JOIN_BTN_Y;		
-		m_pSJoinBtn->SetBtnPosition(nPosX, nPosY);	
-	}	
-	if(m_pSRefreshBtn)
-	{
-		m_pSRefreshBtn->RestoreDeviceObjects();				
-		nPosX = ptBkPos.x + CURRENT_PARTY_REFRESH_BTN_X;
-		nPosY = ptBkPos.y + CURRENT_PARTY_REFRESH_BTN_Y;		
-		m_pSRefreshBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	
-	if(m_pScrollPartyList)
-	{
-		m_pScrollPartyList->RestoreDeviceObjects();		
-
-		RECT rcMouseWhell, rcMousePos;
-		POINT ptScrollPos = ptBkPos;
-		
-		ptScrollPos.x += 485;
-		ptScrollPos.y += 98;
-		
-		// 스크롤 x = 위치의 -5
-		// 스크롤 height = 이미지 길이의 - 34
-		m_pScrollPartyList->SetPosition(ptScrollPos.x ,ptScrollPos.y,11,217);
-		rcMouseWhell.left		= ptScrollPos.x - COMMU_BK_SEARCH_WIDTH;
-		rcMouseWhell.top		= ptScrollPos.y - 30;
-		rcMouseWhell.right		= ptScrollPos.x + 30;
-		rcMouseWhell.bottom		= ptScrollPos.y + 227;
-		m_pScrollPartyList->SetMouseWhellRect(rcMouseWhell);
-		rcMousePos.left			= ptScrollPos.x - 11;
-		rcMousePos.top			= ptScrollPos.y ;
-		rcMousePos.right		= rcMousePos.left + 32;
-		rcMousePos.bottom		= rcMousePos.top + 237;
-		m_pScrollPartyList->SetMouseBallRect(rcMousePos);
-	}
-#endif
 	if(m_pImgSelect)
 	{
 		m_pImgSelect->RestoreDeviceObjects();
@@ -1762,11 +1476,6 @@ HRESULT CINFCommunityParty::DeleteDeviceObjects()
 //		SAFE_DELETE(m_pPartyVOIPButton[i]);
 //	}
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	if(m_pFormat )
-		m_pFormat->DeleteDeviceObjects();
-	SAFE_DELETE(m_pFormat );
-#endif
 
 	if(m_pForcus )
 		m_pForcus->DeleteDeviceObjects();
@@ -1957,7 +1666,6 @@ HRESULT CINFCommunityParty::DeleteDeviceObjects()
 		}
 	}
 	// end 2008-04-04 by bhsohn Ep3 커뮤니티 창
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	for(nCnt = 0;nCnt < MAX_WND_PARTYMODE;nCnt++)
 	{
 		// 배경
@@ -1967,7 +1675,6 @@ HRESULT CINFCommunityParty::DeleteDeviceObjects()
 			SAFE_DELETE(m_pPartyControlBtn[nCnt]);
 		}
 	}
-#endif
 
 	m_bInvalidated = FALSE;
 	return S_OK ;
@@ -2011,10 +1718,6 @@ HRESULT CINFCommunityParty::InvalidateDeviceObjects()
 //	{
 //		m_pPartyVOIPButton[i]->InvalidateDeviceObjects();
 //	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	if(m_pFormat )
-		m_pFormat->InvalidateDeviceObjects();
-#endif
 
 	if(m_pForcus )
 		m_pForcus->InvalidateDeviceObjects();
@@ -2169,7 +1872,6 @@ HRESULT CINFCommunityParty::InvalidateDeviceObjects()
 		}
 	}
 	// end 2008-04-04 by bhsohn Ep3 커뮤니티 창
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	for(nCnt = 0;nCnt < MAX_WND_PARTYMODE;nCnt++)
 	{
 		// 배경
@@ -2178,7 +1880,6 @@ HRESULT CINFCommunityParty::InvalidateDeviceObjects()
 			m_pPartyControlBtn[nCnt]->InvalidateDeviceObjects();	
 		}
 	}																							  
-#endif
 
 	m_bRestored = FALSE;
 	m_bInvalidated = TRUE;
@@ -2641,14 +2342,6 @@ void CINFCommunityParty::Render(POINT ptPos)
 	FLOG( "CINFCommunityParty::RenderParty()" );
 	//int nWindowPosY = g_pGameMain->m_nLeftWindowY;
 	m_ptWindowPos = ptPos;
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	if(m_pFormat)
-	{
-		//m_pFormat->Move(13,nWindowPosY + 30);
-		m_pFormat->Move(ptPos.x, ptPos.y);
-		m_pFormat->Render() ;
-	}
-#endif
 	// 2008-04-04 by bhsohn Ep3 커뮤니티 창	
 	int nSelImg = m_nSubWndMode;
 	if( (nSelImg >=0)&& (nSelImg < MAX_WND_PARTYMODE))
@@ -3134,7 +2827,6 @@ int CINFCommunityParty::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			CheckMouseReverse(&pt);			
 			int nCnt = 0;
 			POINT ptBkPos = ((CINFCommunity*)m_pParent)->GetCommunityBkPos();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			int nCheckX = ptBkPos.x + COMMU_BK_BTN_START_X;
 			int nCheckY = ptBkPos.y + COMMU_BK_BTN_START_Y;
 			
@@ -3150,24 +2842,6 @@ int CINFCommunityParty::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					}
 				}
 			}	  
-#else						
-			int nCheckX = ptBkPos.x + COMMU_BK_START_X;
-			int nCheckY = ptBkPos.y + COMMU_BK_START_Y;
-			
-			if(pt.y>nCheckY && pt.y<nCheckY + 44)
-			{
-				for(nCnt = 0;nCnt < MAX_WND_PARTYMODE;nCnt++)
-				{
-					nCheckX = ptBkPos.x + COMMU_BK_START_X + (nCnt*COMMU_BK_START_WIDTH);
-					if(pt.x>=(nCheckX) && pt.x<(nCheckX+COMMU_BK_START_WIDTH))
-					{
-						ChangePartySubMode(nCnt);
-						break;						
-					}
-				}
-			}
-
-#endif
 		}
 		break;
 	}
@@ -3665,11 +3339,7 @@ int CINFCommunityParty::WndProcSearch(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				}
 				else
 				{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 					m_nSelParty = nMaxSize;														  
-#else		
-					m_nSelParty = -1;
-#endif
 				}
 			}
 			
@@ -4492,13 +4162,8 @@ void CINFCommunityParty::RenderParyInfo(POINT ptPos)
 	// 셀렉트 이미지
 	if(nSelRenderItem >= 0 && nSelRenderItem< MAX_PARTY_LIST_LINE)
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		nPosX = ptPos.x + SEL_IMAGE_POS_X - 4;
 		nPosY = ptPos.y + SEL_IMAGE_POS_Y - 4 + (SEL_IMAGE_POS_CAP_Y * nSelRenderItem);			  
-#else  
-		nPosX = ptPos.x + SEL_IMAGE_POS_X - 22;
-		nPosY = ptPos.y + SEL_IMAGE_POS_Y + (SEL_IMAGE_POS_CAP_Y *nSelRenderItem) - 2;
-#endif
 		m_pImgSelect->Move(nPosX, nPosY);
 		m_pImgSelect->Render();
 	}
@@ -4599,7 +4264,7 @@ void CINFCommunityParty::RenderParyInfo(POINT ptPos)
 		wsprintf(chBuffTmp, "%d/%d", pListInfo->nPartyMem, pListInfo->nMaxPartyMem);
 		tempSize = m_pPartyList[0]->GetStringSize(chBuffTmp);
 		m_pPartyList[0]->DrawText(nPosX - 26 - tempSize.cx / 2, nPosY, GUI_FONT_COLOR, chBuffTmp, 0L);
-#elif defined C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
+#else
 		nPosX = ptPos.x + SEL_IMAGE_POS_X;
 		
 		// 번호
@@ -4678,52 +4343,6 @@ void CINFCommunityParty::RenderParyInfo(POINT ptPos)
 		wsprintf(chBuffTmp, "%d/%d", pListInfo->nPartyMem, pListInfo->nMaxPartyMem);
 		tempSize = m_pPartyList[0]->GetStringSize(chBuffTmp);
 		m_pPartyList[0]->DrawText(nPosX - 26 - tempSize.cx / 2, nPosY, GUI_FONT_COLOR, chBuffTmp, 0L);
-#else	  
-		nPosX = ptPos.x + SEL_IMAGE_POS_X;
-		nPosY = ptPos.y + SEL_IMAGE_POS_Y + (SEL_IMAGE_POS_CAP_Y *nLine);
-
-		// 번호
-		wsprintf(chBuffTmp, "%d", pListInfo->nIdx+1);
-		m_pPartyList[0]->DrawText(nPosX,nPosY,GUI_FONT_COLOR,chBuffTmp,0L);
-
-		// 락설정
-		nPosX += 30;
-		if(pListInfo->bPartyLock)
-		{
-			m_pLockImage->Move(nPosX, nPosY);
-			m_pLockImage->Render();
-		}
-		else
-		{
-			m_pUnLockImage->Move(nPosX, nPosY);
-			m_pUnLockImage->Render();
-		}
-
-		// 편대명
-		nPosX += 35;
-		m_pPartyList[0]->DrawText(nPosX,nPosY,GUI_FONT_COLOR,pListInfo->chPartyName,0L);
-
-		// 편대장명
-		nPosX += 145;
-		m_pPartyList[0]->DrawText(nPosX,nPosY,GUI_FONT_COLOR,pListInfo->chPartyMasterName,0L);
-
-		// 레벨
-		nPosX += 85;
-		wsprintf(chBuffTmp, "%d~%d", pListInfo->nMinLV, pListInfo->nMaxLV);
-		m_pPartyList[0]->DrawText(nPosX,nPosY,GUI_FONT_COLOR,chBuffTmp,0L);
-
-		// 음성
-		nPosX += 55;
-		if(pListInfo->bUseVOIP)
-		{
-			m_pVOIPImage->Move(nPosX, nPosY);
-			m_pVOIPImage->Render();			
-		}
-
-		//인원
-		nPosX += 50;
-		wsprintf(chBuffTmp, "%d/%d", pListInfo->nPartyMem, pListInfo->nMaxPartyMem);
-		m_pPartyList[0]->DrawText(nPosX,nPosY,GUI_FONT_COLOR,chBuffTmp,0L);
 #endif		
 		itParty++;
 		nLine++;
@@ -4972,11 +4591,7 @@ void CINFCommunityParty::RenderPartyNumInfo()
 		
 		if(m_nPartyOPSel == nIdx)
 		{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			dwColor = GUI_FONT_COLOR_GR;
-#else
-			dwColor = RGB(1,1,1);
-#endif
 		}
 		else
 		{
@@ -5228,11 +4843,7 @@ void CINFCommunityParty::OnClickJoint(int nId)
 			char chBlank[SIZE_MAX_TEAM_PW+1];
 			memset(chBlank, 0x00, SIZE_MAX_TEAM_PW+1);
 			
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			m_pINFSecuEditBox->SetString(chBlank, SIZE_MAX_COM_TEAM_PW );	// 비밀번호			  
-#else																						
-			m_pINFSecuEditBox->SetString(chBlank, SIZE_MAX_TEAM_PW);	// 비밀번호
-#endif
 			m_pINFSecuEditBox->BackupTxtString();
 		}
 		break;
@@ -5879,7 +5490,7 @@ int nPosX, nPosY;
 		rcMousePos.bottom		= ptScrollPos.y + 223;
 		m_pScrollPartyList->SetMouseBallRect(rcMousePos);
 	}  
-#elif defined C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
+#else
 	int nPosX, nPosY;
 
 	nPosX = nPosY = 0;
@@ -6071,192 +5682,6 @@ int nPosX, nPosY;
 		rcMousePos.bottom		= ptScrollPos.y + 223;
 		m_pScrollPartyList->SetMouseBallRect(rcMousePos);
 	}  
-#else
-	int nPosX, nPosY;
-	nPosX = nPosY = 0;
-	{		
-		nPosX = ptBkPos.x + COMMUNITY_OP_INVITE_X;
-		nPosY = ptBkPos.y + COMMUNITY_OP_INVITE_Y;		
-		m_pOJoinBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	{		
-		nPosX = ptBkPos.x + COMMUNITY_OP_LEAVE_X;
-		nPosY = ptBkPos.y + COMMUNITY_OP_LEAVE_Y;		
-		m_pOLeaveBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	
-	{		
-		nPosX = ptBkPos.x + COMMUNITY_OP_PURGE_X;
-		nPosY = ptBkPos.y + COMMUNITY_OP_PURGE_Y;		
-		m_pOPurgeBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	
-	{		
-		nPosX = ptBkPos.x + COMMUNITY_OP_CHARE_X;
-		nPosY = ptBkPos.y + COMMUNITY_OP_CHARE_Y;		
-		m_pOChargeBtn->SetBtnPosition(nPosX, nPosY);	
-	} 
-		
-	{
-		nPosX = ptBkPos.x + COMMUNITY_OP_OK_X;
-		nPosY = ptBkPos.y + COMMUNITY_OP_OK_Y;		
-		m_pOOkBtn->SetBtnPosition(nPosX, nPosY);	
-	}	
-
-	{
-		nPosX = ptBkPos.x + COMMUNITY_OP_PARTY_BATTLE_X;
-		nPosY = ptBkPos.y + COMMUNITY_OP_PARTY_BATTLE_Y;		
-		m_pOPartyBattle->SetBtnPosition(nPosX, nPosY);	
-	}	
-
-	{
-		nPosX = ptBkPos.x + SECURITY_WND_PASS_EDIT_X;
-		nPosY = ptBkPos.y + SECURITY_WND_PASS_EDIT_Y;
-		m_pINFSecuEditBox->SetPos(nPosX, nPosY);
-	}
-
-	{
-		nPosX = ptBkPos.x + MIN_NUM_EDIT_X;
-		nPosY = ptBkPos.y + MIN_NUM_EDIT_Y;		
-		m_pNumMinEditBox->SetPos(nPosX, nPosY);
-	}
-
-	{
-		nPosX = ptBkPos.x + MAX_NUM_EDIT_X;
-		nPosY = ptBkPos.y + MAX_NUM_EDIT_Y;		
-		m_pNumMaxEditBox->SetPos(nPosX, nPosY);
-	}
-	
-	{
-		nPosX = ptBkPos.x + PARTY_NAME_EDIT_X;
-		nPosY = ptBkPos.y + PARTY_NAME_EDIT_Y;		
-		m_pEditPartyName->SetPos(nPosX, nPosY);	
-	}
-	{		
-		// 참여 방식 라디오		
-		for(nCnt = 0;nCnt < MAX_RADIO_JOINT;nCnt++)
-		{
-			nPosX = ptBkPos.x + PARTYCRE_JOIN_X;
-			nPosY = ptBkPos.y + PARTYCRE_JOIN_Y+ (nCnt*PARTYCRE_JOIN_CAP_Y);		
-			m_pPartyJoint[nCnt]->SetPosition(nPosX, nPosY, 60);		
-		}		
-	}
-	
-	// 2014-01-28 by ymjoo VoIP 기능 삭제
-#ifndef C_REMOVE_VOIP_YMJOO
-	{		
-		nPosX = ptBkPos.x + PARTYCRE_AUDIO_X+2;
-		nPosY = ptBkPos.y + PARTYCRE_AUDIO_Y+5;		
-
-		m_pAudioOp[RADIO_AUDIO_CHAT]->SetPosition(nPosX, nPosY, 60);		
-		// 참여 방식 라디오		
-		for(nCnt = RADIO_AUDIO_KEY;nCnt < MAX_RADIO_AUDIO;nCnt++)
-		{
-			nPosX = ptBkPos.x + PARTYCRE_AUDIO_X;
-			nPosY = ptBkPos.y + PARTYCRE_AUDIO_Y+ (nCnt*PARTYCRE_AUDIO_CAP_Y);		
-			m_pAudioOp[nCnt]->SetPosition(nPosX, nPosY, 60);		
-		}		
-	}
-#endif
-	// END 2014-01-28 by ymjoo VoIP 기능 삭제
-	{
-		int nMainWidth, nMainHeight;
-		int nEleWidth, nEleHeight;
-		int nElePosX, nElePosY;
-		nElePosX = nElePosY =0;
-		nMainWidth = PARTY_FORMAT_COMBO_MAIN_WIDTH;
-		nMainHeight = PARTY_FORMAT_COMBO_MAIN_HEIGHT;
-		nEleWidth = PARTY_FORMAT_COMBO_ELE_WIDTH;
-		nEleHeight = PARTY_FORMAT_COMBO_ELE_HEIGHT;		
-	
-		nPosX = ptBkPos.x + PARTY_FORMAT_COMBO_MAIN_X;
-		nPosY = ptBkPos.y + PARTY_FORMAT_COMBO_MAIN_Y;		
-		
-		nElePosX = nPosX;
-		nElePosY = nPosY + nMainHeight;
-		
-		m_pComboForMation->SetMainArea(nPosX, nPosY,nMainWidth, nMainHeight);
-		m_pComboForMation->SetElementArea(nElePosX, nElePosY, nEleWidth, nEleHeight);
-		m_pComboForMation->SetBGPos(nElePosX+6, nElePosY,
-												nEleWidth, nEleHeight);
-	}
-	{
-		int nMainWidth, nMainHeight;
-		int nEleWidth, nEleHeight;
-		nMainWidth = DIVISION_COMBO_MAIN_WIDTH;
-		nMainHeight = DIVISION_COMBO_MAIN_HEIGHT;
-		nEleWidth = DIVISION_COMBO_ELE_WIDTH;
-		nEleHeight = DIVISION_COMBO_ELE_HEIGHT;
-		
-		POINT	ptMainArena[MAX_COMBO_DIVISION] =
-		{
-			{ptBkPos.x+138, ptBkPos.y+224},
-			{ptBkPos.x+138, ptBkPos.y+242},			
-		};
-		
-		POINT	ptElementArena[MAX_COMBO_DIVISION] =
-		{
-			{ptMainArena[0].x, ptMainArena[0].y + nMainHeight},
-			{ptMainArena[1].x, ptMainArena[1].y + nMainHeight}			
-		};
-		
-		
-		for(nCnt = 0;nCnt < MAX_COMBO_DIVISION;nCnt++)
-		{
-			m_pComboDivision[nCnt]->SetMainArea(ptMainArena[nCnt].x, 
-												ptMainArena[nCnt].y,
-											nMainWidth, nMainHeight);
-			m_pComboDivision[nCnt]->SetElementArea(ptElementArena[nCnt].x,
-													ptElementArena[nCnt].y,
-													nEleWidth, nEleHeight);
-			m_pComboDivision[nCnt]->SetBGPos(ptElementArena[nCnt].x+6, ptElementArena[nCnt].y,
-												nEleWidth, nEleHeight);
-		}
-	}
-	
-	if(m_pSCrateBtn)
-	{		
-		nPosX = ptBkPos.x + CURRENT_PARTY_CREATE_BTN_X;
-		nPosY = ptBkPos.y + CURRENT_PARTY_CREATE_BTN_Y;		
-		m_pSCrateBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	
-	if(m_pSJoinBtn)
-	{		
-		nPosX = ptBkPos.x + CURRENT_PARTY_JOIN_BTN_X;
-		nPosY = ptBkPos.y + CURRENT_PARTY_JOIN_BTN_Y;		
-		m_pSJoinBtn->SetBtnPosition(nPosX, nPosY);	
-	}	
-	if(m_pSRefreshBtn)
-	{		
-		nPosX = ptBkPos.x + CURRENT_PARTY_REFRESH_BTN_X;
-		nPosY = ptBkPos.y + CURRENT_PARTY_REFRESH_BTN_Y;		
-		m_pSRefreshBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	
-	if(m_pScrollPartyList)
-	{		
-
-		RECT rcMouseWhell, rcMousePos;
-		POINT ptScrollPos = ptBkPos;
-		
-		ptScrollPos.x += 485;
-		ptScrollPos.y += 98;
-		
-		// 스크롤 x = 위치의 -5
-		// 스크롤 height = 이미지 길이의 - 34
-		m_pScrollPartyList->SetPosition(ptScrollPos.x ,ptScrollPos.y,11,217);
-		rcMouseWhell.left		= ptScrollPos.x - COMMU_BK_SEARCH_WIDTH;
-		rcMouseWhell.top		= ptScrollPos.y - 30;
-		rcMouseWhell.right		= ptScrollPos.x + 30;
-		rcMouseWhell.bottom		= ptScrollPos.y + 227;
-		m_pScrollPartyList->SetMouseWhellRect(rcMouseWhell);
-		rcMousePos.left			= ptScrollPos.x - 11;
-		rcMousePos.top			= ptScrollPos.y ;
-		rcMousePos.right		= rcMousePos.left + 32;
-		rcMousePos.bottom		= rcMousePos.top + 237;
-		m_pScrollPartyList->SetMouseBallRect(rcMousePos);
-	}
 #endif
 }
 

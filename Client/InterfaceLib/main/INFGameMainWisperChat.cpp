@@ -79,9 +79,7 @@ CINFGameMainWisperChat::CINFGameMainWisperChat(CAtumNode* pParent)
 	m_pWhisperBoxVoice				= NULL;
 	m_pWhisperBoxHide				= NULL;
 	m_pWhisperBoxClose				= NULL;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pWhisperMiniBox				= NULL;
-#endif
 	memset(m_pWhisperBoxTextInput, 0x00, sizeof(m_pWhisperBoxTextInput[0])*3);	
 
 	m_bWindowSizeMax				= FALSE;
@@ -135,10 +133,8 @@ CINFGameMainWisperChat::~CINFGameMainWisperChat()
 	{
 		SAFE_DELETE(m_pWhisperBox[i]);
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(m_pWhisperMiniBox)
 		SAFE_DELETE(m_pWhisperMiniBox);
-#endif
 //	for(i=1;i<6;i++)
 //	{
 //		SAFE_DELETE(m_pWhisperArrow[i]);
@@ -222,24 +218,18 @@ HRESULT CINFGameMainWisperChat::InitDeviceObjects()
 		for(int j=0;j<3;j++)
 		{
 			m_pWhisperBox[i*3+j] = new CINFImageEx;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			wsprintf(buf, "Mbox%d%d", i,j);
-#else
-			wsprintf(buf, "w_w%d%d", i,j);
-#endif
 			pDataHeader = FindResource(buf);
 			m_pWhisperBox[i*3+j]->InitDeviceObjects( pDataHeader) ;
 		}
 	}
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 		if( m_pWhisperMiniBox == NULL)
 		{
 			m_pWhisperMiniBox = new CINFImageEx;
 			pDataHeader = FindResource("wispB");
 			m_pWhisperMiniBox->InitDeviceObjects( pDataHeader) ;
 		}
-#endif
 //	for(i=1;i<6;i++)
 //	{
 //		m_pWhisperArrow[i] = new CINFImage;
@@ -297,9 +287,7 @@ HRESULT CINFGameMainWisperChat::RestoreDeviceObjects()
 	{
 		m_pWhisperBox[i]->RestoreDeviceObjects();
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	m_pWhisperMiniBox->RestoreDeviceObjects();
-#endif
 	m_pWhisperBoxMin->RestoreDeviceObjects();
 	m_pWhisperBoxVoice->RestoreDeviceObjects();
 	m_pWhisperBoxHide->RestoreDeviceObjects();
@@ -326,10 +314,8 @@ HRESULT CINFGameMainWisperChat::DeleteDeviceObjects()
 		m_pWhisperBox[i]->DeleteDeviceObjects();
 		SAFE_DELETE(m_pWhisperBox[i]);
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	m_pWhisperMiniBox->DeleteDeviceObjects();
 	SAFE_DELETE(m_pWhisperMiniBox);
-#endif
 	m_pWhisperBoxMin->DeleteDeviceObjects();
 	SAFE_DELETE(m_pWhisperBoxMin);
 	m_pWhisperBoxVoice->DeleteDeviceObjects();
@@ -369,9 +355,7 @@ HRESULT CINFGameMainWisperChat::InvalidateDeviceObjects()
 	{
 		m_pWhisperBox[i]->InvalidateDeviceObjects();
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	m_pWhisperMiniBox->InvalidateDeviceObjects();
-#endif
 	m_pWhisperBoxMin->InvalidateDeviceObjects();
 	m_pWhisperBoxVoice->InvalidateDeviceObjects();
 	m_pWhisperBoxHide->InvalidateDeviceObjects();
@@ -576,7 +560,6 @@ void CINFGameMainWisperChat::DrawChatWindow(int x, int y, int cx, int cy)
 {
 	FLOG( "CINFGameMainWisperChat::DrawChatWindow(int x, int y, int cx, int cy)" );
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pWhisperBox[0]->Move(x,y);
 	m_pWhisperBox[0]->Render();
 
@@ -660,42 +643,6 @@ void CINFGameMainWisperChat::DrawChatWindow(int x, int y, int cx, int cy)
 	m_pWhisperBoxHide->Render();
 	m_pWhisperBoxClose->SetBtnPosition(x+cx-(WISPERBOX_SYSTEM_MENU_SIZE_X + WISPERBOX_SYSTEM_MENU_SPACE) - 14, y+WISPERBOX_SYSTEM_MENU_SPACE);
 	m_pWhisperBoxClose->Render();
-#else
-	m_pWhisperBox[0]->Move(x,y);
-	m_pWhisperBox[0]->Render();
-	m_pWhisperBox[1]->Move(x+CHAT_BOX_TOP_IMAGE_SIZE_X,y);
-	m_pWhisperBox[1]->SetScale(cx-(2*CHAT_BOX_TOP_IMAGE_SIZE_X), 1);
-	m_pWhisperBox[1]->Render();
-	m_pWhisperBox[2]->Move(x+cx - CHAT_BOX_TOP_IMAGE_SIZE_X,y);
-	m_pWhisperBox[2]->Render();
-
-	m_pWhisperBox[3]->Move(x, y+CHAT_BOX_TOP_IMAGE_SIZE_Y);
-	m_pWhisperBox[3]->SetScale(1, cy - (CHAT_BOX_TOP_IMAGE_SIZE_Y + CHAT_BOX_BOTTOM_IMAGE_SIZE_Y));
-	m_pWhisperBox[3]->Render();
-	m_pWhisperBox[4]->Move(x+CHAT_BOX_TOP_IMAGE_SIZE_X, y+CHAT_BOX_TOP_IMAGE_SIZE_Y);
-	m_pWhisperBox[4]->SetScale(cx-(2*CHAT_BOX_TOP_IMAGE_SIZE_X), cy - (CHAT_BOX_TOP_IMAGE_SIZE_Y + CHAT_BOX_BOTTOM_IMAGE_SIZE_Y));
-	m_pWhisperBox[4]->Render();
-	m_pWhisperBox[5]->Move(x+cx - CHAT_BOX_TOP_IMAGE_SIZE_X, y+CHAT_BOX_TOP_IMAGE_SIZE_Y);
-	m_pWhisperBox[5]->SetScale(1, cy - (CHAT_BOX_TOP_IMAGE_SIZE_Y + CHAT_BOX_BOTTOM_IMAGE_SIZE_Y));
-	m_pWhisperBox[5]->Render();
-
-	m_pWhisperBox[6]->Move(x, y+cy-CHAT_BOX_BOTTOM_IMAGE_SIZE_Y);
-	m_pWhisperBox[6]->Render();
-	m_pWhisperBox[7]->Move(x + CHAT_BOX_BOTTOM_IMAGE_SIZE_X, y+cy-CHAT_BOX_BOTTOM_IMAGE_SIZE_Y);
-	m_pWhisperBox[7]->SetScale(cx-(2*CHAT_BOX_BOTTOM_IMAGE_SIZE_X), 1);
-	m_pWhisperBox[7]->Render();
-	m_pWhisperBox[8]->Move(x+cx-CHAT_BOX_BOTTOM_IMAGE_SIZE_X, y+cy-CHAT_BOX_BOTTOM_IMAGE_SIZE_Y);
-	m_pWhisperBox[8]->Render();
-
-	m_pWhisperBoxMin->SetBtnPosition(x+cx-(4*WISPERBOX_SYSTEM_MENU_SIZE_X + 4*WISPERBOX_SYSTEM_MENU_SPACE), y+WISPERBOX_SYSTEM_MENU_SPACE);
-	m_pWhisperBoxMin->Render();
-	m_pWhisperBoxVoice->SetBtnPosition(x+cx-(3*WISPERBOX_SYSTEM_MENU_SIZE_X + 3*WISPERBOX_SYSTEM_MENU_SPACE), y+WISPERBOX_SYSTEM_MENU_SPACE);
-	m_pWhisperBoxVoice->Render();
-	m_pWhisperBoxHide->SetBtnPosition(x+cx-(2*WISPERBOX_SYSTEM_MENU_SIZE_X + 2*WISPERBOX_SYSTEM_MENU_SPACE), y+WISPERBOX_SYSTEM_MENU_SPACE);
-	m_pWhisperBoxHide->Render();
-	m_pWhisperBoxClose->SetBtnPosition(x+cx-(WISPERBOX_SYSTEM_MENU_SIZE_X + WISPERBOX_SYSTEM_MENU_SPACE), y+WISPERBOX_SYSTEM_MENU_SPACE);
-	m_pWhisperBoxClose->Render();
-#endif
 	///////////////////////////////////////////////////////////////////////////////
 	// 채팅 입력창
 	m_pWhisperBoxTextInput[0]->Move(x + WISPERBOX_INPUT_RES_POS_X - WISPERBOX_SYSTEM_MENU_SIZE_X, y+cy-(WISPERBOX_INPUT_IMAGE_SIZE_Y + CHAT_BOX_BOTTOM_IMAGE_SIZE_Y));
@@ -727,47 +674,19 @@ void CINFGameMainWisperChat::DrawChatWindow(int x, int y, int cx, int cy)
 	m_pINFGameMainChat->m_pScrollLine[CHAT_SELECT_IMAGE_1]->SetScale(1.0f, cy-(2*CHATBOX_IMAGE_GAB_HEITHT_TOP)-CHAT_MENUBOX_GAB_WIDTH-(CHATBOX_IMAGE_GAB_MINIMIZE_WIDTH*2));
 	m_pINFGameMainChat->m_pScrollLine[CHAT_SELECT_IMAGE_1]->Render();
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pINFGameMainChat->m_pScrollButton->Move(m_nWisperBoxStartX+m_nWisperBoxWidth-(CHATBOX_SCROLL_IMAGE_SIZE_WIDTH+WISPERBOX_SYSTEM_MENU_SPACE)
 		,m_nWisperBoxStartY+m_nCurrentRelScrollPosY);
 	m_pINFGameMainChat->m_pScrollButton->Render();	
-#else
-	m_pINFGameMainChat->m_pScrollButton->Move(m_nWisperBoxStartX+m_nWisperBoxWidth-(CHATBOX_SCROLL_IMAGE_SIZE_WIDTH+WISPERBOX_SYSTEM_MENU_SPACE)
-		,m_nWisperBoxStartY+m_nCurrentRelScrollPosY);
-	m_pINFGameMainChat->m_pScrollButton->Render();	
-#endif
 }
 
 void CINFGameMainWisperChat::DrawMiniChatWindow(int x, int y, int cx, int cy)
 {
 	FLOG( "CINFGameMainWisperChat::DrawMiniChatWindow(int x, int y, int cx, int cy)" );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM	
 	m_pWhisperMiniBox->Move( x, y );
 	m_pWhisperMiniBox->Render();
 
 	m_pWhisperBoxClose->SetBtnPosition(x + cx -(WISPERBOX_SYSTEM_MENU_SIZE_X + WISPERBOX_SYSTEM_MENU_SPACE) - 10, y + WISPERBOX_SYSTEM_MENU_SPACE);
 	m_pWhisperBoxClose->Render();
-#else
-	m_pWhisperBox[0]->Move(x,y);
-	m_pWhisperBox[0]->Render();
-	m_pWhisperBox[1]->Move(x + CHAT_BOX_TOP_IMAGE_SIZE_X, y);
-	m_pWhisperBox[1]->SetScale(cx - 2*CHAT_BOX_TOP_IMAGE_SIZE_X, 1);
-	m_pWhisperBox[1]->Render();
-	m_pWhisperBox[2]->Move(x + cx - CHAT_BOX_TOP_IMAGE_SIZE_X, y);
-	m_pWhisperBox[2]->Render();
-
-	m_pWhisperBox[6]->Move(x, y + cy);
-	m_pWhisperBox[6]->Render();
-	m_pWhisperBox[7]->Move(x + CHAT_BOX_TOP_IMAGE_SIZE_X, y + cy);
-	m_pWhisperBox[7]->SetScale(cx - 2*CHAT_BOX_TOP_IMAGE_SIZE_X, 1);
-	m_pWhisperBox[7]->Render();
-
-	m_pWhisperBox[8]->Move(x + cx - CHAT_BOX_TOP_IMAGE_SIZE_X, y + cy);
-	m_pWhisperBox[8]->Render();
-
-	m_pWhisperBoxClose->SetBtnPosition(x + cx -(WISPERBOX_SYSTEM_MENU_SIZE_X + WISPERBOX_SYSTEM_MENU_SPACE), y + WISPERBOX_SYSTEM_MENU_SPACE);
-	m_pWhisperBoxClose->Render();
-	#endif
 }
 
 
@@ -1182,7 +1101,6 @@ int CINFGameMainWisperChat::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				m_nWisperBoxArrowImage	=	RIGHT_ARROW_IMAGE;
 				return INF_MSGPROC_BREAK;
 			}			
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			else if(pt.x >= m_nWisperBoxStartX + CHAT_BOX_TOP_IMAGE_SIZE_X
 				&& pt.x < m_nWisperBoxStartX + m_nWisperBoxWidth - CHAT_BOX_TOP_IMAGE_SIZE_X
 				&& pt.y >= m_nWisperBoxStartY	+ m_nWisperBoxHeight - WISPERBOX_SYSTEM_MENU_SPACE
@@ -1195,20 +1113,6 @@ int CINFGameMainWisperChat::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				m_nWisperBoxArrowImage	=	BOTTOM_ARROW_IMAGE;
 				return INF_MSGPROC_BREAK;
 			}
-#else
-			else if(pt.x >= m_nWisperBoxStartX + CHAT_BOX_TOP_IMAGE_SIZE_X
-				&& pt.x < m_nWisperBoxStartX + m_nWisperBoxWidth - CHAT_BOX_TOP_IMAGE_SIZE_X
-				&& pt.y >= m_nWisperBoxStartY	+ m_nWisperBoxHeight - WISPERBOX_SYSTEM_MENU_SPACE
-				&& pt.y < m_nWisperBoxStartY + m_nWisperBoxHeight)
-			{	// 채팅박스 Bottom 사이즈 조정을 클릭
-
-				g_pInterface->m_pTarget->m_bWisperChatBoxMouseFlag = TRUE;
-				// 2009-03-03 by bhsohn 마우스 상하반전시, 귓속말이 오면 상하반전 안되는 버그 체크
-				//g_pInterface->m_pTarget->SetMouseType(BOTTOM_ARROW_IMAGE);
-				m_nWisperBoxArrowImage	=	BOTTOM_ARROW_IMAGE;
-				return INF_MSGPROC_BREAK;
-			}
-#endif		
 			else if(pt.x >= m_nWisperBoxStartX + CHAT_BOX_TOP_IMAGE_SIZE_X
 				&& pt.x < m_nWisperBoxStartX + m_nWisperBoxWidth - CHAT_BOX_TOP_IMAGE_SIZE_X
 				&& pt.y >= m_nWisperBoxStartY
@@ -1257,7 +1161,6 @@ int CINFGameMainWisperChat::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				m_nWisperBoxArrowImage	=	RIGHTTOP_ARROW_IMAGE;
 				return INF_MSGPROC_BREAK;				
 			}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			else if(pt.x >= m_nWisperBoxStartX
 				&& pt.x < m_nWisperBoxStartX + CHAT_BOX_TOP_IMAGE_SIZE_X
 				&& pt.y >= m_nWisperBoxStartY + m_nWisperBoxHeight - CHAT_BOX_TOP_IMAGE_SIZE_Y
@@ -1282,32 +1185,6 @@ int CINFGameMainWisperChat::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				m_nWisperBoxArrowImage	=	RIGHTBOTTOM_ARROW_IMAGE;
 				return INF_MSGPROC_BREAK;
 			}		
-#else
-			else if(pt.x >= m_nWisperBoxStartX
-				&& pt.x < m_nWisperBoxStartX + CHAT_BOX_TOP_IMAGE_SIZE_X
-				&& pt.y >= m_nWisperBoxStartY + m_nWisperBoxHeight - CHAT_BOX_TOP_IMAGE_SIZE_Y
-				&& pt.y < m_nWisperBoxStartY + m_nWisperBoxHeight)
-			{	// 채팅박스 Left and Bottom 사이즈 조정을 클릭
-				
-				g_pInterface->m_pTarget->m_bWisperChatBoxMouseFlag = TRUE;
-				// 2009-03-03 by bhsohn 마우스 상하반전시, 귓속말이 오면 상하반전 안되는 버그 체크
-				//g_pInterface->m_pTarget->SetMouseType(LEFTBOTTOM_ARROW_IMAGE);
-				m_nWisperBoxArrowImage	=	LEFTBOTTOM_ARROW_IMAGE;
-				return INF_MSGPROC_BREAK;				
-			}
-			else if(pt.x >= m_nWisperBoxStartX + m_nWisperBoxWidth - CHAT_BOX_TOP_IMAGE_SIZE_X
-				&& pt.x < m_nWisperBoxStartX + m_nWisperBoxWidth
-				&& pt.y >= m_nWisperBoxStartY + m_nWisperBoxHeight - CHAT_BOX_TOP_IMAGE_SIZE_Y
-				&& pt.y < m_nWisperBoxStartY + m_nWisperBoxHeight)
-			{	// 채팅박스 Right and Bottom 사이즈 조정을 클릭
-				
-				g_pInterface->m_pTarget->m_bWisperChatBoxMouseFlag = TRUE;
-				// 2009-03-03 by bhsohn 마우스 상하반전시, 귓속말이 오면 상하반전 안되는 버그 체크
-				//g_pInterface->m_pTarget->SetMouseType(RIGHTBOTTOM_ARROW_IMAGE);
-				m_nWisperBoxArrowImage	=	RIGHTBOTTOM_ARROW_IMAGE;
-				return INF_MSGPROC_BREAK;
-			}	
-#endif
 			else
 			{
 				g_pInterface->m_pTarget->m_bWisperChatBoxMouseFlag = FALSE;
@@ -1464,17 +1341,10 @@ int CINFGameMainWisperChat::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 					return INF_MSGPROC_BREAK;
 				}			
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				else if(pt.x >= m_nWisperBoxStartX + CHAT_BOX_TOP_IMAGE_SIZE_X
 					&& pt.x < m_nWisperBoxStartX + m_nWisperBoxWidth - CHAT_BOX_TOP_IMAGE_SIZE_X
 					&& pt.y >= m_nWisperBoxStartY + m_nWisperBoxHeight - WISPERBOX_SYSTEM_MENU_SPACE
 					&& pt.y < m_nWisperBoxStartY + m_nWisperBoxHeight)
-#else
-					else if(pt.x >= m_nWisperBoxStartX + CHAT_BOX_TOP_IMAGE_SIZE_X
-					&& pt.x < m_nWisperBoxStartX + m_nWisperBoxWidth - CHAT_BOX_TOP_IMAGE_SIZE_X
-					&& pt.y >= m_nWisperBoxStartY + m_nWisperBoxHeight - WISPERBOX_SYSTEM_MENU_SPACE
-					&& pt.y < m_nWisperBoxStartY + m_nWisperBoxHeight + 9)
-#endif
 				{	// 채팅박스 Bottom 사이즈 조정을 클릭
 					
 					SetPresentClickedFlag(TRUE);
@@ -1555,17 +1425,10 @@ int CINFGameMainWisperChat::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 					return INF_MSGPROC_BREAK;
 				}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				else if(pt.x >= m_nWisperBoxStartX
 					&& pt.x < m_nWisperBoxStartX + CHAT_BOX_TOP_IMAGE_SIZE_X
 					&& pt.y >= m_nWisperBoxStartY + m_nWisperBoxHeight - CHAT_BOX_TOP_IMAGE_SIZE_Y
 					&& pt.y < m_nWisperBoxStartY + m_nWisperBoxHeight + 9 )
-#else
-					else if(pt.x >= m_nWisperBoxStartX
-					&& pt.x < m_nWisperBoxStartX + CHAT_BOX_TOP_IMAGE_SIZE_X
-					&& pt.y >= m_nWisperBoxStartY + m_nWisperBoxHeight - CHAT_BOX_TOP_IMAGE_SIZE_Y
-					&& pt.y < m_nWisperBoxStartY + m_nWisperBoxHeight)
-#endif
 				{	// 채팅박스 Left and Bottom 사이즈 조정을 클릭
 					
 					SetPresentClickedFlag(TRUE);
@@ -1580,17 +1443,10 @@ int CINFGameMainWisperChat::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					return INF_MSGPROC_BREAK;
 					
 				}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				else if(pt.x >= m_nWisperBoxStartX + m_nWisperBoxWidth - CHAT_BOX_TOP_IMAGE_SIZE_X
 					&& pt.x < m_nWisperBoxStartX + m_nWisperBoxWidth
 					&& pt.y >= m_nWisperBoxStartY + m_nWisperBoxHeight - CHAT_BOX_TOP_IMAGE_SIZE_Y
 					&& pt.y < m_nWisperBoxStartY + m_nWisperBoxHeight + 9 )
-#else
-					else if(pt.x >= m_nWisperBoxStartX + m_nWisperBoxWidth - CHAT_BOX_TOP_IMAGE_SIZE_X
-					&& pt.x < m_nWisperBoxStartX + m_nWisperBoxWidth
-					&& pt.y >= m_nWisperBoxStartY + m_nWisperBoxHeight - CHAT_BOX_TOP_IMAGE_SIZE_Y
-					&& pt.y < m_nWisperBoxStartY + m_nWisperBoxHeight)
-#endif
 				{	// 채팅박스 Right and Bottom 사이즈 조정을 클릭
 					
 					SetPresentClickedFlag(TRUE);
@@ -2525,11 +2381,7 @@ CINFSystemMsgWindow::CINFSystemMsgWindow(CAtumNode* pParent, int nStartX, int nS
 //	m_nSystemBoxStartY				=  SYSTEM_WINDOW_START_Y;
 	if(nWidth <0 || nHeight < 0)
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_nSystemBoxWidth				= 335;													  
-#else	   
-		m_nSystemBoxWidth				= 354;
-#endif
 		m_nSystemBoxHeight				= CHAT_CHATBOX_START_DEFAULT_MIN_Y;
 	}
 	else
@@ -2627,31 +2479,19 @@ HRESULT CINFSystemMsgWindow::InitDeviceObjects()
 		for(int j=0;j<3;j++)
 		{
 			m_pSystemBox[i*3+j] = new CINFImageEx;			// 2011. 10. 10 by jskim UI시스템 변경
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			wsprintf(buf, "c_c%d%d", i,j);														  
-#else
-			wsprintf(buf, "w_w%d%d", i,j);
-
-#endif
 			pDataHeader = FindResource(buf);
 			m_pSystemBox[i*3+j]->InitDeviceObjects(pDataHeader) ;
 		}
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	swap(m_pSystemBox[0], m_pSystemBox[2]);		// 2011. 10. 10 by jskim UI시스템 변경
-#endif
 
 	m_pSystemBoxMin = new CINFImageEx;		// 2011. 10. 10 by jskim UI시스템 변경
 	pDataHeader = FindResource("w_wMin");
 	m_pSystemBoxMin->InitDeviceObjects(pDataHeader);		
 
 	m_pSystemBoxClose = new CINFImageEx;		// 2011. 10. 10 by jskim UI시스템 변경	 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	pDataHeader = FindResource("close");														  
-#else  
-	pDataHeader = FindResource("xclose");
-
-#endif
 	m_pSystemBoxClose->InitDeviceObjects(pDataHeader);
 	
 	m_pSystemBoxName = new CINFImageEx;		// 2011. 10. 10 by jskim UI시스템 변경
@@ -3049,7 +2889,6 @@ void CINFSystemMsgWindow::Render()
 void CINFSystemMsgWindow::DrawChatWindow(int x, int y, int cx, int cy)
 {
 	FLOG( "CINFGameMainSystemChat::DrawChatWindow(int x, int y, int cx, int cy)" );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pSystemBox[0]->Move(x + m_pSystemBox[0]->GetImgSize().x, y);
 	//m_pSystemBox[0]->Render();
 	m_pSystemBox[0]->ReverseRender(TRUE,FALSE);
@@ -3128,41 +2967,6 @@ void CINFSystemMsgWindow::DrawChatWindow(int x, int y, int cx, int cy)
 	m_pSystemBoxClose->Render();
 	m_pSystemBoxName->Move(x + 5,y - 4 );
 	m_pSystemBoxName->Render();		
-#else
-	m_pSystemBox[0]->Move(x,y);
-	m_pSystemBox[0]->Render();
-	m_pSystemBox[1]->Move(x+CHAT_BOX_TOP_IMAGE_SIZE_X,y);
-	m_pSystemBox[1]->SetScale(cx-(2*CHAT_BOX_TOP_IMAGE_SIZE_X), 1);
-	m_pSystemBox[1]->Render();
-	m_pSystemBox[2]->Move(x+cx - CHAT_BOX_TOP_IMAGE_SIZE_X,y);
-	m_pSystemBox[2]->Render();
-
-	m_pSystemBox[3]->Move(x, y+CHAT_BOX_TOP_IMAGE_SIZE_Y);
-	m_pSystemBox[3]->SetScale(1, cy - (CHAT_BOX_TOP_IMAGE_SIZE_Y + CHAT_BOX_BOTTOM_IMAGE_SIZE_Y));
-	m_pSystemBox[3]->Render();
-	m_pSystemBox[4]->Move(x+CHAT_BOX_TOP_IMAGE_SIZE_X, y+CHAT_BOX_TOP_IMAGE_SIZE_Y);
-	m_pSystemBox[4]->SetScale(cx-(2*CHAT_BOX_TOP_IMAGE_SIZE_X), cy - (CHAT_BOX_TOP_IMAGE_SIZE_Y + CHAT_BOX_BOTTOM_IMAGE_SIZE_Y));
-	m_pSystemBox[4]->Render();
-	m_pSystemBox[5]->Move(x+cx - CHAT_BOX_TOP_IMAGE_SIZE_X, y+CHAT_BOX_TOP_IMAGE_SIZE_Y);
-	m_pSystemBox[5]->SetScale(1, cy - (CHAT_BOX_TOP_IMAGE_SIZE_Y + CHAT_BOX_BOTTOM_IMAGE_SIZE_Y));
-	m_pSystemBox[5]->Render();
-
-
-	m_pSystemBox[6]->Move(x, y+cy-CHAT_BOX_BOTTOM_IMAGE_SIZE_Y);
-	m_pSystemBox[6]->Render();
-	m_pSystemBox[7]->Move(x + CHAT_BOX_BOTTOM_IMAGE_SIZE_X, y+cy-CHAT_BOX_BOTTOM_IMAGE_SIZE_Y);
-	m_pSystemBox[7]->SetScale(cx-(2*CHAT_BOX_BOTTOM_IMAGE_SIZE_X), 1);
-	m_pSystemBox[7]->Render();
-	m_pSystemBox[8]->Move(x+cx-CHAT_BOX_BOTTOM_IMAGE_SIZE_X, y+cy-CHAT_BOX_BOTTOM_IMAGE_SIZE_Y);
-	m_pSystemBox[8]->Render();
-
-	m_pSystemBoxMin->Move(x+cx-(2*WISPERBOX_SYSTEM_MENU_SIZE_X + 2*WISPERBOX_SYSTEM_MENU_SPACE), y+WISPERBOX_SYSTEM_MENU_SPACE);
-	m_pSystemBoxMin->Render();
-	m_pSystemBoxClose->Move(x+cx-(WISPERBOX_SYSTEM_MENU_SIZE_X + WISPERBOX_SYSTEM_MENU_SPACE), y+WISPERBOX_SYSTEM_MENU_SPACE);
-	m_pSystemBoxClose->Render();
-	m_pSystemBoxName->Move(x + 5,y + 5);
-	m_pSystemBoxName->Render();
-#endif
 
 
 	if(m_nCurrentRelScrollPosY < CHAT_BOX_TOP_IMAGE_SIZE_Y)
@@ -3180,11 +2984,7 @@ void CINFSystemMsgWindow::DrawChatWindow(int x, int y, int cx, int cy)
 	
 	m_pINFGameMainChat->m_pScrollLine[CHAT_SELECT_IMAGE_1]->Move(m_nSystemBoxStartX+m_nSystemBoxWidth-(CHATBOX_SCROLL_IMAGE_SIZE_WIDTH+WISPERBOX_SYSTEM_MENU_SPACE)+WISPERBOX_SYSTEM_MENU_SPACE-1
 		, m_nSystemBoxStartY+CHATBOX_IMAGE_GAB_WIDTH_TOP+CHATBOX_IMAGE_GAB_MINIMIZE_WIDTH);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pINFGameMainChat->m_pScrollLine[CHAT_SELECT_IMAGE_1]->SetScale(1.0f, cy - CHATBOX_IMAGE_GAB_HEITHT_TOP - CHAT_MENUBOX_GAB_WIDTH - CHATBOX_IMAGE_GAB_MINIMIZE_WIDTH );
-#else
-	m_pINFGameMainChat->m_pScrollLine[CHAT_SELECT_IMAGE_1]->SetScale(1.0f, cy-(2*CHATBOX_IMAGE_GAB_HEITHT_TOP)-CHAT_MENUBOX_GAB_WIDTH-(CHATBOX_IMAGE_GAB_MINIMIZE_WIDTH*2));
-#endif
 	m_pINFGameMainChat->m_pScrollLine[CHAT_SELECT_IMAGE_1]->Render();
 	
 	m_pINFGameMainChat->m_pScrollButton->Move(m_nSystemBoxStartX+m_nSystemBoxWidth-(CHATBOX_SCROLL_IMAGE_SIZE_WIDTH+WISPERBOX_SYSTEM_MENU_SPACE)
@@ -4056,17 +3856,10 @@ int CINFSystemMsgWindow::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 			else
 			{	// 채팅창 모드 일때
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				if(pt.x >= m_nSystemBoxStartX + m_nSystemBoxWidth - (WISPERBOX_SYSTEM_MENU_SIZE_X + WISPERBOX_SYSTEM_MENU_SPACE + 7 )
 					&& pt.x < m_nSystemBoxStartX + m_nSystemBoxWidth - (WISPERBOX_SYSTEM_MENU_SPACE)
 					&& pt.y >= m_nSystemBoxStartY + WISPERBOX_SYSTEM_MENU_SPACE
 					&& pt.y < m_nSystemBoxStartY + WISPERBOX_SYSTEM_MENU_SIZE_Y + WISPERBOX_SYSTEM_MENU_SPACE)
-#else
-				if(pt.x >= m_nSystemBoxStartX + m_nSystemBoxWidth - (WISPERBOX_SYSTEM_MENU_SIZE_X + WISPERBOX_SYSTEM_MENU_SPACE)
-					&& pt.x < m_nSystemBoxStartX + m_nSystemBoxWidth - (WISPERBOX_SYSTEM_MENU_SPACE)
-					&& pt.y >= m_nSystemBoxStartY + WISPERBOX_SYSTEM_MENU_SPACE
-					&& pt.y < m_nSystemBoxStartY + WISPERBOX_SYSTEM_MENU_SIZE_Y + WISPERBOX_SYSTEM_MENU_SPACE)
-#endif
 				{	// X버튼을 클릭
 				
 					g_pD3dApp->m_bChatMode = FALSE;
@@ -4083,17 +3876,10 @@ int CINFSystemMsgWindow::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 #endif
 					return INF_MSGPROC_CLOSE;
 				}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				else if(pt.x >= m_nSystemBoxStartX + m_nSystemBoxWidth - (2*WISPERBOX_SYSTEM_MENU_SIZE_X + 2*WISPERBOX_SYSTEM_MENU_SPACE + 7)
 					&& pt.x < m_nSystemBoxStartX + m_nSystemBoxWidth - (WISPERBOX_SYSTEM_MENU_SIZE_X + 2*WISPERBOX_SYSTEM_MENU_SPACE)
 					&& pt.y >= m_nSystemBoxStartY + WISPERBOX_SYSTEM_MENU_SPACE
 					&& pt.y < m_nSystemBoxStartY + WISPERBOX_SYSTEM_MENU_SPACE+WISPERBOX_SYSTEM_MENU_SIZE_Y)
-#else
-				else if(pt.x >= m_nSystemBoxStartX + m_nSystemBoxWidth - (2*WISPERBOX_SYSTEM_MENU_SIZE_X + 2*WISPERBOX_SYSTEM_MENU_SPACE)
-					&& pt.x < m_nSystemBoxStartX + m_nSystemBoxWidth - (WISPERBOX_SYSTEM_MENU_SIZE_X + 2*WISPERBOX_SYSTEM_MENU_SPACE)
-					&& pt.y >= m_nSystemBoxStartY + WISPERBOX_SYSTEM_MENU_SPACE
-					&& pt.y < m_nSystemBoxStartY + WISPERBOX_SYSTEM_MENU_SPACE+WISPERBOX_SYSTEM_MENU_SIZE_Y)
-#endif
 				{	// 최소화를 클릭
 
 					if(m_bShowChatBox)

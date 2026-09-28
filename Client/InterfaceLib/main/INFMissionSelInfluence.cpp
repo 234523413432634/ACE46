@@ -24,7 +24,6 @@
 #include "INFGroupManager.h"
 
 // 세력 선택 창
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define	SEL_INFLUENCE_BCU_POS_X								133
 #define	SEL_INFLUENCE_BCU_POS_Y								480
 #define	SEL_INFLUENCE_ANI_POS_X								509
@@ -49,32 +48,6 @@
 
 #define		SCROLL_POS2_X						747
 #define		SCROLL_POS2_Y						106
-#else	   
-#define	SEL_INFLUENCE_BCU_POS_X								133
-#define	SEL_INFLUENCE_BCU_POS_Y								488
-#define	SEL_INFLUENCE_ANI_POS_X								509
-#define	SEL_INFLUENCE_ANI_POS_Y								488
-
-
-// 최대 라인수
-// 2014-07-01 by ymjoo DrawText 성능 개선 작업 (세력 선택)
-#ifndef C_DRAWTEXT_UPGRADE_YMJOO
-#define		MAX_LINE_COUNT						18		
-#endif
-// END 2014-07-01 by ymjoo DrawText 성능 개선 작업 (세력 선택)
-#define		MISSION_FONT_HEIGHT_GAB				17
-
-// 스크롤 바 
-#define		SCROLL_BALL_SCROLL_CAP				100
-#define		SCROLL_BALL_WIDTH					11
-#define		SCROLL_HEIGHT						355
-
-#define		SCROLL_POS1_X						378
-#define		SCROLL_POS1_Y						86
-
-#define		SCROLL_POS2_X						748
-#define		SCROLL_POS2_Y						86
-#endif
 
 
 		
@@ -179,23 +152,10 @@ HRESULT CINFMissionSelInfluence::InitDeviceObjects()
 {
 	DataHeader	* pDataHeader = NULL;
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 		
 		pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("mfrc");
 		m_pMissionImg = g_pGameMain->m_GruopImagemanager->GetGroupImage(pDataHeader);
 		m_pMissionImg->InitDeviceObjects( g_pD3dApp->m_pImageList );				
-#else 
-	char buf[30] ;
-		if(NULL == m_pMissionImg)
-		{
-			m_pMissionImg = new CINFImageEx;
-		}
-		
-		wsprintf(buf,"mfrc_bk");
-		pDataHeader = g_pGameMain->FindResource(buf);
-		m_pMissionImg->InitDeviceObjects(pDataHeader);		
-		
-#endif
 	
 	}
 
@@ -1013,13 +973,8 @@ void CINFMissionSelInfluence::ShowMsgBox(int nInflChoiceOver, BOOL bOverInfluenc
 	int nStartPosX = m_fBackPosX + 156;
 	int nStartPosY = m_fBackPosY + 171;
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	
 	int nPosX = nStartPosX + 28;
 	int nPosY = nStartPosY + 67;
-#else 
-	int nPosX = nStartPosX + 48;
-	int nPosY = nStartPosY + 77;
-#endif
 
 	int nCapY = 15;
 

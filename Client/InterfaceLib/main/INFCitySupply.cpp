@@ -36,7 +36,6 @@
 
 //////////////////////////////////////////////////////////////////////////
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define SUPPLY_SLOT_NUMBER		6
 #define SUPPLY_ALL_NUMBER		6
 
@@ -102,73 +101,6 @@
 #define SHOP_TEX_X				SUPPLY_START_X + 344
 #define SHOP_TEX_Y				SUPPLY_START_Y + 202
 #endif	  
-#else	
-#define SUPPLY_SLOT_NUMBER		6
-#define SUPPLY_ALL_NUMBER		6
-
-#define SUPPLY_START_X			(CITY_BASE_NPC_BOX_START_X + 9)
-#define SUPPLY_START_Y			(CITY_BASE_NPC_BOX_START_Y - SIZE_SUPPLY_WINDOW_Y + 25)
-
-#define SUPPLY_SCROLL_START_X	(SUPPLY_START_X + 167)
-#define SUPPLY_SCROLL_START_Y	(SUPPLY_START_Y + 33)
-#define SUPPLY_SCROLL_END_Y		(SUPPLY_START_Y + 181)
-#define SUPPLY_SCROLL_SIZE_X	11
-#define SUPPLY_SCROLL_SIZE_Y	38
-#define SUPPLY_UPDOWN_X			(SUPPLY_START_X + 167)
-#define SUPPLY_UP_Y				(SUPPLY_START_Y + 18)
-#define SUPPLY_DOWN_Y			(SUPPLY_START_Y + 184)
-#define SUPPLY_SCROLL_LINE_LENGTH	(SUPPLY_DOWN_Y - SUPPLY_UP_Y - SUPPLY_SCROLL_SIZE_Y - 6)
-
-#define SUPPLY_SLOT_START_X		(SUPPLY_START_X + 6)
-#define SUPPLY_SLOT_START_Y		(SUPPLY_START_Y + 18)
-#define SUPPLY_SLOT_SIZE_X		157
-#define SUPPLY_SLOT_SIZE_Y		178
-#define SUPPLY_SLOT_INTERVAL	36
-
-#define SUPPLY_ITEM_SPI_X		(SUPPLY_START_X + 38)
-
-#define SUPPLY_CASH_Y			(SUPPLY_START_Y + 206)
-
-#define SUPPLY_OK_X				(SUPPLY_START_X + 326)
-#define SUPPLY_OK_Y				(SUPPLY_START_Y + 276)
-#define SUPPLY_CANCEL_X			(SUPPLY_START_X + 366)
-#define SUPPLY_CANCEL_Y			(SUPPLY_START_Y + 276)
-
-#define SUPPLY_ICON_X			(SUPPLY_START_X + 10)
-#define SUPPLY_ICON_Y			(SUPPLY_START_Y + 26)
-
-#define SUPPLY_RADIO_WH			14
-#define SUPPLY_RADIO_X			(SUPPLY_START_X + 376)
-#define SUPPLY_RADIO_Y			(SUPPLY_START_Y + 29)
-
-#define SUPPLY_ALL_X			(SUPPLY_START_X + 265)
-#define SUPPLY_ALL_Y			(SUPPLY_START_Y + 33)
-
-#define SUPPLY_ALL2_X			(CITY_BASE_NPC_BOX_START_X + 318)
-#define SUPPLY_ALL2_Y			(CITY_BASE_NPC_BOX_START_Y - SIZE_SUPPLY_WINDOW_Y + 21)
-
-#define SUPPLY_SLIDE_BAR_X		(SUPPLY_START_X + 131)
-#define SUPPLY_SLIDE_BAR_Y		(SUPPLY_START_Y + 35)
-#define SUPPLY_SLIDE_LENGTH		67
-
-#define SUPPLY_RATE_X			(SUPPLY_START_X + 210)
-#define SUPPLY_RATE_PRICE_X		(SUPPLY_START_X + 305)
-
-// 2006-03-07 by ispark, 언어에 따라 위치 수정
-#if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
-#define SUPPLY_ITEM_SPI_Y		(SUPPLY_START_Y + 251)//253)
-#define SUPPLY_RATE_Y			(SUPPLY_START_Y + 33)//35)
-#define SUPPLY_RATE_PRICE_Y		(SUPPLY_START_Y + 33)//35)
-#define SHOP_TEX_X				SUPPLY_START_X + 344
-#define SHOP_TEX_Y				SUPPLY_START_Y - 22
-#else
-#define SUPPLY_ITEM_SPI_Y		(SUPPLY_START_Y + 251)//253)
-#define SUPPLY_RATE_Y			(SUPPLY_START_Y + 33)//35)
-#define SUPPLY_RATE_PRICE_Y		(SUPPLY_START_Y + 33)//35)
-#define SHOP_TEX_X				SUPPLY_START_X + 344
-#define SHOP_TEX_Y				SUPPLY_START_Y - 22
-#endif
-#endif
 //////////////////////////////////////////////////////////////////////////
 
 enum {NONE = -1, SUPPLY, CANCEL, ALL, ALL_SUPPLY, SLIDEBAR, SLIDE};
@@ -226,7 +158,6 @@ HRESULT CINFCitySupply::InitDeviceObjects()
 {
 	DataHeader	* pDataHeader;
 	int i;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	char buf[16];
 
 	for(i = 0; i < 4 ; i++)
@@ -278,58 +209,6 @@ HRESULT CINFCitySupply::InitDeviceObjects()
 	wsprintf(buf, "scrl_b");
 	pDataHeader = FindResource(buf);
 	m_pSlideBar->InitDeviceObjects(pDataHeader ) ;
-#else	  
-	char buf[16];
-
-	for(i = 0; i < 4 ; i++)
-	{
-		m_pSupplyButton[i] = new CINFImageEx;
-		wsprintf(buf, "Fb_%d",i);
-		pDataHeader = FindResource(buf);
-		m_pSupplyButton[i]->InitDeviceObjects(pDataHeader) ;
-
-		m_pCancelButton[i] = new CINFImageEx;
-		wsprintf(buf, "shmcan0%d",i);
-		pDataHeader = FindResource(buf);
-		m_pCancelButton[i]->InitDeviceObjects(pDataHeader) ;
-	}
-
-	m_pAllButton[0] = new CINFImageEx;
-	wsprintf(buf, "all_nor");
-	pDataHeader = FindResource(buf);
-	m_pAllButton[0]->InitDeviceObjects(pDataHeader) ;
-
-	m_pAllButton[1] = new CINFImageEx;
-	wsprintf(buf, "all_over");
-	pDataHeader = FindResource(buf);
-	m_pAllButton[1]->InitDeviceObjects(pDataHeader) ;
-
-	m_pAllButton[2] = new CINFImageEx;
-	wsprintf(buf, "all_push");
-	pDataHeader = FindResource(buf);
-	m_pAllButton[2]->InitDeviceObjects(pDataHeader) ;
-
-	m_pRadioButton = new CINFImageEx;
-	wsprintf(buf, "radio_17a");
-	pDataHeader = FindResource(buf);
-	m_pRadioButton->InitDeviceObjects(pDataHeader) ;
-
-	m_pSupplyBack = new CINFImageEx;
-	wsprintf(buf, "FS_bk");
-	pDataHeader = FindResource(buf);
-	m_pSupplyBack->InitDeviceObjects(pDataHeader) ;
-
-	m_pSupplyTitle = new CINFImageEx;
-	wsprintf(buf, "FS_ttl");
-	pDataHeader = FindResource(buf);
-	m_pSupplyTitle->InitDeviceObjects(pDataHeader) ;
-
-	m_pSlideBar = new CINFImageEx;
-	wsprintf(buf, "scrl_b");
-	pDataHeader = FindResource(buf);
-	m_pSlideBar->InitDeviceObjects(pDataHeader) ;
-
-#endif
 
 //	m_pClose = new CINFImage;
 //	wsprintf(buf, "xclose");
@@ -373,14 +252,7 @@ HRESULT CINFCitySupply::RestoreDeviceObjects()
 	}
 
 	m_pRadioButton->RestoreDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pRadioButton->SetPosition( SUPPLY_ALL_X, SUPPLY_ALL_Y + SUPPLY_SLOT_INTERVAL * 6 - 2, 60 );
-#else
-	m_pSupplyBack->RestoreDeviceObjects();
-	m_pSupplyBack->Move(SUPPLY_START_X, SUPPLY_START_Y);
-	m_pSupplyTitle->RestoreDeviceObjects();
-// 	m_pSupplyTitle->Move(CITY_BASE_NPC_BOX_START_X + 10, CITY_BASE_NPC_BOX_START_Y - SIZE_SUPPLY_WINDOW_Y + 6);
-#endif
 
 	m_pSlideBar->RestoreDeviceObjects();
 //	m_pClose->RestoreDeviceObjects();
@@ -421,15 +293,7 @@ HRESULT CINFCitySupply::DeleteDeviceObjects()
 	}
 
 	m_pRadioButton->DeleteDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	SAFE_DELETE( m_pRadioButton );
-#else
-	
-	m_pSupplyBack->DeleteDeviceObjects();
-	SAFE_DELETE(m_pSupplyBack);
-	m_pSupplyTitle->DeleteDeviceObjects();
-	SAFE_DELETE(m_pSupplyTitle);
-#endif
 	m_pSlideBar->DeleteDeviceObjects();
 	SAFE_DELETE(m_pSlideBar);
 //	m_pClose->DeleteDeviceObjects();
@@ -472,10 +336,6 @@ HRESULT CINFCitySupply::InvalidateDeviceObjects()
 	
 	m_pRadioButton->InvalidateDeviceObjects();
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pSupplyBack->InvalidateDeviceObjects();
-	m_pSupplyTitle->InvalidateDeviceObjects();
-#endif
 	m_pSlideBar->InvalidateDeviceObjects();
 // 	m_pClose->InvalidateDeviceObjects();
 	// 2014-07-03 by ymjoo DrawText 성능 개선 작업 (보급상점)
@@ -504,10 +364,6 @@ void CINFCitySupply::Render()
 	char strtemp1[64];
 	char strtemp2[64];
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pSupplyBack->Render();
-	m_pSupplyTitle->Render();
-#endif
 //	m_pClose->Render();
 	
 	// 아이템 
@@ -540,13 +396,6 @@ void CINFCitySupply::Render()
 			m_pAllButton[m_stSupply[nStartIndex + i].nAllBtState]->Render();
 
 			// ALL Check
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-			if(m_stSupply[nStartIndex + i].bCheck)
-			{
-				m_pRadioButton->Move(SUPPLY_RADIO_X, SUPPLY_RADIO_Y + SUPPLY_SLOT_INTERVAL * i);
-				m_pRadioButton->Render();
-			}
-#endif
 
 			//////////////////////////////////////////////////////////////////////////
 			// 계산
@@ -557,19 +406,10 @@ void CINFCitySupply::Render()
 	UpdateTotalPrice(); // 2013-08-22 by bhsohn 해피아워 리뉴얼 
 #endif
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	
 	m_pRadioButton->Render();
-#endif
 
 
 	// ALL 전체
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	if(m_bAllSupply)
-	{
-		m_pRadioButton->Move(SUPPLY_RADIO_X, SUPPLY_ALL2_Y + 1);
-		m_pRadioButton->Render();
-	}
-#endif
 
 	// SPI
 	int nItemSpi;
@@ -579,11 +419,9 @@ void CINFCitySupply::Render()
 #ifdef C_DRAWTEXT_UPGRADE_YMJOO						// 2014-07-03 by ymjoo DrawText 성능 개선 작업 (보급상점)
 	SIZE sSize = m_pFontItemName[6][0]->GetStringSize(strtemp2);
 	m_pFontItemName[6][0]->DrawText(SUPPLY_ITEM_SPI_X - sSize.cx, 
-#elif defined C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
+#else
 	SIZE sSize = m_pFontItemName->GetStringSize( strtemp2 );
 	m_pFontItemName->DrawText(SUPPLY_ITEM_SPI_X - sSize.cx,	
-#else														
-	m_pFontItemName->DrawText(SUPPLY_ITEM_SPI_X,
 #endif
 							  SUPPLY_ITEM_SPI_Y, 
 							  GUI_FONT_COLOR, strtemp2, 0L);
@@ -595,11 +433,9 @@ void CINFCitySupply::Render()
 #ifdef C_DRAWTEXT_UPGRADE_YMJOO						// 2014-07-03 by ymjoo DrawText 성능 개선 작업 (보급상점)
 	sSize = m_pFontItemName[6][1]->GetStringSize(strtemp2);
 	m_pFontItemName[6][1]->DrawText(SUPPLY_START_X + 370 - sSize.cx, 
-#elif defined C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
+#else
 	sSize = m_pFontItemName->GetStringSize( strtemp2 );
 	m_pFontItemName->DrawText(SUPPLY_START_X + 370- sSize.cx ,									  
-#else				 
-	m_pFontItemName->DrawText(SUPPLY_START_X + 287,
 #endif
 							  SUPPLY_ITEM_SPI_Y, 
 							  GUI_FONT_COLOR, strtemp2, 0L);
@@ -633,23 +469,14 @@ int CINFCitySupply::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			pt.y = HIWORD(lParam);
 			CheckMouseReverse(&pt);
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			m_nSupplyButtonState = 3;
-#else 
-			m_nSupplyButtonState = 0;
-
-#endif
 			m_nCancelButtonState = 3;
 
 			if(pt.x >= SUPPLY_OK_X && pt.x <= SUPPLY_OK_X + 38 &&
 				pt.y >= SUPPLY_OK_Y && pt.y <= SUPPLY_OK_Y + 17)
 			{
 				// 보급
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				m_nSupplyButtonState = 0;
-#else									 
-				m_nSupplyButtonState = 2;
-#endif
 				return INF_MSGPROC_BREAK;
 			}
 			else if(pt.x >= SUPPLY_CANCEL_X && pt.x <= SUPPLY_CANCEL_X + 38 &&
@@ -752,22 +579,16 @@ int CINFCitySupply::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			m_bScrollLock = FALSE;
 			m_nLButtonDownState = NONE;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경			
 			if(m_pRadioButton->OnLButtonDown(pt))
 			{
 
 			}
-#endif
 
 			if(pt.x >= SUPPLY_OK_X && pt.x <= SUPPLY_OK_X + 38 &&
 				pt.y >= SUPPLY_OK_Y && pt.y <= SUPPLY_OK_Y + 17)
 			{
 				// 보급
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				m_nSupplyButtonState = 1;														  
-#else
-				m_nSupplyButtonState = 3;
-#endif
 				m_bLButtonDown = TRUE;
 				m_nLButtonDownState = SUPPLY;
 				return INF_MSGPROC_BREAK;
@@ -781,15 +602,6 @@ int CINFCitySupply::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				m_nLButtonDownState = CANCEL;
 				return INF_MSGPROC_BREAK;
 			}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-			else if(pt.x >= SUPPLY_ALL2_X && pt.x <= SUPPLY_ALL2_X + 88 &&
-					pt.y >= SUPPLY_ALL2_Y && pt.y <= SUPPLY_ALL2_Y + 15)
-			{
-				// ALL 전체
-				m_bLButtonDown = TRUE;
-				m_nLButtonDownState = ALL_SUPPLY;
-			}
-#endif
 			else if(pt.x >= CITY_BASE_NPC_BOX_START_X + 399 && pt.x <= CITY_BASE_NPC_BOX_START_X + 409 &&
 				pt.y >= CITY_BASE_NPC_BOX_START_Y - SIZE_SUPPLY_WINDOW_Y + 6 &&
 				pt.y <= CITY_BASE_NPC_BOX_START_Y - SIZE_SUPPLY_WINDOW_Y + 15)
@@ -965,7 +777,6 @@ int CINFCitySupply::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			pt.y = HIWORD(lParam);
 			CheckMouseReverse(&pt);
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			if(m_pRadioButton->OnLButtonDown(pt))
 			{
 				m_bLButtonDown ^= TRUE;
@@ -988,7 +799,6 @@ int CINFCitySupply::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				}
 				return INF_MSGPROC_BREAK;
 			}
-#endif
 			if(m_bLButtonDown)
 			{
 				m_bLButtonDown = FALSE;
@@ -1126,11 +936,7 @@ void CINFCitySupply::InitItemCheck()
 		m_stSupply[i].bSlideBar = FALSE;
 		m_stSupply[i].nSlideMoveRate = 0;
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_nSupplyButtonState = 3;																	  
-#else			   
-	m_nSupplyButtonState = 0;
-#endif
 	m_nCancelButtonState = 3;
 	
 	m_bLButtonDown = FALSE;
@@ -1325,13 +1131,10 @@ void CINFCitySupply::DrawSupplyPrice(int nIndex)
 	SIZE sSize = m_pFontItemName[nIndex][0]->GetStringSize(strtemp1);
 	MakeCurrencySeparator(strtemp2, strtemp1, 3, ',');
 	m_pFontItemName[nIndex][0]->DrawText(SUPPLY_RATE_X - sSize.cx, 
-#elif defined C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
+#else
 	SIZE sSize = m_pFontItemName->GetStringSize(strtemp1);	
 	MakeCurrencySeparator( strtemp2, strtemp1, 3, ',' );
 	m_pFontItemName->DrawText(SUPPLY_RATE_X - sSize.cx,											  
-#else							  
-	MakeCurrencySeparator( strtemp2, strtemp1, 3, ',' );
-	m_pFontItemName->DrawText(SUPPLY_RATE_X,
 #endif
 							  SUPPLY_RATE_Y + SUPPLY_SLOT_INTERVAL * (nIndex), 
 							  GUI_FONT_COLOR, strtemp2, 0L);
@@ -1352,13 +1155,10 @@ void CINFCitySupply::DrawSupplyPrice(int nIndex)
 	sSize = m_pFontItemName[nIndex][1]->GetStringSize(strtemp1);
 	MakeCurrencySeparator(strtemp2, strtemp1, 3, ',');
 	m_pFontItemName[nIndex][1]->DrawText(SUPPLY_RATE_PRICE_X - sSize.cx, 
-#elif defined C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
+#else
 	sSize = m_pFontItemName->GetStringSize(strtemp1);
 	MakeCurrencySeparator( strtemp2, strtemp1, 3, ',' );
 	m_pFontItemName->DrawText(SUPPLY_RATE_PRICE_X - sSize.cx,									  
-#else 
-	MakeCurrencySeparator( strtemp2, strtemp1, 3, ',' );
-	m_pFontItemName->DrawText(SUPPLY_RATE_PRICE_X,
 #endif
 							  SUPPLY_RATE_PRICE_Y + SUPPLY_SLOT_INTERVAL * (nIndex), 
 							  GUI_FONT_COLOR, strtemp2, 0L);

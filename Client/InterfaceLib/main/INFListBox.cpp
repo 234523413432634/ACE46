@@ -80,7 +80,6 @@ void CINFListBox::Render()
 				,m_cViewData);
 	}			
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(m_bItemShow)
 	{
 		int i = 0;
@@ -101,28 +100,6 @@ void CINFListBox::Render()
 				,m_szListItem[i]);
 		}		
 	} 
-#else	
-	if(m_bItemShow)
-	{
-		int i = 0;
-		for(i=0; i <m_nItemSize;i++)
-		{
-			// 배경부터 쭉그린다.
-			m_pImgElementBG->Move(m_nBGPosX, m_nBGPosY + (m_nBGPosHeight * i));
-			m_pImgElementBG->Render();
-		}
-		for(i=0; i <m_nItemSize;i++)
-		{			
-			//m_pImgElementBG->Move(m_rtElementArea.left,m_rtElementArea.top + (m_rtElementArea.bottom * i));			
-			SIZE size = m_pFontItem->GetStringSize(m_szListItem[i]);
-			m_pFontItem->DrawText(m_rtElementArea.left + (((m_rtElementArea.right - LIST_BOX_STRING_GAP)/2) - (size.cx/2))
-				,m_rtElementArea.top + (m_rtElementArea.bottom * i)
-				,GUI_FONT_COLOR_Y
-				,m_szListItem[i]);
-		}
-		
-	}
-#endif
 }
 void CINFListBox::SetMainArea(int cx,int cy, int cw,int ch)
 {

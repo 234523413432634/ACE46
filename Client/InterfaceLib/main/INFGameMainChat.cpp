@@ -59,7 +59,6 @@
 // end 2011. 10. 10 by jskim UI시스템 변경
 #include "INFToolTip.h"			// 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 추가 수정 채팅
 	// 채팅 창부분은 CHAT_INPUT_WINDOW_X에따라 위치가 정해진다
 	#define CHAT_WINDOW_X			2//25												// 채팅 입력창 
@@ -198,147 +197,6 @@
 		#define CHAT_STRING_LENGTH			(m_nChatBoxWidth - 11)
 		#define FONT_INPUT_Y				CHAT_WINDOW_Y + 2
 	#endif
-#else 
-	// 추가 수정 채팅
-// 채팅 창부분은 CHAT_INPUT_WINDOW_X에따라 위치가 정해진다
-#define CHAT_WINDOW_X			3//25												// 채팅 입력창 
-#define CHAT_WINDOW_Y			(g_pD3dApp->GetBackBufferDesc().Height - 20)//27)	// 채팅 입력창
-//#define CHAT_WINDOW_W			210 
-//#define CHAT_WINDOW_H			22
-
-#define CHAT_INPUT_WINDOW_X			(CHAT_WINDOW_X+50)
-#define CHAT_INPUT_WINDOW_Y			(CHAT_WINDOW_Y)
-#define CHAT_INPUT_WINDOW_W			240
-#define CHAT_INPUT_WINDOW_H			20
-
-
-#define CHAT_CHATTAB_VIEW_FLAG_X	(CHAT_WINDOW_X+325)//329)						// 채팅창 최대화 이미지
-#define CHAT_CHATTAB_VIEW_FLAG_Y	(CHAT_WINDOW_Y)//-7)							// 채팅창 최대화 이미지
-#define CHAT_CHATTAB_VIEW_FLAG_W	15												// 채팅창 최대화 이미지
-#define CHAT_CHATTAB_VIEW_FLAG_H	21												// 채팅창 최대화 이미지
-
-#define CHAT_MENU_VIEW_X			(CHAT_WINDOW_X+3)											// 채팅 메뉴 보이기
-#define CHAT_MENU_VIEW_Y			(CHAT_WINDOW_Y+2)		// 채팅 메뉴 보이기
-#define CHAT_MENU_VIEW_W			21												// 채팅 메뉴 보이기
-#define CHAT_MENU_VIEW_H			22												// 채팅 메뉴 보이기
-
-#define CHAT_MENU_LIST_START_X		(CHAT_WINDOW_X+10)							// 채팅 메뉴 시작 위치
-#define CHAT_MENU_LIST_START_Y		(CHAT_WINDOW_Y-1)							// 채팅 메뉴 시작 위치
-
-#define CHAT_MENU_LIST_W			150												// 메뉴 리스트 넒이
-#define CHAT_MENU_LIST_H			18												// 메뉴 리스트 높이
-
-#define CHAT_NMENU_BUTTON_STATE_NOM	0		
-#define CHAT_NMENU_BUTTON_STATE_OVE	1
-#define CHAT_NMENU_BUTTON_STATE_PUH	2
-
-#define CHAT_CASH_BUTTON_STATE_NOM	3		
-#define CHAT_CASH_BUTTON_STATE_OVE	0
-#define CHAT_CASH_BUTTON_STATE_PUH	1
-
-#define CHAT_NFONT_START_LINE_X		5												// 채팅 렌더링 시작 라인
-#define CHAT_NFONT_START_LINE_Y		(CHAT_FONT_START_Y-21)								// 채팅 렌더링 시작 라인
-// 기타 메뉴 관련
-//#define CHAT_OTHER_MENU_VOIP		(CHAT_TAB_NUMBER)
-//#define CHAT_OTHER_MENU_FAQ			(CHAT_TAB_NUMBER+1)								// 가타 FAQ 메뉴
-//#define CHAT_OTHER_MENU_PAYITEM		(CHAT_TAB_NUMBER+2)								// 기타 유료 아이템
-
-#define CHAT_HELPDESK_STRLEN		280//50											// 도움말 글자르기(픽셀값으로 변경)
-
-#define CHAR_INF_CANDIDATE_POS_X	3
-#define CHAR_INF_CANDIDATE_POS_Y	(g_pD3dApp->GetBackBufferDesc().Height-35)
-
-#define CHAT_INPUT_LANGUAGE_X		(CHAT_WINDOW_X+21)//224
-#define CHAT_INPUT_LANGUAGE_Y		(CHAT_WINDOW_Y+2)
-#define CHAT_INPUT_LANGUAGE_WH		20
-
-// 2008-05-08 by dgwoo 채팅 시스템 변경 소스 추가.
-#define CHAT_CHATMODE_Y				(CHAT_WINDOW_Y - 17)
-#define CHAT_CHATMODE_X				(CHAT_WINDOW_X)
-#define CHAT_CHATMODE_GAP			37
-
-#define CHAT_MACRO_W				(305)
-#define CHAT_MACRO_H				(223)
-#define CHAT_MACRO_BAR_W			(305)
-#define CHAT_MACRO_BAR_H			(27)
-#define CHAT_MACRO_INPUT_1_X		(m_nMacroX + 25)
-#define CHAT_MACRO_INPUT_1_Y		(m_nMacroY + 70)
-#define CHAT_MACRO_INPUT_2_X		(m_nMacroX + 25)
-#define CHAT_MACRO_INPUT_2_Y		(m_nMacroY + 101)
-#define CHAT_MACRO_INPUT_3_X		(m_nMacroX + 25)
-#define CHAT_MACRO_INPUT_3_Y		(m_nMacroY + 130)
-#define CHAT_MACRO_INPUT_W			(194)
-#define CHAT_MACRO_INPUT_H			(20)
-
-#define CHAT_MACRO_APPL_1_X			(m_nMacroX + 224)
-#define CHAT_MACRO_APPL_1_Y			(m_nMacroY + 68)
-#define CHAT_MACRO_APPL_2_X			(m_nMacroX + 224)
-#define CHAT_MACRO_APPL_2_Y			(m_nMacroY + 97)
-#define CHAT_MACRO_APPL_3_X			(m_nMacroX + 224)
-#define CHAT_MACRO_APPL_3_Y			(m_nMacroY + 126)
-#define CHAT_MACRO_APPL_GAP_Y		29
-
-#ifdef GAMEFORGE4D_CHAT_MACRO_OUTPUT_TIME
-	#define CHAT_MACRO_OUTPUT_TIME		300.0f // 2013-07-30 by ssjung 게임 포지 일 경우 매크로 딜레이 15초 에서 5분으로 수정
-#else
-	#define CHAT_MACRO_OUTPUT_TIME		15.0f // 2012-03-30 by isshin 매크로 시스템 버그 수정- 출력 간격 시간
-#endif
-
-#define CHAT_MACRO_OK_X				(m_nMacroX + 209)
-#define CHAT_MACRO_OK_Y				(m_nMacroY + 199)
-#define CHAT_MACRO_CANCEL_X			(m_nMacroX + 250)
-#define CHAT_MACRO_CANCEL_Y			(m_nMacroY + 199)
-
-#define VOICECHAT_BAR_W				305
-#define VOICECHAT_BAR_H				43
-
-#define VOICECHAT_PARTY_POS_X		(198 + m_nVCCPosX)
-#define VOICECHAT_PARTY_POS_Y		(46 + m_nVCCPosY)
-#define VOICECHAT_GUILD_POS_X		(198 + m_nVCCPosX)
-#define VOICECHAT_GUILD_POS_Y		(68 + m_nVCCPosY)
-#define VOICECHAT_CHATROOM_POS_X	(198 + m_nVCCPosX)
-#define VOICECHAT_CHATROOM_POS_Y	(90 + m_nVCCPosY)
-#define VOICECHAT_WHISPER_POS_X		(198 + m_nVCCPosX)
-#define VOICECHAT_WHISPER_POS_Y		(112 + m_nVCCPosY)
-
-#define VOICECHAT_INPUT_KEY_POS_X   (41 + m_nVCCPosX)
-#define VOICECHAT_INPUT_KEY_POS_Y   (150 + m_nVCCPosY)
-#define VOICECHAT_INPUT_FREE_POS_X  (41 + m_nVCCPosX)
-#define VOICECHAT_INPUT_FREE_POS_Y  (168 + m_nVCCPosY)
-
-#define VOICECHAT_SPK_POS_X			(m_nVCCPosX + 62)
-#define VOICECHAT_SPK_POS_Y			(m_nVCCPosY + 188)
-#define VOICECHAT_SPK_W				65
-#define VOICECHAT_SPK_CONTROL_TIME_GAP		0.25f
-
-#define VOICECHAT_INV_BTN_POS_X		(m_nVCCPosX + 101)
-#define VOICECHAT_INV_BTN_POS_Y		(m_nVCCPosY + 216)
-#define VOICECHAT_OK_BTN_POS_X		(m_nVCCPosX + 209)
-#define VOICECHAT_OK_BTN_POS_Y		(m_nVCCPosY + 216)
-#define VOICECHAT_CAN_BTN_POS_X		(m_nVCCPosX + 250)
-#define VOICECHAT_CAN_BTN_POS_Y		(m_nVCCPosY + 216)
-
-	#define  ENCODE_STRING "562C50434D0A4A5D2A47454E3841444E4F1B0115021B185C5552"		// 2011-11-01 by jhahn 암호화 처리
-	#define  KEY_STRING		"!@#$%^&*@#$%^&*()yerijk0095634^%g"							// 2011-11-01 by jhahn 암호화 처리
-
-// 2008-08-18 by bhsohn 매크로 추가 수정
-#define CHATMACRO_TRANSCHAT_COUNT	11
-
-// 2006-03-07 by ispark, 언어에 따라 위치 수정
-#if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
-	#define STRING_CULL ::StringCullingUserData_ToBlank
-	#define STRING_CULL2 ::StringCullingUserData_ToBlank
-#define CHAT_STRING_LENGTH			(m_nChatBoxWidth - 11)
-#define FONT_INPUT_Y				6
-#else
-#define STRING_CULL ::StringCullingUserDataEx
-#define STRING_CULL2 ::StringCullingUserDataEx
-//#define CHAT_STRING_LENGTH			((m_nChatBoxWidth-11)/CHAT_FONT_WIDTH_ENGLISH)
-#define CHAT_STRING_LENGTH			(m_nChatBoxWidth - 11)
-#define FONT_INPUT_Y				6
-#endif
-
-#endif
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -384,12 +242,7 @@ CINFGameMainChat::CINFGameMainChat(CAtumNode* pParent, int nWidth, int nHeight)
 
 	if(nWidth <= 0 || nHeight <= 0)
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_nChatBoxWidth	  = CHAT_CHATBOX_START_DEFAULT_MIN_X+38;
-#else							   
-		m_nChatBoxWidth	  = CHAT_CHATBOX_START_DEFAULT_MIN_X+100;
-
-#endif
 		m_nChatBoxHeight  = CHAT_CHATBOX_START_DEFAULT_MIN_Y;
 	}
 	else
@@ -479,12 +332,6 @@ CINFGameMainChat::CINFGameMainChat(CAtumNode* pParent, int nWidth, int nHeight)
 		m_pNChatVOIPStartMenu[i] = NULL;					// 채팅 VOIP 시작 버튼
 		m_pNChatVOIPEndMenu[i] = NULL;						// 채팅 VOIP 종려 버튼
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	for(i=0; i<CHAT_BUTTON_NUMBER4; i++)
-	{
-		m_pNChatCash[i] = NULL;								// 채팅 채쉬충전 버튼
- 	}
-#endif
 // 2015-02-04 by jwLee 일본 캐쉬샵 삭제
 #if defined(C_CASH_SHOP_NOT_USE_JWLEE)
 #else
@@ -588,9 +435,6 @@ CINFGameMainChat::CINFGameMainChat(CAtumNode* pParent, int nWidth, int nHeight)
 		m_pFontLine[i]	= NULL;
 
 	// end 2008. 12. 29 by ckPark 채팅창 최적화	
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pBtnChatBG = NULL;
-#endif
 
 	// 2012-10-31 by jhjang 포인터 초기화 코드 추가
 	for(i = 0 ; i < 9 ; i ++)
@@ -675,12 +519,6 @@ CINFGameMainChat::~CINFGameMainChat()
 		SAFE_DELETE(m_pNChatVOIPStartMenu[i]);						// 채팅 VOIP 시작 버튼
 		SAFE_DELETE(m_pNChatVOIPEndMenu[i]);						// 채팅 VOIP 종료 버튼
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	for(i=0; i<CHAT_BUTTON_NUMBER4; i++)
-	{
-		SAFE_DELETE(m_pNChatCash[i]);								// 채팅 채쉬충전 버튼
-	}
-#endif
 // 2015-02-04 by jwLee 일본 캐쉬샵 삭제
 #if defined(C_CASH_SHOP_NOT_USE_JWLEE)
 #else
@@ -717,9 +555,6 @@ CINFGameMainChat::~CINFGameMainChat()
 		SAFE_DELETE(m_pFontLine[i]);
 		
 	// end 2008. 12. 29 by ckPark 채팅창 최적화	
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	SAFE_DELETE( m_pBtnChatBG );
-#endif
 }
 
 void CINFGameMainChat::InitChatData()
@@ -1061,12 +896,6 @@ HRESULT CINFGameMainChat::InitDeviceObjects()
 	}
 	for(i=0; i<CHAT_BUTTON_NUMBER4; i++)
 	{
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
- 		m_pNChatCash[i] = new CINFImageEx;
-		wsprintf(buf, "c_nca%d", i);						// 채팅 채쉬충전 버튼
-		pDataHeader = FindResource(buf);
- 		m_pNChatCash[i]->InitDeviceObjects( pDataHeader ) ;
-#endif
 // 2015-02-04 by jwLee 일본 캐쉬샵 삭제
 #if defined(C_CASH_SHOP_NOT_USE_JWLEE)
 #else
@@ -1155,7 +984,6 @@ HRESULT CINFGameMainChat::InitDeviceObjects()
 		}
 		// end 2008-11-24 by dgwoo 아레나 채팅 탭 활성화 안되는 문제
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("macro");
 		m_pChatMacroBG = g_pGameMain->m_GruopImagemanager->GetGroupImage(pDataHeader);
 		m_pChatMacroBG->InitDeviceObjects( g_pD3dApp->m_pImageList );		
@@ -1170,25 +998,6 @@ HRESULT CINFGameMainChat::InitDeviceObjects()
 			m_pBtnMacroCancel = new CINFImageBtn;
 		}
 		m_pBtnMacroCancel->InitDeviceObjects("cans0");			 
-#else
-		if(NULL == m_pChatMacroBG)
-		{
-			m_pChatMacroBG = new CINFImageEx;
-		}
-		pDataHeader = FindResource("chatmacro");						
-		m_pChatMacroBG->InitDeviceObjects( pDataHeader ) ;
-
-		if(NULL == m_pBtnMacroOK)
-		{
-			m_pBtnMacroOK = new CINFImageBtn;
-		}
-		m_pBtnMacroOK->InitDeviceObjects("shlaok0");
-		if(NULL == m_pBtnMacroCancel)
-		{
-			m_pBtnMacroCancel = new CINFImageBtn;
-		}
-		m_pBtnMacroCancel->InitDeviceObjects("shmcan0");
-#endif		
 		for(i = 0 ; i < CHAT_MACRO_INPUT_COUNT ; i++)
 		{
 			wsprintf(szButtonName, "macroappl");
@@ -1210,7 +1019,6 @@ HRESULT CINFGameMainChat::InitDeviceObjects()
 	}
 	// 음성 옵션.
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		if(NULL == m_pBtnVoiceChatInv)
 		{
 			m_pBtnVoiceChatInv = new CINFImageBtn;
@@ -1240,28 +1048,6 @@ HRESULT CINFGameMainChat::InitDeviceObjects()
 		{
 			m_pBothParty = new CINFImageBtnBoth;
 		}
-#else
-		if(NULL == m_pBtnVoiceChatInv)
-		{
-			m_pBtnVoiceChatInv = new CINFImageBtn;
-		}
-		m_pBtnVoiceChatInv->InitDeviceObjects("voiceinv");
-		if(NULL == m_pBtnVoiceChatOk)
-		{
-			m_pBtnVoiceChatOk = new CINFImageBtn;
-		}
-		m_pBtnVoiceChatOk->InitDeviceObjects("shlaok0");
-		if(NULL == m_pBtnVoiceChatCan)
-		{
-			m_pBtnVoiceChatCan = new CINFImageBtn;
-		}
-		m_pBtnVoiceChatCan->InitDeviceObjects("shmcan0");
-
-		if(NULL == m_pBothParty)
-		{
-			m_pBothParty = new CINFImageBtnBoth;
-		}
-#endif
 		m_pBothParty->InitDeviceObjects("onoff");
 		m_pBothParty->ChangeBoth(BUTTON_BOTH_BACK);
 		if(NULL == m_pBothGuild)
@@ -1284,15 +1070,9 @@ HRESULT CINFGameMainChat::InitDeviceObjects()
 		m_pBothWhisper->ChangeBoth(BUTTON_BOTH_BACK);
 
 // 2011. 10. 10 by jskim UI시스템 변경
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("voiceChat");
 		m_pVoiceChatBG = g_pGameMain->m_GruopImagemanager->GetGroupImage(pDataHeader);
 		m_pVoiceChatBG->InitDeviceObjects( g_pD3dApp->m_pImageList );
-#else
-		m_pVoiceChatBG = new CINFImageEx;
-		pDataHeader = FindResource("voptBG");
-		m_pVoiceChatBG->InitDeviceObjects( pDataHeader );
-#endif
 		m_pImgSpkVolBar = new CINFImageEx;
 		pDataHeader = FindResource("scrl_b");
 		m_pImgSpkVolBar->InitDeviceObjects( pDataHeader );
@@ -1368,10 +1148,8 @@ HRESULT CINFGameMainChat::InitDeviceObjects()
 	}
 
 	// end 2008. 12. 29 by ckPark 채팅창 최적화	
- #ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("BGbox");
 	m_pBtnChatBG = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
-#endif
 	return S_OK ;
 }
 
@@ -1448,13 +1226,6 @@ HRESULT CINFGameMainChat::RestoreDeviceObjects()
 		m_pNChatVOIPStartMenu[i]->RestoreDeviceObjects();
 		m_pNChatVOIPEndMenu[i]->RestoreDeviceObjects();
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-#else
-	for(i=0; i<CHAT_BUTTON_NUMBER4; i++)
-	{
-		m_pNChatCash[i]->RestoreDeviceObjects();							// 채팅 채쉬충전 버튼
- 	}																							  
-#endif
 // 2015-02-04 by jwLee 일본 캐쉬샵 삭제
 #if defined(C_CASH_SHOP_NOT_USE_JWLEE)
 #else
@@ -1527,9 +1298,7 @@ HRESULT CINFGameMainChat::RestoreDeviceObjects()
 
 	// end 2008. 12. 29 by ckPark 채팅창 최적화	
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pBtnChatBG->RestoreDeviceObjects();														  
-#endif
 
 	return S_OK ;
 }
@@ -1615,10 +1384,6 @@ HRESULT CINFGameMainChat::DeleteDeviceObjects()
 	}
 	for(i=0; i<CHAT_BUTTON_NUMBER4; i++)
 	{
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		m_pNChatCash[i]->DeleteDeviceObjects();
-		SAFE_DELETE(m_pNChatCash[i]);								// 채팅 채쉬충전 버튼
-#endif
 // 2015-02-04 by jwLee 일본 캐쉬샵 삭제
 #if defined(C_CASH_SHOP_NOT_USE_JWLEE)
 #else
@@ -1708,13 +1473,11 @@ HRESULT CINFGameMainChat::DeleteDeviceObjects()
 	}
 
 	// end 2008. 12. 29 by ckPark 채팅창 최적화	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if( m_pBtnChatBG )
 	{
 		m_pBtnChatBG->DeleteDeviceObjects();
 		SAFE_DELETE(m_pBtnChatBG);
 	}
-#endif
 	return S_OK ;
 }
 
@@ -1789,12 +1552,6 @@ HRESULT CINFGameMainChat::InvalidateDeviceObjects()
 		m_pNChatVOIPStartMenu[i]->InvalidateDeviceObjects();
 		m_pNChatVOIPEndMenu[i]->InvalidateDeviceObjects();
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	for(i=0; i<CHAT_BUTTON_NUMBER4; i++)
-	{
-		m_pNChatCash[i]->InvalidateDeviceObjects();							// 채팅 채쉬충전 버튼
-	}
-#endif
 // 2015-02-04 by jwLee 일본 캐쉬샵 삭제
 #if defined(C_CASH_SHOP_NOT_USE_JWLEE)
 #else
@@ -1858,12 +1615,10 @@ HRESULT CINFGameMainChat::InvalidateDeviceObjects()
 		m_pFontLine[i]->InvalidateDeviceObjects();
 	// end 2008. 12. 29 by ckPark 채팅창 최적화	
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if( m_pBtnChatBG )
 	{
 		m_pBtnChatBG->InvalidateDeviceObjects();
 	}
-#endif
 
 	return S_OK ;
 }
@@ -2018,15 +1773,6 @@ void CINFGameMainChat::Render()
 //		DrawChatWindow(CHAT_CHATBOX_START_X, m_nChatBoxYPos, m_nChatBoxWidth, m_nChatBoxHeight);
 //	}
 	// 풀스크린시 챗박스 감추기
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-#else
-	if(!g_pInterface->m_bShowInterface&& m_bChatMode == TRUE && !g_pShuttleChild->IsObserverMode())
-	{
-		m_pChatBox[4]->Move(CHAT_MENUBOX_START_X, CHAT_FONT_START_Y+CHAT_FONT_WIDTH_ENGLISH);
-		m_pChatBox[4]->SetScale(CHAT_MENUBOX_START_X+CHAT_INPUT_FONT_LENGTH, CHATBOX_IMAGE_GAB_HEITHT_TOP);
-		m_pChatBox[4]->Render();
-	}
-#endif
 
 	if(!g_pInterface->m_bShowInterface || g_pShuttleChild->IsObserverMode()) 
 	{
@@ -2043,10 +1789,8 @@ void CINFGameMainChat::Render()
 	{
 		// 2008-05-08 by dgwoo 채팅 시스템 변경 소스 추가.
 		int i;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pBtnChatBG->Move(CHAT_CHATMODE_X,CHAT_CHATMODE_Y + 2);
 		m_pBtnChatBG->Render();
-#endif
 
 		for(i = 0; i < CHAT_TAB_CHATROOM ; i++)
 		{
@@ -2082,11 +1826,7 @@ void CINFGameMainChat::Render()
 //			m_pChatViewButton[CHAT_BOX_HIDE_IMAGE][m_nSizeMaxButtonstate]->Render();			// 최소화 	
 			
 			// 창 화면에 "채팅" 표시 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			m_pChatShowImage->Move(CHAT_MENUBOX_START_X, m_nChatBoxYPos - CHAT_MENUBOX_GAB_WIDTH);
-#else
-			m_pChatShowImage->Move(CHAT_MENUBOX_START_X, m_nChatBoxYPos + CHAT_MENUBOX_GAB_WIDTH);
-#endif
 			m_pChatShowImage->Render();
 		}	
 	}
@@ -2642,7 +2382,6 @@ void CINFGameMainChat::DrawChatWindow(int x, int y, int cx, int cy)
 	m_pChatBox[0]->Move(x,y);
 	m_pChatBox[0]->Render();
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	int nPosX = x + m_pChatBox[0]->GetImgSize().x;
 	int nImageSizeX = ( CHAT_CHATBOX_START_DEFAULT_MIN_X - m_pChatBox[0]->GetImgSize().x - m_pChatBox[2]->GetImgSize().x ) / 2;
 
@@ -2706,31 +2445,6 @@ void CINFGameMainChat::DrawChatWindow(int x, int y, int cx, int cy)
 
 	m_pChatBox[8]->Move(x+cx,y+cy);
 	m_pChatBox[8]->Render();	   
-#else					
-	m_pChatBox[1]->Move(x+CHATBOX_IMAGE_GAB_WIDTH_TOP, y);
-	m_pChatBox[1]->SetScale(cx-CHATBOX_IMAGE_GAB_WIDTH_TOP, 1);
-	m_pChatBox[1]->Render();
-	m_pChatBox[2]->Move(x+cx,y);
-	m_pChatBox[2]->Render();
-
-	m_pChatBox[3]->Move(x, y+CHATBOX_IMAGE_GAB_HEITHT_TOP);
-	m_pChatBox[3]->SetScale(1, cy-CHATBOX_IMAGE_GAB_HEITHT_TOP);
-	m_pChatBox[3]->Render();
-	m_pChatBox[4]->Move(x+CHATBOX_IMAGE_GAB_WIDTH_MIDDLE, y+CHATBOX_IMAGE_GAB_HEITHT_TOP);
-	m_pChatBox[4]->SetScale((cx-CHATBOX_IMAGE_GAB_WIDTH_MIDDLE-CHATBOX_IMAGE_GAB_WIDTH_MIDDLE)+CHATBOX_IMAGE_GAB_HEITHT_TOP, cy-CHATBOX_IMAGE_GAB_HEITHT_TOP);
-	m_pChatBox[4]->Render();	
-	m_pChatBox[5]->Move(x+(cx-CHATBOX_IMAGE_GAB_WIDTH_MIDDLE)+CHATBOX_IMAGE_GAB_HEITHT_TOP, y+CHATBOX_IMAGE_GAB_HEITHT_TOP);
-	m_pChatBox[5]->SetScale(1, cy-CHATBOX_IMAGE_GAB_HEITHT_TOP);
-	m_pChatBox[5]->Render();
-		
-	m_pChatBox[6]->Move(x,y+cy);
-	m_pChatBox[6]->Render();
-	m_pChatBox[7]->Move(x+CHATBOX_IMAGE_GAB_WIDTH_BOTTOM,y+cy);
-	m_pChatBox[7]->SetScale(cx-CHATBOX_IMAGE_GAB_WIDTH_BOTTOM, 1);
-	m_pChatBox[7]->Render();
-	m_pChatBox[8]->Move(x+cx-CHATBOX_IMAGE_GAB_HEITHT_MIDDLE,y+cy);
-	m_pChatBox[8]->Render();
-#endif
 	
 	ChatTab_t * pChatTab = GetChatTabMode();
 	if(m_nCurrentRelScrollPosY < CHATBOX_IMAGE_GAB_HEITHT_TOP)
@@ -3525,18 +3239,10 @@ int CINFGameMainChat::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				if(m_bScrollLock)
 				{
 					int nPointGap = pt.y-m_ptMouse.y;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 					if(m_nCurrentRelScrollOldPosY+nPointGap < CHATBOX_IMAGE_GAB_HEITHT_TOP + 5)
 					{
 						m_nCurrentRelScrollPosY = CHATBOX_IMAGE_GAB_HEITHT_TOP + 5;
 					}																			  
-#else			  
-					if(m_nCurrentRelScrollOldPosY+nPointGap < CHATBOX_IMAGE_GAB_HEITHT_TOP)
-					{
-						m_nCurrentRelScrollPosY = CHATBOX_IMAGE_GAB_HEITHT_TOP;
-					}
-
-#endif
 					else if(m_nCurrentRelScrollOldPosY+nPointGap > m_nChatBoxHeight-CHATBOX_SCROLL_IMAGE_SIZE_HEIGHT)
 					{
 						m_nCurrentRelScrollPosY = m_nChatBoxHeight-CHATBOX_SCROLL_IMAGE_SIZE_HEIGHT;
@@ -6653,13 +6359,8 @@ void CINFGameMainChat::ViewChatMenuList()
 	m_pNChatMenu[CHAT_TAB_SPEAKER]->Render();			
 	if(m_bChatCurrentSelect[CHAT_TAB_SPEAKER] == TRUE)
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pNChatCheck->Move(CHAT_MENU_LIST_START_X+9, CHAT_MENU_LIST_START_Y-(CHAT_MENU_LIST_H*(CHAT_MENULIST_NUMBER - CHAT_TAB_SPEAKER - 1)));
 		m_pNChatCheck->Render();
-#else
-		m_pNChatCheck->Move(CHAT_MENU_LIST_START_X+10, CHAT_MENU_LIST_START_Y-(CHAT_MENU_LIST_H*(CHAT_MENULIST_NUMBER - CHAT_TAB_SPEAKER - 1)));
-		m_pNChatCheck->Render();
-#endif
 	}		
 
 
@@ -9181,11 +8882,7 @@ void CINFGameMainChat::RenderCursel(int nShowTemp)
 		NormalizeRect(&rcRender); 
 		m_pFontInput->SetReLoadString(TRUE);
 		m_pFontInput->DrawText(CHAT_FONT_START_X+nShowTemp,
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 							FONT_INPUT_Y,GUI_FONT_COLOR_Y,										  
-#else															
-							CHAT_FONT_START_Y + FONT_INPUT_Y,GUI_FONT_COLOR_Y,
-#endif
 							chatCurselBuff, 
 							0, 
 							&rcRender);
@@ -9195,11 +8892,7 @@ void CINFGameMainChat::RenderCursel(int nShowTemp)
 	{   //블럭 없는 텍스트						//주석 
 		// end 2009. 07. 30 by jsKim 채팅창 버그 수정 및 기능 보안
 		m_pFontInput->DrawText(CHAT_FONT_START_X+nShowTemp,
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 							FONT_INPUT_Y,GUI_FONT_COLOR_Y,										  
-#else 
-							CHAT_FONT_START_Y + FONT_INPUT_Y,GUI_FONT_COLOR_Y,
-#endif
 							chatCurselBuff,
 							0L);
 

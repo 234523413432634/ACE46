@@ -5418,7 +5418,6 @@ void CShuttleChild::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				m_bLButtonState = FALSE;
 				m_PrimaryAttack.AttackData.TargetInfo.SetNullTarget();
 				m_bTargetChange = TRUE;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 				// 2011-11-01 by jhahn EP4 필드맵 상점 클릭
 				GUI_BUILDINGNPC* pCurrentBuildingNPC = g_pInterface->m_pCityBase->GetCurrentBuildingNPC();
 		
@@ -5482,7 +5481,6 @@ void CShuttleChild::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 				}
 				//end 2011-11-01 by jhahn EP4 필드맵 상점 클릭
-#endif
 			}
 			break;
 		case WM_RBUTTONDOWN:
@@ -6700,14 +6698,12 @@ void CShuttleChild::SendFieldSocketRequestEventObjectWarpIn(CObjectChild * pObj)
 		{
 			MSG_FC_EVENT_REQUEST_OBJECT_EVENT sMsg;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 // 2011-02-08 by jhahn EP4 트리거 시스템
 // 			if ((pObj->m_nCode/10000000) == 9)
 // 			{
 // 				pObj->m_nCode =  pObj->m_nCode - 90000000;
 // 			}
 //end 2011-02-08 by jhahn EP4 트리거 시스템
-#endif
 			sMsg.ObjectType = pObj->m_nCode;
 			sMsg.ObjectPosition = pObj->m_vPos;
 			g_pFieldWinSocket->SendMsg( T_FC_EVENT_REQUEST_OBJECT_EVENT, (char*)&sMsg, sizeof(sMsg) );
@@ -12736,14 +12732,12 @@ void CShuttleChild::Old2CheckTarget()
 			CUnitData* pUnit = g_pScene->FindUnitDataByClientIndex( (*it).nTargetIndex );
 			// 2011. 03. 08 by jskim 인피3차 구현 - 넌 타겟 시스템
 			ASSERT_ASSERT(pUnit);
-			#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 			// 2011-11-03 by jhahn EP4 중립지역 아이디 색 변경
 			if ((((m_myShuttleInfo.MapChannelIndex.MapIndex - 4000) / 100) == 1) && (pUnit->m_dwPartType == _ENEMY))
 			{
 				return;
 			}
 			//end 2011-11-03 by jhahn EP4 중립지역 아이디 색 변경
-			#endif
 			if(pUnit)
 			{
 				v2 = D3DXVECTOR2(pUnit->m_nObjScreenX,pUnit->m_nObjScreenY);
@@ -14338,12 +14332,8 @@ BOOL CShuttleChild::InitCinemaCamera(int nCameraPattern)
 	vVel.y = 0;
 	D3DXVec3Normalize(&vVel,&vVel);
 	vUp =  D3DXVECTOR3(0,1,0);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM											  
     vVel.x = vVel.x*100;	// 2011-11-28 by jhahn EP4 시네마 수정
 	vPos = m_vPos - vVel + vUp*100;		// 2011-11-28 by jhahn EP4 시네마 수정
-#else 
-	vPos = m_vPos - vVel*100 + vUp*100;
-#endif	
 //	g_pCamera->SetViewParams( vPos , vVel , vUp );
 	
 	char str[32];

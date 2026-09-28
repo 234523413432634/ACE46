@@ -37,7 +37,6 @@
 #include "INFGameArena.h"
 // end 2011-07-06 by shcho, hsson 아레나 게임 진입 시 캐릭터 선택 못하게 수정
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #include "INFGroupManager.h"
 #include "INFGroupImage.h"
 #include "INFImageEx.h"
@@ -45,7 +44,6 @@
 #include "INFArenaScrollBar.h"
 #include "MusicMP3Ex.h"		  
 #include "INFMp3Player.h"
-#endif
 // 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
 #include "INFToolTip.h"
 // end 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
@@ -104,7 +102,6 @@
 
 ////////////// UI좌표
 // 적용
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define OPTION_BTN_APP_X			76
 #define OPTION_BTN_APP_Y			445
 // 초기화
@@ -225,103 +222,6 @@
 #define OPTION_JOYSTICK_BTN_X		352
 #define OPTION_JOYSTICK_BTN_Y		395
 // end 2008-11-13 by bhsohn 조이스틱 작업	 
-#else
-#define OPTION_BTN_APP_X			81
-#define OPTION_BTN_APP_Y			648
-// 초기화
-#define OPTION_BTN_INIT_X			160
-#define OPTION_BTN_INIT_Y			648
-// 로그오프
-#define OPTION_BTN_LOGOFF_X			239
-#define OPTION_BTN_LOGOFF_Y			648
-// 게임종료
-#define OPTION_BTN_GAMEEND_X			318
-#define OPTION_BTN_GAMEEND_Y			648
-
-// 라디오 버튼
-#define OPTION_RADIO_GAME_INFO_X		306
-#define OPTION_RADIO_GAME_INFO_Y		51
-#define OPTION_RADIO_GAME_INFO_CAP_X	70
-#define OPTION_RADIO_GAME_INFO_CAP_Y	16
-
-// 해상도
-#define OPTION_HAESANG_X	410 
-#define OPTION_HAESANG_Y	284
-
-// 최소 프레임
-#define OPTION_RADIO_SMALLFRM_X		304
-#define OPTION_RADIO_SMALLFRM_Y		413
-
-// 닫기 버튼
-#define OPTION_BTN_CLOSE_X			428
-#define OPTION_BTN_CLOSE_Y			9
-
-//////////////////////// 콤보박스 위치////////////////////////
-#define OPTION_COMBO_MAIN_WIDTH			70
-#define OPTION_COMBO_MAIN_HEIGHT		17
-#define OPTION_COMBO_ELE_WIDTH			70
-#define OPTION_COMBO_ELE_HEIGHT			15		// 2012-03-29 by mspark, 콤보 박스 클릭 시 보이는 리스트 배경 이미지 간격 수정 - 기존 13에서 15로 수정
-
-// 시야거리
-#define OPTION_COMBO_SEE_RANGE_X		307 
-#define OPTION_COMBO_SEE_RANGE_Y		303
-// 유닛디테일
-#define OPTION_COMBO_UNIT_DETAIL_X		307 
-#define OPTION_COMBO_UNIT_DETAIL_Y		319
-// 그림자조절
-#define OPTION_COMBO_SHADOW_X			307 
-#define OPTION_COMBO_SHADOW_Y			335
-// 이펙트 조절
-#define OPTION_COMBO_EFFECT_X			307 
-#define OPTION_COMBO_EFFECT_Y			351
-// 감마 조절
-#define OPTION_COMBO_GAMMA_X			307 
-#define OPTION_COMBO_GAMMA_Y			367
-// 대비 조절
-#define OPTION_COMBO_CONTRAST_X			307 
-#define OPTION_COMBO_CONTRAST_Y			383
-// 필터효과
-#define OPTION_COMBO_FILTER_X			307 
-#define OPTION_COMBO_FILTER_Y			399
-// 시점변환
-#define OPTION_COMBO_SEE_CHANGE_X		307 
-#define OPTION_COMBO_SEE_CHANGE_Y		460
-// 효과음 볼륨
-#define OPTION_COMBO_MUSIC_VOL_X		307 
-#define OPTION_COMBO_MUSIC_VOL_Y		478
-
-//////////////////////// ETC 라디오버튼 위치////////////////////////
-// 마우스 포인터
-#define OPTION_RADIO_MOUSE_X			304
-#define OPTION_RADIO_MOUSE_Y			496
-//헬프기능
-#define OPTION_RADIO_HELPER_X			304
-#define OPTION_RADIO_HELPER_Y			514
-// 오퍼레이터 기능
-#define OPTION_RADIO_OPER_X				304
-#define OPTION_RADIO_OPER_Y				532
-// 자동 수평유지
-#define OPTION_RADIO_MAINTAIN_X			304
-#define OPTION_RADIO_MAINTAIN_Y			550
-// 마우스 상하 반전
-#define OPTION_RADIO_REVERSE_TB_X		304
-#define OPTION_RADIO_REVERSE_TB_Y		568
-// 마우스 좌우 반전
-#define OPTION_RADIO_REVERSE_LR_X		304
-#define OPTION_RADIO_REVERSE_LR_Y		586
-// 메뉴 사용시 유닛정지
-#define OPTION_RADIO_MENU_X				304
-#define OPTION_RADIO_MENU_Y				604
-// Music 플레이어 보기
-#define OPTION_RADIO_MP3_X				304
-#define OPTION_RADIO_MP3_Y				622
-
-// 2008-11-13 by bhsohn 조이스틱 작업
-// 조이스틱 옵션
-#define OPTION_JOYSTICK_BTN_X		306
-#define OPTION_JOYSTICK_BTN_Y		588
-// end 2008-11-13 by bhsohn 조이스틱 작업
-#endif
 
 // 2012-03-13 by mspark, 게임 사운드 옵션 문제 해결
 #define SOUND_SCROLL_RETURN			10000		// 기존 ispark의 효과음을 구하는 계산식에서 -10000값을 이용한 계산으로 인해 스크롤바가 잘못 옮겨지는 것을 정상으로 되돌리기 위한 상수
@@ -350,12 +250,10 @@ CINFOptionSystem::CINFOptionSystem(CAtumNode* pParent)
 
 	m_pOptionBk = NULL;
 	int nCnt = 0;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	for( nCnt = 0; nCnt < TOTAL_OPTION_TAB; nCnt++ )
 	{
 		m_pOptionSubBk[nCnt] = NULL;
 	}
-#endif	
 	for(nCnt = 0;nCnt < MODE_COMBO_NUMBER;nCnt++)
 	{
 		memset(m_strSelectModeComboData[nCnt], 0x00, MODE_COMBO_STR_LEN);
@@ -379,16 +277,6 @@ CINFOptionSystem::CINFOptionSystem(CAtumNode* pParent)
 
 	int nMainId = 0;	
 	// 게임옵션
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	for(nMainId = 0;nMainId < MAX_OPTION_RADIO;nMainId++)
-	{
-		for(nCnt = 0;nCnt < MAX_OPTION_SYS_CNT;nCnt++)
-		{
-			m_pGameOpRadioBtn[nMainId][nCnt] = NULL;
-		}
-	}
-#endif
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	for(nMainId = 0;nMainId < MAX_VEDIO_OPTION_RADIO;nMainId++)
 	{
 		m_pGameVedioOpRadioBtn[nMainId] = NULL;
@@ -402,7 +290,6 @@ CINFOptionSystem::CINFOptionSystem(CAtumNode* pParent)
 	{
 		m_pGameVedioOpRadioBtn[nMainId] = NULL;
 	}
-#endif
 
 	memset(&m_struOpInfo, 0x00, sizeof(structOptionGameInfo));
 	m_struOpInfo = InitOptionGameInfo();
@@ -415,34 +302,24 @@ CINFOptionSystem::CINFOptionSystem(CAtumNode* pParent)
 	}
 	
 	m_pMiniFrame = NULL;
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	for(nCnt = 0;nCnt < MAX_OPTION_ETC_RADIO;nCnt++)
-	{
-		m_pEtcRadio[nCnt] = NULL;
-	}
-#endif
 	m_pCloseBtn = NULL;
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	
 	m_nCurTeb = VEDIO_OPTION_TAB;
 
 	m_pSoundVolBar = NULL;
 	m_pEffectVolBar = NULL;
 	m_pVol = NULL;																				  
 	m_bmp3Playview = FALSE;
-#endif
 	// 2012-03-13 mspark, 게임 사운드 옵션 문제 해결 - 추가
 	m_nSoundVolumeTemp = 0;
 	m_nMusicVolumeTemp = 0;
 	// 2012-03-13 mspark, 게임 사운드 옵션 문제 해결 - 추가
 
 	// 2012-10-31 by jhjang 포인터 초기화 코드 추가
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	for(nCnt = 0 ; nCnt < MAX_ETC_OPTION_RADIO ; nCnt++)
 	{
 		m_pGameEctORadioBtn[nCnt] = NULL;
 	}
-#endif //C_EPSODE4_UI_CHANGE_JSKIM
 	// end 2012-10-31 by jhjang 포인터 초기화 코드 추가
 	m_pMp3On = NULL;
 }
@@ -453,12 +330,10 @@ CINFOptionSystem::~CINFOptionSystem()
 	FLOG( "~CINFOptionSystem()" );		
 	SAFE_DELETE(m_pOptionBk);	
 	int nCnt = 0;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	for( nCnt = 0; nCnt < TOTAL_OPTION_TAB; nCnt++ )
 	{
 		SAFE_DELETE( m_pOptionSubBk[nCnt] );
 	}																							  
-#endif
 	SAFE_DELETE(m_pOptionApp);	// 적용
 	SAFE_DELETE(m_pOptionInit);	// 초기화
 	SAFE_DELETE(m_pOptionLogOff);	// 로그오프
@@ -467,36 +342,18 @@ CINFOptionSystem::~CINFOptionSystem()
 	SAFE_DELETE(m_pOptionJoystic);
 	SAFE_DELETE(m_pFontHaeSang);	
 	
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	int nMainId = 0;	
-	for(nMainId = 0;nMainId < MAX_OPTION_RADIO;nMainId++)
-	{
-		for(nCnt = 0;nCnt < MAX_OPTION_SYS_CNT;nCnt++)
-		{		
-			SAFE_DELETE(m_pGameOpRadioBtn[nMainId][nCnt]);		
-		}
-	}
-#endif
 	
 	for(nCnt = 0;nCnt < MAX_OPTION_GRAPHIC_COMBO;nCnt++)
 	{
 		SAFE_DELETE(m_pComboGraphic[nCnt]);
 	}	
 	SAFE_DELETE(m_pMiniFrame);
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	for(nCnt = 0;nCnt < MAX_OPTION_ETC_RADIO;nCnt++)
-	{
-		SAFE_DELETE(m_pEtcRadio[nCnt]);	 
-	}
-#endif
 	SAFE_DELETE(m_pCloseBtn );
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	SAFE_DELETE( m_pSoundVolBar );
 	SAFE_DELETE( m_pEffectVolBar );
 
 	SAFE_DELETE(m_pVol);																		  
-#endif
 }
 
 
@@ -506,7 +363,6 @@ HRESULT CINFOptionSystem::InitDeviceObjects()
 	DataHeader	* pDataHeader ;
 	int nCnt = 0;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	
 	if(NULL == m_pOptionBk)
 	{
 		pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("OPTION");	
@@ -514,16 +370,7 @@ HRESULT CINFOptionSystem::InitDeviceObjects()
 		m_pOptionBk->InitDeviceObjects( g_pD3dApp->m_pImageList );
 		m_pOptionBk->RestoreDeviceObjects();
 	}		  
-#else 
- 	if(NULL == m_pOptionBk)
- 	{
- 		m_pOptionBk = new CINFImageEx;
-	}
-	pDataHeader = FindResource("optionbk");
- 	m_pOptionBk->InitDeviceObjects(pDataHeader);
-#endif
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("optionbk"); //  영상 배경 	
 	m_pOptionSubBk[VEDIO_OPTION_TAB] = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 	m_pOptionSubBk[VEDIO_OPTION_TAB]->InitDeviceObjects( g_pD3dApp->m_pImageList );
@@ -538,7 +385,6 @@ HRESULT CINFOptionSystem::InitDeviceObjects()
 	m_pOptionSubBk[EX_OPTION_TAB] = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 	m_pOptionSubBk[EX_OPTION_TAB]->InitDeviceObjects( g_pD3dApp->m_pImageList );
 	m_pOptionSubBk[EX_OPTION_TAB]->RestoreDeviceObjects();										  
-#endif
 
 	// 적용
 	{	
@@ -601,7 +447,6 @@ HRESULT CINFOptionSystem::InitDeviceObjects()
 
 	// 2008-11-13 by bhsohn 조이스틱 작업	
 	{	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];		
 		wsprintf(szUpBtn, "p_bt43");
 		wsprintf(szDownBtn, "p_bt41");
@@ -613,18 +458,6 @@ HRESULT CINFOptionSystem::InitDeviceObjects()
 		}
 		m_pOptionJoystic->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn,"STRTOOLTIP9");	
 
-#else
-		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];		
-		wsprintf(szUpBtn, "op_j3");
-		wsprintf(szDownBtn, "op_j1");
-		wsprintf(szSelBtn, "op_j0");
-		wsprintf(szDisBtn, "op_j2");
-		if(NULL == m_pOptionJoystic)
-		{
-			m_pOptionJoystic = new CINFImageBtn;
-		}
-		m_pOptionJoystic->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);		
-#endif		
 	}
 
 	// end 2008-11-13 by bhsohn 조이스틱 작업
@@ -641,25 +474,6 @@ HRESULT CINFOptionSystem::InitDeviceObjects()
 
 
 	int nMainId = 0;	
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	{
-		char chRadioOff[30], chRadioOn[30];
-		
-		wsprintf(chRadioOff, "radio_b");
-		wsprintf(chRadioOn, "radio_a");
-		for(nMainId = 0;nMainId < MAX_OPTION_RADIO;nMainId++)
-		{
-			for(nCnt = 0;nCnt < MAX_OPTION_SYS_CNT;nCnt++)
-			{		
-				if(NULL == m_pGameOpRadioBtn[nMainId][nCnt])
-				{		
-					m_pGameOpRadioBtn[nMainId][nCnt] = new CINFImageRadioBtn;
-				}				
-				m_pGameOpRadioBtn[nMainId][nCnt]->InitDeviceObjects(chRadioOff, chRadioOn);
-			}		
-		}		
-	}
-#else
 // 	//VEDIO
  	{
  		char chRadioOff[30], chRadioOn[30];
@@ -720,7 +534,6 @@ HRESULT CINFOptionSystem::InitDeviceObjects()
 			}		
 		}		
  	}			
-#endif
 
 	// 콤보 버튼
 	{
@@ -728,11 +541,7 @@ HRESULT CINFOptionSystem::InitDeviceObjects()
 		{
 			if(NULL == m_pComboGraphic[nCnt])
 			{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				m_pComboGraphic[nCnt] = new CINFListBox("cbarena","cbarenab");					  
-#else
-				m_pComboGraphic[nCnt] = new CINFListBox("cbopa","s_combo");				
-#endif	
 				m_pComboGraphic[nCnt]->InitDeviceObjects();				
 			}			
 		}
@@ -800,14 +609,6 @@ HRESULT CINFOptionSystem::InitDeviceObjects()
 			m_pComboGraphic[OPTION_ETC_SEE_CHANGE]->AddElement(chTmpBuff);	// 시점변환	
 			m_pComboGraphic[OPTION_ETC_SEE_CHANGE]->SetSelectItem(1); //2012-09-17 by jhahn	시점 변환 버그 수정
 			
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-			// 볼륨 조절
-			for(nCnt = 0;nCnt < 10;nCnt++)
-			{
-				sprintf(chTmpBuff, "%d", nCnt);
-				m_pComboGraphic[OPTION_ETC_VOLUMNE]->AddElement(chTmpBuff);	// 볼륨
-			}
-#endif
 
 			for(nCnt = 0;nCnt < MAX_OPTION_GRAPHIC_COMBO;nCnt++)
 			{
@@ -829,39 +630,13 @@ HRESULT CINFOptionSystem::InitDeviceObjects()
 		}		
 	}
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	// ETC라디오 버튼
-	{
-		char chRadioOff[30], chRadioOn[30];
-		
-		wsprintf(chRadioOff, "radio_17b");
-		wsprintf(chRadioOn, "radio_17a");			
-		
-		for(nCnt = 0;nCnt < MAX_OPTION_ETC_RADIO;nCnt++)
-		{		
-			if(NULL == m_pEtcRadio[nCnt])
-			{		
-				m_pEtcRadio[nCnt] = new CINFImageRadioBtn;
-			}				
-			m_pEtcRadio[nCnt]->InitDeviceObjects(chRadioOff, chRadioOn);
-		}
-				
-	}	
-#endif	
 	// 닫기 버튼
 	{
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf(szUpBtn, "close");
 		wsprintf(szDownBtn, "close");
 		wsprintf(szSelBtn, "close");
 		wsprintf(szDisBtn, "close");															  
-#else
-		wsprintf(szUpBtn, "xclose");
-		wsprintf(szDownBtn, "xclose");
-		wsprintf(szSelBtn, "xclose");
-		wsprintf(szDisBtn, "xclose");
-#endif
 		if(NULL == m_pCloseBtn)
 		{
 			m_pCloseBtn = new CINFImageBtn;
@@ -869,7 +644,6 @@ HRESULT CINFOptionSystem::InitDeviceObjects()
 		m_pCloseBtn->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);
 		
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	{
 		if(NULL == m_pMp3On )
 		{
@@ -902,7 +676,6 @@ HRESULT CINFOptionSystem::InitDeviceObjects()
 
 	m_pVol = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, FALSE,256,32);
 	m_pVol->InitDeviceObjects(g_pD3dDev);
-#endif
 	// 라디오 버튼 갱신
 	UpdateOptionInterface(&m_struOpInfo);
 	
@@ -922,14 +695,9 @@ HRESULT CINFOptionSystem::RestoreDeviceObjects()
 	// 배경
 	if(m_pOptionBk )
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pOptionBk->RestoreDeviceObjects();	
 		m_ptBakSize.x  = m_pOptionBk->GetMaxPos().x - m_pOptionBk->GetMinPos().x;
 		m_ptBakSize.y  = m_pOptionBk->GetMaxPos().y - m_pOptionBk->GetMinPos().y;
-#else 
-		m_pOptionBk->RestoreDeviceObjects();	
-		m_ptBakSize = m_pOptionBk->GetImgSize();
-#endif
 
 		m_ptBakPos.x = (g_pD3dApp->GetBackBufferDesc().Width/2 - m_ptBakSize.x/2);
 		m_ptBakPos.y = (g_pD3dApp->GetBackBufferDesc().Height/2 - m_ptBakSize.y/2);
@@ -943,12 +711,10 @@ HRESULT CINFOptionSystem::RestoreDeviceObjects()
 			m_ptBakPos.y = 0;
 		}
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	for( nCnt = 0; nCnt < TOTAL_OPTION_TAB; nCnt++ )
 	{
 		m_pOptionSubBk[nCnt]->RestoreDeviceObjects();
 	}
-#endif
 	if(m_pOptionApp)
 	{
 		m_pOptionApp->RestoreDeviceObjects();
@@ -976,22 +742,6 @@ HRESULT CINFOptionSystem::RestoreDeviceObjects()
 	{
 		m_pFontHaeSang->RestoreDeviceObjects();
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	{		
-		int nMainId = 0;	
-		for(nMainId = 0;nMainId < MAX_OPTION_RADIO;nMainId++)
-		{
-			for(nCnt = 0;nCnt < MAX_OPTION_SYS_CNT;nCnt++)
-			{	
-				if(m_pGameOpRadioBtn[nMainId][nCnt])
-				{
-					m_pGameOpRadioBtn[nMainId][nCnt]->RestoreDeviceObjects();			
-				}
-			}
-		}		
-
-	}
-#else
 	//VEDIO
 	{
 		int nMainId = 0;	
@@ -1016,7 +766,6 @@ HRESULT CINFOptionSystem::RestoreDeviceObjects()
 			m_pGameEctORadioBtn[nMainId]->RestoreDeviceObjects();
 		}		
 	}
-#endif
 	{
 		for(nCnt = 0;nCnt < MAX_OPTION_GRAPHIC_COMBO;nCnt++)
 		{	
@@ -1030,24 +779,13 @@ HRESULT CINFOptionSystem::RestoreDeviceObjects()
 		{
 			m_pMiniFrame->RestoreDeviceObjects();
 		}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		for(nCnt = 0;nCnt < MAX_OPTION_ETC_RADIO;nCnt++)
-		{
-			if(m_pEtcRadio[nCnt])
-			{
-				m_pEtcRadio[nCnt]->RestoreDeviceObjects();			
-			}
-		}		
-#else
 		if( m_pMp3On )
 			m_pMp3On->RestoreDeviceObjects();
-#endif
 	}
 	if(m_pCloseBtn)
 	{
 		m_pCloseBtn->RestoreDeviceObjects();		
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if( m_pSoundVolBar )
 		m_pSoundVolBar->RestoreDeviceObjects();
 
@@ -1055,7 +793,6 @@ HRESULT CINFOptionSystem::RestoreDeviceObjects()
 		m_pEffectVolBar->RestoreDeviceObjects();
 
 	m_pVol->RestoreDeviceObjects();																  
-#endif
 
 	UpdateBtnPos(m_ptBakPos.x, m_ptBakPos.y);
 
@@ -1072,7 +809,6 @@ HRESULT CINFOptionSystem::DeleteDeviceObjects()
 		m_pOptionBk->DeleteDeviceObjects();
 		SAFE_DELETE(m_pOptionBk);
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 	for( nCnt = 0; nCnt < TOTAL_OPTION_TAB; nCnt++ )
 	{
@@ -1082,7 +818,6 @@ HRESULT CINFOptionSystem::DeleteDeviceObjects()
 			SAFE_DELETE(m_pOptionSubBk[nCnt]);
 		}
 	}
-#endif
 	if(m_pOptionApp)
 	{		
 		m_pOptionApp->DeleteDeviceObjects();
@@ -1116,20 +851,6 @@ HRESULT CINFOptionSystem::DeleteDeviceObjects()
 		SAFE_DELETE(m_pFontHaeSang);
 	}
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	int nMainId = 0;	
-	for(nMainId = 0;nMainId < MAX_OPTION_RADIO;nMainId++)
-	{
-		for(nCnt = 0;nCnt < MAX_OPTION_SYS_CNT;nCnt++)
-		{		
-			if(m_pGameOpRadioBtn[nMainId][nCnt])
-			{
-				m_pGameOpRadioBtn[nMainId][nCnt]->DeleteDeviceObjects();	
-				SAFE_DELETE(m_pGameOpRadioBtn[nMainId][nCnt]);
-			}
-		}
-	}
-#else
 	//VEDIO
 	{
 		int nMainId = 0;	
@@ -1157,7 +878,6 @@ HRESULT CINFOptionSystem::DeleteDeviceObjects()
 			SAFE_DELETE(m_pGameEctORadioBtn[nMainId]);
 		}		
 	}
-#endif
 	for(nCnt = 0;nCnt < MAX_OPTION_GRAPHIC_COMBO;nCnt++)
 	{			
 		if(m_pComboGraphic[nCnt])
@@ -1172,16 +892,6 @@ HRESULT CINFOptionSystem::DeleteDeviceObjects()
 		m_pMiniFrame->DeleteDeviceObjects();	
 		SAFE_DELETE(m_pMiniFrame);		
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	for(nCnt = 0;nCnt < MAX_OPTION_ETC_RADIO;nCnt++)
-	{
-		if(m_pEtcRadio[nCnt])
-		{
-			m_pEtcRadio[nCnt]->DeleteDeviceObjects();	
-			SAFE_DELETE(m_pEtcRadio[nCnt]);
-		}
-	}	
-#endif
 
 	if(m_pCloseBtn)
 	{
@@ -1189,7 +899,6 @@ HRESULT CINFOptionSystem::DeleteDeviceObjects()
 		SAFE_DELETE(m_pCloseBtn);
 	}
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if( m_pMp3On )
 	{
 		m_pMp3On->DeleteDeviceObjects();
@@ -1213,7 +922,6 @@ HRESULT CINFOptionSystem::DeleteDeviceObjects()
 		m_pVol->DeleteDeviceObjects();
 		SAFE_DELETE( m_pVol );
 	}  
-#endif
 	m_bInvalidated = FALSE;
 
 	return S_OK ;
@@ -1226,13 +934,11 @@ HRESULT CINFOptionSystem::InvalidateDeviceObjects()
 	int nCnt = 0;	
 	if(m_pOptionBk )
 		m_pOptionBk->InvalidateDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 	for( nCnt = 0; nCnt < TOTAL_OPTION_TAB; nCnt++ )
 	{
 		m_pOptionSubBk[nCnt]->InvalidateDeviceObjects();
 	}
-#endif
 	if(m_pOptionApp )
 		m_pOptionApp->InvalidateDeviceObjects();
 	if(m_pOptionInit)
@@ -1251,19 +957,6 @@ HRESULT CINFOptionSystem::InvalidateDeviceObjects()
 	{
 		m_pFontHaeSang->InvalidateDeviceObjects();
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	int nMainId = 0;	
-	for(nMainId = 0;nMainId < MAX_OPTION_RADIO;nMainId++)
-	{
-		for(nCnt = 0;nCnt < MAX_OPTION_SYS_CNT;nCnt++)
-		{		
-			if(m_pGameOpRadioBtn[nMainId][nCnt])
-			{
-				m_pGameOpRadioBtn[nMainId][nCnt]->InvalidateDeviceObjects();
-			}
-		}
-	}
-#else
 	//VEDIO
 	{
 		int nMainId = 0;	
@@ -1288,7 +981,6 @@ HRESULT CINFOptionSystem::InvalidateDeviceObjects()
 			m_pGameEctORadioBtn[nMainId]->InvalidateDeviceObjects();
 		}		
 	} 
-#endif
 	for(nCnt = 0;nCnt < MAX_OPTION_GRAPHIC_COMBO;nCnt++)
 	{			
 		if(m_pComboGraphic[nCnt])
@@ -1302,20 +994,10 @@ HRESULT CINFOptionSystem::InvalidateDeviceObjects()
 		m_pMiniFrame->InvalidateDeviceObjects();
 	}
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	for(nCnt = 0;nCnt < MAX_OPTION_ETC_RADIO;nCnt++)
-	{
-		if(m_pEtcRadio[nCnt])
-		{
-			m_pEtcRadio[nCnt]->InvalidateDeviceObjects();	
-		}
-	}
-#endif
 	if(m_pCloseBtn)
 	{
 		m_pCloseBtn->InvalidateDeviceObjects();		
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	
 	if( m_pMp3On )
 	{
 		m_pMp3On->InvalidateDeviceObjects();
@@ -1335,7 +1017,6 @@ HRESULT CINFOptionSystem::InvalidateDeviceObjects()
 	{
 		m_pVol->InvalidateDeviceObjects();
 	}
-#endif
 	
 	m_bRestored = FALSE;
 	m_bInvalidated = TRUE;
@@ -1409,7 +1090,6 @@ void CINFOptionSystem::Tick()
 			g_pD3dApp->m_pSound->StopD3DSound( SOUND_LOW_BOOSTER );
 		}
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	switch(m_nCurTeb)
 	{
 	case VEDIO_OPTION_TAB:
@@ -1428,7 +1108,6 @@ void CINFOptionSystem::Tick()
 		}
 		break;
 	}
-#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1500,7 +1179,6 @@ void CINFOptionSystem::Render()
 		m_pOptionBk->Move(m_ptBakPos.x, m_ptBakPos.y);
 		m_pOptionBk->Render();
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	switch(m_nCurTeb)
 	{
 		case VEDIO_OPTION_TAB:
@@ -1525,75 +1203,6 @@ void CINFOptionSystem::Render()
 	m_pOptionInit->Render();	// 초기화
 	m_pOptionLogOff->Render();	// 로그오프
 	m_pOptionGameEnd->Render();	// 게임종료	  
-#else
-	// 버튼 
-	{
-		m_pOptionApp->Render();	// 적용
-		m_pOptionInit->Render();	// 초기화
-		m_pOptionLogOff->Render();	// 로그오프
-		m_pOptionGameEnd->Render();	// 게임종료
-		// 2008-11-13 by bhsohn 조이스틱 작업
-		m_pOptionJoystic->Render();	// 조이스틱옵션
-		// end 2008-11-13 by bhsohn 조이스틱 작업
-	}
-	// 그래픽
-	{
-		// 해상도
-		m_pFontHaeSang->DrawText(m_ptHaesangPos.x,m_ptHaesangPos.y,
-									GUI_FONT_COLOR_W,
-									m_szHaesangTxt);
-	}
-
-	int nCnt =0;
-	int nMainId = 0;	
-	for(nMainId = 0;nMainId < MAX_OPTION_RADIO;nMainId++)
-	{
-		for(nCnt =0; nCnt < MAX_OPTION_SYS_CNT; nCnt++)
-		{		
-			m_pGameOpRadioBtn[nMainId][nCnt]->Render();
-		}	
-	}
-	
-	m_pMiniFrame->Render();	
-	
-	for(nCnt = 0;nCnt < MAX_OPTION_ETC_RADIO;nCnt++)
-	{
-		// 2008-11-13 by bhsohn 조이스틱 작업
-		// 마우스 좌우 반전은 체크안함
-		if(OPTION_ETC_MOUSE_REVERSE_LR == nCnt)
-		{
-			continue;
-		}
-		// end 2008-11-13 by bhsohn 조이스틱 작업
-
-		m_pEtcRadio[nCnt]->Render();		
-	}
-
-	// 콤보박스는 가장 마지막에 랜더링 	
-	{
-		int nSelCombo = -1;
-		for(nCnt = 0;nCnt < MAX_OPTION_GRAPHIC_COMBO;nCnt++)
-		{
-			if(m_pComboGraphic[nCnt]->IsShowItem())
-			{
-				nSelCombo = nCnt;
-				break;
-			}
-		}
-		for(nCnt = 0;nCnt < MAX_OPTION_GRAPHIC_COMBO;nCnt++)
-		{	
-			if(nCnt != nSelCombo)
-			{
-				m_pComboGraphic[nCnt]->Render();
-			}
-		}
-		if(nSelCombo != -1)
-		{
-			m_pComboGraphic[nSelCombo]->Render();
-		}
-	}
-	m_pCloseBtn->Render();	
-#endif
 }
 
 int CINFOptionSystem::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -1604,7 +1213,6 @@ int CINFOptionSystem::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		return INF_MSGPROC_NORMAL;
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	switch(m_nCurTeb)
 	{
 	case VEDIO_OPTION_TAB:
@@ -1626,7 +1234,6 @@ int CINFOptionSystem::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 	}
-#endif
 
 	switch(uMsg)
 	{
@@ -1659,7 +1266,6 @@ int CINFOptionSystem::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return INF_MSGPROC_NORMAL;
 
 }
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 int CINFOptionSystem::VideoProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 	switch(uMsg)
@@ -1748,7 +1354,6 @@ int CINFOptionSystem::ExProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 	return INF_MSGPROC_NORMAL;
 }					
-#endif
 ///////////////////////////////////////////////////////////////////////////////
 /// \fn			
 /// \brief		게임종료시 호출되는 함수
@@ -1946,14 +1551,12 @@ void CINFOptionSystem::UpdateBtnPos(int nBackPosX, int nBackPosY)
 	#endif
 		// end 2009-05-06 by bhsohn 중국 로그오프창 막음
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	{		
 		nPosX = nBackPosX + OPTION_BTN_CLOSE_X;
 		nPosY = nBackPosY + OPTION_BTN_CLOSE_Y;	
 		
 		m_pCloseBtn->SetBtnPosition(nPosX, nPosY);
 	}
-#endif
 	{
 		nPosX = nBackPosX + OPTION_BTN_GAMEEND_X;
 		nPosY = nBackPosY + OPTION_BTN_GAMEEND_Y;		
@@ -1966,18 +1569,6 @@ void CINFOptionSystem::UpdateBtnPos(int nBackPosX, int nBackPosY)
 		m_pOptionJoystic->SetBtnPosition(nPosX, nPosY);				
 	}
 	// end 2008-11-13 by bhsohn 조이스틱 작업		
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	int nMainId = 0;	
-	for(nMainId = 0;nMainId < MAX_OPTION_RADIO;nMainId++)
-	{
-		for(nCnt = 0;nCnt < MAX_OPTION_SYS_CNT;nCnt++)
-		{
-			nPosX = nBackPosX + OPTION_RADIO_GAME_INFO_X + (nCnt*OPTION_RADIO_GAME_INFO_CAP_X);
-			nPosY = nBackPosY + OPTION_RADIO_GAME_INFO_Y+ (nMainId*OPTION_RADIO_GAME_INFO_CAP_Y);		
-			m_pGameOpRadioBtn[nMainId][nCnt]->SetPosition(nPosX, nPosY, 60);		
-		}
-	}
-#endif
 	// 해상도
 	{
 		
@@ -1990,11 +1581,7 @@ void CINFOptionSystem::UpdateBtnPos(int nBackPosX, int nBackPosY)
 			wsprintf( m_szHaesangTxt, "%d*%d%s", g_pD3dApp->m_nWidth,g_pD3dApp->m_nHeight,STRMSG_C_071221_0100);
 		}
 		SIZE sizeStrSize = m_pFontHaeSang->GetStringSize(m_szHaesangTxt);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_ptHaesangPos.x = nBackPosX + OPTION_HAESANG_X + ( ( OPTION_HAESANG_X_W - OPTION_HAESANG_X ) / 2 ) - ( sizeStrSize.cx / 2 ); 
-#else								  
-		m_ptHaesangPos.x = nBackPosX + OPTION_HAESANG_X- sizeStrSize.cx;
-#endif
 		m_ptHaesangPos.y = nBackPosY + OPTION_HAESANG_Y;
 	}
 
@@ -2013,14 +1600,8 @@ void CINFOptionSystem::UpdateBtnPos(int nBackPosX, int nBackPosY)
 			{nBackPosX+OPTION_COMBO_EFFECT_X, nBackPosY+OPTION_COMBO_EFFECT_Y},
 			{nBackPosX+OPTION_COMBO_GAMMA_X, nBackPosY+OPTION_COMBO_GAMMA_Y},
 			{nBackPosX+OPTION_COMBO_CONTRAST_X, nBackPosY+OPTION_COMBO_CONTRAST_Y},
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			{nBackPosX+OPTION_COMBO_FILTER_X, nBackPosY+OPTION_COMBO_FILTER_Y},
 			{nBackPosX+OPTION_COMBO_SEE_CHANGE_X, nBackPosY+OPTION_COMBO_SEE_CHANGE_Y}  
-#else	  
-			{nBackPosX+OPTION_COMBO_FILTER_X, nBackPosY+OPTION_COMBO_FILTER_Y},
-			{nBackPosX+OPTION_COMBO_SEE_CHANGE_X, nBackPosY+OPTION_COMBO_SEE_CHANGE_Y},
-			{nBackPosX+OPTION_COMBO_MUSIC_VOL_X, nBackPosY+OPTION_COMBO_MUSIC_VOL_Y}
-#endif
 		};
 		
 		POINT	ptElementArena[MAX_OPTION_GRAPHIC_COMBO] =
@@ -2032,12 +1613,7 @@ void CINFOptionSystem::UpdateBtnPos(int nBackPosX, int nBackPosY)
 			{ptMainArena[4].x, ptMainArena[4].y + nMainHeight},
 			{ptMainArena[5].x, ptMainArena[5].y + nMainHeight},
 			{ptMainArena[6].x, ptMainArena[6].y + nMainHeight},
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			{ptMainArena[7].x, ptMainArena[7].y + nMainHeight}									  
-#else 
-			{ptMainArena[7].x, ptMainArena[7].y + nMainHeight},
-			{ptMainArena[8].x, ptMainArena[8].y + nMainHeight}
-#endif
 		};
 		
 		for(nCnt = 0;nCnt < MAX_OPTION_GRAPHIC_COMBO;nCnt++)
@@ -2052,14 +1628,9 @@ void CINFOptionSystem::UpdateBtnPos(int nBackPosX, int nBackPosY)
 													ptElementArena[nCnt].y,
 													nEleWidth, nEleHeight);
 		}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		nPosX = nBackPosX + OPTION_RADIO_SMALLFRM_X + nMainWidth / 2;							  
-#else
-		nPosX = nBackPosX + OPTION_RADIO_SMALLFRM_X;
-#endif
 		nPosY = nBackPosY + OPTION_RADIO_SMALLFRM_Y;
 		m_pMiniFrame->SetPosition(nPosX, nPosY, 60);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	//VEDIO
 	{
 		int nMainId = 0;	
@@ -2119,36 +1690,8 @@ void CINFOptionSystem::UpdateBtnPos(int nBackPosX, int nBackPosY)
 			m_pGameEctORadioBtn[nMainId]->SetPosition(nPosX, nPosY, 60);
 		}		
 	} 
-#endif
 		
 	// 체크버튼
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	{
-		POINT	ptRadio[MAX_OPTION_ETC_RADIO] =
-		{
-			{nBackPosX+OPTION_RADIO_MOUSE_X, nBackPosY+OPTION_RADIO_MOUSE_Y},
-			{nBackPosX+OPTION_RADIO_HELPER_X, nBackPosY+OPTION_RADIO_HELPER_Y},
-			{nBackPosX+OPTION_RADIO_OPER_X, nBackPosY+OPTION_RADIO_OPER_Y},
-			{nBackPosX+OPTION_RADIO_MAINTAIN_X, nBackPosY+OPTION_RADIO_MAINTAIN_Y},
-			{nBackPosX+OPTION_RADIO_REVERSE_TB_X, nBackPosY+OPTION_RADIO_REVERSE_TB_Y},
-			{nBackPosX+OPTION_RADIO_REVERSE_LR_X, nBackPosY+OPTION_RADIO_REVERSE_LR_Y},
-			{nBackPosX+OPTION_RADIO_MENU_X, nBackPosY+OPTION_RADIO_MENU_Y},
-			{nBackPosX+OPTION_RADIO_MP3_X, nBackPosY+OPTION_RADIO_MP3_Y}			
-		};
-		for(nCnt = 0;nCnt < MAX_OPTION_ETC_RADIO;nCnt++)
-		{			
-			m_pEtcRadio[nCnt]->SetPosition(ptRadio[nCnt].x, ptRadio[nCnt].y, 60);
-		}
-
-	}	// 닫기 버튼
-	// 닫기 버튼
-	{		
-		nPosX = nBackPosX + OPTION_BTN_CLOSE_X;
-		nPosY = nBackPosY + OPTION_BTN_CLOSE_Y;	
-
-		m_pCloseBtn->SetBtnPosition(nPosX, nPosY);
-	}
-#endif
 }
 
 int CINFOptionSystem::OnLButtonDown(WPARAM wParam, LPARAM lParam)
@@ -2178,110 +1721,6 @@ int CINFOptionSystem::OnLButtonDown(WPARAM wParam, LPARAM lParam)
 		return  INF_MSGPROC_BREAK;
 	}		
 	
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-
-	// 2008-11-13 by bhsohn 조이스틱 작업
-	if(TRUE == m_pOptionJoystic->OnLButtonDown(pt))
-	{
-		// 버튼위에 마우스가 있다.
-		return  INF_MSGPROC_BREAK;
-	}		
-	// end 2008-11-13 by bhsohn 조이스틱 작업
-	
-	int nCnt = 0;	
-	// 라디오 버튼 처리
-	{		
-		// 1:1전투
-		int nMainId = 0;	
-		BOOL bBreak = FALSE;
-		for(nMainId = 0;nMainId < MAX_OPTION_RADIO;nMainId++)
-		{
-			if(bBreak )
-			{
-				break;
-			}
-			for(nCnt = 0;nCnt <MAX_OPTION_SYS_CNT;nCnt++)
-			{
-				if(bBreak )
-				{
-					break;
-				}
-				if(TRUE == m_pGameOpRadioBtn[nMainId][nCnt]->OnLButtonDown(pt))
-				{
-					BOOL bRadioCheck = TRUE;
-					if(OPTION_SYS_OFF == nCnt)
-					{
-						bRadioCheck = FALSE;
-					}
-					SetRadioInfo(nMainId, bRadioCheck);
-					bBreak = TRUE;
-				}		
-			}	
-		}
-	}	
-
-	
-	// 그래픽 관련	
-	int nGraphicOptionSel = -1;
-	{
-		for(nCnt = 0;nCnt < MAX_OPTION_GRAPHIC_COMBO;nCnt++)
-		{
-			int nLBtnDown = m_pComboGraphic[nCnt]->LButtonDown(pt);
-			if(-1 != nLBtnDown)				
-			{
-				// 안보이다가 보이는 상황
-				nGraphicOptionSel = nCnt;
-				break;
-			}
-		}
-		// 선택된거를 제외한거 전체를 히든으로
-		if(nGraphicOptionSel != -1)
-		{
-			for(nCnt = 0;nCnt < MAX_OPTION_GRAPHIC_COMBO;nCnt++)
-			{
-				if(nCnt != nGraphicOptionSel)
-				{
-					m_pComboGraphic[nCnt]->ShowItem(FALSE);					
-				}
-			}
-			// 옵션정보 갱신
-			UpdateOptionInfo();
-			// 라디오 버튼 갱신
-			UpdateOptionInterface(&m_struOpInfo);
-			return  INF_MSGPROC_BREAK;
-		}			
-	}
-	// 그래픽 체크버튼
-	{		
-		if(TRUE == m_pMiniFrame->OnLButtonDown(pt))
-		{
-			// 최소 프레임 버튼클릭
-			OptionQualityCombo();
-			return  INF_MSGPROC_BREAK;			
-		}		
-	}
-
-	{
-		for(nCnt = 0;nCnt < MAX_OPTION_ETC_RADIO;nCnt++)
-		{	
-			// 2008-11-13 by bhsohn 조이스틱 작업
-			// 마우스 좌우 반전은 체크안함
-			if(OPTION_ETC_MOUSE_REVERSE_LR == nCnt)
-			{
-				continue;
-			}
-			// end 2008-11-13 by bhsohn 조이스틱 작업
-
-			if(TRUE == m_pEtcRadio[nCnt]->OnLButtonDown(pt))
-			{
-				OnClickEtcRadio(nCnt);
-				// 유저 인터페이스 갱신
-				UpdateOptionInterface(&m_struOpInfo);
-				return  INF_MSGPROC_BREAK;
-			}
-		}
-	}
-#endif
 	{
 		if(TRUE == m_pCloseBtn->OnLButtonDown(pt))
 		{
@@ -2291,7 +1730,6 @@ int CINFOptionSystem::OnLButtonDown(WPARAM wParam, LPARAM lParam)
 	}
 	// 라디오 버튼 갱신
 	UpdateOptionInterface(&m_struOpInfo);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	int size = m_ptBakSize.x / TOTAL_OPTION_TAB;
 
 	if( pt.y > m_ptBakPos.y + 26 &&
@@ -2322,7 +1760,6 @@ int CINFOptionSystem::OnLButtonDown(WPARAM wParam, LPARAM lParam)
 			}
 		}
 	} 
-#endif
 
 	if((m_ptBakPos.x <= pt.x && pt.x <= (m_ptBakPos.x+m_ptBakSize.x))
 		&& (m_ptBakPos.y <= pt.y && pt.y <= (m_ptBakPos.y+m_ptBakSize.y)))
@@ -2345,17 +1782,6 @@ int CINFOptionSystem::OnMouseMove(WPARAM wParam, LPARAM lParam)
 	m_pOptionInit->OnMouseMove(pt);	
 	m_pOptionLogOff->OnMouseMove(pt);	
 	m_pOptionGameEnd->OnMouseMove(pt);	
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경 
-
-	for(nCnt = 0;nCnt < MAX_OPTION_GRAPHIC_COMBO;nCnt++)
-	{
-		m_pComboGraphic[nCnt]->MouseMove(pt);
-	}	
-	// 2008-11-13 by bhsohn 조이스틱 작업
-	m_pOptionJoystic->OnMouseMove(pt);	
-	// end 2008-11-13 by bhsohn 조이스틱 작업	
-
-#endif
 
 	m_pCloseBtn->OnMouseMove(pt);	
 
@@ -2627,22 +2053,6 @@ void CINFOptionSystem::SetRadioInfo(int nMainId, BOOL bOnOff)
 
 void CINFOptionSystem::UpdateOptionInterface(structOptionGameInfo* pOptionInfo)
 {
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	int nMainId = 0;
-	for(nMainId = 0;nMainId < MAX_OPTION_RADIO;nMainId++)
-	{
-		if(pOptionInfo->struSOptionEtc.bRadioInfo[nMainId])
-		{
-			m_pGameOpRadioBtn[nMainId][OPTION_SYS_ON]->SetRadioBtn(TRUE);
-			m_pGameOpRadioBtn[nMainId][OPTION_SYS_OFF]->SetRadioBtn(FALSE);
-		}
-		else
-		{
-			m_pGameOpRadioBtn[nMainId][OPTION_SYS_ON]->SetRadioBtn(FALSE);
-			m_pGameOpRadioBtn[nMainId][OPTION_SYS_OFF]->SetRadioBtn(TRUE);
-		}		
-	}	
-#else
 	switch(m_nCurTeb)
 	{
 	case VEDIO_OPTION_TAB:
@@ -2678,7 +2088,6 @@ void CINFOptionSystem::UpdateOptionInterface(structOptionGameInfo* pOptionInfo)
 		}
 		break;
 	}	
-#endif
 	
 	// 그래픽옵션
 	{	
@@ -2705,36 +2114,6 @@ void CINFOptionSystem::UpdateOptionInterface(structOptionGameInfo* pOptionInfo)
 		// 최소 프레임모드
 		m_pMiniFrame->SetRadioBtn(pOptionInfo->struSOptionSetup.sLowQuality);
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	// ETc옵션
-	{
-		// 시전변환
-		m_pComboGraphic[OPTION_ETC_SEE_CHANGE]->SetSelectItem(GetEtcOption_To_Cursel(OPTION_ETC_SEE_CHANGE, pOptionInfo->struSOptionSetup.sEyePt));
-
-		// 시전변환
-		m_pComboGraphic[OPTION_ETC_VOLUMNE]->SetSelectItem(GetEtcOption_To_Cursel(OPTION_ETC_VOLUMNE, pOptionInfo->struSOptionSetup.sSoundVolume));
-
-		// 마우스 포인터 보이기
-		m_pEtcRadio[OPTION_ETC_SHOW_MOUSE]->SetRadioBtn(pOptionInfo->struSOptionSetup.sHandle);
-		// 헬프기능
-		m_pEtcRadio[OPTION_ETC_HELP]->SetRadioBtn(pOptionInfo->struSOptionCharacter.sHelpDesk);
-		// 오퍼레이터 기능
-		m_pEtcRadio[OPTION_ETC_OPERATOR]->SetRadioBtn(pOptionInfo->bOperator);
-		// 자동 수평유지
-		m_pEtcRadio[OPTION_ETC_MAINTAIN]->SetRadioBtn(pOptionInfo->struSOptionSetup.sAutoBalance);
-		// 상하 반전 
-		m_pEtcRadio[OPTION_ETC_MOUSE_REVERSE_TB]->SetRadioBtn(pOptionInfo->struSOptionSetup.sMouseReversUp);
-		// 마우스 좌우 반전
-		m_pEtcRadio[OPTION_ETC_MOUSE_REVERSE_LR]->SetRadioBtn(pOptionInfo->struSOptionSetup.sMouseReversLeft);
-		// 메뉴 사용시 유닛정지
-		// 2010. 10. 26 by jskim 펫 오퍼레이터 옵션 처리
-		//m_pEtcRadio[OPTION_ETC_MENU_UNISTOP]->SetRadioBtn(pOptionInfo->struSOptionSetup.sMenuBalance);
-		m_pEtcRadio[OPTION_ETC_PET_OP_SYS]->SetRadioBtn(pOptionInfo->struSOptionSetup.sPetOPBalance); 
-		// end 2010. 10. 26 by jskim 펫 오퍼레이터 옵션 처리
-		// Music플레이어 보기
-		m_pEtcRadio[OPTION_ETC_MUSIC]->SetRadioBtn(pOptionInfo->struSOptionSetup.sMp3Player);
-	}
-#endif
 	
 }
 
@@ -2783,10 +2162,6 @@ void CINFOptionSystem::UpdateOptionInfo()
 		nCursel = m_pComboGraphic[OPTION_ETC_SEE_CHANGE]->GetSelect();
 		pOptionInfo->struSOptionSetup.sEyePt = GetEtcCursel_To_Option(OPTION_ETC_SEE_CHANGE, nCursel);
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		nCursel = m_pComboGraphic[OPTION_ETC_VOLUMNE]->GetSelect();
-		pOptionInfo->struSOptionSetup.sSoundVolume = GetEtcCursel_To_Option(OPTION_ETC_VOLUMNE, nCursel);
-#endif
 
 	}
 }
@@ -2934,64 +2309,6 @@ int CINFOptionSystem::GetEtcOption_To_Cursel(int nMode, int nState)
 			break;
 		}
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	else if(OPTION_ETC_VOLUMNE == nMode)
-	{
-		switch(nState)
-		{
-		case -10000:
-			{
-				nCurSel = 0;
-			}
-			break;
-		case -3500:
-			{
-				nCurSel = 1;
-			}
-			break;
-		case -3000:
-			{
-				nCurSel = 2;
-			}
-			break;
-		case -2500:
-			{
-				nCurSel = 3;
-			}
-			break;
-		case -2000:
-			{
-				nCurSel = 4;
-			}
-			break;
-		case -1500:
-			{
-				nCurSel = 5;
-			}
-			break;
-		case -1000:
-			{
-				nCurSel = 6;
-			}
-			break;
-		case -600:
-			{
-				nCurSel = 7;
-			}
-			break;
-		case -300:
-			{
-				nCurSel = 8;
-			}
-			break;
-		case 0:
-			{
-				nCurSel = 9;
-			}
-			break;
-		}		
-	}
-#endif
 #ifdef C_TERRAIN_EFFECT_DETAIL_ON_OFF_YMJOO		// 2014-07-04 by ymjoo 지형 이펙트 디테일 옵션 변경 (ON/OFF)
 	else if(OPTION_GRAPHIC_EFFECT == nMode)
 	{
@@ -3041,64 +2358,6 @@ int CINFOptionSystem::GetEtcCursel_To_Option(int nMode, int nCursel)
 			break;
 		}
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	else if(OPTION_ETC_VOLUMNE == nMode)
-	{
-		switch(nCursel)
-		{
-		case 0:
-			{
-				nState = -10000;
-			}
-			break;
-		case 1:
-			{
-				nState = -3500;				
-			}
-			break;
-		case 2:
-			{
-				nState = -3000;
-			}
-			break;
-		case 3:
-			{
-				nState = -2500;				
-			}
-			break;
-		case 4:
-			{
-				nState = -2000;				
-			}
-			break;
-		case 5:
-			{
-				nState = -1500;				
-			}
-			break;
-		case 6:
-			{
-				nState = -1000;
-			}
-			break;
-		case 7:
-			{
-				nState = -600;
-			}
-			break;
-		case 8:
-			{
-				nState = -300;
-			}
-			break;
-		case 9:
-			{
-				nState = 0;
-			}
-			break;
-		}		
-	}
-#endif
 #ifdef C_TERRAIN_EFFECT_DETAIL_ON_OFF_YMJOO		// 2014-07-04 by ymjoo 지형 이펙트 디테일 옵션 변경 (ON/OFF)
 	else if(OPTION_GRAPHIC_EFFECT == nMode)
 	{
@@ -3129,7 +2388,6 @@ int CINFOptionSystem::GetEtcCursel_To_Option(int nMode, int nCursel)
 #endif
 	return nState;
 }
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 void CINFOptionSystem::OnClickRadio( int nRadioId )
 {
 	switch( m_nCurTeb )
@@ -3197,11 +2455,9 @@ void CINFOptionSystem::OnClickSoundRadio(int nRadioId)
 		break;
 	}
 }
-#endif
 void CINFOptionSystem::OnClickEtcRadio(int nRadioId)
 {
 	structOptionGameInfo* pOptionInfo = &m_struOpInfo;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	switch(nRadioId)
 	{
 	case ETC_OPTION_MAN_TO_MAN:
@@ -3280,67 +2536,6 @@ void CINFOptionSystem::OnClickEtcRadio(int nRadioId)
 		}
 		break;
 	}
-#else
-	switch(nRadioId)
-	{		
-	case OPTION_ETC_SHOW_MOUSE:// 마우스 포인터 보이기
-		{
-			if(IS_DT(g_pShuttleChild->m_myShuttleInfo.UnitKind) == FALSE )
-			{
-				pOptionInfo->struSOptionSetup.sHandle ^= TRUE;
-			}
-			else
-			{
-				pOptionInfo->struSOptionSetup.sHandle = TRUE;
-			}
-		}
-		break;
-	case OPTION_ETC_HELP:// 헬프기능
-		{
-			pOptionInfo->struSOptionCharacter.sHelpDesk ^= TRUE;
-		}
-		break;
-	case OPTION_ETC_OPERATOR:// 오퍼레이터 기능
-		{			
-			pOptionInfo->bOperator ^= TRUE;			
-		}
-		break;
-	case OPTION_ETC_MAINTAIN:// 수평유지
-		{
-			pOptionInfo->struSOptionSetup.sAutoBalance ^= TRUE;
-		}
-		break;
-	case OPTION_ETC_MOUSE_REVERSE_TB:// 마우스 상하 반전
-		{
-			pOptionInfo->struSOptionSetup.sMouseReversUp ^= TRUE;
-		}
-		break;
-	case OPTION_ETC_MOUSE_REVERSE_LR:// 마우스 좌우 반전
-		{
-			// 2008-11-13 by bhsohn 조이스틱 작업
-			// 마우스 좌우 반전없어짐
-			//pOptionInfo->struSOptionSetup.sMouseReversLeft ^= TRUE;
-			// end 2008-11-13 by bhsohn 조이스틱 작업
-		}
-		break;
-	// 2010. 10. 26 by jskim 펫 오퍼레이터 옵션 처리
-	//case OPTION_ETC_MENU_UNISTOP:// 메뉴 사용시 유닛정지
-	case OPTION_ETC_PET_OP_SYS:// 메뉴 사용시 유닛정지
-	// end 2010. 10. 26 by jskim 펫 오퍼레이터 옵션 처리
-		{
-			// 2010. 10. 26 by jskim 펫 오퍼레이터 옵션 처리
-			//pOptionInfo->struSOptionSetup.sMenuBalance ^= TRUE;
-			pOptionInfo->struSOptionSetup.sPetOPBalance ^= TRUE;
-			// end 2010. 10. 26 by jskim 펫 오퍼레이터 옵션 처리
-		}
-		break;
-	case OPTION_ETC_MUSIC:// Music플레이어 보기
-		{
-			pOptionInfo->struSOptionSetup.sMp3Player ^= TRUE;
-		}
-		break;	
-	}
-#endif
 }
 
 // 적용버튼
@@ -3535,7 +2730,6 @@ void CINFOptionSystem::OnClickJoystciOption()
 	bShow ^= TRUE;
 	g_pGameMain->ShowOpJoystick(bShow);
 }
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 void CINFOptionSystem::VideoRender()
 {
 	m_pOptionSubBk[VEDIO_OPTION_TAB]->Move(m_ptBakPos.x, m_ptBakPos.y);
@@ -3904,5 +3098,4 @@ int CINFOptionSystem::OnExMouseMove(WPARAM wParam, LPARAM lParam)
 int CINFOptionSystem::OnExLButtonUp(WPARAM wParam, LPARAM lParam)
 {
 	return INF_MSGPROC_NORMAL;
-}
-#endif
+}

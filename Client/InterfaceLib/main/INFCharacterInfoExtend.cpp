@@ -52,7 +52,6 @@
 #include "INFImageList.h"			  
 // end 2011. 10. 10 by jskim UI시스템 변경
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 //#define INFO_HP_START_X		56
 #define INFO_START_X		250
 #define INFO_START_Y		69
@@ -476,425 +475,6 @@
 
 #define DIS_EFF_STEP_TIME							0.5
 //end 2011-10-06 by jhahn 파트너 성장형 시스템
-#else 
-//#define INFO_HP_START_X		56
-#define INFO_START_X		248
-#define INFO_START_Y		69
-#define INFO_START_INTERVAL_X		240
-
-
-#define INFO_INTERVAL		18
-
-#define CHAR_UTC_START_X		(nWindowPosX+31)
-#define CHAR_UTC_START_Y		(nWindowPosY+217)
-#define CHAR_UTC_ICON_SIZE		30
-#define CHAR_UTC_INTERVAL_X		113
-#define CHAR_UTC_INTERVAL_Y		36
-
-#define UTC_SCROLL_BUTTON_START_X			(nWindowPosX+485)
-#define UTC_SCROLL_BAR_SIZE_X				11
-#define UTC_SCROLL_BAR_SIZE_Y				30
-//#define UTC_MAX_SCROLL_NUMBER				max(max(g_pD3dApp->m_pShuttleChild->m_mapSkillAttack.size(),g_pD3dApp->m_pShuttleChild->m_mapSkillDefense.size()),max(g_pD3dApp->m_pShuttleChild->m_mapSkillSupport.size(),g_pD3dApp->m_pShuttleChild->m_mapSkillAttribute.size()))
-#define UTC_MAX_SCROLL_NUMBER				GetUtcMaxScrollNumber()
-#define UTC_SCROLL_BUTTON_UP_START_Y		71
-#define UTC_SCROLL_BUTTON_DOWN_START_Y		247
-#define UTC_SCROLL_BAR_START_Y				212
-#define UTC_SCROLL_BAR_END_Y				538
-#define UTC_SCROLL_INTERVAL					(UTC_MAX_SCROLL_NUMBER==0 ? 0:((UTC_SCROLL_BAR_END_Y-UTC_SCROLL_BAR_START_Y)/UTC_MAX_SCROLL_NUMBER))
-
-#define CHARACTER_FACE_START_X				17
-#define CHARACTER_FACE_START_Y				171
-#define CHARACTER_FACE_SIZE_X				66
-#define CHARACTER_FACE_SIZE_Y				86
-
-#define AMMO_INTERVAL						18
-#define AMMO_DEFENSE_START_X				20
-
-#define C_QUEST_START_X						(nWindowPosX+19)
-#define C_QUEST_START_Y						70
-#define C_QUEST_SIZE_X						171
-#define C_QUEST_SIZE_Y						103
-//#define C_QUEST_STATE_START_X				136
-//#define C_QUEST_STATE_START_Y				70
-#define C_QUEST_INTERVAL					17
-#define C_QUEST_DESC_START_X				(nWindowPosX+20)
-#define C_QUEST_DESC_START_Y				178
-#define C_QUEST_DESC_INTERVAL				15
-#define C_QUEST_DESC_SIZE_X					171
-#define C_QUEST_DESC_SIZE_Y					78
-
-
-#define QUEST_LIST_SCROLL_START_X		(nWindowPosX+198)
-#define QUEST_LIST_SCROLL_START_Y		84
-#define QUEST_LIST_SCROLL_LINE_LENGTH	76
-#define QUEST_DESC_SCROLL_START_X		(nWindowPosX+198)
-#define QUEST_DESC_SCROLL_START_Y		185
-#define QUEST_DESC_SCROLL_LINE_LENGTH	61
-
-//#define CHAR_SCROLL_BAR_SIZE_X					11
-//#define CHAR_SCROLL_BAR_SIZE_Y					30
-
-//#define CHAR_QUEST_LIST_SCROLL_BAR_START_X		192
-//#define CHAR_QUEST_LIST_SCROLL_BAR_START_Y		83
-//#define CHAR_QUEST_LIST_SCROLL_BAR_LENGTH		(76-CHAR_SCROLL_BAR_SIZE_Y)
-//#define CHAR_QUEST_LIST_SCROLL_BAR_INTERVAL(count)		(count==0 ? 0:(CHAR_QUEST_LIST_SCROLL_BAR_LENGTH/count))
-
-//#define CHAR_QUEST_DESC_SCROLL_BAR_START_X		192
-//#define CHAR_QUEST_DESC_SCROLL_BAR_START_Y		185
-//#define CHAR_QUEST_DESC_SCROLL_BAR_LENGTH		(61-30)
-//#define CHAR_QUEST_DESC_SCROLL_BAR_INTERVAL(count)		(count==0 ? 0:(CHAR_QUEST_DESC_SCROLL_BAR_LENGTH/count))
-#define SHOP_START_X				CITY_BASE_NPC_BOX_START_X
-#define SHOP_START_Y				(CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y)
-// 2008-08-22 by bhsohn EP3 인벤토리 처리
-//#define SHOP_SKILL_BACK_START_X		(SHOP_START_X+26)
-//#define SHOP_SKILL_BACK_START_Y		(SHOP_START_Y+34)
-//#define SHOP_SKILL_START_X			(SHOP_SKILL_BACK_START_X+6)
-//#define SHOP_SKILL_START_Y			(SHOP_SKILL_BACK_START_Y+29)
-//#define SHOP_SKILL_INTERVAL_X		43
-//#define SHOP_SKILL_INTERVAL_Y		32
-//#define SHOP_SKILL_SPI_START_X		(SHOP_SKILL_BACK_START_X+26)
-//#define SHOP_SKILL_SPI_START_Y		(SHOP_SKILL_BACK_START_Y+238)
-//#define SHOP_SKILL_SCROLL_START_X	(SHOP_SKILL_BACK_START_X+174)
-//#define SHOP_SKILL_SCROLL_START_Y	(SHOP_SKILL_BACK_START_Y+8)
-//#define SHOP_SKILL_LENGTH			181
-//#define SHOP_SKILL_BACK_SIZE_X		166
-//#define SHOP_SKILL_BACK_SIZE_Y		181
-#define SHOP_SKILL_BACK_START_X		(SHOP_START_X)
-#define SHOP_SKILL_BACK_START_Y		(SHOP_START_Y)
-#define SHOP_SKILL_START_X			(SHOP_SKILL_BACK_START_X+20)
-#define SHOP_SKILL_START_Y			(SHOP_SKILL_BACK_START_Y+57)
-#define SHOP_SKILL_INTERVAL_X		116
-#define SHOP_SKILL_INTERVAL_Y		35
-#define SHOP_SKILL_SPI_START_X		(SHOP_SKILL_BACK_START_X+26)
-#define SHOP_SKILL_SPI_START_Y		(SHOP_SKILL_BACK_START_Y+238)
-#define SHOP_SKILL_SCROLL_START_X	(SHOP_SKILL_BACK_START_X+489)
-#define SHOP_SKILL_SCROLL_START_Y	(SHOP_SKILL_BACK_START_Y+58)
-#define SHOP_SKILL_LENGTH			204		// 2012-02-27 by mspark, 스킬상점 스크롤 위치 라인위로 맞추기 - 기존 181에서 204로 변경
-#define SHOP_SKILL_BACK_SIZE_X		500
-#define SHOP_SKILL_BACK_SIZE_Y		181
-// end 2008-08-22 by bhsohn EP3 인벤토리 처리
-
-#define SKILL_DROP_SIZE				22
-
-// 29/03/2006 by ispark, 언어에 따라 위치 수정
-//#ifdef LANGUAGE_ENGLISH
-//#define INFO_LEVEL_START_X			18//13
-//#define INFO_LEVEL_START_Y			25//26
-//#define INFO_ID_START_Y				24//26
-//#define OTHER_INFO_START_Y			184//186
-//
-//#define GUILD_START_Y						96
-//#define GENERAL_START_Y						87
-//#define PROPENSITY_START_Y					105
-//
-//#define AMMO_START_X				80//71
-//#define AMMO_START_Y				68//70
-//
-//#define STATINFO_START_X0			55//50
-//#define STATINFO_START_X1			160//155
-//
-//#define CHARACTER_AMMO_TEXT_X1		26
-//#define CHARACTER_AMMO_TEXT_X2		61
-//
-//#define SHOWSTATINFO_Y1				186
-//#define SHOWSTATINFO_Y2				205
-//#define SHOWSTATINFO_Y3				223
-//#define SHOWSTATINFO_Y4				241
-//#endif
-//
-//#ifdef LANGUAGE_KOREA
-//#define INFO_LEVEL_START_X			13
-//#define INFO_LEVEL_START_Y			24//26
-//#define INFO_ID_START_Y				25//26
-//#define OTHER_INFO_START_Y			184//186
-//
-//#define GUILD_START_Y				67//69
-//#define GENERAL_START_Y				85//87
-//#define PROPENSITY_START_Y			103//105
-//#define AMMO_START_X				71
-//#define AMMO_START_Y				68//70
-//
-//#define STATINFO_START_X0			50
-//#define STATINFO_START_X1			155
-//
-//#define CHARACTER_AMMO_TEXT_X1		0
-//#define CHARACTER_AMMO_TEXT_X2		51
-//
-//#define SHOWSTATINFO_Y1				186//187
-//#define SHOWSTATINFO_Y2				205//206
-//#define SHOWSTATINFO_Y3				223//224
-//#define SHOWSTATINFO_Y4				241//243
-//#endif
-//
-//#ifdef LANGUAGE_CHINA
-//#define INFO_LEVEL_START_X			13
-//#define INFO_LEVEL_START_Y			24//26
-//#define INFO_ID_START_Y				25//26
-//#define OTHER_INFO_START_Y			184//186
-//
-//#define GUILD_START_Y				67//69
-//#define GENERAL_START_Y				85//87
-//#define PROPENSITY_START_Y			103//105
-//#define AMMO_START_X				71
-//#define AMMO_START_Y				68//70
-//
-//#define STATINFO_START_X0			50
-//#define STATINFO_START_X1			155
-//
-//#define CHARACTER_AMMO_TEXT_X1		0
-//#define CHARACTER_AMMO_TEXT_X2		51
-//
-//#define SHOWSTATINFO_Y1				186//187
-//#define SHOWSTATINFO_Y2				205//206
-//#define SHOWSTATINFO_Y3				223//224
-//#define SHOWSTATINFO_Y4				241//243
-//#endif
-//
-//#ifdef LANGUAGE_VIETNAM
-//#define INFO_LEVEL_START_X			18//13
-//#define INFO_LEVEL_START_Y			25//26
-//#define INFO_ID_START_Y				24//26
-//#define OTHER_INFO_START_Y			184//186
-//
-//#define GUILD_START_Y						69
-//#define GENERAL_START_Y						87
-//#define PROPENSITY_START_Y					105
-//
-//#define AMMO_START_X				118//80//71
-//#define AMMO_START_Y				68//70
-//
-//#define STATINFO_START_X0			55//50
-//#define STATINFO_START_X1			160//155
-//
-//#define CHARACTER_AMMO_TEXT_X1		13//26
-//#define CHARACTER_AMMO_TEXT_X2		99//61
-//
-//#define SHOWSTATINFO_Y1				186
-//#define SHOWSTATINFO_Y2				205
-//#define SHOWSTATINFO_Y3				223
-//#define SHOWSTATINFO_Y4				241
-//#endif
-//// 2008-04-30 by bhsohn 태국 버전 추가
-//#ifdef LANGUAGE_THAI
-//	#define INFO_LEVEL_START_X			18//13
-//	#define INFO_LEVEL_START_Y			25//26
-//	#define INFO_ID_START_Y				24//26
-//	#define OTHER_INFO_START_Y			184//186
-//
-//	#define GUILD_START_Y						69
-//	#define GENERAL_START_Y						87
-//	#define PROPENSITY_START_Y					105
-//
-//	#define AMMO_START_X				80//71
-//	#define AMMO_START_Y				68//70
-//
-//	#define STATINFO_START_X0			55//50
-//	#define STATINFO_START_X1			160//155
-//
-//	#define CHARACTER_AMMO_TEXT_X1		26
-//	#define CHARACTER_AMMO_TEXT_X2		61
-//
-//	#define SHOWSTATINFO_Y1				186
-//	#define SHOWSTATINFO_Y2				205
-//	#define SHOWSTATINFO_Y3				223
-//	#define SHOWSTATINFO_Y4				241
-//#endif
-//// 2008-04-30 by bhsohn 태국 버전 추가
-#define GENERAL_START_X						248
-#define GENERAL_START_Y						110
-
-#define GUILD_START_X						248
-#define GUILD_START_Y						92
-
-#define GUILD_MARK_START_X						130
-#define GUILD_MARK_START_Y						94
-
-#define PROPENSITY_START_X					486
-#define PROPENSITY_START_Y					56
-
-#define PERSONAL_STAT_X						486
-#define PERSONAL_STAT_Y						74
-
-#define GUILDWAR_STAT_X						486
-#define GUILDWAR_STAT_Y						92
-
-#define INFO_LEVEL_START_X			248
-#define INFO_LEVEL_START_Y			74
-
-#define INFO_ID_START_X		100
-#define INFO_ID_START_Y		56
-
-// 2009-02-13 by bhsohn 월드 랭킹 시스템
-#define WR_NICKNAME_START_X						248
-#define WR_NICKNAME_START_Y						128
-// end 2009-02-13 by bhsohn 월드 랭킹 시스템
-
-//////////////// 스탯 스트링//////////////// 
-#define STATINFO_START_X0			209
-#define STATINFO_START_X1			443
-
-#define SHOWSTATINFO_Y1				196
-#define SHOWSTATINFO_Y2				215
-#define SHOWSTATINFO_Y3				233
-#define SHOWSTATINFO_Y4				251
-
-//////////////// 스탯 버튼//////////////// 
-#define STAT_TOOLTIP_LEFT_START_X			175
-#define STAT_TOOLTIP_RIGHT_START_X			410
-
-#define STAT_TOOLTIP_ATTACK_START_Y			198
-#define STAT_TOOLTIP_ENDURANCE_START_Y		198
-#define STAT_TOOLTIP_FUEL_START_Y			198
-#define STAT_TOOLTIP_SOUL_START_Y			216
-#define STAT_TOOLTIP_DODGE_START_Y			234
-#define STAT_TOOLTIP_DEFENSE_START_Y		216
-#define STAT_TOOLTIP_SIZE_X					64
-#define STAT_TOOLTIP_SIZE_Y					13
-
-
-#define OTHER_INFO_START_Y			405
-
-// 2007-05-15 by bhsohn 기어 스탯 관련 처리
-// 오버스탯 글씨 간격
-#define	OVER_STAT_CAP0_X			(13)
-#define	OVER_STAT_CAP1_X			(24)
-#define	OVER_STAT_CAPX				30
-
-// 2007-06-07 by dgwoo 아레나 정보창.
-#define ARENA_GAP_H							18
-
-#define ARENA_SCORE_X						(nWindowPosX + 248)
-#define ARENA_SCORE_Y						(nWindowPosY + 463)
-
-#define ARENA_SCORE_PERCENTAGE_X			(nWindowPosX + 248)
-#define ARENA_SCORE_PERCENTAGE_Y			(ARENA_SCORE_Y + ARENA_GAP_H)
-
-#define ARENA_COMPULSION_END_X				(nWindowPosX + 248)
-#define ARENA_COMPULSION_END_Y				(ARENA_SCORE_PERCENTAGE_Y + ARENA_GAP_H)
-
-// 누적 포인트
-#define ARENA_COMMULATION_POINT_X			(nWindowPosX + 248)
-#define ARENA_COMMULATION_POINT_Y			(ARENA_COMPULSION_END_Y + ARENA_GAP_H + ARENA_GAP_H + 5)
-
-// 가용 포인트
-#define ARENA_FUSIBLE_POINT_X				(nWindowPosX + 248)
-#define ARENA_FUSIBLE_POINT_Y				(ARENA_COMMULATION_POINT_Y + ARENA_GAP_H)
-
-#define AMMO_START_X				248
-#define AMMO_START_Y				309
-#define AMMO_START_INTERVAL_X		240
-
-#define INVEN_WEIGHT_START_X	486
-#define INVEN_WEIGHT_START_Y	(464)
-
-#define AMMO_WEIGHT_START_X				486
-#define AMMO_WEIGHT_START_Y				482
-
-#define WEIGHT_FUEL_START_X				486
-#define WEIGHT_FUEL_START_Y				500
-
-#define WEIGHT_BOOSTER_START_X				486
-#define WEIGHT_BOOSTER_START_Y				518
-
-#define WEIGHT_SPEED_START_X				486
-#define WEIGHT_SPEED_START_Y				536
-
-
-#define INFO_TAB_POX_X			24
-#define INFO_TAB_POX_Y			155
-
-#define INFO_TAB_POX_W			80
-#define INFO_TAB_POX_H			23
-
-#define ATTACK_TOOLIP_W			150
-
-// 2010. 06. 07 by jskim 파트너 시스템 구현 - 파트너 정보창
-#define PARTNER_NAMECHANGE_BTN_X 432
-#define PARTNER_NAMECHANGE_BTN_Y 207 
-
-#define PARTNER_OKCANCEL_BTN_X  347
-#define PARTNER_OKCANCEL_BTN_Y  557				//2011-10-06 by jhahn 파트너 성장형 시스템
-
-#define PARTNER_INFO_X			 222
-#define PARTNER_INFO_Y			 207
-#define PARTNER_INFO_Y_GAP		 18 
-
-#define PARTNER_DTAIL_INFO_X		455		  //2011-10-06 by jhahn 파트너 성장형 시스템
-#define PARTNER_DTAIL_INFO_Y		352		  //2011-10-06 by jhahn 파트너 성장형 시스템
-#define PARTNER_DTAIL_INFO_Y_GAP	29		  //2011-10-06 by jhahn 파트너 성장형 시스템
-
-// 2010-06-15 by shcho&hslee 펫시스템 - 펫 타입 값 선언 변경. - AtumParam.h 옮김.
-/*
-#define PARTNER_TYPE_ATT		 1
-#define PARTNER_TYPE_DFN		 2
-#define PARTNER_TYPE_BUF		 3
-#define PARTNER_TYPE_STORE		 4
-*/
-// End 2010-06-15 by shcho&hslee 펫시스템 - 펫 타입 값 선언 변경.
-
-
-#define PARTNER_EXP_POS_X		 187		//2011-10-06 by jhahn 파트너 성장형 시스템		// 2012-03-29 by mspark, 기어정보 -> 파트너 -> 경험치 바 위치 수정 - 기존 182에서 187로 수정
-#define PARTNER_EXP_POS_Y		 355		//2011-10-06 by jhahn 파트너 성장형 시스템		// 2012-03-29 by mspark, 기어정보 -> 파트너 -> 경험치 바 위치 수정 - 기존 354에서 355로 수정
-
-#define PARTNER_STAMENA_POS_X	 160
-#define PARTNER_STAMENA_POS_Y	 359
-
-#define PARTNER_EXP_SCROLL		 50
-#define PARTNER_EXP_SCROLL_POS_X 180	   //2011-10-06 by jhahn 파트너 성장형 시스템
-#define PARTNER_EXP_SCROLL_POS_Y 379	   //2011-10-06 by jhahn 파트너 성장형 시스템
-#define PARTNER_EXP_SCROLL_POS_W 219
-#define PARTNER_EXP_SCROLL_POS_H 0
-
-//end 2010. 06. 07 by jskim 파트너 시스템 구현 - 파트너 정보창
-
-/////////////////////////////////////////////////////////////////////////
-
-#define PARTNER_IMAGE_POS_X			40
-#define PARTNER_IMAGE_POS_Y			209
-
-//2011-10-06 by jhahn 파트너 성장형 시스템
-
-#define PARTNER_ITEM_SCROLL			100
-#define PARTNER_ITEM_SCROLL_POS_X	152
-#define PARTNER_ITEM_SCROLL_POS_Y	451
-#define PARTNER_ITEM_SCROLL_POS_W	219
-#define PARTNER_ITEM_SCROLL_POS_H	0
-
-#define	PARTNER_SOCKET_SKILL_POS_X			119
-#define	PARTNER_SOCKET_SKILL_POS_Y			466
-#define	PARTNER_SOCKET_SKILL_GAP			10
-
-#define PARTNER_SOCKET_ITEM_POS_X  48
-#define PARTNER_SOCKET_ITEM_POS_Y  424
-#define PARTNER_SOCKET_ITEM_POS_GAP  31
-
-#define PARTNER_SOCKET_KIT_POS_X  107
-#define PARTNER_SOCKET_KIT_POS_Y  436
-#define PARTNER_SOCKET_KIT_POS_GAP  35
-
-
-#define  PARTNER_SKILL_POPUPSHOP_X 512
-#define  PARTNER_SKILL_POPUPSHOP_Y 420
-#define  PARTNER_SKILL_POPUPSHOP_X_GAP 169
-#define  PARTNER_SKILL_POPUPSHOP_Y_GAP 76
-
-
-#define PARTNER_SOCKET_POS_X		58
-#define PARTNER_SOCKET_POS_Y		423
-#define PARTNER_SOCKET_GAP			1
-
-
-#define  PARTNER_SKILL_POPUPSOCKETOK_X 50
-#define  PARTNER_SKILL_POPUPSOCKETOK_Y 256
-#define  PARTNER_SKILL_POPUPSOCKETOK_X_GAP 388
-#define  PARTNER_SKILL_POPUPSOCKETOK_Y_GAP 172
-
-#define  PARTNER_SOCKET_KIT_ITEM_POS_X		162
-#define  PARTNER_SOCKET_KIT_ITEM_POS_Y		463
-
-#define DIS_EFF_STEP_TIME							0.5
-//end 2011-10-06 by jhahn 파트너 성장형 시스템
-#endif					
 
 #define SCROLL_MOVE_X 8		// 2012-02-27 by mspark, 스킬상점 스크롤 위치 라인위로 맞추기
 
@@ -911,9 +491,6 @@ CINFCharacterInfoExtend::CINFCharacterInfoExtend(CAtumNode* pParent)
 	//m_pAmmo = NULL;
 	//m_pStatImage = NULL;
 	m_pInfo = NULL;
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pInoBk = NULL;
-#endif
 	//m_pId = NULL;
 	m_pUtc = NULL;
 	m_pUtcScr = NULL;
@@ -1161,9 +738,7 @@ CINFCharacterInfoExtend::CINFCharacterInfoExtend(CAtumNode* pParent)
     //end 2011-10-06 by jhahn 파트너 성장형 시스템
 
 	//end 2010. 06. 07 by jskim 파트너 시스템 구현 - 파트너 정보창
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pInformationBK = NULL;
-#endif
 }
 
 CINFCharacterInfoExtend::~CINFCharacterInfoExtend()
@@ -1187,9 +762,6 @@ CINFCharacterInfoExtend::~CINFCharacterInfoExtend()
 	//SAFE_DELETE(m_pAmmo );
 	//SAFE_DELETE(m_pStatImage ) ;
 	SAFE_DELETE(m_pInfo);
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	SAFE_DELETE(m_pInoBk);
-#endif
 	//SAFE_DELETE(m_pId);
 	SAFE_DELETE(m_pUtc);
 	SAFE_DELETE(m_pUtcScr);
@@ -1363,9 +935,7 @@ CINFCharacterInfoExtend::~CINFCharacterInfoExtend()
 	SAFE_DELETE(m_pPartnerSocketSettingOk);		   //2011-10-06 by jhahn 파트너 성장형 시스템
 	
 	//end 2010. 06. 07 by jskim 파트너 시스템 구현 - 파트너 정보창
-	#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	SAFE_DELETE( m_pInformationBK );
-    #endif
 }
 
 HRESULT CINFCharacterInfoExtend::InitDeviceObjects()
@@ -1381,21 +951,14 @@ HRESULT CINFCharacterInfoExtend::InitDeviceObjects()
 //		m_pStatImage = new CINFImage;
 //	pDataHeader = FindResource("stat");
 //	m_pStatImage->InitDeviceObjects(pDataHeader->m_pData,pDataHeader->m_DataSize) ;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("INFORMATION");
 	m_pInformationBK = g_pGameMain->m_GruopImagemanager->GetGroupImage(pDataHeader);
 	m_pInformationBK->InitDeviceObjects( g_pD3dApp->m_pImageList );		
-#endif
 
 	m_pInfo = new CINFImageEx;
 	pDataHeader = FindResource("in_bk1");
 	m_pInfo->InitDeviceObjects(pDataHeader) ;
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
- 	m_pInoBk = new CINFImageEx;
-	pDataHeader = FindResource("in_bk0");
- 	m_pInoBk->InitDeviceObjects(pDataHeader) ;													  
-#endif
 
 //		m_pId = new CINFImage;
 //	pDataHeader = FindResource("ID");
@@ -1841,17 +1404,10 @@ HRESULT CINFCharacterInfoExtend::InitDeviceObjects()
 	{
 		// 닫기
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf(szUpBtn, "oks03");
 		wsprintf(szDownBtn, "oks01");
 		wsprintf(szSelBtn, "oks00");
 		wsprintf(szDisBtn, "oks02");
-#else
-		wsprintf(szUpBtn, "Ook3");
-		wsprintf(szDownBtn, "Ook1");
-		wsprintf(szSelBtn, "Ook0");
-		wsprintf(szDisBtn, "Ook2");
-#endif
 		if(NULL == m_pPartnerSocketSettingOk)
 		{
 			m_pPartnerSocketSettingOk = new CINFImageBtn;
@@ -1925,17 +1481,10 @@ HRESULT CINFCharacterInfoExtend::InitDeviceObjects()
 	{
 		// 닫기
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf(szUpBtn, "close");
 		wsprintf(szDownBtn, "close");
 		wsprintf(szSelBtn, "close");
 		wsprintf(szDisBtn, "close");
-#else
-		wsprintf(szUpBtn, "xclose");
-		wsprintf(szDownBtn, "xclose");
-		wsprintf(szSelBtn, "xclose");
-		wsprintf(szDisBtn, "xclose");
-#endif
 		if(NULL == m_pCloseBtn)
 		{
 			m_pCloseBtn = new CINFImageBtn;
@@ -1947,19 +1496,11 @@ HRESULT CINFCharacterInfoExtend::InitDeviceObjects()
 	CWorldRankManager*	pWorldRankManager = g_pD3dApp->GetWorldRankManager();	
 	if(pWorldRankManager->GetUseWorldRanking())
 	{	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];		
 		wsprintf(szUpBtn, "PN_change3");
 		wsprintf(szDownBtn, "PN_change1");
 		wsprintf(szSelBtn, "PN_change0");
 		wsprintf(szDisBtn, "PN_change2");
-#else
-		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];		
-		wsprintf(szUpBtn, "op_j3");
-		wsprintf(szDownBtn, "op_j1");
-		wsprintf(szSelBtn, "op_j0");
-		wsprintf(szDisBtn, "op_j2");
-#endif
 		if(NULL == m_pNickNameBtn)
 		{
 			m_pNickNameBtn = new CINFImageBtn;
@@ -1987,11 +1528,7 @@ HRESULT CINFCharacterInfoExtend::RestoreDeviceObjects()
 	FLOG( "CINFCharacterInfoExtend::RestoreDeviceObjects()" );
 	//m_pAmmo->RestoreDeviceObjects();
 	//m_pStatImage->RestoreDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pInformationBK->RestoreDeviceObjects();													  
-#else 
-	m_pInoBk->RestoreDeviceObjects();
-#endif
 	m_pInfo->RestoreDeviceObjects();
 	//m_pId->RestoreDeviceObjects();
 	m_pUtc->RestoreDeviceObjects();
@@ -2218,13 +1755,8 @@ HRESULT CINFCharacterInfoExtend::DeleteDeviceObjects()
 //	SAFE_DELETE(m_pAmmo );
 //	m_pStatImage->DeleteDeviceObjects();
 //	SAFE_DELETE(m_pStatImage );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pInformationBK->DeleteDeviceObjects();
 	SAFE_DELETE(m_pInformationBK);																  
-#else
-    m_pInoBk->DeleteDeviceObjects();
-	SAFE_DELETE(m_pInoBk );
-#endif
 
 	m_pInfo->DeleteDeviceObjects();
 	SAFE_DELETE(m_pInfo );
@@ -2578,11 +2110,7 @@ HRESULT CINFCharacterInfoExtend::InvalidateDeviceObjects()
 	FLOG( "CINFCharacterInfoExtend::InvalidateDeviceObjects()" );
 	//m_pAmmo->InvalidateDeviceObjects();
 	//m_pStatImage->InvalidateDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pInformationBK->InvalidateDeviceObjects();
-#else 
-	m_pInoBk->InvalidateDeviceObjects();
-#endif
 
 	m_pInfo->InvalidateDeviceObjects();
 	//m_pId->InvalidateDeviceObjects();
@@ -3258,37 +2786,8 @@ void	CINFCharacterInfoExtend::SkillRender()
 	}
 	//2011-10-06 by jhahn 파트너 성장형 시스템
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	
 	g_pGameMain->m_pInfWindow->RenderCenterWindow(m_ptSkillBkPos.x + PARTNER_SKILL_POPUPSHOP_X, m_ptSkillBkPos.y + PARTNER_SKILL_POPUPSHOP_Y,
 												PARTNER_SKILL_SHOP_X, PARTNER_SKILL_SHOP_Y, FALSE);
-#else 
-	m_pPartnerSkillShop[1]->SetScale(PARTNER_SKILL_POPUPSHOP_X_GAP,1);
-	
-	m_pPartnerSkillShop[3]->SetScale(1,PARTNER_SKILL_POPUPSHOP_Y_GAP);
-	m_pPartnerSkillShop[4]->SetScale(PARTNER_SKILL_POPUPSHOP_X_GAP,PARTNER_SKILL_POPUPSHOP_Y_GAP);
-	m_pPartnerSkillShop[5]->SetScale(1,PARTNER_SKILL_POPUPSHOP_Y_GAP);
-
-	m_pPartnerSkillShop[7]->SetScale(PARTNER_SKILL_POPUPSHOP_X_GAP,1);
-
-
-
-	m_pPartnerSkillShop[0]->Move( m_ptSkillBkPos.x + PARTNER_SKILL_POPUPSHOP_X,m_ptSkillBkPos.y + PARTNER_SKILL_POPUPSHOP_Y);
-	m_pPartnerSkillShop[1]->Move( m_ptSkillBkPos.x + PARTNER_SKILL_POPUPSHOP_X+ m_pPartnerSkillShop[0]->GetImgSize().x ,m_ptSkillBkPos.y + PARTNER_SKILL_POPUPSHOP_Y);
-	m_pPartnerSkillShop[2]->Move( m_ptSkillBkPos.x + PARTNER_SKILL_POPUPSHOP_X+ m_pPartnerSkillShop[0]->GetImgSize().x + PARTNER_SKILL_POPUPSHOP_X_GAP, m_ptSkillBkPos.y+ PARTNER_SKILL_POPUPSHOP_Y );
-
-	m_pPartnerSkillShop[3]->Move( m_ptSkillBkPos.x + PARTNER_SKILL_POPUPSHOP_X,m_ptSkillBkPos.y + PARTNER_SKILL_POPUPSHOP_Y + m_pPartnerSkillShop[0]->GetImgSize().y);
-	m_pPartnerSkillShop[4]->Move( m_ptSkillBkPos.x + PARTNER_SKILL_POPUPSHOP_X+ m_pPartnerSkillShop[3]->GetImgSize().x, m_ptSkillBkPos.y + PARTNER_SKILL_POPUPSHOP_Y+ m_pPartnerSkillShop[0]->GetImgSize().y);
-	m_pPartnerSkillShop[5]->Move( m_ptSkillBkPos.x + PARTNER_SKILL_POPUPSHOP_X+ m_pPartnerSkillShop[3]->GetImgSize().x + PARTNER_SKILL_POPUPSHOP_X_GAP, m_ptSkillBkPos.y + PARTNER_SKILL_POPUPSHOP_Y+ m_pPartnerSkillShop[0]->GetImgSize().y);
-
-	m_pPartnerSkillShop[6]->Move( m_ptSkillBkPos.x + PARTNER_SKILL_POPUPSHOP_X,m_ptSkillBkPos.y + PARTNER_SKILL_POPUPSHOP_Y+ m_pPartnerSkillShop[0]->GetImgSize().y + PARTNER_SKILL_POPUPSHOP_Y_GAP );
-	m_pPartnerSkillShop[7]->Move( m_ptSkillBkPos.x + PARTNER_SKILL_POPUPSHOP_X+ m_pPartnerSkillShop[6]->GetImgSize().x,m_ptSkillBkPos.y + PARTNER_SKILL_POPUPSHOP_Y+ m_pPartnerSkillShop[0]->GetImgSize().y + PARTNER_SKILL_POPUPSHOP_Y_GAP );
-	m_pPartnerSkillShop[8]->Move( m_ptSkillBkPos.x + PARTNER_SKILL_POPUPSHOP_X+ m_pPartnerSkillShop[6]->GetImgSize().x + PARTNER_SKILL_POPUPSHOP_X_GAP, m_ptSkillBkPos.y + PARTNER_SKILL_POPUPSHOP_Y+ m_pPartnerSkillShop[0]->GetImgSize().y + PARTNER_SKILL_POPUPSHOP_Y_GAP);
-
-	for (int k = 0 ; k < 9 ; k++)
-	{
-		m_pPartnerSkillShop[k]->Render();
-	}
-#endif
 
 	for (int j = 0 ; j < 2 ; j++)
 	{
@@ -3385,51 +2884,13 @@ void CINFCharacterInfoExtend::SocketOkRender()
 	}
 	
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pOkSocket[1]->SetScale(PARTNER_SKILL_POPUPSOCKETOK_X_GAP,1);
-	
-	m_pOkSocket[3]->SetScale(1,PARTNER_SKILL_POPUPSOCKETOK_Y_GAP + (9 * (LineStr - 3)));
-	m_pOkSocket[4]->SetScale(PARTNER_SKILL_POPUPSOCKETOK_X_GAP,PARTNER_SKILL_POPUPSOCKETOK_Y_GAP + (9 * (LineStr - 3)));
-	m_pOkSocket[5]->SetScale(1,PARTNER_SKILL_POPUPSOCKETOK_Y_GAP + (9 * (LineStr - 3)));
-	
-	m_pOkSocket[7]->SetScale(PARTNER_SKILL_POPUPSOCKETOK_X_GAP,1);	
-	
-	
-	m_pOkSocket[0]->Move( m_ptBkPos.x + PARTNER_SKILL_POPUPSOCKETOK_X,
-		m_ptBkPos.y + PARTNER_SKILL_POPUPSOCKETOK_Y);
-	m_pOkSocket[1]->Move( m_ptBkPos.x + PARTNER_SKILL_POPUPSOCKETOK_X+ m_pOkSocket[0]->GetImgSize().x ,
-		m_ptBkPos.y + PARTNER_SKILL_POPUPSOCKETOK_Y);
-	m_pOkSocket[2]->Move( m_ptBkPos.x + PARTNER_SKILL_POPUPSOCKETOK_X+ m_pOkSocket[0]->GetImgSize().x + PARTNER_SKILL_POPUPSOCKETOK_X_GAP,
-		m_ptBkPos.y+ PARTNER_SKILL_POPUPSOCKETOK_Y );
-	
-	m_pOkSocket[3]->Move( m_ptBkPos.x + PARTNER_SKILL_POPUPSOCKETOK_X,
-		m_ptBkPos.y + PARTNER_SKILL_POPUPSOCKETOK_Y + m_pOkSocket[0]->GetImgSize().y);
-	m_pOkSocket[4]->Move( m_ptBkPos.x + PARTNER_SKILL_POPUPSOCKETOK_X+ m_pOkSocket[3]->GetImgSize().x, 
-		m_ptBkPos.y + PARTNER_SKILL_POPUPSOCKETOK_Y + m_pOkSocket[0]->GetImgSize().y);
-	m_pOkSocket[5]->Move( m_ptBkPos.x + PARTNER_SKILL_POPUPSOCKETOK_X+ m_pOkSocket[3]->GetImgSize().x + PARTNER_SKILL_POPUPSOCKETOK_X_GAP,
-		m_ptBkPos.y + PARTNER_SKILL_POPUPSOCKETOK_Y + m_pOkSocket[0]->GetImgSize().y);
-	
-	m_pOkSocket[6]->Move( m_ptBkPos.x + PARTNER_SKILL_POPUPSOCKETOK_X,
-		m_ptBkPos.y + PARTNER_SKILL_POPUPSOCKETOK_Y+ PARTNER_SKILL_POPUPSOCKETOK_Y_GAP  + (9 * (LineStr - 3)) );
-	m_pOkSocket[7]->Move( m_ptBkPos.x + PARTNER_SKILL_POPUPSOCKETOK_X+ m_pOkSocket[6]->GetImgSize().x,
-		m_ptBkPos.y + PARTNER_SKILL_POPUPSOCKETOK_Y+ PARTNER_SKILL_POPUPSOCKETOK_Y_GAP  + (9 * (LineStr - 3)) );
-	m_pOkSocket[8]->Move( m_ptBkPos.x + PARTNER_SKILL_POPUPSOCKETOK_X+ m_pOkSocket[6]->GetImgSize().x + PARTNER_SKILL_POPUPSOCKETOK_X_GAP, 
-		m_ptBkPos.y + PARTNER_SKILL_POPUPSOCKETOK_Y+ PARTNER_SKILL_POPUPSOCKETOK_Y_GAP  + (9 * (LineStr - 3)) );
-#endif
 	
 	INVEN_DISPLAY_INFO *pInvenDisplayInfo = g_pGameMain->m_pInven->rtnPtr_AttachmentItemInfo ( POS_PET );	
 
 	if (pInvenDisplayInfo && g_pShuttleChild->GetPetManager()->GetrenderOnOff() )
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	
 		g_pGameMain->m_pInfWindow->RenderCenterWindow(m_ptBkPos.x + PARTNER_SKILL_POPUPSOCKETOK_X, m_ptBkPos.y + PARTNER_SKILL_POPUPSOCKETOK_Y,
 												PARTERN_CHECK_SOCKET_X, PARTERN_CHECK_SOCKET_Y  + (9 * (LineStr - 3)) , FALSE);
-#else 
-		for (int k = 0 ; k < 9 ; k++)
-		{
-			m_pOkSocket[k]->Render();
-		}		
-#endif
 		
 		m_pBigSlotSocket->Move( m_ptBkPos.x + PARTNER_SKILL_POPUPSOCKETOK_X + 172 ,m_ptBkPos.y + PARTNER_SKILL_POPUPSOCKETOK_Y + 25);
 		m_pBigSlotSocket->Render();
@@ -3828,10 +3289,8 @@ void CINFCharacterInfoExtend::RenderSkillInShop()
 						wsprintf(buf, STRMSG_C_080922_0202, m_pSkillShopSkillDisplayInfo[i][j].pItem->ItemInfo->SkillLevel);
 #ifdef C_DRAWTEXT_UPGRADE_YMJOO						// 2014-07-03 by ymjoo DrawText 성능 개선 작업 (캐릭터 스킬정보)
 						m_pFontItemNum[i][j][0]->DrawText(SHOP_SKILL_START_X + SHOP_SKILL_INTERVAL_X * i + 21 + 13, 
-#elif defined C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-						m_pFontItemNum[i]->DrawText(SHOP_SKILL_START_X+SHOP_SKILL_INTERVAL_X*i+21+13,
 #else
-						m_pFontItemNum[i]->DrawText(SHOP_SKILL_START_X+SHOP_SKILL_INTERVAL_X*i+21+20,
+						m_pFontItemNum[i]->DrawText(SHOP_SKILL_START_X+SHOP_SKILL_INTERVAL_X*i+21+13,
 #endif
 							SHOP_SKILL_START_Y+SHOP_SKILL_INTERVAL_Y*j,
 							GUI_FONT_COLOR,buf, 0L);
@@ -3849,10 +3308,8 @@ void CINFCharacterInfoExtend::RenderSkillInShop()
 
 #ifdef C_DRAWTEXT_UPGRADE_YMJOO						// 2014-07-03 by ymjoo DrawText 성능 개선 작업 (캐릭터 스킬정보)
 						m_pFontItemNum[i][j][1]->DrawText(SHOP_SKILL_START_X + SHOP_SKILL_INTERVAL_X * i + 21 + 13, 
-#elif defined C_EPSODE4_UI_CHANGE_JSKIM
+#else
 						m_pFontItemNum[i]->DrawText(SHOP_SKILL_START_X+SHOP_SKILL_INTERVAL_X*i+21+13,
-#else			   
-						m_pFontItemNum[i]->DrawText(SHOP_SKILL_START_X+SHOP_SKILL_INTERVAL_X*i+21+20,
 #endif
 							SHOP_SKILL_START_Y+SHOP_SKILL_INTERVAL_Y*j+14,
 							GUI_FONT_COLOR,buf, 0L);
@@ -4217,7 +3674,6 @@ int CINFCharacterInfoExtend::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			if(pt.y>nWindowPosY + INFO_TAB_POX_Y && pt.y<nWindowPosY + INFO_TAB_POX_Y + INFO_TAB_POX_H)
 			{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				if(pt.x>=nWindowPosX+INFO_TAB_POX_X &&
 				   pt.x<nWindowPosX+INFO_TAB_POX_X + INFO_TAB_POX_W / 3)
 				{
@@ -4225,15 +3681,6 @@ int CINFCharacterInfoExtend::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				}
 				else if(pt.x>nWindowPosX+INFO_TAB_POX_X + (INFO_TAB_POX_W / 3)&&
 				   pt.x<nWindowPosX+INFO_TAB_POX_X + 2* (INFO_TAB_POX_W / 3) )
-#else			
-				if(pt.x>=nWindowPosX+INFO_TAB_POX_X &&
-				   pt.x<nWindowPosX+INFO_TAB_POX_X + INFO_TAB_POX_W)
-				{
-					m_nCharacterInfoType = CHARACTER_INFO;
-				}
-				else if(pt.x>nWindowPosX+INFO_TAB_POX_X + INFO_TAB_POX_W&&
-				   pt.x<nWindowPosX+INFO_TAB_POX_X + 2*INFO_TAB_POX_W)
-#endif
 				{
 					m_nCharacterInfoType = CHARACTER_UTC;							
 					
@@ -4250,13 +3697,8 @@ int CINFCharacterInfoExtend::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						SetAllUTCInfo();
 					}
 				}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				else if(pt.x>nWindowPosX+INFO_TAB_POX_X + 2 * (INFO_TAB_POX_W / 3)&&
 					pt.x<nWindowPosX+INFO_TAB_POX_X + 3 * (INFO_TAB_POX_W / 3))
-#else 
-				else if(pt.x>nWindowPosX+INFO_TAB_POX_X + INFO_TAB_POX_W&&
-					pt.x<nWindowPosX+INFO_TAB_POX_X + 3*INFO_TAB_POX_W)
-#endif
 				{
 #ifdef SC_GROWING_PARTNER_HSKIM_JHAHN
 					m_nCharacterInfoType = CHARACTER_PARTNER;
@@ -4267,13 +3709,9 @@ int CINFCharacterInfoExtend::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			// 2005-08-05 by ispark
 			// AMMO 창안에 마우스 클릭시 무효
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			POINT ptBkSize;
 			ptBkSize.x = m_pInformationBK->GetMaxPos().x - m_pInformationBK->GetMinPos().x;
 			ptBkSize.y = m_pInformationBK->GetMaxPos().y - m_pInformationBK->GetMinPos().y;
-#else 
-			POINT ptBkSize = m_pInoBk->GetImgSize();
-#endif
 			if(pt.y>nWindowPosY &&
 				pt.y<nWindowPosY+ptBkSize.y&&
 				pt.x>nWindowPosX &&
@@ -4373,13 +3811,9 @@ int CINFCharacterInfoExtend::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		ScreenToClient(g_pD3dApp->GetHwnd(), &pt);
 		CheckMouseReverse(&pt);
 		
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		POINT ptBkSize;
 		ptBkSize.x = m_pInformationBK->GetMaxPos().x - m_pInformationBK->GetMinPos().x;
 		ptBkSize.y = m_pInformationBK->GetMaxPos().y - m_pInformationBK->GetMinPos().y;			  
-#else 
-		POINT ptBkSize = m_pInoBk->GetImgSize();
-#endif
 		if(pt.y>nWindowPosY &&
 			pt.y<nWindowPosY+ptBkSize.y&&
 			pt.x>nWindowPosX &&
@@ -4795,13 +4229,9 @@ int CINFCharacterInfoExtend::UTCWndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 				//((CINFGameMain*)m_pParent)->SetToolTip(0,0,NULL);
 			{					
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경		
 				POINT ptBkSize;
 				ptBkSize.x = m_pInformationBK->GetMaxPos().x - m_pInformationBK->GetMinPos().x;
 				ptBkSize.y = m_pInformationBK->GetMaxPos().y - m_pInformationBK->GetMinPos().y;
-#else 
-				POINT ptBkSize = m_pInoBk->GetImgSize();
-#endif
 				if(pt.y>nWindowPosY &&
 					pt.y<nWindowPosY+ptBkSize.y&&
 					pt.x>nWindowPosX &&
@@ -4858,13 +4288,9 @@ int CINFCharacterInfoExtend::UTCWndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			// 2005-08-02 by ispark
 			// 창안에 마우스 클릭시 무효
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	
 			POINT ptBkSize;
 			ptBkSize.x = m_pInformationBK->GetMaxPos().x - m_pInformationBK->GetMinPos().x;
 			ptBkSize.y = m_pInformationBK->GetMaxPos().y - m_pInformationBK->GetMinPos().y;
-#else 
-			POINT ptBkSize = m_pInoBk->GetImgSize();
-#endif
 			if(pt.y>nWindowPosY &&
 				pt.y<nWindowPosY+ptBkSize.y&&
 				pt.x>nWindowPosX &&
@@ -4968,13 +4394,9 @@ int CINFCharacterInfoExtend::ArenaWndProc(UINT uMsg,WPARAM wParam,LPARAM lParam)
 			int nWindowPosX = m_ptBkPos.x;
 			int nWindowPosY = m_ptBkPos.y;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			POINT ptBkSize;
 			ptBkSize.x = m_pInformationBK->GetMaxPos().x - m_pInformationBK->GetMinPos().x;
 			ptBkSize.y = m_pInformationBK->GetMaxPos().y - m_pInformationBK->GetMinPos().y;		  
-#else 
-			POINT ptBkSize = m_pInoBk->GetImgSize();
-#endif
 
 			if(pt.y>nWindowPosY &&
 				pt.y<nWindowPosY+ptBkSize.y&&
@@ -5264,11 +4686,7 @@ int CINFCharacterInfoExtend::PartnerWndProc(UINT uMsg,WPARAM wParam,LPARAM lPara
 					pt.y < m_ptSkillBkPos.y  + PARTNER_SKILL_POPUPSHOP_Y +29 + 30 + j * (30 + 10  ) )&& 
 					(g_pShuttleChild->GetPetManager()->GetSelectSocket() == SOKET_TYPE_SKILL))
 				{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 					if ((k >= 0) && (k < 4) && (j >= 0) && (j < 2) && &m_pPartnerSkilldisplay[j * 4 + k] && m_pPartnerSkilldisplay[j * 4 + k].pItem)
-#else 
-					if ((k >= 0) && (k < 4) && (j >= 0) && (j < 2) )
-#endif
 					{
 						POINT temp;
 						temp.x=temp.y=0;
@@ -5363,13 +4781,9 @@ int CINFCharacterInfoExtend::PartnerWndProc(UINT uMsg,WPARAM wParam,LPARAM lPara
 				return INF_MSGPROC_BREAK;
 			}
 //end 2011-10-06 by jhahn 파트너 성장형 시스템
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			POINT ptBkSize;
 			ptBkSize.x = m_pInformationBK->GetMaxPos().x - m_pInformationBK->GetMinPos().x;
 			ptBkSize.y = m_pInformationBK->GetMaxPos().y - m_pInformationBK->GetMinPos().y;
-#else 
-			POINT ptBkSize = m_pInoBk->GetImgSize();
-#endif
 			
 			if(pt.y>nWindowPosY &&
 				pt.y<nWindowPosY+ptBkSize.y&&
@@ -6486,13 +5900,9 @@ int CINFCharacterInfoExtend::InfoWndProc(UINT uMsg, WPARAM wParam, LPARAM lParam
 
 			}
 			{								
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경							
 				POINT ptBkSize;
 				ptBkSize.x = m_pInformationBK->GetMaxPos().x - m_pInformationBK->GetMinPos().x;
 				ptBkSize.y = m_pInformationBK->GetMaxPos().y - m_pInformationBK->GetMinPos().y;
-#else 
-				POINT ptBkSize = m_pInoBk->GetImgSize();
-#endif
 				
 				if(pt.y>nWindowPosY &&
 					pt.y<nWindowPosY+ptBkSize.y&&
@@ -6531,13 +5941,9 @@ int CINFCharacterInfoExtend::InfoWndProc(UINT uMsg, WPARAM wParam, LPARAM lParam
 
 			// 2005-08-02 by ispark
 			// 창안에 마우스 클릭시 무효
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			POINT ptBkSize;
 			ptBkSize.x = m_pInformationBK->GetMaxPos().x - m_pInformationBK->GetMinPos().x;
 			ptBkSize.y = m_pInformationBK->GetMaxPos().y - m_pInformationBK->GetMinPos().y;	  
-#else 
-			POINT ptBkSize = m_pInoBk->GetImgSize();
-#endif
 
 			if(pt.y>nWindowPosY &&
 				pt.y<nWindowPosY+ptBkSize.y&&
@@ -6633,11 +6039,7 @@ void CINFCharacterInfoExtend::RenderShowStatInfo()
 		// 공격 
 		{			
 			fPosX = fAllPosX[STAT_SHUTTLEINFO_ATTACK];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			fPosY = fAllPosY[STAT_SHUTTLEINFO_ATTACK] + 1;										  
-#else					 
-			fPosY = fAllPosY[STAT_SHUTTLEINFO_ATTACK];		
-#endif
 			
 			// 2014-07-02 by ymjoo DrawText 성능 개선 작업 (캐릭터 정보)
 #ifdef C_DRAWTEXT_UPGRADE_YMJOO
@@ -6713,12 +6115,7 @@ void CINFCharacterInfoExtend::RenderShowStatInfo()
 		// 방어
 		{			
 			fPosX = fAllPosX[STAT_SHUTTLEINFO_DEFENCE];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			fPosY = fAllPosY[STAT_SHUTTLEINFO_DEFENCE] + 1;		
-#else 
-			fPosY = fAllPosY[STAT_SHUTTLEINFO_DEFENCE];		
-
-#endif
 			
 			// 2014-07-02 by ymjoo DrawText 성능 개선 작업 (캐릭터 정보)
 #ifdef C_DRAWTEXT_UPGRADE_YMJOO
@@ -6784,11 +6181,7 @@ void CINFCharacterInfoExtend::RenderShowStatInfo()
 		// 연료
 		{			
 			fPosX = fAllPosX[STAT_SHUTTLEINFO_FUEL];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			fPosY = fAllPosY[STAT_SHUTTLEINFO_FUEL] + 1;		
-#else 
-			fPosY = fAllPosY[STAT_SHUTTLEINFO_FUEL];		
-#endif
 			
 			// 2014-07-02 by ymjoo DrawText 성능 개선 작업 (캐릭터 정보)
 #ifdef C_DRAWTEXT_UPGRADE_YMJOO
@@ -6855,11 +6248,7 @@ void CINFCharacterInfoExtend::RenderShowStatInfo()
 		// 정신
 		{			
 			fPosX = fAllPosX[STAT_SHUTTLEINFO_SOUL];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			fPosY = fAllPosY[STAT_SHUTTLEINFO_SOUL] + 1;										  
-#else 
-			fPosY = fAllPosY[STAT_SHUTTLEINFO_SOUL];		
-#endif
 			
 			// 2014-07-02 by ymjoo DrawText 성능 개선 작업 (캐릭터 정보)
 #ifdef C_DRAWTEXT_UPGRADE_YMJOO
@@ -6927,11 +6316,7 @@ void CINFCharacterInfoExtend::RenderShowStatInfo()
 		// 회피
 		{			
 			fPosX = fAllPosX[STAT_SHUTTLEINFO_DODGE];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			fPosY = fAllPosY[STAT_SHUTTLEINFO_DODGE] + 1;
-#else					   
-			fPosY = fAllPosY[STAT_SHUTTLEINFO_DODGE];		
-#endif		
 			
 			// 2014-07-02 by ymjoo DrawText 성능 개선 작업 (캐릭터 정보)
 #ifdef C_DRAWTEXT_UPGRADE_YMJOO
@@ -6998,11 +6383,7 @@ void CINFCharacterInfoExtend::RenderShowStatInfo()
 		// 쉴드
 		{			
 			fPosX = fAllPosX[STAT_SHUTTLEINFO_SHIELD];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			fPosY = fAllPosY[STAT_SHUTTLEINFO_SHIELD] + 1;		
-#else	   
-			fPosY = fAllPosY[STAT_SHUTTLEINFO_SHIELD];		
-#endif
 			
 			// 2014-07-02 by ymjoo DrawText 성능 개선 작업 (캐릭터 정보)
 #ifdef C_DRAWTEXT_UPGRADE_YMJOO
@@ -7330,13 +6711,9 @@ int CINFCharacterInfoExtend::AmmoWndProc(UINT uMsg, WPARAM wParam, LPARAM lParam
 			int nWindowPosY = m_ptBkPos.y;
 
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			POINT ptBkSize;
 			ptBkSize.x = m_pInformationBK->GetMaxPos().x - m_pInformationBK->GetMinPos().x;
 			ptBkSize.y = m_pInformationBK->GetMaxPos().y - m_pInformationBK->GetMinPos().y;
-#else					  
-			POINT ptBkSize = m_pInoBk->GetImgSize();
-#endif																								  
 
 			if(pt.y>nWindowPosY &&
 				pt.y<nWindowPosY+ptBkSize.y&&
@@ -7526,13 +6903,9 @@ void CINFCharacterInfoExtend::ShowCharacterInfoWnd(BOOL bShowWnd, POINT* pPos/*=
 	}
 	else
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		POINT ptSize;
 		ptSize.x = m_pInformationBK->GetMaxPos().x - m_pInformationBK->GetMinPos().x;
 		ptSize.y = m_pInformationBK->GetMaxPos().y - m_pInformationBK->GetMinPos().y;			  
-#else 
-		POINT ptSize = m_pInoBk->GetImgSize();
-#endif
 		
 		m_ptBkPos.x = (g_pD3dApp->GetBackBufferDesc().Width-ptSize.x)/2;
 		m_ptBkPos.y = (g_pD3dApp->GetBackBufferDesc().Height-ptSize.y)/2;
@@ -7626,20 +6999,12 @@ void CINFCharacterInfoExtend::RenderCommandInfo()
 	char buff[MAX_PATH];
 	memset(buff, 0x00, MAX_PATH);
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 	if(m_pInformationBK)
 	{
 		m_pInformationBK->Move(nWindowPosX, nWindowPosY);
 		m_pInformationBK->Render();
 	}
-#else 
-	if(m_pInoBk )
-	{
-		m_pInoBk->Move(nWindowPosX, nWindowPosY);
-		m_pInoBk->Render() ;
-	}
-#endif																								  
 
 	SIZE szSize = {0,0};
 
@@ -7663,11 +7028,7 @@ void CINFCharacterInfoExtend::RenderCommandInfo()
 	CINFImage* pFace = ((CInterface*)m_pParent->m_pParent)->m_pPilotFace->FindPilotImage(g_pD3dApp->m_pShuttleChild->m_myShuttleInfo.PilotFace);
 	if(pFace)
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		pFace->Move(nWindowPosX+30,nWindowPosY + 57);											  
-#else																							  
-		pFace->Move(nWindowPosX+26,nWindowPosY + 57);
-#endif
 		pFace->Render();
 	}	
 	if( g_pShuttleChild->m_myShuttleInfo.GuildUniqueNumber != 0 )
@@ -7731,7 +7092,6 @@ void CINFCharacterInfoExtend::RenderCommandInfo()
 	}
 		
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	// 2008-06-20 by bhsohn EP3 옵션관련 처리
 	if(m_pOpenBtn)
 	{				
@@ -7750,37 +7110,12 @@ void CINFCharacterInfoExtend::RenderCommandInfo()
 		m_pCloseBtn->Render();			
 	}
 	// end 2008-06-20 by bhsohn EP3 옵션관련 처리
-#else	 
-	// 2008-06-20 by bhsohn EP3 옵션관련 처리
-	if(m_pOpenBtn)
-	{				
-		int nPosX = nWindowPosX + 415;
-		int	nPosY = nWindowPosY + 149;
-		
-		m_pOpenBtn->SetBtnPosition(nPosX, nPosY);	
-		m_pOpenBtn->Render();			
-	}	
-	if(m_pCloseBtn)
-	{				
-		int nPosX = nWindowPosX + 490;
-		int	nPosY = nWindowPosY + 7;
-		
-		m_pCloseBtn->SetBtnPosition(nPosX, nPosY);	
-		m_pCloseBtn->Render();			
-	}
-	// end 2008-06-20 by bhsohn EP3 옵션관련 처리
-#endif
 
 	// 2009-02-13 by bhsohn 월드 랭킹 시스템
 	if(m_pNickNameBtn)
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		int nPosX = nWindowPosX + 225;
 		int	nPosY = nWindowPosY + 125;
-#else
-		int nPosX = nWindowPosX + 203;
-		int	nPosY = nWindowPosY + 128;
-#endif
 
 		CHARACTER myShuttleInfo = g_pShuttleChild->GetMyShuttleInfo();
 		if(0 == strlen(myShuttleInfo.NickName) && !m_pNickNameBtn->IsShowWindow())
@@ -7830,11 +7165,7 @@ void CINFCharacterInfoExtend::RenderCharacterInfo()
 
 	if(m_pInfo )
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pInfo->Move(nWindowPosX,nWindowPosY + 153);
-#else 
-		m_pInfo->Move(nWindowPosX+22,nWindowPosY + 153);
-#endif
 		m_pInfo->Render() ;
 	}
 
@@ -8291,11 +7622,7 @@ void CINFCharacterInfoExtend::RenderSkillInfo()
 	
 	if(m_pUtc )
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pUtc->Move(nWindowPosX,nWindowPosY + 153);											  
-#else							 
-		m_pUtc->Move(nWindowPosX+22,nWindowPosY + 153);
-#endif
 		m_pUtc->Render() ;
 	}
 	CINFIcon* pIcon = ((CINFGameMain*)m_pParent)->m_pIcon;
@@ -8396,11 +7723,7 @@ void CINFCharacterInfoExtend::RenderPartnerInfo()
 	
 	if(m_pPartnerInfoBk)
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pPartnerInfoBk->Move(nWindowPosX,nWindowPosY + 153);
-#else														  
-		m_pPartnerInfoBk->Move(nWindowPosX + 22,nWindowPosY + 153);
-#endif
 		m_pPartnerInfoBk->Render();
 	}
 
@@ -8641,13 +7964,9 @@ void CINFCharacterInfoExtend::OnClickStat(int nPos)
 BOOL CINFCharacterInfoExtend::IsMouseCaps(POINT ptPos)
 {
 	POINT ptBakPos = m_ptBkPos;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	POINT ptSize;
 	ptSize.x = m_pInformationBK->GetMaxPos().x - m_pInformationBK->GetMinPos().x;
 	ptSize.y = m_pInformationBK->GetMaxPos().y - m_pInformationBK->GetMinPos().y;
-#else  
-	POINT ptSize = m_pInoBk->GetImgSize();
-#endif
 	if((ptPos.x >= ptBakPos.x && (ptPos.x <= ptBakPos.x+ptSize.x))
 		&& (ptPos.y >= ptBakPos.y && (ptPos.y <= ptBakPos.y+20)))
 	{

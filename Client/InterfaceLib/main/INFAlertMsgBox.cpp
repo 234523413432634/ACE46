@@ -16,19 +16,11 @@
 #include "INFImageBtn.h"
 
 #include "INFAlertMsgBox.h"
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define OK_POS_X			137
 #define OK_POS_Y			117								// 2012-06-15 by isshin 세력선택시 경고창 - OK/CANCEL 설정
 
 #define CANCEL_POS_X		226
 #define CANCEL_POS_Y		117								// 2012-06-15 by isshin 세력선택시 경고창 - OK/CANCEL 설정
-#else
-#define OK_POS_X			163
-#define OK_POS_Y			136
-
-#define CANCEL_POS_X		252
-#define CANCEL_POS_Y		136
-#endif
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -78,7 +70,6 @@ HRESULT CINFAlertMsgBox::InitDeviceObjects()
 		m_pInfWarning = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,1024,32);
 		m_pInfWarning->InitDeviceObjects(g_pD3dDev) ;
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	{
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
 		wsprintf(szUpBtn, "okb03");			// 2012-06-15 by isshin 세력선택시 경고창 - OK/CANCEL 설정
@@ -103,33 +94,6 @@ HRESULT CINFAlertMsgBox::InitDeviceObjects()
 		}
 		m_pCancelBtn->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);	
 	}
-#else
-	
-	{
-		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-		wsprintf(szUpBtn, "shlaok00");
-		wsprintf(szDownBtn, "shlaok01");
-		wsprintf(szSelBtn, "shlaok03");
-		wsprintf(szDisBtn, "shlaok02");
-		if(NULL == m_pOkBtn)
-		{
-			m_pOkBtn = new CINFImageBtn;
-		}
-		m_pOkBtn->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);		
-	}
-	{
-		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-		wsprintf(szUpBtn, "shmcan00");
-		wsprintf(szDownBtn, "shmcan01");
-		wsprintf(szSelBtn, "shmcan03");
-		wsprintf(szDisBtn, "shmcan02");
-		if(NULL == m_pCancelBtn)
-		{
-			m_pCancelBtn = new CINFImageBtn;
-		}
-		m_pCancelBtn->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);		
-	}
-#endif	
 		
 	return S_OK;
 }

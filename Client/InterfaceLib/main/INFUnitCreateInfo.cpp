@@ -14,7 +14,6 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define IMAGE_SCALE					((float)g_pD3dApp->GetBackBufferDesc().Width/800.0f)
 #define UNIT_CREATE_INFO_SIZE_X		(474*IMAGE_SCALE)
 #define UNIT_CREATE_INFO_Y			(50*IMAGE_SCALE)
@@ -26,16 +25,6 @@
 
 #define BGFIDETIME					1.0f	  
 
-#else 
-#define IMAGE_SCALE					((float)g_pD3dApp->GetBackBufferDesc().Width/800.0f)
-#define UNIT_CREATE_INFO_SIZE_X		(474*IMAGE_SCALE)
-#define UNIT_CREATE_INFO_Y			(100*IMAGE_SCALE)
-
-#define UNIT_CREATE_INFO_START_X	((g_pD3dApp->GetBackBufferDesc().Width/2)-200)
-#define UNIT_CREATE_INFO_START_Y	(UNIT_CREATE_INFO_Y)
-
-#define VIEWING_TIME				(D3DX_PI/2.0f+0.5f)
-#endif
 
 CINFUnitCreateInfo::CINFUnitCreateInfo(CAtumNode* pParent)
 {
@@ -43,7 +32,6 @@ CINFUnitCreateInfo::CINFUnitCreateInfo(CAtumNode* pParent)
 	m_bRestored = FALSE;
 	m_fIncreaseViewingTime = VIEWING_TIME;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_fFadeInTime = 0;		// 2011. 10. 10 by jskim UI시스템 변경
 
 	m_dwBkAlpha = 0x00ffffff;
@@ -54,7 +42,6 @@ CINFUnitCreateInfo::CINFUnitCreateInfo(CAtumNode* pParent)
 		m_pGearInfo[i] = NULL;
 	}
 	m_nSelGear = 0;
-#endif
 }
 
 CINFUnitCreateInfo::~CINFUnitCreateInfo()
@@ -83,7 +70,6 @@ HRESULT CINFUnitCreateInfo::InitDeviceObjects()
 	pDataHeader = FindResource("A");
 	m_pAGear->InitDeviceObjects( pDataHeader );
  
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pBack = new CINFImageEx;		// 2011. 10. 10 by jskim UI시스템 변경
 	pDataHeader = FindResource("statgb");
 	m_pBack->InitDeviceObjects( pDataHeader );
@@ -103,7 +89,6 @@ HRESULT CINFUnitCreateInfo::InitDeviceObjects()
 	m_pGearInfo[3] =new  CINFImageEx;		// 2011. 10. 10 by jskim UI시스템 변경
 	pDataHeader = FindResource("sela");
 	m_pGearInfo[3]->InitDeviceObjects( pDataHeader );	  
-#endif
 
 	return S_OK;
 }
@@ -112,7 +97,6 @@ HRESULT CINFUnitCreateInfo::RestoreDeviceObjects()
 {
 	if(!m_bRestored)
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pBGear->RestoreDeviceObjects();
 		m_pBGear->Move(UNIT_CREATE_INFO_START_X - m_pBGear->GetImgSize().x /2 , UNIT_CREATE_INFO_START_Y);
 //		m_pBGear->SetScale(IMAGE_SCALE,IMAGE_SCALE);
@@ -139,25 +123,6 @@ HRESULT CINFUnitCreateInfo::RestoreDeviceObjects()
 			m_pGearInfo[i]->RestoreDeviceObjects();
 			m_pGearInfo[i]->Move( ((float)g_pD3dApp->GetBackBufferDesc().Width/2) - m_pGearInfo[i]->GetImgSize().x /2, UNIT_CREATE_INFO_START_Y + 110 );
 		}
-#else
-		m_pBGear->RestoreDeviceObjects();
-		m_pBGear->Move(UNIT_CREATE_INFO_START_X, UNIT_CREATE_INFO_START_Y);
-//		m_pBGear->SetScale(IMAGE_SCALE,IMAGE_SCALE);
-		
-		m_pIGear->RestoreDeviceObjects();
-		m_pIGear->Move(UNIT_CREATE_INFO_START_X, UNIT_CREATE_INFO_START_Y);
-//		m_pIGear->SetScale(IMAGE_SCALE,IMAGE_SCALE);
-		
-		m_pMGear->RestoreDeviceObjects();
-		m_pMGear->Move(UNIT_CREATE_INFO_START_X, UNIT_CREATE_INFO_START_Y);
-//		m_pMGear->SetScale(IMAGE_SCALE,IMAGE_SCALE);
-		
-		m_pAGear->RestoreDeviceObjects();
-		m_pAGear->Move(UNIT_CREATE_INFO_START_X, UNIT_CREATE_INFO_START_Y);
-//		m_pAGear->SetScale(IMAGE_SCALE,IMAGE_SCALE);
-
-		m_bRestored = TRUE;
-#endif
 	}
 	return S_OK;
 }
@@ -172,7 +137,6 @@ HRESULT CINFUnitCreateInfo::DeleteDeviceObjects()
 	SAFE_DELETE(m_pMGear);
 	m_pAGear->DeleteDeviceObjects();
 	SAFE_DELETE(m_pAGear);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pBack->DeleteDeviceObjects();		// 2011. 10. 10 by jskim UI시스템 변경
 	SAFE_DELETE(m_pBack);
 	int i; for(i=0; i < 4; i++)
@@ -180,7 +144,6 @@ HRESULT CINFUnitCreateInfo::DeleteDeviceObjects()
 		m_pGearInfo[i]->DeleteDeviceObjects();
 		SAFE_DELETE(m_pGearInfo[i]);
 	}																							  
-#endif
 	return S_OK;
 }
 
@@ -192,14 +155,12 @@ HRESULT CINFUnitCreateInfo::InvalidateDeviceObjects()
 		m_pIGear->InvalidateDeviceObjects();
 		m_pMGear->InvalidateDeviceObjects();
 		m_pAGear->InvalidateDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pBack->InvalidateDeviceObjects();		// 2011. 10. 10 by jskim UI시스템 변경
 
 		int i; for(i=0; i < 4; i++)		// 2011. 10. 10 by jskim UI시스템 변경
 		{
 			m_pGearInfo[i]->InvalidateDeviceObjects();
 		}																						  
-#endif
 		m_bRestored = FALSE;
 	}
 	return S_OK;
@@ -213,7 +174,6 @@ void CINFUnitCreateInfo::StartView( )
 void CINFUnitCreateInfo::Tick( float fElapedTime )
 {
 	m_tRemainTime.Tick( fElapedTime );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 2011. 10. 10 by jskim UI시스템 변경
 	switch(m_nFadeMode)		
 	{
@@ -244,7 +204,6 @@ void CINFUnitCreateInfo::Tick( float fElapedTime )
 		}
 		break;
 	}		// end 2011. 10. 10 by jskim UI시스템 변경
-#endif
 }
 void CINFUnitCreateInfo::Render( int nUnitKind )
 {
@@ -252,7 +211,6 @@ void CINFUnitCreateInfo::Render( int nUnitKind )
 	BOOL bRemainTime = m_tRemainTime.IsRemain();
 	DWORD dwColor = 0x00FFFFFF;
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	
 // 2011. 10. 10 by jskim UI시스템 변경
 	m_pBack->SetColor( m_dwBkAlpha );
 	m_pBack->Render();
@@ -260,7 +218,6 @@ void CINFUnitCreateInfo::Render( int nUnitKind )
 	m_pGearInfo[m_nSelGear]->SetColor( m_dwBkAlpha );
 	m_pGearInfo[m_nSelGear]->Render();
 // end 2011. 10. 10 by jskim UI시스템 변경														  
-#endif
 
 	if( bRemainTime )
 	{
@@ -305,7 +262,6 @@ void CINFUnitCreateInfo::Render( int nUnitKind )
 		break;
 	}
 }							   
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 2011. 10. 10 by jskim UI시스템 변경
 void CINFUnitCreateInfo::SetFadeMode( int nMode )
 {
@@ -328,4 +284,3 @@ void CINFUnitCreateInfo::SetFadeMode( int nMode )
 	}
 }
 // end 2011. 10. 10 by jskim UI시스템 변경
-#endif

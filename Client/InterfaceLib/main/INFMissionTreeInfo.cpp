@@ -32,7 +32,6 @@
 
 ////////////// 라디오 버튼 위치 ////////////// 
 // 시나리오 미션
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define		TAB_MISSION_ALL_POS_X			142
 #define		TAB_MISSION_ALL_POS_Y			413//638 // 2008-12-09 by dgwoo 미션마스터.
 
@@ -172,147 +171,6 @@
 
 #define MMASTER_BTN_DOWN_GAP			10.0f
 // 2008-12-02 by dgwoo 미션 마스터 시스템.
-#else
-#define		TAB_MISSION_ALL_POS_X			26
-#define		TAB_MISSION_ALL_POS_Y			614//638 // 2008-12-09 by dgwoo 미션마스터.
-
-// 시나리오 미션
-#define		TAB_MISSION_COMPLETE_POS_X		89
-#define		TAB_MISSION_COMPLETE_POS_Y		614//638 // 2008-12-09 by dgwoo 미션마스터.
-
-// 번ㅎ외 미션
-#define		TAB_MISSION_NOTCOMPLETE_POS_X			177
-#define		TAB_MISSION_NOTCOMPLETE_POS_Y			614//638 // 2008-12-09 by dgwoo 미션마스터.
-
-#define		TAB_MISSION_CAP_X				5
-
-////////////// 리스트 컨트롤 위치 ////////////// 
-#define		LISTCTRL_MAIN_LEN				3
-#define		LISTCTRL_POS_X					35
-#define		LISTCTRL_POS_Y					252
-#define		LISTCTRL_WIDTH					220
-#define		LISTCTRL_HEIGHT					360
-#define		LISTCTRL_SUB_POS_X				21
-#define		LISTCTRL_SUB_POS_Y				5
-#define		LISTCTRL_ONEPAGE_ITEMLEN		18
-
-// 에디트 박스 
-#define		EDITBOX_ONEPAGE_ITEMLEN			15
-#define		EDITBOX_POS_X					300
-#define		EDITBOX_POS_Y					52
-#define		EDITBOX_WIDTH					460
-#define		EDITBOX_HEIGHT					287
-#define		EDITBOX_SCROLL_POS_X			492
-#define		EDITBOX_SCROLL_POS_Y			58
-#define		EDITBOX_SCROLL_WIDTH			460
-#define		EDITBOX_SCROLL_HEIGHT			488
-#define		EDITBOX_NORMALCAP_Y				20
-#define		EDITBOX_HEADERCAP_X				10
-#define		EDITBOX_HEADERCAP_Y				38
-
-// 미션 보상 
-#define		MISSION_COMPEN_X				303
-#define		MISSION_COMPEN_Y				445
-#define		MISSION_COMPEN_CAP_X			52
-#define		MISSION_TOOLTIB_GAP_Y			32
-#define		MISSION_TOOLTIB_Y				30
-#define		MISSION_COMPEN_ONEITEM_WIDTH	27		// 한개의 아이템  
-#define		MISSION_COMPEN_ONEITEM_HEIGHT	27
-
-
-// 색상 설정
-#define TREEMISSION_SELECT_COLOR				(RGB(194, 155, 0))
-#define TREEMISSION_PROGRESS_COLOR				(RGB(59, 177, 255))
-#define TREEMISSION_COMPLETE_COLOR				(RGB(215, 215, 45))
-#define TREEMISSION_IMPOSIBLE_COLOR				(RGB(184, 36, 36))
-#define TREEMISSION_POSIBLE_COLOR				(RGB(255, 255, 255))
-
-// 에러 설정 정보 관련
-#define TREEMISSION_ERR_NONE					0
-#define TREEMISSION_ERR_LEVEL					100
-#define TREEMISSION_ERR_STAT_AT					101
-#define TREEMISSION_ERR_STAT_DE					102
-#define TREEMISSION_ERR_STAT_FU					103
-#define TREEMISSION_ERR_STAT_SO					104
-#define TREEMISSION_ERR_STAT_SH					105
-#define TREEMISSION_ERR_STAT_DO					106
-#define TREEMISSION_ERR_ITEM					107
-#define TREEMISSION_ERR_FLUENCE					108
-#define TREEMISSION_ERR_EXPERIENCE				109
-#define TREEMISSION_ERR_QUEST					110
-#define TREEMISSION_ERR_HIDEQUEST				111
-#define TREEMISSION_ERR_POSENDQUEST				112
-
-// 에러 설정 정보 관련
-#define TREEMISSION_ERR_NONE					0
-#define TREEMISSION_ERR_LEVEL					100
-#define TREEMISSION_ERR_STAT_AT					101
-#define TREEMISSION_ERR_STAT_DE					102
-#define TREEMISSION_ERR_STAT_FU					103
-#define TREEMISSION_ERR_STAT_SO					104
-#define TREEMISSION_ERR_STAT_SH					105
-#define TREEMISSION_ERR_STAT_DO					106
-#define TREEMISSION_ERR_ITEM					107
-#define TREEMISSION_ERR_FLUENCE					108
-#define TREEMISSION_ERR_EXPERIENCE				109
-#define TREEMISSION_ERR_QUEST					110
-#define TREEMISSION_ERR_HIDEQUEST				111
-#define TREEMISSION_ERR_POSENDQUEST				112
-
-// 미션 시작 버튼
-#define	MISSION_START_POS_X						705
-#define	MISSION_START_POS_Y						400
-
-// 미션 맵으로 이동 버튼 
-#define	MISSION_GO_POS_X						580
-#define	MISSION_GO_POS_Y						400
-
-
-
-// 맵 버튼
-#define	MAP_POS_X								296
-#define	MAP_POS_Y								521
-#define	MAP_POS_WIDTH							505
-#define	MAP_POS_HEIGHT							90
-
-// 닫기 창
-#define	CLOSE_POS_X								792
-#define	CLOSE_POS_Y								10
-
-// 애니창
-#define	ANI_POS_X								42
-#define ANI_POS_Y								41
-		
-
-// SPI ID
-#define	ITEM_NUM_SPI							7000022
-
-// 2007-07-30 by bhsohn 일반, 번외 퀘스트 재정렬
-#define	QUEST_RESORT_LEN						2
-
-// 2008-12-02 by dgwoo 미션 마스터 시스템.
-// 도움 요청 버튼.
-#define MMASTER_HELPER_X					497
-#define MMASTER_HELPER_Y					400
-
-#define MMASTER_HELPER_MX					623
-#define MMASTER_HELPER_MY					400
-
-// 편대 생성 & 도움 요청 버튼.
-#define MMASTER_HELPER_PARTY_X					438
-#define MMASTER_HELPER_PARTY_Y					400
-
-#define MMASTER_HELPER_PARTY_MX					564
-#define MMASTER_HELPER_PARTY_MY					400
-
-// 미션 마스터 등록 해제.
-#define MMASTER_REG_X					38
-#define MMASTER_REG_Y					630
-
-#define MMASTER_BTN_DOWN_GAP			10.0f
-// 2008-12-02 by dgwoo 미션 마스터 시스템.
-
-#endif
 
 // 격추수로 정렬
 struct Rank2SQuestIdx_Sort_Order: binary_function<structQuestInfo, structQuestInfo, bool>
@@ -343,11 +201,7 @@ struct Rank2SQuestIdx_Sort_Level: binary_function<structQuestInfo, structQuestIn
 // END 2012-11-29 by bhsohn 혼돈의 사막 퀘스트 안나오는 버그수정
 
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define TREEMISSION_MAX_DESC_STRING				430//35
-#else		  
-#define TREEMISSION_MAX_DESC_STRING				460//35
-#endif
 #define TREEMISSION_TITLE_MAX_DESC_STRING		700//35
 #if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
 	#define STRING_CULL ::StringCullingUserData_ToBlank
@@ -411,9 +265,6 @@ CINFMissionTreeInfo::CINFMissionTreeInfo(CINFMissionMain* i_pParent)
 	m_dwSelQuestIndex = 0;		
 
 	m_pINFMissionMapViewCtrl = NULL;
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pINFAniCtrl = NULL;
-#endif
 
 	m_fBackWidth = m_fBackHeight =1;
 	
@@ -474,13 +325,6 @@ CINFMissionTreeInfo::~CINFMissionTreeInfo()
 		SAFE_DELETE(m_pINFMissionMapViewCtrl);
 	}
 	
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	
-	if(m_pINFAniCtrl)
-	{
-		m_pINFAniCtrl->DeleteDeviceObjects();
-		SAFE_DELETE(m_pINFAniCtrl);
-	}
-#endif
 
 	if(m_pMissionListCtrl)
 	{
@@ -540,7 +384,6 @@ HRESULT CINFMissionTreeInfo::InitDeviceObjects()
 	memset(buf, 0x00, 30);
 
 	// 배경
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	{
 		if(NULL == m_pMissionBk)
 		{
@@ -550,22 +393,10 @@ HRESULT CINFMissionTreeInfo::InitDeviceObjects()
 			m_pMissionBk->RestoreDeviceObjects();
  		}
  	}
-#else
-	{
-		if(NULL == m_pMissionBk)
-		{
-			m_pMissionBk = new CINFImageEx;
-		}
-		wsprintf(buf,"m_bak");
-		pDataHeader = g_pGameMain->FindResource(buf);
-		m_pMissionBk->InitDeviceObjects(pDataHeader);		
-	}
-#endif
 
 	// 라디오 버튼
 	{
 		char chRadioOff[30], chRadioOn[30];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경		
 		wsprintf(chRadioOff, "Mallbtn_1");
 		wsprintf(chRadioOn, "Mallbtn_2");
 		
@@ -592,19 +423,6 @@ HRESULT CINFMissionTreeInfo::InitDeviceObjects()
 			m_pMissionMode[2] = new CINFImageRadioBtn;
 		}				
 		m_pMissionMode[2]->InitDeviceObjects(chRadioOff, chRadioOn);
-#else 
-		wsprintf(chRadioOff, "radio_b");
-		wsprintf(chRadioOn, "radio_a");
-		
-		for(nCnt = 0;nCnt < MAX_TAB_MISSION;nCnt++)
-		{		
-			if(NULL == m_pMissionMode[nCnt])
-			{		
-				m_pMissionMode[nCnt] = new CINFImageRadioBtn;
-			}				
-			m_pMissionMode[nCnt]->InitDeviceObjects(chRadioOff, chRadioOn);
-		}
-#endif
 		// 라디오 버튼 초기화
 		SelectRadioBtn(m_nSelMission);
 	}
@@ -636,15 +454,6 @@ HRESULT CINFMissionTreeInfo::InitDeviceObjects()
 	}
 	
 	// 애니메이션 컨트롤
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	{
-		if(NULL == m_pINFAniCtrl)
-		{
-			m_pINFAniCtrl = new CINFMissionAniCtrl;
-		}
-		m_pINFAniCtrl->InitDeviceObjects();		
-	}
-#endif
 	// 에디트 박스
 	{
 		if(NULL == m_pINFImageListBox)
@@ -658,11 +467,7 @@ HRESULT CINFMissionTreeInfo::InitDeviceObjects()
 			if(0 == nCnt)
 			{
 				dwFlagList[nCnt] = D3DFONT_ZENABLE|D3DFONT_BOLD;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				nFontSize[nCnt] = 12;															  
-#else 
-				nFontSize[nCnt] = 17;
-#endif
 			}
 			else
 			{
@@ -750,18 +555,10 @@ HRESULT CINFMissionTreeInfo::InitDeviceObjects()
 	//
 	{
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf(szUpBtn, "close");
 		wsprintf(szDownBtn, "close");
 		wsprintf(szSelBtn, "close");
 		wsprintf(szDisBtn, "close");
-#else 
-		wsprintf(szUpBtn, "xclose");
-		wsprintf(szDownBtn, "xclose");
-		wsprintf(szSelBtn, "xclose");
-		wsprintf(szDisBtn, "xclose");
-
-#endif
 		if(NULL == m_pCloseBtn)
 		{
 			m_pCloseBtn = new CINFImageBtn;
@@ -779,7 +576,6 @@ void CINFMissionTreeInfo::LoadListItem()
 
 	// 퀘스트 정보 로드
 	LoadQuest(m_nSelMission);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	char chEpTitle[MAX_TAB_MISSION_MODE_EP][32] =
 	{
 		"m_ep2bk",
@@ -787,13 +583,6 @@ void CINFMissionTreeInfo::LoadListItem()
 
 		"m_ep4bk"
 	};																							  
-#else												   
-	char chEpTitle[MAX_TAB_MISSION_MODE_EP][32] =
-	{
-		"m_ep2bk",
-		"m_ep3bk"
-	};
-#endif
 
 	
 	int nMainId = 0;
@@ -930,13 +719,8 @@ void CINFMissionTreeInfo::LoadQuestInfo(int nSelMission, vector<int>* pVecQuestI
 	vector<int>::iterator it = pVecQuestIndex->begin();
 
 	int nTabKind = -1;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	BOOL bProgressMission[MAX_TAB_MISSION_MODE_EP] = {FALSE, FALSE, FALSE};
 	int bNextScenShow[MAX_TAB_MISSION_MODE_EP] = {TRUE, TRUE, TRUE};
-#else
-	BOOL bProgressMission[MAX_TAB_MISSION_MODE_EP] = {FALSE, FALSE};
-	int bNextScenShow[MAX_TAB_MISSION_MODE_EP] = {TRUE, TRUE};
-#endif
 	
 
 	while(it != pVecQuestIndex->end())
@@ -967,12 +751,10 @@ void CINFMissionTreeInfo::LoadQuestInfo(int nSelMission, vector<int>* pVecQuestI
 				nEpMainId = TAB_MISSION_MODE_EP3;
 			}
  // 2011. 10. 10 by jskim UI시스템 변경
-		#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 			else if (QUEST_EPISODE_TYPE_4 == struQuestInfo.QuestEpisodeType)     
 			{
 				nEpMainId = TAB_MISSION_MODE_EP4;
 			}
-		#endif
  // end 2011. 10. 10 by jskim UI시스템 변경
 			else
 			{
@@ -1529,7 +1311,6 @@ void CINFMissionTreeInfo::SortQuestInfo_Scen(vector<structQuestInfo>* i_vecQuest
 HRESULT CINFMissionTreeInfo::RestoreDeviceObjects()
 {
 	int nCnt = 0;	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	POINT ptBk;
 	// 배경 이미지 
 	{	
@@ -1697,156 +1478,6 @@ HRESULT CINFMissionTreeInfo::RestoreDeviceObjects()
 // 		m_pINFAniCtrl->RestoreDeviceObjects();
 // 		m_pINFAniCtrl->SetWindowPos(fPosX, fPosY, 1, 1);
 // 	}
-#else 
-	// 배경 이미지 
-	{	
-		m_pMissionBk->RestoreDeviceObjects();		
-		POINT ptBk = m_pMissionBk->GetImgSize();
-
-		m_fBackWidth	= ptBk.x;
-		m_fBackHeight	= ptBk.y;
-		
-		if(g_pD3dApp->GetBackBufferDesc().Width > ptBk.x)
-		{
-			m_fBackPosX = (g_pD3dApp->GetBackBufferDesc().Width/2)-(ptBk.x/2);
-		}
-		if(g_pD3dApp->GetBackBufferDesc().Height > ptBk.y)
-		{
-			m_fBackPosY = (g_pD3dApp->GetBackBufferDesc().Height/2)-(ptBk.y/2);
-		}	
-	}
-
-	// 리스트 컨트롤 
-	{		
-		m_pMissionListCtrl->RestoreDeviceObjects();
-		m_pMissionListCtrl->SetListCtrlPos(m_fBackPosX+LISTCTRL_POS_X, m_fBackPosY+LISTCTRL_POS_Y, 
-											LISTCTRL_SUB_POS_X,LISTCTRL_SUB_POS_Y,
-											229, -34,
-											LISTCTRL_WIDTH, LISTCTRL_HEIGHT);		
-		// 아이템 정렬
-		//m_pMissionListCtrl->SortListCtrlItem();
-	}
-
-	
-	{
-		// 이미지 버튼 
-		float fModeX[MAX_TAB_MISSION] = 
-		{
-			m_fBackPosX + TAB_MISSION_ALL_POS_X, 
-			m_fBackPosX + TAB_MISSION_COMPLETE_POS_X, 
-			m_fBackPosX + TAB_MISSION_NOTCOMPLETE_POS_X
-		};
-		
-		float fModeY[MAX_TAB_MISSION] = 
-		{
-			m_fBackPosY + TAB_MISSION_ALL_POS_Y, 
-			m_fBackPosY + TAB_MISSION_COMPLETE_POS_Y, 
-			m_fBackPosY + TAB_MISSION_NOTCOMPLETE_POS_Y
-		};
-		float fWidth[MAX_TAB_MISSION];
-		
-		fWidth[TAB_MISSION_ALL]	= fModeX[TAB_MISSION_COMPLETE] - fModeX[TAB_MISSION_ALL];
-		fWidth[TAB_MISSION_COMPLETE]	= fModeX[TAB_MISSION_NOTCOMPLETE] - fModeX[TAB_MISSION_COMPLETE];
-		fWidth[TAB_MISSION_NOTCOMPLETE]		= (m_fBackPosX + 256) - fModeX[TAB_MISSION_NOTCOMPLETE];
-		
-		for(nCnt = 0;nCnt < MAX_TAB_MISSION;nCnt++)
-		{		
-			m_pMissionMode[nCnt]->RestoreDeviceObjects();
-			m_pMissionMode[nCnt]->SetPosition(fModeX[nCnt], fModeY[nCnt], fWidth[nCnt]);		
-		}
-	}
-
-	// 에디트 박스
-	{
-		float fPosX = m_fBackPosX + EDITBOX_POS_X;
-		float fPosY = m_fBackPosY + EDITBOX_POS_Y;		
-		DWORD dwColor = GUI_FONT_COLOR_YM;
-
-		m_pINFImageListBox->RestoreDeviceObjects();	
-		// 스크롤 위치 갱신
-		m_pINFImageListBox->SetScrollPos(fPosX, fPosY, 
-											EDITBOX_WIDTH, EDITBOX_HEIGHT,
-											EDITBOX_SCROLL_POS_X, EDITBOX_SCROLL_POS_Y,
-											EDITBOX_SCROLL_WIDTH, EDITBOX_SCROLL_HEIGHT);
-
-		for(nCnt = 0;nCnt < EDITBOX_ONEPAGE_ITEMLEN;nCnt++)
-		{					
-			m_pINFImageListBox->SetPosition(nCnt, fPosX, fPosY, dwColor);
-			fPosY += EDITBOX_NORMALCAP_Y;
-			if(0 == nCnt)
-			{
-				fPosX += EDITBOX_HEADERCAP_X;
-				fPosY += EDITBOX_HEADERCAP_Y;
-			}
-			dwColor = GUI_FONT_COLOR_W;
-		}		
-	}
-
-	m_pCompensation->RestoreDeviceObjects();	
-
-	// 미션 시작 버튼 
-	{
-		float fPosX = m_fBackPosX + MISSION_START_POS_X;
-		float fPosY = m_fBackPosY + MISSION_START_POS_Y;		
-
-		m_pStartMissionBtn->RestoreDeviceObjects();		
-		m_pStartMissionBtn->SetBtnPosition(fPosX, fPosY);
-	}
-
-	// 미션맵으로 이동
-	{
-		float fPosX = m_fBackPosX + MISSION_GO_POS_X;
-		float fPosY = m_fBackPosY + MISSION_GO_POS_Y;		
-
-		m_pGoMissionBtn->RestoreDeviceObjects();		
-		m_pGoMissionBtn->SetBtnPosition(fPosX, fPosY);
-	}
-
-	//미션 포기
-	{
-		float fPosX = m_fBackPosX + MISSION_START_POS_X;
-		float fPosY = m_fBackPosY + MISSION_START_POS_Y;		
-
-		m_pGiveupMissionBtn->RestoreDeviceObjects();		
-		m_pGiveupMissionBtn->SetBtnPosition(fPosX, fPosY);
-	}
-// 2008-12-09 by dgwoo 미션마스터.
-	{// 미션 마스터.
-		m_pBtnHelper->RestoreDeviceObjects();
-		m_pBtnMissionMaster->RestoreDeviceObjects();
-		m_pBtnMissionMaster->SetBtnPosition(m_fBackPosX+MMASTER_REG_X,m_fBackPosY+MMASTER_REG_Y);
-		m_pBtnMissionUnMaster->RestoreDeviceObjects();
-		m_pBtnMissionUnMaster->SetBtnPosition(m_fBackPosX+MMASTER_REG_X,m_fBackPosY+MMASTER_REG_Y);
-		m_pBtnPartyHelper->RestoreDeviceObjects();
-	}
-	
-	// 닫기 창
-	{		
-		float fPosX = m_fBackPosX + CLOSE_POS_X;
-		float fPosY = m_fBackPosY + CLOSE_POS_Y;		
-
-		m_pCloseBtn->RestoreDeviceObjects();		
-		m_pCloseBtn->SetBtnPosition(fPosX, fPosY);
-	}
-
-	// 맵 뷰
-	{		
-		float fPosX = m_fBackPosX + MAP_POS_X;
-		float fPosY = m_fBackPosY + MAP_POS_Y;		
-
-		m_pINFMissionMapViewCtrl->RestoreDeviceObjects();
-		m_pINFMissionMapViewCtrl->SetWindowPos(fPosX, fPosY, MAP_POS_WIDTH, MAP_POS_HEIGHT);
-	}
-
-	//애니메이션 컨트롤	
-	{		
-		float fPosX = m_fBackPosX + ANI_POS_X;
-		float fPosY = m_fBackPosY + ANI_POS_Y;		
-
-		m_pINFAniCtrl->RestoreDeviceObjects();
-		m_pINFAniCtrl->SetWindowPos(fPosX, fPosY, 1, 1);
-	}
-#endif
 	// 정보들 초기화 
 	InitBtn();
 	
@@ -1869,12 +1500,6 @@ HRESULT CINFMissionTreeInfo::DeleteDeviceObjects()
 		m_pINFMissionMapViewCtrl->DeleteDeviceObjects();	
 		SAFE_DELETE(m_pINFMissionMapViewCtrl);		
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	{
-		m_pINFAniCtrl->DeleteDeviceObjects();	
-		SAFE_DELETE(m_pINFAniCtrl);		
-	}
-#endif
 
 	{
 		m_pINFImageListBox->DeleteDeviceObjects();	
@@ -1943,9 +1568,6 @@ HRESULT CINFMissionTreeInfo::InvalidateDeviceObjects()
 	m_pBtnMissionUnMaster->InvalidateDeviceObjects();
 	m_pBtnPartyHelper->InvalidateDeviceObjects();
 	m_pCloseBtn->InvalidateDeviceObjects();		
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pINFAniCtrl->InvalidateDeviceObjects();		
-#endif
 	
 	
 	int nCnt = 0;
@@ -2004,9 +1626,6 @@ void CINFMissionTreeInfo::Render()
 	}
 	// 애니메이션 컨트롤
 	{
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		m_pINFAniCtrl->Render();
-#endif
 	}
 // 2008-12-09 by dgwoo 미션마스터.
 	// 미션 마스터.
@@ -2144,15 +1763,11 @@ void CINFMissionTreeInfo::RenderCompensationItem()
 
 void CINFMissionTreeInfo::Tick()
 {
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pINFAniCtrl->Tick();	
-#endif
 // 2008-12-09 by dgwoo 미션마스터.
 	if(0 > m_fMMBtnTime)
 		m_fMMBtnTime = MMASTER_BTN_DOWN_GAP;
 	m_fMMBtnTime += g_pD3dApp->GetElapsedTime();
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(g_pQuestData->GetProgressMission())
 	{
 		if( m_pStartMissionBtn->GetBtnState() != BTN_STATUS_DISABLE )
@@ -2183,7 +1798,6 @@ void CINFMissionTreeInfo::Tick()
 			m_pGiveupMissionBtn->EnableBtn(FALSE);
 		}
 	}
-#endif
 
 	// 2013-03-26 by bhsohn [게임포지] 케릭터 일때만 Mission맵으로 이동 버튼 활성화
 //#ifdef C_SHOW_MISSIONTOMAP
@@ -2825,12 +2439,6 @@ void CINFMissionTreeInfo::OnSelectMission(int nQuestIndex)
 		m_pINFMissionMapViewCtrl->UpdateMapInfo(pQuest, pQuest->StartMapIndex);		
 	}
 #endif
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pINFAniCtrl->InitAnimation(FALSE);
-	
-	// 애니메이션 시작
-	m_pINFAniCtrl->StartAnimation(bErrorQuest);
-#endif
 
 	m_dwSelQuestIndex = nQuestIndex;	
 
@@ -2873,11 +2481,6 @@ void CINFMissionTreeInfo::OnSelectMission(int nQuestIndex)
 		// 에러 퀘스트
 		bShowGiveup = bShowStartBtn = bShowGoMission = FALSE;
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	
-	m_pStartMissionBtn->ShowWindow(bShowStartBtn);
-	m_pGoMissionBtn->ShowWindow(bShowGoMission);
-	m_pGiveupMissionBtn->ShowWindow(bShowGiveup);	
-#endif
 	
 	// 2008-12-09 by dgwool 미션 마스터.
 	BOOL bHelper,bPartyHelper;
@@ -2895,24 +2498,10 @@ void CINFMissionTreeInfo::OnSelectMission(int nQuestIndex)
 			bHelper = TRUE;
 		}
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	
-	if(bShowGoMission)
-	{
-		m_pBtnHelper->SetBtnPosition(m_fBackPosX+MMASTER_HELPER_X,m_fBackPosY+MMASTER_HELPER_Y);
-		m_pBtnPartyHelper->SetBtnPosition(m_fBackPosX+MMASTER_HELPER_PARTY_X,m_fBackPosY+MMASTER_HELPER_PARTY_Y);
-	}
-	else
-	{
-		m_pBtnHelper->SetBtnPosition(m_fBackPosX+MMASTER_HELPER_MX,m_fBackPosY+MMASTER_HELPER_MY);
-		m_pBtnPartyHelper->SetBtnPosition(m_fBackPosX+MMASTER_HELPER_PARTY_MX,m_fBackPosY+MMASTER_HELPER_PARTY_MY);
-	}
-#endif
 	
 	// 2010. 02. 22 by ckPark 완료된 미션에 대해서 미션마스터 버튼이 보이는 버그 수정
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
  	m_pBtnHelper->EnableBtn(bHelper);
  	m_pBtnPartyHelper->EnableBtn(bPartyHelper);													  
-#endif
 	// 2010. 06. 29 by jskim 완료된 미션에 대해서 미션마스터 버튼이 보이는 버그 수정
 	//if( !g_pQuestData->IsQuestCompleted(nQuestIndex) )
 	// 	{
@@ -2924,7 +2513,6 @@ void CINFMissionTreeInfo::OnSelectMission(int nQuestIndex)
 	// 		m_pBtnHelper->ShowWindow( FALSE );
 	// 		m_pBtnPartyHelper->ShowWindow( FALSE );
 	// 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if( TRUE == g_pQuestData->IsQuestCompleted(nQuestIndex) || NULL != g_pD3dApp->SerchMissionCondition() )
 	{		  
  		m_pBtnHelper->EnableBtn( FALSE );
@@ -2936,19 +2524,6 @@ void CINFMissionTreeInfo::OnSelectMission(int nQuestIndex)
  		m_pBtnHelper->EnableBtn( bHelper );
  		m_pBtnPartyHelper->EnableBtn( bPartyHelper );
 	}
-#else		  
-	if( TRUE == g_pQuestData->IsQuestCompleted(nQuestIndex) || NULL != g_pD3dApp->SerchMissionCondition() )
-	{
-		m_pBtnHelper->ShowWindow( FALSE );
-		m_pBtnPartyHelper->ShowWindow( FALSE );
-		m_pGiveupMissionBtn->ShowWindow( FALSE );
-	}
-	else
-	{
-		m_pBtnHelper->ShowWindow( bHelper );
-		m_pBtnPartyHelper->ShowWindow( bPartyHelper );
-	}
-#endif
 	//end 2010. 06. 29 by jskim 완료된 미션에 대해서 미션마스터 버튼이 보이는 버그 수정
 	// end 2010. 02. 22 by ckPark 완료된 미션에 대해서 미션마스터 버튼이 보이는 버그 수정
 }
@@ -3153,9 +2728,6 @@ void CINFMissionTreeInfo::RefreshMission(BOOL bClick, INT QuestIndex)
 	InitBtn();
 	
 	// 진형정보
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pINFAniCtrl->SetMAniInfluence(g_pGameMain->GetMyShuttleInfo().InfluenceType);
-#endif
 
 	// 선택한 미션
 	OnRadioButtonDown(m_nSelMission);
@@ -3183,18 +2755,10 @@ void CINFMissionTreeInfo::InitMissionInfo(BOOL bFirstPopup)
 	m_pINFMissionMapViewCtrl->UpdateMapInfo(NULL, 0);
 	m_pINFImageListBox->ResetContent();	// 리스트 박스 정보 초기화 
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pStartMissionBtn->ShowWindow(FALSE);
-	m_pGoMissionBtn->ShowWindow(FALSE);
-	m_pGiveupMissionBtn->ShowWindow(FALSE);	
-#endif
 	UpdateMissionMasterButton();
 
 // end 2008-12-09 by dgwoo 미션마스터.
 	// 클릭으로 들어오면 초기화 아니면 초기화 하지안음
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pINFAniCtrl->InitAnimation(bFirstPopup);
-#endif
 }
 void CINFMissionTreeInfo::UpdateMissionMasterButton()
 {
@@ -3265,13 +2829,8 @@ void CINFMissionTreeInfo::UpdateMissionMasterButton()
 //		m_pBtnHelper->SetBtnPosition(m_fBackPosX+MMASTER_HELPER_MX,m_fBackPosY+MMASTER_HELPER_MY);
 //		m_pBtnPartyHelper->SetBtnPosition(m_fBackPosX+MMASTER_HELPER_PARTY_MX,m_fBackPosY+MMASTER_HELPER_PARTY_MY);
 //	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pBtnHelper->EnableBtn(bHelper);
 	m_pBtnPartyHelper->EnableBtn(bPartyHelper);													  
-#else 
-	m_pBtnHelper->ShowWindow(bHelper);
-	m_pBtnPartyHelper->ShowWindow(bPartyHelper);
-#endif
 
 
 }
@@ -3390,7 +2949,6 @@ void CINFMissionTreeInfo::SelectNextMission(INT nNextQuestIndex)
 
 void CINFMissionTreeInfo::InitBtn()
 {
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pStartMissionBtn->ShowWindow(TRUE);
 	m_pGoMissionBtn->ShowWindow(TRUE);
 	m_pGiveupMissionBtn->ShowWindow(TRUE);	
@@ -3400,13 +2958,4 @@ void CINFMissionTreeInfo::InitBtn()
 	m_pBtnHelper->EnableBtn(FALSE);
 	m_pBtnPartyHelper->EnableBtn(FALSE);
 	//m_pINFAniCtrl->InitAnimation(FALSE);
-#else 
-	m_pStartMissionBtn->ShowWindow(FALSE);
-	m_pGoMissionBtn->ShowWindow(FALSE);
-	m_pGiveupMissionBtn->ShowWindow(FALSE);	
-// 2008-12-09 by dgwoo 미션마스터.
-	m_pBtnHelper->ShowWindow(FALSE);
-	m_pBtnPartyHelper->ShowWindow(FALSE);
-	m_pINFAniCtrl->InitAnimation(FALSE);
-#endif
 }

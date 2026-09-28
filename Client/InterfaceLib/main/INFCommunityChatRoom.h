@@ -97,9 +97,6 @@ public:
 	POINT					m_ptCommunityPos;				// 윈도우 시작 위치.
 	DWORD					m_nChatRoomTab;
 	CINFImageEx *			m_pImgVoice;					// 음성 통신 아이콘.	   
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	CINFImageEx*			m_pImgBG;						// 이미지 배경.
-#endif
 	CINFImageEx *			m_pImgSpkVolBar;				// 음성 통신 바.
 	INT						m_nPosVolum;					// 스피커 볼륨.
 	POINT					m_ptOldVolumPos;
@@ -117,11 +114,7 @@ public:
 
 	//--------------------------------------------------------------------------//
 	// 채팅방 목록.
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage *		m_pImgRoomListBG;				// 채팅방 목록 배경.
-#else
-    CINFImageEx *			m_pImgRoomListBG;				// 채팅방 목록 배경.
-#endif
 	CINFImageEx *			m_pImgLock[2];
 	CINFImageEx *			m_pImgSel;						// 선택 이미지.
 	CINFArenaScrollBar *	m_pScrRoomList;					// 
@@ -138,11 +131,7 @@ public:
 	
 	//--------------------------------------------------------------------------//
 	// 채팅방.
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage *		m_pImgRoomBg;
-#else
-	CINFImageEx *		m_pImgRoomBg;
-#endif
 	CINFArenaScrollBar *	m_pScrRoom;
 	CINFImageEx *			m_pImgChatRoomSel;
 	CINFImageEx *			m_pImgRoomChief;				// 방장.
@@ -164,11 +153,7 @@ public:
 	// 채팅방 새로 만들기.
 	BOOL					m_bShowCreate;					// 방생성 인터페이스.
 	POINT					m_ptCreatePos;					// 방생성 윈도우 위치.
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage *		m_pRoomCreateBG;				// 방생성 배경.
-#else
-	CINFImageEx *	 	    m_pRoomCreateBG;				// 방생성 배경.
-#endif
 	CINFImageBtn *			m_pBtnCreateOk;					// 확인 버튼.
 	CINFImageBtn *			m_pBtnCreateCan;				// 취소 버튼.
 	CINFListBox *			m_pLBCreateRoom;				// 방생성창에 리스트 박스.
@@ -181,11 +166,7 @@ public:
 	POINT					m_ptOldPos;
 	POINT					m_ptChatRoomInfoPos;
 	CINFArenaScrollBar *	m_pScrRoomInfo;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage *		m_pRoomInfoBG;					// 채팅방 정보창 배경.
-#else
-	CINFImageEx *		    m_pRoomInfoBG;					// 채팅방 정보창 배경.
-#endif
 	CINFImageBtn *			m_pBtnRoomInfoClose;
 	INT						m_nOtherInfoTotCnt;
 

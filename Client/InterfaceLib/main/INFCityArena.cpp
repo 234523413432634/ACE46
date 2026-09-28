@@ -37,14 +37,9 @@
 
 #define ARENA_START_X			(CITY_BASE_NPC_BOX_START_X)									// 윈도우 창 젤 앞단.
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 #define ARENA_START_Y			(CITY_BASE_NPC_BOX_START_Y - SIZE_ARENA_WINDOW_Y - 30)			// 바를 제외한 젤 윗단.
 
-#else
-#define ARENA_START_Y			(CITY_BASE_NPC_BOX_START_Y - SIZE_ARENA_WINDOW_Y + 20)			// 바를 제외한 젤 윗단.
-
-#endif	
 
 // 2012-05-29 by mspark, 아레나 통합(전달)
 #ifdef SC_ARENA_EX_1ST_JHSEOL_MSPARK
@@ -58,11 +53,7 @@
 #define ARENA_START_CREATE_X			((g_pD3dApp->GetBackBufferDesc().Width - ARENA_CREATE_W ) /2 )
 #define ARENA_START_CREATE_Y			((g_pD3dApp->GetBackBufferDesc().Height - ARENA_CREATE_H ) /2 )
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define ARENA_MATCH_LIST_GAP			31
-#else	
-#define ARENA_MATCH_LIST_GAP			20
-#endif
 
 #define ARENA_LIST_COUNT				8
 
@@ -77,7 +68,6 @@
 #define ARENA_LIST_REFRESH_BUTTON_W		21
 #define ARENA_LIST_REFRESH_BUTTON_H		19
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 // 2012-05-29 by mspark, 아레나 통합(전달)
 #ifdef SC_ARENA_EX_1ST_JHSEOL_MSPARK
@@ -289,85 +279,6 @@
 #endif
 // end 2012-05-29 by mspark, 아레나 통합(전달)
 
-#else		  
-#define ARENA_INFLURENCE_LIST_X				ARENA_START_X + 14
-#define ARENA_INFLURENCE_LIST_Y				ARENA_START_Y + 3
-#define ARENA_INFLURENCE_LIST_W				103
-#define ARENA_INFLURENCE_LIST_H				17
-
-#define ARENA_INFLURENCE_LIST_ITEM_X		(ARENA_INFLURENCE_LIST_X)
-#define ARENA_INFLURENCE_LIST_ITEM_Y		(ARENA_INFLURENCE_LIST_Y + ARENA_INFLURENCE_LIST_H)
-#define ARENA_INFLURENCE_LIST_ITEM_W		103
-#define ARENA_INFLURENCE_LIST_ITEM_H		13
-
-#define ARENA_WAR_STATE_X					ARENA_START_X + 118
-#define ARENA_WAR_STATE_Y					ARENA_START_Y + 3
-#define ARENA_WAR_STATE_W					103
-#define ARENA_WAR_STATE_H					17
-
-#define ARENA_WAR_STATE_ITEM_X				(ARENA_WAR_STATE_X)
-#define ARENA_WAR_STATE_ITEM_Y				(ARENA_WAR_STATE_Y + ARENA_WAR_STATE_H)
-#define ARENA_WAR_STATE_ITEM_W				103
-#define ARENA_WAR_STATE_ITEM_H				13
-
-#define ARENA_WAR_STATE_COUNT				3
-
-#define ARENA_LIST_OPTION_H					13
-// 검색 버튼.
-#define ARENA_TEAM_SEARCH_BUTTON_X		ARENA_START_X + 225
-#define ARENA_TEAM_SEARCH_BUTTON_Y		ARENA_START_Y + 3
-#define ARENA_TEAM_SEARCH_BUTTON_W		47//38			// 2007-08-02 by dgwoo 해외이미지가 크기에 맞춰서 
-#define ARENA_TEAM_SEARCH_BUTTON_H		17
-
-#define ARENA_LIST_ROOM_NUMBER_FONT_X		ARENA_START_X + 60
-#define ARENA_LIST_ROOM_NUMBER_FONT_Y		ARENA_START_Y + 72
-
-#define ARENA_LIST_ROOM_ID_FONT_X		ARENA_START_X + 67 + 80
-#define	ARENA_LIST_ROOM_ID_FONT_Y		ARENA_START_Y + 72
-
-// 2008-03-10 by bhsohn 이벤트 아레나방 관련처리
-#define ARENA_LIST_ROOM_EVENT_FONT_X		(ARENA_START_X + 67)
-#define	ARENA_LIST_ROOM_EVENT_FONT_Y		(ARENA_START_Y + 72)
-
-#define ARENA_LIST_ROOM_MODE_X			ARENA_START_X + 277//233
-#define ARENA_LIST_ROOM_MODE_Y			ARENA_START_Y + 76
-
-#define ARENA_LIST_ROOM_LEVEL_X			ARENA_START_X + 348
-#define ARENA_LIST_ROOM_LEVEL_Y			ARENA_START_Y + 72
-
-#define ARENA_LIST_ROOM_PERSON_X		ARENA_START_X + 392
-#define ARENA_LIST_ROOM_PERSON_Y		ARENA_START_Y + 72
-
-#define ARENA_LIST_ROOM_LOCK_X			ARENA_START_X + 425
-#define ARENA_LIST_ROOM_LOCK_Y			ARENA_START_Y + 72
-
-#define ARENA_LIST_ROOM_STATE_X			ARENA_START_X + 480
-#define ARENA_LIST_ROOM_STATE_Y			ARENA_START_Y + 72
-
-#define ARENA_LIST_SELECT_X				ARENA_START_X + 26
-#define ARENA_LIST_SELECT_Y				ARENA_START_Y + 70
-
-#define ARENA_LIST_W					490
-#define ARENA_LIST_H					168
-
-//--------------------------------------------------------------------------//
-//							스크롤
-#define ARENA_LIST_SCROLL_LINE_LENGTH	195
-#define ARENA_LIST_SCROLL_WHELL_AREA_X	(ARENA_START_X + 24)
-#define ARENA_LIST_SCROLL_WHELL_AREA_Y	(ARENA_START_Y + 46)
-#define ARENA_LIST_SCROLL_WHELL_AREA_W	(ARENA_LIST_SCROLL_WHELL_AREA_X + 525)
-#define ARENA_LIST_SCROLL_WHELL_AREA_H	(ARENA_LIST_SCROLL_WHELL_AREA_Y + 185)
-
-#define ARENA_LIST_SCROLL_DRAG_AREA_X	(ARENA_START_X + 518)
-#define ARENA_LIST_SCROLL_DRAG_AREA_Y	(ARENA_START_Y + 43)
-#define ARENA_LIST_SCROLL_DRAG_AREA_W	(ARENA_LIST_SCROLL_DRAG_AREA_X + 18)
-#define ARENA_LIST_SCROLL_DRAG_AREA_H	(ARENA_LIST_SCROLL_DRAG_AREA_Y + 150)
-
-// 2007-05-15 by bhsohn 스크롤 관련 버그 수정
-#define	ARENA_LIST_SCROLL_DRAG_BALL_CAP		55
-//--------------------------------------------------------------------------//
-
-#endif
 
 
 
@@ -485,7 +396,6 @@ HRESULT CINFCityArena::DeleteDeviceObjects()
 	SAFE_DELETE(m_pImgAreRoomList);
 	SAFE_DELETE(m_pImgAreFont);
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pRenewArenaBackImage->DeleteDeviceObjects();
 	SAFE_DELETE(m_pRenewArenaBackImage);
 
@@ -513,7 +423,6 @@ HRESULT CINFCityArena::DeleteDeviceObjects()
 		SAFE_DELETE( m_pArenaQuickAppBtn );
 	}
 
-#endif
 	m_pArenaCreate->DeleteDeviceObjects();
 
 	// 2012-04-13 by mspark, 아레나 UI 작업
@@ -544,11 +453,7 @@ HRESULT CINFCityArena::InitDeviceObjects()
 		pDataHeader = FindResource(buf);
 		m_pImgRefreshB[i] = new CINFImageEx;
 		m_pImgRefreshB[i]->InitDeviceObjects( pDataHeader );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	wsprintf( buf, "Faq_df%d", i);
-#else
-		wsprintf( buf, "searchb%d", i);
-#endif	
 
 	
 		pDataHeader = FindResource(buf);
@@ -575,11 +480,7 @@ HRESULT CINFCityArena::InitDeviceObjects()
 	// 리스트 박스 설정.
 	if(NULL == m_pLBoxInf)
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pLBoxInf = new CINFListBox("cbarenaba","cbamode");
-#else			 
-		m_pLBoxInf = new CINFListBox("cbarena","cbarenab");
-#endif
 
 		m_pLBoxInf->AddElement(STRMSG_C_080225_0200);
 		m_pLBoxInf->AddElement(STRMSG_C_080225_0201);
@@ -594,14 +495,10 @@ HRESULT CINFCityArena::InitDeviceObjects()
 	}
 	if(NULL == m_pLBoxState)
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		// 2015-04-14 by jwlee 리스트박스 글씨가 잘리는 현상 수정
 		//m_pLBoxState = new CINFListBox("cbarenaba","cbamode");
 		m_pLBoxState = new CINFListBox("cbarenaba","cbamode", 256);
 		// end 2015-04-14 by jwlee 리스트박스 글씨가 잘리는 현상 수정
-#else			 
-		m_pLBoxState = new CINFListBox("cbarena","cbarenab");
-#endif
 
 
 		m_pLBoxState->AddElement(STRMSG_C_070608_0102);
@@ -655,7 +552,6 @@ HRESULT CINFCityArena::InitDeviceObjects()
 	m_pImgAreFont->InitDeviceObjects( pDataHeader );
 
 	m_pArenaCreate->InitDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
     {
 		DataHeader* pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource( "arena" );
 		m_pRenewArenaBackImage = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
@@ -668,14 +564,10 @@ HRESULT CINFCityArena::InitDeviceObjects()
 	{
 
 		m_pArenaCreateBtn = new CINFImageBtn;	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		// 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
 		//m_pArenaCreateBtn->InitDeviceObjects( "cres03", "cres01", "cres00", "cres02" );
 		m_pArenaCreateBtn->InitDeviceObjects( "cres03", "cres01", "cres00", "cres02","STRTOOLTIP47" );
 		// end 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
-#else	
-		m_pArenaCreateBtn->InitDeviceObjects( "if_rsc3", "if_rsc1", "if_rsc0", "if_rsc2" );
-#endif
 
 		// 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현	
 // 		m_pArenaAppBtn = new CINFImageBtn;	
@@ -696,7 +588,6 @@ HRESULT CINFCityArena::InitDeviceObjects()
 		m_pArenaAppCancelBtn->InitDeviceObjects( "cancb3", "cancb1", "cancb0", "cancb2","STRTOOLTIP81" );
 		// end 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
 	}
-#endif
 	
 	// 2012-04-13 by mspark, 아레나 UI 작업
 	pDataHeader = FindResource("aremap01");
@@ -779,7 +670,6 @@ HRESULT CINFCityArena::RestoreDeviceObjects()
 	m_pImgAreFont->RestoreDeviceObjects();
 
 	m_pArenaCreate->RestoreDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pRenewArenaBackImage->RestoreDeviceObjects();
 
 	if( m_pArenaCreateBtn )
@@ -794,7 +684,6 @@ HRESULT CINFCityArena::RestoreDeviceObjects()
 	if( m_pArenaQuickAppBtn )
 		m_pArenaQuickAppBtn->RestoreDeviceObjects();
 
-#endif
 
 	// 2012-04-13 by mspark, 아레나 UI 작업
 	m_pImgArenaMap01->RestoreDeviceObjects();
@@ -843,7 +732,6 @@ HRESULT CINFCityArena::InvalidateDeviceObjects()
 
 	m_pArenaCreate->InvalidateDeviceObjects();
 												   
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pRenewArenaBackImage->InvalidateDeviceObjects();
 
 	if( m_pArenaCreateBtn )
@@ -855,7 +743,6 @@ HRESULT CINFCityArena::InvalidateDeviceObjects()
 	if( m_pArenaQuickAppBtn )
 		m_pArenaQuickAppBtn->InvalidateDeviceObjects();
 
-#endif
 
 	// 2012-04-13 by mspark, 아레나 UI 작업
 	m_pImgArenaMap01->InvalidateDeviceObjects();
@@ -870,22 +757,11 @@ HRESULT CINFCityArena::InvalidateDeviceObjects()
 void CINFCityArena::Render()
 {
 	char buf[64] = { 0, };
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
     m_pRenewArenaBackImage->Move(ARENA_LIST_ROOM_X - 1 ,ARENA_LIST_ROOM_Y - 24);
 	m_pRenewArenaBackImage->Render();
-#else
-	m_pImgAreRoomList->Move(ARENA_LIST_ROOM_X,ARENA_LIST_ROOM_Y);
-	m_pImgAreRoomList->Render();
-#endif
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 //	m_pImgAreFont->Move(ARENA_FONT_X,ARENA_FONT_Y);
 //	m_pImgAreFont->Render();
 
-#else  
-	m_pImgAreFont->Move(ARENA_FONT_X,ARENA_FONT_Y);
-	m_pImgAreFont->Render();
-
-#endif
 
 //	m_pImgRefreshB[m_nRefresh]->Move(ARENA_LIST_REFRESH_BUTTON_X,ARENA_LIST_REFRESH_BUTTON_Y);
 //	m_pImgRefreshB[m_nRefresh]->Render();
@@ -899,7 +775,6 @@ void CINFCityArena::Render()
 	m_pScroll->Render();
 
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pArenaCreateBtn->SetBtnPosition(ARENA_CREATE_BUTTON_X + 40,ARENA_CREATE_BUTTON_Y);
 	m_pArenaCreateBtn->Render();
 
@@ -912,7 +787,6 @@ void CINFCityArena::Render()
 	m_pArenaAppCancelBtn->SetBtnPosition(ARENA_APPCANCEL_BUTTON_X + 40,ARENA_APPCANCEL_BUTTON_Y);
 	m_pArenaAppCancelBtn->Render();
 
-#endif
 
 
 
@@ -1667,7 +1541,6 @@ int CINFCityArena::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				pt.y = HIWORD(lParam);
 				CheckMouseReverse(&pt);
 											  
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				if(m_pArenaCreateBtn->OnMouseMove(pt))
 					return INF_MSGPROC_BREAK;
 				if(m_pArenaAppBtn->OnMouseMove(pt))
@@ -1676,7 +1549,6 @@ int CINFCityArena::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					return INF_MSGPROC_BREAK;
 				if(m_pArenaQuickAppBtn->OnMouseMove(pt))
 					return INF_MSGPROC_BREAK;
-#endif
 
 
 				m_pLBoxInf->MouseMove(pt);
@@ -1761,7 +1633,6 @@ int CINFCityArena::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				pt.x = LOWORD(lParam);
 				pt.y = HIWORD(lParam);
 				CheckMouseReverse(&pt);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				if(m_pArenaCreateBtn->OnLButtonDown(pt))
 					return INF_MSGPROC_BREAK;
 				
@@ -1774,7 +1645,6 @@ int CINFCityArena::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				if(m_pArenaQuickAppBtn->OnLButtonDown(pt))
 					return INF_MSGPROC_BREAK;
 
-#endif
 				
 				if(1 == m_pLBoxInf->LButtonDown(pt))
 				{
@@ -1838,7 +1708,6 @@ int CINFCityArena::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				pt.x = LOWORD(lParam);
 				pt.y = HIWORD(lParam);
 				CheckMouseReverse(&pt);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				if( m_pArenaCreateBtn->OnLButtonUp(pt) )
 				{
 					CreateRoom();
@@ -1856,7 +1725,6 @@ int CINFCityArena::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					QuickApp();
 				}
 
-#endif
 				
 
 

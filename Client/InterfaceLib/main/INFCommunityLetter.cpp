@@ -24,7 +24,6 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 //  편지 읽기
 #define		LETTER_MODE_POS_X		32
 #define		LETTER_MODE_POS_Y		25
@@ -96,77 +95,6 @@
 #define LETTER_INFO_READ_EDIT_W						345
 #define LETTER_INFO_READ_FONT_LINE_HEIGHT			15
 #define LETTER_INFO_READ_FONT_MOUSE_HEIGHT			170		 
-#else 
-#define		LETTER_MODE_POS_X		32
-#define		LETTER_MODE_POS_Y		52
-#define		LETTER_MODE_WIDTH		118
-#define		LETTER_MODE_HEIGHT		25
-#define		MAX_LETTER_READ_NUMBER	8		// 최대 
-
-#define		LETTER_READ_LIST_BK_X			47		// 
-#define		LETTER_READ_LIST_BK_Y			83		// 
-
-#define		LETTER_READ_INFO_BK_X			54		// 
-#define		LETTER_READ_INFO_BK_Y			73		// 
-
-#define		LETTER_READ_ITEM_X			68		// 
-#define		LETTER_READ_ITEM_Y			149		// 
-#define		LETTER_READ_ITEM_WIDTH		390		// 
-#define		LETTER_READ_ITEM_HEIGHT		27		// 
-
-///////////////////////// 편지 쓰기 //////////////////////////
-// 편지 에디트 박스
-#define		LETTER_WRITE_USER_EDIT		0
-#define		LETTER_WRITE_TITLE_EDIT		1
-#define		LETTER_WRITE_INFO_EDIT		2
-
-// 편지보내는 유저
-#define LETTER_SEND_USER_EDIT_X						176
-#define LETTER_SEND_USER_EDIT_Y						98
-#define LETTER_SEND_USER_EDIT_W						260
-#define LETTER_SEND_USER_FONT_LINE_HEIGHT			15
-
-// 편지쓰기 유저
-#define LETTER_USER_EDIT_X						176
-#define LETTER_USER_EDIT_Y						118
-#define LETTER_USER_EDIT_W						260
-#define LETTER_USER_FONT_LINE_HEIGHT			15
-
-// 제목
-#define LETTER_TITLE_EDIT_X						176
-#define LETTER_TITLE_EDIT_Y						138
-#define LETTER_TITLE_EDIT_W						260
-#define LETTER_TITLE_FONT_LINE_HEIGHT			15
-
-// 내용
-#define LETTER_INFO_MAX_SCROLL_LINE			11
-#define LETTER_INFO_EDIT_X						89
-#define LETTER_INFO_EDIT_Y						164
-#define LETTER_INFO_EDIT_W						345
-#define LETTER_INFO_FONT_LINE_HEIGHT			15
-#define LETTER_INFO_FONT_MOUSE_HEIGHT			170
-
-///////////////////////// 편지 읽기 창 //////////////////////////
-// 편지쓰기 유저
-#define LETTER_USER_READ_EDIT_X						187
-#define LETTER_USER_READ_EDIT_Y						110
-#define LETTER_USER_READ_EDIT_W						260
-#define LETTER_USER_READ_FONT_LINE_HEIGHT			15
-
-// 제목
-#define LETTER_TITLE_READ_EDIT_X						187
-#define LETTER_TITLE_READ_EDIT_Y						130
-#define LETTER_TITLE_READ_EDIT_W						260
-#define LETTER_TITLE_READ_FONT_LINE_HEIGHT			15
-
-// 내용
-#define LETTER_INFO_READ_MAX_SCROLL_LINE			11
-#define LETTER_INFO_READ_EDIT_X						90
-#define LETTER_INFO_READ_EDIT_Y						156
-#define LETTER_INFO_READ_EDIT_W						345
-#define LETTER_INFO_READ_FONT_LINE_HEIGHT			15
-#define LETTER_INFO_READ_FONT_MOUSE_HEIGHT			170
-#endif
 
 struct Letter_Sort: binary_function<structReadLetterItemInfo, structReadLetterItemInfo, bool>
 {
@@ -185,9 +113,6 @@ CINFCommunityLetter::CINFCommunityLetter(CAtumNode* pParent)
 {
 	m_pParent = pParent;
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pBack = NULL;
-#endif
 	int  nCnt = 0;
 	for(nCnt = 0;nCnt < MAX_LETTER_MODE;nCnt++)
 	{
@@ -238,9 +163,6 @@ CINFCommunityLetter::CINFCommunityLetter(CAtumNode* pParent)
 
 CINFCommunityLetter::~CINFCommunityLetter()
 {
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	SAFE_DELETE(m_pBack);
-#endif
 	int  nCnt = 0;
 	for(nCnt = 0;nCnt < MAX_LETTER_MODE;nCnt++)
 	{
@@ -283,17 +205,6 @@ CINFCommunityLetter::~CINFCommunityLetter()
 HRESULT CINFCommunityLetter::InitDeviceObjects()
 {
 	DataHeader *pDataHeader = NULL;
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	{
-		pDataHeader = m_pGameData->Find("commubk4");	
-		if(NULL == m_pBack)
-		{
- 			m_pBack = new CINFImageEx;
- 		}
- 		m_pBack->InitDeviceObjects( pDataHeader );
- 		
- 	}
-#endif
 
 	{
 		int  nCnt = 0;
@@ -377,17 +288,10 @@ HRESULT CINFCommunityLetter::InitDeviceObjects()
 	}
 	{	
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];				
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경			
 		wsprintf(szUpBtn, "cans03");
 		wsprintf(szDownBtn, "cans01");
 		wsprintf(szSelBtn, "cans00");
 		wsprintf(szDisBtn, "cans02");															  
-#else
-		wsprintf(szUpBtn, "lr_del3");
-		wsprintf(szDownBtn, "lr_del1");
-		wsprintf(szSelBtn, "lr_del0");
-		wsprintf(szDisBtn, "lr_del2");
-#endif
 		if(NULL == m_pReadDelBtn)
 		{
 			m_pReadDelBtn = new CINFImageBtn;
@@ -435,17 +339,10 @@ HRESULT CINFCommunityLetter::InitDeviceObjects()
 	// 읽기 삭제
 	{	
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];				
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경		
 		wsprintf(szUpBtn, "cans03");
 		wsprintf(szDownBtn, "cans01");
 		wsprintf(szSelBtn, "cans00");
 		wsprintf(szDisBtn, "cans02");															  
-#else					   
-		wsprintf(szUpBtn, "lr_del3");
-		wsprintf(szDownBtn, "lr_del1");
-		wsprintf(szSelBtn, "lr_del0");
-		wsprintf(szDisBtn, "lr_del2");
-#endif
 		if(NULL == m_pReadListDelBtn)
 		{
 			m_pReadListDelBtn= new CINFImageBtn;
@@ -458,17 +355,10 @@ HRESULT CINFCommunityLetter::InitDeviceObjects()
 	// 읽기 뒤로
 	{	
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];				
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경			
 		wsprintf(szUpBtn, "oks03");
 		wsprintf(szDownBtn, "oks01");
 		wsprintf(szSelBtn, "oks00");
 		wsprintf(szDisBtn, "oks02");															  
-#else						   
-		wsprintf(szUpBtn, "lr_ok3");
-		wsprintf(szDownBtn, "lr_ok1");
-		wsprintf(szSelBtn, "lr_ok0");
-		wsprintf(szDisBtn, "lr_ok2");
-#endif
 		if(NULL == m_pReadBackBtn)
 		{
 			m_pReadBackBtn= new CINFImageBtn;
@@ -628,12 +518,6 @@ HRESULT CINFCommunityLetter::RestoreDeviceObjects()
 	// 배경 
 	POINT ptBkPos = ((CINFCommunity*)m_pParent)->GetCommunityBkPos();
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	if(m_pBack)
-	{
-		m_pBack->RestoreDeviceObjects();
-	}
-#endif
 	int nCnt = 0;
 	int nPosX, nPosY;
 	nPosX = nPosY =0;
@@ -728,13 +612,8 @@ HRESULT CINFCommunityLetter::RestoreDeviceObjects()
 		RECT rcMouseWhell, rcMousePos;
 		POINT ptScrollPos = ptBkPos;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		ptScrollPos.x += 469;
 		ptScrollPos.y += 175;																	  
-#else					
-		ptScrollPos.x += 454;
-		ptScrollPos.y += 152;
-#endif
 
 		m_pScrollRead->SetPosition(ptScrollPos.x ,ptScrollPos.y,11,170);
 		rcMouseWhell.left		= ptScrollPos.x - 468;
@@ -856,12 +735,6 @@ HRESULT CINFCommunityLetter::RestoreDeviceObjects()
 
 HRESULT CINFCommunityLetter::InvalidateDeviceObjects()
 {
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	if(m_pBack)
-	{
-		m_pBack->InvalidateDeviceObjects();
-	}
-#endif
 	int nCnt = 0;
 	for(nCnt = 0;nCnt < MAX_LETTER_MODE;nCnt++)
 	{		
@@ -979,13 +852,6 @@ HRESULT CINFCommunityLetter::InvalidateDeviceObjects()
 
 HRESULT CINFCommunityLetter::DeleteDeviceObjects()
 {
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	if(m_pBack)
-	{
-		m_pBack->DeleteDeviceObjects();
-		SAFE_DELETE(m_pBack);
-	}
-#endif
 	int nCnt = 0;
 	for(nCnt = 0;nCnt < MAX_LETTER_MODE;nCnt++)
 	{		
@@ -1140,17 +1006,9 @@ void CINFCommunityLetter::Tick()
 
 void CINFCommunityLetter::Render(POINT ptPos)
 {
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pBack->Move(ptPos.x, ptPos.y);
-	m_pBack->Render();
-#endif
 	// 편지모드
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pLetterMode[m_nLetterMode]->Move(ptPos.x, ptPos.y+LETTER_MODE_POS_Y);
-#else	   
-		m_pLetterMode[m_nLetterMode]->Move(ptPos.x+LETTER_MODE_POS_X, ptPos.y+LETTER_MODE_POS_Y);
-#endif
 		m_pLetterMode[m_nLetterMode]->Render();
 	}
 	switch(m_nLetterMode)
@@ -2141,7 +1999,6 @@ void CINFCommunityLetter::RenderReadLetter(POINT ptBkPos)
 		{
 			break;
 		}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		structReadLetterItemInfo stTmp = (*it);
 		nStartX = ptBkPos.x + LETTER_READ_ITEM_X+ 6;
 		nStartY = ptBkPos.y + LETTER_READ_ITEM_Y + (LETTER_READ_ITEM_HEIGHT*nLine) + 4;
@@ -2178,45 +2035,6 @@ void CINFCommunityLetter::RenderReadLetter(POINT ptBkPos)
 		m_pFontLetter->DrawText( nStartX, nStartY + 5, 
 										 GUI_FONT_COLOR,
 										 (char*)szStrBuf.c_str(), 0L );	
-#else
-		structReadLetterItemInfo stTmp = (*it);
-		nStartX = ptBkPos.x + LETTER_READ_ITEM_X+ 1;
-		nStartY = ptBkPos.y + LETTER_READ_ITEM_Y + (LETTER_READ_ITEM_HEIGHT*nLine) - 2;
-		m_pLetterRead[stTmp.bReadMail]->Move(nStartX, nStartY);
-		m_pLetterRead[stTmp.bReadMail]->Render();
-
-		
-		// 보낸사람
-		nStartX = ptBkPos.x + LETTER_READ_ITEM_X;
-		nStartY = ptBkPos.y + LETTER_READ_ITEM_Y + (LETTER_READ_ITEM_HEIGHT*nLine);
-		nStartX += 30;
-
-		strncpy(chBuff, stTmp.chSendUser, strlen(stTmp.chSendUser)+1);
-		g_pGameMain->TextReduce(m_pFontLetter, 90, chBuff);
-		m_pFontLetter->DrawText( nStartX, nStartY, 
-										 GUI_FONT_COLOR,
-										 chBuff, 0L );		
-		// 제목
-		nStartX += 105;
-		strncpy(chBuff, stTmp.chLetterTitle, strlen(stTmp.chLetterTitle)+1);
-		g_pGameMain->TextReduce(m_pFontLetter, 130, chBuff);
-		m_pFontLetter->DrawText( nStartX, nStartY, 
-										 GUI_FONT_COLOR,
-										 chBuff, 0L );		
-
-		// 시간 
-		nStartX += 150;
-		string szStrBuf;
-		stTmp.atimeMail.GetLocalString_YYYYMMDD(stTmp.atimeMail.Year, 
-													stTmp.atimeMail.Month, 
-													stTmp.atimeMail.Day, 
-													szStrBuf,
-													GetLanguageType());	
-		m_pFontLetter->DrawText( nStartX, nStartY, 
-										 GUI_FONT_COLOR,
-										 (char*)szStrBuf.c_str(), 0L );		
-
-#endif	
 
 		nLine++;
 		it++;
@@ -2583,7 +2401,6 @@ void CINFCommunityLetter::UpdateBtnPos()
 	int nPosX, nPosY;
 	nPosX = nPosY =0;
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(m_pReadBtn)
 	{		
 		nPosX = ptBkPos.x + 380;
@@ -2742,164 +2559,4 @@ void CINFCommunityLetter::UpdateBtnPos()
 		rcMousePos.bottom		= rcMousePos.top + 200;
 		m_pScrollWrite->SetMouseBallRect(rcMousePos);
 	}
-#else
-	if(m_pReadBtn)
-	{		
-		nPosX = ptBkPos.x + 308;
-		nPosY = ptBkPos.y + 97;		
-		m_pReadBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	if(m_pReadDelBtn)
-	{		
-		nPosX = ptBkPos.x + 378;
-		nPosY = ptBkPos.y + 97;		
-		m_pReadDelBtn->SetBtnPosition(nPosX, nPosY);	
-	}	
-	if(m_pAllSendBtn)
-	{		
-		nPosX = ptBkPos.x + 282;
-		nPosY = ptBkPos.y + 346;		
-		m_pAllSendBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	if(m_pSendBtn)
-	{		
-		nPosX = ptBkPos.x + 381;
-		nPosY = ptBkPos.y + 346;		
-		m_pSendBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-
-	// 읽기 답장
-	if(m_pReadResponseBtn)
-	{		
-		nPosX = ptBkPos.x + 243;
-		nPosY = ptBkPos.y + 88;		
-		m_pReadResponseBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	// 읽기 삭제
-	if(m_pReadListDelBtn)
-	{		
-		nPosX = ptBkPos.x + 310;
-		nPosY = ptBkPos.y + 88;		
-		m_pReadListDelBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	// 읽기 뒤로
-	if(m_pReadBackBtn)
-	{		
-		nPosX = ptBkPos.x + 377;
-		nPosY = ptBkPos.y + 88;		
-		m_pReadBackBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-
-
-	{
-		// 스크롤		
-		
-		RECT rcMouseWhell, rcMousePos;
-		POINT ptScrollPos = ptBkPos;
-
-		ptScrollPos.x += 454;
-		ptScrollPos.y += 152;
-
-		m_pScrollRead->SetPosition(ptScrollPos.x ,ptScrollPos.y,11,170);
-		rcMouseWhell.left		= ptScrollPos.x - 468;
-		rcMouseWhell.top		= ptScrollPos.y - 30;
-		rcMouseWhell.right		= ptScrollPos.x + 30;
-		rcMouseWhell.bottom		= ptScrollPos.y + 230;
-		m_pScrollRead->SetMouseWhellRect(rcMouseWhell);
-		rcMousePos.left			= ptScrollPos.x - 11;
-		rcMousePos.top			= ptScrollPos.y ;
-		rcMousePos.right		= rcMousePos.left + 32;
-		rcMousePos.bottom		= rcMousePos.top + 200;
-		m_pScrollRead->SetMouseBallRect(rcMousePos);
-	}
-	
-	/////////////////////////////// 편지 읽기///////////////////////////////////////////
-	if(m_pEditReadReceiveUser)
-	{
-		nPosX = ptBkPos.x + LETTER_USER_READ_EDIT_X;
-		nPosY = ptBkPos.y + LETTER_USER_READ_EDIT_Y;		
-		m_pEditReadReceiveUser->SetPos(nPosX, nPosY);
-	}
-	if(m_pEditReadTitle)
-	{		
-		nPosX = ptBkPos.x + LETTER_TITLE_READ_EDIT_X;
-		nPosY = ptBkPos.y + LETTER_TITLE_READ_EDIT_Y;		
-		m_pEditReadTitle->SetPos(nPosX, nPosY);
-	}
-	if(m_pEditReadInfo)
-	{		
-		nPosX = ptBkPos.x + LETTER_INFO_READ_EDIT_X;
-		nPosY = ptBkPos.y + LETTER_INFO_READ_EDIT_Y;		
-		m_pEditReadInfo->SetPos(nPosX, nPosY);
-	}
-	{		
-		
-		RECT rcMouseWhell, rcMousePos;
-		POINT ptScrollPos = ptBkPos;
-
-		ptScrollPos.x += 454;
-		ptScrollPos.y += 164;
-
-		m_pScrollReadInfo->SetPosition(ptScrollPos.x ,ptScrollPos.y,11,135);
-		rcMouseWhell.left		= ptScrollPos.x - 468;
-		rcMouseWhell.top		= ptScrollPos.y - 30;
-		rcMouseWhell.right		= ptScrollPos.x + 30;
-		rcMouseWhell.bottom		= ptScrollPos.y + 230;
-		m_pScrollReadInfo->SetMouseWhellRect(rcMouseWhell);
-		rcMousePos.left			= ptScrollPos.x - 11;
-		rcMousePos.top			= ptScrollPos.y ;
-		rcMousePos.right		= rcMousePos.left + 32;
-		rcMousePos.bottom		= rcMousePos.top + 200;
-		m_pScrollReadInfo->SetMouseBallRect(rcMousePos);
-	}
-
-	/////////////////////////////// 편지 쓰기///////////////////////////////////////////
-	if(m_pEditWriteSendUser)
-	{		
-		nPosX = ptBkPos.x + LETTER_SEND_USER_EDIT_X;
-		nPosY = ptBkPos.y + LETTER_SEND_USER_EDIT_Y;		
-		m_pEditWriteSendUser->SetPos(nPosX, nPosY);
-
-		CHARACTER myShuttleInfo = g_pShuttleChild->GetMyShuttleInfo();		
-		m_pEditWriteSendUser->SetString(myShuttleInfo.CharacterName, strlen(myShuttleInfo.CharacterName)+1);
-	}
-
-	if(m_pEditWriteReceiveUser)
-	{		
-		nPosX = ptBkPos.x + LETTER_USER_EDIT_X;
-		nPosY = ptBkPos.y + LETTER_USER_EDIT_Y;		
-		m_pEditWriteReceiveUser->SetPos(nPosX, nPosY);
-	}
-	if(m_pEditWriteTitle)
-	{		
-		nPosX = ptBkPos.x + LETTER_TITLE_EDIT_X;
-		nPosY = ptBkPos.y + LETTER_TITLE_EDIT_Y;		
-		m_pEditWriteTitle->SetPos(nPosX, nPosY);
-	}
-	if(m_pEditWriteInfo)
-	{		
-		nPosX = ptBkPos.x + LETTER_INFO_EDIT_X;
-		nPosY = ptBkPos.y + LETTER_INFO_EDIT_Y;		
-		m_pEditWriteInfo->SetPos(nPosX, nPosY);
-	}
-	{		
-		RECT rcMouseWhell, rcMousePos;
-		POINT ptScrollPos = ptBkPos;
-
-		ptScrollPos.x += 454;
-		ptScrollPos.y += 164;
-
-		m_pScrollWrite->SetPosition(ptScrollPos.x ,ptScrollPos.y,11,135);
-		rcMouseWhell.left		= ptScrollPos.x - 468;
-		rcMouseWhell.top		= ptScrollPos.y - 30;
-		rcMouseWhell.right		= ptScrollPos.x + 30;
-		rcMouseWhell.bottom		= ptScrollPos.y + 230;
-		m_pScrollWrite->SetMouseWhellRect(rcMouseWhell);
-		rcMousePos.left			= ptScrollPos.x - 11;
-		rcMousePos.top			= ptScrollPos.y ;
-		rcMousePos.right		= rcMousePos.left + 32;
-		rcMousePos.bottom		= rcMousePos.top + 200;
-		m_pScrollWrite->SetMouseBallRect(rcMousePos);
-	}
-#endif
 }

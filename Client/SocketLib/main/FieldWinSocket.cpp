@@ -2861,7 +2861,6 @@ int CFieldWinSocket::OnRecvdPacket(LPSTR pPacket,
 			}
 			break;
 					   
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
         case T_FC_SHOP_BUY_ITEM_UPDATE:
 			{
 				nTypeSize = SIZE_FIELD_TYPE_HEADER + sizeof(MSG_FC_SHOP_BUY_ITEM_UPDATE);
@@ -2869,7 +2868,6 @@ int CFieldWinSocket::OnRecvdPacket(LPSTR pPacket,
 			}
 			break;
 		
-#endif
 		case T_FC_EVENT_NOTIFY_MSG_GET_OK:
 			{
 				nTypeSize = SIZE_FIELD_TYPE_HEADER + sizeof(MSG_FC_EVENT_NOTIFY_MSG_GET_OK);

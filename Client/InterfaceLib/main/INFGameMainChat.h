@@ -22,7 +22,6 @@
 #define VOICECHAT_SPK_W						65
 #define CHAT_MENULIST_NUMBER				12
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define CHAT_NOT_SHOWBOX_LINE				6							// 채팅 박스가 보이지 않을때 최대보여주는 줄수
 #define CHAT_TIME_OF_NOT_SHOW_BOX			10.0f						// 채팅 박스가 보이지 않을때 최대보여주는 시간 공지
 #define CHAT_TIME_OF_NOT_SHOW_BOX_GM		20.0f						// 채팅 박스가 보이지 않을때 최대보여주는 시간
@@ -99,84 +98,6 @@
 
 #define CHAT_MACRO_INPUT_COUNT				3							// 매크로 입력 가능한 수.
 #define CHAT_MACRO_PRINT_GAP				10.0f		  
-#else		   
-#define CHAT_NOT_SHOWBOX_LINE				6							// 채팅 박스가 보이지 않을때 최대보여주는 줄수
-#define CHAT_TIME_OF_NOT_SHOW_BOX			10.0f						// 채팅 박스가 보이지 않을때 최대보여주는 시간 공지
-#define CHAT_TIME_OF_NOT_SHOW_BOX_GM		20.0f						// 채팅 박스가 보이지 않을때 최대보여주는 시간
-#define CHAT_CHATBOX_START_DEFAULT_MIN_X	253							// 채팅 박스 시작시 최소 X 
-#define CHAT_CHATBOX_START_DEFAULT_MIN_Y	120							// 채팅 박스 시작시 최소 Y
-
-#define CHAT_CHATBOX_START_DEFAULT_MAX_X	(g_pD3dApp->GetBackBufferDesc().Width * 2.0f/3.0f)	// 채팅 박스 시작시 최대 X 
-#define CHAT_CHATBOX_START_DEFAULT_MAX_Y	(g_pD3dApp->GetBackBufferDesc().Height / 2)			// 채팅 박스 시작시 최대 Y
-
-#define CHAT_BUTTON_NORMAL					0							// 버튼상태 노말
-#define CHAT_BUTTON_DOWN					1							// 버튼상태 다운
-#define CHAT_BUTTON_UP						2							// 버튼상태 업
-
-#define CHAT_SELECT_IMAGE_0					0							// 이미지 인덱스 0 번선택 
-#define CHAT_SELECT_IMAGE_1					1							// 이미지 인덱스 0 번선택 
-#define CHAT_SELECT_IMAGE_2					2							// 이미지 인덱스 0 번선택 
-
-// 2008-08-19 by bhsohn 채팅버퍼 버그 수정
-//#define CHAT_TAB_SAVE_COUNT						CHAT_TAB_HELPDESK			// 저장되는 채팅수 (스피커,모든 채팅,주변, 전쟁, 거래, 맵, 여단, 편대, 아레나, 채팅방, 시스템)
-#define CHAT_TAB_SAVE_COUNT						CHAT_TAB_NUMBER_ALL			// 저장되는 채팅수 (스피커,모든 채팅,주변, 전쟁, 거래, 맵, 여단, 편대, 아레나, 채팅방, 시스템)
-
-#define CHAT_FONT_LINE_HEIGHT				15							// 한 라인의 높이
-#define CHAT_FONT_WIDTH_ENGLISH				6							// 영문 글자 WIDTH
-
-#define CHAT_CHATBOX_START_X				0							// 채팅박스 시작위치 X
-#define CHAT_CHATBOX_START_Y				(g_pD3dApp->GetBackBufferDesc().Height - CHAT_CHATBOX_START_DEFAULT_MIN_Y)		// 채팅박스 시작위치 Y
-
-#define CHATBOX_FIELD_SHOWCHATBOX_INIT_HEIGHT			44				// 필드에서 귓말 팝업창이 최소화 될때 기준점 y(해상도에서 이값을 뺀것이 y좌표이다)
-#define CHATBOX_CITY_SHOWCHATBOX_INIT_HEIGHT			89				// 도시에서 귓말 팝업창이 최소화 될때 기준점 y(해상도에서 이값을 뺀것이 y좌표이다)
-
-#define CHAT_MENUBOX_START_HEIGHT			38							// 채팅아래 메뉴박스 시작시 크기
-
-#define CHAT_BOX_SHOW_IMAGE					0							// 채팅박스 보이기 이미지 인덱스 
-#define CHAT_BOX_HIDE_IMAGE					1							// 채팅박스 감추기 이미지 인덱스 
-
-#define CHAT_MENUBOX_START_X				5							// 메뉴박스 시작위치 X
-#define CHAT_MENUBOX_WIDTH					48							// 메뉴박스 넒이 
-#define CHAT_MENUBOX_HEITHT					15							// 메뉴박스 높이 
-#define CHAT_MENUBOX_SELECT_COUNT			5							// 메뉴박스 갯수  
-#define CHAT_MENUBOX_SELECT_STATE			2							// 메뉴박스 상태
-#define CHAT_MENUBOX_GAB_WIDTH				4							// 메뉴박스 사이 간격
-#define CHAT_MENUBOX_START_Y				(g_pD3dApp->GetBackBufferDesc().Height - 20)		// 메뉴박스 시작위치 Y
-
-#define CHAT_FONT_START_Y					(g_pD3dApp->GetBackBufferDesc().Height - 23)//30)		// 맨 아래 라인의 시작점(맨 아래부터 그린다) : Y
-#define CHAT_FONT_START_X					55//31							// 채팅 시작 라인 : X
-#define CHAT_INPUT_FONT_LENGTH              240//189				// 채팅입력창 길이
-#define CHAT_STRING_SIZE_GM					84
-
-// 옵션 버튼.
-#define CHAT_OPTION_BUTTON_X				310
-#define CHAT_OPTION_BUTTON_Y				(g_pD3dApp->GetBackBufferDesc().Height - 18)
-
-#define CHATBOX_CLOSE_GAB					27							// 채팅박스 감추기 Heith - 27
-#define CHATBOX_IMAGE_GAB_WIDTH_TOP			18							// 채팅박스 이미지 크기 W Top
-#define CHATBOX_IMAGE_GAB_HEITHT_TOP		18							// 채팅박스 이미지 크기 H Top
-#define CHATBOX_IMAGE_GAB_WIDTH_BOTTOM		19							// 채팅박스 이미지 크기 W Bottom
-#define CHATBOX_IMAGE_GAB_HEITHT_BOTTOM		5							// 채팅박스 이미지 크기 H Bottom
-#define CHATBOX_IMAGE_GAB_WIDTH_MIDDLE		4							// 채팅박스 이미지 크기 W Middle
-#define CHATBOX_IMAGE_GAB_HEITHT_MIDDLE		1							// 채팅박스 이미지 크기 H Middle
-#define CHATBOX_IMAGE_GAB_WINDOWSIZE_CHANGE	4							// 채팅박스 이미지 크기 조절.
-#define CHATBOX_IMAGE_GAB_MINIMIZE_WIDTH	9							// 채팅박스 이미지 크기 최소화 버튼 WIDTH
-#define CHATBOX_IMAGE_GAB_MINIMIZE_HEIGHT	12							// 채팅박스 이미지 크기 최소화 버튼 HEIGHT
-#define CHATBOX_IMAGE_NUMBER				9							// 채팅박스 이미지 갯수 																				
-#define CHATBOX_IMAGE_SCROLL_LINE_NUMBER	3							// 스크롤 라인 이미지 갯수 
-
-#define CHATBOX_SCROLLLINE_IMAGE_GAP_X		7							// 스크롤 라인 X Gap 
-#define CHATBOX_SCROLL_IMAGE_GAP_X			5//4						// 스크롤 이미지 X Gap		// 2012-03-29 by mspark, 채팅창 스크롤바 위치 변경 - 기존 3에서 5로 변경
-#define CHATBOX_SCROLL_IMAGE_TOP_GAP_Y		7							// 2012-04-02 by isshin 채팅창 스크롤 버그 수정 - 스크롤 Y TOP_Gap
-#define CHATBOX_SCROLL_IMAGE_BOTTOM_GAP_Y	6							// 2012-04-02 by isshin 채팅창 스크롤 버그 수정 - 스크롤 Y BOTTOM_Gap
-#define CHATBOX_SCROLL_IMAGE_SIZE_WIDTH		11							// 스크롤 이미지 넒이 
-#define CHATBOX_SCROLL_IMAGE_SIZE_HEIGHT	38							// 스크롤 이미지 높이
-
-#define CHAT_OTHER_MENU_ALL					3							// 기타 메뉴 전체 수
-
-#define CHAT_MACRO_INPUT_COUNT				3							// 매크로 입력 가능한 수.
-#define CHAT_MACRO_PRINT_GAP				10.0f
-#endif
 
 struct sCHATMACROSTRING
 {
@@ -398,9 +319,6 @@ public:
 
 	// 추가수정 2005.01.21
 	CINFImageEx	*	m_pNChatInput;									// 채팅 입력창
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	CINFImageEx	*	m_pNChatCash[CHAT_BUTTON_NUMBER4];					// 채팅 채쉬충전 버튼
-#endif
 	CINFImageEx	*	m_pNChatCheck;										// 채팅 채크마크
 	CINFImageEx	*	m_pNChatFAQ[CHAT_BUTTON_NUMBER3];					// 채팅 FAQ버튼
 	CINFImageEx	*	m_pNChatMenu[CHAT_MENULIST_NUMBER];					// 채팅 메뉴 리스트
@@ -434,11 +352,7 @@ public:
 
 	INT				m_nMacroX;
 	INT				m_nMacroY;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*	m_pChatMacroBG;										// 매크로 배경 이미지.
-#else
-	CINFImageEx	*	m_pChatMacroBG;										// 매크로 배경 이미지.
-#endif
 	CINFImageBtnBoth* m_pBtnChatMacro[CHAT_MACRO_INPUT_COUNT];			// 적용 버튼.
 	CINFImageBtn *	m_pBtnMacroOK;										// 확인 버튼.
 	CINFImageBtn *	m_pBtnMacroCancel;									// 취소 버튼.
@@ -541,11 +455,7 @@ private:
 	INT							m_nVCCPosY;
 	BOOL						m_bVCCMoving;
 	POINT						m_ptVCCOldPos;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*				m_pVoiceChatBG;
-#else
-	CINFImageEx*				m_pVoiceChatBG;
-#endif
 	CINFImageBtnBoth*			m_pBothParty;
 	CINFImageBtnBoth*			m_pBothGuild;
 	CINFImageBtnBoth*			m_pBothChat;

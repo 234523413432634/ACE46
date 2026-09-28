@@ -51,7 +51,6 @@
 #define OPTION_DEFAULT_LOW_CONTRAST						0
 #define OPTION_DEFAULT_LOW_FILTER						0
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	#define MIN_QUALITY_RENDER				0
 
 	#define SELECT_OPTION_W					464
@@ -92,50 +91,6 @@
 
 	#define POS_GRAPHIC_HAESANG_X			336
 	#define POS_GRAPHIC_HAESANG_Y			34
-#else
-#define MIN_QUALITY_RENDER				0
-
-#define SELECT_OPTION_W					397
-#define SELECT_OPTION_H					258	
-#define SELECT_OPTION_POS_X				(g_pD3dApp->GetBackBufferDesc().Width - SELECT_OPTION_W)/2
-#define SELECT_OPTION_POS_Y				(g_pD3dApp->GetBackBufferDesc().Height - SELECT_OPTION_H)/2
-
-
-#define POS_GRAPHIC_SEE_RANGE_X			279
-#define POS_GRAPHIC_SEE_RANGE_Y			46
-#define POS_GRAPHIC_UNIT_DETAIL_X		279
-#define POS_GRAPHIC_UNIT_DETAIL_Y		66
-#define POS_GRAPHIC_SHADOW_X			279
-#define POS_GRAPHIC_SHADOW_Y			86
-#define POS_GRAPHIC_EFFECT_X			279
-#define POS_GRAPHIC_EFFECT_Y			106
-#define POS_GRAPHIC_GAMMA_X				279
-#define POS_GRAPHIC_GAMMA_Y				126
-#define POS_GRAPHIC_CONTRAST_X			279
-#define POS_GRAPHIC_CONTRAST_Y			146
-#define POS_GRAPHIC_FILTER_X			279
-#define POS_GRAPHIC_FILTER_Y			166
-
-#define POS_GRAPHIC_MAIN_COMBO_H		17
-#define POS_GRAPHIC_MAIN_COMBO_W		70
-#define POS_GRAPHIC_ELE_COMBO_H			13
-#define POS_GRAPHIC_ELE_COMBO_W			70
-
-
-#define POS_GRAPHIC_RESET_BTN_X			102
-#define POS_GRAPHIC_RESET_BTN_Y			216
-#define POS_GRAPHIC_OK_BTN_X			168
-#define POS_GRAPHIC_OK_BTN_Y			216
-#define POS_GRAPHIC_CLOSE_BTN_X			234
-#define POS_GRAPHIC_CLOSE_BTN_Y			216
-
-#define POS_GRAPHIC_LOWQUALITY_X		336
-#define POS_GRAPHIC_LOWQUALITY_Y		185
-
-#define POS_GRAPHIC_HAESANG_X			355
-#define POS_GRAPHIC_HAESANG_Y			25
-
-#endif
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -318,13 +273,8 @@ void CINFSelectOption::UpdateBtn()
 		wsprintf( m_szHaesangTxt, "%d*%d%s", g_pD3dApp->m_nWidth,g_pD3dApp->m_nHeight,STRMSG_C_071221_0100);
 	}
 	SIZE sizeStrSize = m_pFontHaeSang->GetStringSize(m_szHaesangTxt);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_ptHaesangPos.x = nBackPosX + POS_GRAPHIC_HAESANG_X - sizeStrSize.cx / 2;
 	m_ptHaesangPos.y = nBackPosY + POS_GRAPHIC_HAESANG_Y;
-#else
-	m_ptHaesangPos.x = nBackPosX + POS_GRAPHIC_HAESANG_X- sizeStrSize.cx;
-	m_ptHaesangPos.y = nBackPosY + POS_GRAPHIC_HAESANG_Y;
-#endif
 	
 	for(nCnt = 0;nCnt < OPTION_GRAPHIC_END;nCnt++)
 	{
@@ -873,64 +823,6 @@ int CINFSelectOption::GetEtcOption_To_Cursel(int nMode, int nState)
 			break;
 		}
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	else if(OPTION_ETC_VOLUMNE == nMode)
-	{
-		switch(nState)
-		{
-		case -10000:
-			{
-				nCurSel = 0;
-			}
-			break;
-		case -3500:
-			{
-				nCurSel = 1;
-			}
-			break;
-		case -3000:
-			{
-				nCurSel = 2;
-			}
-			break;
-		case -2500:
-			{
-				nCurSel = 3;
-			}
-			break;
-		case -2000:
-			{
-				nCurSel = 4;
-			}
-			break;
-		case -1500:
-			{
-				nCurSel = 5;
-			}
-			break;
-		case -1000:
-			{
-				nCurSel = 6;
-			}
-			break;
-		case -600:
-			{
-				nCurSel = 7;
-			}
-			break;
-		case -300:
-			{
-				nCurSel = 8;
-			}
-			break;
-		case 0:
-			{
-				nCurSel = 9;
-			}
-			break;
-		}		
-	}
-#endif
 #ifdef C_TERRAIN_EFFECT_DETAIL_ON_OFF_YMJOO		// 2014-07-04 by ymjoo 지형 이펙트 디테일 옵션 변경 (ON/OFF)
 	else if(OPTION_GRAPHIC_EFFECT == nMode)
 	{
@@ -982,64 +874,6 @@ int CINFSelectOption::GetEtcCursel_To_Option(int nMode, int nCursel)
 			break;
 		}
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	else if(OPTION_ETC_VOLUMNE == nMode)
-	{
-		switch(nCursel)
-		{
-		case 0:
-			{
-				nState = -10000;
-			}
-			break;
-		case 1:
-			{
-				nState = -3500;				
-			}
-			break;
-		case 2:
-			{
-				nState = -3000;
-			}
-			break;
-		case 3:
-			{
-				nState = -2500;				
-			}
-			break;
-		case 4:
-			{
-				nState = -2000;				
-			}
-			break;
-		case 5:
-			{
-				nState = -1500;				
-			}
-			break;
-		case 6:
-			{
-				nState = -1000;
-			}
-			break;
-		case 7:
-			{
-				nState = -600;
-			}
-			break;
-		case 8:
-			{
-				nState = -300;
-			}
-			break;
-		case 9:
-			{
-				nState = 0;
-			}
-			break;
-		}		
-	}
-#endif
 #ifdef C_TERRAIN_EFFECT_DETAIL_ON_OFF_YMJOO		// 2014-07-04 by ymjoo 지형 이펙트 디테일 옵션 변경 (ON/OFF)
 	else if(OPTION_GRAPHIC_EFFECT == nMode)
 	{

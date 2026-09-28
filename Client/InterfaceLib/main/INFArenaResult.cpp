@@ -49,7 +49,6 @@
 
 #define		ARENA_FONT_COLOR		RGB(222, 222, 222)
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 2012-06-07 by mspark, 아레나 전쟁 정보 UI 작업
 #ifdef SC_ARENA_EX_1ST_JHSEOL_MSPARK
 #define		ARENA_RESULT_STR_RANK_X				50
@@ -134,46 +133,6 @@
 #endif
 // end 2012-06-07 by mspark, 아레나 전쟁 정보 UI 작업
 
-#else			 
-// 글씨
-#define		ARENA_RESULT_STR_RANK_X				60
-#define		ARENA_RESULT_STR_RANK_Y				206
-#define		ARENA_RESULT_STR_NAME_X				70
-#define		ARENA_RESULT_STR_NAME_Y				206
-#define		ARENA_RESULT_STR_GEAR_X				216
-#define		ARENA_RESULT_STR_GEAR_Y				206
-#define		ARENA_RESULT_STR_LV_X				268
-#define		ARENA_RESULT_STR_LV_Y				206
-#define		ARENA_RESULT_STR_MARK_X				302
-#define		ARENA_RESULT_STR_MARK_Y				206
-
-#define		ARENA_RESULT_STR_MARK_CAPX			400
-#define		ARENA_RESULT_STR_MARK_CAPY			23
-
-// 스크롤 
-#define		ARENA_RESULT_SCROLL_FRIEND_X		30
-#define		ARENA_RESULT_SCROLL_FRIEND_Y		200
-#define		ARENA_RESULT_SCROLL_FRIEND_WIDTH	357
-#define		ARENA_RESULT_SCROLL_FRIEND_HEIGHT	300
-#define		ARENA_RESULT_SCROLL_ENEMY_X			430
-#define		ARENA_RESULT_SCROLL_ENEMY_Y			200
-#define		ARENA_RESULT_SCROLL_ENEMY_WIDTH		357
-#define		ARENA_RESULT_SCROLL_ENEMY_HEIGHT	300
-#define		ARENA_RESULT_SCROLL_CAP				100
-
-// 버튼
-#define		ARENA_RESULT_GOCITY_BTN_X			670
-#define		ARENA_RESULT_GOCITY_BTN_Y			34
-#define		ARENA_RESULT_GOCITY_BTN_W			120
-#define		ARENA_RESULT_GOCITY_BTN_H			17
-
-#define		ARENA_RESULT_FONT_SUFFETING_X		323
-
-#define		ARENA_RESULT_FONT_TOTAL_X			370
-#define		ARENA_RESULT_FONT_TOTAL_Y			505
-
-#define		ARENA_RESULT_FONT_LOST_X			180
-#endif
 // 글씨
 
 
@@ -267,7 +226,6 @@ HRESULT CINFArenaResult::InitDeviceObjects()
 	}	
 	
 	 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
     {
 		DataHeader* pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource( "are_res" );
 		m_pRenewArenaResultBackImage = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
@@ -275,7 +233,6 @@ HRESULT CINFArenaResult::InitDeviceObjects()
 		m_pRenewArenaResultBackImage->RestoreDeviceObjects();		
 		
     }
-#endif
 	
 	
 	// 바이제니유
@@ -492,12 +449,7 @@ HRESULT CINFArenaResult::RestoreDeviceObjects()
 
 	POINT ptArena;
 	float fBKX,fBKY;	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	ptArena = m_pRenewArenaResultBackImage->GetImgSize();
-#else
-	ptArena= m_pArenaResultBk[m_nArenaResultMode]->GetImgSize();
-
-#endif
 
 	fBKX = fBKY = 0;
 	
@@ -674,20 +626,9 @@ void CINFArenaResult::Render()
 	
 
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
     POINT ptArena = m_pRenewArenaResultBackImage->GetImgSize();
 	m_pRenewArenaResultBackImage->Move(m_fBackPosX, m_fBackPosY);
 	m_pRenewArenaResultBackImage->Render();	
-#else																	
-	POINT ptArena = m_pArenaResultBk[nCnt]->GetImgSize();	// 배경크기 
-
-	// 배경 	
-	{					
-		m_pArenaResultBk[m_nArenaResultMode]->Move(m_fBackPosX, m_fBackPosY);
-		m_pArenaResultBk[m_nArenaResultMode]->Render();	
-	}
-
-#endif
 	
 	// 진형 로고 표시및 승리 패배 표시 
 	for(nCnt = 0;nCnt <MAX_ARENA_RESULT; nCnt++)
@@ -846,11 +787,7 @@ void CINFArenaResult::RenderUserInfo(float fStartBkX, float fStartBkY, POINT ptA
 	char chTmp[MAX_PATH];
 	memset(chTmp, 0x00, MAX_PATH);
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	fPosY = fStartBkY+ARENA_RESULT_STR_RANK_Y - 7;
-#else											  
-	fPosY = fStartBkY+ARENA_RESULT_STR_RANK_Y;
-#endif
 
 	CHARACTER myShuttleInfo = g_pShuttleChild->m_myShuttleInfo;
 	int nInfluence = -1;
@@ -1091,11 +1028,7 @@ void CINFArenaResult::GetUnitKindString(USHORT i_nUnitKind,char* pTxt)
 
 void CINFArenaResult::RenderScroll(int nArenaIdx)
 {
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 //	m_pINFArenaScrollBar[nArenaIdx]->Render();
-#else
-	m_pINFArenaScrollBar[nArenaIdx]->Render();
-#endif
 
 }
 
@@ -1174,7 +1107,6 @@ void CINFArenaResult::RenderWinLose(float fStartBkX, float fStartBkY,
 // end 2012-06-07 by mspark, 아레나 전쟁 정보 UI 작업
 	nStartLogoPosY = fStartBkY + ARENA_INFLUENCE_Y;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 2012-06-07 by mspark, 아레나 전쟁 정보 UI 작업
 #ifdef SC_ARENA_EX_1ST_JHSEOL_MSPARK
 	pSelInfluence->Move(nStartLogoPosX+10, nStartLogoPosY-6);
@@ -1185,11 +1117,6 @@ void CINFArenaResult::RenderWinLose(float fStartBkX, float fStartBkY,
 #endif
 // end 2012-06-07 by mspark, 아레나 전쟁 정보 UI 작업
 
-#else
-	pSelInfluence->Move(nStartLogoPosX, nStartLogoPosY);
-	pSelInfluence->Render();	
-
-#endif
 
 	if(NULL == pSelWinLose)
 	{

@@ -96,11 +96,7 @@ private:
 
 
 private:
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*	 m_pBack;		// 배경														  
-#else 
-	CINFImageEx*	m_pBack;		// 배경
-#endif
 	
 	// 읽기/쓰기
 	int				m_nLetterMode;

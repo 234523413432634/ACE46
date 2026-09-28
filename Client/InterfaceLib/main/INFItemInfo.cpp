@@ -369,14 +369,7 @@ void CINFItemInfo::Render()
 
 		// 2009-02-03 by bhsohn 장착 아이템 비교 툴팁
 		//RenderInfoWindows(m_ptItemInfo.x,m_ptItemInfo.y-icongab,m_nMaxLength+12,14*(m_nDescIndex+1)+14*(m_nDescLine+1)+20+icongab);
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		RenderInfoWindows(m_ptItemInfo.x,m_ptItemInfo.y-icongab,
-							m_szTooltip.cx,
-							m_szTooltip.cy);
-		// end 2009-02-03 by bhsohn 장착 아이템 비교 툴팁
-#else
 		g_pGameMain->m_pInfWindow->RenderCenterWindow( m_ptItemInfo.x, m_ptItemInfo.y-icongab, m_szTooltip.cx, m_szTooltip.cy * HIDPI_COEFF, FALSE );
-#endif
 
 		int temp;
 		

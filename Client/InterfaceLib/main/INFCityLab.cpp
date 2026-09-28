@@ -54,7 +54,6 @@
 
 
 //--------------------------------------------------------------------------//
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define BACK_START_X			(CITY_BASE_NPC_BOX_START_X+RENEW_SHOP_SIZE_WIDTH + 249)
 #define BACK_START_Y			(CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y)
 #define BACK_BK_IMAGE_POS_Y		(BACK_START_Y + 20)
@@ -165,61 +164,6 @@
 #define		RARE_FIX_ITEM							1
 #define		ITIALIZE_ITEM							2
 //end 2010. 04. 21 by jskim 신규 럭키 머신 구현
-#else			 
-#define BACK_START_X			(CITY_BASE_NPC_BOX_START_X+RENEW_SHOP_SIZE_WIDTH + 249)
-#define BACK_START_Y			(CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y + 33)
-#define SOURCE_SLOT_START_X		(BACK_START_X + 30)
-#define SOURCE_SLOT_START_Y		(BACK_START_Y + 34)
-
-#define SLOT_INTERVAL_X			31
-#define SLOT_INTERVAL_Y			32
-
-// 2008-03-14 by bhsohn 조합식 개선안
-#define TARGET_SLOT_START_X		(BACK_START_X + 30)
-#define TARGET_SLOT_START_Y		(BACK_START_Y + 150)
-
-#define TARGET_FACTORY_SLOT_START_X		(BACK_START_X + 123)
- 
-#define CASH_START_X			(CITY_BASE_NPC_BOX_START_X+RENEW_SHOP_SIZE_WIDTH + 251)
-#define OK_BUTTON_START_X		(CITY_BASE_NPC_BOX_START_X+RENEW_SHOP_SIZE_WIDTH + 361)
-#define OK_BUTTON_START_Y		(CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y + 240)
-#define CANCEL_BUTTON_START_X	(CITY_BASE_NPC_BOX_START_X+RENEW_SHOP_SIZE_WIDTH + 398)
-#define CANCEL_BUTTON_START_Y	(CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y + 240)
-#define BUTTON_SIZE_X			35
-#define BUTTON_SIZE_Y			16
-
-#define SOURCE_NUMBER_X			4
-#define SOURCE_NUMBER_Y			2
-
-// 2006-03-07 by ispark, 언어에 따라 위치 수정
-#if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
-#define CASH_START_Y			(CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y + 239)//241)
-#define SPI_START_X				(CASH_START_X + 5)
-#define SPI_START_Y				(CASH_START_Y + 1)
-#else
-#define CASH_START_Y			(CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y +239)//241)
-#define SPI_START_X				(CASH_START_X + 4)
-#define SPI_START_Y				(CASH_START_Y + 1)
-#endif
-
-// 2008-03-14 by bhsohn 조합식 개선안
-// 숫자 입력 컨트롤 (확인)
-#define		MIX_NUM_EDIT_X		(BACK_START_X+31)
-#define		MIX_NUM_EDIT_Y		(BACK_START_Y+162)
-#define		MIX_NUM_EDIT_W		(70)
-#define		MIX_NUM_EDIT_H		(20)
-// 최대 글씨 수 
-//#define		MIX_MAX_STRING_LEN					4
-
-// 2010. 04. 21 by jskim 신규 럭키 머신 구현
-#define		RARE_FIX_PREFIX							1
-#define		RARE_FIX_SUFFIX							2
-
-#define		RARE_FIX_ITEM							1
-#define		ITIALIZE_ITEM							2
-//end 2010. 04. 21 by jskim 신규 럭키 머신 구현
-
-#endif
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -231,13 +175,8 @@ CINFCityLab::CINFCityLab(CAtumNode* pParent, BUILDINGNPC* pBuilding)
 	m_pImgBack						= NULL;
 	// 2008-03-14 by bhsohn 조합식 개선안
 	m_pImgBackFactory				= NULL;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pImgBackLab					= NULL;
-#endif
 	m_pImgTitle						= NULL;
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pImgPrice						= NULL;
-#endif
 	m_pFontPrice					= NULL;
 
 	m_nButtonState[0]				= BUTTON_STATE_NORMAL;
@@ -286,13 +225,8 @@ CINFCityLab::~CINFCityLab()
 	SAFE_DELETE(m_pImgBack);
 	// 2008-03-14 by bhsohn 조합식 개선안
 	SAFE_DELETE(m_pImgBackFactory);	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	SAFE_DELETE(m_pImgBackLab);	
-#endif
 	SAFE_DELETE(m_pImgTitle);
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	SAFE_DELETE(m_pImgPrice);
-#endif
 	SAFE_DELETE(m_pFontPrice);
 
 	// 2008-03-14 by bhsohn 조합식 개선안
@@ -317,39 +251,25 @@ HRESULT CINFCityLab::InitDeviceObjects()
 	FLOG( "CINFCityLab::InitDeviceObjects()" );
 	DataHeader	* pDataHeader;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource( "lab_sh");
 	m_pImgBack = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 	m_pImgBack->InitDeviceObjects( g_pD3dApp->m_pImageList );
 	m_pImgBack->RestoreDeviceObjects();
-#else 
-	m_pImgBack = new CINFImageEx;
-	pDataHeader = FindResource("shlabbk");
-	m_pImgBack->InitDeviceObjects(pDataHeader) ;
-#endif
 	// 2008-03-14 by bhsohn 조합식 개선안
 	m_pImgBackFactory = new CINFImageEx;
 	pDataHeader = FindResource("shlabbk1");
 	m_pImgBackFactory->InitDeviceObjects(pDataHeader ) ;
 	  
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pImgBackLab = new CINFImageEx;
 	pDataHeader = FindResource("shlabbk");
 	m_pImgBackLab->InitDeviceObjects(pDataHeader ) ;
-#endif																								  
 	m_pImgTitle = new CINFImageEx;
 	pDataHeader = FindResource("lab_ti");
 	m_pImgTitle->InitDeviceObjects(pDataHeader ) ;
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
- 	m_pImgPrice = new CINFImageEx;
-	pDataHeader = FindResource("shlacost");
- 	m_pImgPrice->InitDeviceObjects(pDataHeader ) ;
-#endif
 
 	int i; for(i=0;i<4;i++)
 	{
 		char buf[16];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pImgButton[0][i] = new CINFImageEx;
 		wsprintf(buf, "oks0%d",i);
 		pDataHeader = FindResource(buf);
@@ -364,22 +284,6 @@ HRESULT CINFCityLab::InitDeviceObjects()
 		wsprintf(buf, "oks0%d",i);
 		pDataHeader = FindResource(buf);
 		m_pImgButton[2][i]->InitDeviceObjects(pDataHeader ) ;	
-#else 
-	  	m_pImgButton[0][i] = new CINFImageEx;
-		wsprintf(buf, "shlama0%d",i);
-		pDataHeader = FindResource(buf);
-		m_pImgButton[0][i]->InitDeviceObjects(pDataHeader ) ;
-
-		m_pImgButton[1][i] = new CINFImageEx;		
-		wsprintf(buf, "shmcan0%d",i);
-		pDataHeader = FindResource(buf);
-		m_pImgButton[1][i]->InitDeviceObjects(pDataHeader) ;
-
-		m_pImgButton[2][i] = new CINFImageEx;		
-		wsprintf(buf, "shlaok0%d",i);
-		pDataHeader = FindResource(buf);
-		m_pImgButton[2][i]->InitDeviceObjects(pDataHeader) ;
-#endif
 	}
 
 	m_pFontPrice = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,128,32);
@@ -486,23 +390,13 @@ HRESULT CINFCityLab::RestoreDeviceObjects()
 		m_pImgBack->Move(BACK_START_X, BACK_START_Y);
 		// 2008-03-14 by bhsohn 조합식 개선안
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pImgBackFactory->RestoreDeviceObjects();
 		m_pImgBackFactory->Move(BACK_START_X, BACK_BK_IMAGE_POS_Y);
 		// end 2008-03-14 by bhsohn 조합식 개선안
 		m_pImgBackLab->RestoreDeviceObjects();
 		m_pImgBackLab->Move(BACK_START_X,BACK_BK_IMAGE_POS_Y);																								  
-#else				
-		m_pImgBackFactory->RestoreDeviceObjects();
-		m_pImgBackFactory->Move(BACK_START_X, BACK_START_Y);		
-		// end 2008-03-14 by bhsohn 조합식 개선안
-#endif
 		m_pImgTitle->RestoreDeviceObjects();
 		m_pImgTitle->Move(CITY_BASE_NPC_BOX_START_X, CITY_BASE_NPC_BOX_START_Y);
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		m_pImgPrice->RestoreDeviceObjects();
-		m_pImgPrice->Move(CASH_START_X, CASH_START_Y);
-#endif
 		m_pFontPrice->RestoreDeviceObjects();
 
 		// 2008-03-14 by bhsohn 조합식 개선안		
@@ -567,7 +461,6 @@ HRESULT CINFCityLab::DeleteDeviceObjects()
 		SAFE_DELETE(m_pImgButton[2][i]);
 	}
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경		
 	m_pImgBack->DeleteDeviceObjects();
 	m_pImgBackFactory->DeleteDeviceObjects();
 	m_pImgBackLab->DeleteDeviceObjects();
@@ -578,22 +471,6 @@ HRESULT CINFCityLab::DeleteDeviceObjects()
 	SAFE_DELETE(m_pImgBackLab);
 	SAFE_DELETE(m_pImgTitle);
 	SAFE_DELETE(m_pFontPrice);
-#else
-	m_pImgBack->DeleteDeviceObjects();
-	// 2008-03-14 by bhsohn 조합식 개선안
-	m_pImgBackFactory->DeleteDeviceObjects();
-
-	m_pImgTitle->DeleteDeviceObjects();
-	m_pImgPrice->DeleteDeviceObjects();
-	m_pFontPrice->DeleteDeviceObjects();
-	SAFE_DELETE(m_pImgBack);
-	// 2008-03-14 by bhsohn 조합식 개선안
-	SAFE_DELETE(m_pImgBackFactory);
-	
-	SAFE_DELETE(m_pImgTitle);
-	SAFE_DELETE(m_pImgPrice);
-	SAFE_DELETE(m_pFontPrice);
-#endif
 
 
 	// 2013-03-18 by bhsohn 팩토리 조합 추가
@@ -654,13 +531,8 @@ HRESULT CINFCityLab::InvalidateDeviceObjects()
 		m_pImgBack->InvalidateDeviceObjects();
 		// 2008-03-14 by bhsohn 조합식 개선안
 		m_pImgBackFactory->InvalidateDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pImgBackLab->InvalidateDeviceObjects();
 		m_pImgTitle->InvalidateDeviceObjects();
-#else					 
-		m_pImgTitle->InvalidateDeviceObjects();
-		m_pImgPrice->InvalidateDeviceObjects();
-#endif
 		m_pFontPrice->InvalidateDeviceObjects();
 		// 2008-03-14 by bhsohn 조합식 개선안	
 #ifndef C_INGAME_MIX_ITEM
@@ -714,25 +586,16 @@ void CINFCityLab::Render()
 //	m_pImgTitle->Render();
 	// 2008-03-14 by bhsohn 조합식 개선안
 	//m_pImgBack->Render();	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pImgBack->Render();
-#endif
 	if(m_pBuildingInfo->BuildingKind == BUILDINGKIND_FACTORY)
 	{
 		m_pImgBackFactory->Render();				
 	}
 	else
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pImgBackLab->Render();   
-#else
-		m_pImgBack->Render();				
-#endif
 	}	
 	// end 2008-03-14 by bhsohn 조합식 개선안
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pImgPrice->Render();
-#endif
 
 	// 2013-03-18 by bhsohn 팩토리 조합 추가
 	// 2008-03-14 by bhsohn 조합식 개선안	
@@ -1018,12 +881,8 @@ void CINFCityLab::Render()
 	m_pImgButton[1][m_nButtonState[1]]->Render();
 	if(m_szPrice[0] != NULL)
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		SIZE sSize = m_pFontPrice->GetStringSize(m_szPrice);
 		m_pFontPrice->DrawText(SPI_START_X - sSize.cx, SPI_START_Y, GUI_FONT_COLOR, m_szPrice, 0L );
-#else				 
-		m_pFontPrice->DrawText(SPI_START_X, SPI_START_Y, GUI_FONT_COLOR, m_szPrice, 0L );
-#endif
 	}
 }
 

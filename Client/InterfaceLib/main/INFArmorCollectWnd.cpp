@@ -351,14 +351,12 @@ CINFArmorCollectWnd::~CINFArmorCollectWnd()
 HRESULT CINFArmorCollectWnd::InitDeviceObjects()
 {
 	DataHeader *pDataHeader = NULL;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        
 	if(NULL == m_pImgBackg)
 	{
 		pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource(m_nBkImageGroup);
 		m_pImgBackg = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 		m_pImgBackg->InitDeviceObjects( g_pD3dApp->m_pImageList );		
 	}
-#endif
 
 
 	if(NULL == m_pScroll)
@@ -498,17 +496,10 @@ HRESULT CINFArmorCollectWnd::InitDeviceObjects()
 
 	{
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf(szUpBtn, "close");
 		wsprintf(szDownBtn, "close");
 		wsprintf(szSelBtn, "close");
 		wsprintf(szDisBtn, "close");															  
-#else
-		wsprintf(szUpBtn, "xclose");
-		wsprintf(szDownBtn, "xclose");
-		wsprintf(szSelBtn, "xclose");
-		wsprintf(szDisBtn, "xclose");
-#endif
 		if(NULL == m_pCloseBtn)
 		{
 			m_pCloseBtn = new CINFImageBtn;
@@ -2512,9 +2503,7 @@ BOOL CINFArmorCollectWnd::IsMouseCaps(POINT ptPos)
 {
 	POINT ptBakPos = m_ptBkPos;
 	POINT ptSize = {0,0};
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        
 	ptSize = m_pImgBackg->GetImgSize();
-#endif
 	if((ptPos.x >= ptBakPos.x && (ptPos.x <= ptBakPos.x+ptSize.x))
 		&& (ptPos.y >= ptBakPos.y && (ptPos.y <= ptBakPos.y+20)))
 	{

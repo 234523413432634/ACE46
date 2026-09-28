@@ -352,7 +352,6 @@ HRESULT CInterface::InitDeviceObjects()
 	
 	m_pMapNameImg = new CINFMapName() ;
 	m_pMapNameImg->InitDeviceObjects("mapname.tex") ;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	char strPath[256]; 
 	m_pGameData = new CGameData;
 	g_pD3dApp->LoadPath( strPath, IDS_DIRECTORY_TEXTURE, "interface.tex");
@@ -360,7 +359,6 @@ HRESULT CInterface::InitDeviceObjects()
 
 	m_pGameBigIconData = new CGameData;
 	m_pGameBigIconData->SetFile( ".\\Res-Tex\\bigitem.tex", FALSE, NULL, 0, FALSE );
-#endif
 
 //	m_pGameGlobalImage = new CGlobalImage() ;	
 //	m_pGameGlobalImage->InitDeviceObjects("imagezone.tex") ;
@@ -485,10 +483,8 @@ HRESULT CInterface::DeleteDeviceObjects()
 	if(m_pINFOpMain)
 		m_pINFOpMain->DeleteDeviceObjects();
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	SAFE_DELETE(m_pGameData);
 	SAFE_DELETE(m_pGameBigIconData);
-#endif
 	return S_OK;
 }
 HRESULT CInterface::InitSoundScript(char* szFileName, STAGE_EFFECT_DATA * pStageEffectData /* = NULL*/, BYTE byEndAct/* = NOT_ACTION*/, BOOL bSkip/* = TRUE*/)
@@ -544,11 +540,7 @@ HRESULT CInterface::DeleteSoundScript()
 HRESULT CInterface::InitGameObjects()
 {
 	FLOG( "CInterface::InitGameObjects()" );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pGameMain = new CINFGameMain(this, m_pGameData);
-#else
-	m_pGameMain = new CINFGameMain(this) ;
-#endif
 
 	m_pGameMain->InitDeviceObjects() ;
 	m_pTarget = new CINFTarget();
@@ -1108,12 +1100,6 @@ void CInterface::Tick()
 					m_pGameMain->m_pUnitInfoBar->Tick();
 					m_pGameMain->m_pGameCountDown->Tick();
 					// 2005-08-08 by ispark MP3 계속 유지하기
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-// 2011. 10. 10 by jskim UI시스템 변경
-					if(m_pGameMain->m_pMp3Player && m_pGameMain->m_bMp3PlayFlag == TRUE)
-						m_pGameMain->m_pMp3Player->Tick();
-// end 2011. 10. 10 by jskim UI시스템 변경														  
-#endif
 					if(m_pGameMain->m_pInfGameMainFaq && m_pGameMain->m_bFAQProsFlag)
 						m_pGameMain->m_pInfGameMainFaq->Tick();
 					
@@ -1598,14 +1584,6 @@ void CInterface::Render()
 			
 
 			// mp3 플레이어
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-// 2011. 10. 10 by jskim UI시스템 변경
-			if(g_pGameMain->m_pMp3Player && g_pGameMain->m_bMp3PlayFlag == TRUE)
-			{
-				g_pGameMain->m_pMp3Player->Render();
-			}			
-// end 2011. 10. 10 by jskim UI시스템 변경														  
-#endif
 			if(m_pGameMain->m_pInfGameMainFaq && m_pGameMain->m_bFAQProsFlag)
 					m_pGameMain->m_pInfGameMainFaq->Render();
 			if(m_pGameMain->m_pInfWindow)
@@ -2937,20 +2915,6 @@ int CInterface::WindowsWndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						return INF_MSGPROC_BREAK;						
 					break;
                  case WNDMp3Player:
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-// 2011. 10. 10 by jskim UI시스템 변경
- 					if( g_pGameMain->m_pMp3Player && g_pGameMain->m_bMp3PlayFlag == TRUE &&		// 2011. 10. 10 by jskim UI시스템 변경
-						// 2009. 12. 04 by jskim 마우스 포인터 안보이기 선택시 music player를 사용할 수 없게 되는 버그 수정
-						//m_pTarget->GetShowTargetCodition() == FALSE &&
-						//end 2009. 12. 04 by jskim 마우스 포인터 안보이기 선택시 music player를 사용할 수 없게 되는 버그 수정
-						m_bShowInterface == TRUE &&
-						!g_pShuttleChild->IsObserverMode())		// 2007-03-27 by bhsohn 옵저버 모드시 인터페이스 숨김
-					{
-						if(WndProcMp3P(uMsg, wParam, lParam) == INF_MSGPROC_BREAK)
-							return INF_MSGPROC_BREAK;
-					}
-// end 2011. 10. 10 by jskim UI시스템 변경
-#endif
 					break;			
 					// 2008-04-04 by bhsohn Ep3 커뮤니티 창
 				 case WNDCommunityWnd:
@@ -3422,18 +3386,6 @@ void CInterface::RenderOrderWindows(int nRenderNum)
 				case WNDMp3Player:
 					{
 						// mp3 플레이어
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-// 2011. 10. 10 by jskim UI시스템 변경
- 						if(	g_pGameMain->m_pMp3Player && 			// 2011. 10. 10 by jskim UI시스템 변경
-							g_pGameMain->m_bMp3PlayFlag == TRUE && 
-							m_bShowInterface && 
-							!g_pShuttleChild->IsObserverMode() &&	// 2007-03-27 by bhsohn 옵저버 모드시 인터페이스 숨김
-							g_pTutorial->IsTutorialMode() == FALSE)
-						{
-							g_pGameMain->m_pMp3Player->Render();
-						}
-// end 2011. 10. 10 by jskim UI시스템 변경
-#endif
 					}
 					break;
 				case WNDRenderHelp:

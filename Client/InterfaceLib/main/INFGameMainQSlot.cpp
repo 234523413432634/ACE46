@@ -36,7 +36,6 @@
 #include "INFWindow.h"	// 2012-12-21 by bhsohn [드레인모듈] 아이템 슬롯 등록 안되게 수정
 #include "INFCityCashShop.h"	// 2014-02-07 by ymjoo 캡슐형 캐시 아이템 경고 메세지
 		  
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define QSLOT_START_X			g_pD3dApp->GetBackBufferDesc().Width/2 - 168*HIDPI_COEFF	// c_nbar + mnbtnBG + mnQSlot
 #define QSLOT_START_Y			(g_pD3dApp->GetBackBufferDesc().Height - 57* HIDPI_COEFF)
 #define QSLOT_GAP				(m_pBack->GetImgSize().y + 4)* HIDPI_COEFF
@@ -52,14 +51,6 @@
 #define QSLOT_BUTTON_DOWN_START_Y		(m_nY + 23)
 #define QSLOT_BUTTON_SIZE_X				8
 #define QSLOT_BUTTON_SIZE_Y				8
-#else		 
-#define QSLOT_START_X			((g_pD3dApp->GetBackBufferDesc().Width - QSLOT_SIZE_X)/2)
-#define QSLOT_START_Y			(g_pD3dApp->GetBackBufferDesc().Height - 34)
-#define REAL_TAB_NUMBER			3	// 실제 적용되는 탭 개수
-
-// 2007-07-09 by bhsohn 출격과 바자상점 동시 사용시 문제점 처리
-#define	BAZAAR_CLICK_TIME		2.0f
-#endif
 
 // 2006-03-07 by ispark, 언어에 따라 위치 수정
 #if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
@@ -100,18 +91,6 @@ CINFGameMainQSlot::CINFGameMainQSlot(CAtumNode* pParent)
 	m_nSelectSlotNumber = -1;
 	m_fQSlotTimer = 0;
 	m_bRestored = FALSE;
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	// 2015-02-26 by jwLee CINFGameMainQSlot::m_pImgTabButton변수 초기화 방법 변경
-	//memset(m_pImgTabButton, 0x00, sizeof(DWORD)*QSLOT_BUTTON_STATE_NUMBER*QSLOT_BUTTON_NUMBER);
-	int i = 0;
-	for (i = 0 ; i < QSLOT_BUTTON_NUMBER ; i++)
-	{
-		m_pImgTabButton[i] = NULL;
-	}
-	// end 2015-02-26 by jwLee CINFGameMainQSlot::m_pImgTabButton변수 초기화 방법 변경
-	m_nButtonState[QSLOT_BUTTON_UP] = BUTTON_STATE_NORMAL;
-	m_nButtonState[QSLOT_BUTTON_DOWN] = BUTTON_STATE_NORMAL;
-#endif
 	
 	int i; for(i=0; i<8; i++)
 		m_vecFontLine[i] = NULL;
@@ -132,10 +111,8 @@ CINFGameMainQSlot::CINFGameMainQSlot(CAtumNode* pParent)
 	m_vecJoystikcSkillList.clear();
 	m_fJoystikcSkillList = 0.0f;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pImgBlind = NULL;
 	m_pIsSlotOpen = TRUE;
-#endif
 
 	m_fCheckQuiclSlotSave = 0.0f; // 2013-07-01 by bhsohn QuickSlot변경시 시간 체크하여 바로 저장하게 변경
 
@@ -147,18 +124,10 @@ CINFGameMainQSlot::~CINFGameMainQSlot()
 	SAFE_DELETE(m_pBack);
 	SAFE_DELETE(m_pNumber);
 	SAFE_DELETE(m_pImgDisSkill);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	for(i=0;i<QSLOT_BUTTON_NUMBER;i++)
 	{
 		SAFE_DELETE(m_pImgTabButton[i]);
 	}
-#else
-	for(i=0;i<QSLOT_BUTTON_STATE_NUMBER;i++)
-	{
-		SAFE_DELETE(m_pImgTabButton[QSLOT_BUTTON_UP][i]);
-		SAFE_DELETE(m_pImgTabButton[QSLOT_BUTTON_DOWN][i]);
-	}
-#endif
 
 	for(i=0; i<QSLOT_NUMBER; i++)
 	{
@@ -173,9 +142,7 @@ CINFGameMainQSlot::~CINFGameMainQSlot()
 			SAFE_DELETE(m_pQSlotInfo[i][j].pItem);
 		}
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	SAFE_DELETE( m_pImgBlind );																	  
-#endif
 }
 
 HRESULT CINFGameMainQSlot::InitDeviceObjects()
@@ -196,26 +163,11 @@ HRESULT CINFGameMainQSlot::InitDeviceObjects()
 	pDataHeader = FindResource("diskill");
 	m_pImgDisSkill->InitDeviceObjects(pDataHeader);
 												
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pImgTabButton[QSLOT_BUTTON_UP] = new CINFImageBtn;
 	m_pImgTabButton[QSLOT_BUTTON_UP]->InitDeviceObjects( "mnQup03", "mnQup01", "mnQup00", "mnQup02" );
 		
 	m_pImgTabButton[QSLOT_BUTTON_DOWN] = new CINFImageBtn;
 	m_pImgTabButton[QSLOT_BUTTON_DOWN]->InitDeviceObjects( "mnQdn03", "mnQdn01", "mnQdn00", "mnQdn02" );
-#else			
-	for(i=0;i<QSLOT_BUTTON_STATE_NUMBER;i++)
-	{
-		char buf[64];
-		wsprintf( buf, "mnQup%02d", i);
-		pDataHeader = FindResource(buf);
-		m_pImgTabButton[QSLOT_BUTTON_UP][i] = new CINFImage;
-		m_pImgTabButton[QSLOT_BUTTON_UP][i]->InitDeviceObjects( pDataHeader->m_pData, pDataHeader->m_DataSize );
-		wsprintf( buf, "mnQdn%02d", i);
-		pDataHeader = FindResource(buf);
-		m_pImgTabButton[QSLOT_BUTTON_DOWN][i] = new CINFImage;
-		m_pImgTabButton[QSLOT_BUTTON_DOWN][i]->InitDeviceObjects( pDataHeader->m_pData, pDataHeader->m_DataSize );
-	}
-#endif
 
 	for(i=0; i<QSLOT_NUMBER; i++)
 	{
@@ -227,11 +179,9 @@ HRESULT CINFGameMainQSlot::InitDeviceObjects()
 	m_pFontTabNum->InitDeviceObjects(g_pD3dDev);
 
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
     m_pImgBlind = new CINFImageEx;
 	pDataHeader = FindResource("LM_inven");
 	m_pImgBlind->InitDeviceObjects(pDataHeader);
-#endif
 	return S_OK ;
 }
 
@@ -246,18 +196,10 @@ HRESULT CINFGameMainQSlot::RestoreDeviceObjects()
 		m_pNumber->RestoreDeviceObjects() ;
 		m_pImgDisSkill->RestoreDeviceObjects() ;
 		// 탭 버튼 관련
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pImgTabButton[QSLOT_BUTTON_UP]->RestoreDeviceObjects();
 		m_pImgTabButton[QSLOT_BUTTON_UP]->SetBtnPosition(QSLOT_BUTTON_UP_START_X,QSLOT_BUTTON_UP_START_Y);
 		m_pImgTabButton[QSLOT_BUTTON_DOWN]->RestoreDeviceObjects();
 		m_pImgTabButton[QSLOT_BUTTON_DOWN]->SetBtnPosition(QSLOT_BUTTON_UP_START_X,QSLOT_BUTTON_UP_START_Y);
-#else 
-		int i; for(i=0;i<QSLOT_BUTTON_STATE_NUMBER;i++)
-		{
-			m_pImgTabButton[QSLOT_BUTTON_UP][i]->RestoreDeviceObjects();
-			m_pImgTabButton[QSLOT_BUTTON_DOWN][i]->RestoreDeviceObjects();
-		}
-#endif
 		m_bRestored = TRUE;
 	}
 	
@@ -267,9 +209,7 @@ HRESULT CINFGameMainQSlot::RestoreDeviceObjects()
 	}
 	m_pFontTabNum->RestoreDeviceObjects() ;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pImgBlind->RestoreDeviceObjects();														  
-#endif
 	return S_OK ;
 }
 
@@ -281,7 +221,6 @@ HRESULT CINFGameMainQSlot::DeleteDeviceObjects()
 	m_pBack->DeleteDeviceObjects() ;
 	SAFE_DELETE(m_pBack );	
 	m_pImgDisSkill->DeleteDeviceObjects() ;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	SAFE_DELETE(m_pImgDisSkill );
 	m_pNumber->DeleteDeviceObjects() ;
 	SAFE_DELETE(m_pNumber );
@@ -289,15 +228,6 @@ HRESULT CINFGameMainQSlot::DeleteDeviceObjects()
 	m_pImgTabButton[QSLOT_BUTTON_DOWN]->InvalidateDeviceObjects();
 	SAFE_DELETE(m_pImgTabButton[QSLOT_BUTTON_UP]);
 	SAFE_DELETE(m_pImgTabButton[QSLOT_BUTTON_DOWN]);  
-#else
-	for(i=0;i<QSLOT_BUTTON_STATE_NUMBER;i++)
-	{
-		m_pImgTabButton[QSLOT_BUTTON_UP][i]->InvalidateDeviceObjects();
-		m_pImgTabButton[QSLOT_BUTTON_DOWN][i]->InvalidateDeviceObjects();
-		SAFE_DELETE(m_pImgTabButton[QSLOT_BUTTON_UP][i]);
-		SAFE_DELETE(m_pImgTabButton[QSLOT_BUTTON_DOWN][i]);
-	}
-#endif
 	for(i=0; i<QSLOT_NUMBER; i++)
 	{
 		m_vecFontLine[i]->DeleteDeviceObjects() ;
@@ -306,10 +236,8 @@ HRESULT CINFGameMainQSlot::DeleteDeviceObjects()
 	m_pFontTabNum->DeleteDeviceObjects() ;
 	SAFE_DELETE(m_pFontTabNum);
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pImgBlind->DeleteDeviceObjects();
 	SAFE_DELETE(m_pImgBlind);
-#endif
 	return S_OK ;
 }
 
@@ -321,20 +249,11 @@ HRESULT CINFGameMainQSlot::InvalidateDeviceObjects()
 	{
 		m_pBack->InvalidateDeviceObjects() ;
 		m_pNumber->InvalidateDeviceObjects() ;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 		m_pImgDisSkill->InvalidateDeviceObjects() ;
 		m_pImgTabButton[QSLOT_BUTTON_UP]->InvalidateDeviceObjects();
 		m_pImgTabButton[QSLOT_BUTTON_DOWN]->InvalidateDeviceObjects();
 		m_pImgBlind->InvalidateDeviceObjects();	
-#else										   
-		m_pImgDisSkill->InvalidateDeviceObjects() ;
-		int i; for(i=0;i<QSLOT_BUTTON_STATE_NUMBER;i++)
-		{
-			m_pImgTabButton[QSLOT_BUTTON_UP][i]->InvalidateDeviceObjects();
-			m_pImgTabButton[QSLOT_BUTTON_DOWN][i]->InvalidateDeviceObjects();
-		}
-#endif
 
 		m_bRestored = FALSE;
 	}
@@ -452,14 +371,6 @@ void CINFGameMainQSlot::SetCheckQuiclSlotSave(float fCheckQuiclSlotSave)
 //#define QSLOT_BUTTON_SIZE_X				8
 //#define QSLOT_BUTTON_SIZE_Y				8
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-#define QSLOT_BUTTON_UP_START_X			(m_nX + QSLOT_SIZE_X + 4)
-#define QSLOT_BUTTON_UP_START_Y			(m_nY + 0)
-#define QSLOT_BUTTON_DOWN_START_X		(m_nX + QSLOT_SIZE_X + 4)
-#define QSLOT_BUTTON_DOWN_START_Y		(m_nY + 23)
-#define QSLOT_BUTTON_SIZE_X				8
-#define QSLOT_BUTTON_SIZE_Y				8
-#endif
 // end 2007-01-22 by bhsohn 탭키 인터 페이스 수정안
 
 void CINFGameMainQSlot::Render()
@@ -469,7 +380,6 @@ void CINFGameMainQSlot::Render()
 	{
 		return;
 	}
- #ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	FLOG( "CINFGameMainQSlot::Render()" );
 	char buf[64];
 
@@ -711,147 +621,6 @@ void CINFGameMainQSlot::Render()
 	{
 		g_pGameMain->m_bQSlotIconFlag = FALSE;
 	}  
-#else
-	FLOG( "CINFGameMainQSlot::Render()" );
-	char buf[64];
-	m_pBack->Move(m_nX, m_nY);
-	m_pBack->Render();
-
-	// 단축키 아이콘
-	CINFIcon* pIconInfo = ((CINFGameMain*)m_pParent)->m_pIcon;
-	int i; for(i=0;i<QSLOT_NUMBER;i++)
-	{
-		if(m_pQSlotInfo[m_nCurrentTab][i].pItem && IsValidQSlotInfo(m_nCurrentTab, i))
-		{
-			// 2010. 04. 01 by ckPark 리소스 변경 시스템시 팩토리나 연구소에서 아이템 회수한 후 변경이 안되는 문제 해결
-
-// 			// 2005-11-28 by ispark, SourceIndex로 변경, 스킬은 SKILL_BASE_NUM으로 한다.
-// 			if(IS_SKILL_ITEM(m_pQSlotInfo[m_nCurrentTab][i].pItem->Kind))
-// 			{
-// 				wsprintf(buf, "%08d", SKILL_BASE_NUM(m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemInfo->SourceIndex));
-// 			}
-// 			else
-// 			{
-// 				wsprintf(buf, "%08d", m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemInfo->SourceIndex);
-// 			}
-
-			strcpy( buf, m_pQSlotInfo[m_nCurrentTab][i].IconName );
-
-			// end 2010. 04. 01 by ckPark 리소스 변경 시스템시 팩토리나 연구소에서 아이템 회수한 후 변경이 안되는 문제 해결
-
-			pIconInfo->SetIcon(buf, 
-				m_nX+QSLOT_ICON_INTERVAL*i+1,
-				m_nY+1, 1.0f);
-			pIconInfo->Render();
-			
-			if(IS_SKILL_ITEM(m_pQSlotInfo[m_nCurrentTab][i].pItem->Kind) 
-			 && FALSE == RenderDisableSkill(m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemNum))
-			{
-				m_pImgDisSkill->Move(m_nX+QSLOT_ICON_INTERVAL*i, m_nY);
-				m_pImgDisSkill->Render();
-			}
-
-			// 2005-11-22 by ispark
-			// 스킬 재발동 시간 표시
-			if(IS_SKILL_ITEM(m_pQSlotInfo[m_nCurrentTab][i].pItem->Kind))
-			{
-				RenderSkillReAttackTime(m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemNum, i);
-			}
-			else if(ITEMKIND_CARD == m_pQSlotInfo[m_nCurrentTab][i].pItem->Kind
-				&& COMPARE_BIT_FLAG(m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemInfo->ItemAttribute, ITEM_ATTR_TIME_LIMITE)
-				&& 0 < m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemInfo->ReAttacktime)
-			{
-				RenderItemUsableReAttackTime(m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemNum, i);
-			}
-			// 2008-11-26 by bhsohn 절대시간 제한 아이템 구현
-			else if(ITEMKIND_CARD == m_pQSlotInfo[m_nCurrentTab][i].pItem->Kind
-				&& COMPARE_BIT_FLAG(m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemInfo->ItemAttribute, ITEM_ATTR_DELETED_TIME_LIMITE_AFTER_USED)
-				&& 0 < m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemInfo->ReAttacktime)
-			{
-				RenderItemUsableReAttackTime(m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemNum, i);
-			}
-			// end 2008-11-26 by bhsohn 절대시간 제한 아이템 구현
-
-			//갯수 아이템.
-			if( IS_COUNTABLE_ITEM(m_pQSlotInfo[m_nCurrentTab][i].pItem->Kind) )
-			{
-				CItemInfo* pItemInfo = g_pStoreData->FindItemInInventoryByUniqueNumber( m_pQSlotInfo[m_nCurrentTab][i].pItem->UniqueNumber );
-				if( pItemInfo->CurrentCount > 1 )
-				{
-					// 갯수를 보여준다.
-					// 2006-09-08 by ispark, 위치 수정
-					wsprintf(buf, "%d",pItemInfo->CurrentCount);
-					int len = strlen(buf) - 1;			// 여기는 한개 이상 들어온다는 정의에 -1를 했다.
-					m_vecFontLine[i]->DrawText(m_nX+QSLOT_ICON_INTERVAL*i+21 - len*6,m_nY-1,QSLOT_COUNTERBLE_NUMBER,buf, 0L);
-				}
-			}
-		}
-	}
-
-	// 2007-01-22 by bhsohn 탭키 인터 페이스 수정안
-	wsprintf(buf, "%d",m_nCurrentTab+1);
-	m_pFontTabNum->DrawText(QSLOT_BUTTON_UP_START_X + 1,
-								QSLOT_BUTTON_UP_START_Y + QSLOT_BUTTON_SIZE_Y , 
-								QSLOT_COUNTERBLE_NUMBER,buf, 0L);
-
-	m_pNumber->Move(m_nX, m_nY);
-	m_pNumber->Render();
-
-	// 2010. 02. 11 by ckPark 발동류 장착아이템
-	for( i=0; i<QSLOT_NUMBER; ++i )
-	{
-		if(m_pQSlotInfo[m_nCurrentTab][i].pItem && IsValidQSlotInfo(m_nCurrentTab, i))
-		{
-			if( m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemInfo->InvokingDestParamID
-				|| m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemInfo->InvokingDestParamIDByUse )
-			{
-				char buf[128];
-
-				// 퀵슬롯에서는 장착된 아이템의 쿨타임만 표시한다
-				CItemInfo* pItemInfo = g_pStoreData->FindItemInWearByItemNum(m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemNum);
-				if( pItemInfo && GetString_CoolTime( pItemInfo, buf ) )
-				{
-					int len = strlen(buf) - 1;
-
-					int nFontPosX = m_nX + QSLOT_ICON_INTERVAL * i + FONTLINE_X + 20 - len * 6; // 여기서 6은 영문 숫자 텍스트 간격이다.
-					int nFontPosY = m_nY + FONTLINE_Y + 7;
-
-					m_vecFontLine[i]->DrawText(nFontPosX,nFontPosY, QSLOT_COUNTERBLE_NUMBER,buf, 0L);
-				}
-			}
-		}
-	}
-	// end 2010. 02. 11 by ckPark 발동류 장착아이템
-
-
-	// 탭 버튼 관련
-	m_pImgTabButton[QSLOT_BUTTON_UP][m_nButtonState[QSLOT_BUTTON_UP]]->Move(QSLOT_BUTTON_UP_START_X,QSLOT_BUTTON_UP_START_Y);
-	m_pImgTabButton[QSLOT_BUTTON_UP][m_nButtonState[QSLOT_BUTTON_UP]]->Render();
-	m_pImgTabButton[QSLOT_BUTTON_DOWN][m_nButtonState[QSLOT_BUTTON_DOWN]]->Move(QSLOT_BUTTON_DOWN_START_X,QSLOT_BUTTON_DOWN_START_Y);
-	m_pImgTabButton[QSLOT_BUTTON_DOWN][m_nButtonState[QSLOT_BUTTON_DOWN]]->Render();
-
-	// 선택된 퀵슬롯을 드래그한 경우
-	if(m_nSelectSlotNumber != -1 && 
-		m_pQSlotInfo[m_nCurrentTab][m_nSelectSlotNumber].IconName[0])
-	{
-		POINT ptCursor;
-		GetCursorPos( &ptCursor );
-		ScreenToClient( g_pD3dApp->GetHwnd(), &ptCursor );
-		CheckMouseReverse(&ptCursor);
-		g_pGameMain->m_bQSlotIconFlag = TRUE;
-		g_pGameMain->m_nQSlotPosX = ptCursor.x - m_nRenderMoveIconIntervalWidth;
-		g_pGameMain->m_nQSlotPosY = ptCursor.y - m_nRenderMoveIconIntervalHeight;
-
-//		pIconInfo->SetIcon(m_pQSlotInfo[m_nCurrentTab][m_nSelectSlotNumber].IconName, 
-//			ptCursor.x - m_nRenderMoveIconIntervalWidth,
-//			ptCursor.y - m_nRenderMoveIconIntervalHeight, 1.0f);
-//		pIconInfo->Render();
-	}
-	else
-	{
-		g_pGameMain->m_bQSlotIconFlag = FALSE;
-	}
-#endif
 }
 
 void CINFGameMainQSlot::SetToolTip(int x, int y, ITEM_BASE* pItem)
@@ -903,7 +672,6 @@ void CINFGameMainQSlot::SetToolTip(int x, int y, ITEM_BASE* pItem)
 int CINFGameMainQSlot::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	FLOG( "CINFGameMainQSlot::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)" );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	switch(uMsg)
 	{
 	case WM_MOUSEMOVE:
@@ -1482,431 +1250,6 @@ int CINFGameMainQSlot::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 	return INF_MSGPROC_NORMAL;	   
-#else
-	switch(uMsg)
-	{
-	case WM_MOUSEMOVE:
-		{
-			// 2007-03-27 by bhsohn 옵저버 모드시 인터페이스 숨김
-			if(g_pShuttleChild->IsObserverMode())
-			{
-				return INF_MSGPROC_NORMAL;
-			}
-			// end 2007-03-27 by bhsohn 옵저버 모드시 인터페이스 숨김
-
-			POINT pt;
-			pt.x = LOWORD(lParam);
-			pt.y = HIWORD(lParam);
-			CheckMouseReverse(&pt);
-			
-			// 2006-07-27 by ispark
-			if(((CINFGameMain*)m_pParent)->m_stSelectItem.pSelectItem &&
-				((CINFGameMain*)m_pParent)->m_stSelectItem.bySelectType == ITEM_QSLOT_POS)
-			{
-				m_bLButtonDown = TRUE;
-			}
-
-			if( pt.y > m_nY &&
-				pt.y < m_nY+QSLOT_SIZE_Y &&
-				pt.x > m_nX &&
-				pt.x < m_nX+QSLOT_SIZE_X)
-			{
-				int i = (pt.x - m_nX - 1)/QSLOT_ICON_INTERVAL;
-
-				if( m_pQSlotInfo[m_nCurrentTab][i].pItem && 
-					i >= 0 && 
-					i < QSLOT_NUMBER )
-				{					
-//					g_pGameMain->SetItemInfo(m_pQSlotInfo[m_nCurrentTab][i].pItem->UniqueNumber, 
-//						m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemNum, pt.x, pt.y);
-					SetToolTip(pt.x-10, pt.y+13, m_pQSlotInfo[m_nCurrentTab][i].pItem);
-					return INF_MSGPROC_BREAK;
-				}
-				else
-				{
-					((CINFGameMain*)m_pParent)->SetToolTip(0, 0,NULL);
-				}
-			}
-			else
-			{
-				// 2007-01-22 by dgwoo 인포창툴팁까지 삭제를 한다 하지만 주석처리시 인터페이스가 
-				// 없을때 QSlot의 툴팁이 그냥 남는 버그가 생긴다.
-				((CINFGameMain*)m_pParent)->SetToolTip(0, 0,NULL);
-			}
-			// current tab 이동 버튼
-			if(GetButtonStateOnMouse(pt, QSLOT_BUTTON_UP_START_X, QSLOT_BUTTON_UP_START_Y, QSLOT_BUTTON_SIZE_X, QSLOT_BUTTON_SIZE_Y))
-			{
-				m_nButtonState[QSLOT_BUTTON_UP] = BUTTON_STATE_UP;
-				m_nButtonState[QSLOT_BUTTON_DOWN] = BUTTON_STATE_NORMAL;
-			}
-			else if(GetButtonStateOnMouse(pt, QSLOT_BUTTON_DOWN_START_X,QSLOT_BUTTON_DOWN_START_Y, QSLOT_BUTTON_SIZE_X, QSLOT_BUTTON_SIZE_Y))
-			{
-				m_nButtonState[QSLOT_BUTTON_UP] = BUTTON_STATE_NORMAL;
-				m_nButtonState[QSLOT_BUTTON_DOWN] = BUTTON_STATE_UP;
-			}
-			else
-			{
-				m_nButtonState[QSLOT_BUTTON_UP] = BUTTON_STATE_NORMAL;
-				m_nButtonState[QSLOT_BUTTON_DOWN] = BUTTON_STATE_NORMAL;
-			}
-		}
-		break;
-	case WM_RBUTTONDOWN:
-		{
-			// 2007-03-27 by bhsohn 옵저버 모드시 인터페이스 숨김
-			if(g_pShuttleChild->IsObserverMode())
-			{
-				return INF_MSGPROC_NORMAL;
-			}
-			// end 2007-03-27 by bhsohn 옵저버 모드시 인터페이스 숨김
-
-			POINT pt;
-			pt.x = LOWORD(lParam);
-			pt.y = HIWORD(lParam);
-			CheckMouseReverse(&pt);
-			
-			if( pt.y>m_nY &&
-				pt.y<m_nY+QSLOT_SIZE_Y &&
-				pt.x > m_nX &&
-				pt.x < m_nX+QSLOT_SIZE_X)
-			{
-				// 2005-07-19 by ispark
-				// I, V버튼 누르기 전까지는 퀵슬롯 아템 삭제를 막는다.
-				// 각각 변수들은 0이면 창이 열린 상태가 아니다.
-				if(!g_pGameMain->m_nLeftWindowInfo && !g_pGameMain->m_nRightWindowInfo)
-				{
-					break;
-				}
-
-				int i = (pt.x - m_nX - 1)/QSLOT_ICON_INTERVAL;
-				if( m_pQSlotInfo[m_nCurrentTab][i].pItem &&
-					i >= 0 && 
-					i < QSLOT_NUMBER ) 
-				{
-					m_pQSlotInfo[m_nCurrentTab][i].pItem = NULL;								
-				}
-			}
-		}
-		break;
-	case WM_LBUTTONDOWN:
-		{
-			// 2007-03-27 by bhsohn 옵저버 모드시 인터페이스 숨김
-			if(g_pShuttleChild->IsObserverMode())
-			{
-				return INF_MSGPROC_NORMAL;
-			}
-			// end 2007-03-27 by bhsohn 옵저버 모드시 인터페이스 숨김
-
-			POINT pt;
-			pt.x = LOWORD(lParam);
-			pt.y = HIWORD(lParam);
-			CheckMouseReverse(&pt);
-			if( pt.y>m_nY &&
-				pt.y<m_nY+QSLOT_SIZE_Y &&
-				pt.x > m_nX &&
-				pt.x < m_nX+QSLOT_SIZE_X)
-			{
-				// 2005-07-19 by ispark
-				// I, V버튼 누르기 전까지는 퀵슬롯 아템 클릭(이동)을 막는다.
-				// 각각 변수들은 0이면 창이 열린 상태가 아니다.
-				if(!g_pGameMain->m_nLeftWindowInfo && !g_pGameMain->m_nRightWindowInfo)
-				{
-					break;
-				}
-				int i = (pt.x - m_nX - 1)/QSLOT_ICON_INTERVAL;
-
-				if(NULL != m_pQSlotInfo[m_nCurrentTab][i].pItem &&
-					IS_GENERAL_ITEM(m_pQSlotInfo[m_nCurrentTab][i].pItem->Kind) &&
-					g_pInterface->m_pBazaarShop == NULL)								// 2006-08-03 by ispark, 개인상점은 아이템 사용금지
-				{
-
-					if(IS_COUNTABLE_ITEM(m_pQSlotInfo[m_nCurrentTab][i].pItem->Kind))
-					{
-						ITEM *pITEM = g_pDatabase->GetServerItemInfo(m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemNum);
-						if(pITEM)
-						{
-							CItemInfo* pItemInfo = g_pStoreData->FindItemInInventoryByUniqueNumber(((ITEM_GENERAL*)m_pQSlotInfo[m_nCurrentTab][i].pItem)->UniqueNumber);
-							if(pItemInfo == NULL)
-							{
-								SetQSlotInfo(m_nCurrentTab,i,NULL);
-								m_bLButtonDown = FALSE;
-								return INF_MSGPROC_BREAK;
-							}
-						}
-					}
-				}
-				
-				// 2006-07-27 by ispark
-				if(((CINFGameMain*)m_pParent)->m_stSelectItem.pSelectItem &&
-					((CINFGameMain*)m_pParent)->m_stSelectItem.bySelectType == ITEM_QSLOT_POS)
-				{
-					m_bLButtonDown = TRUE;
-					return INF_MSGPROC_BREAK;
-				}
-
-				m_nItemType	= QSLOT_ITEMTYPE_NONE;
-				if( m_pQSlotInfo[m_nCurrentTab][i].pItem &&
-					i >= 0 && 
-					i < QSLOT_NUMBER ) 
-				{
-//					if( g_pGameMain->m_pInven->m_pSelectItem == NULL &&
-//						g_pGameMain->m_pCharacterInfo->m_pSelectSkill == NULL)
-					if(((CINFGameMain*)m_pParent)->m_stSelectItem.pSelectItem == NULL)
-					{
-						m_nRenderMoveIconIntervalWidth  = (pt.x - m_nX) - i*QSLOT_ICON_INTERVAL + 1;
-						m_nRenderMoveIconIntervalHeight = pt.y - m_nY + 1;
-						m_nSelectSlotNumber = i;
-						
-						if(IS_SKILL_ITEM(m_pQSlotInfo[m_nCurrentTab][i].pItem->Kind))
-						{
-//							g_pGameMain->m_pCharacterInfo->m_pSelectSkill = (ITEM_SKILL*)m_pQSlotInfo[m_nCurrentTab][i].pItem;
-							SetSelectItem(&m_pQSlotInfo[m_nCurrentTab][i]);
-							m_nItemType				= QSLOT_ITEMTYPE_SKILL;
-						}
-						else
-						{
-//							g_pGameMain->m_pInven->m_pSelectItem = (CItemInfo*)m_pQSlotInfo[m_nCurrentTab][i].pItem;
-							SetSelectItem(&m_pQSlotInfo[m_nCurrentTab][i]);
-							m_nItemType				= QSLOT_ITEMTYPE_ITEM;
-						}						
-						m_bQSlotSwapFlag		= TRUE;
-						m_nQSlotSwapTab			= m_nCurrentTab;
-						m_nQSlotSwapNum			= i;
-
-						m_pQSlotMove = m_pQSlotInfo[m_nCurrentTab][i].pItem;
-						m_pQSlotInfo[m_nCurrentTab][i].pItem = NULL;
-					}
-					else
-					{
-						m_bQSlotSwapFlag		= FALSE;
-					}
-					
-					return INF_MSGPROC_BREAK;
-				}
-			}
-			else
-			{
-				if(m_bLButtonDown && 
-					((CINFGameMain*)m_pParent)->m_stSelectItem.bySelectType == ITEM_QSLOT_POS)
-				{
-					m_nSelectSlotNumber = -1;
-					m_nItemType = QSLOT_ITEMTYPE_NONE;
-					m_bLButtonDown = FALSE;
-					SetSelectItem(NULL);
-					return INF_MSGPROC_BREAK;
-				}
-			}
-			// current tab 이동 버튼
-			if(GetButtonStateOnMouse(pt, QSLOT_BUTTON_UP_START_X, QSLOT_BUTTON_UP_START_Y, QSLOT_BUTTON_SIZE_X, QSLOT_BUTTON_SIZE_Y))
-			{
-				m_nButtonState[QSLOT_BUTTON_UP] = BUTTON_STATE_DOWN;
-				m_nButtonState[QSLOT_BUTTON_DOWN] = BUTTON_STATE_NORMAL;
-			}
-			else if(GetButtonStateOnMouse(pt, QSLOT_BUTTON_DOWN_START_X,QSLOT_BUTTON_DOWN_START_Y, QSLOT_BUTTON_SIZE_X, QSLOT_BUTTON_SIZE_Y))
-			{
-				m_nButtonState[QSLOT_BUTTON_UP] = BUTTON_STATE_NORMAL;
-				m_nButtonState[QSLOT_BUTTON_DOWN] = BUTTON_STATE_DOWN;
-			}
-			else
-			{
-				m_nButtonState[QSLOT_BUTTON_UP] = BUTTON_STATE_NORMAL;
-				m_nButtonState[QSLOT_BUTTON_DOWN] = BUTTON_STATE_NORMAL;
-			}
-		}
-		break;
-	case WM_LBUTTONUP:
-		{
-			// 2007-03-27 by bhsohn 옵저버 모드시 인터페이스 숨김
-			if(g_pShuttleChild->IsObserverMode())
-			{
-				return INF_MSGPROC_NORMAL;
-			}
-			// end 2007-03-27 by bhsohn 옵저버 모드시 인터페이스 숨김
-			POINT pt;
-			pt.x = LOWORD(lParam);
-			pt.y = HIWORD(lParam);
-			CheckMouseReverse(&pt);
-			if(g_pGameMain->m_pInven->m_bSelectWearItem) break;
-
-			// 2006-07-27 by ispark
-			ITEM_BASE* pSelectItem = NULL;
-			if(((CINFGameMain*)m_pParent)->m_stSelectItem.pSelectItem)
-			{
-				pSelectItem = (ITEM_BASE*)(((CINFGameMain*)m_pParent)->m_stSelectItem.pSelectItem->pItem); 
-			}
-//			ITEM_BASE* pItem = NULL;
-//			if(m_pSelectItem == NULL)
-//			{
-//				pItem = (ITEM_BASE*)((CINFGameMain*)m_pParent)->m_pInven->m_pSelectItem;
-//				if(!pItem)
-//				{
-//					pItem = (ITEM_BASE*)((CINFGameMain*)m_pParent)->m_pCharacterInfo->m_pSelectSkill;
-//				}
-//			}
-
-//			if( (m_pSelectItem || pItem) && 
-			if( (pSelectItem && 
-				(m_bLButtonDown || ((CINFGameMain*)m_pParent)->m_stSelectItem.bySelectType != ITEM_QSLOT_POS)) &&
-				pt.y>m_nY &&
-				pt.y<m_nY+QSLOT_SIZE_Y)
-			{
-				int i = (pt.x - m_nX - 1)/QSLOT_ICON_INTERVAL;
-				if( i >= 0 && 
-					i < QSLOT_NUMBER ) 
-				{
-//					if(m_pSelectItem)
-//						SetQSlotInfo(m_nCurrentTab,i, m_pSelectItem);
-//					else
-//					{
-//						SetQSlotInfo(m_nCurrentTab,i, pItem);
-//					}
-					SetQSlotInfo(m_nCurrentTab,i, pSelectItem);
-					
-					m_nSelectSlotNumber = -1;
-					m_nItemType = QSLOT_ITEMTYPE_NONE;
-					m_bLButtonDown = FALSE;
-//					g_pGameMain->m_pInven->m_pSelectItem = NULL;
-//					g_pGameMain->m_pInven->m_pSelectIcon = NULL;
-//					g_pGameMain->m_pCharacterInfo->m_pSelectSkill = NULL;
-//					g_pGameMain->m_pCharacterInfo->m_pSelectIcon = NULL;
-					SetSelectItem(NULL);
-					break;
-				}
-			}
-			
-			// 클릭시 해제되는부분 막
-			if( m_nSelectSlotNumber>=0 && 
-				(pt.x < m_nX || 
-				pt.x > m_nX+QSLOT_SIZE_X ||
-				pt.y < m_nY || 
-				pt.y > m_nY+QSLOT_SIZE_Y))
-			{
-				m_nItemType = QSLOT_ITEMTYPE_NONE;
-				SetQSlotInfo(m_nCurrentTab,m_nSelectSlotNumber,NULL);
-				m_bLButtonDown = FALSE;
-//				g_pGameMain->m_pInven->m_pSelectItem = NULL;
-//				g_pGameMain->m_pCharacterInfo->m_pSelectSkill = NULL;
-				SetSelectItem(NULL);
-			}
-			m_nSelectSlotNumber = -1;
-			
-			// current tab 이동 버튼
-			if(GetButtonStateOnMouse(pt, QSLOT_BUTTON_UP_START_X, QSLOT_BUTTON_UP_START_Y, QSLOT_BUTTON_SIZE_X, QSLOT_BUTTON_SIZE_Y))
-			{
-				if(m_nButtonState[QSLOT_BUTTON_UP] == BUTTON_STATE_DOWN)
-				{
-					if(m_nCurrentTab > 0)
-						m_nCurrentTab --;
-				}
-				m_nButtonState[QSLOT_BUTTON_UP] = BUTTON_STATE_UP;
-				m_nButtonState[QSLOT_BUTTON_DOWN] = BUTTON_STATE_NORMAL;
-			}
-			else if(GetButtonStateOnMouse(pt, QSLOT_BUTTON_DOWN_START_X,QSLOT_BUTTON_DOWN_START_Y, QSLOT_BUTTON_SIZE_X, QSLOT_BUTTON_SIZE_Y))
-			{
-				if(m_nButtonState[QSLOT_BUTTON_DOWN] == BUTTON_STATE_DOWN)
-				{
-//					if(m_nCurrentTab<QSLOT_TAB_NUMBER-2)
-//						m_nCurrentTab ++;
-					if(m_nCurrentTab<REAL_TAB_NUMBER-1)
-						m_nCurrentTab ++;
-				}
-				m_nButtonState[QSLOT_BUTTON_UP] = BUTTON_STATE_NORMAL;
-				m_nButtonState[QSLOT_BUTTON_DOWN] = BUTTON_STATE_UP;
-			}
-			else
-			{
-				m_nButtonState[QSLOT_BUTTON_UP] = BUTTON_STATE_NORMAL;
-				m_nButtonState[QSLOT_BUTTON_DOWN] = BUTTON_STATE_NORMAL;
-			}
-
-			// 아이템 선택 단축아이콘 해제
-			//g_pGameMain->m_pCharacterInfo->m_pSelectSkill = NULL;
-			//g_pGameMain->m_pInven->m_pSelectItem = NULL;
-
-		}
-		break;
-	case WM_LBUTTONDBLCLK:
-		{
-			// 2007-03-27 by bhsohn 옵저버 모드시 인터페이스 숨김
-			if(g_pShuttleChild->IsObserverMode())
-			{
-				return INF_MSGPROC_NORMAL;
-			}
-			// end 2007-03-27 by bhsohn 옵저버 모드시 인터페이스 숨김
-			POINT pt;
-			pt.x = LOWORD(lParam);
-			pt.y = HIWORD(lParam);
-			CheckMouseReverse(&pt);
-			// 2006-03-31 by ispark, 버그 수정
-			if( pt.x > m_nX && 
-				pt.x < m_nX + QSLOT_SIZE_X &&
-				pt.y>m_nY &&
-				pt.y<m_nY+QSLOT_SIZE_Y)
-			{
-				int i = (pt.x - m_nX - 1)/QSLOT_ICON_INTERVAL;
-				if( m_pQSlotInfo[m_nCurrentTab][i].pItem && 
-					i >= 0 && 
-					i < QSLOT_NUMBER )
-//					pt.x<m_nX+QSLOT_ICON_START_X+QSLOT_ICON_INTERVAL*i+QSLOT_ICON_SIZE)
-				{
-					UseQuickSlot(m_nCurrentTab, i);
-				}
-			}
-		}
-		break;
-	case WM_KEYDOWN:
-		{
-			// 2007-03-27 by bhsohn 옵저버 모드시 인터페이스 숨김
-			if(g_pShuttleChild->IsObserverMode())
-			{
-				return INF_MSGPROC_NORMAL;
-			}
-			// end 2007-03-27 by bhsohn 옵저버 모드시 인터페이스 숨김
-
-			if(wParam == VK_TAB)
-			{
-				if(m_nCurrentTab<REAL_TAB_NUMBER-1)
-				{//탭의 증가.
-					m_nCurrentTab ++;
-					m_nSelectSlotNumber = -1;
-//					g_pGameMain->m_pInven->m_pSelectItem = NULL;
-//					g_pGameMain->m_pCharacterInfo->m_pSelectSkill = NULL;
-//					g_pGameMain->m_pInven->m_pSelectIcon = NULL;
-//					g_pGameMain->m_pCharacterInfo->m_pSelectIcon = NULL;
-					SetSelectItem(NULL);
-				}
-				else
-				{//탭의 초기화.
-					m_nCurrentTab = 0;
-					m_nSelectSlotNumber = -1;
-//					g_pGameMain->m_pInven->m_pSelectItem = NULL;
-//					g_pGameMain->m_pCharacterInfo->m_pSelectSkill = NULL;
-//					g_pGameMain->m_pInven->m_pSelectIcon = NULL;
-//					g_pGameMain->m_pCharacterInfo->m_pSelectIcon = NULL;
-					SetSelectItem(NULL);
-				}
-				m_nButtonState[QSLOT_BUTTON_DOWN] = BUTTON_STATE_DOWN;
-			}
-		}
-		break;
-	case WM_KEYUP:
-		{
-			// 2007-03-27 by bhsohn 옵저버 모드시 인터페이스 숨김
-			if(g_pShuttleChild->IsObserverMode())
-			{
-				return INF_MSGPROC_NORMAL;
-			}
-			// end 2007-03-27 by bhsohn 옵저버 모드시 인터페이스 숨김
-			
-			if(wParam == VK_TAB)
-			{
-				m_nButtonState[QSLOT_BUTTON_DOWN] = BUTTON_STATE_NORMAL;
-			}
-		}
-		break;
-	}
-	return INF_MSGPROC_NORMAL;
-#endif
 
 }
 
@@ -2619,11 +1962,7 @@ void CINFGameMainQSlot::RenderItemUsableReAttackTime(int nItemNum, int nRenderIn
 			{
 				wsprintf(strRemainedTime, STRMSG_C_SKILL_0009, nRemainedReattackTime);
 				m_vecFontLine[nRenderIndex]->DrawText(m_nX + QSLOT_ICON_INTERVAL * nRenderIndex + FONTLINE_X,
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 														m_nY + FONTLINE_Y - nLine * (fsizeY + 14),
-#else		
-														m_nY + FONTLINE_Y,
-#endif
 														D3DCOLOR_ARGB(0,0,255,255),
 														strRemainedTime, 0L);
 			}
@@ -2631,11 +1970,7 @@ void CINFGameMainQSlot::RenderItemUsableReAttackTime(int nItemNum, int nRenderIn
 			{
 				wsprintf(strRemainedTime, STRMSG_C_SKILL_0010, nRemainedReattackTime);//"%d초"
 				m_vecFontLine[nRenderIndex]->DrawText(m_nX + QSLOT_ICON_INTERVAL * nRenderIndex + FONTLINE_X,
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 														m_nY + FONTLINE_Y - nLine * (fsizeY + 14) ,	   
-#else 
-														m_nY + FONTLINE_Y,
-#endif
 														D3DCOLOR_ARGB(0,255,255,255),
 														strRemainedTime, 0L);
 			}
@@ -2708,7 +2043,6 @@ void CINFGameMainQSlot::RenderSkillReAttackTime(int nItemNum, int nRenderIndex, 
 					if(bIsMinute)
 					{
 						wsprintf(strRemainedTime, STRMSG_C_SKILL_0009, nRemainedReattackTime);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 						SIZE len = m_vecFontLine[nRenderIndex]->GetStringSize( strRemainedTime );
 
 						int nFontPosX = m_nX + 7 + ( fsizeX + 3) * nRenderIndex + ( ( fsizeX - len.cx ) / 2 ) ; // 여기서 6은 영문 숫자 텍스트 간격이다.
@@ -2717,17 +2051,10 @@ void CINFGameMainQSlot::RenderSkillReAttackTime(int nItemNum, int nRenderIndex, 
 																nFontPosY,
 																D3DCOLOR_ARGB(0,0,255,255),
 																strRemainedTime, 0L);			  
-#else	   
-						m_vecFontLine[nRenderIndex]->DrawText(m_nX + QSLOT_ICON_INTERVAL * nRenderIndex + FONTLINE_X,
-																m_nY + FONTLINE_Y,
-																D3DCOLOR_ARGB(0,0,255,255),
-																strRemainedTime, 0L);
-#endif
 					}
 					else
 					{
 						wsprintf(strRemainedTime, STRMSG_C_SKILL_0010, nRemainedReattackTime);//"%d초"
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 						SIZE len = m_vecFontLine[nRenderIndex]->GetStringSize( strRemainedTime );
 						
 						int nFontPosX = m_nX + 7 + ( fsizeX + 3) * nRenderIndex + ( ( fsizeX - len.cx ) / 2 ) ; // 여기서 6은 영문 숫자 텍스트 간격이다.
@@ -2736,13 +2063,6 @@ void CINFGameMainQSlot::RenderSkillReAttackTime(int nItemNum, int nRenderIndex, 
 																nFontPosY,
 																D3DCOLOR_ARGB(0,255,255,255),
 																strRemainedTime, 0L);			  
-#else 
-
-						m_vecFontLine[nRenderIndex]->DrawText(m_nX + QSLOT_ICON_INTERVAL * nRenderIndex + FONTLINE_X,
-																m_nY + FONTLINE_Y,
-																D3DCOLOR_ARGB(0,255,255,255),
-																strRemainedTime, 0L);
-#endif
 					}
 				}
 			}
@@ -2763,7 +2083,6 @@ void CINFGameMainQSlot::RenderSkillReAttackTime(int nItemNum, int nRenderIndex, 
 ///////////////////////////////////////////////////////////////////////////////
 BOOL CINFGameMainQSlot::LButtonUpQuickSlot(POINT pt)
 {
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	int TabNum = 0;
 	CINFIcon* pIconInfo = ((CINFGameMain*)m_pParent)->m_pIcon;
 	{
@@ -2787,15 +2106,6 @@ BOOL CINFGameMainQSlot::LButtonUpQuickSlot(POINT pt)
 			TabNum++;
 		}
 	} 
-#else	
-	if( pt.y > m_nY &&
-		pt.y < m_nY + QSLOT_SIZE_Y &&
-		pt.x > m_nX &&
-		pt.x < m_nX + QSLOT_SIZE_X)
-	{
-		return TRUE;
-	}
-#endif
 // 	if( pt.y > m_nY &&
 // 		pt.y < m_nY + QSLOT_SIZE_Y &&
 // 		pt.x > m_nX &&

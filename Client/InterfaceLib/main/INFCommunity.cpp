@@ -99,13 +99,11 @@ CINFCommunity::CINFCommunity(CAtumNode* pParent)
 	m_bMove = FALSE;	
 	m_ptCommOpMouse.x = m_ptCommOpMouse.y = 0;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pCommunityBKImage = NULL;
 	for( int i=0; i < COMMUNITY_MAX; i++ )
 	{
 		m_pCommMenuBtn[i] = NULL;	
 	}																							  
-#endif
 }
 
 CINFCommunity::~CINFCommunity()
@@ -130,13 +128,11 @@ CINFCommunity::~CINFCommunity()
 	SAFE_DELETE(m_pCloseBtn);
 	// end 2008-04-04 by bhsohn Ep3 커뮤니티 창
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	SAFE_DELETE( m_pCommunityBKImage );
 	for( int i=0; i < COMMUNITY_MAX; i++ )
 	{
 		SAFE_DELETE(m_pCommMenuBtn[i]);
 	}																							  
-#endif
 }
 
 HRESULT CINFCommunity::InitDeviceObjects()
@@ -250,18 +246,10 @@ HRESULT CINFCommunity::InitDeviceObjects()
 	//
 	{
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf(szUpBtn, "close");
 		wsprintf(szDownBtn, "close");
 		wsprintf(szSelBtn, "close");
 		wsprintf(szDisBtn, "close");															  
-#else			  
-		wsprintf(szUpBtn, "xclose3");
-		wsprintf(szDownBtn, "xclose1");
-		wsprintf(szSelBtn, "xclose0");
-		wsprintf(szDisBtn, "xclose2");
-
-#endif
 		if(NULL == m_pCloseBtn)
 		{
 			m_pCloseBtn = new CINFImageBtn;
@@ -270,7 +258,6 @@ HRESULT CINFCommunity::InitDeviceObjects()
 	}
 	// end 2008-04-04 by bhsohn Ep3 커뮤니티 창
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	DataHeader* pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("commuBG");	
 	m_pCommunityBKImage = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 	m_pCommunityBKImage->InitDeviceObjects( g_pD3dApp->m_pImageList );
@@ -286,7 +273,6 @@ HRESULT CINFCommunity::InitDeviceObjects()
 	m_pCommMenuBtn[COMMUNITY_CHATROOM]->InitDeviceObjects("comCbtn0");
 	m_pCommMenuBtn[COMMUNITY_MAIL]->InitDeviceObjects("comLbtn0");
 	m_pCommMenuBtn[COMMUNITY_REJECT]->InitDeviceObjects("comRbtn0");
-#endif
 	return S_OK;
 }
 
@@ -335,18 +321,12 @@ HRESULT CINFCommunity::RestoreDeviceObjects()
 	}
 	{	
 		m_pCloseBtn->RestoreDeviceObjects();		
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		float fPosX = m_ptCommunityBk.x + COMMUNITY_BK_WIDTH-m_pCloseBtn->GetImgSize().x ;
 		float fPosY = m_ptCommunityBk.y + 4;													  
-#else  
-		float fPosX = m_ptCommunityBk.x + COMMUNITY_BK_WIDTH-m_pCloseBtn->GetImgSize().x -2;
-		float fPosY = m_ptCommunityBk.y + 21;		
-#endif
 		m_pCloseBtn->SetBtnPosition(fPosX, fPosY);
 	}
 	UpdateBtnPos();
 	// end 2008-04-04 by bhsohn Ep3 커뮤니티 창
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pCommunityBKImage->RestoreDeviceObjects();
 
 	DataHeader* pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("commu_me");	
@@ -355,7 +335,6 @@ HRESULT CINFCommunity::RestoreDeviceObjects()
 	{
 		m_pCommMenuBtn[i]->RestoreDeviceObjects();
 	}																							  
-#endif
 
 	return S_OK;
 }
@@ -409,14 +388,12 @@ HRESULT CINFCommunity::InvalidateDeviceObjects()
 	}
 
 	// end 2008-04-04 by bhsohn Ep3 커뮤니티 창
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pCommunityBKImage->InvalidateDeviceObjects();
 
 	for( int i=0; i < COMMUNITY_MAX; i++ )
 	{
 		m_pCommMenuBtn[i]->InvalidateDeviceObjects();
 	}																							  
-#endif
 	return S_OK;
 }
 
@@ -486,7 +463,6 @@ HRESULT CINFCommunity::DeleteDeviceObjects()
 	}
 
 	// end 2008-04-04 by bhsohn Ep3 커뮤니티 창
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if( m_pCommunityBKImage )
 	{
 		m_pCommunityBKImage->DeleteDeviceObjects();
@@ -501,7 +477,6 @@ HRESULT CINFCommunity::DeleteDeviceObjects()
 			SAFE_DELETE( m_pCommMenuBtn[i] );
 		}
 	}																							  
-#endif
 	return S_OK;
 }
 
@@ -601,7 +576,6 @@ void CINFCommunity::Render()
 //	m_pLogo->Move(LOGO_START_X, g_pGameMain->m_nLeftWindowY + LOGO_START_Y);
 //	m_pLogo->Render();
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pCommunityBKImage->Move(m_ptCommunityBk.x, m_ptCommunityBk.y);
 	m_pCommunityBKImage->Render();
 
@@ -634,7 +608,6 @@ void CINFCommunity::Render()
 	{
 		m_pCommMenuBtn[i]->Render();
 	}
-#endif
 	switch(m_nCommunityType)
 	{
 	case COMMUNITY_PARTY:
@@ -766,7 +739,6 @@ int CINFCommunity::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			ScreenToClient(g_pD3dApp->GetHwnd(), &pt);
 			CheckMouseReverse(&pt);
 			m_pCloseBtn->OnMouseMove(pt);		
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			int i; for(i=0; i < COMMUNITY_MAX; i++ )
 			{
 				if( m_nCommunityType != i )
@@ -777,7 +749,6 @@ int CINFCommunity::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					}
 				}
  			} 
-#endif
 			if(m_bMove)
 			{
 				m_ptCommunityBk.x = pt.x - m_ptCommOpMouse.x;
@@ -802,7 +773,6 @@ int CINFCommunity::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					return  INF_MSGPROC_BREAK;
 				}		
 			}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			int i; for(i=0; i < COMMUNITY_MAX; i++ )
 			{
 			
@@ -814,7 +784,6 @@ int CINFCommunity::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				}
 				m_pCommMenuBtn[i]->SetBtnState( BTN_STATUS_UP );				
 			}	
-#endif		
 			if(IsMouseCaps(pt))
 			{
 				m_ptCommOpMouse.x = pt.x - m_ptCommunityBk.x;
@@ -829,65 +798,6 @@ int CINFCommunity::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 //			if( pt.x > 1 && pt.x <219 && pt.y > g_pGameMain->m_nLeftWindowY && pt.y <g_pGameMain->m_nLeftWindowY +275)
 //				g_pInterface->SetWindowOrder(WNDLeftRightWindow);
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-			if(pt.y>nWindowPosY + 25 && pt.y<nWindowPosY + 44)
-			{
-				if(pt.x>=(m_ptCommunityBk.x+20) && pt.x<(m_ptCommunityBk.x+79))
-				{
-					SetCommunityType(COMMUNITY_PARTY);					
-					g_pInterface->SetWindowOrder(WNDCommunityWnd);
-					return INF_MSGPROC_BREAK;
-				}
-				else if(pt.x>=(m_ptCommunityBk.x+79) && pt.x<(m_ptCommunityBk.x+138))
-				{
-					SetCommunityType(COMMUNITY_FRIEND);			
-					g_pInterface->SetWindowOrder(WNDCommunityWnd);
-					return INF_MSGPROC_BREAK;
-				}
-				else if(pt.x>=(m_ptCommunityBk.x+138) && pt.x<(m_ptCommunityBk.x+197) )
-				{
-					SetCommunityType(COMMUNITY_GUILD);			
-					g_pInterface->SetWindowOrder(WNDCommunityWnd);
-					return INF_MSGPROC_BREAK;
-				}
-				else if(pt.x>=(m_ptCommunityBk.x+197) && pt.x<(m_ptCommunityBk.x+256) )
-				{				
-					// 2009-04-14 by bhsohn 채팅 방중 아레나 갔을시, 문제점 수정
-					if(g_pD3dApp->GetArenaState() == ARENA_STATE_ARENA_GAMING )
-					{
-						// 2009. 11. 02 by ckPark 인피니티 필드 인스턴스 던젼 시스템
-						
-// 						//"아레나에서는 이용할 수 없습니다."
-// 						g_pD3dApp->m_pChat->CreateChatChild(STRMSG_C_080225_0203,COLOR_ERROR);//"아레나에서는 이용할 수 없습니다."
-
-						if( g_pD3dApp->m_ArenaSocketType == CAtumApplication::ARENASOCKET_ARENA )
-							g_pD3dApp->m_pChat->CreateChatChild(STRMSG_C_080225_0203,COLOR_ERROR);//"아레나에서는 이용할 수 없습니다."
-						else if( g_pD3dApp->m_ArenaSocketType == CAtumApplication::ARENASOCKET_INFINITY )
-							g_pD3dApp->m_pChat->CreateChatChild(STRMSG_C_091103_0322,COLOR_ERROR);//"\y인피니티 필드에서는 사용 할 수 없습니다\y"
-
-						// end 2009. 11. 02 by ckPark 인피니티 필드 인스턴스 던젼 시스템
-
-						return INF_MSGPROC_BREAK;
-					}	
-					// end 2009-04-14 by bhsohn 채팅 방중 아레나 갔을시, 문제점 수정
-					SetCommunityType(COMMUNITY_CHATROOM);
-					g_pInterface->SetWindowOrder(WNDCommunityWnd);
-					return INF_MSGPROC_BREAK;
-				}
-				else if(pt.x>=(m_ptCommunityBk.x+256) && pt.x<(m_ptCommunityBk.x+315) )
-				{	
-					SetCommunityType(COMMUNITY_MAIL);			
-					g_pInterface->SetWindowOrder(WNDCommunityWnd);
-					return INF_MSGPROC_BREAK;
-				}
-				else if(pt.x>=(m_ptCommunityBk.x+315) && pt.x<(m_ptCommunityBk.x+374))
-				{
-					SetCommunityType(COMMUNITY_REJECT);			
-					g_pInterface->SetWindowOrder(WNDCommunityWnd);
-					return INF_MSGPROC_BREAK;
-				}
-			}			
-#endif		
 
 		}
 		break;
@@ -1872,13 +1782,8 @@ BOOL CINFCommunity::IsShowWnds()
 ///////////////////////////////////////////////////////////////////////////////
 void CINFCommunity::UpdateBtnPos()
 {
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	float fPosX = m_ptCommunityBk.x + COMMUNITY_BK_WIDTH-m_pCloseBtn->GetImgSize().x;
 	float fPosY = m_ptCommunityBk.y + 6;		
-#else	 
-	float fPosX = m_ptCommunityBk.x + COMMUNITY_BK_WIDTH-m_pCloseBtn->GetImgSize().x -2;
-	float fPosY = m_ptCommunityBk.y + 21;		
-#endif
 	m_pCloseBtn->SetBtnPosition(fPosX, fPosY);
 
 	m_pParty->UpdateBtnPos();
@@ -1902,7 +1807,6 @@ BOOL CINFCommunity::IsMouseCaps(POINT ptPos)
 
 }
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 int CINFCommunity::SetBtnClick( int nNum )
 {
 	switch(nNum)
@@ -1951,5 +1855,4 @@ int CINFCommunity::SetBtnClick( int nNum )
 		break;
 	}
 	return INF_MSGPROC_NORMAL;
-}
-#endif
+}

@@ -130,7 +130,6 @@
 */
 
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 2014-01-15 by ssjung 파괴 경매장 구현
 	#ifdef SC_DESTROY_AUCTION_JHSEOL_BCKIM_SSJUNG
 		#define GAMEMAIN_BUTTON_START_X			(g_pD3dApp->GetBackBufferDesc().Width-288) // 275
@@ -171,39 +170,6 @@
 #define COUPON_BTN_POS_Y		(g_pD3dApp->GetBackBufferDesc().Height-190)
 #define COUPON_WINDOW_POS_X		((g_pD3dApp->GetBackBufferDesc().Width - 307)/2)
 #define COUPON_WINDOW_POS_Y		((g_pD3dApp->GetBackBufferDesc().Height - 183)/2)	   
-#else
-#define GAMEMAIN_BUTTON_START_X			(g_pD3dApp->GetBackBufferDesc().Width-251)
-#define GAMEMAIN_BUTTON_START_Y			(g_pD3dApp->GetBackBufferDesc().Height-22)
-#define GAMEMAIN_BUTTON_SIZE_X			47//57
-#define GAMEMAIN_BUTTON_SIZE_Y			18//18
-#define GAMEMAIN_BUTTON_INTERVAL		50//60
-
-#define GAME_BUTTON_CHECK_ON					0.5f
-
-#define GAMEMAIN_FONT_LINE_HEIGHT				15							// 한 라인의 높이
-#define GAMEMAIN_FONT_WIDTH_ENGLISH				6							// 영문 글자 WIDTH
-
-#define GAMEMAIN_MISSION_TIME_CHECK				5
-// 고도계설정
-#define GAMEMAIN_ALTIMETER_X (g_pD3dApp->GetBackBufferDesc().Width-32)
-#define GAMEMAIN_ALTIMETER_Y 183										// 2007-02-22 by dgwoo 위치 수정.165
-
-// 2008-11-3 by bhsohn 서버 시간 보기 버튼 추가
-#define GAMEMAIN_SERVER_TIME_X (g_pD3dApp->GetBackBufferDesc().Width-168)
-#define GAMEMAIN_SERVER_TIME_Y 313
-#define GAMEMAIN_SERVER_TIME_WIDTH (185)
-
-
-// 2007-07-04 by bhsohn 오퍼레이터 추가
-#define FAQ_BTN_POS_X		(g_pD3dApp->GetBackBufferDesc().Width-287)
-#define FAQ_BTN_POS_Y		(g_pD3dApp->GetBackBufferDesc().Height-35)
-#define	FAQ_BLING_TIME		(1.0f)
-
-#define COUPON_BTN_POS_X		(g_pD3dApp->GetBackBufferDesc().Width-322)
-#define COUPON_BTN_POS_Y		(g_pD3dApp->GetBackBufferDesc().Height-35)
-#define COUPON_WINDOW_POS_X		((g_pD3dApp->GetBackBufferDesc().Width - 307)/2)
-#define COUPON_WINDOW_POS_Y		((g_pD3dApp->GetBackBufferDesc().Height - 183)/2)
-#endif
 
 // 2009. 10. 14 by jskim 프리스카 제거
 // 튜토리얼 버튼 추가
@@ -282,11 +248,7 @@ structNumTable m_stucTable[] =
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 CINFGameMain::CINFGameMain(CAtumNode* pParent, CGameData* pGameData)
-#else
-CINFGameMain::CINFGameMain(CAtumNode* pParent)
-#endif
 {
 	FLOG( "CINFGameMain(CAtumNode* pParent)" );
 	g_pGameMain = this;
@@ -379,12 +341,7 @@ CINFGameMain::CINFGameMain(CAtumNode* pParent)
 	m_bShowHelp = FALSE;
 	memset(m_pHelp, 0x00, sizeof(DWORD)*HELP_NUM);
 //	m_pImgUnitLock = NULL;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	memset(m_pImgButton, 0x00, sizeof(DWORD)*GAMEMAIN_BUTTON_NUMBER);							  
-#else 
-	memset(m_pImgButton, 0x00, sizeof(DWORD)*GAMEMAIN_BUTTON_NUMBER*BUTTON_STATE_NUMBER);
-	memset(m_nButtonState, 0x00, sizeof(int)*GAMEMAIN_BUTTON_NUMBER);
-#endif
 	m_pImgMission = NULL;
 
 	m_pSelectIcon = NULL;
@@ -503,9 +460,7 @@ CINFGameMain::CINFGameMain(CAtumNode* pParent)
 //#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_GruopImagemanager = NULL;																	  
 //#endif
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pGameData = pGameData;		 
-#endif
 
 	m_nAddPosY = 0;    // 2012-10-12 by jhjang 해피 아워 경험치 보너스 시스템 리뉴얼
 
@@ -563,11 +518,7 @@ CINFGameMain::~CINFGameMain()
 	SAFE_DELETE(m_pFontToolTip) ;
 	SAFE_DELETE(m_pFontTimeLimit) ;
 	SAFE_DELETE(m_pFontDrawMent) ;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pGameData = NULL;
-#else
-	SAFE_DELETE(m_pGameData) ;
-#endif
 	SAFE_DELETE(m_pInfSkill);
 	SAFE_DELETE(m_pMp3Player);
 	
@@ -606,14 +557,7 @@ CINFGameMain::~CINFGameMain()
 //	SAFE_DELETE(m_pImgUnitLock) ;
 	int i; for(i=0;i<GAMEMAIN_BUTTON_NUMBER;i++)
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		SAFE_DELETE( m_pImgButton[i] );															  
-#else 
-		for(int j=0;j<BUTTON_STATE_NUMBER;j++)
-		{
-			SAFE_DELETE(m_pImgButton[i][j]);
-		}
-#endif
 	}
 	SAFE_DELETE(m_pImgMission);
 	SAFE_DELETE(m_pHelpDesk);
@@ -717,12 +661,6 @@ HRESULT CINFGameMain::InitDeviceObjects()
 	FLOG( "CINFGameMain::InitDeviceObjects()" );
 
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-#else
-	char strPath[256];
-	g_pD3dApp->LoadPath( strPath, IDS_DIRECTORY_TEXTURE, "interface.tex");
-	SetResourceFile(strPath);
-#endif
 //#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_GruopImagemanager = new CINFGroupManager( g_pD3dApp->m_pImageList, m_pGameData );
 	m_GruopImagemanager->InitDeviceObjects();
@@ -865,7 +803,6 @@ HRESULT CINFGameMain::InitDeviceObjects()
 	DataHeader * pDataHeader = NULL;
 
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pImgButton[GAMEMAIN_BUTTON_INVEN] =		new CINFImageBtn;
 	m_pImgButton[GAMEMAIN_BUTTON_INFO] =		new CINFImageBtn;
 	m_pImgButton[GAMEMAIN_BUTTON_COMMUNITY] =	new CINFImageBtn;
@@ -897,29 +834,16 @@ HRESULT CINFGameMain::InitDeviceObjects()
 // 2014-01-15 by ssjung 파괴 경매장 구현
 
 // end 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
-#endif
 
 	int i; for(i=0;i<GAMEMAIN_BUTTON_NUMBER;i++)
 	{
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pImgButton[i]->SetAnimation( SCALE_TYPE, OVER_TYPE, FALSE, 1.0f, 1.0f, 1.0f );
 		m_pImgButton[i]->SetAnimation( SCALE_TYPE, CLICK_TYPE, FALSE, 0.0f, 1.0f, 1.0f );
 		m_pImgButton[i]->SetAniScale(0.8f, 0.8f);	 
-#else							
-		for(int j=0;j<BUTTON_STATE_NUMBER;j++)
-		{
-			char buf[32];
-			wsprintf(buf, "mnbtn%d%d", i,j);
-			pDataHeader = m_pGameData->Find( buf );
-			m_pImgButton[i][j] = new CINFImage;
-			m_pImgButton[i][j]->InitDeviceObjects( pDataHeader->m_pData, pDataHeader->m_DataSize );
-		}
-#endif
 	}
 	// 2007-07-04 by bhsohn 오퍼레이터 추가
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	{
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
 		wsprintf(szUpBtn, "op_faq3");
@@ -938,26 +862,10 @@ HRESULT CINFGameMain::InitDeviceObjects()
 		m_pFaqBtn->SetAnimation( SCALE_TYPE, CLICK_TYPE, FALSE, 0.0f, 1.0f, 1.0f );
 		m_pFaqBtn->SetAniScale(0.8f, 0.8f);
 	}													   
-#else	 
-	{
-		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-		wsprintf(szUpBtn, "op_faq3");
-		wsprintf(szDownBtn, "op_faq1");
-		wsprintf(szSelBtn, "op_faq0");
-		wsprintf(szDisBtn, "op_faq2");
-		if(NULL == m_pFaqBtn)
-		{
-			m_pFaqBtn = new CINFImageBtn;
-		}
-		m_pFaqBtn->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);		
-	}
-#endif
 			  
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pImgButtonBK = new CINFImageEx;
 	pDataHeader = m_pGameData->Find( "mnbtnBG" );
 	m_pImgButtonBK->InitDeviceObjects( pDataHeader );	
-#endif
 	// 2009. 10. 14 by jskim 프리스카 제거
 	{
 		char tulUpBtn[30], tulDownBtn[30], tulSelBtn[30], tulDisBtn[30];
@@ -1376,25 +1284,16 @@ HRESULT CINFGameMain::RestoreDeviceObjects()
 			m_pImgTextBg->RestoreDeviceObjects();
 
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		if(m_pImgButtonBK)
 			m_pImgButtonBK->RestoreDeviceObjects();												  
-#endif
 
 //		if(m_pImgUnitLock)
 //			m_pImgUnitLock->RestoreDeviceObjects();
 		for(i=0;i<GAMEMAIN_BUTTON_NUMBER;i++)
 		{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			m_pImgButton[i]->RestoreDeviceObjects();
 			m_pImgButton[i]->SetBtnPosition(GAMEMAIN_BUTTON_START_X + GAMEMAIN_BUTTON_INTERVAL * i, GAMEMAIN_BUTTON_START_Y);
 			m_pImgButton[i]->SetLineUp( CENTER_BOTTOM_LINEUP );									  
-#else			
-			for(int j=0;j<BUTTON_STATE_NUMBER;j++)
-			{
-				m_pImgButton[i][j]->RestoreDeviceObjects();
-			}
-#endif
 		}
 
 		// 2007-07-04 by bhsohn 오퍼레이터 추가
@@ -1402,9 +1301,7 @@ HRESULT CINFGameMain::RestoreDeviceObjects()
 			m_pFaqBtn->RestoreDeviceObjects();		
 			m_pFaqBtn->SetBtnPosition(FAQ_BTN_POS_X, FAQ_BTN_POS_Y);
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			m_pFaqBtn->SetLineUp( CENTER_BOTTOM_LINEUP );										  
-#endif
 		}
 		// 2009. 10. 14 by jskim 프리스카 제거
 		m_pTut_SelBtn->RestoreDeviceObjects();
@@ -1750,29 +1647,19 @@ HRESULT CINFGameMain::DeleteDeviceObjects()
 	SAFE_DELETE( m_pImgTextBg );
 
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if( m_pImgButtonBK )
 	{
 		m_pImgButtonBK->DeleteDeviceObjects();
 		SAFE_DELETE(m_pImgButtonBK);
 	}																							  
-#endif
 
 //	if(m_pImgUnitLock ) {
 //		m_pImgUnitLock->DeleteDeviceObjects() ;
 //		SAFE_DELETE(m_pImgUnitLock ); }
 	for(i=0;i<GAMEMAIN_BUTTON_NUMBER;i++)
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pImgButton[i]->DeleteDeviceObjects();
 		SAFE_DELETE(m_pImgButton[i]);															  
-#else			 
-		for(int j=0;j<BUTTON_STATE_NUMBER;j++)
-		{
-			m_pImgButton[i][j]->DeleteDeviceObjects();
-			SAFE_DELETE(m_pImgButton[i][j]); 
-		}
-#endif
 	}
 
 	// 2007-07-04 by bhsohn 오퍼레이터 추가
@@ -1801,11 +1688,7 @@ HRESULT CINFGameMain::DeleteDeviceObjects()
 	m_pImgStack->DeleteDeviceObjects();
 	SAFE_DELETE(m_pImgStack);
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pGameData = NULL;
-#else
-	SAFE_DELETE(m_pGameData) ;
-#endif
 
 
 	if(m_pHelpDesk) 
@@ -2065,23 +1948,14 @@ HRESULT CINFGameMain::InvalidateDeviceObjects()
 			m_pImgTextBg->InvalidateDeviceObjects();
 
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		if( m_pImgButtonBK )
 		{
 			m_pImgButtonBK->InvalidateDeviceObjects();
 		}											  
-#endif
 
 		for(i=0;i<GAMEMAIN_BUTTON_NUMBER;i++)
 		{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			m_pImgButton[i]->InvalidateDeviceObjects();
-#else 
-			for(int j=0;j<BUTTON_STATE_NUMBER;j++)
-			{
-				m_pImgButton[i][j]->InvalidateDeviceObjects();
-			}
-#endif																								  
 
 		}
 
@@ -2368,10 +2242,6 @@ void CINFGameMain::Tick()
 
 	// 도시, 게임 공통
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	if(m_pMp3Player && m_bMp3PlayFlag == TRUE)
-		m_pMp3Player->Tick();	
-#endif
 	if(m_pInfWindow)
 		m_pInfWindow->Tick();
 	if(m_pUnitInfoBar)
@@ -2415,7 +2285,6 @@ void CINFGameMain::Tick()
 		m_pMenuList->Tick();
 
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	int i; for(i=0; i< GAMEMAIN_BUTTON_NUMBER; i++)
 	{
 		if(m_pImgButton[i])
@@ -2424,7 +2293,6 @@ void CINFGameMain::Tick()
 
 	if(m_pFaqBtn)
 		m_pFaqBtn->Tick();
-#endif
 		
 	switch(m_nLeftWindowInfo)
 	{
@@ -2774,16 +2642,8 @@ void CINFGameMain::Render()
 	{
 	    ProcessAltiMeter(g_pGround->m_projectInfo.fWaterHeight, g_pScene->m_nMaxAtitudeHeight, g_pShuttleChild->m_vPos.y );
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	int i; for(i=0;i<GAMEMAIN_BUTTON_NUMBER;i++)
-	{
-		m_pImgButton[i][m_nButtonState[i]]->Move(GAMEMAIN_BUTTON_START_X+GAMEMAIN_BUTTON_INTERVAL*i, GAMEMAIN_BUTTON_START_Y);
-		m_pImgButton[i][m_nButtonState[i]]->Render();
-	}
-#endif
 	// 2007-07-19 by dgwoo 기존의 위치에서 변경.
 	RenderOnInfo();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경;
 	m_pImgButtonBK->Move(GAMEMAIN_BK_START_X, GAMEMAIN_BK_START_Y);
 	m_pImgButtonBK->Render();
 
@@ -2791,7 +2651,6 @@ void CINFGameMain::Render()
 	{
 		m_pImgButton[i]->Render();
 	}
-#endif
 	// 2007-07-04 by bhsohn 오퍼레이터 추가
 
 	m_pFaqBtn->Render();
@@ -2853,24 +2712,11 @@ void CINFGameMain::Render()
 
 void CINFGameMain::RenderHelp()
 {
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경;
 	if(m_pHelp[0])
 	{
 		m_pHelp[0]->Move(g_pD3dApp->GetBackBufferDesc().Width/2 - m_pHelp[0]->GetImgSize().x/2,g_pD3dApp->GetBackBufferDesc().Height/2 - m_pHelp[0]->GetImgSize().y/2);
 		m_pHelp[0]->Render();
 	}
-#else
-	if(m_pHelp[0])
-	{
-		m_pHelp[0]->Move(g_pD3dApp->GetBackBufferDesc().Width/2-359,g_pD3dApp->GetBackBufferDesc().Height/2-150);
-		m_pHelp[0]->Render();
-	}
-	if(m_pHelp[1])
-	{
-		m_pHelp[1]->Move(g_pD3dApp->GetBackBufferDesc().Width/2,g_pD3dApp->GetBackBufferDesc().Height/2-150);
-		m_pHelp[1]->Render();
-	}
-#endif
 }
 int CINFGameMain::WndProcLeftRightWindow(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -3500,16 +3346,6 @@ int CINFGameMain::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		return INF_MSGPROC_BREAK;
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-#else
-	if( m_pMp3Player && m_bMp3PlayFlag == TRUE &&
-		g_pInterface->m_pTarget->GetShowTargetCodition() == FALSE &&
-		g_pInterface->m_bShowInterface == TRUE)
-	{
-		if(m_pMp3Player->WndProc(uMsg, wParam, lParam)==INF_MSGPROC_BREAK)
-			return INF_MSGPROC_BREAK;
-	}
-#endif
 
 
 	if(m_bHelpDeskFlag && g_pSOptionCharacter->sHelpDesk && g_pInterface->m_pTarget->GetShowTargetCodition() == FALSE )
@@ -4017,39 +3853,12 @@ int CINFGameMain::WndProcButtonMouseMessage( UINT uMsg, WPARAM wParam, LPARAM lP
 			{
 				bShowMenu = FALSE;
 			}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			int i; for(i=0; i < GAMEMAIN_BUTTON_NUMBER; i++)
 			{
 				m_pImgButton[i]->OnMouseMove(pt);
 			}																					  
 
 			// end 2009-02-02 by bhsohn 마우스 없어지는 버그 수정
-#else
-			if( pt.y>GAMEMAIN_BUTTON_START_Y &&
-				pt.y<GAMEMAIN_BUTTON_START_Y+GAMEMAIN_BUTTON_SIZE_Y &&
-				//g_pInterface->m_pTarget->GetShowTargetCodition() == FALSE) 
-				bShowMenu)// 2009-02-02 by bhsohn 마우스 없어지는 버그 수정
-			{
-				int index = (pt.x - GAMEMAIN_BUTTON_START_X)/GAMEMAIN_BUTTON_INTERVAL;
-				if( index >= 0 && 
-					index < GAMEMAIN_BUTTON_NUMBER &&
-					pt.x < GAMEMAIN_BUTTON_START_X+GAMEMAIN_BUTTON_INTERVAL*index+GAMEMAIN_BUTTON_SIZE_X)
-				{
-					int i; for(i=0;i<GAMEMAIN_BUTTON_NUMBER;i++) 
-					{
-						if(i != index)
-						{
-							m_nButtonState[i] = BUTTON_STATE_NORMAL;
-						}
-					}
-					if(m_nButtonState[index] != BUTTON_STATE_DOWN) m_nButtonState[index] = BUTTON_STATE_UP;
-				}
-			}
-			else
-			{
-				int i; for(i=0;i<GAMEMAIN_BUTTON_NUMBER;i++) m_nButtonState[i] = BUTTON_STATE_NORMAL;
-			}
-#endif			
 			// 2007-07-04 by bhsohn 오퍼레이터 추가
 			{
 				m_pFaqBtn->OnMouseMove(pt);		
@@ -4084,7 +3893,6 @@ int CINFGameMain::WndProcButtonMouseMessage( UINT uMsg, WPARAM wParam, LPARAM lP
 				bShowMenu = FALSE;
 			}
 			// end 2009-02-02 by bhsohn 마우스 없어지는 버그 수정
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
   			if( pt.y>GAMEMAIN_BUTTON_START_Y &&
   				pt.y<GAMEMAIN_BUTTON_START_Y+m_pImgButtonBK->GetImgSize().y &&
  				//pInterface->m_pTarget->GetShowTargetCodition() == FALSE
@@ -4171,73 +3979,6 @@ int CINFGameMain::WndProcButtonMouseMessage( UINT uMsg, WPARAM wParam, LPARAM lP
 // 					return INF_MSGPROC_BREAK;
 // 				}
 // 			}
-#else		
-			if( pt.y>GAMEMAIN_BUTTON_START_Y &&
-				pt.y<GAMEMAIN_BUTTON_START_Y+GAMEMAIN_BUTTON_SIZE_Y &&
-				//g_pInterface->m_pTarget->GetShowTargetCodition() == FALSE
-				bShowMenu ) // 2009-02-02 by bhsohn 마우스 없어지는 버그 수정
-			{
-				int index = (pt.x - GAMEMAIN_BUTTON_START_X)/GAMEMAIN_BUTTON_INTERVAL;
-				if( index >= 0 && 
-					index < GAMEMAIN_BUTTON_NUMBER &&
-					pt.x < GAMEMAIN_BUTTON_START_X+GAMEMAIN_BUTTON_INTERVAL*index+GAMEMAIN_BUTTON_SIZE_X)
-				{
-					// 2005-08-04 by ispark
-					// 비행중일때 키를 막음
-					// 2005-08-08 by ispark, 기어정지시에는 허용
-					// 2006-08-09 by ispark, 상점 이용시에는 버튼 사용 금지 
-					if(!g_pShuttleChild->GetIsUseInterface() || 
-						g_pD3dApp->m_dwGameState == _SHOP ||
-						g_pGameMain->m_pTrade->m_bTrading)
-						return INF_MSGPROC_BREAK;
-
-					// 2007-05-11 by bhsohn 아레나 버그수정
-					// 아레나 일때는 미션버튼이 먹지 않게 함.
-					if(index == 3 && TRUE == g_pInterface->IsArenaStart())
-					{
-						g_pD3dApp->m_pChat->CreateChatChild(STRMSG_C_070529_0100,COLOR_ITEM);
-						return INF_MSGPROC_BREAK;
-					}
-					
-					int i; for(i=0;i<GAMEMAIN_BUTTON_NUMBER;i++) 
-					{
-						m_nButtonState[i] = BUTTON_STATE_NORMAL;
-					}
-					m_nButtonState[index] = BUTTON_STATE_DOWN;
-					if(index == 3)
-					{						
-						m_bKnowON[LOW_LEVEL_MISSION_HELP] = FALSE;
-//						g_pGameMain->m_bQuestView = FALSE;
-//						m_pQuest->m_nQuestIndex = 0;		
-						m_nButtonState[index] = BUTTON_STATE_NORMAL;
-						
-						// 2007-06-12 by bhsohn 미션 인터페이스 수정안
-//						if(TRUE == m_pMissionInfo->GetMissionWindowState())
-//						{
-//							m_pMissionInfo->MissionProcFlag(FALSE);
-//							m_bKnowON[LOW_LEVEL_MISSION_HELP] = FALSE;
-//						}
-//						else
-//						{
-//							m_pMissionInfo->MissionProcFlag(TRUE);
-//							m_bKnowON[LOW_LEVEL_MISSION_HELP] = FALSE;
-//						}
-						BOOL bShowTree = IsShowTreeWnd();
-						bShowTree ^= TRUE;
-						ShowMissionTreeWnd(bShowTree, TRUE);
-						m_bKnowON[LOW_LEVEL_MISSION_HELP] = FALSE;
-
-					}
-
-					// 2006-08-22 by ispark, 스탯 도움말
-					if(index == 1)
-					{
-						m_bKnowON[LOW_LEVEL_STAT_HELP] = FALSE;
-					}					
-					return INF_MSGPROC_BREAK;
-				}
-			}
-#endif		
 			// 2007-07-04 by bhsohn 오퍼레이터 추가
 			{
 				if(TRUE == m_pFaqBtn->OnLButtonDown(pt))
@@ -4321,7 +4062,6 @@ int CINFGameMain::WndProcButtonMouseMessage( UINT uMsg, WPARAM wParam, LPARAM lP
 					ShowCouponWindow(TRUE);
 				}
 			}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경			
  			if( pt.y>GAMEMAIN_BUTTON_START_Y &&
  				pt.y<GAMEMAIN_BUTTON_START_Y+GAMEMAIN_BUTTON_SIZE_Y)
  			{
@@ -4426,47 +4166,6 @@ int CINFGameMain::WndProcButtonMouseMessage( UINT uMsg, WPARAM wParam, LPARAM lP
 					}
 				}
 			}			
-#else 
-			if( pt.y>GAMEMAIN_BUTTON_START_Y &&
-				pt.y<GAMEMAIN_BUTTON_START_Y+GAMEMAIN_BUTTON_SIZE_Y)
-			{
-				int index = (pt.x - GAMEMAIN_BUTTON_START_X)/GAMEMAIN_BUTTON_INTERVAL;
-				// 2009-02-02 by bhsohn 마우스 없어지는 버그 수정
-				BOOL bShowMenu = TRUE;
-				if(g_pInterface->m_pTarget->GetShowTargetCodition() == TRUE 
-					&& !g_pD3dApp->IsPossibleWindowMove())
-				{
-					bShowMenu = FALSE;
-				}
-				// end 2009-02-02 by bhsohn 마우스 없어지는 버그 수정
-				if( index >= 0 && 
-					index < GAMEMAIN_BUTTON_NUMBER &&
-					pt.x < GAMEMAIN_BUTTON_START_X+GAMEMAIN_BUTTON_INTERVAL*index+GAMEMAIN_BUTTON_SIZE_X &&
-					//g_pInterface->m_pTarget->GetShowTargetCodition() == FALSE &&
-					bShowMenu == TRUE && // 2009-02-02 by bhsohn 마우스 없어지는 버그 수정
-					g_pD3dApp->m_dwGameState != _SHOP)	// 2005-12-06 by ispark
-				{
-					if(m_nButtonState[index] == BUTTON_STATE_DOWN)
-					{
-						if(m_nButtonState[3] == BUTTON_STATE_DOWN)
-						{
-							m_bKnowON[LOW_LEVEL_MISSION_HELP] = FALSE;
-							
-							g_pGameMain->m_bQuestView = FALSE;
-							m_pQuest->m_nQuestIndex = 0;
-						}
-						OnGameMainButtonClicked(index);
-						int i; for(i=0;i<GAMEMAIN_BUTTON_NUMBER;i++) 
-							m_nButtonState[i] = BUTTON_STATE_NORMAL;
-						m_nButtonState[index] = BUTTON_STATE_UP;
-						return INF_MSGPROC_BREAK;
-					}
-					int i; for(i=0;i<GAMEMAIN_BUTTON_NUMBER;i++) 
-						m_nButtonState[i] = BUTTON_STATE_NORMAL;
-					m_nButtonState[index] = BUTTON_STATE_UP;
-				}
-			}
-#endif
 			if(m_bMenuListFlag)
 			{
 				BOOL bFlag = FALSE;
@@ -4823,22 +4522,11 @@ void CINFGameMain::LeftWindowShow(BOOL bHide, int nWindow)
 				// 2009. 08. 19 by jsKim 랜딩 중 메뉴 생성할 경우 커서가 변하지 않는 버그
 				g_pGameMain->m_bChangeMousePoint = TRUE;
 				// end 2009. 08. 19 by jsKim 랜딩 중 메뉴 생성할 경우 커서가 변하지 않는 버그
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				POINT ptItem;
 				ptItem.x = g_pD3dApp->GetBackBufferDesc().Width/2 - m_pInven->GetBkSize().x / 2;
 				ptItem.y = g_pD3dApp->GetBackBufferDesc().Height/2 - m_pInven->GetBkSize().y / 2; 	
                 
                 m_pInven->ShowInven(&ptItem, NULL, TRUE);	
-#else 
-				POINT ptItem, ptEq;
-				ptItem.x = INVEN_ITEM_START_X;
-				ptItem.y = INVEN_ITEM_START_Y;
-				
-				ptEq.x = INVEN_EQ_START_X;
-				ptEq.y = INVEN_EQ_START_Y;
-				
-				m_pInven->ShowInven(&ptItem, &ptEq, TRUE);	
-#endif
 				
 				
 				
@@ -4866,17 +4554,10 @@ void CINFGameMain::LeftWindowShow(BOOL bHide, int nWindow)
 	case LEFT_WINDOW_TRANS:
 		{
 			POINT ptItem, ptEq;			
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			ptItem.x = 30;
 			ptItem.y = (DEAULT_WINDOW_POS_Y-327);
 			ptEq.x = 426;
 			ptEq.y = (DEAULT_WINDOW_POS_Y-400);
-#else
-			ptItem.x = 0;
-			ptItem.y = (DEAULT_WINDOW_POS_Y-127);
-			ptEq.x = 426;
-			ptEq.y = (DEAULT_WINDOW_POS_Y-400);
-#endif
 			
 			m_pInven->ShowInven(&ptItem, &ptEq);	
 			
@@ -5884,13 +5565,8 @@ void CINFGameMain::InitShowWindow()
 	}	
 
 	structInvenPosInfo tempInfo = m_pInven->GetInvenPosInfo();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	tempInfo.ptItemIvenPos.x = g_pD3dApp->GetBackBufferDesc().Width/2 - m_pInven->GetBkSize().x / 2;;
 	tempInfo.ptItemIvenPos.y = g_pD3dApp->GetBackBufferDesc().Height/2 - m_pInven->GetBkSize().y / 2;
-#else	  
-	tempInfo.ptItemIvenPos.x = INVEN_ITEM_START_X;
-	tempInfo.ptItemIvenPos.y = INVEN_ITEM_START_Y;
-#endif
 	tempInfo.ptEqIvenPos.x = INVEN_EQ_START_X;
 	tempInfo.ptEqIvenPos.y = INVEN_EQ_START_Y;
 	m_pInven->SetInvenPosInfo(&tempInfo);
@@ -6337,11 +6013,7 @@ void CINFGameMain::RenderAltiMeter(int x, int y, int nPos)
 	m_pAltiMeterGage->Move(x, y);
 	m_pAltiMeterGage->Render();
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pAltiMeterPin->Move(x - ( m_pAltiMeterPin->GetImgSize().x - m_pAltiMeterGage->GetImgSize().x ) /2, y+nPos);
-#else			
-	m_pAltiMeterPin->Move(x-5, y+nPos);
-#endif
 	m_pAltiMeterPin->Render();
 }
 
@@ -8854,11 +8526,7 @@ POINT CINFGameMain::ShowShopInven(int nBuildingKind, BOOL bShowInven/*=FALSE*/)
 		ptItem.x = INVEN_ITEM_SHOP_START_X;
 		ptItem.y = INVEN_ITEM_SHOP_START_Y;
 		ptEq.x = INVEN_EQ_SHOP_START_X;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		ptEq.y = INVEN_ITEM_SHOP_START_Y;														  
-#else 
-		ptEq.y = INVEN_EQ_SHOP_START_Y;
-#endif
 		if(g_pD3dApp->GetHeight() < RESOLUTION_FULL_H_768)
 		{
 			ptEq.x = (INVEN_ITEM_SHOP_START_X-294);
@@ -8885,25 +8553,6 @@ POINT CINFGameMain::ShowShopInven(int nBuildingKind, BOOL bShowInven/*=FALSE*/)
 		}
 
 		m_pInven->ShowInven(&ptItem, &ptEq, FALSE, TRUE);
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM	
-		// 2008-11-24 by dgwoo 럭키 머신
-		if(BUILDINGKIND_LUCKY == nBuildingKind)
-		{
-			m_pInven->ShowInvenAndMirror(TRUE);
-		}
-		// 2010. 04. 21 by jskim 신규 럭키 머신 구현
-		else if(BUILDINGKIND_LUCKY_OPTION_MACHINE== nBuildingKind)
-		{
-			m_pInven->ShowInvenAndMirror(TRUE);
-		}
-		//end 2010. 04. 21 by jskim 신규 럭키 머신 구현
-		// 2010-08-31 by shcho&&jskim, 용해 시스템 구현
-				        // 2011. 10. 10 by jskim UI시스템 변경
-		else if(BUILDINGKIND_DISSOLUTION == nBuildingKind)
-		{
-			m_pInven->ShowInvenAndMirror(TRUE);
-		}
-#endif
 		// end 2010-08-31 by shcho&&jskim, 용해 시스템 구현
 		
 	}	

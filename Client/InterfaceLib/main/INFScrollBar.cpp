@@ -103,26 +103,12 @@ HRESULT CINFScrollBar::InitDeviceObjects()
 HRESULT CINFScrollBar::RestoreDeviceObjects()
 {
 	m_pScrollBar->RestoreDeviceObjects() ;	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-#else
-	int i; for(i=0;i<3;i++)
-	{
-		m_pScrollLine[i]->RestoreDeviceObjects() ;	
-	}
-#endif
 	return S_OK;
 }
 
 HRESULT CINFScrollBar::InvalidateDeviceObjects()
 {
 	m_pScrollBar->InvalidateDeviceObjects() ;	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-#else
-	int i; for(i=0;i<3;i++)
-	{
-		m_pScrollLine[i]->InvalidateDeviceObjects() ;	
-	}
-#endif
 	return S_OK;
 }
 
@@ -130,14 +116,6 @@ HRESULT CINFScrollBar::DeleteDeviceObjects()
 {
 	m_pScrollBar->DeleteDeviceObjects() ;	
 	SAFE_DELETE(m_pScrollBar);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-#else
-	int i; for(i=0;i<3;i++)
-	{
-		m_pScrollLine[i]->DeleteDeviceObjects() ;	
-		SAFE_DELETE(m_pScrollLine[i]);
-	}
-#endif
 	return S_OK;
 }
 
@@ -183,11 +161,6 @@ void CINFScrollBar::Render(int nScrollX /*=0*/)
 {
 	if(m_nScrollStyle == INFSCROLL_TYPE_VERTICAL)
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-#else
-		m_pScrollLine[0]->Move(m_nStartX, m_nStartY);
-		m_pScrollLine[0]->Render();		
-#endif
 		m_pScrollLine[1]->Move(m_nStartX, m_nStartY+LINE_INDEX_0_SIZE_Y);
 		m_pScrollLine[1]->SetScale(1.0f, m_nScrollLineLength-(LINE_INDEX_0_SIZE_X+LINE_INDEX_2_SIZE_X) );
 		m_pScrollLine[1]->Render();

@@ -18,7 +18,6 @@
 #include "INFGroupImage.h"
 
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	#define		WORLD_RANK_BK_Y				24
 	#define		WORLD_RANK_SELECT_BK_X		35
 	#define		WORLD_RANK_SELECT_BK_Y		143
@@ -118,98 +117,6 @@
 	#define		WORLD_RANK_PAGE_POS_X		313
 	#define		WORLD_RANK_PAGE_POS_Y		580
 	#define		WORLD_RANK_PAGE_WIDTH		30
-#else
-// 랭킹 정보	
-#define		WORLD_RANK_INFO_POS_X		276
-#define		WORLD_RANK_INFO_POS_Y		113
-
-// 각 스트링 위치
-////////////////////////////// 레벨////////////////////////////// 
-// 순위
-#define		WORLD_RANK_LV_RANK_POS_X		68
-#define		WORLD_RANK_LV_RANK_POS_Y		189
-// 닉네임
-#define		WORLD_RANK_LV_NICKNAME_POS_X	168
-#define		WORLD_RANK_LV_NICKNAME_POS_Y	189
-// 기어
-#define		WORLD_RANK_LV_GEAR_POS_X		280
-#define		WORLD_RANK_LV_GEAR_POS_Y		189
-// 서비스사 
-#define		WORLD_RANK_LV_SERVICE_POS_X		431
-#define		WORLD_RANK_LV_SERVICE_POS_Y		189
-// 레벨
-#define		WORLD_RANK_LV_LV_POS_X			572
-#define		WORLD_RANK_LV_LV_POS_Y			189
-// 서버
-#define		WORLD_RANK_LV_SERVER_POS_X			667
-#define		WORLD_RANK_LV_SERVER_POS_Y			189
-// 세력
-#define		WORLD_RANK_LV_INFLUENCE_POS_X			763
-#define		WORLD_RANK_LV_INFLUENCE_POS_Y			189
-////////////////////////////// 명성치////////////////////////////// 
-// 순위
-#define		WORLD_RANK_HONOR_RANK_POS_X			68
-#define		WORLD_RANK_HONOR_RANK_POS_Y			189
-// 닉네임
-#define		WORLD_RANK_HONOR_NICKNAME_POS_X		158
-#define		WORLD_RANK_HONOR_NICKNAME_POS_Y		189
-// 기어
-#define		WORLD_RANK_HONOR_GEAR_POS_X			259
-#define		WORLD_RANK_HONOR_GEAR_POS_Y			189
-// 서비스사 
-#define		WORLD_RANK_HONOR_SERVICE_POS_X		384
-#define		WORLD_RANK_HONOR_SERVICE_POS_Y		189
-// 레벨
-#define		WORLD_RANK_HONOR_LV_POS_X			512
-#define		WORLD_RANK_HONOR_LV_POS_Y			189
-// 개인명성
-#define		WORLD_RANK_HONOR_HONOR_POS_X			595
-#define		WORLD_RANK_HONOR_HONOR_POS_Y			189
-// 서버
-#define		WORLD_RANK_HONOR_SERVER_POS_X			693
-#define		WORLD_RANK_HONOR_SERVER_POS_Y			189
-// 세력
-#define		WORLD_RANK_HONOR_INFLUENCE_POS_X			772
-#define		WORLD_RANK_HONOR_INFLUENCE_POS_Y			189
-
-////////////////////////////// PVP////////////////////////////// 
-// 순위
-#define		WORLD_RANK_PVP_RANK_POS_X		68
-#define		WORLD_RANK_PVP_RANK_POS_Y		189
-// 닉네임
-#define		WORLD_RANK_PVP_NICKNAME_POS_X	145
-#define		WORLD_RANK_PVP_NICKNAME_POS_Y	189
-// 기어
-#define		WORLD_RANK_PVP_GEAR_POS_X		223
-#define		WORLD_RANK_PVP_GEAR_POS_Y		189
-// 서비스사 
-#define		WORLD_RANK_PVP_SERVICE_POS_X		326
-#define		WORLD_RANK_PVP_SERVICE_POS_Y		189
-// 레벨
-#define		WORLD_RANK_PVP_LV_POS_X			429
-#define		WORLD_RANK_PVP_LV_POS_Y			189
-//  스코어
-#define		WORLD_RANK_PVP_SCORE_POS_X			494
-#define		WORLD_RANK_PVP_SCORE_POS_Y			189
-// 승리
-#define		WORLD_RANK_PVP_WIN_POS_X			574
-#define		WORLD_RANK_PVP_WIN_POS_Y			189
-// 패배
-#define		WORLD_RANK_PVP_LOSE_POS_X			640
-#define		WORLD_RANK_PVP_LOSE_POS_Y			189
-// 서버
-#define		WORLD_RANK_PVP_SERVER_POS_X			703
-#define		WORLD_RANK_PVP_SERVER_POS_Y			189
-// 세력
-#define		WORLD_RANK_PVP_INFLUENCE_POS_X			774
-#define		WORLD_RANK_PVP_INFLUENCE_POS_Y			189
-
-#define		WORLD_RANK_HEIGHT			41
-// 페이지
-#define		WORLD_RANK_PAGE_POS_X		313
-#define		WORLD_RANK_PAGE_POS_Y		602
-#define		WORLD_RANK_PAGE_WIDTH		30
-#endif
 
 
 ///////////
@@ -230,9 +137,7 @@
 
 CINFWorldRankWnd::CINFWorldRankWnd()
 {
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pBk = NULL;
-#endif
 	int nCnt = 0;
 	for(nCnt = 0;nCnt < MAX_WORLDRANK_SERVICE;nCnt++)
 	{
@@ -286,13 +191,11 @@ HRESULT CINFWorldRankWnd::InitDeviceObjects()
 
 	char chBkImg[32];
 	ZERO_MEMORY(chBkImg);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	{
 		DataHeader* pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("Wrank");
 		m_pBk = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 		m_pBk->InitDeviceObjects( g_pD3dApp->m_pImageList );
 	}
-#endif	
 	int nCnt = 0;
 	for(nCnt = 0;nCnt < MAX_WORLDRANK_SERVICE;nCnt++)
 	{
@@ -404,11 +307,9 @@ HRESULT CINFWorldRankWnd::RestoreDeviceObjects()
 {
 	CINFDefaultWnd::RestoreDeviceObjects();
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	{
 		m_pBk->RestoreDeviceObjects();
 	}
-#endif
 	int nCnt = 0;
 	for(nCnt = 0;nCnt < MAX_WORLDRANK_SERVICE;nCnt++)
 	{
@@ -485,7 +386,6 @@ HRESULT CINFWorldRankWnd::RestoreDeviceObjects()
 HRESULT CINFWorldRankWnd::DeleteDeviceObjects()
 {
 	CINFDefaultWnd::DeleteDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	{
 		if(m_pBk)
 		{
@@ -493,7 +393,6 @@ HRESULT CINFWorldRankWnd::DeleteDeviceObjects()
 			SAFE_DELETE(m_pBk);	
 		}
 	}
-#endif
 	int nCnt = 0;
 	for(nCnt = 0;nCnt < MAX_WORLDRANK_SERVICE;nCnt++)
 	{
@@ -559,11 +458,9 @@ HRESULT CINFWorldRankWnd::DeleteDeviceObjects()
 HRESULT CINFWorldRankWnd::InvalidateDeviceObjects()
 {
 	CINFDefaultWnd::InvalidateDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	{
 		m_pBk->InvalidateDeviceObjects();
 	}
-#endif
 	int nCnt = 0;
 	for(nCnt = 0;nCnt < MAX_WORLDRANK_SERVICE;nCnt++)
 	{
@@ -629,19 +526,13 @@ void	CINFWorldRankWnd::Render()
 
 	POINT ptBkPos = GetBkPos();
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	{
 		m_pBk->Move( ptBkPos.x, ptBkPos.y );
 		m_pBk->Render();
 	}
-#endif
 	if(m_pBkImage[m_nSelLocalWorld])
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pBkImage[m_nSelLocalWorld]->Move(ptBkPos.x, ptBkPos.y + WORLD_RANK_BK_Y);
-#else
-		m_pBkImage[m_nSelLocalWorld]->Move(ptBkPos.x, ptBkPos.y);
-#endif
 		m_pBkImage[m_nSelLocalWorld]->Render();
 	}
 	int nCnt = 0;
@@ -654,11 +545,7 @@ void	CINFWorldRankWnd::Render()
 	}
 	if(m_pRankBk[m_nSelectRankInfo])
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pRankBk[m_nSelectRankInfo]->Move(ptBkPos.x + WORLD_RANK_SELECT_BK_X, ptBkPos.y + WORLD_RANK_SELECT_BK_Y);
-#else
-		m_pRankBk[m_nSelectRankInfo]->Move(ptBkPos.x+44, ptBkPos.y+157);
-#endif
 		m_pRankBk[m_nSelectRankInfo]->Render();				
 	}
 
@@ -1205,19 +1092,11 @@ int CINFWorldRankWnd::OnLButtonDown(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 	POINT ptBkPos = GetBkPos();
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		int nPosX = ptBkPos.x+WORLD_RANK_TAB_START_X;
 		int nPosY = ptBkPos.y+WORLD_RANK_TAB_START_Y;
 		
 		int nWidth = WORLD_RANK_TAB_GAB_X;
 		int nHeight = WORLD_RANK_TAB_GAB_Y;
-#else
-		int nPosX = ptBkPos.x+34;
-		int nPosY = ptBkPos.y+20;
-
-		int nWidth = 150;
-		int nHeight = 40;
-#endif
 		int nCnt = 0;
 		int nSelItem = -1;
 		for(nCnt = 0;nCnt < MAX_WORLDRANK_SERVICE; nCnt++)
@@ -1459,11 +1338,7 @@ void CINFWorldRankWnd::ShowWnd(BOOL bShowWnd, POINT *ptPos/*=NULL*/, int nWndWid
 		POINT ptBkSize = m_pBkImage[WORLDRANK_SERVICE_LOCAL]->GetImgSize();
 		
 		ptShowPos.x = (g_pD3dApp->GetBackBufferDesc().Width - ptBkSize.x)/2;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		ptShowPos.y = (g_pD3dApp->GetBackBufferDesc().Height - ptBkSize.y)/2 - WORLD_RANK_BK_Y;
-#else
-		ptShowPos.y = (g_pD3dApp->GetBackBufferDesc().Height - ptBkSize.y)/2;
-#endif
 	}	
 
 	CINFDefaultWnd::ShowWnd(bShowWnd, &ptShowPos, nWndWidth);

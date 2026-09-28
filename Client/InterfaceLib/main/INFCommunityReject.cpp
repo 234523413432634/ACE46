@@ -39,17 +39,10 @@
 #define LIST_BOX_SIZE_Y						154
 #define LIST_BOX_INTERVAL					17
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 2008-04-04 by bhsohn Ep3 커뮤니티 창
 //#define LIST_BOX_NAME_START_X				22
 #define LIST_BOX_NAME_START_X				244
 #define LIST_BOX_NAME_START_Y				191													  
-#else
-// 2008-04-04 by bhsohn Ep3 커뮤니티 창
-//#define LIST_BOX_NAME_START_X				22
-#define LIST_BOX_NAME_START_X				247
-#define LIST_BOX_NAME_START_Y				198
-#endif
 
 #define BACK_START_X						13
 #define BACK_START_Y						30
@@ -189,7 +182,6 @@ HRESULT CINFCommunityReject::InitDeviceObjects()
 {
 	// 2008-04-04 by bhsohn Ep3 커뮤니티 창
 	//DataHeader *pDataHeader = m_pGameData->Find("rjback");
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 	DataHeader *pDataHeader = m_pGameData->Find("commubk5");
 // 	m_pBack = new CINFImage;
 // 	m_pBack->InitDeviceObjects( pDataHeader->m_pData, pDataHeader->m_DataSize );
@@ -201,11 +193,6 @@ HRESULT CINFCommunityReject::InitDeviceObjects()
 		m_pBack->InitDeviceObjects( g_pD3dApp->m_pImageList );
 		m_pBack->RestoreDeviceObjects();
 	}
-#else 
-	DataHeader *pDataHeader = m_pGameData->Find("commubk5");
-	m_pBack = new CINFImageEx;
-	m_pBack->InitDeviceObjects( pDataHeader );
-#endif
 	//pDataHeader = m_pGameData->Find("frselect");
 	pDataHeader = m_pGameData->Find("rejselect");	
 	m_pImgSelect = new CINFImageEx;
@@ -266,17 +253,10 @@ HRESULT CINFCommunityReject::InitDeviceObjects()
 	}
 	{	
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];				
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경			
 		wsprintf(szUpBtn, "cans03");
 		wsprintf(szDownBtn, "cans01");
 		wsprintf(szSelBtn, "cans00");
 		wsprintf(szDisBtn, "cans02");															  
-#else
-		wsprintf(szUpBtn, "ocancel3");
-		wsprintf(szDownBtn, "ocancel1");
-		wsprintf(szSelBtn, "ocancel0");
-		wsprintf(szDisBtn, "ocancel2");
-#endif
 		if(NULL == m_pDelReject)
 		{
 			m_pDelReject = new CINFImageBtn;
@@ -322,17 +302,10 @@ HRESULT CINFCommunityReject::RestoreDeviceObjects()
 		RECT rcMouseWhell, rcMousePos;
 		POINT ptScrollPos = ptBkPos;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		ptScrollPos.x += 470;
 		ptScrollPos.y += 191;
 
 		m_pScroll->SetPosition(ptScrollPos.x ,ptScrollPos.y,11,151);  
-#else 
-		ptScrollPos.x += 471;
-		ptScrollPos.y += 202;
-
-		m_pScroll->SetPosition(ptScrollPos.x ,ptScrollPos.y,11,110);
-#endif
 		rcMouseWhell.left		= ptScrollPos.x - 220;
 		rcMouseWhell.top		= ptScrollPos.y - 30;
 		rcMouseWhell.right		= ptScrollPos.x + 30;
@@ -498,12 +471,7 @@ void CINFCommunityReject::Render(POINT ptPos)
 
 	// 2008-04-04 by bhsohn Ep3 커뮤니티 창
 	//m_pBack->Move(BACK_START_X, nWindowPosY + BACK_START_Y );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pBack->Move(ptPos.x, ptPos.y + 25);														  
-#else 
-
-	m_pBack->Move(ptPos.x, ptPos.y);
-#endif
 	m_pBack->Render();
 
 		
@@ -1167,7 +1135,6 @@ void CINFCommunityReject::UpdateBtnPos()
 	POINT ptBkPos = ((CINFCommunity*)m_pParent)->GetCommunityBkPos();
 	int nPosX, nPosY;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	{
 		// 스크롤
 		
@@ -1201,41 +1168,6 @@ void CINFCommunityReject::UpdateBtnPos()
 		nPosY = ptBkPos.y + 342;		
 		m_pDelReject->SetBtnPosition(nPosX, nPosY);	
 	}	
-#else
-	{
-		// 스크롤
-		
-		RECT rcMouseWhell, rcMousePos;
-		POINT ptScrollPos = ptBkPos;
-
-		ptScrollPos.x += 471;
-		ptScrollPos.y += 202;
-
-		m_pScroll->SetPosition(ptScrollPos.x ,ptScrollPos.y,11,110);
-		rcMouseWhell.left		= ptScrollPos.x - 220;
-		rcMouseWhell.top		= ptScrollPos.y - 30;
-		rcMouseWhell.right		= ptScrollPos.x + 30;
-		rcMouseWhell.bottom		= ptScrollPos.y + 160;
-		m_pScroll->SetMouseWhellRect(rcMouseWhell);
-		rcMousePos.left			= ptScrollPos.x - 11;
-		rcMousePos.top			= ptScrollPos.y ;
-		rcMousePos.right		= rcMousePos.left + 32;
-		rcMousePos.bottom		= rcMousePos.top + 140;
-		m_pScroll->SetMouseBallRect(rcMousePos);
-	}
-	if(m_pRegisterReject)
-	{		
-		nPosX = ptBkPos.x + 403;
-		nPosY = ptBkPos.y + 129;		
-		m_pRegisterReject->SetBtnPosition(nPosX, nPosY);	
-	}
-	if(m_pDelReject)
-	{		
-		nPosX = ptBkPos.x + 403;
-		nPosY = ptBkPos.y + 357;		
-		m_pDelReject->SetBtnPosition(nPosX, nPosY);	
-	}
-#endif
 	{		
 		nPosX = ptBkPos.x + REJECT_WND_USERID_EDIT_X;
 		nPosY = ptBkPos.y + REJECT_WND_USERID_EDIT_Y;

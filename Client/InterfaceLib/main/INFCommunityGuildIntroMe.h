@@ -46,11 +46,7 @@ private:
 	void OnClickRqGuild();				// 가입신청
 	void OnClickRqCancelGuild();		// 가입신청 취소
 private:
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*	m_pFormat;																	  
-#else 
-	CINFImageEx*    m_pFormat;
-#endif
 
 	BOOL		m_bMove;
 	BOOL		m_bShow;

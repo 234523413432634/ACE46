@@ -28,7 +28,6 @@ class CINFArenaScrollBar;
 #define		OPTION_SYS_OFF			1
 #define		MAX_OPTION_SYS_CNT		2
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 그래픽 옵션  콤모
 #define		OPTION_GRAPHIC_SEE_RANGE		0	// 시야거리
 #define		OPTION_GRAPHIC_UNIT_DETAIL		1	// 유닛 디테일
@@ -41,20 +40,6 @@ class CINFArenaScrollBar;
 #define		OPTION_ETC_SEE_CHANGE			7	// 시점변환
 //#define		OPTION_ETC_VOLUMNE				8	// 볼륨 조절
 #define		MAX_OPTION_GRAPHIC_COMBO		8
-#else
-// 그래픽 옵션  콤모
-#define		OPTION_GRAPHIC_SEE_RANGE		0	// 시야거리
-#define		OPTION_GRAPHIC_UNIT_DETAIL		1	// 유닛 디테일
-#define		OPTION_GRAPHIC_SHADOW			2	// 그림자조절
-#define		OPTION_GRAPHIC_EFFECT			3	// 이펙트 조절
-#define		OPTION_GRAPHIC_GAMMA			4	// 감마 조절
-#define		OPTION_GRAPHIC_CONTRAST			5	// 대비 조절
-#define		OPTION_GRAPHIC_FILTER			6	// 필터 효과
-// 기타 옵션 콤보
-#define		OPTION_ETC_SEE_CHANGE			7	// 시점변환
-#define		OPTION_ETC_VOLUMNE				8	// 볼륨 조절
-#define		MAX_OPTION_GRAPHIC_COMBO		9
-#endif
 
 
 // 기타 옵션 체크 버튼
@@ -102,7 +87,6 @@ public:
 	virtual HRESULT DeleteDeviceObjects();
 	virtual HRESULT InvalidateDeviceObjects();
 	void Render();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	void VideoRender();
 	void SoundRender();
 	void ExRender();
@@ -111,7 +95,6 @@ public:
 	int VideoProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
 	int SoundProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
 	int ExProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
-#endif
 	void ExTick();
 
 	virtual void Tick();
@@ -141,7 +124,6 @@ private:
 	int OnLButtonDown(WPARAM wParam, LPARAM lParam);
 	int OnMouseMove(WPARAM wParam, LPARAM lParam);
 	int OnLButtonUp(WPARAM wParam, LPARAM lParam);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	int OnVedioLButtonDown(WPARAM wParam, LPARAM lParam);
 	int OnVedioMouseMove(WPARAM wParam, LPARAM lParam);
 	int OnVedioLButtonUp(WPARAM wParam, LPARAM lParam);
@@ -153,7 +135,6 @@ private:
 	int OnExLButtonDown(WPARAM wParam, LPARAM lParam);
 	int OnExMouseMove(WPARAM wParam, LPARAM lParam);
 	int OnExLButtonUp(WPARAM wParam, LPARAM lParam);
-#endif
 	// 시스템 버튼 클릭 
 	void OnSystemButtonClick(int nButton);
 
@@ -182,13 +163,11 @@ private:
 	// 라디오 버튼 클릭
 
 	void OnClickEtcRadio(int nRadioId);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	void OnClickRadio(int nRadioId);
 	void OnClickVedioRadio(int nRadioId);
 	void OnClickSoundRadio(int nRadioId);
 
 	
-#endif
 
 
 	// 적용버튼
@@ -220,12 +199,8 @@ private:
 
 
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*	m_pOptionBk;
 	CINFGroupImage*	m_pOptionSubBk[ TOTAL_OPTION_TAB ];											  
-#else
-	CINFImageEx	*	m_pOptionBk;
-#endif
 
 	char			m_strSelectModeComboData[MODE_COMBO_NUMBER][MODE_COMBO_STR_LEN];
 
@@ -248,13 +223,9 @@ private:
 	char			m_szHaesangTxt[256];		
 
 	// 라디오 버튼 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFImageRadioBtn*		m_pGameVedioOpRadioBtn[MAX_VEDIO_OPTION_RADIO];
 	CINFImageRadioBtn*		m_pGameSoundOpRadioBtn[MAX_SOUND_OPTION_RADIO];
 	CINFImageRadioBtn*		m_pGameEctORadioBtn[MAX_ETC_OPTION_RADIO];
-#else
-	CINFImageRadioBtn*		m_pGameOpRadioBtn[MAX_OPTION_RADIO][MAX_OPTION_SYS_CNT];
-#endif
 	
 
 
@@ -262,19 +233,14 @@ private:
 	CINFListBox *			m_pComboGraphic[MAX_OPTION_GRAPHIC_COMBO];
 	CINFImageRadioBtn*		m_pMiniFrame;	// 초기화
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFImageEx*			m_pMp3On;															  
 	BOOL					m_bmp3Playview;
-#else
-	CINFImageRadioBtn*		m_pEtcRadio[MAX_OPTION_ETC_RADIO];		
-#endif
 	// 기타 옵션	
 	
 
 	// 닫기 버튼
 	CINFImageBtn*			m_pCloseBtn;
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	int						m_nCurTeb;
 
 	// 스크롤 바 
@@ -282,7 +248,6 @@ private:
 	// 스크롤 바 
 	CINFArenaScrollBar*		m_pEffectVolBar;
 	CD3DHanFont*			m_pVol;																  
-#endif
 
 	// 2012-03-13 mspark, 게임 사운드 옵션 문제 해결 - 추가
 	int						m_nSoundVolumeTemp;

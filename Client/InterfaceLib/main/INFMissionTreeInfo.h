@@ -18,16 +18,10 @@
 #include "INFMissionMapViewCtrl.h"
 #include "INFMissionAniCtrl.h"
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	#define		TAB_MISSION_MODE_EP2			0		// Ep2미션
 	#define		TAB_MISSION_MODE_EP3			1		// Ep3미션
 	#define		TAB_MISSION_MODE_EP4			2		// Ep4미션
 	#define		MAX_TAB_MISSION_MODE_EP			3		// 
-#else
-#define		TAB_MISSION_MODE_EP2			0		// Ep2미션
-#define		TAB_MISSION_MODE_EP3			1		// Ep3미션
-#define		MAX_TAB_MISSION_MODE_EP			2		// 
-#endif
 // 큰종류
 
 
@@ -187,11 +181,7 @@ private:
 private:
 	// 배경 이미지
 	//CINFImage*		m_pMissionBk;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*		m_pMissionBk;
-#else
-	CINFImageEx*		m_pMissionBk;
-#endif
 
 	// 미션 모드 이미지
 	CINFImageRadioBtn*		m_pMissionMode[MAX_TAB_MISSION];
@@ -246,9 +236,6 @@ private:
 	// 맵 정보 윈도우
 	CINFMissionMapViewCtrl*		m_pINFMissionMapViewCtrl;
 	// 애니메이션 컨트롤
-	#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	CINFMissionAniCtrl*			m_pINFAniCtrl;
-	#endif
 
 	// 선택한 퀘스트	
 	DWORD					m_dwSelQuestIndex;

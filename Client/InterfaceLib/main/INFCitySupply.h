@@ -58,7 +58,6 @@ protected:
 	void UpdateTotalPrice();
 	
 private:
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFImageEx	*	m_pSupplyButton[4];
 	CINFImageEx	*	m_pCancelButton[4];
 	CINFImageEx	*	m_pAllButton[3];
@@ -66,15 +65,6 @@ private:
 // 	CINFImageEx	*	m_pSupplyTitle;
 // 	CINFImageEx	*	m_pSupplyBack;
 	CINFImageEx	*	m_pSlideBar;
-#else 
-	CINFImageEx	*	m_pSupplyButton[4];
-	CINFImageEx	*	m_pCancelButton[4];
-	CINFImageEx	*	m_pAllButton[3];
-	CINFImageEx	*	m_pRadioButton;
-	CINFImageEx	*	m_pSupplyTitle;
-	CINFImageEx	*	m_pSupplyBack;
-	CINFImageEx	*	m_pSlideBar;
-#endif
 //	CINFImage	*	m_pClose;
 
 	// 2014-07-03 by ymjoo DrawText 성능 개선 작업 (보급상점)

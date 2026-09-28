@@ -302,7 +302,6 @@ void CINFImageListCtrl::RenderListItem()
 				bSelect = TRUE;
 				nSelPosX = m_fSubItemStartX;			  // 2013-11-29 by ssjung 거래소 구현
 			}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			char chBuf[512], chResultBuf[512];
 			chBuf[0] = NULL;
 			memset(chResultBuf,0x00,512);
@@ -326,19 +325,6 @@ void CINFImageListCtrl::RenderListItem()
  				chResultBuf[ GetStringBuffPos(chResultBuf, GetStringBuffLen( chResultBuf ) - 1) ]='\0';
  				sprintf(chBuf,"%s..", chResultBuf);
 			}  
-#else
-			char chBuf[512];
-			chBuf[0] = NULL;
-
-			if(bSelect)
-			{					
-				wsprintf(chBuf, "\\e%s", pItem->szItemTxt);
-			}
-			else
-			{
-				strncpy(chBuf, pItem->szItemTxt, strlen(pItem->szItemTxt)+1);
-			}
-#endif
 			
 			// 헤더가 아닌정보 
 			m_pFontSubItem->DrawText(pItem->fPosX, pItem->fPosY, 
@@ -537,11 +523,7 @@ void CINFImageListCtrl::UpdateItemPos()
 	nItemHeight[LIST_SHOW_PLUS]		= (int)(m_ptIconSize[LIST_SHOW_PLUS].y*1.5);
 	nItemHeight[LIST_SHOW_MINUS]	= (int)(m_ptIconSize[LIST_SHOW_MINUS].y*1.5);
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	int nSubItemIconWidth	=			(int)(m_ptSubItemSize.x*1.1);	
-#else 
-	int nSubItemIconWidth	=			(int)(m_ptSubItemSize.x*1.5);	
-#endif
 
 	vector<stImageListCtrlIcon*>::iterator it = m_vecMainImage.begin();
 	int nCnt=0;
@@ -644,11 +626,7 @@ void CINFImageListCtrl::UpdateScrollPos()
 	rcMousePos.bottom		= rcMousePos.top;
 		
 	// Resotre를 해야지만 이미지 크기를 알수 있다. 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pINFScrollBar->SetPosition(rcMousePos.left, rcMousePos.top, SCROLL_BALL_WIDTH, m_fHeight - 23 );
-#else		  
-	m_pINFScrollBar->SetPosition(rcMousePos.left, rcMousePos.top, SCROLL_BALL_WIDTH, m_fHeight);
-#endif
 	m_pINFScrollBar->SetMouseWhellRect(rcMouseWhell);			
 
 	ptScroll = m_pINFScrollBar->GetImgBkSize();

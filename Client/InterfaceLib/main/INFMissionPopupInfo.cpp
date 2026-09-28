@@ -27,11 +27,7 @@
 #define STRING_STEP_TIME	0.1f	// 글씨 보이는 시간
 
 // 배경
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define BK_POS_Y					0
-#else
-#define BK_POS_Y					22
-#endif
 
 
 // 팝업 애니메이션
@@ -180,19 +176,12 @@ HRESULT CINFMissionPopupInfo::InitDeviceObjects()
 	//
 	{
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	    wsprintf(szUpBtn, "cans03");
 		wsprintf(szDownBtn, "cans01");
 		wsprintf(szSelBtn, "cans00");
 		wsprintf(szDisBtn, "cans02");		
 	
 
-#else
-		wsprintf(szUpBtn, "m_clo_c");
-		wsprintf(szDownBtn, "m_clo_s");
-		wsprintf(szSelBtn, "m_clo_o");
-		wsprintf(szDisBtn, "m_clonot");
-#endif
 		if(NULL == m_pCloseBtn)
 		{
 			m_pCloseBtn = new CINFImageBtn;
@@ -203,18 +192,11 @@ HRESULT CINFMissionPopupInfo::InitDeviceObjects()
 	// 미션 시작 창
 	{
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf(szUpBtn, "oks03");
 		wsprintf(szDownBtn, "oks01");
 		wsprintf(szSelBtn, "oks00");
 		wsprintf(szDisBtn, "oks02");						
 
-#else
-		wsprintf(szUpBtn, "mistarn");
-		wsprintf(szDownBtn, "mistars");
-		wsprintf(szSelBtn, "mistaro");
-		wsprintf(szDisBtn, "mistanot");
-#endif
 		if(NULL == m_pStartMissionBtn)
 		{
 			m_pStartMissionBtn = new CINFImageBtn;

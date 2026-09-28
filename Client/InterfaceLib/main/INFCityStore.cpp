@@ -82,7 +82,6 @@
 //#define SMALL_BUTTON_SIZE_X		39
 //#define SMALL_BUTTON_SIZE_Y		14
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 2006-09-15 by dgwoo 여단 창고 관련 탭 DEFINE
 	//--------------------------------------------------------------------------//
 	//스토어 윈도우 창의 위치.
@@ -171,96 +170,6 @@
 	#define FONT_INPUT_Y				12
 	#endif
 
-#else
-	// 2006-09-15 by dgwoo 여단 창고 관련 탭 DEFINE
-//--------------------------------------------------------------------------//
-//스토어 윈도우 창의 위치.
-#define STORE_RESIZE_X			(CITY_BASE_NPC_BOX_START_X+426)
-#define STORE_RESIZE_Y			(CITY_BASE_NPC_BOX_START_Y-SIZE_NORMAL_WINDOW_Y)
-
-//스토어 인벤토리의 위치.
-#define STORE_START_X			(STORE_RESIZE_X + 18)
-#define STORE_START_Y			(STORE_RESIZE_Y + 28)
-#define STORE_START_W			260
-#define STORE_START_H			190
-
-// Log 위치.
-#define STORE_START_LOG_X		(STORE_START_X + 15)
-#define STORE_START_LOG_Y		(STORE_START_Y + 30)
-
-// FONT SIZE
-#define STORE_FONT_SIZE_H		13
-#define	STORE_FONT_PARTITION	11
-
-//창고내 아템수.
-#define	STORE_ITEM_COUNT_X		(STORE_RESIZE_X + 226)
-#define	STORE_ITEM_COUNT_Y		(STORE_RESIZE_Y + 25)
-
-#define SCROLL_START_X			(STORE_RESIZE_X + 262)
-#define SCROLL_START_Y			(STORE_RESIZE_Y + 58)
-#define SCROLL_LINE_LENGTH		159
-
-#define STORE_SPI_IMG_X			(STORE_RESIZE_X + 140)
-#define STORE_SPI_IMG_Y			(STORE_RESIZE_Y + 248)
-
-#define STORE_SPI_TEXT_X		(STORE_RESIZE_X + 171)
-#define STORE_SPI_TEXT_Y		(STORE_RESIZE_Y + 244)
-#define STORE_SPI_TEXT_W		104
-#define STORE_SPI_TEXT_H		16
-#define STORE_SPI_TEXT_FONT_X	(STORE_SPI_TEXT_X + 3)
-#define	STORE_SPI_TEXT_FONT_Y	(STORE_SPI_TEXT_Y + 1)
-
-#define STORE_ICON_START_X		(STORE_RESIZE_X + 30)
-#define STORE_ICON_START_Y		(STORE_RESIZE_Y + 58)
-#define	STORE_INTERVAL			32
-#define STORE_ICON_SIZE			30
-
-#define INVEN_SPI_START_X		(CITY_BASE_NPC_BOX_START_X+308)
-#define INVEN_SPI_START_Y		(CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y + 223)  // 2007-07-06 by dgwoo 230 -> 223으로 변경.
-#define INVEN_START_X			(CITY_BASE_NPC_BOX_START_X + 310)
-#define INVEN_START_Y			(CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y + 23)
-#define INVEN_SPI_SIZE_X		104
-#define INVEN_SPI_SIZE_Y		18
-
-
-
-//위칸 탭.
-#define STORE_TAB_0_X			STORE_START_X
-#define STORE_TAB_0_Y			STORE_START_Y
-#define STORE_TAB_W				67
-#define STORE_TAB_H				14
-#define STORE_TAB_1_X			(STORE_TAB_0_X + STORE_TAB_W)
-#define STORE_TAB_2_X			(STORE_TAB_1_X + STORE_TAB_W)
-
-//아래 탭.
-#define STORE_TAB_3_X			STORE_START_X
-#define STORE_TAB_1_Y			(STORE_RESIZE_Y + 228)
-	#define STORE_TAB_4_X			(STORE_START_X + STORE_TAB_W)
-
-//--------------------------------------------------------------------------//
-
-// 2006-03-07 by ispark, 언어에 따라 위치 수정
-#if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
-#define FONTSPI_Y				1
-#define FONTSTORESIZE_Y			212
-#else
-#define FONTSPI_Y				1//2
-#define FONTSTORESIZE_Y			212//210
-#endif
-// 2006-09-28 by dgwoo 여단 창고 로그 관련 컬링.
-#if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
-#define STRING_CULL ::StringCullingUserData_ToBlank
-#define STRING_CULL2 ::StringCullingUserData_ToBlank
-	#define CHAT_STRING_LENGTH			270		// 2012-03-15 by mspark, 여단 창고 로그 텍스트 위치 수정 - 기존 220에서 270으로 변경
-#define FONT_INPUT_Y				12	
-#else
-#define STRING_CULL ::StringCullingUserDataEx
-#define STRING_CULL2 ::StringCullingUserDataEx
-	#define CHAT_STRING_LENGTH			270		// 2012-03-15 by mspark, 여단 창고 로그 텍스트 위치 수정 - 기존 220에서 270으로 변경
-#define FONT_INPUT_Y				12
-#endif
-
-#endif
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -1063,17 +972,10 @@ HRESULT CINFCityStore::InitDeviceObjects()
 								STORE_SLOT_NUMBER_Y);
 	m_pScroll->SetGameData( m_pGameData );
 	m_pScroll->InitDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pScroll->SetWheelRect(STORE_TAB_0_X + 13, 
 							STORE_TAB_0_Y + 35,
 							STORE_START_X + 13 + STORE_START_W,
 							STORE_START_Y + 35 + STORE_START_H);
-#else
-	m_pScroll->SetWheelRect(STORE_START_X, 
-							STORE_START_Y,
-							STORE_START_X+STORE_START_W,
-							STORE_START_Y+STORE_START_H);
-#endif
 	return S_OK;
 
 }
@@ -1370,20 +1272,11 @@ void CINFCityStore::Render()
 		RenderLog();
 		return;
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-#else
-	m_pSpis->Render();
-	m_pCash->Render();
-#endif
 	
 	wsprintf( temp1, "%d", m_nItemSpi );
 	MakeCurrencySeparator( temp2, temp1, 3, ',' );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	SIZE Size = m_pFontSpi->GetStringSize(temp2);
 	m_pFontSpi->DrawText(STORE_SPI_TEXT_X - Size.cx,STORE_SPI_TEXT_Y, GUI_FONT_COLOR, temp2, 0L);
-#else
-	m_pFontSpi->DrawText(STORE_SPI_TEXT_FONT_X,STORE_SPI_TEXT_FONT_Y, GUI_FONT_COLOR, temp2, 0L);
-#endif
 	
 	
 	// 2006-09-18 by dgwoo 한국의 프리미엄 사용자.
@@ -1603,7 +1496,6 @@ int CINFCityStore::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if(pt.y > STORE_TAB_0_Y &&
 				pt.y < STORE_TAB_0_Y + STORE_TAB_H)
 			{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				if(pt.x > STORE_TAB_0_X - 49 &&
 					pt.x < STORE_TAB_0_X - 49 + STORE_TAB_W)
 				{
@@ -1628,42 +1520,6 @@ int CINFCityStore::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						return INF_MSGPROC_BREAK;
 					}
 				}
-#else
-				if(0 == g_pD3dApp->GetPrimiumCardInfo()->nCardItemNum1)
-				{
-					if(pt.x > STORE_TAB_0_X &&
-						pt.x < STORE_TAB_0_X + STORE_TAB_W)
-					{
-						wsprintf(buf,"%s",g_pShuttleChild->m_myShuttleInfo.CharacterName);
-						g_pGameMain->SetToolTip(pt.x,pt.y,buf);
-						return INF_MSGPROC_BREAK;
-					}
-				}
-				else
-				{
-					if(pt.x > STORE_TAB_0_X &&
-						pt.x < STORE_TAB_0_X + STORE_TAB_W)
-					{
-						wsprintf(buf,"%s",g_pSelect->m_guiUnitInfo[0].CharacterName);
-						g_pGameMain->SetToolTip(pt.x,pt.y,buf);
-						return INF_MSGPROC_BREAK;
-					}
-					if(pt.x > STORE_TAB_1_X &&
-						pt.x < STORE_TAB_1_X + STORE_TAB_W)
-					{
-						wsprintf(buf,"%s",g_pSelect->m_guiUnitInfo[1].CharacterName);
-						g_pGameMain->SetToolTip(pt.x,pt.y,buf);
-						return INF_MSGPROC_BREAK;
-					}
-					if(pt.x > STORE_TAB_2_X &&
-						pt.x < STORE_TAB_2_X + STORE_TAB_W)
-					{
-						wsprintf(buf,"%s",g_pSelect->m_guiUnitInfo[2].CharacterName);
-						g_pGameMain->SetToolTip(pt.x,pt.y,buf);
-						return INF_MSGPROC_BREAK;
-					}
-				}
-#endif
 			}
 			
 
@@ -1759,13 +1615,8 @@ int CINFCityStore::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 //				return INF_MSGPROC_BREAK;
 //			}
 			// end 2008-08-22 by bhsohn EP3 인벤토리 처리
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			if( pt.x > STORE_SPI_TEXT_X - STORE_SPI_TEXT_W &&
 				pt.x < STORE_SPI_TEXT_X &&
-#else
-			if( pt.x > STORE_SPI_TEXT_X &&
-				pt.x < STORE_SPI_TEXT_X+STORE_SPI_TEXT_W &&
-#endif
 				pt.y > STORE_SPI_TEXT_Y &&
 				pt.y < STORE_SPI_TEXT_Y+STORE_SPI_TEXT_H &&
 				GetItemSpi() > 0 &&
@@ -1779,7 +1630,6 @@ int CINFCityStore::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if(pt.y > STORE_TAB_0_Y &&
 				pt.y < STORE_TAB_0_Y + STORE_TAB_H)
 			{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				if(pt.x > STORE_TAB_0_X - 49 &&
 					pt.x < STORE_TAB_0_X - 49 + STORE_TAB_W)
 				{
@@ -1795,29 +1645,11 @@ int CINFCityStore::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				{
 					ChangeTab(2);
 				}
-#else
-				if(pt.x > STORE_TAB_0_X &&
-					pt.x < STORE_TAB_0_X + STORE_TAB_W)
-				{
-					ChangeTab(0);
-				}
-				if(pt.x > STORE_TAB_1_X &&
-					pt.x < STORE_TAB_1_X + STORE_TAB_W)
-				{
-					ChangeTab(1);
-				}
-				if(pt.x > STORE_TAB_2_X &&
-					pt.x < STORE_TAB_2_X + STORE_TAB_W)
-				{
-					ChangeTab(2);
-				}
-#endif
 			}
 			// 창고 아랫 탭의 영역을 클릭했을때.
 			if(pt.y > STORE_TAB_1_Y &&
 				pt.y < STORE_TAB_1_Y + STORE_TAB_H)
 			{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				if(pt.x > STORE_TAB_3_X - 49 &&
 					pt.x < STORE_TAB_3_X - 49 + STORE_TAB_W)
 				{
@@ -1828,18 +1660,6 @@ int CINFCityStore::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				{
 					ChangeTab(STORE_TAB_GUILD_LOG);
 				}
-#else
-				if(pt.x > STORE_TAB_3_X &&
-					pt.x < STORE_TAB_3_X + STORE_TAB_W)
-				{
-					ChangeTab(STORE_TAB_GUILD);
-				}
-				if(pt.x > STORE_TAB_4_X &&
-					pt.x < STORE_TAB_4_X + STORE_TAB_W)
-				{
-					ChangeTab(STORE_TAB_GUILD_LOG);
-				}
-#endif
 			}
 
 			// 2007-03-02 by bhsohn 다중 선택 추가 보안
@@ -2294,17 +2114,11 @@ void CINFCityStore::RenderNormal()
 	// 2008-02-21 by bhsohn 유저 이름이 길떄, 뒤에 ".."으로 처리
 	TextReduce(m_pFontUserName[0], 60, buf);
 	//TextReduce(10,buf);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(buf)
 	{
 		SIZE Size = m_pFontUserName[0]->GetStringSize(buf);
 		m_pFontUserName[0]->DrawText(STORE_TAB_0_X - Size.cx / 2,STORE_TAB_0_Y,GUI_FONT_COLOR,buf,0L);
 	}
-#else
-	if(buf)
-		m_pFontUserName[0]->DrawText(STORE_TAB_0_X+1,STORE_TAB_0_Y,GUI_FONT_COLOR,buf,0L);	
-
-#endif
 
 }
 
@@ -2326,7 +2140,6 @@ void CINFCityStore::RenderMemberShip()
 
 	m_pBack[m_nActTab]->Render();
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	wsprintf(buf ,"%s",g_pSelect->m_guiUnitInfo[0].CharacterName);
 	// 2008-02-21 by bhsohn 유저 이름이 길떄, 뒤에 ".."으로 처리
 	TextReduce(m_pFontUserName[0], 60, buf);
@@ -2366,33 +2179,6 @@ void CINFCityStore::RenderMemberShip()
 		SIZE Size = m_pFontUserName[0]->GetStringSize(buf);
 		m_pFontUserName[4]->DrawText(STORE_TAB_4_X - Size.cx / 2,STORE_TAB_1_Y,(m_nActTab == TAB_GUILD_LOG)?GUI_FONT_COLOR:GUI_FONT_COLOR_G,buf,0L);
 	}
-#else
-	wsprintf(buf ,"%s",g_pSelect->m_guiUnitInfo[0].CharacterName);
-	// 2008-02-21 by bhsohn 유저 이름이 길떄, 뒤에 ".."으로 처리
-	TextReduce(m_pFontUserName[0], 60, buf);
-	//TextReduce(10,buf);
-	if(buf)
-		m_pFontUserName[0]->DrawText(STORE_TAB_0_X+1,STORE_TAB_0_Y,(m_nActTab == TAB_CHARACTER_1)?GUI_FONT_COLOR:GUI_FONT_COLOR_G,buf,0L);
-
-	wsprintf(buf ,"%s",g_pSelect->m_guiUnitInfo[1].CharacterName);	
-	// 2008-02-21 by bhsohn 유저 이름이 길떄, 뒤에 ".."으로 처리
-	TextReduce(m_pFontUserName[1], 60, buf);
-	//TextReduce(10,buf);
-	if(buf)
-		m_pFontUserName[1]->DrawText(STORE_TAB_1_X+1,STORE_TAB_0_Y,(m_nActTab == TAB_CHARACTER_2)?GUI_FONT_COLOR:GUI_FONT_COLOR_G,buf,0L);
-	wsprintf(buf ,"%s",g_pSelect->m_guiUnitInfo[2].CharacterName);
-	// 2008-02-21 by bhsohn 유저 이름이 길떄, 뒤에 ".."으로 처리
-	TextReduce(m_pFontUserName[2], 60, buf);
-	//TextReduce(10,buf);
-	if(buf)
-		m_pFontUserName[2]->DrawText(STORE_TAB_2_X+1,STORE_TAB_0_Y,(m_nActTab == TAB_CHARACTER_3)?GUI_FONT_COLOR:GUI_FONT_COLOR_G,buf,0L);
-	wsprintf(buf ,STRMSG_C_060920_0100);
-	if(buf)
-		m_pFontUserName[3]->DrawText(STORE_TAB_3_X+9,STORE_TAB_1_Y,(m_nActTab == TAB_GUILD)?GUI_FONT_COLOR:GUI_FONT_COLOR_G,buf,0L);
-	wsprintf(buf ,STRMSG_C_060920_0101);
-	if(buf)
-		m_pFontUserName[4]->DrawText(STORE_TAB_4_X+5,STORE_TAB_1_Y,(m_nActTab == TAB_GUILD_LOG)?GUI_FONT_COLOR:GUI_FONT_COLOR_G,buf,0L);
-	#endif
 }
 ///////////////////////////////////////////////////////////////////////////////
 /// \fn			void CINFCityStore::RenderNormalYedang()
@@ -2429,7 +2215,6 @@ void CINFCityStore::RenderNormalYedang()
 	// 2008-02-21 by bhsohn 유저 이름이 길떄, 뒤에 ".."으로 처리
 	TextReduce(m_pFontUserName[0], 60, buf);
 	//TextReduce(10,buf);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(buf)
 	{
 		SIZE Size = m_pFontUserName[0]->GetStringSize(buf);
@@ -2447,16 +2232,6 @@ void CINFCityStore::RenderNormalYedang()
 		SIZE Size = m_pFontUserName[0]->GetStringSize(buf);
 		m_pFontUserName[4]->DrawText(STORE_TAB_4_X - Size.cx / 2,STORE_TAB_1_Y,(m_nActTab == TAB_GUILD_LOG)?GUI_FONT_COLOR:GUI_FONT_COLOR_G,buf,0L);
 	}
-#else
-	if(buf)
-		m_pFontUserName[0]->DrawText(STORE_TAB_0_X+1,STORE_TAB_0_Y,GUI_FONT_COLOR,buf,0L);	
-	wsprintf(buf ,STRMSG_C_060920_0100);
-	if(buf)
-		m_pFontUserName[3]->DrawText(STORE_TAB_3_X+9,STORE_TAB_1_Y,(m_nActTab == TAB_GUILD)?GUI_FONT_COLOR:GUI_FONT_COLOR_G,buf,0L);
-	wsprintf(buf ,STRMSG_C_060920_0101);
-	if(buf)
-		m_pFontUserName[4]->DrawText(STORE_TAB_4_X+5,STORE_TAB_1_Y,(m_nActTab == TAB_GUILD_LOG)?GUI_FONT_COLOR:GUI_FONT_COLOR_G,buf,0L);
-#endif
 }
 
 

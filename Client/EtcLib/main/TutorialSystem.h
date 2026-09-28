@@ -342,9 +342,7 @@ private:
 	CINFImageEx *		m_pImgSysAgainB[BUTTON_STATE_NUMBER];	// 다시 진행.
 	CINFImageEx *		m_pImgSysMainB[BUTTON_STATE_NUMBER];	// 메인 화면.
 	CINFImageEx *		m_pImgSysEndB[BUTTON_STATE_NUMBER];		// 종료 버튼.
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
     CINFImageEx *		m_pImgFadeBG;							// 배경 틀.
-#endif
 	
 
 	int				m_nSysPlayB;

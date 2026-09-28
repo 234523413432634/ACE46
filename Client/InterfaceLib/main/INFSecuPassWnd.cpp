@@ -89,7 +89,6 @@ HRESULT CINFSecuPassWnd::InitDeviceObjects()
 		}
 	}
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	{	
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];		
 		wsprintf(szUpBtn, "oks03");
@@ -115,33 +114,6 @@ HRESULT CINFSecuPassWnd::InitDeviceObjects()
 		}
 		m_pSetCancel->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);		
 	}
-#else
-	{	
-		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];		
-		wsprintf(szUpBtn, "shlaok00");
-		wsprintf(szDownBtn, "shlaok01");
-		wsprintf(szSelBtn, "shlaok03");
-		wsprintf(szDisBtn, "shlaok02");
-		if(NULL == m_pSetOk)
-		{
-			m_pSetOk = new CINFImageBtn;
-		}
-		m_pSetOk->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);		
-	}
-	
-	{
-		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];		
-		wsprintf(szUpBtn, "shmcan00");
-		wsprintf(szDownBtn, "shmcan01");
-		wsprintf(szSelBtn, "shmcan03");
-		wsprintf(szDisBtn, "shmcan02");
-		if(NULL == m_pSetCancel)
-		{
-			m_pSetCancel = new CINFImageBtn;
-		}
-		m_pSetCancel->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);		
-	}
-#endif
 	{
 		if(NULL == m_pINFPassEditBox)
 		{
@@ -237,11 +209,7 @@ HRESULT CINFSecuPassWnd::InvalidateDeviceObjects()
 
 void	CINFSecuPassWnd::Render()
 {
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	g_pGameMain->m_pInfWindow->RenderCenterWindow(m_nBackPosX, m_nBackPosY, m_nCx, m_nCy);
-#else
-	RenderCenterWindow(m_nBackPosX, m_nBackPosY, m_nCx, m_nCy, FALSE);
-#endif
 	
 	RenderString(m_nBackPosX, m_nBackPosY);
 	{

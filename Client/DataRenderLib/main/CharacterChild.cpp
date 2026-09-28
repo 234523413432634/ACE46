@@ -1221,11 +1221,7 @@ void CCharacterChild::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				// 기본인터페이스 밑줄 클릭을 막는다.
 				if(g_pInterface->m_bShowInterface && 
 					(pt.x >= 0 && pt.x <= g_pD3dApp->GetBackBufferDesc().Width) &&
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 					(pt.y >= g_pD3dApp->GetBackBufferDesc().Height - 70) || // #define CHATBOX_FIELD_SHOWCHATBOX_INIT_HEIGHT			70 -> INFGameMainChat에 있음
-#else				 
-					(pt.y >= g_pD3dApp->GetBackBufferDesc().Height - 39) ||
-#endif
 					((pt.y >= g_pD3dApp->GetBackBufferDesc().Height - 51) && 
 					(pt.x >= g_pD3dApp->GetBackBufferDesc().Width / 2 - 117 &&
 					pt.x <= g_pD3dApp->GetBackBufferDesc().Width / 2 + 117)))

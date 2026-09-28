@@ -62,7 +62,6 @@ public:
 	BOOL			m_bInputItemDone;// InputItemDone이 온 경우 TRUE, 이 값이 TRUE이면 아이템 리스트를 다시 받지 않는다.
 	BOOL			m_bRestored;
 	BOOL			m_bInvalidated;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFImageBtn	*	m_pOkButton;
 	CINFImageBtn	*	m_pCancelButton;
 	CINFImageBtn	*	m_pBuyButton;
@@ -72,17 +71,6 @@ public:
 	CINFImageEx	*	m_pScrollUpDown;
 	CINFImageEx	*	m_pScrollBar;
 	CINFImageEx	*	m_pSelectSlot;																  
-#else
-	CINFImageEx	*	m_pOkButton[4];
-	CINFImageEx	*	m_pCancelButton[4];
-	CINFImageEx	*	m_pBuyButton[4];
-	CINFImageEx	*	m_pCash;
-	CINFImageEx	*	m_pSlot;
-	CINFImageEx	*	m_pItemTab[4];
-	CINFImageEx	*	m_pScrollUpDown;
-	CINFImageEx	*	m_pScrollBar;
-	CINFImageEx	*	m_pSelectSlot;
-#endif
 
 	int				m_nCurrentTab;
 	int				m_nOkButtonState;

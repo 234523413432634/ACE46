@@ -28,7 +28,6 @@
 #include "INFGroupImage.h"
 #include "INFGroupManager.h"
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	//--------------------------------------------------------------------------//
 	#define CHANGE_CHARACTOR_WINDOW_W					487
 	#define CHANGE_CHARACTOR_WINDOW_H					83
@@ -67,44 +66,6 @@
 	#define FACE_IMAGE_H								83
 	#define FACE_SCALE_GAPX								10
 	#define FACE_SCALE_GAPY								10
-#else
-//--------------------------------------------------------------------------//
-#define CHANGE_CHARACTOR_WINDOW_W					487
-#define CHANGE_CHARACTOR_WINDOW_H					83
-#define	FEMALE_RIGHT_BUTTON_X						(m_nWindowX + 438)
-#define	FEMALE_RIGHT_BUTTON_Y						(m_nWindowY + 41)
-#define	MALE_RIGHT_BUTTON_X							(m_nWindowX + 438)
-#define	MALE_RIGHT_BUTTON_Y							(m_nWindowY + 137)
-#define	FEMALE_LEFT_BUTTON_X						(m_nWindowX + 60)
-#define	FEMALE_LEFT_BUTTON_Y						(m_nWindowY + 41)
-#define	MALE_LEFT_BUTTON_X							(m_nWindowX + 60)
-#define	MALE_LEFT_BUTTON_Y							(m_nWindowY + 137)
-
-#define	CHARACTOR_CHANGE_BUTTON_X					(m_nWindowX + 136)
-#define	CHARACTOR_CHANGE_BUTTON_Y					(m_nWindowY + 243)
-
-#define	CHARACTOR_CANCEL_BUTTON_X					(m_nWindowX + 244)
-#define	CHARACTOR_CANCEL_BUTTON_Y					(m_nWindowY + 243)
-
-#define FEMALE_FACE_START_X							(m_nWindowX + 91)
-#define FEMALE_FACE_START_Y							(m_nWindowY + 42)
-#define FEMALE_NAME_START_FONT_X					(FEMALE_FACE_START_X + 32)
-#define FEMALE_NAME_FONT_Y							(FEMALE_FACE_START_Y + 67)
-#define MALE_FACE_START_X							(m_nWindowX + 91)
-#define MALE_FACE_START_Y							(m_nWindowY + 138)
-#define MALE_NAME_START_FONT_X						(MALE_FACE_START_X + 32)
-#define MALE_NAME_FONT_Y							(MALE_FACE_START_Y + 67)
-#define FACE_GAP_X									69
-
-
-#define FEMALE_FACE_AREA_X							FEMALE_FACE_START_X
-#define FEMALE_FACE_AREA_W							(FACE_GAP_X * CHARACTOR_FACE_SHOW_MAX)
-#define FEMALE_FACE_AREA_Y							FEMALE_FACE_START_Y
-#define MALE_FACE_AREA_X							MALE_FACE_START_X
-#define MALE_FACE_AREA_W							(FACE_GAP_X * CHARACTOR_FACE_SHOW_MAX)
-#define MALE_FACE_AREA_Y							MALE_FACE_START_Y
-#define FACE_IMAGE_H								83
-#endif
 
 
 // 2013-04-05 by bhsohn 케릭터 변경 창 윈도우 순서 정렬 처리
@@ -179,7 +140,6 @@ HRESULT CINFChangeCharactor::InitDeviceObjects()
 			m_vecFaceMale.push_back(sFace);
 		}
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	wsprintf(buf,"cchangeBG");
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("Cchange");
 	m_pImgBG = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
@@ -230,58 +190,6 @@ HRESULT CINFChangeCharactor::InitDeviceObjects()
 		m_pCancelButton = new CINFImageBtn;
 	}
 	m_pCancelButton->InitDeviceObjects(buf);	
-#else
-	wsprintf(buf,"cchangeBG");
-	pDataHeader = FindResource(buf);
-	m_pImgBG = new CINFImageEx;
-	m_pImgBG->InitDeviceObjects( pDataHeader );
-	wsprintf(buf,"csel");
-	pDataHeader = FindResource(buf);
-	m_pImgSelect = new CINFImageEx;
-	m_pImgSelect->InitDeviceObjects( pDataHeader );
-
-	wsprintf(buf,"crightB");
-	if(m_pFemaleRightButton == NULL)
-	{
-		m_pFemaleRightButton = new CINFImageBtn;
-	}
-	m_pFemaleRightButton->InitDeviceObjects(buf);
-
-	wsprintf(buf,"cleftB");
-	if(m_pFemaleLeftButton == NULL)
-	{
-		m_pFemaleLeftButton = new CINFImageBtn;
-	}
-	m_pFemaleLeftButton->InitDeviceObjects(buf);
-
-	wsprintf(buf,"crightB");
-	if(m_pMaleRightButton == NULL)
-	{
-		m_pMaleRightButton = new CINFImageBtn;
-	}
-	m_pMaleRightButton->InitDeviceObjects(buf);
-
-	wsprintf(buf,"cleftB");
-	if(m_pMaleLeftButton == NULL)
-	{
-		m_pMaleLeftButton = new CINFImageBtn;
-	}
-	m_pMaleLeftButton->InitDeviceObjects(buf);
-
-	wsprintf(buf,"cchangeB");
-	if(m_pChangeButton == NULL)
-	{
-		m_pChangeButton = new CINFImageBtn;
-	}
-	m_pChangeButton->InitDeviceObjects(buf);
-
-	wsprintf(buf,"ccancel");
-	if(m_pCancelButton == NULL)
-	{
-		m_pCancelButton = new CINFImageBtn;
-	}
-	m_pCancelButton->InitDeviceObjects(buf);
-#endif
 
 
 	if(m_pFontName == NULL)
@@ -311,7 +219,6 @@ HRESULT CINFChangeCharactor::RestoreDeviceObjects()
 	m_pImgBG->RestoreDeviceObjects();
 	m_pImgSelect->RestoreDeviceObjects();
 	m_pFemaleRightButton->RestoreDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	m_pFemaleRightButton->SetBtnPosition(FEMALE_RIGHT_BUTTON_X,FEMALE_RIGHT_BUTTON_Y);
 	m_pFemaleLeftButton->RestoreDeviceObjects();
 	m_pFemaleLeftButton->SetBtnPosition(FEMALE_LEFT_BUTTON_X,FEMALE_LEFT_BUTTON_Y);
@@ -324,20 +231,6 @@ HRESULT CINFChangeCharactor::RestoreDeviceObjects()
 	m_pCancelButton->RestoreDeviceObjects();
 	m_pCancelButton->SetBtnPosition(CHARACTOR_CANCEL_BUTTON_X,CHARACTOR_CANCEL_BUTTON_Y);
 	m_pFontName->RestoreDeviceObjects();
-#else
-	m_pFemaleRightButton->SetBtnPosition(FEMALE_RIGHT_BUTTON_X,FEMALE_RIGHT_BUTTON_Y);
-	m_pFemaleLeftButton->RestoreDeviceObjects();
-	m_pFemaleLeftButton->SetBtnPosition(FEMALE_LEFT_BUTTON_X,FEMALE_LEFT_BUTTON_Y);
-	m_pMaleRightButton->RestoreDeviceObjects();
-	m_pMaleRightButton->SetBtnPosition(MALE_RIGHT_BUTTON_X,MALE_RIGHT_BUTTON_Y);
-	m_pMaleLeftButton->RestoreDeviceObjects();
-	m_pMaleLeftButton->SetBtnPosition(MALE_LEFT_BUTTON_X,MALE_LEFT_BUTTON_Y);
-	m_pChangeButton->RestoreDeviceObjects();
-	m_pChangeButton->SetBtnPosition(CHARACTOR_CHANGE_BUTTON_X,CHARACTOR_CHANGE_BUTTON_Y);
-	m_pCancelButton->RestoreDeviceObjects();
-	m_pCancelButton->SetBtnPosition(CHARACTOR_CANCEL_BUTTON_X,CHARACTOR_CANCEL_BUTTON_Y);
-	m_pFontName->RestoreDeviceObjects();
-#endif
 	// 2009-05-11 by bhsohn 일본 신규 캐릭터 오픈
 	// 2009-01-12 by bhsohn 일본 추가 수정사항
 // #ifdef LANGUAGE_JAPAN
@@ -440,7 +333,6 @@ void CINFChangeCharactor::Render()
 		{
 			if(m_nStartFemale <= i)
 			{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 				if(nCount == m_nSelect && m_bFemale == TRUE )
 				{
 					it->pImgFace->Move(FEMALE_FACE_START_X+(FACE_GAP_X * nCount) - FACE_SCALE_GAPX, FEMALE_FACE_START_Y - FACE_SCALE_GAPY);
@@ -454,12 +346,6 @@ void CINFChangeCharactor::Render()
 				it->pImgFace->Render();
 				size = m_pFontName->GetStringSize(it->szName);
 				m_pFontName->DrawText(FEMALE_NAME_START_FONT_X+(FACE_GAP_X * nCount)-(size.cx/2),FEMALE_NAME_FONT_Y,GUI_FONT_COLOR_W,it->szName,0L);
-#else
-				it->pImgFace->Move(FEMALE_FACE_START_X+(FACE_GAP_X * nCount),FEMALE_FACE_START_Y);
-				it->pImgFace->Render();
-				size = m_pFontName->GetStringSize(it->szName);
-				m_pFontName->DrawText(FEMALE_NAME_START_FONT_X+(FACE_GAP_X * nCount)-(size.cx/2),FEMALE_NAME_FONT_Y,GUI_FONT_COLOR_YM,it->szName,0L);
-#endif
 				nCount++;
 				if(nCount >= CHARACTOR_FACE_SHOW_MAX)
 				{
@@ -478,7 +364,6 @@ void CINFChangeCharactor::Render()
 			if(m_nStartMale <= i)
 			{
 				
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 				if(nCount == m_nSelect && m_bFemale == FALSE )
 				{
 					it->pImgFace->Move(MALE_FACE_START_X+(FACE_GAP_X * nCount) - FACE_SCALE_GAPX,MALE_FACE_START_Y - FACE_SCALE_GAPY);
@@ -492,12 +377,6 @@ void CINFChangeCharactor::Render()
 				it->pImgFace->Render();
 				size = m_pFontName->GetStringSize(it->szName);
 				m_pFontName->DrawText(MALE_NAME_START_FONT_X+(FACE_GAP_X * nCount)-(size.cx/2),MALE_NAME_FONT_Y,GUI_FONT_COLOR_W,it->szName,0L);
-#else
-				it->pImgFace->Move(MALE_FACE_START_X+(FACE_GAP_X * nCount),MALE_FACE_START_Y);
-				it->pImgFace->Render();
-				size = m_pFontName->GetStringSize(it->szName);
-				m_pFontName->DrawText(MALE_NAME_START_FONT_X+(FACE_GAP_X * nCount)-(size.cx/2),MALE_NAME_FONT_Y,GUI_FONT_COLOR_YM,it->szName,0L);
-#endif			
 				nCount++;
 				if(nCount >= CHARACTOR_FACE_SHOW_MAX)
 				{
@@ -508,7 +387,6 @@ void CINFChangeCharactor::Render()
 			i++;
 		}
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	if(m_nSelect >= 0)
 	{
 		if(m_bFemale)
@@ -521,20 +399,6 @@ void CINFChangeCharactor::Render()
 		}
 		m_pImgSelect->Render();
 	}
-#else
-	if(m_nSelect >= 0)
-	{
-		if(m_bFemale)
-		{// 여자 쪽
-			m_pImgSelect->Move(FEMALE_FACE_START_X+(FACE_GAP_X * m_nSelect),FEMALE_FACE_START_Y);
-		}
-		else
-		{// 남자 쪽
-			m_pImgSelect->Move(MALE_FACE_START_X+(FACE_GAP_X * m_nSelect),MALE_FACE_START_Y);
-		}
-		m_pImgSelect->Render();
-	}
-#endif
 
 	
 	

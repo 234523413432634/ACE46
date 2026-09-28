@@ -53,7 +53,6 @@ HRESULT CINFDefaultWnd::InitDeviceObjects(char* i_pBkFile)
 			m_pDefaultBkImage->InitDeviceObjects(pDataHeader);
 		}
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	{
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
 		wsprintf(szUpBtn, "close");
@@ -66,20 +65,6 @@ HRESULT CINFDefaultWnd::InitDeviceObjects(char* i_pBkFile)
 			m_pCloseBtn->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);		
 		}
 	}
-#else
-	{
-		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-		wsprintf(szUpBtn, "xclose");
-		wsprintf(szDownBtn, "xclose");
-		wsprintf(szSelBtn, "xclose");
-		wsprintf(szDisBtn, "xclose");
-		if(NULL == m_pCloseBtn)
-		{
-			m_pCloseBtn = new CINFImageBtn;
-			m_pCloseBtn->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);		
-		}
-	}
-#endif
 	return S_OK ;
 }
 
@@ -334,14 +319,8 @@ void CINFDefaultWnd::UpdateBtnPos(int nWidth, int nHeight)
 	nPosX = nPosY = 0;
 	if(m_pCloseBtn)
 	{		
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경		
 		nPosX = ptBkPos.x + (nWidth - WND_CLOSE_RIGHT_X);
 		nPosY = ptBkPos.y+WND_CLOSE_RIGHT_Y;
-#else
-		POINT ptSize = m_pCloseBtn->GetImgSize();
-		nPosX = ptBkPos.x + (nWidth - ptSize.x-13);
-		nPosY = ptBkPos.y+7;
-#endif
 		
 		m_pCloseBtn->SetBtnPosition(nPosX, nPosY);
 	}

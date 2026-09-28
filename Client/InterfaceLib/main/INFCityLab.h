@@ -131,17 +131,9 @@ protected:
 
 	CINFImageEx	*		m_pImgButton[LAB_BUTTON_NUMBER][4];	// 0 : 제조(SEND), 1 : cancel, 2 : ok
 	int					m_nButtonState[2];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	
 	CINFGroupImage	*	m_pImgBack;
-#else	   
-	CINFImageEx	*		m_pImgBack;
-#endif
 	CINFImageEx	*		m_pImgBackFactory;	// 연구소배경 // 2008-03-14 by bhsohn 조합식 개선안	   
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFImageEx	*		m_pImgBackLab;
-#else
-    CINFImageEx	*		m_pImgPrice;
-#endif
 	
 	CINFImageEx	*		m_pImgTitle;
 	

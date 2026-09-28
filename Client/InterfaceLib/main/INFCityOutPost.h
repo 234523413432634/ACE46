@@ -178,13 +178,9 @@ private:
 	CINFImageEx*			m_pImgRadioB[RADIOBUTTON_STATE_NUMBER];
 	CINFImageBtn*		m_pImgLWarInfoB;									// 전장 정보 버튼.
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	CINFGroupImage*			m_pImgOutPostLBG;
 	CINFGroupImage*			m_pImgRightBG[2];
 	CINFGroupImage*			CityOutPostControl;
-#else
-	CINFImageEx*			m_pImgOutPostLBG;
-#endif
 	CINFImageEx*			m_pImgBriNoticeBG;
 	CINFImageEx*			m_pImgOutPostTimeSetBG;
 	CINFImageEx*			m_pImgExpenceBG;

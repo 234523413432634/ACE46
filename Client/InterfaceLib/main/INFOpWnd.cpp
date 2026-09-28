@@ -18,13 +18,8 @@
 #include "INFOpWnd.h"
 
 // 오퍼레이터
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define OPWND_POS_X		(g_pD3dApp->GetBackBufferDesc().Width-345)
 #define OPWND_POS_Y		(g_pD3dApp->GetBackBufferDesc().Height-205)								  
-#else			  
-#define OPWND_POS_X		(g_pD3dApp->GetBackBufferDesc().Width-342)
-#define OPWND_POS_Y		(g_pD3dApp->GetBackBufferDesc().Height-187)
-#endif
 
 #define OPWND_NPC_POS_X		(OPWND_POS_X)
 #define OPWND_NPC_POS_Y		(OPWND_POS_Y)
@@ -483,11 +478,7 @@ void	CINFOpWnd::Render()
 		m_pINFScrollBar->Render();
 	}
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 //	m_pCloseBtn->Render();
-#else					  
-	m_pCloseBtn->Render();
-#endif
 
 	
 }
@@ -845,11 +836,7 @@ void CINFOpWnd::UpdateRenderRect(float fElapsedTime)
 		int nPosX, nPosY;
 		POINT ptNpcSize = m_pBkImage[m_nSelectNpc]->GetImgSize();
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		nPosX = OPWND_POS_X + ptNpcSize.x - 23;
-#else
-		nPosX = OPWND_POS_X + ptNpcSize.x - 18;
-#endif
 
 		nPosY = m_fStartY+ OPWND_POS_Y + 3;
 

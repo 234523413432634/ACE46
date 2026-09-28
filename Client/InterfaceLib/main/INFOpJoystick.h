@@ -94,11 +94,7 @@ private:
 
 private:
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*	m_pBoxImage;
-#else
-	CINFImageEx*	m_pBoxImage;		// 배경이미지
-#endif
 	CINFImageEx*	m_pSelImage;		// 선택이미지
 
 	CINFListBox*	m_pComboJoySense;

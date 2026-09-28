@@ -165,16 +165,12 @@ CINFCityBase::CINFCityBase(CAtumNode* pParent)
 	memset(m_strGuildMasterGr, 0x00, 512);
 
 	// 2005-02-21 by jschoi
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pRenewTirShopImage = NULL;							// 2011-12-08 by jhahn EP4 트리거 상점 UI 변경
 	m_pRenewShopImage = NULL;
 	m_pRenewShopRefinery = NULL;
 	m_pRenewShopSkill = NULL;
 	m_pRenewInfinityImage = NULL;
 	m_pRenewCityStore = NULL;	
-#else
-	m_pWebTitleBarImage = NULL;
-#endif
 
 	// 2012-02-29 by mspark, 상점 타이틀 넣기
 	m_pImgTitleWeapon = NULL;
@@ -226,16 +222,12 @@ CINFCityBase::~CINFCityBase()
 	SAFE_DELETE(m_pNPCImage);
 
 	// 2005-02-21 by jschoi
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	SAFE_DELETE(m_pRenewTirShopImage);						//2011-12-08 by jhahn EP4 트리거 상점 UI 변경
     SAFE_DELETE( m_pRenewShopRefinery );
 	SAFE_DELETE( m_pRenewInfinityImage );
 	SAFE_DELETE( m_pRenewCityStore );	
 	SAFE_DELETE( m_pRenewShopSkill );
 	SAFE_DELETE( m_pRenewShopImage );
-#else
-	SAFE_DELETE(m_pWebTitleBarImage);
-#endif
 	SAFE_DELETE(m_pRenewShopImage);
 	
 	// 2012-02-29 by mspark, 상점 타이틀 넣기
@@ -299,11 +291,9 @@ HRESULT CINFCityBase::InitDeviceObjects()
 			m_pNPCButtonImage[i][j]->InitDeviceObjects(pDataHeader );
 		}
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pNPCBoxImageEP = new CINFImageEx;	
 	pDataHeader = FindResource("shop_int");
 	m_pNPCBoxImageEP->InitDeviceObjects(pDataHeader );											  
-#endif
 
 	for(i = 0 ; i < CITY_BUTTON_NUMBER ; i++)
 	{
@@ -394,7 +384,6 @@ HRESULT CINFCityBase::InitDeviceObjects()
 	m_pNPCScroll->InitDeviceObjects();
 
 	// 2005-02-21 by jschoi
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if( m_pRenewShopImage == NULL )
 	{
 		pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource( "shopBG" );
@@ -445,15 +434,6 @@ HRESULT CINFCityBase::InitDeviceObjects()
 		m_pRenewCityWarPointStore = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 		m_pRenewCityWarPointStore->InitDeviceObjects( g_pD3dApp->m_pImageList );	
 	}
-#else
-	m_pWebTitleBarImage = new CINFImageEx;
-	pDataHeader = FindResource("webbar");
-	m_pWebTitleBarImage->InitDeviceObjects( pDataHeader );
-	
-	m_pRenewShopImage = new CINFImageEx;
-	pDataHeader = FindResource("renewsh");
- 	m_pRenewShopImage->InitDeviceObjects( pDataHeader );
-#endif
 
 	// 2012-02-29 by mspark, 상점 타이틀 넣기
 	m_pImgTitleWeapon = new CINFImageEx;
@@ -533,9 +513,7 @@ HRESULT CINFCityBase::RestoreDeviceObjects()
 				m_pNPCButtonImage[i][j]->RestoreDeviceObjects();
 			}
 		}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pNPCBoxImageEP->RestoreDeviceObjects();												  
-#endif
 
 		for(i = 0 ; i < CITY_BUTTON_NUMBER ; i++)
 		{
@@ -599,13 +577,6 @@ HRESULT CINFCityBase::RestoreDeviceObjects()
 		}
 
 		// 2005-02-21 by jschoi
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		if(m_pWebTitleBarImage)
-		{
-			m_pWebTitleBarImage->RestoreDeviceObjects();
-		}
-		
-#endif
 
 		// city fog setting
 //		g_pScene->SetFogLevel(CITY_FOG_COLOR, CITY_FOG_START, CITY_FOG_END );
@@ -619,7 +590,6 @@ HRESULT CINFCityBase::RestoreDeviceObjects()
 	{
 		m_pRenewShopImage->RestoreDeviceObjects();
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(m_pRenewShopRefinery)
 	{
 		m_pRenewShopRefinery->RestoreDeviceObjects();
@@ -649,7 +619,6 @@ HRESULT CINFCityBase::RestoreDeviceObjects()
 	{
 		m_pRenewCityWarPointStore->RestoreDeviceObjects();
 	}
-#endif
 	
 	// 2012-02-29 by mspark, 상점 타이틀 넣기
 	if(m_pImgTitleWeapon)
@@ -724,9 +693,7 @@ HRESULT CINFCityBase::InvalidateDeviceObjects()
 			}
 		}
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pNPCBoxImageEP->InvalidateDeviceObjects();											  
-#endif
 		for(i = 0 ;i < CITY_BUTTON_NUMBER ; i++)
 		{
 			m_pImgCreateB[i]->InvalidateDeviceObjects();
@@ -785,21 +752,12 @@ HRESULT CINFCityBase::InvalidateDeviceObjects()
 
 
 		// 2005-02-21 by jschoi
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		if(m_pWebTitleBarImage)
-		{
-			m_pWebTitleBarImage->InvalidateDeviceObjects();
-		}
-	
-		
-#endif
 		m_bRestored = FALSE;
 	}
 	if(m_pRenewShopImage)
 	{
 		m_pRenewShopImage->InvalidateDeviceObjects();
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(m_pRenewShopRefinery)
 	{
 		m_pRenewShopRefinery->InvalidateDeviceObjects();
@@ -828,7 +786,6 @@ HRESULT CINFCityBase::InvalidateDeviceObjects()
 		m_pRenewCityWarPointStore->InvalidateDeviceObjects();
 	}
 
-#endif
 
 	// 2012-02-29 by mspark, 상점 타이틀 넣기
 	if(m_pImgTitleWeapon)
@@ -900,10 +857,8 @@ HRESULT CINFCityBase::DeleteDeviceObjects()
 			SAFE_DELETE( m_pNPCButtonImage[i][j] ) ;
 		}
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pNPCBoxImageEP->DeleteDeviceObjects();
 	SAFE_DELETE( m_pNPCBoxImageEP) ;
-#endif
 	
 	for(i = 0 ; i < CITY_BUTTON_NUMBER ; i++)
 	{
@@ -978,22 +933,12 @@ HRESULT CINFCityBase::DeleteDeviceObjects()
 	}
 
 	// 2005-02-21 by jschoi
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	if(m_pWebTitleBarImage)
-	{
-		m_pWebTitleBarImage->DeleteDeviceObjects();
-		SAFE_DELETE(m_pWebTitleBarImage);
-	}
-
-	
-#endif
 	
 	if(m_pRenewShopImage)
 	{
 		m_pRenewShopImage->DeleteDeviceObjects();
 		SAFE_DELETE(m_pRenewShopImage);
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 //2011-12-08 by jhahn EP4 트리거 상점 UI 변경	
 	if(m_pRenewTirShopImage)
 	{
@@ -1036,7 +981,6 @@ HRESULT CINFCityBase::DeleteDeviceObjects()
 		SAFE_DELETE(m_pRenewCityWarPointStore);
 	}
 
-#endif
 
 	// 2012-02-29 by mspark, 상점 타이틀 넣기
 	if(m_pImgTitleWeapon)
@@ -1289,11 +1233,7 @@ void CINFCityBase::Render()
 #endif
 // end 2014-01-15 by ssjung 파괴 경매장 구현
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			RenderNPCBox(CITY_BASE_NPC_BOX_START_X, CITY_BASE_NPC_BOX_START_Y - 525, 			  
-#else								  
-			RenderNPCBox(CITY_BASE_NPC_BOX_START_X, CITY_BASE_NPC_BOX_START_Y, 
-#endif
 				CITY_BASE_NPC_BOX_SIZE_X, CITY_BASE_NPC_BOX_SIZE_Y);
 			RenderNPCButton(m_pCurrentBuildingNPC);
 			// RenderText
@@ -1308,11 +1248,7 @@ void CINFCityBase::Render()
 				if( i+nNPCScrollIndex < m_vecNPCTalk.size() )
 				{
 					m_pFontNPCTalk[i]->DrawText(CITY_BASE_NPC_TEXT_START_X, 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 						(CITY_BASE_NPC_TEXT_START_Y - 525 )+CITY_BASE_NPC_TEXT_LINE_INTERVAL*i, 
-#else
-						CITY_BASE_NPC_TEXT_START_Y+CITY_BASE_NPC_TEXT_LINE_INTERVAL*i, 
-#endif
 						GUI_FONT_COLOR, (LPTSTR)(LPCTSTR)m_vecNPCTalk[i+nNPCScrollIndex].c_str(), 0L);
 				}
 				else
@@ -1332,17 +1268,6 @@ void CINFCityBase::Render()
 			break;
 		case BUILDINGNPC_RENDER_ARENA:
 			{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
-#else
-				m_pImgCreateB[m_nCreateB]->Move(CITY_BASE_NPC_CREATE_BUTTON_X,CITY_BASE_NPC_CREATE_BUTTON_Y);
-				m_pImgCreateB[m_nCreateB]->Render();
-				m_pImgAppB[m_nAppB]->Move(CITY_BASE_NPC_APP_BUTTON_X,CITY_BASE_NPC_APP_BUTTON_Y);
-				m_pImgAppB[m_nAppB]->Render();
-				m_pImgCancelB[m_nCancelB]->Move(CITY_BASE_NPC_CANCEL_BUTTON_X,CITY_BASE_NPC_CANCEL_BUTTON_Y);
-				m_pImgCancelB[m_nCancelB]->Render();
-				m_pImgQuickAppB[m_nQuickAppB]->Move(CITY_BASE_NPC_QUICKAPP_BUTTON_X,CITY_BASE_NPC_QUICKAPP_BUTTON_Y);
-				m_pImgQuickAppB[m_nQuickAppB]->Render();
-#endif
 			}// RenderBuildingNPCShop(); 들어가서 렌더해야한다.
 		case BUILDINGNPC_RENDER_SHOP:
 		case BUILDINGNPC_RENDER_INFLUENCE:
@@ -1493,13 +1418,8 @@ void CINFCityBase::RenderNPCButton(GUI_BUILDINGNPC* pCity)// RenderNPCButton , 0
 //		m_pNPCButtonImage[NPC_BUTTON_MISSION][m_nNPCButtonState[1]]->Render();
 //	}
 	// 세번째 버튼, 클로즈
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pNPCButtonImage[NPC_BUTTON_CLOSE][m_nCancelB]->Move(CITY_BASE_NPC_CLOSE_BUTTON_START_X, CITY_BASE_NPC_CLOSE_BUTTON_START_Y - 583);
 	m_pNPCButtonImage[NPC_BUTTON_CLOSE][m_nCancelB]->Render();
-#else
-	m_pNPCButtonImage[NPC_BUTTON_CLOSE][m_nNPCButtonState[2]]->Move(CITY_BASE_NPC_CLOSE_BUTTON_START_X, CITY_BASE_NPC_CLOSE_BUTTON_START_Y);
-	m_pNPCButtonImage[NPC_BUTTON_CLOSE][m_nNPCButtonState[2]]->Render();
-#endif
 
 }
 
@@ -1511,7 +1431,6 @@ void CINFCityBase::RenderBuildingNPCShop()
 	{
 		switch(m_pCurrentBuildingNPC->buildingInfo.BuildingKind)
 		{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		case BUILDINGKIND_TRIGGER_CRYSTAL:
 			{
 				if( /*g_pShuttleChild->m_myShuttleInfo.Level >= 3 &&*/ 
@@ -1522,7 +1441,6 @@ void CINFCityBase::RenderBuildingNPCShop()
 				}
 			}
 			break;
-#endif
 
 		case BUILDINGKIND_1ST_WEAPONSHOP:
 			{
@@ -1843,7 +1761,6 @@ void CINFCityBase::RenderBuildingKindKristalTriggerShop(CINFBase* pShop)
 {
 	
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 	//	g_pGameMain->m_pInfWindow->RenderCenterWindow(CITY_BASE_NPC_BOX_START_X,
 	//				 CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y,
@@ -1856,7 +1773,6 @@ void CINFCityBase::RenderBuildingKindKristalTriggerShop(CINFBase* pShop)
 	g_pGameMain->m_pInven->RenderOnCityBase();
 
 	
-#endif
 
 }
 //end 2011-12-08 by jhahn EP4 트리거 상점 UI 변경
@@ -1919,12 +1835,6 @@ void CINFCityBase::RenderBuildingKindAntiqueShop(CINFBase* pShop)
 
 void CINFCityBase::RenderBuildingKindCityWarp(CINFBase* pShop)//워프
 {
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	g_pGameMain->m_pInfWindow->RenderCenterWindow(CITY_BASE_NPC_BOX_START_X,
-				 CITY_BASE_NPC_BOX_START_Y - CITY_BASE_WARP_SIZE_Y,
-				 CITY_BASE_WARP_SIZE_X, 
-				 CITY_BASE_WARP_SIZE_Y,FALSE);
-#endif
 	pShop->Render();
 }
 void CINFCityBase::RenderBuildingKindPublicOffice(CINFBase* pShop)
@@ -1958,15 +1868,8 @@ void CINFCityBase::RenderBuildingKindRefinery(CINFBase* pShop)
 {
 	// 2005-11-07 by ispark
 	// 수리상점 -> 보급상점으로 변경
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	g_pGameMain->m_pInfWindow->RenderCenterWindow(CITY_BASE_NPC_BOX_START_X,
-				 CITY_BASE_NPC_BOX_START_Y - SIZE_SUPPLY_WINDOW_Y,
-				 SIZE_SUPPLY_WINDOW_X, 
-				 SIZE_SUPPLY_WINDOW_Y,FALSE);
-#else
 	m_pRenewShopRefinery->Move(CITY_BASE_NPC_BOX_START_X, CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y);
 	m_pRenewShopRefinery->Render();
-#endif
 	pShop->Render();
 //	g_pGameMain->m_pInven->RenderOnCityBase();
 }
@@ -1976,11 +1879,6 @@ void CINFCityBase::RenderBuildingKindLaboratory(CINFBase* pShop)
 //				 CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y,
 //				 SIZE_BIG_WINDOW_X, 
 //				 SIZE_NORMAL_WINDOW_Y,FALSE);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-#else
-	m_pRenewShopImage->Move(CITY_BASE_NPC_BOX_START_X+426, CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y);
-	m_pRenewShopImage->Render();
-#endif
 	
 
 	pShop->Render();
@@ -1999,10 +1897,6 @@ void CINFCityBase::RenderBuildingKindFactory(CINFBase* pShop)
 //				 CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y,
 //				 SIZE_BIG_WINDOW_X, 
 //				 SIZE_NORMAL_WINDOW_Y,FALSE);
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pRenewShopImage->Move(CITY_BASE_NPC_BOX_START_X+426, CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y);
-	m_pRenewShopImage->Render();
-#endif
 
 	pShop->Render();
 	g_pGameMain->m_pInven->RenderOnCityBase();
@@ -2028,13 +1922,8 @@ void CINFCityBase::RenderBuildingKindStore(CINFBase* pShop)
 //				 CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y,
 //				 SIZE_BIG_WINDOW_X, 
 //				 SIZE_NORMAL_WINDOW_Y,FALSE);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pRenewCityStore->Move(CITY_BASE_NPC_BOX_START_X+426, CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y);
 	m_pRenewCityStore->Render();
-#else
-	m_pRenewShopImage->Move(CITY_BASE_NPC_BOX_START_X+426, CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y);
-	m_pRenewShopImage->Render();
-#endif
 	
 	pShop->Render();
 	g_pGameMain->m_pInven->RenderOnCityBase();
@@ -2046,21 +1935,13 @@ void CINFCityBase::RenderBuildingKindOutDoor(CINFBase* pShop)
 }
 void CINFCityBase::RenderBuildingKindSkillShop(CINFBase* pShop)
 {
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	g_pGameMain->m_pInfWindow->RenderCenterWindow(CITY_BASE_NPC_BOX_START_X,
-				 CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y,
-				 SIZE_SKILL_SHOP_WINDOW_X,	// 2008-08-22 by bhsohn EP3 인벤토리 처리
-				 SIZE_NORMAL_WINDOW_Y,FALSE);	
-#endif
 	//g_pGameMain->m_pCharacterInfo->RenderSkillInShop();// 2008-08-22 by bhsohn EP3 인벤토리 처리
 	//g_pGameMain->m_pInven->RenderSpi( SKILL_SHOP_SPI_START_X, SKILL_SHOP_SPI_START_Y );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(m_pRenewShopSkill)
 	{
 		m_pRenewShopSkill->Move( CITY_BASE_NPC_BOX_START_X, CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y );
 		m_pRenewShopSkill->Render();
 	}
-#endif
 	pShop->Render();
 	g_pGameMain->m_pCharacterInfo->RenderSkillInShop();// 2008-08-22 by bhsohn EP3 인벤토리 처리
 	g_pGameMain->m_pInven->RenderSpi( SKILL_SHOP_SPI_START_X, SKILL_SHOP_SPI_START_Y );
@@ -2112,12 +1993,6 @@ void CINFCityBase::RenderBuildingKindCityOptionMachin(CINFBase* pShop)
 // 2010-08-31 by shcho&&jskim, 용해 시스템 구현
 void CINFCityBase::RenderBuildingKindCityDissolution(CINFBase* pShop)
 {
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	g_pGameMain->m_pInfWindow->RenderCenterWindow(CITY_BASE_NPC_BOX_START_X + SIZE_RNORMAL_WINDOW_X,
-			 CITY_BASE_NPC_BOX_START_Y - SIZE_CITYLEADER_WINDOWR_Y,
-			 SIZE_RIGNT_WINDOW_X,
-			 SIZE_CITYLEADER_WINDOWR_Y,FALSE);
-#endif
 	pShop->Render();
 }
 // end 2010-08-31 by shcho&&jskim, 용해 시스템 구현
@@ -2135,13 +2010,8 @@ void CINFCityBase::RenderBuildingKindCityInfinityField( void )
 // 인피니티 판매 상점
 void CINFCityBase::RenderBuildingKindCItyInfinityShop( void )
 {
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pRenewInfinityImage->Move(CITY_BASE_NPC_BOX_START_X+426, CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y);
 	m_pRenewInfinityImage->Render();
-#else
-	m_pRenewShopImage->Move(CITY_BASE_NPC_BOX_START_X+426, CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y);
-	m_pRenewShopImage->Render();
-#endif
 	
 	CMapCityShopIterator it = m_mapCityShop.find(m_pCurrentBuildingNPC->buildingInfo.BuildingKind);
 	if(it != m_mapCityShop.end())
@@ -2167,24 +2037,13 @@ void CINFCityBase::RenderBuildingKindCItyInflBuffShop()
 // 2007-04-23 by dgwoo 아레나.
 void CINFCityBase::RenderBuildingKindCityArena(CINFBase* pShop)
 {
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM
-	g_pGameMain->m_pInfWindow->RenderCenterWindow(CITY_BASE_NPC_BOX_START_X,
-			 CITY_BASE_NPC_BOX_START_Y - SIZE_ARENA_WINDOW_Y,
-			 SIZE_ARENA_WINDOW_X, 
-			 SIZE_ARENA_WINDOW_Y,FALSE);
-#endif
  	
 	pShop->Render();
 }
 void CINFCityBase::RenderBuildingKindCityWarPointShop(CINFBase* pShop)
 {
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pRenewCityWarPointStore->Move(CITY_BASE_NPC_BOX_START_X+426, CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y);
 	m_pRenewCityWarPointStore->Render();
-#else
-	m_pRenewShopImage->Move(CITY_BASE_NPC_BOX_START_X+426, CITY_BASE_NPC_BOX_START_Y - SIZE_NORMAL_WINDOW_Y);
-	m_pRenewShopImage->Render();
-#endif
 
 	pShop->Render();
 	g_pGameMain->m_pInven->RenderOnCityBase();
@@ -2198,55 +2057,11 @@ void CINFCityBase::RenderBuildingKindCityWarPointShop(CINFBase* pShop)
 }
 void CINFCityBase::RenderBuildingKindCityLeader(CINFBase* pShop)
 {
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	g_pGameMain->m_pInfWindow->RenderCenterWindow(CITY_BASE_NPC_BOX_START_X,
-			 CITY_BASE_NPC_BOX_START_Y - SIZE_CITYLEADER_WINDOWL_Y,
-			 SIZE_CITYLEADER_WINDOWL_X, 
-			 SIZE_CITYLEADER_WINDOWL_Y,FALSE);		
-	// 2007-12-05 by dgwoo 전쟁 정보 인터페이스 추가.
-	CINFCityLeader * pCityLeader = (CINFCityLeader*)pShop;
-	if(LEADER_STATE_WARINFO == pCityLeader->GetLeaderState())
-	{
-		g_pGameMain->m_pInfWindow->RenderCenterWindow(CITY_BASE_NPC_BOX_START_X + SIZE_CITYLEADER_WINDOWL_X,
-				 CITY_BASE_NPC_BOX_START_Y - SIZE_CITYLEADER_WINDOWR_Y,
-				 SIZE_CITYLEADER_WINDOWR_WARINFO_X, 
-				 SIZE_CITYLEADER_WINDOWR_Y,FALSE);
-	}else
-	{
-		g_pGameMain->m_pInfWindow->RenderCenterWindow(CITY_BASE_NPC_BOX_START_X + SIZE_CITYLEADER_WINDOWL_X,
-				 CITY_BASE_NPC_BOX_START_Y - SIZE_CITYLEADER_WINDOWR_Y,
-				 SIZE_CITYLEADER_WINDOWR_X, 
-				 SIZE_CITYLEADER_WINDOWR_Y,FALSE);
-	}
-#endif
 
 	pShop->Render();
 }
 void CINFCityBase::RenderBuildingKindCityOutPost(CINFBase* pShop)
 {
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
-#else
-	g_pGameMain->m_pInfWindow->RenderCenterWindow(CITY_BASE_NPC_BOX_START_X,
-			 CITY_BASE_NPC_BOX_START_Y - SIZE_CITYLEADER_WINDOWL_Y,
-			 SIZE_CITYLEADER_WINDOWL_X, 
-			 SIZE_CITYLEADER_WINDOWL_Y,FALSE);		
-	// 2007-12-05 by dgwoo 전쟁 정보 인터페이스 추가.
-	CINFCityOutPost* pCityOutPost = (CINFCityOutPost*)pShop;
-	if(OUTPOST_STATE_WARINFO == pCityOutPost->GetOutPostState())
-	{
-		g_pGameMain->m_pInfWindow->RenderCenterWindow(CITY_BASE_NPC_BOX_START_X + SIZE_CITYLEADER_WINDOWL_X,
-				 CITY_BASE_NPC_BOX_START_Y - SIZE_CITYLEADER_WINDOWR_Y,
-				 SIZE_CITYLEADER_WINDOWR_WARINFO_X, 
-				 SIZE_CITYLEADER_WINDOWR_Y,FALSE);
-
-	}else
-	{
-		g_pGameMain->m_pInfWindow->RenderCenterWindow(CITY_BASE_NPC_BOX_START_X + SIZE_CITYLEADER_WINDOWL_X,
-				 CITY_BASE_NPC_BOX_START_Y - SIZE_CITYLEADER_WINDOWR_Y,
-				 SIZE_CITYLEADER_WINDOWR_X, 
-				 SIZE_CITYLEADER_WINDOWR_Y,FALSE);
-	}
-#endif
 	pShop->Render();
 }
 
@@ -2326,7 +2141,6 @@ void CINFCityBase::RenderDownBox()
 void CINFCityBase::RenderNPCBox(int x, int y, int cx, int cy)
 {
 	FLOG( "CINFCityBase::RenderNPCBox(int x, int y, int cx, int cy)" );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pNPCBoxImageEP->Move(x,y);
 	m_pNPCBoxImageEP->Render();
 // 	m_pNPCBoxImage[0]->Move(x,y);
@@ -2354,33 +2168,6 @@ void CINFCityBase::RenderNPCBox(int x, int y, int cx, int cy)
 // 	m_pNPCBoxImage[7]->Render();
 // 	m_pNPCBoxImage[8]->Move(x+cx-EDGE_SIZE,y+cy-EDGE_SIZE);
 // 	m_pNPCBoxImage[8]->Render();							  
-#else	   
-	m_pNPCBoxImage[0]->Move(x,y);
-	m_pNPCBoxImage[0]->Render();
-	m_pNPCBoxImage[1]->Move(x+EDGE_SIZE, y);
-	m_pNPCBoxImage[1]->SetScale(cx-EDGE_SIZE*2, 1);
-	m_pNPCBoxImage[1]->Render();
-	m_pNPCBoxImage[2]->Move(x+cx-EDGE_SIZE,y);
-	m_pNPCBoxImage[2]->Render();
-
-	m_pNPCBoxImage[3]->Move(x, y+EDGE_SIZE);
-	m_pNPCBoxImage[3]->SetScale(1, cy-EDGE_SIZE*2);
-	m_pNPCBoxImage[3]->Render();
-	m_pNPCBoxImage[4]->Move(x+EDGE_SIZE, y+EDGE_SIZE);
-	m_pNPCBoxImage[4]->SetScale(cx-EDGE_SIZE*2,cy-EDGE_SIZE*2);
-	m_pNPCBoxImage[4]->Render();
-	m_pNPCBoxImage[5]->Move(x+cx-EDGE_SIZE, y+EDGE_SIZE);
-	m_pNPCBoxImage[5]->SetScale(1, cy-EDGE_SIZE*2);
-	m_pNPCBoxImage[5]->Render();
-
-	m_pNPCBoxImage[6]->Move(x,y+cy-EDGE_SIZE);
-	m_pNPCBoxImage[6]->Render();
-	m_pNPCBoxImage[7]->Move(x+EDGE_SIZE,y+cy-EDGE_SIZE);
-	m_pNPCBoxImage[7]->SetScale(cx-EDGE_SIZE*2, 1);
-	m_pNPCBoxImage[7]->Render();
-	m_pNPCBoxImage[8]->Move(x+cx-EDGE_SIZE,y+cy-EDGE_SIZE);
-	m_pNPCBoxImage[8]->Render();
-#endif
 	
 }
 GUI_BUILDINGNPC* CINFCityBase::FindBuildingNPC(int nBuildingIndex)
@@ -2775,7 +2562,6 @@ int CINFCityBase::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 			if(m_pCurrentBuildingNPC)
 			{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				m_nCancelB = BUTTON_STATE_NORMAL;
 				if( pt.y > CITY_BASE_NPC_BUTTON_START_Y - 580 && 
 					pt.y < CITY_BASE_NPC_BUTTON_START_Y - 580 + CITY_BASE_BUTTON_SIZE_Y)
@@ -2792,103 +2578,6 @@ int CINFCityBase::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						}
 					}
 				}
-#else
-				if( pt.y > CITY_BASE_NPC_BUTTON_START_Y && 
-					pt.y < CITY_BASE_NPC_BUTTON_START_Y + CITY_BASE_BUTTON_SIZE_Y)
-
-				{
-					if( pt.x > CITY_BASE_NPC_BUTTON_START_X && 
-						pt.x < CITY_BASE_NPC_BUTTON_START_X+CITY_BASE_BUTTON_SIZE_X)
-					{
-						if(m_nNPCButtonState[0] != BUTTON_STATE_DOWN)
-							m_nNPCButtonState[0] = BUTTON_STATE_UP;
-					}
-					else
-					{
-						m_nNPCButtonState[0] = BUTTON_STATE_NORMAL;
-					}
-					if( !IS_MISSION_SHOP_TYPE(m_pCurrentBuildingNPC->buildingInfo.BuildingKind) && m_pMission->IsExistMission() )
-					{
-						if( pt.x > CITY_BASE_NPC_BUTTON_START_X+CITY_BASE_NPC_BUTTON_POS_X_INTERVAL && 
-							pt.x < CITY_BASE_NPC_BUTTON_START_X+CITY_BASE_NPC_BUTTON_POS_X_INTERVAL+CITY_BASE_BUTTON_SIZE_X)
-						{
-							if(m_nNPCButtonState[1] != BUTTON_STATE_DOWN)
-								m_nNPCButtonState[1] = BUTTON_STATE_UP;
-						}
-						else 
-						{
-							m_nNPCButtonState[1] = BUTTON_STATE_NORMAL;
-						}
-					}
-					if(pt.x > CITY_BASE_NPC_CREATE_BUTTON_X &&
-						pt.x < CITY_BASE_NPC_CREATE_BUTTON_X+CITY_BASE_BUTTON_SIZE_X)
-					{
-						m_nCreateB = BUTTON_STATE_UP;
-					}
-					else
-					{
-						m_nCreateB = BUTTON_STATE_NORMAL;
-					}
-
-
-					if( pt.x > CITY_BASE_NPC_CLOSE_BUTTON_START_X && 
-						pt.x < CITY_BASE_NPC_CLOSE_BUTTON_START_X+CITY_BASE_BUTTON_SIZE_X)
-					{
-						if(m_nNPCButtonState[2] != BUTTON_STATE_DOWN)
-							m_nNPCButtonState[2] = BUTTON_STATE_UP;
-					}
-					else 
-					{
-						m_nNPCButtonState[2] = BUTTON_STATE_NORMAL;
-					}
-				}
-				else
-				{
-					m_nNPCButtonState[0] = BUTTON_STATE_NORMAL;
-					m_nNPCButtonState[1] = BUTTON_STATE_NORMAL;
-					m_nNPCButtonState[2] = BUTTON_STATE_NORMAL;
-					m_nCreateB = BUTTON_STATE_NORMAL;
-				}
-				if(pt.x > CITY_BASE_NPC_QUICKAPP_BUTTON_X
-					&& pt.x < CITY_BASE_NPC_QUICKAPP_BUTTON_X + CITY_BASE_NPC_QUICKAPP_BUTTON_W
-					&& pt.y > CITY_BASE_NPC_QUICKAPP_BUTTON_Y
-					&& pt.y < CITY_BASE_NPC_QUICKAPP_BUTTON_Y + CITY_BASE_NPC_QUICKAPP_BUTTON_H)
-				{
-					m_nQuickAppB = BUTTON_STATE_UP;
-				}
-				else
-				{
-					m_nQuickAppB = BUTTON_STATE_NORMAL;
-				}
-
-				if( pt.y > CITY_BASE_NPC_APP_BUTTON_Y && 
-					pt.y < CITY_BASE_NPC_APP_BUTTON_Y + CITY_BASE_BUTTON_SIZE_Y)
-				{
-					if(pt.x > CITY_BASE_NPC_APP_BUTTON_X &&
-						pt.x < CITY_BASE_NPC_APP_BUTTON_X + CITY_BASE_BUTTON_SIZE_X)
-					{
-						m_nAppB = BUTTON_STATE_UP;
-					}
-					else
-					{
-						m_nAppB = BUTTON_STATE_NORMAL;
-					}
-					if(pt.x > CITY_BASE_NPC_CANCEL_BUTTON_X &&
-						pt.x < CITY_BASE_NPC_CANCEL_BUTTON_X + CITY_BASE_BUTTON_SIZE_X)
-					{
-						m_nCancelB = BUTTON_STATE_UP;
-					}
-					else
-					{
-						m_nCancelB = BUTTON_STATE_NORMAL;
-					}
-				}
-				else
-				{
-					m_nAppB = BUTTON_STATE_NORMAL;
-					m_nCancelB = BUTTON_STATE_NORMAL;
-				}
-#endif
 			}
 		}
 
@@ -2935,7 +2624,6 @@ int CINFCityBase::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 			if(m_pCurrentBuildingNPC)
 			{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				if( pt.y > CITY_BASE_NPC_BUTTON_START_Y - 583 && 
 					pt.y < CITY_BASE_NPC_BUTTON_START_Y - 583 + CITY_BASE_BUTTON_SIZE_Y)
 				{
@@ -2952,91 +2640,6 @@ int CINFCityBase::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						}
 					}
 				}
-#else
-				if( pt.y > CITY_BASE_NPC_BUTTON_START_Y && 
-					pt.y < CITY_BASE_NPC_BUTTON_START_Y + CITY_BASE_BUTTON_SIZE_Y)
-
-				{
-					if( pt.x > CITY_BASE_NPC_BUTTON_START_X && 
-						pt.x < CITY_BASE_NPC_BUTTON_START_X+CITY_BASE_BUTTON_SIZE_X)
-					{
-//						m_nNPCButtonState[0] = BUTTON_STATE_DOWN;
-//						g_pD3dApp->m_pSound->PlayD3DSound(SOUND_BUTTON_OK, D3DXVECTOR3(0,0,0), FALSE);
-					}
-					else
-					{
-						m_nNPCButtonState[0] = BUTTON_STATE_NORMAL;
-					}
-					if(pt.x > CITY_BASE_NPC_CREATE_BUTTON_X &&
-						pt.x < CITY_BASE_NPC_CREATE_BUTTON_X+CITY_BASE_BUTTON_SIZE_X)
-					{
-						m_nCreateB = BUTTON_STATE_DOWN;
-					}
-					else
-					{
-						m_nCreateB = BUTTON_STATE_NORMAL;
-					}
-					// 2005-12-22 by ispark, EP1 미션 버튼 삭제
-//					if( !IS_MISSION_SHOP_TYPE(m_pCurrentBuildingNPC->buildingInfo.BuildingKind) && m_pMission->IsExistMission() )
-//					{
-//						if( pt.x > CITY_BASE_NPC_BUTTON_START_X+CITY_BASE_NPC_BUTTON_POS_X_INTERVAL && 
-//							pt.x < CITY_BASE_NPC_BUTTON_START_X+CITY_BASE_NPC_BUTTON_POS_X_INTERVAL+CITY_BASE_BUTTON_SIZE_X)
-//						{
-//							m_nNPCButtonState[1] = BUTTON_STATE_DOWN;
-//							g_pD3dApp->m_pSound->PlayD3DSound(SOUND_BUTTON_OK, D3DXVECTOR3(0,0,0), FALSE);
-//						}
-//						else
-//						{
-//							m_nNPCButtonState[1] = BUTTON_STATE_NORMAL;
-//						}
-//					}
-					if( pt.x > CITY_BASE_NPC_CLOSE_BUTTON_START_X && 
-						pt.x < CITY_BASE_NPC_CLOSE_BUTTON_START_X+CITY_BASE_BUTTON_SIZE_X)
-					{
-						m_nNPCButtonState[2] = BUTTON_STATE_DOWN;
-						g_pD3dApp->m_pSound->PlayD3DSound(SOUND_BUTTON_OK, D3DXVECTOR3(0,0,0), FALSE);
-						CloseAllMessageBox();						
-					}
-					else
-					{
-						m_nNPCButtonState[2] = BUTTON_STATE_NORMAL;
-					}
-				}
-				if(pt.x > CITY_BASE_NPC_QUICKAPP_BUTTON_X
-					&& pt.x < CITY_BASE_NPC_QUICKAPP_BUTTON_X + CITY_BASE_NPC_QUICKAPP_BUTTON_W
-					&& pt.y > CITY_BASE_NPC_QUICKAPP_BUTTON_Y
-					&& pt.y < CITY_BASE_NPC_QUICKAPP_BUTTON_Y + CITY_BASE_NPC_QUICKAPP_BUTTON_H)
-				{
-					m_nQuickAppB = BUTTON_STATE_DOWN;
-				}
-				else
-				{
-					m_nQuickAppB = BUTTON_STATE_NORMAL;
-				}
-
-				if( pt.y > CITY_BASE_NPC_APP_BUTTON_Y && 
-					pt.y < CITY_BASE_NPC_APP_BUTTON_Y + CITY_BASE_BUTTON_SIZE_Y)
-				{
-					if(pt.x > CITY_BASE_NPC_APP_BUTTON_X &&
-						pt.x < CITY_BASE_NPC_APP_BUTTON_X + CITY_BASE_BUTTON_SIZE_X)
-					{
-						m_nAppB = BUTTON_STATE_DOWN;
-					}
-					else
-					{
-						m_nAppB = BUTTON_STATE_NORMAL;
-					}
-					if(pt.x > CITY_BASE_NPC_CANCEL_BUTTON_X &&
-						pt.x < CITY_BASE_NPC_CANCEL_BUTTON_X + CITY_BASE_BUTTON_SIZE_X)
-					{
-						m_nCancelB = BUTTON_STATE_DOWN;
-					}
-					else
-					{
-						m_nCancelB = BUTTON_STATE_NORMAL;
-					}
-				}
-#endif
 			}
 			
 		}
@@ -3094,7 +2697,6 @@ int CINFCityBase::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				break;
 			if(m_pCurrentBuildingNPC)
 			{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				if( pt.y > CITY_BASE_NPC_BUTTON_START_Y - 583 && 
 					pt.y < CITY_BASE_NPC_BUTTON_START_Y - 583 + CITY_BASE_BUTTON_SIZE_Y)
 				{
@@ -3112,98 +2714,6 @@ int CINFCityBase::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					}
 
 				}
-#else
-				if( pt.y > CITY_BASE_NPC_BUTTON_START_Y && 
-					pt.y < CITY_BASE_NPC_BUTTON_START_Y + CITY_BASE_BUTTON_SIZE_Y)
-
-				{
-					if( pt.x > CITY_BASE_NPC_BUTTON_START_X && 
-						pt.x < CITY_BASE_NPC_BUTTON_START_X+CITY_BASE_BUTTON_SIZE_X)
-					{
-						if(m_nNPCButtonState[0] == BUTTON_STATE_DOWN)
-						{
-							OnCityNPCButtonDown(CITY_NPC_BUTTON_MAIN);
-						}
-						m_nNPCButtonState[0] = BUTTON_STATE_UP;
-					}
-					else
-					{
-						m_nNPCButtonState[0] = BUTTON_STATE_NORMAL;
-					}
-					if( !IS_MISSION_SHOP_TYPE(m_pCurrentBuildingNPC->buildingInfo.BuildingKind) && m_pMission->IsExistMission() )
-					{
-						if( pt.x > CITY_BASE_NPC_BUTTON_START_X+CITY_BASE_NPC_BUTTON_POS_X_INTERVAL && 
-							pt.x < CITY_BASE_NPC_BUTTON_START_X+CITY_BASE_NPC_BUTTON_POS_X_INTERVAL+CITY_BASE_BUTTON_SIZE_X)
-						{
-							if(m_nNPCButtonState[1] == BUTTON_STATE_DOWN)
-							{
-								OnCityNPCButtonDown(CITY_NPC_BUTTON_MISSION);
-							}
-							m_nNPCButtonState[1] = BUTTON_STATE_UP;
-						}
-						else
-						{
-							m_nNPCButtonState[1] = BUTTON_STATE_NORMAL;
-						}
-					}
-					if( pt.x > CITY_BASE_NPC_CLOSE_BUTTON_START_X && 
-						pt.x < CITY_BASE_NPC_CLOSE_BUTTON_START_X+CITY_BASE_BUTTON_SIZE_X)
-					{
-						if(m_nNPCButtonState[2] == BUTTON_STATE_DOWN)
-						{
-							OnCityNPCButtonDown(CITY_NPC_BUTTON_CLOSE);
-						}
-						m_nNPCButtonState[2] = BUTTON_STATE_UP;
-					}
-					else
-					{
-						m_nNPCButtonState[2] = BUTTON_STATE_NORMAL;
-					}
-					if(pt.x > CITY_BASE_NPC_CREATE_BUTTON_X &&
-						pt.x < CITY_BASE_NPC_CREATE_BUTTON_X + CITY_BASE_BUTTON_SIZE_X)
-					{
-						if(m_nCreateB == BUTTON_STATE_DOWN)
-						{
-							OnCityNPCButtonDown(CITY_NPC_BUTTON_CREATE);
-						}
-						m_nCreateB = BUTTON_STATE_UP;
-					}
-				}
-				if(pt.x > CITY_BASE_NPC_QUICKAPP_BUTTON_X
-					&& pt.x < CITY_BASE_NPC_QUICKAPP_BUTTON_X + CITY_BASE_NPC_QUICKAPP_BUTTON_W
-					&& pt.y > CITY_BASE_NPC_QUICKAPP_BUTTON_Y
-					&& pt.y < CITY_BASE_NPC_QUICKAPP_BUTTON_Y + CITY_BASE_NPC_QUICKAPP_BUTTON_H)
-				{
-					if(m_nQuickAppB = BUTTON_STATE_DOWN)
-					{
-						OnCityNPCButtonDown(CITY_NPC_BUTTON_QUICK);
-					}
-					m_nQuickAppB = BUTTON_STATE_UP;
-				}
-
-				if(pt.y > CITY_BASE_NPC_APP_BUTTON_Y &&
-					pt.y < CITY_BASE_NPC_APP_BUTTON_Y + CITY_BASE_BUTTON_SIZE_Y)
-				{
-					if(pt.x > CITY_BASE_NPC_APP_BUTTON_X &&
-						pt.x < CITY_BASE_NPC_APP_BUTTON_X + CITY_BASE_BUTTON_SIZE_X)
-					{
-						if(m_nAppB == BUTTON_STATE_DOWN)
-						{
-							OnCityNPCButtonDown(CITY_NPC_BUTTON_APP);
-						}
-						m_nAppB = BUTTON_STATE_UP;
-					}
-					if(pt.x > CITY_BASE_NPC_CANCEL_BUTTON_X &&
-						pt.x < CITY_BASE_NPC_CANCEL_BUTTON_X + CITY_BASE_BUTTON_SIZE_X)
-					{
-						if(m_nCancelB == BUTTON_STATE_DOWN)
-						{
-							OnCityNPCButtonDown(CITY_NPC_BUTTON_CANCEL);
-						}
-						m_nCancelB = BUTTON_STATE_UP;
-					}
-				}
-#endif
 			}
 		}
 		break;

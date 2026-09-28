@@ -62,7 +62,6 @@
 #define LIST_BOX_SIZE_X						171
 #define LIST_BOX_SIZE_Y						154
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 #define COMBO_SIZE_Y						15
 #define COMBO_SIZE_X						100
@@ -230,157 +229,6 @@
 #define GUILD_MONTH_POINT_START_Y					168
 #define GUILD_MONTH_RANK_START_X					133
 #define GUILD_MONTH_RANK_START_Y					168	
-#else
-#define COMBO_SIZE_Y						15
-#define COMBO_SIZE_X						100
-
-
-
-#define BACK_START_X						13
-#define BACK_START_Y						30
-#define GUILD_MARK_START_X					19
-#define GUILD_MARK_START_Y					49
-#define GUILD_MARK_SIZE_X					24
-#define GUILD_MARK_SIZE_Y					12
-
-#define BUTTON_MAKE_START_X					19	// 길드원인 경우 탈퇴 버튼
-#define BUTTON_MAKE_START_Y					231
-#define BUTTON_LEAVE_START_X				BUTTON_MAKE_START_X	// 탈퇴
-#define BUTTON_LEAVE_START_Y				BUTTON_MAKE_START_Y
-#define BUTTON_INVITE_START_X				BUTTON_MAKE_START_X	// 초대
-#define BUTTON_INVITE_START_Y				BUTTON_MAKE_START_Y
-#define BUTTON_CANCEL_START_X				BUTTON_MAKE_START_X	// 초대
-#define BUTTON_CANCEL_START_Y				BUTTON_MAKE_START_Y
-#define BUTTON_MARK_START_X					56	// 마크
-#define BUTTON_MARK_START_Y					BUTTON_MAKE_START_Y
-#define BUTTON_BANMEMBER_START_X			93	// 탈퇴
-#define BUTTON_BANMEMBER_START_Y			BUTTON_MAKE_START_Y
-#define BUTTON_DISBAND_START_X				130 // 해체
-#define BUTTON_DISBAND_START_Y				BUTTON_MAKE_START_Y
-#define BUTTON_LEAVE_START_X				BUTTON_MAKE_START_X // 탈퇴
-#define BUTTON_LEAVE_START_Y				BUTTON_MAKE_START_Y
-
-#define BUTTON_VOIP_START_X					167
-#define BUTTON_VOIP_START_Y					BUTTON_MAKE_START_Y
-#define VOIP_BUTTON_STATE_NORMAL			0
-#define VOIP_BUTTON_STATE_UP				1
-#define VOIP_BUTTON_STATE_DOWN				2
-#define VOIP_BUTTON_STATE_DISABLE			3
-#define VOIP_WIDTH							35
-#define VOIP_HEIGHT							16
-
-
-
-#define BUTTON_SIZE_X						35
-#define BUTTON_SIZE_Y						16
-#define BUTTON_MIDDLE_SIZE_X				56
-#define BUTTON_BIG_SIZE_X					72
-
-
-//#define GUILD_NAME_START_X					53
-#define GUILD_NAME_START_X					64
-#define LIST_BOX_NAME_START_X				190
-
-//#define LIST_BOX_GUILDRANK_START_X			140//138
-//#define LIST_BOX_GUILDRANK_START_Y			74//75
-#define LIST_BOX_GUILDRANK_START_X			379
-#define LIST_BOX_GUILDRANK_START_Y			115
-
-//#define LIST_BOX_ONOFF_START_X				161
-#define LIST_BOX_ONOFF_START_X				458
-#define LIST_BOX_NUMBER						8
-#define LIST_BOX_INTERVAL					18
-#define GUILD_MEMBER_ONLINE_COLOR			GUI_FONT_COLOR
-#define GUILD_MEMBER_OFFLINE_COLOR			RGB(222, 0, 0)
-#define GUI_FONT_COLOR_DISMEMBER_READY		RGB(150, 150, 150)
-//#define MARK_START_X						21
-//#define MARK_START_Y						53
-#define MARK_START_X						32
-#define MARK_START_Y						57
-
-
-// 2006-03-07 by ispark, 언어에 따라 위치 수정
-//#if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)
-//#define LIST_BOX_NAME_START_Y				72//75
-//#define LIST_BOX_ONOFF_START_Y				72//75
-//#define LIST_GUILD_ALL_Y					50
-//#define GUILD_NAME_START_Y					50
-//#else
-//#define LIST_BOX_NAME_START_Y				72//75
-//#define LIST_BOX_ONOFF_START_Y				72//75
-//#define LIST_GUILD_ALL_Y					50
-//#define GUILD_NAME_START_Y					50
-//#endif
-
-#define LIST_BOX_NAME_START_Y				114//75
-#define LIST_BOX_ONOFF_START_Y				114//75
-#define LIST_GUILD_ALL_Y					50
-#define GUILD_NAME_START_Y					54
-
-// 2008-04-04 by bhsohn Ep3 커뮤니티 창
-#define SELECT_GUILD_NAME_WIDTH				300		// 길드 선택창
-
-// 메뉴
-#define MENU_INFO							0		// 정보
-#define MENU_LETTER							1		// 편지
-#define MENU_APPOINT						2		// 임명
-#define MENU_CHARGE							3		// 위임
-#define MENU_PURGE							4		// 추방
-#define MAX_MENU_LIST						5
-
-// 기어 명
-#define LIST_BOX_GEAR_START_X				287
-#define LIST_BOX_GEAR_START_Y				114
-
-// 레벨
-#define LIST_BOX_LV_START_X					331
-#define LIST_BOX_LV_START_Y					114
-
-// 길드 계급
-#define LIST_BOX_RANK_START_X					376
-#define LIST_BOX_RANK_START_Y					117
-
-// 음성
-#define LIST_BOX_VOIP_START_X					411
-#define LIST_BOX_VOIP_START_Y					114
-
-// 여단 공지 사항
-#define GUILD_OPENAREA_EDIT_X						30
-#define GUILD_OPENAREA_EDIT_Y						225
-//#define GUILD_OPENAREA_EDIT_W						135
-#define GUILD_OPENAREA_EDIT_W						125
-#define GUILD_OPENAREA_FONT_LINE_HEIGHT			15
-#define GUILD_OPENAREA_FONT_MOUSE_HEIGHT			120
-#define	MAX_GUILD_LINE								8
-
-// 길드 마스터 
-#define GUILD_MASTERNAME_START_X					102
-#define GUILD_MASTERNAME_START_Y					81
-
-// 부길드 마스터 
-#define GUILD_SECONDNAME_START_X					102
-#define GUILD_SECONDNAME_START_Y					98
-
-// 전진 기지전 
-#define GUILD_OUTPOST_START_X					102
-#define GUILD_OUTPOST_START_Y					116
-
-// 전체 여단명성 
-#define GUILD_ALL_START_X						31
-#define GUILD_ALL_START_Y						157
-#define GUILD_ALL_POINT_START_X					77
-#define GUILD_ALL_POINT_START_Y					157
-#define GUILD_ALL_RANK_START_X					130
-#define GUILD_ALL_RANK_START_Y					157
-// 월별 여단명성 
-#define GUILD_MONTH_START_X						31
-#define GUILD_MONTH_START_Y						175
-#define GUILD_MONTH_POINT_START_X					77
-#define GUILD_MONTH_POINT_START_Y					175
-#define GUILD_MONTH_RANK_START_X					130
-#define GUILD_MONTH_RANK_START_Y					175
-
-#endif
 
 // 아이디 별
 struct CompareNameInc
@@ -533,9 +381,7 @@ CINFCommunityGuild::CINFCommunityGuild(CAtumNode* pParent)
 	m_pParent = pParent;
 
 	m_pBack = NULL;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pBackControl = NULL;																		  
-#endif
 	m_pImgSelect = NULL;
 	//memset(m_pButton, 0x00, sizeof(int)*BUTTON_NUMBER*BUTTON_STATE_NUMBER);
 	int i; for(i=0;i<BUTTON_NUMBER;i++)
@@ -628,9 +474,7 @@ CINFCommunityGuild::~CINFCommunityGuild()
 	// end 2008-04-04 by bhsohn Ep3 커뮤니티 창
 
 	SAFE_DELETE(m_pBack);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	SAFE_DELETE(m_pBackControl);																  
-#endif
 	SAFE_DELETE(m_pImgSelect);
 	SAFE_DELETE(m_pGuildInfo);
 	SAFE_DELETE(m_pFontGuildMaster);
@@ -1080,7 +924,6 @@ HRESULT CINFCommunityGuild::InitDeviceObjects()
 	// 2008-04-04 by bhsohn Ep3 커뮤니티 창
 	//DataHeader *pDataHeader = m_pGameData->Find("glback");
  	DataHeader *pDataHeader;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if( m_pBack == NULL )
 	{
 		DataHeader* pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("commu_Bri");	
@@ -1094,11 +937,6 @@ HRESULT CINFCommunityGuild::InitDeviceObjects()
 		DataHeader* pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("B_btn1");	
 		m_pBackControl = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 	}																							  
-#else  
-    pDataHeader = m_pGameData->Find("commubk2");
-	m_pBack = new CINFImageEx;
-	m_pBack->InitDeviceObjects( pDataHeader );
-#endif
 	
 	// 2008-04-04 by bhsohn Ep3 커뮤니티 창
 	//pDataHeader = m_pGameData->Find("glselect");	
@@ -1202,17 +1040,10 @@ HRESULT CINFCommunityGuild::InitDeviceObjects()
 		// 초대
 		{	
 			char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];				
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경			
 			wsprintf(szUpBtn, "invs03");
 			wsprintf(szDownBtn, "invs01");
 			wsprintf(szSelBtn, "invs00");
 			wsprintf(szDisBtn, "invs02");														  
-#else
-			wsprintf(szUpBtn, "c_ssbt03");
-			wsprintf(szDownBtn, "c_ssbt01");
-			wsprintf(szSelBtn, "c_ssbt00");
-			wsprintf(szDisBtn, "c_ssbt02");
-#endif
 			if(NULL == m_pInviteBtn)
 			{
 				m_pInviteBtn = new CINFImageBtn;
@@ -1240,17 +1071,10 @@ HRESULT CINFCommunityGuild::InitDeviceObjects()
 		// 탈퇴
 		{	
 			char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];				
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경				
 			wsprintf(szUpBtn, "outs03");
 			wsprintf(szDownBtn, "outs01");
 			wsprintf(szSelBtn, "outs00");
 			wsprintf(szDisBtn, "outs02");														  
-#else
-			wsprintf(szUpBtn, "c_bt13");
-			wsprintf(szDownBtn, "c_bt11");
-			wsprintf(szSelBtn, "c_bt10");
-			wsprintf(szDisBtn, "c_bt12");
-#endif
 			if(NULL == m_pOutBtn)
 			{
 				m_pOutBtn = new CINFImageBtn;
@@ -1276,7 +1100,6 @@ HRESULT CINFCommunityGuild::InitDeviceObjects()
 				// 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
 			}			
 		}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경		
 		// 해제 취소
 		{	
 			char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];				
@@ -1292,21 +1115,6 @@ HRESULT CINFCommunityGuild::InitDeviceObjects()
 				// end 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
 			}			
 		}
-#else
-		// 해제 취소
-		{	
-			char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];				
-			wsprintf(szUpBtn, "p_bt53");
-			wsprintf(szDownBtn, "p_bt51");
-			wsprintf(szSelBtn, "p_bt50");
-			wsprintf(szDisBtn, "p_bt52");
-			if(NULL == m_pCancelQuildCancelBtn)
-			{
-				m_pCancelQuildCancelBtn = new CINFImageBtn;
-				m_pCancelQuildCancelBtn->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);		
-			}			
-		}
-#endif
 		// 옵션
 		{	
 			char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];				
@@ -1356,17 +1164,10 @@ HRESULT CINFCommunityGuild::InitDeviceObjects()
 		// 공개 설정	 
 		{	
 			char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];				
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경		
 			wsprintf(szUpBtn, "uopbtn3");
 			wsprintf(szDownBtn, "uopbtn1");
 			wsprintf(szSelBtn, "uopbtn0");
 			wsprintf(szDisBtn, "uopbtn2");														  
-#else
-			wsprintf(szUpBtn, "p_tbt13");
-			wsprintf(szDownBtn, "p_tbt11");
-			wsprintf(szSelBtn, "p_tbt10");
-			wsprintf(szDisBtn, "p_tbt12");
-#endif
 			if(NULL == m_pOpOpenBtn)
 			{
 				m_pOpOpenBtn = new CINFImageBtn;
@@ -1485,17 +1286,10 @@ HRESULT CINFCommunityGuild::InitDeviceObjects()
 	{	
 		// 생성
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];				
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경		
 		wsprintf(szUpBtn, "cres03");
 		wsprintf(szDownBtn, "cres01");
 		wsprintf(szSelBtn, "cres00");
 		wsprintf(szDisBtn, "cres02");															  
-#else
-		wsprintf(szUpBtn, "createb3");
-		wsprintf(szDownBtn, "createb1");
-		wsprintf(szSelBtn, "createb0");
-		wsprintf(szDisBtn, "createb2");
-#endif
 		if(NULL == m_pCrateBtn)
 		{
 			m_pCrateBtn = new CINFImageBtn;
@@ -2014,10 +1808,8 @@ HRESULT CINFCommunityGuild::DeleteDeviceObjects()
 	m_pBack->DeleteDeviceObjects();
 	SAFE_DELETE(m_pBack);
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pBackControl->DeleteDeviceObjects();
 	SAFE_DELETE(m_pBackControl);																  
-#endif
 
 	m_pImgSelect->DeleteDeviceObjects();
 	SAFE_DELETE(m_pImgSelect);
@@ -2206,11 +1998,7 @@ void CINFCommunityGuild::Render(POINT ptPos)
 {
 	int nWindowPosY = ptPos.y;
 	//m_pBack->Move(BACK_START_X, nWindowPosY + BACK_START_Y );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pBack->Move(ptPos.x, ptPos.y + BACK_START_Y);												  
-#else
-	m_pBack->Move(ptPos.x, ptPos.y);
-#endif
 	m_pBack->Render();
 
 	if(m_bGuildMember)
@@ -2336,13 +2124,8 @@ void CINFCommunityGuild::RenderGuildMemberList(BYTE nGuildState)
 	memset(buf, 0x00, 64);
 	// 2006-09-19 by dgwoo
 	//wsprintf(buf, "[%2d/%d]",m_vecGuildMember.size(),m_pGuildInfo->GuildMemberCapacity);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	int nPosX = ptBkPos.x + 216;
 	int nPosY = ptBkPos.y + 49;																	  
-#else							
-	int nPosX = ptBkPos.x + 214;
-	int nPosY = ptBkPos.y + 59;
-#endif
 
 	//wsprintf(buf, "[%d/%d]",(int)m_stGuildInfo.size(),CAtumSJ::GetMaxGuildSize((BOOL)g_pD3dApp->GetPrimiumCardInfo()->nCardItemNum1));
 	// 2008-06-18 by bhsohn 여단원증가 카드 관련 처리
@@ -4934,7 +4717,7 @@ void CINFCommunityGuild::UpdateBtnPos()
 		nPosY = ptBkPos.y + GUILD_BTN_START_Y + pPos.y;
 		m_pImageTabBtn[5]->SetBtnPosition(nPosX, nPosY);
 	}	
-#elif defined C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
+#else
 	{
 		RECT rcMouseWhell, rcMousePos;
 		POINT ptScrollPos = ptBkPos;
@@ -5103,175 +4886,6 @@ void CINFCommunityGuild::UpdateBtnPos()
 		nPosY = ptBkPos.y + GUILD_BTN_START_Y + pPos.y;
 		m_pImageTabBtn[5]->SetBtnPosition(nPosX, nPosY);
 	}	
-#else 
-	{
-		RECT rcMouseWhell, rcMousePos;
-		POINT ptScrollPos = ptBkPos;
-
-		ptScrollPos.x += 489;
-		ptScrollPos.y += 116;
-
-		m_pScrollMember->SetPosition(ptScrollPos.x ,ptScrollPos.y,11,192);
-		rcMouseWhell.left		= ptScrollPos.x - 300;
-		rcMouseWhell.top		= ptScrollPos.y - 30;
-		rcMouseWhell.right		= ptScrollPos.x + 30;
-		rcMouseWhell.bottom		= ptScrollPos.y + 252;
-		m_pScrollMember->SetMouseWhellRect(rcMouseWhell);
-		rcMousePos.left			= ptScrollPos.x - 11;
-		rcMousePos.top			= ptScrollPos.y ;
-		rcMousePos.right		= rcMousePos.left + 32;
-		rcMousePos.bottom		= rcMousePos.top + 282;
-		m_pScrollMember->SetMouseBallRect(rcMousePos);
-	}
-	{
-		RECT rcMouseWhell, rcMousePos;
-		POINT ptScrollPos = ptBkPos;
-
-		ptScrollPos.x += 168;
-		ptScrollPos.y += 225;
-
-		m_pScrollGuildOpen->SetPosition(ptScrollPos.x ,ptScrollPos.y,11,88);
-		rcMouseWhell.left		= ptScrollPos.x - 300;
-		rcMouseWhell.top		= ptScrollPos.y - 30;
-		rcMouseWhell.right		= ptScrollPos.x + 30;
-		rcMouseWhell.bottom		= ptScrollPos.y + 100;
-		m_pScrollGuildOpen->SetMouseWhellRect(rcMouseWhell);
-		rcMousePos.left			= ptScrollPos.x - 11;
-		rcMousePos.top			= ptScrollPos.y ;
-		rcMousePos.right		= rcMousePos.left + 32;
-		rcMousePos.bottom		= rcMousePos.top + 110;
-		m_pScrollGuildOpen->SetMouseBallRect(rcMousePos);
-	}
-	{
-		nPosX = ptBkPos.x + 27;
-		nPosY = ptBkPos.y + 361;		
-		m_pSpManageBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	{
-		nPosX = ptBkPos.x + 110;
-		nPosY = ptBkPos.y + 361;		
-		m_pRegisterBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-
-	// 2014-01-28 by ymjoo VoIP 기능 삭제
-#if defined C_REMOVE_VOIP_YMJOO
-	if(m_pInviteBtn)
-	{		
-		nPosX = ptBkPos.x + 249;
-		nPosY = ptBkPos.y + 361;		
-		m_pInviteBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	if(m_pMarkBtn)
-	{		
-		nPosX = ptBkPos.x + 312;
-		nPosY = ptBkPos.y + 361;		
-		m_pMarkBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	if(m_pOutBtn)
-	{		
-		nPosX = ptBkPos.x + 375;
-		nPosY = ptBkPos.y + 361;		
-		m_pOutBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	if(m_pCancelBtn)
-	{		
-		nPosX = ptBkPos.x + 438;
-		nPosY = ptBkPos.y + 361;		
-		m_pCancelBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	if(m_pCancelQuildCancelBtn)
-	{		
-		nPosX = ptBkPos.x + 438;
-		nPosY = ptBkPos.y + 361;		
-		m_pCancelQuildCancelBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-#else
-	if(m_pInviteBtn)
-	{		
-		nPosX = ptBkPos.x + 186;
-		nPosY = ptBkPos.y + 361;		
-		m_pInviteBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	if(m_pMarkBtn)
-	{		
-		nPosX = ptBkPos.x + 249;
-		nPosY = ptBkPos.y + 361;		
-		m_pMarkBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	if(m_pOutBtn)
-	{		
-		nPosX = ptBkPos.x + 312;
-		nPosY = ptBkPos.y + 361;		
-		m_pOutBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	if(m_pCancelBtn)
-	{		
-		nPosX = ptBkPos.x + 375;
-		nPosY = ptBkPos.y + 361;		
-		m_pCancelBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	if(m_pCancelQuildCancelBtn)
-	{		
-		nPosX = ptBkPos.x + 375;
-		nPosY = ptBkPos.y + 361;		
-		m_pCancelQuildCancelBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-#endif
-	// END 2014-01-28 by ymjoo VoIP 기능 삭제
-
-	// 2014-01-28 by ymjoo VoIP 기능 삭제
-#ifndef C_REMOVE_VOIP_YMJOO
-	if(m_pOpBtn)
-	{		
-		nPosX = ptBkPos.x + 438;
-		nPosY = ptBkPos.y + 361;		
-		m_pOpBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-#endif
-	// END 2014-01-28 by ymjoo VoIP 기능 삭제
-	if(m_pCrateBtn)
-	{		
-		nPosX = ptBkPos.x + 438;
-		nPosY = ptBkPos.y + 361;		
-		m_pCrateBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	if(m_pSearchBtn)
-	{		
-		nPosX = ptBkPos.x + 331;
-		nPosY = ptBkPos.y + 57;		
-		m_pSearchBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	if(m_pGuildBattleBtn)
-	{		
-		nPosX = ptBkPos.x + 331;
-		nPosY = ptBkPos.y + 57;		
-		m_pGuildBattleBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-	if(m_pOpOpenBtn)
-	{		
-		nPosX = ptBkPos.x + 415;
-		nPosY = ptBkPos.y + 57;		
-		m_pOpOpenBtn->SetBtnPosition(nPosX, nPosY);	
-	
-	}
-	POINT ptPos[MAX_GUILD_TAB] = 
-	{
-		{187, 88},
-		{271, 88},
-		{315, 88},
-		{359, 88},
-		{403, 88},
-		{445, 88},
-	};
-	for(i =0;i<MAX_GUILD_TAB;i++)
-	{
-		if(m_pImageTabBtn[i])
-		{			
-			nPosX = ptBkPos.x + ptPos[i].x;
-			nPosY = ptBkPos.y + ptPos[i].y;		
-			m_pImageTabBtn[i]->SetBtnPosition(nPosX, nPosY);	
-		}
-	}
 #endif
 
 	

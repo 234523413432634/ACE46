@@ -424,21 +424,13 @@ HRESULT CINFMissionInfo::InitDeviceObjects()
 	for(i = 0; i < 4; i++)
 	{
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	wsprintf(sbuf, "okb0%d", i);
-#else
-		wsprintf(sbuf, "shlaok0%d", i);
-#endif
 	
 		m_pImgOkButton[i] = new CINFImageEx;
 		pDataHeader = FindResource(sbuf);
 		m_pImgOkButton[i]->InitDeviceObjects(pDataHeader);
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 		wsprintf(sbuf, "canb0%d", i);
-#else
-		wsprintf(sbuf, "shmcan0%d", i);
-#endif
 
 
 		m_pImgCancelButton[i] = new CINFImageEx;

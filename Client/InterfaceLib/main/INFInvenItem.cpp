@@ -47,7 +47,6 @@
 
 #include "INFCityCashShop.h"							// 2014-02-07 by ymjoo 캡슐형 캐시 아이템 경고 메세지
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -85,33 +84,6 @@
 #define INVEN_SORT_SIZE		15
 // end 2012-04-12 by mspark, 인벤토리 자동 정렬
 
-#else 
-#define EXTEND_INVEN_SLOT_SIZE			30
-#define EXTEND_INVEN_SLOT_INTERVAL		32
-#define EXTEND_INVEN_ITEM_SLOT_START_X	51
-#define EXTEND_INVEN_ITEM_SLOT_START_Y	30
-
-#define	EXTEND_INVEN_SCROLL_WIDTH	11
-#define	EXTEND_INVEN_SCROLL_HEIGHT	241
-
-#define EXTEND_INVEN_SCROLL_LINE_START_X		376
-#define EXTEND_INVEN_SCROLL_LINE_START_Y		30
-
-#define	EXTEND_INVEN_CAPS_HEIGHT	20		// 위에 윈도우 테두리
-
-#define INVEN_SPI_START_X		243
-#define INVEN_SPI_START_Y		244
-#define INVEN_WARPOINT_X		367
-#define INVEN_WARPOINT_Y		244
-
-#define EXTEND_WEIGHT_START_X			367
-#define EXTEND_WEIGHT_START_Y			225
-
-#define INVEN_GARBAGE_START_X	373
-#define INVEN_GARBAGE_START_Y	232
-#define INVEN_GARBAGE_SIZE		24
-
-#endif
 #define INVEN_SPI_WIDTH			90
 #define INVEN_SPI_HEIGHT		18
 
@@ -121,9 +93,6 @@ CINFInvenItem::CINFInvenItem(CAtumNode* pParent)
 	m_pParent = pParent;
 
 	m_bShowWnd = FALSE;
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pInvenBase = NULL;
-#endif
 	// 2014-08-01 by ymjoo DrawText 성능 개선 작업 (인벤토리 목록)
 #ifdef C_DRAWTEXT_UPGRADE_YMJOO
 	for(int i = 0 ; i < 6 ; ++i)
@@ -162,13 +131,8 @@ CINFInvenItem::CINFInvenItem(CAtumNode* pParent)
 	m_pSelectPetSocketItemImage = NULL;	   
 //end 2011-10-06 by jhahn 파트너 성장형 시스템
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pEqShow = NULL ;		// 삭제
-#endif
 	m_pCloseBtn = NULL;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pInvenBG = NULL;
-#endif
 
 	// 2013-02-19 by mspark, 인벤토리 정렬 버튼 범위 내에서만 클릭 적용
 	m_bInvenSortBtnArea = false;
@@ -186,10 +150,6 @@ CINFInvenItem::CINFInvenItem(CAtumNode* pParent)
 
 CINFInvenItem::~CINFInvenItem()
 {
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	SAFE_DELETE(m_pInvenBase);
-    SAFE_DELETE(m_pEqShow);	
-#endif
 	// 2014-08-01 by ymjoo DrawText 성능 개선 작업 (인벤토리 목록)
 #ifdef C_DRAWTEXT_UPGRADE_YMJOO
 	for(int i = 0 ; i < 6 ; ++i)
@@ -217,9 +177,7 @@ CINFInvenItem::~CINFInvenItem()
 
 	SAFE_DELETE(m_pSelectPetSocketItemImage); 
 //end 2011-10-06 by jhahn 파트너 성장형 시스템
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	SAFE_DELETE(m_pInvenBG);
-#endif
 
 	SAFE_DELETE(m_pBlingImage);								// 2013-10-01 by ssjung 1주년 이벤트
 }
@@ -227,14 +185,6 @@ CINFInvenItem::~CINFInvenItem()
 HRESULT CINFInvenItem::InitDeviceObjects()
 {
 	DataHeader	* pDataHeader = NULL;
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	if(NULL == m_pInvenBase)
-	{
- 		m_pInvenBase = new CINFImageEx;
-		pDataHeader = FindResource("w_wi12");
- 		m_pInvenBase->InitDeviceObjects( pDataHeader ) ;	
-	}
-#endif
 	// 2014-08-01 by ymjoo DrawText 성능 개선 작업 (인벤토리 목록)
 #ifdef C_DRAWTEXT_UPGRADE_YMJOO
 	for(int i = 0 ; i < 6 ; ++i)
@@ -321,35 +271,13 @@ HRESULT CINFInvenItem::InitDeviceObjects()
 
 	//end 2010. 05. 10 by jskim 신규 럭키 머신 추가방안 - 상점에서 사용 가능한 아이템만 보여주기
 	
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	{	
-		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];				
-		wsprintf(szUpBtn, "ieg3");
-		wsprintf(szDownBtn, "ieg1");
-		wsprintf(szSelBtn, "ieg0");
-		wsprintf(szDisBtn, "ieg2");
-		if(NULL == m_pEqShow)
-		{
-			m_pEqShow = new CINFImageBtn;
-			m_pEqShow->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);		
-		}
-		
-	}
-#endif
 			
 	{
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf(szUpBtn, "close");
 		wsprintf(szDownBtn, "close");
 		wsprintf(szSelBtn, "close");
 		wsprintf(szDisBtn, "close");															  
-#else			 
-		wsprintf(szUpBtn, "xclose");
-		wsprintf(szDownBtn, "xclose");
-		wsprintf(szSelBtn, "xclose");
-		wsprintf(szDisBtn, "xclose");
-#endif
 		if(NULL == m_pCloseBtn)
 		{
 			m_pCloseBtn = new CINFImageBtn;
@@ -357,19 +285,14 @@ HRESULT CINFInvenItem::InitDeviceObjects()
 		m_pCloseBtn->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);
 		
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("inven");
 	m_pInvenBG = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );		
 	m_pInvenBG->InitDeviceObjects( g_pD3dApp->m_pImageList );
 	m_pInvenBG->RestoreDeviceObjects();															  
-#endif
 	return S_OK;
 }
 HRESULT CINFInvenItem::RestoreDeviceObjects()
 {
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pInvenBase->RestoreDeviceObjects();
-#endif
 	// 2014-08-01 by ymjoo DrawText 성능 개선 작업 (인벤토리 목록)
 #ifdef C_DRAWTEXT_UPGRADE_YMJOO
 	for(int i = 0 ; i < 6 ; ++i)
@@ -395,12 +318,6 @@ HRESULT CINFInvenItem::RestoreDeviceObjects()
 		m_pDisableItemImage->RestoreDeviceObjects();
 	}
 	//end 2010. 05. 10 by jskim 신규 럭키 머신 추가방안 - 상점에서 사용 가능한 아이템만 보여주기
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	if(m_pEqShow)
-	{
-		m_pEqShow->RestoreDeviceObjects();				
-	}
-#endif
 	if(m_pCloseBtn)
 	{
 		m_pCloseBtn->RestoreDeviceObjects();			
@@ -423,9 +340,7 @@ HRESULT CINFInvenItem::RestoreDeviceObjects()
 		m_pSelectPetSocketItemImage->RestoreDeviceObjects();
 	}
 //end 2011-10-06 by jhahn 파트너 성장형 시스템
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pInvenBG->RestoreDeviceObjects();
-#endif
 
 // 2013-10-01 by ssjung 1주년 이벤트
 	if(m_pBlingImage)
@@ -438,10 +353,6 @@ HRESULT CINFInvenItem::RestoreDeviceObjects()
 }
 HRESULT CINFInvenItem::DeleteDeviceObjects()
 {
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pInvenBase->DeleteDeviceObjects();
-	SAFE_DELETE(m_pInvenBase);
-#endif
 
 	// 2014-08-01 by ymjoo DrawText 성능 개선 작업 (인벤토리 목록)
 #ifdef C_DRAWTEXT_UPGRADE_YMJOO
@@ -473,13 +384,6 @@ HRESULT CINFInvenItem::DeleteDeviceObjects()
 	//end 2010. 05. 10 by jskim 신규 럭키 머신 추가방안 - 상점에서 사용 가능한 아이템만 보여주기
 	SAFE_DELETE(m_pMultiItemSelImage );
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	if(m_pEqShow)
-	{		
-		m_pEqShow->DeleteDeviceObjects();
-		SAFE_DELETE(m_pEqShow);
-	}
-#endif
 	if(m_pCloseBtn)
 	{
 		m_pCloseBtn->DeleteDeviceObjects();	
@@ -507,10 +411,8 @@ HRESULT CINFInvenItem::DeleteDeviceObjects()
 		SAFE_DELETE(m_pSelectPetSocketItemImage	);
 	}
 //end 2011-10-06 by jhahn 파트너 성장형 시스템	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pInvenBG->DeleteDeviceObjects();
 	SAFE_DELETE( m_pInvenBG	);		  
-#endif
 
 // 2013-10-01 by ssjung 1주년 이벤트
 	if(m_pBlingImage)
@@ -524,9 +426,6 @@ HRESULT CINFInvenItem::DeleteDeviceObjects()
 }
 HRESULT CINFInvenItem::InvalidateDeviceObjects()
 {		
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pInvenBase->InvalidateDeviceObjects();
-#endif
 	// 2014-08-01 by ymjoo DrawText 성능 개선 작업 (인벤토리 목록)
 #ifdef C_DRAWTEXT_UPGRADE_YMJOO
 	for(int i = 0 ; i < 6 ; ++i)
@@ -551,12 +450,6 @@ HRESULT CINFInvenItem::InvalidateDeviceObjects()
 		m_pDisableItemImage->InvalidateDeviceObjects();
 	}
 	//end 2010. 05. 10 by jskim 신규 럭키 머신 추가방안 - 상점에서 사용 가능한 아이템만 보여주기
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	if(m_pEqShow)
-	{		
-		m_pEqShow->InvalidateDeviceObjects();
-	}
-#endif
 	if(m_pCloseBtn)
 	{
 		m_pCloseBtn->InvalidateDeviceObjects();		
@@ -580,9 +473,7 @@ HRESULT CINFInvenItem::InvalidateDeviceObjects()
 	}
 //end 2011-10-06 by jhahn 파트너 성장형 시스템	
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pInvenBG->InvalidateDeviceObjects();
-#endif
 
 // 2013-10-01 by ssjung 1주년 이벤트
 	if(m_pBlingImage)
@@ -601,7 +492,6 @@ void CINFInvenItem::RenderBk()
 	{
 		return;
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	{
 		if(!m_bTradeItemCenterState)								 // 2013-11-29 by ssjung 거래소 구현
 		{
@@ -609,16 +499,6 @@ void CINFInvenItem::RenderBk()
 			m_pInvenBG->Render();
 		}
 	}	
-#else  
-	int nPosX, nPosY;
-	nPosX = nPosY = 0;
-	{
-		nPosX = m_ptBkPos.x;
-		nPosY = m_ptBkPos.y;
-		m_pInvenBase->Move(nPosX, nPosY);
-		m_pInvenBase->Render();
-	}
-#endif
 }
 
 void CINFInvenItem::Render()
@@ -649,7 +529,6 @@ void CINFInvenItem::Render()
 			SIZE size;
 			
 			int	nItemSpi = pParent->GetItemSpi(); // SPI량
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 			if(!m_bTradeItemCenterState)												  // 2013-11-29 by ssjung 거래소 구현
 			{
 				// SPI
@@ -676,31 +555,6 @@ void CINFInvenItem::Render()
 #endif
 				// END 2014-06-30 by ymjoo DrawText 성능 개선 작업 (인벤토리)
 			}
-#else
-			// SPI
-			wsprintf( temp1, "%d", nItemSpi );
-			MakeCurrencySeparator( temp2, temp1, 3, ',' );
-			size = pFontSpi->GetStringSize(temp2);
-			pFontSpi->DrawText(nWindowPosX + INVEN_SPI_START_X-size.cx, nWindowPosY + INVEN_SPI_START_Y, GUI_FONT_COLOR_BM,temp2, 0L);
-			
-			// War Point
-			// 2014-06-30 by ymjoo DrawText 성능 개선 작업 (인벤토리)
-#ifdef C_DRAWTEXT_UPGRADE_YMJOO
-			if(pFontWP)
-			{
-				wsprintf(temp1, "%d", g_pShuttleChild->m_myShuttleInfo.WarPoint);
-				MakeCurrencySeparator(temp2, temp1, 3, ',');
-				size = pFontWP->GetStringSize(temp2);
-				pFontWP->DrawText(nWindowPosX + INVEN_WARPOINT_X - size.cx, nWindowPosY + INVEN_WARPOINT_Y, GUI_FONT_COLOR_BM, temp2, 0L);
-			}
-#else
- 			wsprintf(temp1,"%d",g_pShuttleChild->m_myShuttleInfo.WarPoint);
- 			MakeCurrencySeparator(temp2,temp1,3,',');
- 			size = pFontSpi->GetStringSize(temp2);
- 			pFontSpi->DrawText(nWindowPosX + INVEN_WARPOINT_X-size.cx, nWindowPosY + INVEN_WARPOINT_Y, GUI_FONT_COLOR_BM,temp2, 0L);
-#endif
-			// END 2014-06-30 by ymjoo DrawText 성능 개선 작업 (인벤토리)
-#endif
 		}
 	}
 	{
@@ -713,11 +567,7 @@ void CINFInvenItem::Render()
 // 		wsprintf(buff, "%s %d/%d", STRMSG_C_INTERFACE_0026, 
 // 				(int)(g_pStoreData->GetTotalUseInven()), 		
 // 		CAtumSJ::GetMaxInventorySize((BOOL)g_pD3dApp->GetPrimiumCardInfo()->nCardItemNum1, pMainInfo->GetAddedPermanentInventoryCount()) - 1);	// 2006-06-23 by ispark, -1은 스피 아이템을 제외하는 것이다.
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf(buff, "%d/%d",								
-#else
-		wsprintf(buff, "%s %d/%d", STRMSG_C_INTERFACE_0026, 
-#endif
 
 				(int)(g_pStoreData->GetTotalUseInven()), 		
  		CAtumSJ::GetMaxInventorySize((BOOL)g_pD3dApp->GetPrimiumCardInfo()->nCardItemNum1, g_pShuttleChild->m_myShuttleInfo.GetAddedPermanentInventoryCount()) - 1);	// 2006-06-23 by ispark, -1은 스피 아이템을 제외하는 것이다.
@@ -725,17 +575,9 @@ void CINFInvenItem::Render()
 		//end 2009. 11. 3 by jskim 캐쉬(인벤/창고 확장) 아이템 추가 구현
 		
 		SIZE size = pFontWeight->GetStringSize(buff);		
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		pFontWeight->DrawText(nWindowPosX+EXTEND_WEIGHT_START_X-size.cx, 
 								nWindowPosY+EXTEND_WEIGHT_START_Y, GUI_FONT_COLOR_W, buff, 0 );//"적재량"
-#else
-		pFontWeight->DrawText(nWindowPosX+EXTEND_WEIGHT_START_X-size.cx, 
-								nWindowPosY+EXTEND_WEIGHT_START_Y, GUI_FONT_COLOR_BM, buff, 0 );//"적재량"		
-#endif
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pEqShow->Render();	
-#endif
 	if(!m_bTradeItemCenterState)												 // 2013-11-29 by ssjung 거래소 구현
 		m_pCloseBtn->Render();
 
@@ -1327,11 +1169,7 @@ int CINFInvenItem::OnLButtonUp(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL bSh
 			if(!pTempBase)
 			{
 				// 상점이 없을떄만 숨긴다.
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
                 pParent->ShowInven(NULL, NULL, TRUE);
-#else
-				ShowWnd(FALSE, NULL);
-#endif				
 				// 숨기기			
 				// 버튼 클릭 
 				g_pD3dApp->m_pSound->PlayD3DSound(SOUND_SELECT_BUTTON, D3DXVECTOR3(0,0,0), FALSE);			
@@ -1370,24 +1208,6 @@ int CINFInvenItem::OnLButtonUp(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL bSh
 	// end 2015-05-08 by jwlee 아이템 삭제 편의성 강화
 	
 	
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	{
-		// 2008-12-02 by dgwoo 럭키 머신처리.
-		GUI_BUILDINGNPC* pTempBase = g_pInterface->m_pCityBase->GetCurrentBuildingNPC();
-		BYTE  nBuildingNum = 0;
-		if(pTempBase)
-			nBuildingNum =  pTempBase->buildingInfo.BuildingKind;
-		// 2008-12-02 by dgwoo 럭키 머신처리.
-		if(TRUE == m_pEqShow->OnLButtonUp(pt) &&
-			BUILDINGKIND_LUCKY != nBuildingNum)
-		{
-			pParent->ShowEqInven();
-			// 버튼 클릭 						
-			g_pD3dApp->m_pSound->PlayD3DSound(SOUND_SELECT_BUTTON, D3DXVECTOR3(0,0,0), FALSE);			
-			return  INF_MSGPROC_BREAK;
-		}
-	}
-#endif
 	
 	int nWindowPosX = m_ptBkPos.x;
 	int nWindowPosY = m_ptBkPos.y; 
@@ -1446,7 +1266,6 @@ int CINFInvenItem::OnLButtonUpInvenPosItem(POINT pt, CItemInfo* pSelectItem)
 	CINFInvenExtend* pParent = (CINFInvenExtend*)m_pParent;
 	int nWindowPosX = m_ptBkPos.x;
 	int nWindowPosY = m_ptBkPos.y; 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	POINT ptBkSize;
 	ptBkSize.x = m_pInvenBG->GetMaxPos().x - m_pInvenBG->GetMinPos().x;
 	ptBkSize.y = m_pInvenBG->GetMaxPos().y - m_pInvenBG->GetMinPos().y;							  
@@ -1461,10 +1280,6 @@ int CINFInvenItem::OnLButtonUpInvenPosItem(POINT pt, CItemInfo* pSelectItem)
 		pt.y > nWindowPosY + ptBkSize.y - INVEN_GARBAGE_START_Y && pt.y < nWindowPosY + ptBkSize.y - INVEN_GARBAGE_START_Y + INVEN_GARBAGE_SIZE )
 		|| (pt.x < nWindowPosX || pt.x > nWindowPosX + ptBkSize.x || pt.y < nWindowPosY || pt.y > nWindowPosY + ptBkSize.y)) )
 	// end 2015-05-08 by jwlee 아이템 삭제 편의성 강화
-#else
-	if(pSelectItem && pt.x>nWindowPosX+INVEN_GARBAGE_START_X && pt.x<nWindowPosX+INVEN_GARBAGE_START_X+INVEN_GARBAGE_SIZE &&
-		pt.y>nWindowPosY+INVEN_GARBAGE_START_Y && pt.y<nWindowPosY+INVEN_GARBAGE_START_Y + INVEN_GARBAGE_SIZE)
-#endif
 	{
 		if( !g_pGameMain->m_pInfWindow->IsExistMsgBox(_Q_ITEM_DELETE) &&
 			!g_pGameMain->m_pInfWindow->IsExistMsgBox(_Q_ITEM_DELETE_NUM))
@@ -1932,15 +1747,6 @@ int CINFInvenItem::OnLButtonDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL b
 		}
 	}
 	
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	
-	{
-		if(TRUE == m_pEqShow->OnLButtonDown(pt))
-		{
-			// 버튼위에 마우스가 있다.
-			return  INF_MSGPROC_BREAK;
-		}		
-	}
-#endif
 	
 	// SPI창
 	if((pt.x > (ptBkPos.x+INVEN_SPI_START_X-100))
@@ -2094,9 +1900,6 @@ int CINFInvenItem::OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL bSh
 		return INF_MSGPROC_NORMAL;
 	}	
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pEqShow->OnMouseMove(pt);
-#endif
 	m_pCloseBtn->OnMouseMove(pt);
 
 	{
@@ -2145,15 +1948,6 @@ int CINFInvenItem::OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL bSh
 		{				
 			pParent->SetItemInfo(NULL, 0, 0);
 		}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		if(m_pEqShow->IsMouseOverlab(pt))
-		{
-			char chTmp[256];
-			sprintf( chTmp, STRMSG_C_081014_0204);
-			g_pGameMain->SetToolTip( pt.x, pt.y, chTmp);
-			return INF_MSGPROC_BREAK;
-		}
-#endif
 		// 2012-04-12 by mspark, 인벤토리 자동 정렬
 		char buf[32] = { 0, };
 		
@@ -2175,15 +1969,6 @@ int CINFInvenItem::OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL bSh
 
 		return INF_MSGPROC_BREAK;
 	}		
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	if(m_pEqShow->IsMouseOverlab(pt))
-	{
-		char chTmp[256];
-		sprintf( chTmp, STRMSG_C_081014_0204);
-		g_pGameMain->SetToolTip( pt.x, pt.y, chTmp);
-		return INF_MSGPROC_BREAK;
-	}
-#endif
 	
 	if(g_pGameMain->m_stSelectItem.pSelectItem 
 		&& g_pGameMain->m_stSelectItem.bySelectType == ITEM_INVEN_POS)
@@ -2269,13 +2054,9 @@ BOOL CINFInvenItem::IsInvenRect(POINT pt, int *o_pPosX, int *o_pPosY)
 	POINT ptBkPos = m_ptBkPos;
 	(*o_pPosX) = (*o_pPosY) = -1;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	POINT ptBkSize;
 	ptBkSize.x = m_pInvenBG->GetMaxPos().x - m_pInvenBG->GetMinPos().x;
 	ptBkSize.y = m_pInvenBG->GetMaxPos().y - m_pInvenBG->GetMinPos().y;
-#else 
-	POINT ptBkSize = m_pInvenBase->GetImgSize();
-#endif
 	if((pt.x > (ptBkPos.x+ptBkSize.x))
 		|| (pt.x < ptBkPos.x))
 	{
@@ -2288,7 +2069,6 @@ BOOL CINFInvenItem::IsInvenRect(POINT pt, int *o_pPosX, int *o_pPosY)
 		// 최대 크기 보다 크면 리턴한다.
 		return FALSE;
 	}	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if( pt.x > ptBkPos.x + EXTEND_INVEN_ITEM_SLOT_START_X &&
 		pt.x < ptBkPos.x + ptBkSize.x - 35 &&
 		pt.y > ptBkPos.y + EXTEND_INVEN_ITEM_SLOT_START_Y &&
@@ -2308,20 +2088,6 @@ BOOL CINFInvenItem::IsInvenRect(POINT pt, int *o_pPosX, int *o_pPosY)
 		}
 	}
 	}
-#else  
-	int nTmpItemPosX = (pt.x-ptBkPos.x-EXTEND_INVEN_ITEM_SLOT_START_X)/EXTEND_INVEN_SLOT_INTERVAL;		
-	int nTmpItemPosY = (pt.y - ptBkPos.y - EXTEND_INVEN_ITEM_SLOT_START_Y)/EXTEND_INVEN_SLOT_INTERVAL;
-
-	if( nTmpItemPosX >= 0 && nTmpItemPosX < INVEN_X_NUMBER)
-	{
-		if(nTmpItemPosY >= 0 && nTmpItemPosY < INVEN_Y_NUMBER)
-		{	
-			(*o_pPosX) = nTmpItemPosX;
-			(*o_pPosY) = nTmpItemPosY;
-			return TRUE;
-		}
-	}
-#endif
 	return FALSE;
 }
 
@@ -2329,13 +2095,9 @@ BOOL CINFInvenItem::IsWndRect(POINT ptPos)
 {
 	POINT ptBakPos = m_ptBkPos;	
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	POINT ptSize;
 	ptSize.x = m_pInvenBG->GetMaxPos().x - m_pInvenBG->GetMinPos().x;
 	ptSize.y = m_pInvenBG->GetMaxPos().y - m_pInvenBG->GetMinPos().y;							  
-#else 
-	POINT ptSize = m_pInvenBase->GetImgSize();
-#endif
 
 	if((ptPos.x >= ptBakPos.x && (ptPos.x <= ptBakPos.x+ptSize.x))
 		&& (ptPos.y >= ptBakPos.y && (ptPos.y <= ptBakPos.y+ptSize.y)))
@@ -2380,13 +2142,9 @@ void CINFInvenItem::UpdateInvenScroll()			// 요청
 void CINFInvenItem::UpdateBtnPos()
 {
 	POINT ptBkPos = m_ptBkPos;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	POINT ptBkSize;
 	ptBkSize.x = m_pInvenBG->GetMaxPos().x - m_pInvenBG->GetMinPos().x;
 	ptBkSize.y = m_pInvenBG->GetMaxPos().y - m_pInvenBG->GetMinPos().y;							  
-#else								  
-	POINT ptBkSize = m_pInvenBase->GetImgSize();
-#endif
 	{
 		RECT rcMouseWhell, rcMousePos;
 		POINT ptScrollPos = ptBkPos;
@@ -2396,11 +2154,7 @@ void CINFInvenItem::UpdateBtnPos()
 		
 		// 스크롤 x = 위치의 -5
 		// 스크롤 height = 이미지 길이의 - 34
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pINFInvenScrollBar->SetPosition(ptScrollPos.x ,ptScrollPos.y,11,165);					  
-#else
-		m_pINFInvenScrollBar->SetPosition(ptScrollPos.x ,ptScrollPos.y,11,155);
-#endif
 		rcMouseWhell.left		= ptScrollPos.x - ptBkSize.x;
 		rcMouseWhell.top		= ptScrollPos.y - 30;
 		rcMouseWhell.right		= ptScrollPos.x + 60;
@@ -2413,40 +2167,20 @@ void CINFInvenItem::UpdateBtnPos()
 		m_pINFInvenScrollBar->SetMouseBallRect(rcMousePos);
 	}
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	{
 		int nPosX, nPosY;
 		nPosX = ptBkPos.x + 361;
 		nPosY = ptBkPos.y + 6;		
 		m_pCloseBtn->SetBtnPosition(nPosX, nPosY);	
 	}	   
-#else
-	{
-		int nPosX, nPosY;
-		nPosX = ptBkPos.x + 50;
-		nPosY = ptBkPos.y + 227;		
-		m_pEqShow->SetBtnPosition(nPosX, nPosY);	
-		
-	}
-	{
-		int nPosX, nPosY;
-		nPosX = ptBkPos.x + 405;
-		nPosY = ptBkPos.y + 5;		
-		m_pCloseBtn->SetBtnPosition(nPosX, nPosY);	
-	}
-#endif	
 }
 
 BOOL CINFInvenItem::IsMouseCaps(POINT ptPos)
 {
 	POINT ptBakPos = m_ptBkPos;	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	POINT ptBkSize;
 	ptBkSize.x = m_pInvenBG->GetMaxPos().x - m_pInvenBG->GetMinPos().x;
 	ptBkSize.y = m_pInvenBG->GetMaxPos().y - m_pInvenBG->GetMinPos().y;							  
-#else		 
-	POINT ptBkSize = m_pInvenBase->GetImgSize();
-#endif
 	if((ptPos.x >= ptBakPos.x && (ptPos.x <= ptBakPos.x+ptBkSize.x))
 		&& (ptPos.y >= ptBakPos.y && (ptPos.y <= ptBakPos.y+EXTEND_INVEN_CAPS_HEIGHT)))
 	{
@@ -2669,7 +2403,6 @@ POINT CINFInvenItem::GetBkPos()
 {
 	return m_ptBkPos;
 }
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 POINT CINFInvenItem::GetBkSize()
 {
 	POINT pPos;
@@ -2677,7 +2410,6 @@ POINT CINFInvenItem::GetBkSize()
 	pPos.y = m_pInvenBG->GetMaxPos().y - m_pInvenBG->GetMinPos().y;
 	return pPos;
 }
-#endif
 ///////////////////////////////////////////////////////////////////////////////
 /// \fn			
 /// \brief		// 럭키 머신에서의 더블 클릭

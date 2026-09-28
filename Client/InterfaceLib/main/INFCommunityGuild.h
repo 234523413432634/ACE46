@@ -181,13 +181,9 @@ protected:
 	BOOL		m_bGuildMember;	// 가입 여부 
 	BYTE		m_nGuildRank;	// 계급 : 길드장,대장,대원,무계급(GUILD_RANK_~)
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	//CINFImage	*m_pBack;
 	CINFGroupImage*	m_pBack;
 	CINFGroupImage*	m_pBackControl;
-#else 
-	CINFImageEx	*m_pBack;
-#endif
 	CINFImageEx	*m_pImgSelect;
 	//CINFImage	*m_pButton[BUTTON_NUMBER][BUTTON_STATE_NUMBER];
 	CINFImageEx	*m_pImgGuildRank[MAX_COMBO_GUILD_RANK];

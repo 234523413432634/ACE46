@@ -105,13 +105,8 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 #define BOX_START_DEFAULT_MIN_X     60                      // 2011. 10. 10 by jskim UI시스템 변경			   
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	#define SIZE_MSGBOX_BUTTON_X		28
 	#define SIZE_MSGBOX_BUTTON_Y		28
-#else
-#define SIZE_MSGBOX_BUTTON_X		36
-#define SIZE_MSGBOX_BUTTON_Y		16
-#endif
 #define RADIO_BUTTON_Y				50
 #define UM_MSGBOX_CLOSE				0x0010
 #define OK_CANCEL_BUTTON			_Q_PARTY_INVITE == m_nMsgType ||			\
@@ -656,7 +651,6 @@
 									_Q_MARKET_GET_ITEM == m_nMsgType	||		\
 									_Q_MARKET_NORMAL_MESSAGE == m_nMsgType
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 캐릭터 생성 시에 나타나는 메시지(존재하는 이름, 잘못된 이름, 이름을 입력하세요)
 #define ALL_BOX_SIZE_X				125
 #define ALL_BOX_SIZE_Y				19
@@ -674,30 +668,11 @@
 
 	#define ALL_BUTTON_SIZE_X			22
 	#define ALL_BUTTON_SIZE_Y			22
-#else
-	#define ALL_BOX_SIZE_X				125
-	#define ALL_BOX_SIZE_Y				19
-	#define ALL_BOX_START_X				(m_nX+(m_nCx/2 - ALL_BOX_SIZE_X/2))
-	#define ALL_BOX_START_Y				(m_nY+43)
-#define ALL_TEXT_START_X			(ALL_BOX_START_X+6)
-#define ALL_UP_START_X				(ALL_BOX_START_X+79)
-#define ALL_UP_START_Y				(ALL_BOX_START_Y+1)
-#define ALL_DOWN_START_X			(ALL_BOX_START_X+79)
-#define ALL_DOWN_START_Y			(ALL_BOX_START_Y+11)
-#define ALL_UPDOWN_SIZE_X			9
-#define ALL_UPDOWN_SIZE_Y			7
-#define ALL_BUTTON_START_X			(ALL_BOX_START_X+90)
-#define ALL_BUTTON_START_Y			(ALL_BOX_START_Y+1)
-
-#define ALL_BUTTON_SIZE_X			33
-#define ALL_BUTTON_SIZE_Y			17
-#endif
 
 #define COUNT_ITEM_MAX_NUMBER		11
 #define MESSAGE_STRING_LENGTH		400							// 메세지 최대 픽셀
 #define MESSAGE_FONT_LINE_HEIGHT	15							// 한 라인의 높이
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 2006-03-07 by ispark, 언어에 따라 위치 수정
 // 2015-05-22 by jwlee 영어권 나라에서 '\n'문자 인식을 위해 디파인 해제
 //#if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
@@ -708,16 +683,6 @@
 #else
 #define STRING_CULL ::StringCullingUserDataEx
 #define ALL_TEXT_START_Y			(ALL_BOX_START_Y+6)//4)
-#endif
-#else
-// 2006-03-07 by ispark, 언어에 따라 위치 수정
-#if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
-#define ALL_TEXT_START_Y			(ALL_BOX_START_Y+1)//4)
-#define STRING_CULL ::StringCullingUserData_ToBlank
-#else
-#define STRING_CULL ::StringCullingUserDataEx
-#define ALL_TEXT_START_Y			(ALL_BOX_START_Y+1)//4)
-#endif
 #endif
 
 // 2007-03-26 by bhsohn 메세지 박스가 너무 작게 나오는 현상 처리
@@ -1100,45 +1065,24 @@ void CINFMessageBox::Render()
 	}
 	if(OK_CANCEL_BUTTON)
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		// 버튼 : ok
 		((CINFWindow*)m_pParent)->m_pOkButton[m_nButtonState[0]]->Move(m_nX+m_nCx/2-SIZE_MSGBOX_BUTTON_X-5, m_nY + m_nCy - (10+SIZE_MSGBOX_BUTTON_Y));
 		((CINFWindow*)m_pParent)->m_pOkButton[m_nButtonState[0]]->Render();
 		// 버튼 : cancel
 		((CINFWindow*)m_pParent)->m_pCancelButton[m_nButtonState[1]]->Move(m_nX+m_nCx/2+5, m_nY + m_nCy - (10+SIZE_MSGBOX_BUTTON_Y));
 		((CINFWindow*)m_pParent)->m_pCancelButton[m_nButtonState[1]]->Render();
-#else
-		// 버튼 : ok
-		((CINFWindow*)m_pParent)->m_pOkButton[m_nButtonState[0]]->Move(m_nX+m_nCx/2-SIZE_MSGBOX_BUTTON_X-5, m_nY + m_nCy - (19+SIZE_MSGBOX_BUTTON_Y));
-		((CINFWindow*)m_pParent)->m_pOkButton[m_nButtonState[0]]->Render();
-		// 버튼 : cancel
-		((CINFWindow*)m_pParent)->m_pCancelButton[m_nButtonState[1]]->Move(m_nX+m_nCx/2+5, m_nY + m_nCy - (19+SIZE_MSGBOX_BUTTON_Y));
-		((CINFWindow*)m_pParent)->m_pCancelButton[m_nButtonState[1]]->Render();
-#endif
 	}
 	else if(OK_BUTTON)
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		// 버튼 : ok
 		((CINFWindow*)m_pParent)->m_pOkButton[m_nButtonState[0]]->Move(m_nX+m_nCx/2-SIZE_MSGBOX_BUTTON_X/2, m_nY + m_nCy - (10+SIZE_MSGBOX_BUTTON_Y));
 		((CINFWindow*)m_pParent)->m_pOkButton[m_nButtonState[0]]->Render();
-#else
-		// 버튼 : ok
-		((CINFWindow*)m_pParent)->m_pOkButton[m_nButtonState[0]]->Move(m_nX+m_nCx/2-SIZE_MSGBOX_BUTTON_X/2, m_nY + m_nCy - (19+SIZE_MSGBOX_BUTTON_Y));
-		((CINFWindow*)m_pParent)->m_pOkButton[m_nButtonState[0]]->Render();
-#endif
 	}
 	else if(CANCEL_BUTTON)
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		// 버튼 : cancel
 		((CINFWindow*)m_pParent)->m_pCancelButton[m_nButtonState[1]]->Move(m_nX+m_nCx/2-SIZE_MSGBOX_BUTTON_X/2, m_nY + m_nCy - (10+SIZE_MSGBOX_BUTTON_Y));
 		((CINFWindow*)m_pParent)->m_pCancelButton[m_nButtonState[1]]->Render();
-#else
-		// 버튼 : cancel
-		((CINFWindow*)m_pParent)->m_pCancelButton[m_nButtonState[1]]->Move(m_nX+m_nCx/2-SIZE_MSGBOX_BUTTON_X/2, m_nY + m_nCy - (19+SIZE_MSGBOX_BUTTON_Y));
-		((CINFWindow*)m_pParent)->m_pCancelButton[m_nButtonState[1]]->Render();
-#endif
 	}
 	else if(INPUT_MSG_BUTTON)
 	{
@@ -1155,7 +1099,6 @@ void CINFMessageBox::Render()
 				m_pFontInput[1]->DrawText(m_nX+20, m_nY+24+(SIZE_MSGBOX_BUTTON_Y * vecstrMessage.size()), GUI_FONT_COLOR_Y,chatbuf, 0L);
 			}
 		}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		// 버튼 : ok
 		((CINFWindow*)m_pParent)->m_pOkButton[m_nButtonState[0]]->Move(m_nX+m_nCx/2-SIZE_MSGBOX_BUTTON_X-5, m_nY + m_nCy - (10+SIZE_MSGBOX_BUTTON_Y));
 		((CINFWindow*)m_pParent)->m_pOkButton[m_nButtonState[0]]->Render();
@@ -1167,23 +1110,9 @@ void CINFMessageBox::Render()
 				
 		// 2007-05-21 by bhsohn China IME Working
 		g_pD3dApp->RenderIMEType(m_nX+20, m_nY+24);
-#else
-		// 버튼 : ok
-		((CINFWindow*)m_pParent)->m_pOkButton[m_nButtonState[0]]->Move(m_nX+m_nCx/2-SIZE_MSGBOX_BUTTON_X-5, m_nY + m_nCy - (19+SIZE_MSGBOX_BUTTON_Y));
-		((CINFWindow*)m_pParent)->m_pOkButton[m_nButtonState[0]]->Render();
-		// 버튼 : cancel
-		((CINFWindow*)m_pParent)->m_pCancelButton[m_nButtonState[1]]->Move(m_nX+m_nCx/2+5, m_nY + m_nCy - (19+SIZE_MSGBOX_BUTTON_Y));
-		((CINFWindow*)m_pParent)->m_pCancelButton[m_nButtonState[1]]->Render();
-		if(SET_MESSAGEBOX_CANDIDATE == g_nRenderCandidate)
-			g_pD3dApp->RenderCandidate(m_nX+20, m_nY+24);
-
-		// 2007-05-21 by bhsohn China IME Working
-		g_pD3dApp->RenderIMEType(m_nX+20, m_nY+24);
-#endif
 	}
 	else if(INPUT_COUNT_BUTTON)
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	((CINFWindow*)m_pParent)->m_pAllBox->Move(ALL_BOX_START_X - 2, ALL_BOX_START_Y + 1 );
 		((CINFWindow*)m_pParent)->m_pAllBox->Render();
 		if( m_nAllButtonState == BUTTON_STATE_DOWN )
@@ -1237,40 +1166,6 @@ void CINFMessageBox::Render()
 		((CINFWindow*)m_pParent)->m_pCancelButton[m_nButtonState[1]]->Move(m_nX+m_nCx/2+5, m_nY + m_nCy - (10+SIZE_MSGBOX_BUTTON_Y));
 		((CINFWindow*)m_pParent)->m_pCancelButton[m_nButtonState[1]]->Render();
 
-#else
-		((CINFWindow*)m_pParent)->m_pAllBox->Move(ALL_BOX_START_X, ALL_BOX_START_Y );
-		((CINFWindow*)m_pParent)->m_pAllBox->Render();
-		if(m_nAllButtonState < 2)
-		{
-			((CINFWindow*)m_pParent)->m_pAllButton[m_nAllButtonState]->Move(ALL_BUTTON_START_X, ALL_BUTTON_START_Y);
-			((CINFWindow*)m_pParent)->m_pAllButton[m_nAllButtonState]->Render();
-		}
-
-		if(m_strInputMessage[0])
-		{
-			char chatbuf[COUNT_ITEM_MAX_NUMBER];
-			memset(chatbuf,0x00,COUNT_ITEM_MAX_NUMBER);
-			
-			if(strlen(m_strInputMessage) > COUNT_ITEM_MAX_NUMBER)
-			{
-				int temp = strlen(m_strInputMessage) - COUNT_ITEM_MAX_NUMBER;
-				
-				strncpy(chatbuf,&m_strInputMessage[temp],COUNT_ITEM_MAX_NUMBER);
-				chatbuf[COUNT_ITEM_MAX_NUMBER]='\0';
-			}
-			else
-			{
-				strncpy(chatbuf,m_strInputMessage,COUNT_ITEM_MAX_NUMBER);
-			}		
-			m_pFontInput[0]->DrawText(ALL_TEXT_START_X, ALL_TEXT_START_Y, GUI_FONT_COLOR_Y, chatbuf, 0L);			
-		}
-		// 버튼 : ok
-		((CINFWindow*)m_pParent)->m_pOkButton[m_nButtonState[0]]->Move(m_nX+m_nCx/2-SIZE_MSGBOX_BUTTON_X-5, m_nY + m_nCy - (19+SIZE_MSGBOX_BUTTON_Y));
-		((CINFWindow*)m_pParent)->m_pOkButton[m_nButtonState[0]]->Render();
-		// 버튼 : cancel
-		((CINFWindow*)m_pParent)->m_pCancelButton[m_nButtonState[1]]->Move(m_nX+m_nCx/2+5, m_nY + m_nCy - (19+SIZE_MSGBOX_BUTTON_Y));
-		((CINFWindow*)m_pParent)->m_pCancelButton[m_nButtonState[1]]->Render();
-#endif
 	}
 	else if(INPUT_RADIO_BUTTON)
 	{
@@ -1311,21 +1206,12 @@ void CINFMessageBox::Render()
 				}				
 			}			
 		}		
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경		
 		// 버튼 : ok
 		((CINFWindow*)m_pParent)->m_pOkButton[m_nButtonState[0]]->Move(m_nX+m_nCx/2-SIZE_MSGBOX_BUTTON_X-5, m_nY + m_nCy - (10+SIZE_MSGBOX_BUTTON_Y));
 		((CINFWindow*)m_pParent)->m_pOkButton[m_nButtonState[0]]->Render();
 		// 버튼 : cancel
 		((CINFWindow*)m_pParent)->m_pCancelButton[m_nButtonState[1]]->Move(m_nX+m_nCx/2+5, m_nY + m_nCy - (10+SIZE_MSGBOX_BUTTON_Y));
 		((CINFWindow*)m_pParent)->m_pCancelButton[m_nButtonState[1]]->Render();
-#else
-		// 버튼 : ok
-		((CINFWindow*)m_pParent)->m_pOkButton[m_nButtonState[0]]->Move(m_nX+m_nCx/2-SIZE_MSGBOX_BUTTON_X-5, m_nY + m_nCy - (19+SIZE_MSGBOX_BUTTON_Y));
-		((CINFWindow*)m_pParent)->m_pOkButton[m_nButtonState[0]]->Render();
-		// 버튼 : cancel
-		((CINFWindow*)m_pParent)->m_pCancelButton[m_nButtonState[1]]->Move(m_nX+m_nCx/2+5, m_nY + m_nCy - (19+SIZE_MSGBOX_BUTTON_Y));
-		((CINFWindow*)m_pParent)->m_pCancelButton[m_nButtonState[1]]->Render();
-#endif
 	}
 }
 void CINFMessageBox::SetMessageBoxTitleChange(char *strTitle)
@@ -5280,9 +5166,6 @@ CINFWindow::CINFWindow(CAtumNode* pParent)
 
 	for(i=0;i<4;i++)
 	{
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM						 // 2011. 10. 10 by jskim UI시스템 변경
-		m_pRollImage[i] = NULL;
-#endif
 		m_pOkButton[i] = NULL;
 		m_pCancelButton[i] = NULL;
 	}
@@ -5690,9 +5573,6 @@ CINFWindow::~CINFWindow()
 
 	for(i=0;i<4;i++)
 	{
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM                                 // 2011. 10. 10 by jskim UI시스템 변경
-		SAFE_DELETE(m_pRollImage[i]);
-#endif
 		SAFE_DELETE(m_pOkButton[i]);
 		SAFE_DELETE(m_pCancelButton[i]);
 	}
@@ -5744,21 +5624,7 @@ HRESULT CINFWindow::InitDeviceObjects()
 	// end 2007-11-12 by bhsohn 캐쉬아이템 메시지 박스 처리
 
 // 2011. 10. 10 by jskim UI시스템 변경
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM
-	for(i=0;i<2;i++)
-	{
-		for(int j=0;j<2;j++)
-		{
-			char buf[12];
-			wsprintf(buf, "roll%d%d",i,j);
- 			m_pRollImage[i*2+j] = new CINFImageEx;
-			DataHeader* pDataHeader = FindResource(buf);
- 			m_pRollImage[i*2+j]->InitDeviceObjects(pDataHeader);
- 		}
- 	}
-#endif
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM	   
     m_pXclose = new CINFImageEx;
 	DataHeader* pDataHeader = FindResource("close");
 	m_pXclose->InitDeviceObjects(pDataHeader) ;
@@ -5771,22 +5637,7 @@ HRESULT CINFWindow::InitDeviceObjects()
 	m_pAllButton[1] = new CINFImageEx;
 	pDataHeader = FindResource("Mallbtn_2");
 	m_pAllButton[1]->InitDeviceObjects(pDataHeader) ;
-#else 
-    m_pXclose = new CINFImageEx;
-	DataHeader* pDataHeader = FindResource("xclose");
-	m_pXclose->InitDeviceObjects(pDataHeader) ;
-	m_pAllBox = new CINFImageEx;
-	pDataHeader = FindResource("msgAll");
-	m_pAllBox->InitDeviceObjects(pDataHeader) ;
-	m_pAllButton[0] = new CINFImageEx;
-	pDataHeader = FindResource("all_over");
-	m_pAllButton[0]->InitDeviceObjects(pDataHeader) ;
-	m_pAllButton[1] = new CINFImageEx;
-	pDataHeader = FindResource("all_push");
-	m_pAllButton[1]->InitDeviceObjects(pDataHeader) ;
-#endif
 						 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 // 2005-09-20 by ispark
 	m_pOkButton[0] = new CINFImageEx;
 	pDataHeader = FindResource("oks00");
@@ -5820,40 +5671,6 @@ HRESULT CINFWindow::InitDeviceObjects()
 	m_pCancelButton[3] = new CINFImageEx;
 	pDataHeader = FindResource("cans03");
 	m_pCancelButton[3]->InitDeviceObjects(pDataHeader);	 
-#else  
-	m_pOkButton[0] = new CINFImageEx;
-	pDataHeader = FindResource("sok0");
-	m_pOkButton[0]->InitDeviceObjects(pDataHeader);
-
-		m_pOkButton[1] = new CINFImageEx;
-	pDataHeader = FindResource("sok1");
-	m_pOkButton[1]->InitDeviceObjects(pDataHeader);
-
-		m_pOkButton[2] = new CINFImageEx;
-	pDataHeader = FindResource("sok2");
-	m_pOkButton[2]->InitDeviceObjects(pDataHeader);
-
-		m_pOkButton[3] = new CINFImageEx;
-	pDataHeader = FindResource("sok3");
-	m_pOkButton[3]->InitDeviceObjects(pDataHeader);
-
-// 2005-09-20 by ispark
-	m_pCancelButton[0] = new CINFImageEx;
-	pDataHeader = FindResource("glcan00");
-	m_pCancelButton[0]->InitDeviceObjects(pDataHeader);
-
-	m_pCancelButton[1] = new CINFImageEx;
-	pDataHeader = FindResource("glcan01");
-	m_pCancelButton[1]->InitDeviceObjects(pDataHeader);
-
-	m_pCancelButton[2] = new CINFImageEx;
-	pDataHeader = FindResource("glcan02");
-	m_pCancelButton[2]->InitDeviceObjects(pDataHeader);
-
-	m_pCancelButton[3] = new CINFImageEx;
-	pDataHeader = FindResource("glcan03");
-	m_pCancelButton[3]->InitDeviceObjects(pDataHeader);
-#endif
 		
 	m_pRadioButton[0] = new CINFImageEx;
 	pDataHeader = FindResource("radio_a");
@@ -5863,15 +5680,9 @@ HRESULT CINFWindow::InitDeviceObjects()
 	pDataHeader = FindResource("radio_b");
 	m_pRadioButton[1]->InitDeviceObjects(pDataHeader);
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("trade");
 	m_pTradeBase = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 	m_pTradeBase->InitDeviceObjects( g_pD3dApp->m_pImageList );
-#else
-	m_pTradeBase = new CINFImageEx;
-	pDataHeader = FindResource("tradebs");
-	m_pTradeBase->InitDeviceObjects(pDataHeader);
-#endif
 // end 2011. 10. 10 by jskim UI시스템 변경
 	return S_OK ;
 }
@@ -5894,9 +5705,6 @@ HRESULT CINFWindow::RestoreDeviceObjects()
 
 	for(i=0;i<4;i++)
 	{
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		m_pRollImage[i]->RestoreDeviceObjects();
-#endif
 		m_pOkButton[i]->RestoreDeviceObjects();
 		m_pCancelButton[i]->RestoreDeviceObjects();
 	}
@@ -5946,10 +5754,6 @@ HRESULT CINFWindow::DeleteDeviceObjects()
 
 	for(i=0;i<4;i++)
 	{
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		m_pRollImage[i]->DeleteDeviceObjects();
-        SAFE_DELETE(m_pRollImage[i] );
-#endif
 		m_pOkButton[i]->DeleteDeviceObjects();
 		m_pCancelButton[i]->DeleteDeviceObjects();
 		SAFE_DELETE(m_pOkButton[i]);
@@ -6010,9 +5814,6 @@ HRESULT CINFWindow::InvalidateDeviceObjects()
 
 	for(i=0;i<4;i++)
 	{
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-		m_pRollImage[i]->InvalidateDeviceObjects();
-#endif
 		m_pOkButton[i]->InvalidateDeviceObjects();
 		m_pCancelButton[i]->InvalidateDeviceObjects();
 	}
@@ -6659,7 +6460,6 @@ void CINFWindow::DrawLeftWindow(int x, int y, int cx, int cy, BOOL bInven)// cx 
 		g_pShuttleChild->SetRenderInven(TRUE);
 
 // 2011. 10. 10 by jskim UI시스템 변경
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 
 		m_pBoxImage[0]->Move(x,y);
 		m_pBoxImage[0]->Render();
@@ -6740,50 +6540,6 @@ void CINFWindow::DrawLeftWindow(int x, int y, int cx, int cy, BOOL bInven)// cx 
 		//m_pRollImage[1]->Move(x,y+cy);
 		//m_pRollImage[1]->Render();
 	}						 
-#else
-		m_pBoxImage[0]->Move(x,y);
-		m_pBoxImage[0]->Render();
-		m_pBoxImage[1]->Move(x+19, y);
-		m_pBoxImage[1]->SetScale(cx-38, 1);
-		m_pBoxImage[1]->Render();
-		m_pBoxImage[2]->Move(x+cx-19,y);
-		m_pBoxImage[2]->Render();
-
-		m_pBoxImage[3]->Move(x, y+19);
-		m_pBoxImage[3]->SetScale(1, cy-38);
-		m_pBoxImage[3]->Render();
-		
-		if(bInven == FALSE)
-		{
-			g_pShuttleChild->SetRenderInven(FALSE);
-			m_pBoxImage[4]->Move(x+19, y+19);
-			m_pBoxImage[4]->SetScale(cx-38,cy-38);
-			m_pBoxImage[4]->Render();			
-		}
-		
-		m_pBoxImage[5]->Move(x+cx-19, y+19);
-		m_pBoxImage[5]->SetScale(1, cy-38);
-		m_pBoxImage[5]->Render();
-
-		m_pBoxImage[6]->Move(x,y+cy-19);
-		m_pBoxImage[6]->Render();
-		m_pBoxImage[7]->Move(x+19,y+cy-19);
-		m_pBoxImage[7]->SetScale(cx-38, 1);
-		m_pBoxImage[7]->Render();
-		m_pBoxImage[8]->Move(x+cx-19,y+cy-19);
-		m_pBoxImage[8]->Render();
-		m_pXclose->Move(x+cx-14,y+6);
-		m_pXclose->Render();
-//	}
-//
-//	if()
-//	{
-		m_pRollImage[0]->Move(x,y-36);
-		m_pRollImage[0]->Render();
-		m_pRollImage[1]->Move(x,y+cy);
-		m_pRollImage[1]->Render();
-	}
-#endif
 // end 2011. 10. 10 by jskim UI시스템 변경
 }
 
@@ -6796,7 +6552,6 @@ void CINFWindow::DrawRightWindow(int x, int y, int cx, int cy)// cx > 39, cy > 3
 		m_pBoxImage[0]->Move(x,y);
 		m_pBoxImage[0]->Render();
 // 2011. 10. 10 by jskim UI시스템 변경		  
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		int nPosX = x + m_pBoxImage[0]->GetImgSize().x;
 		int nImageSizeX = BOX_START_DEFAULT_MIN_X;
 		
@@ -6871,41 +6626,6 @@ void CINFWindow::DrawRightWindow(int x, int y, int cx, int cy)// cx > 39, cy > 3
 // 		m_pRollImage[2]->Render();
 // 		m_pRollImage[3]->Move(g_pD3dApp->GetBackBufferDesc().Width-25,y+cy);
 // 		m_pRollImage[3]->Render();
-#else
-		m_pBoxImage[1]->Move(x+19, y);
-		m_pBoxImage[1]->SetScale(cx-38, 1);
-		m_pBoxImage[1]->Render();
-		m_pBoxImage[2]->Move(x+cx-19,y);
-		m_pBoxImage[2]->Render();
-
-		m_pBoxImage[3]->Move(x, y+19);
-		m_pBoxImage[3]->SetScale(1, cy-38);
-		m_pBoxImage[3]->Render();
-		m_pBoxImage[4]->Move(x+19, y+19);
-		m_pBoxImage[4]->SetScale(cx-38,cy-38);
-		m_pBoxImage[4]->Render();
-		m_pBoxImage[5]->Move(x+cx-19, y+19);
-		m_pBoxImage[5]->SetScale(1, cy-38);
-		m_pBoxImage[5]->Render();
-
-		m_pBoxImage[6]->Move(x,y+cy-19);
-		m_pBoxImage[6]->Render();
-		m_pBoxImage[7]->Move(x+19,y+cy-19);
-		m_pBoxImage[7]->SetScale(cx-38, 1);
-		m_pBoxImage[7]->Render();
-		m_pBoxImage[8]->Move(x+cx-19,y+cy-19);
-		m_pBoxImage[8]->Render();
-		m_pXclose->Move(g_pD3dApp->GetBackBufferDesc().Width-14,y+6);
-		m_pXclose->Render();
-//	}
-//
-//	if(g_pD3dApp->m_dwGameState != _SHOP)
-//	{
-		m_pRollImage[2]->Move(g_pD3dApp->GetBackBufferDesc().Width-25,y-36);
-		m_pRollImage[2]->Render();
-		m_pRollImage[3]->Move(g_pD3dApp->GetBackBufferDesc().Width-25,y+cy);
-		m_pRollImage[3]->Render();
-#endif
 // end 2011. 10. 10 by jskim UI시스템 변경
 	}
 }
@@ -6918,7 +6638,6 @@ void CINFWindow::RenderCenterWindow(int x, int y, int cx, int cy, BOOL bRenderCl
 	m_pBoxImage[0]->Render();
 										   
 // 2011. 10. 10 by jskim UI시스템 변경
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	int nPosX = x + m_pBoxImage[0]->GetImgSize().x;
 	int nImageSizeX = BOX_START_DEFAULT_MIN_X;
 	
@@ -6988,36 +6707,6 @@ void CINFWindow::RenderCenterWindow(int x, int y, int cx, int cy, BOOL bRenderCl
 		m_pXclose->Move(x+cx-16,y - 2);
 		m_pXclose->Render();
 	}
-#else 
-	m_pBoxImage[1]->Move(x+19, y);
-	m_pBoxImage[1]->SetScale(cx-38, 1);
-	m_pBoxImage[1]->Render();
-	m_pBoxImage[2]->Move(x+cx-19,y);
-	m_pBoxImage[2]->Render();
-
-	m_pBoxImage[3]->Move(x, y+19);
-	m_pBoxImage[3]->SetScale(1, cy-38);
-	m_pBoxImage[3]->Render();
-	m_pBoxImage[4]->Move(x+19, y+19);
-	m_pBoxImage[4]->SetScale(cx-38,cy-38);
-	m_pBoxImage[4]->Render();
-	m_pBoxImage[5]->Move(x+cx-19, y+19);
-	m_pBoxImage[5]->SetScale(1, cy-38);
-	m_pBoxImage[5]->Render();
-
-	m_pBoxImage[6]->Move(x,y+cy-19);
-	m_pBoxImage[6]->Render();
-	m_pBoxImage[7]->Move(x+19,y+cy-19);
-	m_pBoxImage[7]->SetScale(cx-38, 1);
-	m_pBoxImage[7]->Render();
-	m_pBoxImage[8]->Move(x+cx-19,y+cy-19);
-	m_pBoxImage[8]->Render();
-	if(bRenderClose)
-	{
-		m_pXclose->Move(x+cx-14,y+6);
-		m_pXclose->Render();
-	}
-#endif
 // end 2011. 10. 10 by jskim UI시스템 변경
 }
 ///////////////////////////////////////////////////////////////////////////////
@@ -7034,7 +6723,6 @@ void CINFWindow::RenderBlackBK(int x, int y, int cx, int cy, BOOL bRenderClose)
 {
 	FLOG( "CINFWindow::RenderCenterWindow(int x, int y, int cx, int cy, BOOL bRenderClose)" );
 // 2011. 10. 10 by jskim UI시스템 변경
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pBoxImage[0]->Move(x,y);
 	m_pBoxImage[0]->Render();
 	
@@ -7108,38 +6796,6 @@ void CINFWindow::RenderBlackBK(int x, int y, int cx, int cy, BOOL bRenderClose)
 		m_pXclose->Move(x+cx-16,y - 2);
 		m_pXclose->Render();
 	}
-#else
-	m_pBoldBoxImage[0]->Move(x,y);
-	m_pBoldBoxImage[0]->Render();
-	m_pBoldBoxImage[1]->Move(x+19, y);
-	m_pBoldBoxImage[1]->SetScale(cx-38, 1);
-	m_pBoldBoxImage[1]->Render();
-	m_pBoldBoxImage[2]->Move(x+cx-19,y);
-	m_pBoldBoxImage[2]->Render();
-
-	m_pBoldBoxImage[3]->Move(x, y+19);
-	m_pBoldBoxImage[3]->SetScale(1, cy-38);
-	m_pBoldBoxImage[3]->Render();
-	m_pBoldBoxImage[4]->Move(x+19, y+19);
-	m_pBoldBoxImage[4]->SetScale(cx-38,cy-38);
-	m_pBoldBoxImage[4]->Render();
-	m_pBoldBoxImage[5]->Move(x+cx-19, y+19);
-	m_pBoldBoxImage[5]->SetScale(1, cy-38);
-	m_pBoldBoxImage[5]->Render();
-
-	m_pBoldBoxImage[6]->Move(x,y+cy-19);
-	m_pBoldBoxImage[6]->Render();
-	m_pBoldBoxImage[7]->Move(x+19,y+cy-19);
-	m_pBoldBoxImage[7]->SetScale(cx-38, 1);
-	m_pBoldBoxImage[7]->Render();
-	m_pBoldBoxImage[8]->Move(x+cx-19,y+cy-19);
-	m_pBoldBoxImage[8]->Render();
-	if(bRenderClose)
-	{
-		m_pXclose->Move(x+cx-14,y+6);
-		m_pXclose->Render();
-	}
-#endif
 // end 2011. 10. 10 by jskim UI시스템 변경
 }
 

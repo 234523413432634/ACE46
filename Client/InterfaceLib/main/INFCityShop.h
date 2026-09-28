@@ -71,7 +71,6 @@ public:
 	BOOL			m_bRestored;
 	BOOL			m_bInvalidated;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFImageBtn*	m_pOkButton;
 	CINFImageBtn*	m_pCancelButton;
 	//NFImageEx	*	m_pCash;
@@ -83,20 +82,6 @@ public:
 	CINFImageEx	*	m_pTriSlot;							// 2011-12-08 by jhahn EP4 트리거 상점 UI 변경
 	CINFImageEx	*	m_pTriSelectSlot;					// 2011-12-08 by jhahn EP4 트리거 상점 UI 변경
 
-#else			
-	CINFImageEx	*	m_pTriSelectSlot;					// 2011-12-08 by jhahn EP4 트리거 상점 UI 변경
-	CINFImageEx	*	m_pTriSlot;							// 2011-12-08 by jhahn EP4 트리거 상점 UI 변경
-
-	CINFImageEx	*	m_pOkButton[4];
-	CINFImageEx	*	m_pCancelButton[4];
-	CINFImageEx	*	m_pBuyButton[4];
-	CINFImageEx	*	m_pCash;
-	CINFImageEx	*	m_pSlot;
-	CINFImageEx	*	m_pItemTab[4];
-	CINFImageEx	*	m_pScrollUpDown;
-	CINFImageEx	*	m_pScrollBar;
-	CINFImageEx	*	m_pSelectSlot;
-#endif
 
 	int				m_nCurrentTab;
 	int				m_nOkButtonState;

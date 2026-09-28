@@ -27,7 +27,6 @@
 #define LEFT_WEAPON_NUMBER g_pShuttleChild->m_pPrimaryWeapon->GetItemGeneral()->CurrentCount// 음수인 경우 연료 사용중(USE FUEL)
 #define RIGHT_WEAPON_NUMBER g_pShuttleChild->m_pSecondaryWeapon->GetItemGeneral()->CurrentCount
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define FIRST_WEAPON_START_X	x
 #define FIRST_WEAPON_START_Y	y + 22
 #define FIRST_WEAPON_FONT_X		x + 17 //(FIRST_WEAPON_START_X + 55)
@@ -43,22 +42,6 @@
 #define SECOND_WEAPON_EMPTY_X	SECOND_WEAPON_START_X - 37
 #define SECOND_WEAPON_EMPTY_Y	SECOND_WEAPON_START_Y + 5
 // end 2011. 10. 10 by jskim UI시스템 변경														  
-#else 
-#define FIRST_WEAPON_START_X	23
-#define FIRST_WEAPON_START_Y	178
-#define FIRST_WEAPON_GAGE_X		(FIRST_WEAPON_START_X + 37)
-#define FIRST_WEAPON_GAGE_Y		(FIRST_WEAPON_START_Y + 3)
-#define FIRST_WEAPON_FONT_X		(FIRST_WEAPON_START_X + 55)
-#define FIRST_WEAPON_FONT_Y		(FIRST_WEAPON_START_Y + 10)
-
-#define SECOND_WEAPON_START_X	23
-#define SECOND_WEAPON_START_Y	207
-#define SECOND_WEAPON_GAGE_X	(SECOND_WEAPON_START_X + 37)
-#define SECOND_WEAPON_GAGE_Y	(SECOND_WEAPON_START_Y + 3)
-#define SECOND_WEAPON_FONT_X	(SECOND_WEAPON_START_X + 55)
-#define SECOND_WEAPON_FONT_Y	(SECOND_WEAPON_START_Y + 10)
-
-#endif
 
 #define LEFT_WEAPON_NUMBER_X	5
 #define LEFT_WEAPON_NUMBER_Y	57
@@ -88,12 +71,10 @@ CINFWeaponInfo::CINFWeaponInfo(CAtumNode* pParent)
 	m_pOverHeatImage = NULL;
 	m_pBulletEmptyImage = NULL;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pBulletEmptyImage1 = NULL;			// 2011. 10. 10 by jskim UI시스템 변경
 	m_pBulletEmptyImage2 = NULL;			// 2011. 10. 10 by jskim UI시스템 변경
     m_pBulletLowImage1 = NULL;				// 2011. 10. 10 by jskim UI시스템 변경
 	m_bFlash = FALSE;						// 2011. 10. 10 by jskim UI시스템 변경
-#endif
 	m_pBulletLowImage = NULL;
 
 
@@ -103,9 +84,7 @@ CINFWeaponInfo::CINFWeaponInfo(CAtumNode* pParent)
 
 	m_pParent = pParent;
 	memset(m_pWeaponNumberImage, 0x00, sizeof(INT)*10);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	memset(m_pWeaponWarningNumberImage, 0x00, sizeof(INT)*10);									  
-#endif
 }
 
 CINFWeaponInfo::~CINFWeaponInfo()
@@ -127,18 +106,14 @@ CINFWeaponInfo::~CINFWeaponInfo()
 	SAFE_DELETE(m_pOverHeatImage);
 	SAFE_DELETE(m_pBulletEmptyImage);
     SAFE_DELETE(m_pBulletLowImage);				// 2011. 10. 10 by jskim UI시스템 변경
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	SAFE_DELETE(m_pBulletEmptyImage1);			// 2011. 10. 10 by jskim UI시스템 변경
 	SAFE_DELETE(m_pBulletEmptyImage2);			// 2011. 10. 10 by jskim UI시스템 변경	
 	SAFE_DELETE(m_pBulletLowImage1);			// 2011. 10. 10 by jskim UI시스템 변경			  
-#endif
 
 	int i; for(i=0;i<10;i++)
 	{
 		SAFE_DELETE(m_pWeaponNumberImage[i]);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		SAFE_DELETE(m_pWeaponWarningNumberImage[i]);			// 2011. 10. 10 by jskim UI시스템 변경
-#endif
 	}
 }
 
@@ -193,7 +168,6 @@ HRESULT CINFWeaponInfo::InitDeviceObjects()
 	pDataHeader = FindResource("reload");
 	m_pReloadImage->InitDeviceObjects( pDataHeader ) ;
 							
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pOverHeatImage = new CINFImageEx;				// 2011. 10. 10 by jskim UI시스템 변경
 	pDataHeader = FindResource("weover_1");
 	m_pOverHeatImage->InitDeviceObjects( pDataHeader ) ;
@@ -217,27 +191,14 @@ HRESULT CINFWeaponInfo::InitDeviceObjects()
 	m_pBulletLowImage1 = new CINFImageEx;
 	pDataHeader = FindResource("welow_2");
 	m_pBulletLowImage1->InitDeviceObjects( pDataHeader ) ;	   
-#else	 
-	m_pOverHeatImage = new CINFImageEx;
-	pDataHeader = FindResource("weover");
-	m_pOverHeatImage->InitDeviceObjects(pDataHeader);
-	m_pBulletEmptyImage = new CINFImageEx;
-	pDataHeader = FindResource("weempty");
-	m_pBulletEmptyImage->InitDeviceObjects(pDataHeader) ;
-	m_pBulletLowImage = new CINFImageEx;
-	pDataHeader = FindResource("welow");
-	m_pBulletLowImage->InitDeviceObjects(pDataHeader) ;
-#endif
 
 	int i; for(i=0;i<10;i++)
 	{
 		char buf[16];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf(buf, "BR%d", i);
 		m_pWeaponWarningNumberImage[i] = new CINFImageEx;
 		pDataHeader = FindResource(buf);
 		m_pWeaponWarningNumberImage[i]->InitDeviceObjects(  pDataHeader );						  
-#endif
 		wsprintf(buf, "B%d", i);
 		m_pWeaponNumberImage[i] = new CINFImageEx;		// 2011. 10. 10 by jskim UI시스템 변경
 		pDataHeader = FindResource(buf);
@@ -278,7 +239,6 @@ HRESULT CINFWeaponInfo::RestoreDeviceObjects()
 	if(m_pBulletLowImage )
 		m_pBulletLowImage->RestoreDeviceObjects();
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(m_pBulletEmptyImage1 )		// 2011. 10. 10 by jskim UI시스템 변경
 		m_pBulletEmptyImage1->RestoreDeviceObjects();
 	if(m_pBulletEmptyImage2 )		// 2011. 10. 10 by jskim UI시스템 변경
@@ -286,14 +246,11 @@ HRESULT CINFWeaponInfo::RestoreDeviceObjects()
 
 	if(m_pBulletLowImage1 )			// 2011. 10. 10 by jskim UI시스템 변경
 		m_pBulletLowImage1->RestoreDeviceObjects();
-#endif
 	int i; for(i=0;i<10;i++)
 	{
 		m_pWeaponNumberImage[i]->RestoreDeviceObjects();
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pWeaponWarningNumberImage[i]->RestoreDeviceObjects();									  
-#endif
 	}
 	ChangeWeapon(1);
 	ChangeWeapon(2);
@@ -433,7 +390,6 @@ HRESULT CINFWeaponInfo::DeleteDeviceObjects()
 		m_pBulletLowImage->DeleteDeviceObjects();
 	SAFE_DELETE(m_pBulletLowImage );
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(m_pBulletEmptyImage1 )		// 2011. 10. 10 by jskim UI시스템 변경
 		m_pBulletEmptyImage1->DeleteDeviceObjects();
 	SAFE_DELETE(m_pBulletEmptyImage1 );
@@ -444,16 +400,13 @@ HRESULT CINFWeaponInfo::DeleteDeviceObjects()
 	if(m_pBulletLowImage1 )		
 		m_pBulletLowImage1->DeleteDeviceObjects();
 	SAFE_DELETE(m_pBulletLowImage1 );		// 2011. 10. 10 by jskim UI시스템 변경
-#endif
 	int i; for(i=0;i<10;i++)
 	{
 		m_pWeaponNumberImage[i]->DeleteDeviceObjects();
 		SAFE_DELETE(m_pWeaponNumberImage[i] );
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pWeaponWarningNumberImage[i]->DeleteDeviceObjects();		// 2011. 10. 10 by jskim UI시스템 변경
 		SAFE_DELETE(m_pWeaponWarningNumberImage[i] );											  
-#endif
 	}
 	return S_OK ;
 }
@@ -493,21 +446,17 @@ HRESULT CINFWeaponInfo::InvalidateDeviceObjects()
 	if(m_pBulletLowImage )
 		m_pBulletLowImage->InvalidateDeviceObjects();
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(m_pBulletEmptyImage1 )		// 2011. 10. 10 by jskim UI시스템 변경
 		m_pBulletEmptyImage1->InvalidateDeviceObjects();
 	if(m_pBulletEmptyImage2 )		// 2011. 10. 10 by jskim UI시스템 변경
 		m_pBulletEmptyImage2->InvalidateDeviceObjects();
 	if(m_pBulletLowImage1 )			// 2011. 10. 10 by jskim UI시스템 변경
 		m_pBulletLowImage1->InvalidateDeviceObjects();
-#endif
 
 	int i; for(i=0;i<10;i++)
 	{
 		m_pWeaponNumberImage[i]->InvalidateDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pWeaponWarningNumberImage[i]->InvalidateDeviceObjects();								  
-#endif
 	}
 
 	return S_OK ;
@@ -529,11 +478,7 @@ void CINFWeaponInfo::Tick()
 
 
 }
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 void CINFWeaponInfo::RenderLeftWeapon(float x, float y)		// 2011. 10. 10 by jskim UI시스템 변경
-#else						 
-void CINFWeaponInfo::RenderLeftWeapon()
-#endif
 {
 	FLOG( "CINFWeaponInfo::RenderLeftWeapon()" );
  	int nWindowPosY = g_pGameMain->m_nLeftWindowY;
@@ -554,7 +499,6 @@ void CINFWeaponInfo::RenderLeftWeapon()
 //		m_pStImage->Render() ;
 //	}
 //	if(m_pStOverHeatBar)
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(g_pShuttleChild->m_pPrimaryWeapon)
 	{
 // 2008-05-29 by dgwoo 메인 인터페이스 변경 기획.
@@ -650,95 +594,9 @@ void CINFWeaponInfo::RenderLeftWeapon()
 //		m_pEmptyWeaponImage->Move(m_nLeftWeaponInfoPosX+3, nWindowPosY + 10);
 //		m_pEmptyWeaponImage->Render() ;
 	}
-#else
-	if(g_pShuttleChild->m_pPrimaryWeapon)
-	{
-// 2008-05-29 by dgwoo 메인 인터페이스 변경 기획.
-//		m_pStOverHeatBar->Move(m_nLeftWeaponInfoPosX+LEFT_OVERHEAT_START_X, nWindowPosY+OVERHEAT_START_Y);
-////		m_pStOverHeatBar->SetRect(0, 0, OVERHEAT_LENGTH*g_pD3dApp->m_pShuttleChild->m_fPrimaryWeaponActionRate, OVERHEAT_HEIGHT);
-//		m_pStOverHeatBar->SetRect(0, 0, OVERHEAT_LENGTH*g_pShuttleChild->m_pPrimaryWeapon->GetOverHeatRate(), OVERHEAT_HEIGHT);
-//		m_pStOverHeatBar->Render();
-		m_pStOverHeatBar->Move(FIRST_WEAPON_GAGE_X, FIRST_WEAPON_GAGE_Y);
-//		m_pStOverHeatBar->SetRect(0, 0, OVERHEAT_LENGTH*g_pD3dApp->m_pShuttleChild->m_fPrimaryWeaponActionRate, OVERHEAT_HEIGHT);
-		m_pStOverHeatBar->SetRect(0, 0, OVERHEAT_LENGTH*g_pShuttleChild->m_pPrimaryWeapon->GetOverHeatRate(), OVERHEAT_HEIGHT);
-		m_pStOverHeatBar->Render();
-	}
-	// 2008-10-20 by dgwoo 무기 이미지가 필요없음.
-	//if(m_pStWeaponImage )		// 무기를 가지고 있으면
-	if(g_pShuttleChild && g_pShuttleChild->m_pPrimaryWeapon)
-	{
-		
-//		if(g_pD3dApp->m_pShuttleChild && g_pD3dApp->m_pShuttleChild->m_pItemPrimary )
-		if(g_pShuttleChild && g_pShuttleChild->m_pPrimaryWeapon )
-		{
-			if(IS_PRIMARY_WEAPON_1(g_pShuttleChild->m_pPrimaryWeapon->GetRealItemInfo()->Kind))
-			{
-				if(LEFT_WEAPON_NUMBER == 0)
-				{
-					m_pBulletEmptyImage->Move(FIRST_WEAPON_START_X, FIRST_WEAPON_START_Y);
-					m_pBulletEmptyImage->Render();
-				}
-				else if( g_pShuttleChild->m_pPrimaryWeapon->IsOverHeat())
-				{
-					m_pOverHeatImage->Move(FIRST_WEAPON_START_X, FIRST_WEAPON_START_Y);
-					m_pOverHeatImage->Render();
-				}
-				else if(LEFT_WEAPON_NUMBER < 100 && m_bFlash)//과열상태인 경우
-				{
-					m_pBulletLowImage->Move(FIRST_WEAPON_START_X, FIRST_WEAPON_START_Y);
-					m_pBulletLowImage->Render();
-				}
-				else
-				{
-					// 2006-07-19 by dgwoo m_nLeftWeaponInfoPosX추가 애니메이션에 따라 글씨도 찍히는 위치를 변경해준다.
-					RenderWeaponNumber(FIRST_WEAPON_FONT_Y, FIRST_WEAPON_FONT_X, LEFT_WEAPON_NUMBER);
-				}
-			}
-			else if(IS_PRIMARY_WEAPON_2(g_pShuttleChild->m_pPrimaryWeapon->GetRealItemInfo()->Kind))// 연료 사용중
-			{
-				float fRate = g_pShuttleChild->m_myShuttleInfo.CurrentEP/(float)g_pShuttleChild->m_myShuttleInfo.EP;
-				RenderWeaponFuel( nWindowPosY, LEFT_FUEL_X, fRate );
-				if(fRate == 0)
-				{
-					m_pBulletEmptyImage->Move(m_nLeftWeaponInfoPosX+3, nWindowPosY + 10);
-					m_pBulletEmptyImage->Render();
-				}
-				else if( fRate < 0.1f)
-				{
-					m_pBulletLowImage->Move(m_nLeftWeaponInfoPosX+3, nWindowPosY + 10);
-					m_pBulletLowImage->Render();
-				}
-// 2008-10-20 by dgwoo 무기 이미지가 필요없음.
-//				else if(g_pShuttleChild->m_pPrimaryWeapon->IsOverHeat() == FALSE)
-//				{
-//					m_pStWeaponImage->Move(m_nLeftWeaponInfoPosX+3, nWindowPosY + 10);
-//					m_pStWeaponImage->Render() ;
-//				}
-				else//과열상태인 경우
-				{
-					m_pOverHeatImage->Move(m_nLeftWeaponInfoPosX+3, nWindowPosY + 10);
-					m_pOverHeatImage->Render() ;
-				}
-			}
-		}
-		
-	}
-	else
-	{
-		m_pBulletEmptyImage->Move(FIRST_WEAPON_START_X, FIRST_WEAPON_START_Y);
-		m_pBulletEmptyImage->Render();
-
-//		m_pEmptyWeaponImage->Move(m_nLeftWeaponInfoPosX+3, nWindowPosY + 10);
-//		m_pEmptyWeaponImage->Render() ;
-	}
-#endif
 }
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 void CINFWeaponInfo::RenderRightWeapon(float x, float y)			// 2011. 10. 10 by jskim UI시스템 변경
-#else 
-void CINFWeaponInfo::RenderRightWeapon()
-#endif
 {
 	FLOG( "CINFWeaponInfo::RenderRightWeapon()" );
 	int nWindowPosY = g_pGameMain->m_nRightWindowY;
@@ -759,7 +617,6 @@ void CINFWeaponInfo::RenderRightWeapon()
 //		m_pNdImage->Render() ;
 //	}
 //	if(m_pNdOverHeatBar)
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(g_pShuttleChild->m_pSecondaryWeapon)
 	{
 //		int startX = (1.0f-g_pD3dApp->m_pShuttleChild->m_fSecondaryWeaponActionRate)*OVERHEAT_LENGTH;
@@ -807,56 +664,9 @@ void CINFWeaponInfo::RenderRightWeapon()
 		m_pBulletEmptyImage2->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 		m_pBulletEmptyImage2->Render();
 	}
-#else				
-	if(g_pShuttleChild->m_pSecondaryWeapon)
-	{
-//		int startX = (1.0f-g_pD3dApp->m_pShuttleChild->m_fSecondaryWeaponActionRate)*OVERHEAT_LENGTH;
-		int startX = (g_pShuttleChild->m_pSecondaryWeapon->GetReattackTimeRate())*OVERHEAT_LENGTH;
-		if(g_pD3dApp->m_bCharacter)
-			startX = OVERHEAT_LENGTH;
-		m_pStOverHeatBar->Move(SECOND_WEAPON_GAGE_X, SECOND_WEAPON_GAGE_Y);
-		//m_pStOverHeatBar->SetRect(startX, 0, OVERHEAT_LENGTH, OVERHEAT_HEIGHT);
-		m_pStOverHeatBar->SetRect(0, 0, startX, OVERHEAT_HEIGHT);
-		m_pStOverHeatBar->Render();
-	}
-// 2008-10-20 by dgwoo 무기 이미지가 필요없음.
-//	if(m_pNdWeaponImage )		// 무기를 가지고 있으면
-	if(g_pShuttleChild->m_pSecondaryWeapon)
-	{
-
-		if(RIGHT_WEAPON_NUMBER == 0)
-		{
-			m_pBulletEmptyImage->Move(SECOND_WEAPON_START_X, SECOND_WEAPON_START_Y);
-			m_pBulletEmptyImage->Render();
-		}
-		else if( RIGHT_WEAPON_NUMBER < 10 && m_bFlash)
-		{
-			m_pBulletLowImage->Move(SECOND_WEAPON_START_X, SECOND_WEAPON_START_Y);
-			m_pBulletLowImage->Render();
-		}
-		else //if(g_pD3dApp->m_pShuttleChild->m_bSecondaryWeaponAction)
-		{
-			if(RIGHT_WEAPON_NUMBER >= 0)
-			{
-				RenderWeaponNumber( SECOND_WEAPON_FONT_Y, SECOND_WEAPON_FONT_X, RIGHT_WEAPON_NUMBER);
-			}
-		}
-	}
-	else
-	{
-		m_pBulletEmptyImage->Move(SECOND_WEAPON_START_X, SECOND_WEAPON_START_Y);
-		m_pBulletEmptyImage->Render();
-	}
-
-#endif
 }
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 void CINFWeaponInfo::RenderWeaponFuel( int nWindowPosX, int nWindowPosY, float fRate)			// 2011. 10. 10 by jskim UI시스템 변경
-#else 
-void CINFWeaponInfo::RenderWeaponFuel( int nWindowPosY, int nWindowPosX, float fRate)
-
-#endif
 {
 
 	FLOG( "CINFWeaponInfo::RenderWeaponFuel( int nWindowPosX, int nWindowPosY,  float fRate)" );
@@ -874,19 +684,11 @@ void CINFWeaponInfo::RenderWeaponFuel( int nWindowPosY, int nWindowPosX, float f
 		m_pReloadImage->Render() ;
 	}
 }
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 void CINFWeaponInfo::RenderWeaponNumber( int nWindowPosX, int nWindowPosY,  int nValue)			// 2011. 10. 10 by jskim UI시스템 변경
-#else		  
-void CINFWeaponInfo::RenderWeaponNumber( int nWindowPosY, int nWindowPosX, int nValue)
-#endif
 {
 	
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	FLOG( "CINFWeaponInfo::RenderWeaponNumber( int nWindowPosX, int nWindowPosY, int nValue)" );  
-#else								
-	FLOG( "CINFWeaponInfo::RenderWeaponNumber( int nWindowPosY, int nWindowPosX, int nValue)" );
-#endif
 	if(nValue > 0)
 	{
 //		int i; for(i=0;i<5;i++) // 5 : 5자리숫자
@@ -899,11 +701,7 @@ void CINFWeaponInfo::RenderWeaponNumber( int nWindowPosY, int nWindowPosX, int n
 		int i; for(i=0;i<5;i++) // 5 : 5자리숫자
 		{
 			int nNum = nValue%10;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 			m_pWeaponNumberImage[nNum]->Move((nWindowPosX + ( m_pWeaponNumberImage[nNum]->GetImgSize().x - 3 ) *(4-i)) * HIDPI_COEFF, (nWindowPosY)*HIDPI_COEFF);
-#else					 
-			m_pWeaponNumberImage[nNum]->Move(nWindowPosX+WEAPON_NUMBER_SIZE*(4-i), nWindowPosY);
-#endif
 			m_pWeaponNumberImage[nNum]->SetScale(HIDPI_COEFF, HIDPI_COEFF);
 			m_pWeaponNumberImage[nNum]->Render();
 			nValue /= 10;
@@ -916,7 +714,6 @@ void CINFWeaponInfo::RenderWeaponNumber( int nWindowPosY, int nWindowPosX, int n
 	}
 }
  // 2011. 10. 10 by jskim UI시스템 변경
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM	
 void CINFWeaponInfo::RenderWarningWeaponNumber( int nWindowPosX, int nWindowPosY, int nValue)			// 2011. 10. 10 by jskim UI시스템 변경
 {
 	FLOG( "CINFWeaponInfo::RenderWarningWeaponNumber( int nWindowPosX, int nWindowPosY, int nValue)" );
@@ -930,7 +727,6 @@ void CINFWeaponInfo::RenderWarningWeaponNumber( int nWindowPosX, int nWindowPosY
 	}
 }
 // end 2011. 10. 10 by jskim UI시스템 변경
-#endif
 
 int CINFWeaponInfo::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {

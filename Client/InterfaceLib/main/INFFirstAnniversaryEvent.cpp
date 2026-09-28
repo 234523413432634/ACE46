@@ -342,9 +342,7 @@ BOOL CINFFirstAnniversaryEvent::IsMouseCaps(POINT ptPos)
 {
 	POINT ptBakPos = m_ptBkPos;
 	POINT ptSize = {0,0};
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        
 	ptSize = m_pBackImg->GetImgSize();
-#endif
 	if((ptPos.x >= ptBakPos.x && (ptPos.x <= ptBakPos.x+ptSize.x))
 		&& (ptPos.y >= ptBakPos.y && (ptPos.y <= ptBakPos.y+20)))
 	{

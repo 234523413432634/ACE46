@@ -21,11 +21,7 @@
 
 //////////////////////////////////////////////////////////////////////////
 const int SKILL_ICON_INTERVAL = 24;	// 21
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 const int SKILL_ICON_START_X = 260;	// 180
-#else
-const int SKILL_ICON_START_X = 180;	// 180
-#endif
 
 const int SKILL_ICON_START_Y = 1;	// 1
 const float SKILL_ICON_RENDER_TIME = 0.5f;	// 0.5초 - 깜박이는 시간

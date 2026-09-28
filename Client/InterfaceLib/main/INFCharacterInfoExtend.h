@@ -155,7 +155,6 @@ private:
 	//CINFImage			*	m_pAmmo;
 	//CINFImage			*	m_pStatImage ;
 	//CINFImage			*	m_pStat[3];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFImageEx			*	m_pInfo;
 	//CINFImageEx			*	m_pInoBk;
 	//CINFImage			*	m_pId;
@@ -170,21 +169,6 @@ private:
 	CINFImageEx			*	m_pPartnerInfoBk;
 	//end 2010. 06. 07 by jskim 파트너 시스템 구현 - 파트너 정보창
 	CINFGroupImage		*	m_pInformationBK;
-#else 
-	CINFImageEx			*	m_pInfo;
-	CINFImageEx			*	m_pInoBk;
-	//CINFImage			*	m_pId;
-	CINFImageEx			*	m_pUtc;
-	CINFImageEx			*	m_pUtcScr;
-//	CINFImage			*	m_pQuest;
-//	CINFImage			*	m_pImgArenaTab;
-	CINFImageEx			*	m_pQuestSelect;
-	CINFImageEx			*	m_pSkillShopBack;
-//	CINFImage			*	m_pScrollBar;
-	// 2010. 06. 07 by jskim 파트너 시스템 구현 - 파트너 정보창
-	CINFImageEx			*	m_pPartnerInfoBk;
-	//end 2010. 06. 07 by jskim 파트너 시스템 구현 - 파트너 정보창
-#endif
 
 	CD3DHanFont			*   m_CharacInfoFont[5];
 	CD3DHanFont			*   m_StatInfoFont[7];

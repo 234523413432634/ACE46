@@ -24,7 +24,6 @@
 #include "INFToolTip.h"
 #include "Interface.h"
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	#define CHANNEL_LIST_SIZE_X				328
 	#define CHANNEL_LIST_SIZE_Y				297
 	#define CHANNEL_LIST_START_X			((g_pD3dApp->GetBackBufferDesc().Width - CHANNEL_LIST_SIZE_X)/2)
@@ -52,31 +51,6 @@
 	
 	#define CHANNEL_LIST_MAPNAME_SIZE		(178)
 	#define CHANNEL_LIST_CHANNEL_SIZE		(84)
-#else
-#define CHANNEL_LIST_SIZE_X				233
-#define CHANNEL_LIST_SIZE_Y				201
-#define CHANNEL_LIST_START_X			((g_pD3dApp->GetBackBufferDesc().Width - CHANNEL_LIST_SIZE_X)/2)
-#define CHANNEL_LIST_START_Y			((g_pD3dApp->GetBackBufferDesc().Height - CHANNEL_LIST_SIZE_Y)/2)
-#define CHANNEL_LIST_TITLE_START_X		(CHANNEL_LIST_START_X+9)
-#define CHANNEL_LIST_TITLE_START_Y		(CHANNEL_LIST_START_Y+6)
-#define CHANNEL_LIST_BACK_START_X		(CHANNEL_LIST_START_X+12)
-#define CHANNEL_LIST_BACK_START_Y		(CHANNEL_LIST_START_Y+27)
-#define CHANNEL_LIST_MAPNAME_START_X	(CHANNEL_LIST_START_X+31)
-#define CHANNEL_LIST_MAPNAME_START_Y	(CHANNEL_LIST_START_Y+53)
-#define CHANNEL_LIST_LIST_START_X		(CHANNEL_LIST_START_X+31)
-#define CHANNEL_LIST_LIST_START_Y		(CHANNEL_LIST_START_Y+70)
-#define CHANNEL_LIST_LINE_INTERVAL		17
-#define CHANNEL_LIST_LIST_SIZE_X		162
-#define CHANNEL_LIST_OK_BUTTON_START_X	(CHANNEL_LIST_START_X+172)
-#define CHANNEL_LIST_OK_BUTTON_START_Y	(CHANNEL_LIST_START_Y+161)
-#define CHANNEL_LIST_OK_BUTTON_SIZE_X	38
-#define CHANNEL_LIST_OK_BUTTON_SIZE_Y	17
-
-#define SCROLL_START_X					(CHANNEL_LIST_START_X+202)
-#define SCROLL_START_Y					(CHANNEL_LIST_START_Y+69)
-#define SCROLL_END_Y					(CHANNEL_LIST_START_Y+154)
-#define SCROLL_LINE_LENGTH				(SCROLL_END_Y - SCROLL_START_Y)
-#endif
 
 #if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI) // 2008-04-30 by bhsohn 태국 버전 추가
 #define CHANNEL_LIST_TEXT_Y				0
@@ -180,37 +154,23 @@ void CINFChannelList::RecvDoneChannelList()
 HRESULT CINFChannelList::InitDeviceObjects()
 {
 	DataHeader* pDataHeader;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("channel");
 	m_pImgBack = g_pGameMain->m_GruopImagemanager->GetGroupImage(pDataHeader);
 	m_pImgBack->InitDeviceObjects( g_pD3dApp->m_pImageList );
-#else
-	pDataHeader = m_pGameData->Find("chbk");
-	m_pImgBack = new CINFImageEx;
-	m_pImgBack->InitDeviceObjects( pDataHeader );
-#endif
 	pDataHeader = m_pGameData->Find("chtitle");
 	m_pImgTitle = new CINFImageEx;
 	m_pImgTitle->InitDeviceObjects( pDataHeader );
 	pDataHeader = m_pGameData->Find("c_scrlb");
 	m_pImgScrollBar = new CINFImageEx;
 	m_pImgScrollBar->InitDeviceObjects( pDataHeader );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	pDataHeader = m_pGameData->Find("wphlgt");
-#else
-	pDataHeader = m_pGameData->Find("chhlgt");
-#endif	
 	m_pImgHightLight = new CINFImageEx;
 	m_pImgHightLight->InitDeviceObjects( pDataHeader );
 	int i;
 	for(i=0;i<CHANNEL_BUTTON_NUBER;i++)
 	{
 		char buf[64];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 		wsprintf(buf, "wpmove0%d",i);
-#else
-		wsprintf(buf, "shlaok0%d",i);
-#endif
 		pDataHeader = m_pGameData->Find(buf);
 		m_pImgButtonOk[i] = new CINFImageEx;
 		m_pImgButtonOk[i]->InitDeviceObjects( pDataHeader );
@@ -233,11 +193,7 @@ HRESULT CINFChannelList::InitDeviceObjects()
 	m_pScroll->SetWheelRect(CHANNEL_LIST_LIST_START_X, 
 		CHANNEL_LIST_LIST_START_Y,
 		CHANNEL_LIST_LIST_START_X+CHANNEL_LIST_LIST_SIZE_X,
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 		CHANNEL_LIST_LIST_START_Y+( CHANNEL_LIST_LINE_INTERVAL + CHANNEL_LIST_LINE_GAB ) * CHANNEL_LIST_NUMBER);
-#else
-		CHANNEL_LIST_LIST_START_Y+CHANNEL_LIST_LINE_INTERVAL*CHANNEL_LIST_NUMBER);
-#endif
 	return S_OK;
 }
 
@@ -322,18 +278,8 @@ HRESULT CINFChannelList::DeleteDeviceObjects()
 
 void CINFChannelList::Render()
 {
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM
-	g_pGameMain->m_pInfWindow->RenderCenterWindow( CHANNEL_LIST_START_X, 
-												CHANNEL_LIST_START_Y, 
-												CHANNEL_LIST_SIZE_X, 
-												CHANNEL_LIST_SIZE_Y, FALSE);
-#endif
 	m_pImgBack->Move(CHANNEL_LIST_BACK_START_X, CHANNEL_LIST_BACK_START_Y);
 	m_pImgBack->Render();
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM
-	m_pImgTitle->Move(CHANNEL_LIST_TITLE_START_X, CHANNEL_LIST_TITLE_START_Y);
-	m_pImgTitle->Render();
-#endif
 //	if(m_nCurrentSelectIndex != -1 )
 //	{
 //		m_pImgHightLight->Move(CHANNEL_LIST_LIST_START_X+1, 
@@ -343,25 +289,12 @@ void CINFChannelList::Render()
 	if(m_pScroll->GetCurrentSelectWindowIndex() >= 0 &&
 		m_pScroll->GetCurrentSelectWindowIndex() < CHANNEL_LIST_NUMBER)
 	{
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM
-		m_pImgHightLight->Move(CHANNEL_LIST_LIST_START_X+1, 
-			CHANNEL_LIST_LIST_START_Y+CHANNEL_LIST_LINE_INTERVAL*m_pScroll->GetCurrentSelectWindowIndex()+1);
-#else
 		m_pImgHightLight->Move(CHANNEL_LIST_LIST_START_X, 
 			CHANNEL_LIST_LIST_START_Y + ( CHANNEL_LIST_LINE_INTERVAL + CHANNEL_LIST_LINE_GAB )*m_pScroll->GetCurrentSelectWindowIndex()+1);
-#endif
 		m_pImgHightLight->Render();
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM	
 	m_pImgButtonOk[m_nButtonState]->Move(CHANNEL_LIST_OK_BUTTON_START_X,CHANNEL_LIST_OK_BUTTON_START_Y);
 	m_pImgButtonOk[m_nButtonState]->Render();
-#else
-	if(m_nButtonState != BUTTON_STATE_NORMAL)
-	{
-		m_pImgButtonOk[m_nButtonState]->Move(CHANNEL_LIST_OK_BUTTON_START_X,CHANNEL_LIST_OK_BUTTON_START_Y);
-		m_pImgButtonOk[m_nButtonState]->Render();
-	}
-#endif
 
 	if(m_szMapName[0])
 	{
@@ -437,7 +370,6 @@ void CINFChannelList::Render()
 		{
 			wsprintf(m_szChannelList[i],"%s",STRMSG_C_SERVER_0003);//"혼잡"
 		}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 		SIZE Size = m_pFontChannelList[i]->GetStringSize( stChannelIndex );
 		m_pFontChannelList[i]->DrawText(CHANNEL_LIST_LIST_START_X + 4 + ( ( CHANNEL_LIST_MAPNAME_SIZE - Size.cx ) / 2 ) ,
 										CHANNEL_LIST_LIST_START_Y + 5 + ( CHANNEL_LIST_LINE_INTERVAL + CHANNEL_LIST_LINE_GAB ) * i + CHANNEL_LIST_TEXT_Y,
@@ -448,16 +380,6 @@ void CINFChannelList::Render()
 										CHANNEL_LIST_LIST_START_Y + 5 + (CHANNEL_LIST_LINE_INTERVAL + 2) * i + CHANNEL_LIST_TEXT_Y,
 										m_pScroll->GetCurrentSelectWindowIndex() == i ? GUI_SELECT_FONT_COLOR : GUI_FONT_COLOR,
 										m_szChannelList[i],0L);
-#else
-		m_pFontChannelList[i]->DrawText(CHANNEL_LIST_LIST_START_X+1,
-			CHANNEL_LIST_LIST_START_Y+CHANNEL_LIST_LINE_INTERVAL*i+CHANNEL_LIST_TEXT_Y,
-			m_pScroll->GetCurrentSelectWindowIndex() == i ? GUI_SELECT_FONT_COLOR : GUI_FONT_COLOR,
-			stChannelIndex,0L);
-		m_pFontChannelList[i]->DrawText(CHANNEL_LIST_LIST_START_X+111,
-			CHANNEL_LIST_LIST_START_Y+CHANNEL_LIST_LINE_INTERVAL*i+CHANNEL_LIST_TEXT_Y,
-			m_pScroll->GetCurrentSelectWindowIndex() == i ? GUI_SELECT_FONT_COLOR : GUI_FONT_COLOR,
-			m_szChannelList[i],0L);
-#endif
 		
 	}
 	m_pScroll->Render();
@@ -567,17 +489,10 @@ int CINFChannelList::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			pt.x = LOWORD(lParam);
 			pt.y = HIWORD(lParam);
 			CheckMouseReverse(&pt);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 			if( pt.x > CHANNEL_LIST_LIST_START_X &&
 				pt.x < CHANNEL_LIST_LIST_START_X + CHANNEL_LIST_LIST_SIZE_X &&
 				pt.y > CHANNEL_LIST_LIST_START_Y + CHANNEL_LIST_LINE_GAB &&
 				pt.y < CHANNEL_LIST_LIST_START_Y + ( CHANNEL_LIST_LINE_INTERVAL + CHANNEL_LIST_LINE_GAB ) * CHANNEL_LIST_NUMBER )
-#else
-			if( pt.x > CHANNEL_LIST_LIST_START_X &&
-				pt.x < CHANNEL_LIST_LIST_START_X+CHANNEL_LIST_LIST_SIZE_X &&
-				pt.y > CHANNEL_LIST_LIST_START_Y &&
-				pt.y < CHANNEL_LIST_LIST_START_Y+CHANNEL_LIST_LINE_INTERVAL*CHANNEL_LIST_NUMBER)
-#endif
 			{
 				OnOkButtonClicked();
 			}

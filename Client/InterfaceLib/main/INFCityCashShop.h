@@ -68,11 +68,7 @@
 // 	#define		CASHSHOP_ITEM_PACKAGE				5							// 2008-10-20 by dgwoo 패키지 탭 추가	
 // #endif
 // 2011. 11. 17 by jskim EP4 UI 변경
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 #define		MAX_CASH_SHOP_TAB					7		// 캐쉬샵 전체 탭수+1 (마지막 1개는 더미탭이다.) // 2009-01-28 by bhsohn 캐쉬샵 처리
-#else
-#define		MAX_CASH_SHOP_TAB					11		// 캐쉬샵 전체 탭수+1 (마지막 1개는 더미탭이다.) // 2009-01-28 by bhsohn 캐쉬샵 처리
-#endif
 #define		CASH_SHOP_VIEW_TAB					MAX_CASH_SHOP_TAB	// 탭의 최대수
 // end 2011. 11. 17 by jskim EP4 UI 변경
 
@@ -165,12 +161,8 @@ private:
 
 protected:
 	// 2011. 11. 17 by jskim EP4 UI 변경
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	CINFGroupImage*			m_pImgBack;
 	CINFImageBtn*			m_pCloseBtn;
-#else
-	CINFImageEx	*			m_pImgBack;
-#endif
 	
 	vector< CINFImageEx* > m_vecCINFImageInfo;
 
@@ -264,9 +256,7 @@ public:
 
 	void		ClearItemList();
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	void		RenderDescIcon( POINT pPos, ITEM* pItem, int nWidht, int nHeight );
-#endif
 	void		CashItemSort();
 
 	// 2010. 01. 27 by ckPark 캐쉬 아이템 한정 판매 시스템

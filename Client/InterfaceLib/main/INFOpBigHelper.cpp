@@ -25,13 +25,8 @@
 //#define	HELPER_BIG_BK_POS_Y		(g_pD3dApp->GetBackBufferDesc().Height- 708)
 //#define	HELPER_BIG_NEXT_POS_X		(HELPER_BIG_BK_POS_X+574)
 //#define	HELPER_BIG_NEXT_POS_Y		(HELPER_BIG_BK_POS_Y+533)
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define	HELPER_BIG_NEXT_POS_X		(628)
 #define	HELPER_BIG_NEXT_POS_Y		(533)
-#else
-#define	HELPER_BIG_NEXT_POS_X		(574)
-#define	HELPER_BIG_NEXT_POS_Y		(533)
-#endif
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

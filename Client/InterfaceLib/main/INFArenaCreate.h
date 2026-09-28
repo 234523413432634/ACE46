@@ -81,7 +81,6 @@ public:
 	vector<SARENA_REQUEST_CREATE_TEAMINFO>	m_vecAllPersons;		// 모든 모드의 인원 리스트.
 	vector<BYTE>							m_vecPersons;		// 인원의 리스트.
 												   
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*		m_pRenewArenaCreateBackImage;
 	CINFImageEx	*	m_pImgCbCountBk	;				// 인원 콤보 배경.
 	CINFImageEx	*	m_pImgCbAmodeBk	;					// 모드 선택 콤보 배경.
@@ -104,7 +103,6 @@ public:
 	MapIndex_t		m_nArenaMapImgTabNum;
 	// end 2012-04-13 by mspark, 아레나 UI 작업
 
-#endif
 
 
 

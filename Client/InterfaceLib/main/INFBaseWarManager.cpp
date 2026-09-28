@@ -1105,11 +1105,7 @@ void CINFBaseWarManager::RenderBaseInfo()
 				}
 			}
 		}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		RenderBaseWarInfoBalon(nBoldPosX - 8,
-#else
-		RenderBaseWarInfoBalon(nBoldPosX,
-#endif
 		nBoldPosY,
 		nBalonWidth, nBalonHeight);
  	}

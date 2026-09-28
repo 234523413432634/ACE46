@@ -125,20 +125,14 @@ protected:
 
 	/*--------------------------------------------------------------------------*/
 	// 2006-07-25 by dgwoo
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*	m_pBackWindow;					//바탕 배경.
-#else
-	CINFImageEx	*	m_pBackWindow;					//바탕 배경.
-#endif
 	CINFImageEx	*	m_pPutItemBtn[4];				//아이템 등록 버튼 이미지 
 	CINFImageEx	*	m_pDelItemBtn[4];				//아이템 취소 버튼 이미지
 	CINFImageEx	*	m_pStartBtn[4];					//상점 시작 버튼 이미지
 	CINFImageEx	*	m_pStopBtn[4];					//상점 중단 버튼 이미지
 	CINFImageEx	*	m_pMinBtn[4];					//최소화 버튼.
 	CINFImageEx	*	m_pActBtn[4];					//활성화 버튼.
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	CINFImageEx	*	m_pMinBar1;						//최소화시 바(판매 상점)
-#endif
 	CINFImageEx	*	m_pMinBar;						//최소화시 바.
 
 	CINFImageEx	*	m_pScrollButton;				// 스크롤 버튼
@@ -295,9 +289,7 @@ protected:
 	CINFImageEx *		m_pShopName;				//상점의 이름 이미지.
 	CINFImageEx *		m_pBackTab[2];				//탭 배경
 	CINFImageEx *		m_pBackList;				//리스트 배경
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	CINFImageEx *		m_pBackListBox;				//리스트 배경
-#endif
 	CINFImageEx *		m_pBackItem;				//활성화된 아이템의 배경.
 	CINFImageEx *		m_pSelectBar;				// 선택 바
 	CINFImageEx *		m_pBackTotal;				//총액 배경.
@@ -435,9 +427,7 @@ protected:
 	CINFImageEx *		m_pBackList;				//리스트 배경.
 	CINFImageEx *		m_pBackTab;					//탭 배경.
 	CINFImageEx *		m_pBackItem;				//아이템 배경.
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM    // 2011. 10. 10 by jskim UI시스템 변경
 	CINFImageEx *		m_pBackListBox;				//리스트 배경
-#endif
 	CINFImageEx *		m_pSelectBar;				// 선택 바
 	CINFImageEx *		m_pOKBtn[4];				//구입, 판매 버튼
 	

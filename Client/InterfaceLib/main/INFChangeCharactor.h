@@ -48,11 +48,7 @@ public:
 
 protected:
 	CAtumNode			*			m_pParent;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM			// 2011. 11. 17 by jskim EP4 UI 변경
 	CINFGroupImage		*			m_pImgBG;						// 캐릭변경 페이지의 배경.
-#else
-	CINFImageEx			*			m_pImgBG;						// 캐릭변경 페이지의 배경.
-#endif
 	CINFImageEx			*			m_pImgSelect;					// 선택한 이미지.
 	CINFImageBtn		*			m_pFemaleRightButton;			// 여자 페이지 넘김 버튼.
 	CINFImageBtn		*			m_pFemaleLeftButton;			// 여자 페이지 넘김 버튼.

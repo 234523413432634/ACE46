@@ -317,7 +317,6 @@ void CINFImageListTreeCtrl::_RenderListItem(ImageListTreeCtrlIcon* it, int* nCnt
 					nSelPosX = m_fSubItemStartX;
 				}
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 				char chBuf[512], chResultBuf[512];
 				chBuf[0] = NULL;
 				memset(chResultBuf,0x00,512);
@@ -343,19 +342,6 @@ void CINFImageListTreeCtrl::_RenderListItem(ImageListTreeCtrlIcon* it, int* nCnt
  					chResultBuf[ GetStringBuffPos(chResultBuf, GetStringBuffLen( chResultBuf ) - 1) ]='\0';
  					sprintf(chBuf,"%s..", chResultBuf);
 				}  
-#else
-				char chBuf[512];
-				chBuf[0] = NULL;
-
-				if(bSelect)
-				{					
-					wsprintf(chBuf, "\\e%s", pItem->szItemTxt);
-				}
-				else
-				{
-					strncpy(chBuf, pItem->szItemTxt, strlen(pItem->szItemTxt)+1);
-				}
-#endif
 				
 				m_pFontSubItem->DrawText(fPosX + listImageWidthSpace + listLastImageSpace, pItem->fPosY - 2, pItem->dwColor, chBuf, 0L);
 
@@ -729,11 +715,7 @@ void CINFImageListTreeCtrl::_UpdateItemPos(ImageListTreeCtrlIcon* it, int* nCnt,
 			}
 			else
 			{
-	#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 				pItem->fPosX += m_fSubItemStartX + (int)(m_ptSubItemSize.x*1.1);	
-	#else 
-				pItem->fPosX += m_fSubItemStartX + (int)(m_ptSubItemSize.x*1.5);	
-	#endif
 			}
 
 			pItem->fPosY = *fPosY;
@@ -811,11 +793,7 @@ void CINFImageListTreeCtrl::UpdateScrollPos()
 	rcMousePos.bottom		= rcMousePos.top;
 		
 	// Resotre를 해야지만 이미지 크기를 알수 있다. 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pINFScrollBar->SetPosition(rcMousePos.left, rcMousePos.top, SCROLL_BALL_WIDTH, m_fHeight - 23 );
-#else		  
-	m_pINFScrollBar->SetPosition(rcMousePos.left, rcMousePos.top, SCROLL_BALL_WIDTH, m_fHeight);
-#endif
 	m_pINFScrollBar->SetMouseWhellRect(rcMouseWhell);			
 
 	ptScroll = m_pINFScrollBar->GetImgBkSize();

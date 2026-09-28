@@ -42,14 +42,8 @@
 #define	COMMUNITY_OPENBK_HEIGHT			179
 #define	COMMUNITY_OPENBK_CAPS_HEIGHT	20
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define	COMMUNITY_OPENE_CLOSE_X			254
 #define	COMMUNITY_OPENE_CLOSE_Y			0
-#else
-// 닫기
-#define	COMMUNITY_OPENE_CLOSE_X			257
-#define	COMMUNITY_OPENE_CLOSE_Y			5
-#endif
 
 // 캐릭명
 #define	USER_INFO_CHARACTER_POS_X					166
@@ -177,7 +171,6 @@ HRESULT CINFCommunityUserInfo::InitDeviceObjects()
 	m_ptCommOpBk.x = (g_pD3dApp->GetBackBufferDesc().Width) - COMMUNITY_OPENBK_WIDTH;
 	m_ptCommOpBk.y = (g_pD3dApp->GetBackBufferDesc().Height/2) - COMMUNITY_OPENBK_HEIGHT/2;
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("C_ubk");	
 	m_pBkImage = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 	m_pBkImage->InitDeviceObjects( g_pD3dApp->m_pImageList );
@@ -195,29 +188,6 @@ HRESULT CINFCommunityUserInfo::InitDeviceObjects()
 		}
 		m_pCloseBtn->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);		
 	}
-#else
-	{
-		if(NULL == m_pBkImage)
-		{
-			m_pBkImage = new CINFImageEx;	
-		}		
-		pDataHeader = FindResource("c_ubk");
-		m_pBkImage->InitDeviceObjects(pDataHeader );
-	}		
-	{
-		// 닫기
-		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-		wsprintf(szUpBtn, "xclose3");
-		wsprintf(szDownBtn, "xclose1");
-		wsprintf(szSelBtn, "xclose0");
-		wsprintf(szDisBtn, "xclose2");
-		if(NULL == m_pCloseBtn)
-		{
-			m_pCloseBtn = new CINFImageBtn;
-		}
-		m_pCloseBtn->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);		
-	}
-#endif
 		
 
 	{
@@ -345,13 +315,8 @@ void CINFCommunityUserInfo::Render()
 	POINT ptBkPos = m_ptCommOpBk;
 	if(m_pBkImage)
 	{		
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경		
 		m_pBkImage->Move(ptBkPos.x - 1, ptBkPos.y - 4);
 		m_pBkImage->Render();
-#else
-		m_pBkImage->Move(ptBkPos.x, ptBkPos.y);
-		m_pBkImage->Render() ;
-#endif
 	}
 	
 	m_pCloseBtn->Render();			

@@ -50,11 +50,7 @@ private:
 
 private:
 	// 배경 이미지
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*		m_pLockBk;
-#else
-	CINFImageEx*		m_pLockBk;
-#endif
 	
 
 	int				m_nBackPosX;

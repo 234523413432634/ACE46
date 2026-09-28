@@ -48,7 +48,6 @@
 #define ARENA_TEAMINFO_WINDOWSIZE_Y				ARENA_TEAMINFO_BUTTON_Y + 4
 #define ARENA_TEAMINFO_WINDOWSIZE_W				18
 #define ARENA_TEAMINFO_WINDOWSIZE_H				17
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define ARENA_TEAMINFO_STATE_FONT_X				ARENA_TEAMINFO_INFO_START_X + 17
 #define ARENA_TEAMINFO_STATE_FONT_Y				ARENA_TEAMINFO_INFO_START_Y + 5
 
@@ -113,29 +112,9 @@
 #endif
 // end 2012-06-04 by mspark, 아레나 기어 성향 UI 작업
 
-#else
-#define ARENA_TEAMINFO_STATE_FONT_X				ARENA_TEAMINFO_INFO_START_X + 17
-#define ARENA_TEAMINFO_STATE_FONT_Y				ARENA_TEAMINFO_INFO_START_Y + 20
-
-#define ARENA_TEAMINFO_USER_FONT_X				ARENA_TEAMINFO_INFO_START_X + 22
-#define ARENA_TEAMINFO_USER_FONT_Y				ARENA_TEAMINFO_INFO_START_Y + 50
-
-#define ARENA_TEAMINFO_USER_READY_X				ARENA_TEAMINFO_INFO_START_X + 13
-#define ARENA_TEAMINFO_USER_READY_Y				ARENA_TEAMINFO_INFO_START_Y + 50
-
-#define ARENA_TEAMINFO_READY_X					ARENA_TEAMINFO_INFO_START_X + 23
-#define ARENA_TEAMINFO_READY_Y					ARENA_TEAMINFO_INFO_START_Y + 212
-#define ARENA_TEAMINFO_APPCANCEL_X				ARENA_TEAMINFO_INFO_START_X + 90
-#define ARENA_TEAMINFO_APPCANCEL_Y				ARENA_TEAMINFO_READY_Y
-#define ARENA_TEAMINFO_APPCANCEL_W				64
-#define ARENA_TEAMINFO_APPCANCEL_H				19
-
-
-#endif
 
 //							Scroll
 //--------------------------------------------------------------------------//
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define	ARENA_TEAMINFO_SCROLL_WHELL_AREA_X		(ARENA_TEAMINFO_INFO_START_X + 13)
 #define	ARENA_TEAMINFO_SCROLL_WHELL_AREA_Y		(ARENA_TEAMINFO_INFO_START_Y + 28)
 #define	ARENA_TEAMINFO_SCROLL_WHELL_AREA_W		(ARENA_TEAMINFO_SCROLL_WHELL_AREA_X + 156)
@@ -151,18 +130,6 @@
 #define	ARENA_TEAMINFO_SCROLL_DRAG_AREA_Y		(ARENA_TEAMINFO_INFO_START_Y + 28)
 #define	ARENA_TEAMINFO_SCROLL_DRAG_AREA_W		(ARENA_TEAMINFO_SCROLL_DRAG_AREA_X + 20)
 #define	ARENA_TEAMINFO_SCROLL_DRAG_AREA_H		(ARENA_TEAMINFO_SCROLL_DRAG_AREA_Y + 101)
-#else
-#define	ARENA_TEAMINFO_SCROLL_WHELL_AREA_X		(ARENA_TEAMINFO_INFO_START_X + 13)
-#define	ARENA_TEAMINFO_SCROLL_WHELL_AREA_Y		(ARENA_TEAMINFO_INFO_START_Y + 50)
-#define	ARENA_TEAMINFO_SCROLL_WHELL_AREA_W		(ARENA_TEAMINFO_SCROLL_WHELL_AREA_X + 156)
-#define	ARENA_TEAMINFO_SCROLL_WHELL_AREA_H		(ARENA_TEAMINFO_SCROLL_WHELL_AREA_Y + 140)
-
-#define	ARENA_TEAMINFO_SCROLL_DRAG_AREA_X		(ARENA_TEAMINFO_INFO_START_X + 157)
-#define	ARENA_TEAMINFO_SCROLL_DRAG_AREA_Y		(ARENA_TEAMINFO_INFO_START_Y + 50)
-#define	ARENA_TEAMINFO_SCROLL_DRAG_AREA_W		(ARENA_TEAMINFO_SCROLL_DRAG_AREA_X + 20)
-#define	ARENA_TEAMINFO_SCROLL_DRAG_AREA_H		(ARENA_TEAMINFO_SCROLL_DRAG_AREA_Y + 101)
-
-#endif
 
 							  
 // 2007-05-15 by bhsohn 스크롤 관련 버그 수정
@@ -349,11 +316,7 @@ VOID CINFArenaTeamInfo::AddTeamUserInfo(MSG_FC_ARENA_TEAM_MEMBER_LIST *pMsg)
 	if(pMsg->ArenaTeamState-1 >= ARENA_BUTTON_STATE_USERIN &&		// 0
 		pMsg->ArenaTeamState-1 <= ARENA_BUTTON_STATE_ENEMYSEARCH)	// 2
 	{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		SetState(pMsg->ArenaTeamState );
-#else		
-		SetState(pMsg->ArenaTeamState - 1);
-#endif
 		
 	}
 }
@@ -397,33 +360,18 @@ HRESULT CINFArenaTeamInfo::InitDeviceObjects()
 		m_pImgUReadyB[i] = new CINFImageEx;
 		m_pImgUReadyB[i]->InitDeviceObjects( pDataHeader );
 		
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		wsprintf(buf,"outs0%d",i);
-#else		
-		wsprintf(buf,"appcencel%d",i);
-#endif
 
 		pDataHeader = FindResource(buf);
 		m_pImgAppCancelB[i] = new CINFImageEx;
 		m_pImgAppCancelB[i]->InitDeviceObjects( pDataHeader );
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경		
 		pDataHeader = FindResource("w_wMax");
-#else	
-		wsprintf(buf,"ainfo0%d",i);
-		pDataHeader = FindResource(buf);
-#endif
 		m_pImgWinSizeB[0][i] = new CINFImageEx;
 		m_pImgWinSizeB[0][i]->InitDeviceObjects( pDataHeader );
 
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		pDataHeader = FindResource("w_wMin");
-#else	
-		wsprintf(buf,"ainfo1%d",i);
-		pDataHeader = FindResource(buf);
-		
-#endif
 		m_pImgWinSizeB[1][i] = new CINFImageEx;
 		m_pImgWinSizeB[1][i]->InitDeviceObjects( pDataHeader );
 
@@ -443,14 +391,12 @@ HRESULT CINFArenaTeamInfo::InitDeviceObjects()
 	m_pImgReady = new CINFImageEx;
 	m_pImgReady->InitDeviceObjects( pDataHeader );
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
     {
 		DataHeader* pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource( "are_info" );
 		m_pRenewArenaTeamInfoBackImage = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 		m_pRenewArenaTeamInfoBackImage->InitDeviceObjects( g_pD3dApp->m_pImageList );
 		m_pRenewArenaTeamInfoBackImage->RestoreDeviceObjects();		
 	}
-#endif
 	
 	// 2012-06-04 by mspark, 아레나 기어 성향 UI 작업
 	{
@@ -553,9 +499,7 @@ HRESULT CINFArenaTeamInfo::RestoreDeviceObjects()
 
 	m_pScroll->RestoreDeviceObjects();	
 							  
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
     m_pRenewArenaTeamInfoBackImage->RestoreDeviceObjects();		
-#endif
     
 	// 2012-06-04 by mspark, 아레나 기어 성향 UI 작업
 	m_pArenaInfoButtonImage->RestoreDeviceObjects();
@@ -665,10 +609,8 @@ HRESULT CINFArenaTeamInfo::DeleteDeviceObjects()
 	SAFE_DELETE(m_pImgBG);
 	SAFE_DELETE(m_pImgReady);
 					 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pRenewArenaTeamInfoBackImage->DeleteDeviceObjects();						 
     SAFE_DELETE(m_pRenewArenaTeamInfoBackImage);
-#endif
 
 	// 2012-06-04 by mspark, 아레나 기어 성향 UI 작업
 	m_pArenaInfoButtonImage->DeleteDeviceObjects();
@@ -729,9 +671,7 @@ HRESULT CINFArenaTeamInfo::InvalidateDeviceObjects()
 	m_pScroll->InvalidateDeviceObjects();
 	m_pImgBG->InvalidateDeviceObjects();
 	m_pImgReady->InvalidateDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
     m_pRenewArenaTeamInfoBackImage->InvalidateDeviceObjects();	
-#endif
     
 	// 2012-06-04 by mspark, 아레나 기어 성향 UI 작업
 	m_pArenaInfoButtonImage->InvalidateDeviceObjects();
@@ -796,18 +736,8 @@ void CINFArenaTeamInfo::Render()
 	if(m_bTeamInfoShow)
 	{// 팀정보를 보여준다.(현재 팀state, 유저명, ready상태등)
 		// 배경.
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
         m_pRenewArenaTeamInfoBackImage->Move(ARENA_TEAMINFO_BUTTON_X,ARENA_TEAMINFO_BUTTON_Y);
 		m_pRenewArenaTeamInfoBackImage->Render();
-#else			   
-    m_pImgTeamInfoB[m_nMainBState][m_nMainBUnder]->Move(ARENA_TEAMINFO_BUTTON_X,ARENA_TEAMINFO_BUTTON_Y);
-	m_pImgTeamInfoB[m_nMainBState][m_nMainBUnder]->Render();
-
-	m_pImgWinSizeB[m_bTeamInfoShow][m_nWinSizeB]->Move(ARENA_TEAMINFO_WINDOWSIZE_X,ARENA_TEAMINFO_WINDOWSIZE_Y);
-	m_pImgWinSizeB[m_bTeamInfoShow][m_nWinSizeB]->Render();
-		m_pImgBG->Move(ARENA_TEAMINFO_INFO_START_X,ARENA_TEAMINFO_INFO_START_Y);
-		m_pImgBG->Render();
-#endif
 		
 
 	
@@ -927,10 +857,8 @@ void CINFArenaTeamInfo::Render()
 			m_pImgUReadyB[m_nReadyB]->Move(ARENA_TEAMINFO_READY_X,ARENA_TEAMINFO_READY_Y);
 			m_pImgUReadyB[m_nReadyB]->Render();
 				  
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 m_pImgTeamInfoB[m_nMainBState][m_nMainBUnder]->Move(ARENA_TEAMINFO_BUTTON_X+1,ARENA_TEAMINFO_BUTTON_Y+2);
 			m_pImgTeamInfoB[m_nMainBState][m_nMainBUnder]->Render();
-#endif
 			
 		}
 		else
@@ -947,7 +875,6 @@ m_pImgTeamInfoB[m_nMainBState][m_nMainBUnder]->Move(ARENA_TEAMINFO_BUTTON_X+1,AR
 		m_pScroll->Render();
 
 	}  
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 else
 	{
 		m_pImgTeamInfoB[0][1]->Move(ARENA_TEAMINFO_BUTTON_X,ARENA_TEAMINFO_BUTTON_Y+1);
@@ -957,7 +884,6 @@ else
 	
 	m_pImgWinSizeB[m_bTeamInfoShow][m_nWinSizeB]->Move(ARENA_TEAMINFO_WINDOWSIZE_X,ARENA_TEAMINFO_WINDOWSIZE_Y);
 	m_pImgWinSizeB[m_bTeamInfoShow][m_nWinSizeB]->Render();
-#endif
 	
 // 2012-06-04 by mspark, 아레나 기어 성향 UI 작업
 #ifdef SC_ARENA_EX_1ST_JHSEOL_MSPARK

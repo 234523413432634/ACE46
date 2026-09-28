@@ -31,7 +31,6 @@
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define DISSOLUTION_MAIN_BG_X						(CITY_BASE_NPC_BOX_START_X + 426)
 #define DISSOLUTION_MAIN_BG_Y						(CITY_BASE_NPC_BOX_START_Y - 375)
 
@@ -76,52 +75,6 @@
 
 #define DIS_TAKE_FONT_X								(DIS_TAKE_ITEM_X + 27)
 #define DIS_TAKE_FONT_Y								(DISSOLUTION_MAIN_BG_Y + 137)//203) // 2011-02-08 by jhahn EP4 용해  UI 변경
-#else
-#define DISSOLUTION_MAIN_BG_X						(CITY_BASE_NPC_BOX_START_X + 426)
-#define DISSOLUTION_MAIN_BG_Y						(CITY_BASE_NPC_BOX_START_Y - 275)
-
-#define DISSOLUTION_LOGO_X							(DISSOLUTION_MAIN_BG_X + 6)
-#define DISSOLUTION_LOGO_Y							(DISSOLUTION_MAIN_BG_Y + 5)
-
-#define DISSOLUTION_START_X							(DISSOLUTION_MAIN_BG_X + 105)
-#define DISSOLUTION_START_Y							(DISSOLUTION_MAIN_BG_Y + 135)
-
-#define DISSOLUTION_TAKE_X							(DISSOLUTION_MAIN_BG_X + 105)
-#define DISSOLUTION_TAKE_Y							(DISSOLUTION_MAIN_BG_Y + 231)
-
-#define DIS_START									0
-#define DIS_ING										1
-#define DIS_END										2
-
-#define DIS_STEP_TIME								0.05
-
-#define DIS_EFF_STEP_TIME							0.5
-
-#define	DIS_BG_STEP_TIME							0.15
-
-#define DIS_FADE_TIME							    0.7f
-
-
-#define DIS_EFF_X									(DISSOLUTION_MAIN_BG_X + 62)
-#define DIS_EFF_Y									(DISSOLUTION_MAIN_BG_Y + 0)
-
-#define DIS_SEL_ITEM_X								(DISSOLUTION_MAIN_BG_X + 133)
-#define DIS_SEL_ITEM_Y								(DISSOLUTION_MAIN_BG_Y + 71)
-
-#define DIS_TAKE_ITEM_X								(DISSOLUTION_MAIN_BG_X + 133)
-#define DIS_TAKE_ITEM_Y								(DISSOLUTION_MAIN_BG_Y + 188)
-
-#define DIS_EFF_ITEM_X								(DIS_TAKE_ITEM_X - 10)
-#define DIS_EFF_ITEM_Y								(DISSOLUTION_MAIN_BG_Y + 178)
-
-#define DIS_EFF_ITEM_GAP_X							39
-
-#define DIS_CARD_SIZE_W								28
-#define DIS_CARD_SIZE_H								28
-
-#define DIS_TAKE_FONT_X								(DIS_TAKE_ITEM_X + 27)
-#define DIS_TAKE_FONT_Y								(DISSOLUTION_MAIN_BG_Y + 203)
-#endif
 
 CINFDissolution::CINFDissolution(CAtumNode* pParent, BUILDINGNPC* pBuilding)
 {
@@ -135,9 +88,7 @@ CINFDissolution::CINFDissolution(CAtumNode* pParent, BUILDINGNPC* pBuilding)
 	m_fTimeEffectAniBG	=	0.0f;
 
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pDissolutionControl = NULL;																  
-#endif
 
 }
 
@@ -154,17 +105,6 @@ HRESULT CINFDissolution::InitDeviceObjects()
 	m_TakeItemFont->InitDeviceObjects(g_pD3dDev); 
 	
 	DataHeader	* pDataHeader;
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	// 2011-02-08 by jhahn EP4 용해  UI 변경
- 	m_pImgDissolutionBG = new CINFImageEx; 
-	pDataHeader = FindResource("Dis_BG");
- 	m_pImgDissolutionBG->InitDeviceObjects(pDataHeader);
-
- 	m_pImgDissolutionLogo = new CINFImageEx; 
-	pDataHeader = FindResource("Dis_logo");
- 	m_pImgDissolutionLogo->InitDeviceObjects(pDataHeader);
-//end  2011-02-08 by jhahn EP4 용해  UI 변경													  
-#endif
 	// 2011. 02. 08 by jhahn 용해 배경 애니메이션
 	int i;
 	for (i = 0 ; i < EFFECT_BG_MAX ; i++)
@@ -204,7 +144,6 @@ HRESULT CINFDissolution::InitDeviceObjects()
 		pDataHeader = FindResource(temp);
 		m_pImgDissolutionEffect[i]->InitDeviceObjects(pDataHeader);		  // 2011. 10. 10 by jskim UI시스템 변경
 	}	  
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 2011-02-08 by jhahn EP4 용해  UI 변경
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("Dissoution");
 	m_pDissolutionBK = g_pGameMain->m_GruopImagemanager->GetGroupImage(pDataHeader);
@@ -214,11 +153,9 @@ HRESULT CINFDissolution::InitDeviceObjects()
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("dis_btn");// 2011-02-08 by jhahn EP4 용해  UI 변경
 	m_pDissolutionControl = g_pGameMain->m_GruopImagemanager->GetGroupImage(pDataHeader);	
 //end 2011-02-08 by jhahn EP4 용해  UI 변경														  
-#endif
 
  
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	for(i = 0; i < TAKE_EFFECT_MAX; i++)
 	{
 		char temp[256];
@@ -232,22 +169,6 @@ HRESULT CINFDissolution::InitDeviceObjects()
 
 	m_pBtnTake = new CINFImageBtn;
 	m_pBtnTake->InitDeviceObjects("sauok");// 2011-02-08 by jhahn EP4 용해  UI 변경				  
-#else 
-	for(i = 0; i < TAKE_EFFECT_MAX; i++)
-	{
-		char temp[256];
-		m_pImgDissolutionTakeEffect[i] = new CINFImageEx;
-		wsprintf(temp,"Dis_slot%d",i + 1);
-		pDataHeader = FindResource(temp);
-		m_pImgDissolutionTakeEffect[i]->InitDeviceObjects(pDataHeader);
-	}
-	m_pBtnStart = new CINFImageBtn;
-	m_pBtnStart->InitDeviceObjects("Dis_but0");
-
-	m_pBtnTake = new CINFImageBtn;
-	m_pBtnTake->InitDeviceObjects("Dis_but1");
-
-#endif
 
 	m_nState = FALSE;
 	m_nEffStep = NULL;
@@ -263,14 +184,7 @@ HRESULT CINFDissolution::RestoreDeviceObjects()
 	{
 		m_TakeItemFont->RestoreDeviceObjects();
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-// 2011-02-08 by jhahn EP4 용해  UI 변경
-	m_pImgDissolutionBG->RestoreDeviceObjects();
-	m_pImgDissolutionLogo->RestoreDeviceObjects();
-//end 2011-02-08 by jhahn EP4 용해  UI 변경
-#else
 	m_pDissolutionBK->RestoreDeviceObjects();	// 2011-02-08 by jhahn EP4 용해  UI 변경
-#endif
 
 	
 	int i;
@@ -292,7 +206,6 @@ HRESULT CINFDissolution::RestoreDeviceObjects()
 	}
 	// end 2011. 02. 08 by jhahn 용해 배경 애니메이션 	
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	// 2011-02-08 by jhahn EP4 용해  UI 변경
 	POINT pBkSize;
 	pBkSize.x = m_pDissolutionBK->GetMaxPos().x - m_pDissolutionBK->GetMinPos().x;
@@ -304,13 +217,6 @@ HRESULT CINFDissolution::RestoreDeviceObjects()
 	m_pBtnTake->RestoreDeviceObjects();
 	m_pBtnTake->SetBtnPosition(DISSOLUTION_TAKE_X + pBkSize.x / 4 - (nSizeX / 3) , DISSOLUTION_TAKE_Y);   // 2011-02-08 by jhahn EP4 용해  UI 변경
 	//end 2011-02-08 by jhahn EP4 용해  UI 변경																									  
-#else 
-   	m_pBtnStart->RestoreDeviceObjects();
-	m_pBtnStart->SetBtnPosition(DISSOLUTION_START_X, DISSOLUTION_START_Y);
-
-	m_pBtnTake->RestoreDeviceObjects();
-	m_pBtnTake->SetBtnPosition(DISSOLUTION_TAKE_X, DISSOLUTION_TAKE_Y);
-#endif
 
 	return S_OK;
 }
@@ -322,22 +228,7 @@ HRESULT CINFDissolution::DeleteDeviceObjects()
 		m_TakeItemFont->DeleteDeviceObjects();
 		SAFE_DELETE(m_TakeItemFont);
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM
-// 2011-02-08 by jhahn EP4 용해  UI 변경
-	if(m_pImgDissolutionBG)
-	{
-		m_pImgDissolutionBG->DeleteDeviceObjects();
-		SAFE_DELETE(m_pImgDissolutionBG);
-	}
-	
-	if(m_pImgDissolutionLogo)
-	{
-		m_pImgDissolutionLogo->DeleteDeviceObjects();
-		SAFE_DELETE(m_pImgDissolutionLogo);
-	}
-#endif
 	// 2011-02-08 by jhahn EP4 용해  UI 변경
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if (m_pDissolutionBK)
 	{
 		m_pDissolutionBK->DeleteDeviceObjects();
@@ -345,7 +236,6 @@ HRESULT CINFDissolution::DeleteDeviceObjects()
 	}
 	
 	//end 2011-02-08 by jhahn EP4 용해  UI 변경													  
-#endif
 	
 	
 	int i;
@@ -398,25 +288,11 @@ HRESULT CINFDissolution::InvalidateDeviceObjects()
 	{
 		m_TakeItemFont->InvalidateDeviceObjects();
 	}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-// 2011-02-08 by jhahn EP4 용해  UI 변경
-	if(m_pImgDissolutionBG)
-	{
-		m_pImgDissolutionBG->InvalidateDeviceObjects();
-	}	
-	if(m_pImgDissolutionLogo)
-	{
-		m_pImgDissolutionLogo->InvalidateDeviceObjects();
-	}		
-//end  2011-02-08 by jhahn EP4 용해  UI 변경
-#endif
 // 2011-02-08 by jhahn EP4 용해  UI 변경	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(m_pDissolutionBK)
 	{
 		m_pDissolutionBK->InvalidateDeviceObjects();
 	}	 
-#endif
 //end 2011-02-08 by jhahn EP4 용해  UI 변경
 	int i;
 	for(i = 0; i < EFFECT_MAX; i++)
@@ -465,7 +341,6 @@ int CINFDissolution::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			pt.x = LOWORD(lParam);
 			pt.y = HIWORD(lParam);
 			CheckMouseReverse(&pt);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 2011-02-08 by jhahn EP4 용해  UI 변경
 		
 					
@@ -473,17 +348,10 @@ int CINFDissolution::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			{
 				return INF_MSGPROC_BREAK;
 			}	
-#endif	
 
 			if(m_pBtnTake->OnMouseMove(pt))
 			{
 				return INF_MSGPROC_BREAK;
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-			}			
-			if(m_pBtnStart->OnMouseMove(pt))
-			{
-				return INF_MSGPROC_BREAK;
-#endif
 			}
 
 		
@@ -598,35 +466,16 @@ int CINFDissolution::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 void CINFDissolution::Render()
 {
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-// 2011-02-08 by jhahn EP4 용해  UI 변경
-	m_pImgDissolutionBG->Move(DISSOLUTION_MAIN_BG_X, DISSOLUTION_MAIN_BG_Y);
-	m_pImgDissolutionBG->Render();
-//end 2011-02-08 by jhahn EP4 용해  UI 변경														  
-#endif
 
 	
 	
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	
-	// 2011. 02. 08 by jhahn 용해 배경 애니메이션 	
-	m_pImgDissolutionAniBG[m_nEffBgStep]->Move(DISSOLUTION_MAIN_BG_X, DISSOLUTION_MAIN_BG_Y);
-	m_pImgDissolutionAniBG[m_nEffBgStep]->Render();
-	// end 2011. 02. 08 by jhahn 용해 배경 애니메이션 
-#endif
 	
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 // 2011-02-08 by jhahn EP4 용해  UI 변경
 	m_pDissolutionBK->Move(DISSOLUTION_MAIN_BG_X,DISSOLUTION_MAIN_BG_Y);
 	m_pDissolutionBK->Render();
 //end 2011-02-08 by jhahn EP4 용해  UI 변경
-#endif
 // 2011-02-08 by jhahn EP4 용해  UI 변경
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	m_pImgDissolutionLogo->Move(DISSOLUTION_LOGO_X, DISSOLUTION_LOGO_Y);
-	m_pImgDissolutionLogo->Render();
-//end  2011-02-08 by jhahn EP4 용해  UI 변경
-#endif
 
 
 	m_pBtnStart->Render();

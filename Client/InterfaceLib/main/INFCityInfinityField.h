@@ -198,9 +198,7 @@ private:
 
 	CINFImageBtn*	m_pCloseXBtn;	// X닫기 버튼
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage* m_pRenewInfiImage;															  
-#endif
 
 public:
 	CINFCityInfinityField();
@@ -397,7 +395,6 @@ private:
 
 	CINFImageEx*		m_pBlingBK;				// 현재 깜빡일 배경
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*		m_pRenewInfiBackImage;
 
 	CINFGroupImage*		m_pRenewInfiCreatImage;
@@ -420,7 +417,6 @@ private:
 
 
 
-#endif	
 	
 	
 	

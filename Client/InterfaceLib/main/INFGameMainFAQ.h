@@ -75,7 +75,6 @@ protected:
 	CD3DHanFont			*   m_pFontSearchQusetion[INF_FAQ_SEARCH_QUESTION_RENDER];
 	CD3DHanFont			*   m_pFontQuestion[2];
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*			m_pImgBackg;
 	//CINFImage*				m_pImgBackg;						// 백그라운드 이미지
 	CINFImageEx*			m_pImgOper[2];						// 오퍼레이터 이미지.
@@ -88,18 +87,6 @@ protected:
 // 	CINFImageEx*			m_pImgSelectName;					// 타이틀 선택 이미지
 
 	CINFImageEx*			m_pImgButton[INF_FAQ_BUTTON_IMG];	// 버튼 이미지					  
-#else
-	CINFImageEx*				m_pImgBackg;						// 백그라운드 이미지
-	CINFImageEx*				m_pImgOper[2];						// 오퍼레이터 이미지.
-	INT						m_nOperatorInfl;					// 오퍼레이터 세력.
-
-	CINFImageEx*			m_pImgSearch;						// 서치 이미지.
-	CINFImageEx*			m_pImgResult;						// 결과 배경.
-	CINFImageEx*			m_pImgSelect;						// 제목 선택 이미지
-	CINFImageEx*			m_pImgSelectName;					// 타이틀 선택 이미지
-
-	CINFImageEx*			m_pImgButton[INF_FAQ_BUTTON_IMG];	// 버튼 이미지
-#endif
 
 	CINFScrollBar*			m_pScroll;
 	CINFScrollBar*			m_pScrollUnder;

@@ -250,7 +250,6 @@ HRESULT CINFItemMixFactoryWnd::InitDeviceObjects()
 		}		
 		
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	{
 		DataHeader* pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("B_admbtn2");	
 		if(pDataHeader)
@@ -258,7 +257,6 @@ HRESULT CINFItemMixFactoryWnd::InitDeviceObjects()
 			m_pFactoryMakeGroup = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
 		}
 	}
-#endif
 
 	{
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];

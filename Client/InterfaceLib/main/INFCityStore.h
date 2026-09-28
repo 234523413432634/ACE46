@@ -17,13 +17,8 @@ class CINFScrollBar;
 class CINFScrollBarEX;
 class CItemInfo;
 class CINFImageEx;										 // 2011. 10. 10 by jskim UI시스템 변경
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 #define STORE_SLOT_NUMBER_X		10
 #define STORE_SLOT_NUMBER_Y		6																  
-#else								
-#define STORE_SLOT_NUMBER_X		7
-#define STORE_SLOT_NUMBER_Y		5
-#endif
 #define STORE_TAB_COUNT			5
 #define STORE_TAB_GUILD			3
 #define STORE_TAB_GUILD_LOG		4

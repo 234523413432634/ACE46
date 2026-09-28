@@ -11,19 +11,11 @@
 
 #include "INFBase.h"
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 #define CITY_WARP_BUTTON_NUMBER			4
-#else 
-#define CITY_WARP_BUTTON_NUMBER			3
-#endif
 #define CITY_WARP_BUTTON_MOVE			0
 #define CITY_WARP_BUTTON_CANCEL			1
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 #define CITY_WARP_LIST_NUMBER			8
-#else
-#define CITY_WARP_LIST_NUMBER			6
-#endif
 
 #define CITY_WARP_LIST_STRING_LENGTH	64
 
@@ -58,11 +50,7 @@ protected:
 	BOOL		m_bRestored;
 	CINFScrollBar*	m_pScroll;
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	CINFGroupImage*	m_pImgBack;
-#else
-	CINFImageEx*	m_pImgBack;
-#endif
 	CINFImageEx*	m_pImgTitle;
 	CINFImageEx*	m_pButtonMove[CITY_WARP_BUTTON_NUMBER];
 	CINFImageEx*	m_pButtonCancel[CITY_WARP_BUTTON_NUMBER];

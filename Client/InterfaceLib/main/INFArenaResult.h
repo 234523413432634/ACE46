@@ -115,9 +115,7 @@ private:
 	int						m_nScrollPos;
 
 	float					m_fShowTime;					// 결과값을 보여주는 시간.
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*		m_pRenewArenaResultBackImage;
-#endif
 
 	// 2012-06-07 by mspark, 아레나 전쟁 정보 UI 작업
 	int						m_nBCURanking;

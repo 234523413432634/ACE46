@@ -158,11 +158,9 @@ public:
 
 	void	SetTradeItemCenterState(BOOL bState);					// 2013-11-29 by ssjung 거래소 구현
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	POINT			GetBkSize();
 
 	BOOL			GetInvenMove();	
-#endif
 
 	void RenderWp(int x, int y);						  // 2013-11-29 by ssjung 거래소 구현
 
@@ -278,17 +276,6 @@ protected:
 	// 인벤토리
 	CINFInvenEquip*		m_pINFInvenEquip;	// 장착창
 	CINFInvenItem*		m_pINFInvenItem;	// 아이템 창
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	deque<int>			m_vecWndOrder;
-
-	POINT				m_pEqIvenNormalPos;
-	BOOL				m_bEqSetPos;		// 위치를 지정했냐?
-
-	POINT				m_pEqIvenShopPos;
-	BOOL				m_bEqShopSetPos;		// 위치를 지정했냐?
- 	BOOL				m_bShowEqWnd;		// 일반 장비창
- 	BOOL				m_bShowEqShopWnd;	// 상점 장비창
-#endif
 	
 	POINT				m_pItemIvenPos;	
 	BOOL				m_bItemSetPos;		// 위치를 지정했냐?

@@ -97,10 +97,8 @@ private:
 	BOOL					m_bBoom;					// 꽝
 	BOOL					m_bStartClick;				// 버튼 클릭
 // 2011-02-08 by jhahn EP4 용해  UI 변경		   
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CINFGroupImage*			m_pDissolutionBK;
 	CINFGroupImage*			m_pDissolutionControl;												  
-#endif
 //end 2011-02-08 by jhahn EP4 용해  UI 변경
 	
 };

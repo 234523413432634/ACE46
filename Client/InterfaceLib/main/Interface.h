@@ -309,10 +309,8 @@ public:
 	CSetupConfig*			m_pJoySticConfig;	
 	structJoystickKey			m_struJoystickOption[MAX_JOSTICK_OPTION][MAX_JOSTICK_OPTION_BEHAVIOR];
 	structJoystickSetupKeyTable		*m_pJoystickSetupKeyTable;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	CGameData				*	m_pGameData;
 	CGameData				*	m_pGameBigIconData;
-#endif
 	//////////////////////////////////////////////////////////////////////////
 	// 이하 윈도우 창 우선 순위 렌더링, 메세지 처리 적용
 	// ydkim 2005.10.28

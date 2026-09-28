@@ -74,11 +74,7 @@ private:
 private:
 	CINFMissionMain*		m_pParent;
 	// 배경 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	CINFGroupImage*				m_pMissionImg;
-#else
-	CINFImageEx*				m_pMissionImg;
-#endif
 	// 경고창
 	CINFAlertMsgBox*		m_pINFAlertMsgBox;
 

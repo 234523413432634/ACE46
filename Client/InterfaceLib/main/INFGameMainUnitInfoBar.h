@@ -203,17 +203,11 @@ protected:
 	BOOL			m_bRenderMapName;
 	float			m_fWarningTime;
 	BOOL			m_bWarning;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
     CINFGroupImage*		m_pGageBarInfo;				// 2011. 10. 10 by jskim UI시스템 변경
-#else
-	CINFImageEx*		m_pImgBackPixel[2];			// 2011. 10. 10 by jskim UI시스템 변경
-	CINFImageEx*		m_pImgBackMinimap;
-#endif
 
 
 	
 								  
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	// 2004-12-08 by jschoi - 추가
 	// 2011. 10. 10 by jskim UI시스템 변경
 	CINFImageEx*		m_pImgMainGageBack;										// 메인 게이지 배경(좌상단)
@@ -230,21 +224,6 @@ protected:
 	CINFImageEx*		m_pImgMainMinus;										// 메인 디지털 스피드 마이너스(추가)	
 	CINFImageEx*		m_pImgMainWarning;										// 메인 경고
 	CINFImageEx*		m_pImgGeneralPremiumCard;								// General Premium Card Image
-#else 
-    CINFImageEx*		m_pImgMainGageBack;										// 메인 게이지 배경(좌상단)
-	CINFImageEx*		m_pImgMainExpBack;										// 메인 경험치 배경(중앙하단)
-	CINFImageEx*		m_pImgMainExpBar;										// 메인 경험치 막대(중앙하단)
-	CINFImageEx*		m_pImgMainGageHP[GAMEMAIN_GAGE_HP_MAX_GRADE];			// 메인 게이지 HP
-	CINFImageEx*		m_pImgMainGageDP[GAMEMAIN_GAGE_DP_MAX_GRADE];			// 메인 게이지 DP
-	CINFImageEx*		m_pImgMainGageSP[GAMEMAIN_GAGE_SP_MAX_GRADE];			// 메인 게이지 SP
-	CINFImageEx*		m_pImgMainGageBooster[GAMEMAIN_GAGE_BOOSTER_MAX_GRADE];	// 메인 게이지 Booster
-	CINFImageEx*		m_pImgMainGageFuel[GAMEMAIN_GAGE_FUEL_MAX_GRADE];		// 메인 게이지 Fuel
-	CINFImageEx*		m_pImgMainIconFuel[2];									// 메인 아이콘 Fuel
-	CINFImageEx*		m_pImgMainSpeedNum;										// 메인 디지털 스피드
-	CINFImageEx*		m_pImgMainMinus;										// 메인 디지털 스피드 마이너스(추가)	
-	CINFImageEx*		m_pImgMainWarning;										// 메인 경고
-	CINFImageEx*		m_pImgGeneralPremiumCard;								// General Premium Card Image
-#endif
 	// end 2011. 10. 10 by jskim UI시스템 변경
 	// 2009. 03. 16 by ckPark 멤버쉽 툴팁 추가
 

@@ -172,20 +172,8 @@ CINFInvenExtend::CINFInvenExtend(CAtumNode* pParent)
 	// 2008-08-22 by bhsohn EP3 인벤토리 처리
 	m_pINFInvenEquip = NULL;
 	m_pINFInvenItem = NULL;
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경	
-	m_vecWndOrder.clear();
-	m_vecWndOrder.push_back(INVEN_ITEM_WND);
-	m_vecWndOrder.push_back(INVEN_EQ_WND);	
-	
-	m_bShowEqWnd = TRUE;
-	m_bShowEqShopWnd = TRUE;
-	m_bItemSetPos = m_bEqSetPos = m_bEqShopSetPos= FALSE;
-	m_pItemIvenPos.x = m_pItemIvenPos.y = m_pEqIvenNormalPos.x = m_pEqIvenNormalPos.y = 0;	
-	m_pEqIvenShopPos.x= m_pEqIvenShopPos.y = 0;
-#else
 	m_bItemSetPos = FALSE;
 	m_pItemIvenPos.x = m_pItemIvenPos.y = 0;	
-#endif
 
 	// 2011-07-22 by hsson 샾 중복 접속으로 인챈트 되던 버그 수정
 	m_bShopConcurrent = timeGetTime();
@@ -442,40 +430,11 @@ void CINFInvenExtend::Tick()
 	FLOG( "CINFInvenExtend::Tick()" );
 
 	// 2008-08-22 by bhsohn EP3 인벤토리 처리
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	int nCnt = m_vecWndOrder.size()-1;	
-	for(nCnt = m_vecWndOrder.size()-1;nCnt >= 0 ;nCnt--)
-	{
-		int nWndOrderTmp = m_vecWndOrder[nCnt];
-		switch(nWndOrderTmp)
-		{
-		case INVEN_ITEM_WND:
-			{
-				if(m_pINFInvenItem && m_pINFInvenItem->IsShowWnd())
-				{
-					m_pINFInvenItem->Tick();
-				}	
-			}
-			break;
-		case INVEN_EQ_WND:
-			{
-				if(m_pINFInvenEquip && m_pINFInvenEquip->IsShowWnd())
-				{
-					m_pINFInvenEquip->Tick();
-				}
-			}
-			break;
-		}
-	}	
-
-	// end 2008-08-22 by bhsohn EP3 인벤토리 처리
-#else
 	if(m_pINFInvenItem && m_pINFInvenItem->IsShowWnd())
 	{
 		m_pINFInvenItem->Tick();
 	    m_pINFInvenEquip->Tick();
 	}	
-#endif
 	
 }
 
@@ -485,34 +444,6 @@ void CINFInvenExtend::Render()
 	int nWindowPosY = g_pGameMain->m_nLeftWindowY;
 
 	// 2008-08-22 by bhsohn EP3 인벤토리 처리
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	int nCnt = m_vecWndOrder.size()-1;	
-	for(nCnt = m_vecWndOrder.size()-1;nCnt >= 0 ;nCnt--)
-	{
-		int nWndOrderTmp = m_vecWndOrder[nCnt];
-		switch(nWndOrderTmp)
-		{
-		case INVEN_ITEM_WND:
-			{
-				if(m_pINFInvenItem && m_pINFInvenItem->IsShowWnd())
-				{
-					m_pINFInvenItem->RenderBk();
-					m_pINFInvenItem->Render();
-				}	
-			}
-			break;
-		case INVEN_EQ_WND:
-			{
-				if(m_pINFInvenEquip && m_pINFInvenEquip->IsShowWnd())
-				{
-					m_pINFInvenEquip->RenderShipPreview();
-					m_pINFInvenEquip->Render();
-				}
-			}
-			break;
-		}
-	}	
-#else
 	// end 2008-08-22 by bhsohn EP3 인벤토리 처리
 	if(m_pINFInvenItem && m_pINFInvenItem->IsShowWnd())
 	{
@@ -524,7 +455,6 @@ void CINFInvenExtend::Render()
 		m_pINFInvenItem->Render();
 		m_pINFInvenEquip->Render();
 	}
-#endif	
 	// 2010. 05. 12 by jskim 기존 머신 축하 이펙트 보이는 부분을 인벤 쪽에서 럭키머신 쪽으로 변경
 	// 2009-04-02 by bhsohn 럭키 머신 추가 기획안
 	//RenderLuckyMechine();	
@@ -538,12 +468,8 @@ void CINFInvenExtend::RenderSpi(int x, int y)
 	char temp2[64];
 	wsprintf( temp1, "%d", m_nItemSpi );
 	MakeCurrencySeparator( temp2, temp1, 3, ',' );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	SIZE sSize = m_pFontSpi->GetStringSize(temp2);
 	m_pFontSpi->DrawText(x+SPI_START_X - sSize.cx, y + SPI_START_Y, GUI_FONT_COLOR,temp2, 0L);
-#else		 
-	m_pFontSpi->DrawText(x+SPI_START_X, y + SPI_START_Y, GUI_FONT_COLOR,temp2, 0L);
-#endif
 }
 	   
 // 2013-11-29 by ssjung 거래소 구현
@@ -555,19 +481,11 @@ void CINFInvenExtend::RenderWp(int x, int y)
 	MakeCurrencySeparator( temp2, temp1, 3, ',' );
 	// 2014-06-30 by ymjoo DrawText 성능 개선 작업 (인벤토리)
 #ifdef C_DRAWTEXT_UPGRADE_YMJOO
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	SIZE sSize = m_pFontWP->GetStringSize(temp2);
 	m_pFontWP->DrawText(x + SPI_START_X - sSize.cx, y + SPI_START_Y, GUI_FONT_COLOR, temp2, 0L);
-#else		 
-	m_pFontWP->DrawText(x + SPI_START_X, y + SPI_START_Y, GUI_FONT_COLOR, temp2, 0L);
-#endif
 #else
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	SIZE sSize = m_pFontSpi->GetStringSize(temp2);
 	m_pFontSpi->DrawText(x+SPI_START_X - sSize.cx, y + SPI_START_Y, GUI_FONT_COLOR,temp2, 0L);
-#else		 
-	m_pFontSpi->DrawText(x+SPI_START_X, y + SPI_START_Y, GUI_FONT_COLOR,temp2, 0L);
-#endif
 #endif
 	// END 2014-06-30 by ymjoo DrawText 성능 개선 작업 (인벤토리)
 }	
@@ -1534,42 +1452,11 @@ int CINFInvenExtend::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL bShow
 	FLOG( "CINFInvenExtend::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)" );	
 
 	// 2008-08-22 by bhsohn EP3 인벤토리 처리
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	int nCnt = 0;	
-	for(nCnt = 0;nCnt < m_vecWndOrder.size();nCnt++)
-	{
-		int nWndOrderTmp = m_vecWndOrder[nCnt];
-		switch(nWndOrderTmp)
-		{
-		case INVEN_ITEM_WND:
-			{
-				if(m_pINFInvenItem && (INF_MSGPROC_BREAK == m_pINFInvenItem->WndProc(uMsg, wParam, lParam, bShowInven)))
-				{
-					// 아이템 창
-					return INF_MSGPROC_BREAK;
-				}
-			}
-			break;
-		case INVEN_EQ_WND:
-			{
-				if(m_pINFInvenEquip && (INF_MSGPROC_BREAK == m_pINFInvenEquip->WndProc(uMsg, wParam, lParam, bShowInven)))
-				{
-					// 장착 창
-					return INF_MSGPROC_BREAK;
-				}
-			}
-			break;
-		}
-	}	
-	// end 2008-08-22 by bhsohn EP3 인벤토리 처리	
-	//if( m_pINFInvenItem && (INF_MSGPROC_BREAK == m_pINFInvenItem->WndProc(uMsg, wParam, lParam, bShowInven)) ||
-#else
 	m_pINFInvenItem->WndProc(uMsg, wParam, lParam, bShowInven);
 	if(m_pINFInvenEquip && INF_MSGPROC_BREAK == m_pINFInvenEquip->WndProc(uMsg, wParam, lParam, bShowInven))
 	{
 		return INF_MSGPROC_BREAK;
 	}																										
-#endif
 	switch(uMsg)
 	{
 	case WM_MOUSEWHEEL:
@@ -3168,89 +3055,6 @@ void CINFInvenExtend::ShowInven(POINT *pItem, POINT *pEq, BOOL bClick/*=FALSE*/,
 {
 //	POINT ptItem, ptEq;
 //
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-//	ptItem.x = INVEN_EQ_STApEqRT_X;
-//	ptItem.y = INVEN_EQ_START_Y;
-//
-//	ptEq.x = 0;
-//	ptEq.y = INVEN_EQ_START_Y;
-	BOOL bShowEq = FALSE;
-	if(!bShop)
-	{
-		if(m_bShowEqWnd)
-		{
-			bShowEq = TRUE;
-		}		
-		// 2009. 08. 19 by jsKim 랜딩 중 메뉴 생성할 경우 커서가 변하지 않는 버그
-		else
-		{
-			// 2012-12-17 by jhjang 비행중 마우스 커서가 제대로 동작하지 않는 버그 수정
-			//g_INFCnt++;
-			g_pD3dApp->AddINFCnt();
-			// end 2012-12-17 by jhjang 비행중 마우스 커서가 제대로 동작하지 않는 버그 수정
-		}
-		// end 2009. 08. 19 by jsKim 랜딩 중 메뉴 생성할 경우 커서가 변하지 않는 버그
-	}
-	else 
-	{
-		if(m_bShowEqShopWnd)
-		{
-			bShowEq = TRUE;
-		}
-		// 2009. 08. 19 by jsKim 랜딩 중 메뉴 생성할 경우 커서가 변하지 않는 버그
-		else
-		{
-			// 2012-12-17 by jhjang 비행중 마우스 커서가 제대로 동작하지 않는 버그 수정
-			//g_INFCnt++;
-			g_pD3dApp->AddINFCnt();
-			// end 2012-12-17 by jhjang 비행중 마우스 커서가 제대로 동작하지 않는 버그 수정
-		}
-		// end 2009. 08. 19 by jsKim 랜딩 중 메뉴 생성할 경우 커서가 변하지 않는 버그
-	}
-
-	// 장비 인벤
-	if(pEq && bShowEq)
-	{
-		POINT ptEqPos = (*pEq);
-		if(bClick && (!bShop))
-		{
-			if(m_bEqSetPos)
-			{
-				ptEqPos = m_pEqIvenNormalPos;
-			}					
-		}
-		else if(bShop)
-		{
-			if(m_bEqShopSetPos)
-			{
-				ptEqPos = m_pEqIvenShopPos;
-			}
-		}
-		m_pINFInvenEquip->ShowWnd(TRUE, &ptEqPos);
-		g_pInterface->SetWindowOrder(WNDInvenWnd);
-	}
-	else
-	{
-		if(m_pINFInvenEquip->IsShowWnd())
-		{
-			if(bClick && !bShop)
-			{
-				m_bEqSetPos = TRUE;
-				POINT ptItemIvenPos = m_pINFInvenEquip->GetBkPos();
-				m_pEqIvenNormalPos.x = ptItemIvenPos.x;
-				m_pEqIvenNormalPos.y = ptItemIvenPos.y;
-			}
-			else if(bShop)
-			{				
-				m_bEqShopSetPos = TRUE;
-				POINT ptItemIvenPos = m_pINFInvenEquip->GetBkPos();
-				m_pEqIvenShopPos.x = ptItemIvenPos.x;
-				m_pEqIvenShopPos.y = ptItemIvenPos.y;
-			}
-		}
-		m_pINFInvenEquip->ShowWnd(FALSE, NULL);
-	}
-#endif
 
 	// 아이템 인벤
 	if(pItem)
@@ -3261,9 +3065,7 @@ void CINFInvenExtend::ShowInven(POINT *pItem, POINT *pEq, BOOL bClick/*=FALSE*/,
 			ptEqPos = m_pItemIvenPos;
 		}
 		m_pINFInvenItem->ShowWnd(TRUE, &ptEqPos);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pINFInvenEquip->ShowWnd(TRUE, &ptEqPos);												  
-#endif
 	}
 	else
 	{
@@ -3275,9 +3077,7 @@ void CINFInvenExtend::ShowInven(POINT *pItem, POINT *pEq, BOOL bClick/*=FALSE*/,
 			m_pItemIvenPos.y = ptItemEqPos.y;
 		}
 		m_pINFInvenItem->ShowWnd(FALSE, NULL);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 		m_pINFInvenEquip->ShowWnd(FALSE, NULL);													  
-#endif
 #ifdef SC_MARKET_JHSEOL_BCKIM_SSJUNG
 		SetTradeItemCenterState(FALSE);						   // 2013-11-29 by ssjung 거래소 구현
 #endif
@@ -3610,61 +3410,6 @@ void CINFInvenExtend::UpdateInvenScrollMax()
 ///////////////////////////////////////////////////////////////////////////////
 void CINFInvenExtend::ShowEqInven()
 {
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	BOOL bShow = m_pINFInvenEquip->IsShowWnd();
-	bShow^=TRUE;
-	if(g_pInterface->m_pCityBase->GetCurrentBuildingNPC())
-	{
-		m_bShowEqShopWnd = bShow;	// 상점에서의 보이는지 여부
-	}
-	else
-	{
-		m_bShowEqWnd = bShow;
-	}
-	
-	if(bShow)
-	{
-		POINT ptPos = m_pINFInvenEquip->GetBkPos();		
-		if(g_pInterface->m_pCityBase->GetCurrentBuildingNPC())
-		{	
-			ptPos.x = INVEN_EQ_SHOP_START_X;
-			ptPos.y = INVEN_EQ_SHOP_START_Y;
-			if(m_bEqShopSetPos)
-			{
-				ptPos = m_pEqIvenShopPos;
-			}
-		}
-		else if(m_bEqSetPos)
-		{
-			ptPos = m_pEqIvenNormalPos;			
-		}		
-		m_pINFInvenEquip->ShowWnd(TRUE, &ptPos);
-		
-		g_pInterface->SetWindowOrder(WNDInvenWnd);
-	}
-	else
-	{
-		if(m_pINFInvenEquip->IsShowWnd())
-		{
-			if(g_pInterface->m_pCityBase->GetCurrentBuildingNPC())
-			{
-				m_bEqShopSetPos = TRUE;
-				POINT ptItemIvenPos = m_pINFInvenEquip->GetBkPos();
-				m_pEqIvenShopPos.x = ptItemIvenPos.x;
-				m_pEqIvenShopPos.y = ptItemIvenPos.y;
-			}
-			else
-			{
-				m_bEqSetPos = TRUE;
-				POINT ptItemIvenPos = m_pINFInvenEquip->GetBkPos();
-				m_pEqIvenNormalPos.x = ptItemIvenPos.x;
-				m_pEqIvenNormalPos.y = ptItemIvenPos.y;
-			}
-		}
-
-		m_pINFInvenEquip->ShowWnd(NULL, NULL);
-	}
-#endif
 
 }
 
@@ -3691,24 +3436,6 @@ void CINFInvenExtend::SetWndOrder(int nWndIdx)
 		}
 	}
 	// end 2009-04-08 by bhsohn 다중 선택시, 유니크 및 인챈트 된 아이템 판매시 경고 메시지 출력 기획 문서(K0000174)
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
-	deque<int>	 vecWndOrderTmp;
-	vecWndOrderTmp.clear();
-	int nCnt = 0;	
-	for(nCnt = 0;nCnt < m_vecWndOrder.size();nCnt++)
-	{
-		int nWndOrderTmp = m_vecWndOrder[nCnt];
-		if(nWndOrderTmp == nWndIdx)
-		{
-			vecWndOrderTmp.push_front(nWndOrderTmp);
-		}
-		else
-		{
-			vecWndOrderTmp.push_back(nWndOrderTmp);
-		}
-	}
-	m_vecWndOrder = vecWndOrderTmp;
-#endif
 
 	g_pInterface->SetWindowOrder(WNDInvenWnd);
 }
@@ -3739,7 +3466,6 @@ POINT CINFInvenExtend::GetEqInvenBkPos()
 /////////////////////////////////////////////////////////////////////////////// 
 void CINFInvenExtend::SetInvenPosInfo(structInvenPosInfo* pstruInvenPosInfo)
 {
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	m_pItemIvenPos	= pstruInvenPosInfo->ptItemIvenPos;
 // 	m_pEqIvenNormalPos	= pstruInvenPosInfo->ptEqIvenPos;
 // 	m_pEqIvenShopPos = pstruInvenPosInfo->ptEqIvenShopPos;
@@ -3748,16 +3474,6 @@ void CINFInvenExtend::SetInvenPosInfo(structInvenPosInfo* pstruInvenPosInfo)
 // 	m_bShowEqWnd	= pstruInvenPosInfo->bShowEqWnd;		
 // 	m_bShowEqShopWnd= pstruInvenPosInfo->bShowEqShopWnd;		
 // 	m_bEqShopSetPos= pstruInvenPosInfo->bEqShopSetPos;		
-#else	 
-	m_pItemIvenPos	= pstruInvenPosInfo->ptItemIvenPos;
-	m_pEqIvenNormalPos	= pstruInvenPosInfo->ptEqIvenPos;
-	m_pEqIvenShopPos = pstruInvenPosInfo->ptEqIvenShopPos;
-	m_bItemSetPos	= pstruInvenPosInfo->bItemSetPos;		
-	m_bEqSetPos		= pstruInvenPosInfo->bEqSetPos;		
-	m_bShowEqWnd	= pstruInvenPosInfo->bShowEqWnd;		
-	m_bShowEqShopWnd= pstruInvenPosInfo->bShowEqShopWnd;		
-	m_bEqShopSetPos= pstruInvenPosInfo->bEqShopSetPos;		
-#endif
 
 }
 
@@ -3776,7 +3492,6 @@ structInvenPosInfo CINFInvenExtend::GetInvenPosInfo()
 	structInvenPosInfo	struInfo;
 	memset(&struInfo, 0x00, sizeof(structInvenPosInfo));
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	struInfo.ptItemIvenPos = m_pItemIvenPos;
 	//struInfo.ptEqIvenPos = m_pEqIvenNormalPos;
 	struInfo.bItemSetPos = m_bItemSetPos;		
@@ -3785,16 +3500,6 @@ structInvenPosInfo CINFInvenExtend::GetInvenPosInfo()
 // 	struInfo.bShowEqShopWnd = m_bShowEqShopWnd;
 // 	struInfo.ptEqIvenShopPos = m_pEqIvenShopPos;	 
 // 	struInfo.bEqShopSetPos = m_bEqShopSetPos;													  
-#else		   
-	struInfo.ptItemIvenPos = m_pItemIvenPos;
-	struInfo.ptEqIvenPos = m_pEqIvenNormalPos;
-	struInfo.bItemSetPos = m_bItemSetPos;		
-	struInfo.bEqSetPos = m_bEqSetPos;		
-	struInfo.bShowEqWnd = m_bShowEqWnd;		
-	struInfo.bShowEqShopWnd = m_bShowEqShopWnd;
-	struInfo.ptEqIvenShopPos = m_pEqIvenShopPos;	 
-	struInfo.bEqShopSetPos = m_bEqShopSetPos;
-#endif
 
 	return struInfo;
 
@@ -3856,7 +3561,6 @@ void CINFInvenExtend::RenderLuckyMechine()
 	pINFLuckyMachine->RenderYouLucky();
 }
 							  
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 POINT CINFInvenExtend::GetBkSize()
 {
 	return m_pINFInvenItem->GetBkSize();	
@@ -3866,7 +3570,6 @@ BOOL CINFInvenExtend::GetInvenMove()
 {
 	return m_pINFInvenItem->GetMove();
 };
-#endif
 
 
 ///////////////////////////////////////////////////////////////////////////////

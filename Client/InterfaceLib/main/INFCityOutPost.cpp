@@ -34,7 +34,6 @@
 #include "INFGroupManager.h"
 #include "INFToolTip.h"			// 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 #define OUTPOST_BAR_NAME_X			(CITY_BASE_NPC_BOX_START_X + 5)
 #define OUTPOST_BAR_NAME_Y			(CITY_BASE_NPC_BOX_START_Y - SIZE_CITYLEADER_WINDOWL_Y + 2)			// 바를 제외한 젤 윗단.
 #define OUTPOST_STARTL_X			(CITY_BASE_NPC_BOX_START_X)									// 윈도우 창 젤 앞단.
@@ -267,235 +266,6 @@
 #define MOTHERSHIP_OPTION_X							(OUTPOST_BGR_X + 463)
 #define MOTHERSHIP_OPTION_Y 						(OUTPOST_BGR_Y + 240)
 
-#else
-#define OUTPOST_BAR_NAME_X			(CITY_BASE_NPC_BOX_START_X + 5)
-#define OUTPOST_BAR_NAME_Y			(CITY_BASE_NPC_BOX_START_Y - SIZE_CITYLEADER_WINDOWL_Y + 2)			// 바를 제외한 젤 윗단.
-#define OUTPOST_STARTL_X			(CITY_BASE_NPC_BOX_START_X)									// 윈도우 창 젤 앞단.
-#define OUTPOST_STARTL_Y			(CITY_BASE_NPC_BOX_START_Y - SIZE_CITYLEADER_WINDOWL_Y + 20)			// 바를 제외한 젤 윗단.
-#define OUTPOST_STARTR_X			(OUTPOST_STARTL_X + SIZE_CITYLEADER_WINDOWL_X)
-#define OUTPOST_STARTR_Y			(CITY_BASE_NPC_BOX_START_Y - SIZE_CITYLEADER_WINDOWL_Y + 20)			// 바를 제외한 젤 윗단.
-
-// 왼쪽 창 배경 및 버튼 위치.
-#define OUTPOST_BGL_X				(OUTPOST_STARTL_X + 14)
-#define OUTPOST_BGL_Y				(OUTPOST_STARTL_Y + 7)
-
-#define TITLE_POS_X					(OUTPOST_BGL_X)
-#define TITLE_POS_Y					(OUTPOST_BGL_Y -24)
-
-#define OUTPOST_BRIGADE_NOTICE_BUTTON_X			(OUTPOST_BGL_X + 16)
-#define OUTPOST_BRIGADE_NOTICE_BUTTON_Y			(OUTPOST_BGL_Y + 23)
-#define OUTPOST_EXPENCE_BUTTON_X				(OUTPOST_BGL_X + 16)
-#define OUTPOST_EXPENCE_BUTTON_Y				(OUTPOST_BGL_Y + 61)
-#define OUTPOST_WAR_TIME_SET_BUTTON_X			(OUTPOST_BGL_X + 16)
-#define OUTPOST_WAR_TIME_SET_BUTTON_Y			(OUTPOST_BGL_Y + 98)
-#define OUTPOST_WARINFO_BUTTON_X				(OUTPOST_BGL_X + 16)
-#define OUTPOST_WARINFO_BUTTON_Y				(OUTPOST_BGL_Y + 135)
-#define OUTPOST_LEFT_BUTTON_W					124
-#define	OUTPOST_LEFT_BUTTON_H					29
-
-// 오른쪽 배경 및 버튼위치.
-//--------------------------------------------------------------------------//
-
-#define OUTPOST_BGR_X				(OUTPOST_STARTR_X + 12)
-#define OUTPOST_BGR_Y				(OUTPOST_STARTR_Y + 7)
-
-// 여단 공지 사항.
-#define OUTPOST_WRITE_BUTTON_X					(OUTPOST_BGR_X + 11)
-#define OUTPOST_WRITE_BUTTON_Y					(OUTPOST_BGR_Y + 47)
-#define OUTPOST_REV_BUTTON_X					(OUTPOST_BGR_X + 79)
-#define OUTPOST_REV_BUTTON_Y					(OUTPOST_BGR_Y + 47)
-#define OUTPOST_DEL_BUTTON_X					(OUTPOST_BGR_X + 147)
-#define OUTPOST_DEL_BUTTON_Y					(OUTPOST_BGR_Y + 47)
-#define OUTPOST_APP_BUTTON_X					(OUTPOST_BGR_X + 238)
-#define OUTPOST_APP_BUTTON_Y					(OUTPOST_BGR_Y + 205)
-#define OUTPOST_RIGHT_BUTTON_W					65
-#define	OUTPOST_RIGHT_BUTTON_H					19
-
-//#define OUTPOST_NOTICE_EDIT_W					260
-#define OUTPOST_NOTICE_EDIT_W					240
-#define OUTPOST_NOTICE_EDIT_H					110
-
-#define OUTPOST_NOTICE_EDIT_X					(OUTPOST_BGR_X + 25)
-#define OUTPOST_NOTICE_EDIT_Y					(OUTPOST_BGR_Y + 86)
-#define OUTPOST_NOTICE_FONT_LINE_HEIGHT			15
-
-// 판공비 수령.
-#define OUTPOST_EXPENCE_OK_BUTTON_X				(OUTPOST_BGR_X + 238)
-#define OUTPOST_EXPENCE_OK_BUTTON_Y				(OUTPOST_BGR_Y + 202)
-
-#define OUTPOST_EXPENCE_LATE_FONT_X				(OUTPOST_BGR_X + 247)
-#define OUTPOST_EXPENCE_LATE_FONT_Y				(OUTPOST_BGR_Y + 55)
-#define OUTPOST_EXPENCE_CUMEXP_FONT_X			(OUTPOST_BGR_X + 247)
-#define OUTPOST_EXPENCE_CUMEXP_FONT_Y			(OUTPOST_BGR_Y + 86)
-#define OUTPOST_EXPENCE_EXP_FONT_X				(OUTPOST_BGR_X + 247)
-#define OUTPOST_EXPENCE_EXP_FONT_Y				(OUTPOST_BGR_Y + 116)
-
-// 전쟁 시간 설정.
-#define OUTPOST_WARTIME_RADIO_BUTTON_START_X	(OUTPOST_BGR_X + 35)
-#define OUTPOST_WARTIME_RADIO_BUTTON_START_Y	(OUTPOST_BGR_Y + 161)
-#define OUTPOST_WARTIME_RADIO_BUTTON_GAP_Y		19
-#define OUTPOST_WARTIME_RADIO_BUTTON_W			17
-#define OUTPOST_WARTIME_RADIO_BUTTON_H			17
-
-#define OUTPOST_NEXT_WARTIME_DATE_FONT_X		(OUTPOST_BGR_X + 74)
-#define OUTPOST_NEXT_WARTIME_DATE_FONT_Y		(OUTPOST_BGR_Y + 67)
-#define OUTPOST_NEXT_WARTIME_TIME_FONT_X		(OUTPOST_BGR_X + 74)
-#define OUTPOST_NEXT_WARTIME_TIME_FONT_Y		(OUTPOST_BGR_Y + 117)
-
-#define OUTPOST_SEL_WARTIME_FONT_X				(OUTPOST_BGR_X + 57)
-#define OUTPOST_SEL_WARTIME_FONT_Y				(OUTPOST_BGR_Y + 167)
-#define OUTPOST_SEL_WARTIME_FONT_GAP_H			18 
-
-
-
-#define OUTPOST_OK_BUTTON_X						(OUTPOST_BGR_X + 238)
-#define OUTPOST_OK_BUTTON_Y						(OUTPOST_BGR_Y + 202)
-
-#define	MAX_NEXT_WAR_RADIO		3
-
-
-
-// 2009. 01. 12 by ckPark 선전 포고 시스템
-#define WARDECLARE_BTN_X							(OUTPOST_BGR_X + 200)
-#define WARDECLARE_BTN_Y 							(OUTPOST_BGR_Y + 212)
-
-#define OUR_THIS_TAKEOFF_X							(OUTPOST_BGR_X + 43)
-#define OUR_THIS_TAKEOFF_Y							(OUTPOST_BGR_Y + 81)
-#define OUR_NEXT_TAKEOFF_X							(OUTPOST_BGR_X + 43)
-#define OUR_NEXT_TAKEOFF_Y							(OUTPOST_BGR_Y + 142)
-
-#define ENEMY_THIS_TAKEOFF_X						(OUTPOST_BGR_X + 275)
-#define ENEMY_THIS_TAKEOFF_Y						(OUTPOST_BGR_Y + 81)
-#define ENEMY_NEXT_TAKEOFF_X						(OUTPOST_BGR_X + 275)
-#define ENEMY_NEXT_TAKEOFF_Y						(OUTPOST_BGR_Y + 142)
-
-#define OUR_THIS_TAKEOFFTIME_X						(OUTPOST_BGR_X + 48)
-#define OUR_THIS_TAKEOFFTIME_Y						(OUTPOST_BGR_Y + 105)
-#define OUR_NEXT_TAKEOFFTIME_X						(OUTPOST_BGR_X + 48)
-#define OUR_NEXT_TAKEOFFTIME_Y						(OUTPOST_BGR_Y + 167)
-
-#define ENEMY_THIS_TAKEOFFTIME_X					(OUTPOST_BGR_X + 280)
-#define ENEMY_THIS_TAKEOFFTIME_Y					(OUTPOST_BGR_Y + 105)
-#define ENEMY_NEXT_TAKEOFFTIME_X					(OUTPOST_BGR_X + 280)
-#define ENEMY_NEXT_TAKEOFFTIME_Y					(OUTPOST_BGR_Y + 167)
-
-// end 2009. 01. 12 by ckPark 선전 포고 시스템
-
-
-
-// 스크롤 바 라인
-#define	MAX_SCROLL_LINE			7
-#define	SCROLL_BALL_POSX					288
-#define	SCROLL_BALL_POSY					78
-#define	SCROLL_BALL_WIDTH					11
-#define	SCROLL_BALL_SCROLL_CAP				30
-
-#define	SCROLL_WIDTH						330
-#define	SCROLL_HEIGHT						78
-#define	SCROLL_WHELL_HEIGHT					150
-
-
-//--------------------------------------------------------------------------//
-//							전쟁 정보 창.
-#define LEADER_WARINFO_BG_X							(OUTPOST_BGR_X)// + 22)
-#define LEADER_WARINFO_BG_Y							(OUTPOST_BGR_Y)// + 8)
-
-
-
-// 2009. 01. 12 by ckPark 선전 포고 시스템
-//#define LEADER_WARINFO_TAB_W						(116)
-#define LEADER_WARINFO_TAB_W						(91)
-// end 2009. 01. 12 by ckPark 선전 포고 시스템
-
-
-
-
-
-
-#define LEADER_WARINFO_TAB_H						(25)
-#define LEADER_WARINFO_TAB_Y						(OUTPOST_BGR_Y)
-#define LEADER_WARINFO_TAB_INFLUENCE_X				(OUTPOST_BGR_X)
-#define LEADER_WARINFO_TAB_MOTHERSHIP_X				(LEADER_WARINFO_TAB_INFLUENCE_X + LEADER_WARINFO_TAB_W)
-#define LEADER_WARINFO_TAB_OUTPOST_X				(LEADER_WARINFO_TAB_MOTHERSHIP_X + LEADER_WARINFO_TAB_W)
-#define LEADER_WARINFO_TAB_WARPOINT_X				(LEADER_WARINFO_TAB_OUTPOST_X + LEADER_WARINFO_TAB_W)
-
-// 세력전 탭
-#define WARINFO_INFLUENCE_BG1_X						(OUTPOST_BGR_X + 18)
-#define WARINFO_INFLUENCE_BG1_Y						(OUTPOST_BGR_Y + 45)
-#define WARINFO_INFLUENCE_BG2_X						(OUTPOST_BGR_X + 244)
-#define WARINFO_INFLUENCE_BG2_Y						(OUTPOST_BGR_Y + 45)
-#define WARINFO_INFLUENCE_FONT_POINT_H				31				
-#define WARINFO_INFLUENCE_FONT_1_CENTER_X			(OUTPOST_BGR_X + 178)
-#define WARINFO_INFLUENCE_FONT_2_CENTER_X			(OUTPOST_BGR_X + 405)
-#define WARINFO_INFLUENCE_FONT_LEADER_Y				(OUTPOST_BGR_Y + 89)
-#define WARINFO_INFLUENCE_FONT_LEADER1_Y			(WARINFO_INFLUENCE_FONT_LEADER_Y + WARINFO_INFLUENCE_FONT_POINT_H)
-#define WARINFO_INFLUENCE_FONT_LEADER2_Y			(WARINFO_INFLUENCE_FONT_LEADER1_Y + WARINFO_INFLUENCE_FONT_POINT_H)
-#define WARINFO_INFLUENCE_FONT_POINT_Y				(WARINFO_INFLUENCE_FONT_LEADER2_Y + WARINFO_INFLUENCE_FONT_POINT_H)
-
-// 전진기지전 탭
-#define WARINFO_OUTPOST_FONT_OUTPOST_CENTER_X		(OUTPOST_BGR_X + 56)
-#define WARINFO_OUTPOST_FONT_INFLUENCE_CENTER_X		(OUTPOST_BGR_X + 119)
-// 2007-12-17 by dgwoo 인터페이스 변경.
-#define WARINFO_OUTPOST_FONT_GUILD_CENTER_X			(OUTPOST_BGR_X + 247)
-#define WARINFO_OUTPOST_FONT_GUILDLEADER_CENTER_X	(OUTPOST_BGR_X + 186)
-#define WARINFO_OUTPOST_FONT_GUILDLEADER_W			70
-//#define WARINFO_OUTPOST_FONT_GUILD_CENTER_X			(LEADER_BGR_X + 286)
-#define WARINFO_OUTPOST_FONT_GUILDMARK_X			(OUTPOST_BGR_X + 240)
-#define WARINFO_OUTPOST_FONT_GUILDNAME_X			(WARINFO_OUTPOST_FONT_GUILDMARK_X + 28)
-#define WARINFO_OUTPOST_FONT_GUILDNAME_W			65
-#define WARINFO_OUTPOST_FONT_SCHEDULE_CENTER_X		(OUTPOST_BGR_X + 396)
-
-#define WARINFO_OUTPOST_FONT_DATA_1_Y				(OUTPOST_BGR_Y + 106)
-#define WARINFO_OUTPOST_FONT_DATA_1_GUILDNAME_Y		(OUTPOST_BGR_Y + 97)
-#define WARINFO_OUTPOST_FONT_DATA_1_GUILDLEADER_Y	(OUTPOST_BGR_Y + 112)
-#define WARINFO_OUTPOST_GUILDMARK_1_Y				(WARINFO_OUTPOST_FONT_DATA_1_GUILDNAME_Y + 3)
-#define WARINFO_OUTPOST_FONT_H						(32)
-
-// 2008-10-16 by bhsohn 전진기지 모선전, 거점전 정보창
-// 거점전스크롤
-#define MOTHERSHIP_INFO_VIEW_MAX_SCROLL_LINE		5
-#define MOTHERSHIP_INFO_VIEW_SCROLL_X			(OUTPOST_BGR_X + 476)
-#define MOTHERSHIP_INFO_VIEW_SCROLL_Y			(OUTPOST_BGR_Y + 74)
-#define MOTHERSHIP_INFO_VIEW_SCROLL_W			11
-#define MOTHERSHIP_INFO_VIEW_SCROLL_H			93
-#define MOTHERSHIP_INFO_VIEW_SCROLL_WHELL_X		(OUTPOST_BGR_X + 55)
-#define MOTHERSHIP_INFO_VIEW_SCROLL_WHELL_Y		(OUTPOST_BGR_Y + 74)
-#define MOTHERSHIP_INFO_VIEW_SCROLL_WHELL_W		434
-#define MOTHERSHIP_INFO_VIEW_SCROLL_WHELL_H		133
-#define MOTHERSHIP_INFO_VIEW_SCROLL_BALL_X		(OUTPOST_BGR_X + 465)
-#define MOTHERSHIP_INFO_VIEW_SCROLL_BALL_Y		(OUTPOST_BGR_Y + 74)
-#define MOTHERSHIP_INFO_VIEW_SCROLL_BALL_W		32
-#define MOTHERSHIP_INFO_VIEW_SCROLL_BALL_H		123
-
-// 아이템들 위치
-// 공격 세력
-#define MOTHERSHIP_WARINFO_VIEW_ATT_INFL_X			(OUTPOST_BGR_X + 52)
-#define MOTHERSHIP_WARINFO_VIEW_ATT_INFL_Y			(OUTPOST_BGR_Y + 71)
-#define MOTHERSHIP_WARINFO_VIEW_ATT_MOTHER_X		(OUTPOST_BGR_X + 52)
-#define MOTHERSHIP_WARINFO_VIEW_ATT_MOTHER_Y		(OUTPOST_BGR_Y + 83)
-#define MOTHERSHIP_WARINFO_VIEW_POINT_X				(OUTPOST_BGR_X + 135)
-#define MOTHERSHIP_WARINFO_VIEW_POINT_Y				(OUTPOST_BGR_Y + 77)
-#define MOTHERSHIP_WARINFO_VIEW_TIME_X				(OUTPOST_BGR_X + 289)
-#define MOTHERSHIP_WARINFO_VIEW_TIME_Y				(OUTPOST_BGR_Y + 77)
-#define MOTHERSHIP_WARINFO_VIEW_WININFL_X			(OUTPOST_BGR_X + 437)
-#define MOTHERSHIP_WARINFO_VIEW_WININFL_Y			(OUTPOST_BGR_Y + 77)
-#define MOTHERSHIP_WARINFO_VIEW_CAP_HEIGHT			(27)
-
-// 거점전
-#define POINTWAR_WARINFO_VIEW_ATT_INFL_X			(OUTPOST_BGR_X + 37)
-#define POINTWAR_WARINFO_VIEW_ATT_INFL_Y			(OUTPOST_BGR_Y + 83)
-#define POINTWAR_WARINFO_VIEW_POINT_X				(OUTPOST_BGR_X + 117)
-#define POINTWAR_WARINFO_VIEW_POINT_Y				(OUTPOST_BGR_Y + 83)
-#define POINTWAR_WARINFO_VIEW_TIME_X				(OUTPOST_BGR_X + 289)
-#define POINTWAR_WARINFO_VIEW_TIME_Y				(OUTPOST_BGR_Y + 83)
-#define POINTWAR_WARINFO_VIEW_WININFL_X				(OUTPOST_BGR_X + 437)
-#define POINTWAR_WARINFO_VIEW_WININFL_Y				(OUTPOST_BGR_Y + 83)
-#define POINTWAR_WARINFO_VIEW_CAP_HEIGHT			(27)
-
-// 거점전 관리 옵션
-#define MOTHERSHIP_OPTION_X							(OUTPOST_BGR_X + 353)
-#define MOTHERSHIP_OPTION_Y 						(OUTPOST_BGR_Y + 212)
-#endif
 
 struct sort_MotherShip_summontime: binary_function<structMotherShipInfo, structMotherShipInfo, bool>
 {
@@ -898,7 +668,6 @@ HRESULT CINFCityOutPost::InitDeviceObjects()
 	m_pImgRadioB[RADIOBUTTON_STATE_NORMAL] = new CINFImageEx;
 	pDataHeader = FindResource("radio_17b");
 	m_pImgRadioB[RADIOBUTTON_STATE_NORMAL]->InitDeviceObjects(pDataHeader );
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("chiefpost");
 	m_pImgOutPostLBG = g_pGameMain->m_GruopImagemanager->GetGroupImage(pDataHeader);
 	m_pImgOutPostLBG->InitDeviceObjects( g_pD3dApp->m_pImageList );
@@ -913,11 +682,6 @@ HRESULT CINFCityOutPost::InitDeviceObjects()
 
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("chiefp_btn");
 	CityOutPostControl = g_pGameMain->m_GruopImagemanager->GetGroupImage(pDataHeader);
-#else
-	m_pImgOutPostLBG = new CINFImageEx;
-	pDataHeader = FindResource("outpostB");
-	m_pImgOutPostLBG->InitDeviceObjects(pDataHeader );
-#endif
 
 	m_pImgBriNoticeBG = new CINFImageEx;
 	pDataHeader = FindResource("OnoticeB");
@@ -986,7 +750,6 @@ HRESULT CINFCityOutPost::InitDeviceObjects()
 		m_pNoticeEditBox->SetOnePageItemCnt(MAX_SCROLL_LINE);	// 2008-10-29 by bhsohn 에디트 박스 형태 변경
 		
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	{
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
 		wsprintf(szUpBtn, "oks03");
@@ -1002,21 +765,6 @@ HRESULT CINFCityOutPost::InitDeviceObjects()
 		m_pExpenceOkBtn->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn,"STRTOOLTIP113");
 		// end 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현
 	}
-#else
-	// 판공비 수령
-	{
-		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-		wsprintf(szUpBtn, "Oreveb3");
-		wsprintf(szDownBtn, "Oreveb1");
-		wsprintf(szSelBtn, "Oreveb0");
-		wsprintf(szDisBtn, "Oreveb2");
-		if(NULL == m_pExpenceOkBtn)
-		{
-			m_pExpenceOkBtn = new CINFImageBtn;
-		}
-		m_pExpenceOkBtn->InitDeviceObjects(szUpBtn, szDownBtn, szSelBtn, szDisBtn);		
-	}
-#endif
 	// 확인 버튼
 	{
 		char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
@@ -1056,17 +804,10 @@ HRESULT CINFCityOutPost::InitDeviceObjects()
 
 		{
 			char szUpBtn[30], szDownBtn[30], szSelBtn[30], szDisBtn[30];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 			wsprintf(szUpBtn, "p_bt43");
 			wsprintf(szDownBtn, "p_bt41");
 			wsprintf(szSelBtn, "p_bt40");
 			wsprintf(szDisBtn, "p_bt42");
-#else
-			wsprintf(szUpBtn, "minfobtn3");
-			wsprintf(szDownBtn, "minfobtn1");
-			wsprintf(szSelBtn, "minfobtn0");
-			wsprintf(szDisBtn, "minfobtn2");
-#endif
 			if(NULL == m_pBtnMotherShipInfo)
 			{
 				m_pBtnMotherShipInfo = new CINFImageBtn;
@@ -1143,22 +884,16 @@ HRESULT CINFCityOutPost::RestoreDeviceObjects()
 	m_pImgLWarInfoB->RestoreDeviceObjects();
 
 	
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM	
 	POINT pPos = CityOutPostControl->GetFindControlTargetofMinPos("warfieldB0"); 
 	m_pImgLWarInfoB->SetBtnPosition(OUTPOST_BRIGADE_NOTICE_BUTTON_X,OUTPOST_BRIGADE_NOTICE_BUTTON_Y + pPos.y);
-#else
-	m_pImgLWarInfoB->SetBtnPosition(OUTPOST_WARINFO_BUTTON_X,OUTPOST_WARINFO_BUTTON_Y);
-#endif
 
 
 	m_pImgRadioB[RADIOBUTTON_STATE_NORMAL]->RestoreDeviceObjects();
 	m_pImgRadioB[RADIOBUTTON_STATE_SELECT]->RestoreDeviceObjects();
 	m_pImgOutPostLBG->RestoreDeviceObjects();
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM	
 	m_pImgRightBG[0]->RestoreDeviceObjects();
 	m_pImgRightBG[1]->RestoreDeviceObjects();	
-#endif
 	m_pImgBriNoticeBG->RestoreDeviceObjects();
 	m_pImgOutPostTimeSetBG->RestoreDeviceObjects();
 	m_pImgExpenceBG->RestoreDeviceObjects();
@@ -1283,14 +1018,12 @@ HRESULT CINFCityOutPost::DeleteDeviceObjects()
 
 	m_pImgOutPostLBG->DeleteDeviceObjects();
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM	
 	m_pImgRightBG[0]->DeleteDeviceObjects();
 	SAFE_DELETE( m_pImgRightBG[0] );
 	m_pImgRightBG[1]->DeleteDeviceObjects();	
 	SAFE_DELETE( m_pImgRightBG[1] );
 	CityOutPostControl->DeleteDeviceObjects();
 	SAFE_DELETE( CityOutPostControl );
-#endif
 
 	m_pImgBriNoticeBG->DeleteDeviceObjects();
 	m_pImgOutPostTimeSetBG->DeleteDeviceObjects();
@@ -1407,11 +1140,9 @@ HRESULT CINFCityOutPost::InvalidateDeviceObjects()
 	m_pImgRadioB[RADIOBUTTON_STATE_SELECT]->InvalidateDeviceObjects();
 
 	m_pImgOutPostLBG->InvalidateDeviceObjects();
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM	
 	m_pImgRightBG[0]->InvalidateDeviceObjects();
 	m_pImgRightBG[1]->InvalidateDeviceObjects();	
 	CityOutPostControl->InvalidateDeviceObjects();
-#endif
 	m_pImgBriNoticeBG->InvalidateDeviceObjects();
 	m_pImgOutPostTimeSetBG->InvalidateDeviceObjects();
 	m_pImgExpenceBG->InvalidateDeviceObjects();
@@ -1464,7 +1195,6 @@ void CINFCityOutPost::Render()
 	m_pImgOutPostLBG->Move(OUTPOST_BGL_X,OUTPOST_BGL_Y);
 	m_pImgOutPostLBG->Render();
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	// 왼쪽 버튼 
 
 	POINT pPos = CityOutPostControl->GetFindControlTargetofMinPos("Onotice0"); 
@@ -1481,20 +1211,6 @@ void CINFCityOutPost::Render()
 
 	m_pImgLWarInfoB->Render();
 
-#else
-	// 타이틀 	
-	m_pImgTitle->Move(TITLE_POS_X,TITLE_POS_Y);
-	m_pImgTitle->Render();	
-
-	// 왼쪽 버튼 
-	m_pImgBrigadeNoticeB[m_nBrigadeNoticeB]->Move(OUTPOST_BRIGADE_NOTICE_BUTTON_X,OUTPOST_BRIGADE_NOTICE_BUTTON_Y);
-	m_pImgBrigadeNoticeB[m_nBrigadeNoticeB]->Render();
-	m_pImgExpenceB[m_nExpenceB]->Move(OUTPOST_EXPENCE_BUTTON_X,OUTPOST_EXPENCE_BUTTON_Y);
-	m_pImgExpenceB[m_nExpenceB]->Render();
-	m_pImgOutPostWarTimeB[m_nOutPostWarTimeB]->Move(OUTPOST_WAR_TIME_SET_BUTTON_X,OUTPOST_WAR_TIME_SET_BUTTON_Y);
-	m_pImgOutPostWarTimeB[m_nOutPostWarTimeB]->Render();
-	m_pImgLWarInfoB->Render();
-#endif
 
 	// 오른쪽 창.
 	switch(m_nRWindowState)
@@ -1502,15 +1218,10 @@ void CINFCityOutPost::Render()
 	case OUTPOST_STATE_NOTICE:
 		{// 여단 공지 
 			// 배경.
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 			m_pImgRightBG[0]->Move(OUTPOST_BGR_X, OUTPOST_BGR_Y);
 			m_pImgRightBG[0]->Render();
 			m_pImgBriNoticeBG->Move(OUTPOST_BGR_X,OUTPOST_BGR_Y + 15 );
 			m_pImgBriNoticeBG->Render();			
-#else
-			m_pImgBriNoticeBG->Move(OUTPOST_BGR_X,OUTPOST_BGR_Y);
-			m_pImgBriNoticeBG->Render();			
-#endif
 			
 			// 2007-09-05 by bhsohn 전진 기지전
 //			m_pImgWriteB[m_nWriteB]->Move(OUTPOST_WRITE_BUTTON_X,OUTPOST_WRITE_BUTTON_Y);
@@ -1537,15 +1248,10 @@ void CINFCityOutPost::Render()
 	case OUTPOST_STATE_EXPENCE:
 		{// 판공비 수령.
 			// 배경.
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 			m_pImgRightBG[0]->Move(OUTPOST_BGR_X, OUTPOST_BGR_Y);
 			m_pImgRightBG[0]->Render();
 			m_pImgExpenceBG->Move(OUTPOST_BGR_X,OUTPOST_BGR_Y + 15 );
 			m_pImgExpenceBG->Render();			
-#else
-			m_pImgExpenceBG->Move(OUTPOST_BGR_X,OUTPOST_BGR_Y);
-			m_pImgExpenceBG->Render();
-#endif
 
 			char temp1[512],temp2[512];
 			SIZE size;
@@ -1575,15 +1281,10 @@ void CINFCityOutPost::Render()
 	case OUTPOST_STATE_WARTIME:
 		{// 전쟁시간 설정.
 			// 배경.
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 			m_pImgRightBG[0]->Move(OUTPOST_BGR_X, OUTPOST_BGR_Y);
 			m_pImgRightBG[0]->Render();
 			m_pImgOutPostTimeSetBG->Move(OUTPOST_BGR_X,OUTPOST_BGR_Y + 15 );
 			m_pImgOutPostTimeSetBG->Render();		
-#else
-			m_pImgOutPostTimeSetBG->Move(OUTPOST_BGR_X,OUTPOST_BGR_Y);
-			m_pImgOutPostTimeSetBG->Render();
-#endif
 			//m_pFontExp->DrawText(OUTPOST_NEXT_WARTIME_FONT_X,OUTPOST_NEXT_WARTIME_FONT_Y,GUI_FONT_COLOR,)
 
 			// RADIO 버튼.			
@@ -1653,10 +1354,8 @@ void CINFCityOutPost::RenderWarInfo()
 {
 	SIZE sz;
 	char buf[32],rbuf[32];
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	m_pImgRightBG[1]->Move(OUTPOST_BGR_X, OUTPOST_BGR_Y);
 	m_pImgRightBG[1]->Render();
-#endif
 	switch(m_bStateWarInfo)
 	{
 	case LEADER_WARINFO_INFLUENCE:
@@ -1919,7 +1618,6 @@ int CINFCityOutPost::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_LBUTTONUP:
 		{
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 			POINT pt;
 			pt.x = LOWORD(lParam);
 			pt.y = HIWORD(lParam);
@@ -1965,47 +1663,6 @@ int CINFCityOutPost::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			{
 				ChangeOutPostState(OUTPOST_STATE_WARINFO);
 			}			
-#else
-			POINT pt;
-			pt.x = LOWORD(lParam);
-			pt.y = HIWORD(lParam);
-			CheckMouseReverse(&pt);
-			if(pt.x > OUTPOST_BRIGADE_NOTICE_BUTTON_X &&
-				pt.x < OUTPOST_BRIGADE_NOTICE_BUTTON_X + OUTPOST_LEFT_BUTTON_W &&
-				pt.y > OUTPOST_BRIGADE_NOTICE_BUTTON_Y &&
-				pt.y < OUTPOST_BRIGADE_NOTICE_BUTTON_Y + OUTPOST_LEFT_BUTTON_H)
-			{
-				m_nBrigadeNoticeB = BUTTON_STATE_NORMAL;
-				ChangeOutPostState(OUTPOST_STATE_NOTICE);
-			}
-			if(pt.x > OUTPOST_EXPENCE_BUTTON_X &&
-				pt.x < OUTPOST_EXPENCE_BUTTON_X + OUTPOST_LEFT_BUTTON_W &&
-				pt.y > OUTPOST_EXPENCE_BUTTON_Y &&
-				pt.y < OUTPOST_EXPENCE_BUTTON_Y + OUTPOST_LEFT_BUTTON_H)
-			{
-				if(TRUE == g_pD3dApp->IsMyShuttleGuildMaster())
-				{
-					m_nExpenceB = BUTTON_STATE_NORMAL;
-					ChangeOutPostState(OUTPOST_STATE_EXPENCE);
-				}			
-				else
-				{
-					m_nExpenceB = BUTTON_STATE_DISABLE ;
-				}
-			}
-			if(pt.x > OUTPOST_WAR_TIME_SET_BUTTON_X &&
-				pt.x < OUTPOST_WAR_TIME_SET_BUTTON_X + OUTPOST_LEFT_BUTTON_W &&
-				pt.y > OUTPOST_WAR_TIME_SET_BUTTON_Y &&
-				pt.y < OUTPOST_WAR_TIME_SET_BUTTON_Y + OUTPOST_LEFT_BUTTON_H)
-			{
-				m_nOutPostWarTimeB = BUTTON_STATE_NORMAL;
-				ChangeOutPostState(OUTPOST_STATE_WARTIME);
-			}
-			if(m_pImgLWarInfoB->OnLButtonUp(pt))
-			{
-				ChangeOutPostState(OUTPOST_STATE_WARINFO);
-			}
-#endif
 		}
 		break;
 	case WM_LBUTTONDOWN:
@@ -2014,7 +1671,6 @@ int CINFCityOutPost::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			pt.x = LOWORD(lParam);
 			pt.y = HIWORD(lParam);
 			CheckMouseReverse(&pt);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 			POINT pPos = CityOutPostControl->GetFindControlTargetofMinPos("Onotice0");
 			if(pt.x > OUTPOST_BRIGADE_NOTICE_BUTTON_X &&
 				pt.x < OUTPOST_BRIGADE_NOTICE_BUTTON_X + OUTPOST_LEFT_BUTTON_W &&
@@ -2049,37 +1705,6 @@ int CINFCityOutPost::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				m_nOutPostWarTimeB = BUTTON_STATE_DOWN;
 			}
 			m_pImgLWarInfoB->OnLButtonDown(pt);
-#else
-			if(pt.x > OUTPOST_BRIGADE_NOTICE_BUTTON_X &&
-				pt.x < OUTPOST_BRIGADE_NOTICE_BUTTON_X + OUTPOST_LEFT_BUTTON_W &&
-				pt.y > OUTPOST_BRIGADE_NOTICE_BUTTON_Y &&
-				pt.y < OUTPOST_BRIGADE_NOTICE_BUTTON_Y + OUTPOST_LEFT_BUTTON_H)
-			{
-				m_nBrigadeNoticeB = BUTTON_STATE_DOWN;
-			}
-			if(pt.x > OUTPOST_EXPENCE_BUTTON_X &&
-				pt.x < OUTPOST_EXPENCE_BUTTON_X + OUTPOST_LEFT_BUTTON_W &&
-				pt.y > OUTPOST_EXPENCE_BUTTON_Y &&
-				pt.y < OUTPOST_EXPENCE_BUTTON_Y + OUTPOST_LEFT_BUTTON_H)
-			{
-				if(TRUE == g_pD3dApp->IsMyShuttleGuildMaster())
-				{
-					m_nExpenceB = BUTTON_STATE_DOWN;
-				}
-				else
-				{
-					m_nExpenceB = BUTTON_STATE_DISABLE ;
-				}
-			}
-			if(pt.x > OUTPOST_WAR_TIME_SET_BUTTON_X &&
-				pt.x < OUTPOST_WAR_TIME_SET_BUTTON_X + OUTPOST_LEFT_BUTTON_W &&
-				pt.y > OUTPOST_WAR_TIME_SET_BUTTON_Y &&
-				pt.y < OUTPOST_WAR_TIME_SET_BUTTON_Y + OUTPOST_LEFT_BUTTON_H)
-			{
-				m_nOutPostWarTimeB = BUTTON_STATE_DOWN;
-			}
-			m_pImgLWarInfoB->OnLButtonDown(pt);
-#endif
 		}
 		break;
 	case WM_MOUSEMOVE:
@@ -2088,7 +1713,6 @@ int CINFCityOutPost::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			pt.x = LOWORD(lParam);
 			pt.y = HIWORD(lParam);
 			CheckMouseReverse(&pt);
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 			POINT pPos = CityOutPostControl->GetFindControlTargetofMinPos("Onotice0");
 			if(pt.x > OUTPOST_BRIGADE_NOTICE_BUTTON_X &&
 				pt.x < OUTPOST_BRIGADE_NOTICE_BUTTON_X + OUTPOST_LEFT_BUTTON_W &&
@@ -2150,67 +1774,6 @@ int CINFCityOutPost::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				m_nOutPostWarTimeB = BUTTON_STATE_NORMAL;
 			}
 			m_pImgLWarInfoB->OnMouseMove(pt);
-#else
-			if(pt.x > OUTPOST_BRIGADE_NOTICE_BUTTON_X &&
-				pt.x < OUTPOST_BRIGADE_NOTICE_BUTTON_X + OUTPOST_LEFT_BUTTON_W &&
-				pt.y > OUTPOST_BRIGADE_NOTICE_BUTTON_Y &&
-				pt.y < OUTPOST_BRIGADE_NOTICE_BUTTON_Y + OUTPOST_LEFT_BUTTON_H)
-			{
-				if(m_nBrigadeNoticeB != BUTTON_STATE_DOWN)
-				{
-					m_nBrigadeNoticeB = BUTTON_STATE_UP;
-				}
-			}
-			else
-			{
-				m_nBrigadeNoticeB = BUTTON_STATE_NORMAL;
-			}
-
-			
-			if(pt.x > OUTPOST_EXPENCE_BUTTON_X &&
-				pt.x < OUTPOST_EXPENCE_BUTTON_X + OUTPOST_LEFT_BUTTON_W &&
-				pt.y > OUTPOST_EXPENCE_BUTTON_Y &&
-				pt.y < OUTPOST_EXPENCE_BUTTON_Y + OUTPOST_LEFT_BUTTON_H)
-			{
-				if(TRUE == g_pD3dApp->IsMyShuttleGuildMaster())
-				{
-					if(m_nExpenceB != BUTTON_STATE_DOWN)
-					{
-						m_nExpenceB = BUTTON_STATE_UP;
-					}
-				}
-				else
-				{
-					m_nExpenceB = BUTTON_STATE_DISABLE ;
-				}
-			}
-			else
-			{
-				if(TRUE == g_pD3dApp->IsMyShuttleGuildMaster())
-				{
-					m_nExpenceB = BUTTON_STATE_NORMAL;
-				}
-				else
-				{
-					m_nExpenceB = BUTTON_STATE_DISABLE ;
-				}
-			}
-			if(pt.x > OUTPOST_WAR_TIME_SET_BUTTON_X &&
-				pt.x < OUTPOST_WAR_TIME_SET_BUTTON_X + OUTPOST_LEFT_BUTTON_W &&
-				pt.y > OUTPOST_WAR_TIME_SET_BUTTON_Y &&
-				pt.y < OUTPOST_WAR_TIME_SET_BUTTON_Y + OUTPOST_LEFT_BUTTON_H)
-			{
-				if(m_nOutPostWarTimeB != BUTTON_STATE_DOWN)
-				{
-					m_nOutPostWarTimeB = BUTTON_STATE_UP;
-				}
-			}
-			else
-			{
-				m_nOutPostWarTimeB = BUTTON_STATE_NORMAL;
-			}
-			m_pImgLWarInfoB->OnMouseMove(pt);
-#endif
 		}
 		break;
 	}

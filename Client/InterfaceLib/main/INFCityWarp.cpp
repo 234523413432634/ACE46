@@ -28,7 +28,6 @@
 #include "INFGroupImage.h"
 #include "INFToolTip.h"
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	#define CITY_WARP_START_X					CITY_BASE_NPC_BOX_START_X
 	#define CITY_WARP_START_Y					(CITY_BASE_NPC_BOX_START_Y-CITY_BASE_WARP_SIZE_Y)
 
@@ -65,35 +64,6 @@
 
 	#define CITY_WARP_TEX_X						CITY_WARP_START_X + 243
 	#define CITY_WARP_TEX_Y						CITY_WARP_START_Y + 285
-#else
-#define CITY_WARP_START_X					CITY_BASE_NPC_BOX_START_X
-#define CITY_WARP_START_Y					(CITY_BASE_NPC_BOX_START_Y-CITY_BASE_WARP_SIZE_Y)
-
-#define CITY_WARP_BACK_START_X				(CITY_WARP_START_X+12)
-#define CITY_WARP_BACK_START_Y				(CITY_WARP_START_Y+27)
-#define CITY_WARP_TITLE_START_X				(CITY_WARP_START_X+9)
-#define CITY_WARP_TITLE_START_Y				(CITY_WARP_START_Y+6)
-#define CITY_WARP_LIST_START_X				(CITY_WARP_START_X+24)
-#define CITY_WARP_LIST_START_Y				(CITY_WARP_START_Y+53)
-#define CITY_WARP_CASH_START_X				(CITY_WARP_START_X+55)
-#define CITY_WARP_CASH_START_Y				(CITY_WARP_START_Y+162)
-#define CITY_WARP_LIST_INTERVAL				17
-
-#define CITY_WARP_BUTTON_MOVE_START_X		(CITY_WARP_START_X+132)
-#define CITY_WARP_BUTTON_MOVE_START_Y		(CITY_WARP_START_Y+161)
-#define CITY_WARP_BUTTON_CANCEL_START_X		(CITY_WARP_START_X+172)
-#define CITY_WARP_BUTTON_CANCEL_START_Y		(CITY_WARP_START_Y+161)
-#define CITY_WARP_BUTTON_SIZE_X				38
-#define CITY_WARP_BUTTON_SIZE_Y				17
-#define CITY_WARP_LINE_SIZE_X				169
-
-#define SCROLL_START_X						(CITY_WARP_START_X+202)
-#define SCROLL_START_Y						(CITY_WARP_START_Y+52)
-#define SCROLL_LINE_LENGTH					103
-
-#define CITY_WARP_TEX_X						CITY_WARP_START_X + 163
-#define CITY_WARP_TEX_Y						CITY_WARP_START_Y + 5
-#endif
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -222,15 +192,9 @@ void CINFCityWarp::RecvWarpListDone()
 HRESULT CINFCityWarp::InitDeviceObjects()
 {
 	DataHeader* pDataHeader;
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("warp");
 	m_pImgBack = g_pGameMain->m_GruopImagemanager->GetGroupImage(pDataHeader);
 	m_pImgBack->InitDeviceObjects( g_pD3dApp->m_pImageList );
-#else
-	pDataHeader = m_pGameData->Find("wpbk");
-	m_pImgBack = new CINFImageEx;
-	m_pImgBack->InitDeviceObjects( pDataHeader );
-#endif
 	pDataHeader = m_pGameData->Find("wptitle");
 	m_pImgTitle = new CINFImageEx;
 	m_pImgTitle->InitDeviceObjects( pDataHeader );
@@ -365,25 +329,8 @@ void CINFCityWarp::Render()
 	m_pImgBack->Move(CITY_WARP_BACK_START_X,CITY_WARP_BACK_START_Y);
 	m_pImgBack->Render();
 
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM
-	m_pImgTitle->Move(CITY_WARP_TITLE_START_X,CITY_WARP_TITLE_START_Y);
-	m_pImgTitle->Render();
-
-	if(m_nButtonState[CITY_WARP_BUTTON_MOVE] != BUTTON_STATE_NORMAL)
-	{
-		m_pButtonMove[m_nButtonState[CITY_WARP_BUTTON_MOVE]]->Move(CITY_WARP_BUTTON_MOVE_START_X, CITY_WARP_BUTTON_MOVE_START_Y);
-		m_pButtonMove[m_nButtonState[CITY_WARP_BUTTON_MOVE]]->Render();
-	}
-
-	if(m_nButtonState[CITY_WARP_BUTTON_CANCEL] != BUTTON_STATE_NORMAL)
-	{
-		m_pButtonCancel[m_nButtonState[CITY_WARP_BUTTON_CANCEL]]->Move(CITY_WARP_BUTTON_CANCEL_START_X, CITY_WARP_BUTTON_CANCEL_START_Y);
-		m_pButtonCancel[m_nButtonState[CITY_WARP_BUTTON_CANCEL]]->Render();
-	}
-#else
  	m_pButtonMove[m_nButtonState[CITY_WARP_BUTTON_MOVE]]->Move(CITY_WARP_BUTTON_MOVE_START_X, CITY_WARP_BUTTON_MOVE_START_Y);
  	m_pButtonMove[m_nButtonState[CITY_WARP_BUTTON_MOVE]]->Render();
-#endif
 //	if(m_nCurrentSelectWarpIndex != -1)
 //	{
 //		m_pImgHightLight->Move(CITY_WARP_LIST_START_X+1,
@@ -393,13 +340,8 @@ void CINFCityWarp::Render()
 	if(m_pScroll->GetCurrentSelectWindowIndex() >= 0 &&
 		m_pScroll->GetCurrentSelectWindowIndex() < CITY_WARP_LIST_NUMBER)
 	{
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM
-		m_pImgHightLight->Move(CITY_WARP_LIST_START_X,
-			CITY_WARP_LIST_START_Y+CITY_WARP_LIST_INTERVAL*m_pScroll->GetCurrentSelectWindowIndex()+1);
-#else
 		m_pImgHightLight->Move( CITY_WARP_LIST_START_X + 2,
 							    CITY_WARP_LIST_START_Y - CITY_WARP_LIST_SELECTBAR_GAB + CITY_WARP_LIST_INTERVAL * m_pScroll->GetCurrentSelectWindowIndex());
-#endif
 		m_pImgHightLight->Render();
 	}
 //	int i; for(i=0;i<CITY_WARP_LIST_NUMBER;i++)
@@ -452,7 +394,6 @@ void CINFCityWarp::Render()
 		if(m_szWarpList[i])
 		{
 //#if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM
 			SIZE Size = m_pFontWarpPrice[i]->GetStringSize( m_szWarpList[i] );
 			m_pFontWarpList[i]->DrawText(CITY_WARP_LIST_NAME_X + ( CITY_WARP_LIST_NAME_SIZE / 2 ) - ( Size.cx / 2 ),
 										 CITY_WARP_LIST_START_Y + CITY_WARP_LIST_INTERVAL * i,
@@ -463,16 +404,6 @@ void CINFCityWarp::Render()
   										   CITY_WARP_LIST_START_Y + CITY_WARP_LIST_INTERVAL * i,
 										   m_pScroll->GetCurrentSelectWindowIndex() == i ? GUI_SELECT_FONT_COLOR : GUI_FONT_COLOR,
 									 	   chWarpPrice,0L);
-#else
-			m_pFontWarpList[i]->DrawText(CITY_WARP_LIST_START_X+1, 
-				CITY_WARP_LIST_START_Y+CITY_WARP_LIST_INTERVAL*i-1,
-				m_pScroll->GetCurrentSelectWindowIndex() == i ? GUI_SELECT_FONT_COLOR : GUI_FONT_COLOR,
-				m_szWarpList[i],0L);
-			m_pFontWarpPrice[i]->DrawText(CITY_WARP_LIST_START_X+165 - len*7, 
-				CITY_WARP_LIST_START_Y+CITY_WARP_LIST_INTERVAL*i-1,
-				m_pScroll->GetCurrentSelectWindowIndex() == i ? GUI_SELECT_FONT_COLOR : GUI_FONT_COLOR,
-				chWarpPrice,0L);
-#endif
 //#else
 //			m_pFontWarpList[i]->DrawText(CITY_WARP_LIST_START_X+1, 
 //				CITY_WARP_LIST_START_Y+CITY_WARP_LIST_INTERVAL*i+1,
@@ -537,25 +468,10 @@ int CINFCityWarp::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					g_pInterface->m_pToolTip->m_bToolTipState = FALSE;
 					// end 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현	
 				}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM
-				if( pt.x > CITY_WARP_BUTTON_CANCEL_START_X && 
-					pt.x < CITY_WARP_BUTTON_CANCEL_START_X+CITY_WARP_BUTTON_SIZE_X)
-				{
-					if(m_nButtonState[CITY_WARP_BUTTON_CANCEL] != BUTTON_STATE_DOWN)
-						m_nButtonState[CITY_WARP_BUTTON_CANCEL] = BUTTON_STATE_UP;
-				}
-				else 
-				{
-					m_nButtonState[CITY_WARP_BUTTON_CANCEL] = BUTTON_STATE_NORMAL;
-				}
-#endif
 			}
 			else
 			{
 				m_nButtonState[CITY_WARP_BUTTON_MOVE] = BUTTON_STATE_NORMAL;
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM
-				m_nButtonState[CITY_WARP_BUTTON_CANCEL] = BUTTON_STATE_NORMAL;
-#endif
 			}
 		}
 		break;
@@ -577,17 +493,6 @@ int CINFCityWarp::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				{
 					m_nButtonState[CITY_WARP_BUTTON_MOVE] = BUTTON_STATE_NORMAL;
 				}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM
-				if( pt.x > CITY_WARP_BUTTON_CANCEL_START_X && 
-					pt.x < CITY_WARP_BUTTON_CANCEL_START_X+CITY_WARP_BUTTON_SIZE_X)
-				{
-					m_nButtonState[CITY_WARP_BUTTON_CANCEL] = BUTTON_STATE_DOWN;
-				}
-				else 
-				{
-					m_nButtonState[CITY_WARP_BUTTON_CANCEL] = BUTTON_STATE_NORMAL;
-				}
-#endif
 			}
 //			if( pt.x > CITY_WARP_LIST_START_X && 
 //				pt.x < CITY_WARP_LIST_START_X + CITY_WARP_LINE_SIZE_X &&
@@ -627,21 +532,6 @@ int CINFCityWarp::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				{
 					m_nButtonState[CITY_WARP_BUTTON_MOVE] = BUTTON_STATE_NORMAL;
 				}
-#ifndef C_EPSODE4_UI_CHANGE_JSKIM
-				if( pt.x > CITY_WARP_BUTTON_CANCEL_START_X && 
-					pt.x < CITY_WARP_BUTTON_CANCEL_START_X+CITY_WARP_BUTTON_SIZE_X)
-				{
-					if(m_nButtonState[CITY_WARP_BUTTON_CANCEL] == BUTTON_STATE_DOWN)
-					{
-						OnButtonClicked(CITY_WARP_BUTTON_CANCEL);
-					}
-					m_nButtonState[CITY_WARP_BUTTON_CANCEL] = BUTTON_STATE_UP;
-				}
-				else 
-				{
-					m_nButtonState[CITY_WARP_BUTTON_CANCEL] = BUTTON_STATE_NORMAL;
-				}
-#endif
 			}
 		}
 		break;

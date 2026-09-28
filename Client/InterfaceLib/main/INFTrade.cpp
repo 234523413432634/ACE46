@@ -40,7 +40,6 @@
 //#define INVEN_SPI_WIDTH			117
 //#define INVEN_SPI_HEIGHT		18
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 
 #define INVEN_SPI_START_X		327
 #define INVEN_SPI_START_Y		223
@@ -90,55 +89,6 @@
 #define	TRADE_BK_POS_Y				(DEAULT_WINDOW_POS_Y-115)
 // end 2008-08-22 by bhsohn EP3 인벤토리 처리
 
-#else
-#define INVEN_SPI_START_X		327
-#define INVEN_SPI_START_Y		223
-#define INVEN_SPI_WIDTH			90
-#define INVEN_SPI_HEIGHT		18
-
-#define TRADE_OTHER_SPI_START_X		212
-#define TRADE_MY_SPI_START_X		212
-#if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
-#define TRADE_OTHER_SPI_START_Y		114
-#define TRADE_MY_SPI_START_Y		236
-#else
-#define TRADE_OTHER_SPI_START_Y		114//116
-#define TRADE_MY_SPI_START_Y		236//238
-#endif
-
-
-#define TRADE_MYSTORE_START_X		211
-#define TRADE_MYSTORE_START_Y		169
-//#define TRADE_MYSTORE_START_Y		(169+52)// 2008-08-22 by bhsohn EP3 인벤토리 처리
-#define TRADE_STORE_WIDTH			187
-#define TRADE_STORE_HEIGHT			62
-#define TRADE_OTHERSTORE_START_Y	47
-#define TRADE_SLOT_SIZE				30
-#define TRADE_X_NUMBER				6
-#define TRADE_Y_NUMBER				2
-#define TRADE_SLOT_INTERVAL_X		31
-#define TRADE_SLOT_INTERVAL_Y		32
-
-#define RENEW_TRADE_WIDTH			231
-#define RENEW_TRADE_INVEN_NUM		6
-
-
-// 2008-08-22 by bhsohn EP3 인벤토리 처리
-// 거래 승인
-#define TRADE_TRADE_OK_X		324
-#define TRADE_TRADE_OK_Y		236
-#define	TRADE_TRADE_OK_W		35
-#define	TRADE_TRADE_OK_H		16
-// 거래 취소
-#define TRADE_TRADE_CANCEL_X		361
-#define TRADE_TRADE_CANCEL_Y		236
-#define	TRADE_TRADE_CANCEL_W		35
-#define	TRADE_TRADE_CANCEL_H		16
-
-// 인벤 위치
-#define	TRADE_BK_POS_Y				(DEAULT_WINDOW_POS_Y-115)
-// end 2008-08-22 by bhsohn EP3 인벤토리 처리
-#endif
 
 
 CINFTrade::CINFTrade(CAtumNode* pParent)
@@ -247,7 +197,6 @@ HRESULT CINFTrade::InitDeviceObjects()
 		m_pFontItemNum[i] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),8, D3DFONT_ZENABLE,  TRUE,256,32);
 		m_pFontItemNum[i]->InitDeviceObjects(g_pD3dDev);
 	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	DataHeader	* pDataHeader;
 // 2011. 10. 10 by jskim UI시스템 변경	
 	m_pTradeOkButton[0] = new CINFImageEx;
@@ -305,66 +254,12 @@ HRESULT CINFTrade::InitDeviceObjects()
 	m_pTrayouComple->InitDeviceObjects(pDataHeader ) ;	
 	// end 2008-11-21 by bhsohn 거래 완료 시스템 처리
 
-#else
-	DataHeader	* pDataHeader;
-// 2011. 10. 10 by jskim UI시스템 변경	
-		m_pTradeOkButton[0] = new CINFImageEx;
-	pDataHeader = FindResource("sok0");
-	m_pTradeOkButton[0]->InitDeviceObjects(pDataHeader) ;
-
-		m_pTradeOkButton[1] = new CINFImageEx;
-	pDataHeader = FindResource("sok1");
-	m_pTradeOkButton[1]->InitDeviceObjects(pDataHeader) ;
-
-		m_pTradeOkButton[2] = new CINFImageEx;
-	pDataHeader = FindResource("sok2");
-	m_pTradeOkButton[2]->InitDeviceObjects(pDataHeader) ;
-
-// 2005-09-20 by ispark
-		m_pTradeCancelButton[0] = new CINFImageEx;
-	pDataHeader = FindResource("glcan00");
-	m_pTradeCancelButton[0]->InitDeviceObjects(pDataHeader) ;
-
-		m_pTradeCancelButton[1] = new CINFImageEx;
-	pDataHeader = FindResource("glcan01");
-	m_pTradeCancelButton[1]->InitDeviceObjects(pDataHeader) ;
-
-		m_pTradeCancelButton[2] = new CINFImageEx;
-	pDataHeader = FindResource("glcan02");
-	m_pTradeCancelButton[2]->InitDeviceObjects(pDataHeader) ;
-
-		m_pTralog = new CINFImageEx;
-	pDataHeader = FindResource("tra_log");
-	m_pTralog->InitDeviceObjects(pDataHeader) ;
-
-		m_pTrame = new CINFImageEx;
-	pDataHeader = FindResource("tra_me");
-	m_pTrame->InitDeviceObjects(pDataHeader) ;
-
-		m_pTrayou = new CINFImageEx;
-	pDataHeader = FindResource("tra_you");
-	m_pTrayou->InitDeviceObjects(pDataHeader) ;	
-
-	// 2008-11-21 by bhsohn 거래 완료 시스템 처리	
-	m_pTrameComple = new CINFImageEx;
-	pDataHeader = FindResource("tra_me1");
-	m_pTrameComple->InitDeviceObjects(pDataHeader) ;
-
-	m_pTrayouComple = new CINFImageEx;
-	pDataHeader = FindResource("tra_you1");
-	m_pTrayouComple->InitDeviceObjects(pDataHeader ) ;	
-	// end 2008-11-21 by bhsohn 거래 완료 시스템 처리
-#endif
 	return S_OK ;
 }
 
 HRESULT CINFTrade::RestoreDeviceObjects()
 {
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	int i; for(i=0;i<4;i++)
-#else
-	int i; for(i=0;i<3;i++)
-#endif
 	{
 		m_pTradeOkButton[i]->RestoreDeviceObjects();
 		m_pTradeCancelButton[i]->RestoreDeviceObjects();
@@ -403,11 +298,7 @@ HRESULT CINFTrade::RestoreDeviceObjects()
 
 HRESULT CINFTrade::DeleteDeviceObjects()
 {
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	int i; for(i=0;i<4;i++)
-#else
-	int i; for(i=0;i<3;i++)
-#endif
 	{
 		m_pTradeOkButton[i]->DeleteDeviceObjects();
 		SAFE_DELETE(m_pTradeOkButton[i] );
@@ -460,11 +351,7 @@ HRESULT CINFTrade::DeleteDeviceObjects()
 
 HRESULT CINFTrade::InvalidateDeviceObjects()
 {
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	int i; for(i=0;i<4;i++)
-#else
-	int i; for(i=0;i<3;i++)
-#endif
 	{
 		m_pTradeOkButton[i]->InvalidateDeviceObjects();
 		m_pTradeCancelButton[i]->InvalidateDeviceObjects();
@@ -532,7 +419,6 @@ void CINFTrade::Render()
 //		m_pTrame->Move(202+RENEW_TRADE_WIDTH, nWindowPosY + 144);
 //		m_pTrame->Render() ;
 //	}
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(m_bTraYouComple)
 	{
 		if(m_pTrayouComple )
@@ -574,55 +460,6 @@ void CINFTrade::Render()
 		m_pTradeCancelButton[BUTTON_STATE_NORMAL]->Move(TRADE_TRADE_CANCEL_X+RENEW_TRADE_WIDTH, nWindowPosY + TRADE_TRADE_CANCEL_Y);
 		m_pTradeCancelButton[BUTTON_STATE_NORMAL]->Render();
 	}
-#else
-	if(m_bTraYouComple)
-	{
-		if(m_pTrayouComple )
-		{
-			m_pTrayouComple->Move(202+RENEW_TRADE_WIDTH, nWindowPosY + 23);
-			m_pTrayouComple->Render() ;
-		}
-	}
-	else
-	{
-		if(m_pTrayou )
-		{
-			m_pTrayou->Move(202+RENEW_TRADE_WIDTH, nWindowPosY + 23);
-			m_pTrayou->Render() ;
-		}
-	}
-	
-	if(m_bTraMeComple)
-	{
-		if(m_pTrameComple )
-		{
-			m_pTrameComple->Move(202+RENEW_TRADE_WIDTH, nWindowPosY + 144);
-			m_pTrameComple->Render() ;
-		}
-	}
-	else
-	{
-		if(m_pTrame )
-		{
-			m_pTrame->Move(202+RENEW_TRADE_WIDTH, nWindowPosY + 144);
-			m_pTrame->Render() ;
-		}
-	}
-	// end 2008-11-21 by bhsohn 거래 완료 시스템 처리
-
-	// 버튼 : OK
-	if(m_nTradeButtonState[0] != BUTTON_STATE_NORMAL)
-	{
-		m_pTradeOkButton[m_nTradeButtonState[0]]->Move(TRADE_TRADE_OK_X+RENEW_TRADE_WIDTH, nWindowPosY + TRADE_TRADE_OK_Y);
-		m_pTradeOkButton[m_nTradeButtonState[0]]->Render();
-	}
-	// 버튼 : Cancel
-	if(m_nTradeButtonState[1] != BUTTON_STATE_NORMAL)
-	{
-		m_pTradeCancelButton[m_nTradeButtonState[1]]->Move(TRADE_TRADE_CANCEL_X+RENEW_TRADE_WIDTH, nWindowPosY + TRADE_TRADE_CANCEL_Y);
-		m_pTradeCancelButton[m_nTradeButtonState[1]]->Render();
-	}
-#endif
 	
 
 	// 아이템 정보
@@ -769,15 +606,9 @@ void CINFTrade::Render()
 		i++;
 	}
 
-#ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	if(m_strTradeCharacterName[0])
 		m_pFontCharacterName[0]->DrawText(219+RENEW_TRADE_WIDTH, nWindowPosY + 27, GUI_FONT_COLOR, m_strTradeCharacterName, 0L);
 	m_pFontCharacterName[1]->DrawText(219+RENEW_TRADE_WIDTH, nWindowPosY + 148, GUI_FONT_COLOR, g_pD3dApp->m_pShuttleChild->m_myShuttleInfo.CharacterName, 0L);
-#else
-	if(m_strTradeCharacterName[0])
-		m_pFontCharacterName[0]->DrawText(209+RENEW_TRADE_WIDTH, nWindowPosY + 27, GUI_FONT_COLOR, m_strTradeCharacterName, 0L);
-	m_pFontCharacterName[1]->DrawText(209+RENEW_TRADE_WIDTH, nWindowPosY + 148, GUI_FONT_COLOR, g_pD3dApp->m_pShuttleChild->m_myShuttleInfo.CharacterName, 0L);
-#endif
 	char temp1[64];
 	char temp2[64];
 	wsprintf( temp1, "%d", m_nOtherStoreSpi );
