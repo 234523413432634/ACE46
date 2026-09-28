@@ -1571,6 +1571,11 @@ const char* GetDBQueryTypeString(EnumQueryType qType)
 	case QT_CollectionArmorUpdate:					return "QT_CollectionArmorUpdate";			// 2013-05-31 by jhseol,bckim 아머 컬렉션 - 아머 컬렉션 저장
 	case QT_AccountInflChange:						return "QT_AccountInflChange";				// 2013-07-26 by jhseol, 타 계정 세력변경
 	case QT_LoadSPWarInfoResult:					return "QT_LoadSPWarInfoResult";			// 2013-08-14 by jhseol, 거점전 리뉴얼 - 지난 거점전정보 로드
+	case QT_DestroyAuction_AddItem:					return "QT_DestroyAuction_AddItem";
+	case QT_DestroyAuction_UpdateBiddingInfo:		return "QT_DestroyAuction_UpdateBiddingInfo";
+	case QT_DestroyAuction_GetAuctionItem:			return "QT_DestroyAuction_GetAuctionItem";
+	case QT_DestroyAuction_GetBiddingInfo:			return "QT_DestroyAuction_GetBiddingInfo";
+	case QT_DestroyAuction_SetClearAuctionList:		return "QT_DestroyAuction_SetClearAuctionList";
 
 	}
 	return "QT_UNKNOWN";

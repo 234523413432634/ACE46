@@ -22392,12 +22392,16 @@ BOOL CAtumFieldDBManager::DBLoadDestroyAuctionList(CODBCStatement *i_pODBCStmt, 
 	DESTROY_AUCTION_LIST* tmVecAuctionList = i_pMarketManager->GetDestroyAuctionListPtr();
 	
 	mt_auto_lock mtA(tmVecAuctionList);	 
-	while ( (ret = SQLFetch(i_pODBCStmt->m_hstmt)) != SQL_NO_DATA)			// 기본데이터 로딩 
+	while ( (SQL_SUCCESS == (ret = SQLFetch(i_pODBCStmt->m_hstmt)) || SQL_SUCCESS_WITH_INFO == ret) )			// 기본데이터 로딩 
 	{			
 		tmAuctionData.DestroyedTime = DestroyedTime;
 		DESTROY_AUCTION_INFO* tmpAuctionList	= new DESTROY_AUCTION_INFO(&tmAuctionData);
 		tmVecAuctionList->push_back(tmpAuctionList);
 		MEMSET_ZERO(&tmAuctionData, sizeof(DESTROY_AUCTION_INFO));
+	}
+	if ( SQL_NO_DATA != ret )
+	{
+		i_pODBCStmt->ProcessLogMessagesForStmt("[DB ERROR] CAtumFieldDBManager::DBLoadDestroyAuctionList fetch PROCEDURE_131226_0002 Failed!\r\n");
 	}
 	i_pODBCStmt->FreeStatement();	 
 	
@@ -22424,12 +22428,16 @@ BOOL CAtumFieldDBManager::DBLoadDestroyAuctionList(CODBCStatement *i_pODBCStmt, 
 			SQLBindCol(i_pODBCStmt->m_hstmt, 2, SQL_C_UTINYINT,	&tmenchant.Count	, 0,&arrCB2[2]);
 			
 			int nCount = 0;
-			while ( (ret = SQLFetch(i_pODBCStmt->m_hstmt)) != SQL_NO_DATA )
+			while ( nCount < _countof((*itr)->Enchant) && (SQL_SUCCESS == (ret = SQLFetch(i_pODBCStmt->m_hstmt)) || SQL_SUCCESS_WITH_INFO == ret) )
 			{
 				(*itr)->Enchant[nCount].ItemNum	= tmenchant.ItemNum;
 				(*itr)->Enchant[nCount].Count	= tmenchant.Count;	
 				MEMSET_ZERO(&tmenchant,sizeof(MARKET_ENCHANT_INFO));
 				nCount++;
+			}
+			if ( SQL_SUCCESS != ret && SQL_SUCCESS_WITH_INFO != ret && SQL_NO_DATA != ret )
+			{
+				i_pODBCStmt->ProcessLogMessagesForStmt("[DB ERROR] CAtumFieldDBManager::DBLoadDestroyAuctionList fetch PROCEDURE_131126_0002 Failed!\r\n");
 			}
 			i_pODBCStmt->FreeStatement();	
 		}
@@ -22670,7 +22678,7 @@ void CAtumFieldDBManager::QP_DestroyAuction_GetAuctionItem(FIELD_DB_QUERY q, SQL
 			SQLBindCol(hstmt, 2, SQL_C_SBIGINT, &tmpEnchant.SequenceNumber_DB, 0,		&arrCB2[2]);	
 			
 			pFieldIOCPSocket->DeleteAllEnchantToItem(pItemGeneral->UniqueNumber);		// 초기화 ??		
-			while ( (ret = SQLFetch(hstmt)) != SQL_NO_DATA )
+			while ( (SQL_SUCCESS == (ret = SQLFetch(hstmt)) || SQL_SUCCESS_WITH_INFO == ret) )
 			{
 				tmpEnchant.TargetItemUniqueNumber	= tmInputAuctionItem.ItemUID;
 				tmpEnchant.TargetItemNum			= tmInputAuctionItem.ItemNum;
@@ -22681,6 +22689,10 @@ void CAtumFieldDBManager::QP_DestroyAuction_GetAuctionItem(FIELD_DB_QUERY q, SQL
 				pFieldIOCPSocket->SendAddData(pPutEnchantBuf, MSG_SIZE(MSG_FC_ITEM_PUT_ENCHANT));
 				memset(&tmpEnchant, 0x00, sizeof(ENCHANT));
 			}	
+			if ( SQL_NO_DATA != ret )
+			{
+				ProcessLogMessagesField(SQL_HANDLE_STMT, hstmt, "QP_DestroyAuction_GetAuctionItem PROCEDURE_131126_0003 Fetch Failed!\n", TRUE, q.pFieldIOCPSocket, q);
+			}
 		}
 		mtE.auto_unlock_cancel();					
 		
@@ -22774,7 +22786,8 @@ void CAtumFieldDBManager::QP_DestroyAuction_GetBiddingInfo(FIELD_DB_QUERY q, SQL
 	SQLBindCol(hstmt, 18, SQL_C_LONG, &tmAuctionData.MyTenderPrice			, 0,&arrCB[18]);
 	
 	DESTROY_AUCTION_LIST tmVecAuctionList; 
-	while ( (ret = SQLFetch(hstmt)) != SQL_NO_DATA) 
+	// Stop on a fetch error as well as SQL_NO_DATA - a failing fetch repeats forever and each pass allocates
+	while ( (SQL_SUCCESS == (ret = SQLFetch(hstmt)) || SQL_SUCCESS_WITH_INFO == ret) )
 	{			
 		tmAuctionData.DestroyedTime = DestroyedTime;
 		tmAuctionData.DAuctionEndTime = AuctionFinishTime;
@@ -22782,6 +22795,10 @@ void CAtumFieldDBManager::QP_DestroyAuction_GetBiddingInfo(FIELD_DB_QUERY q, SQL
 		DESTROY_AUCTION_INFO* ptmAuctionListData	= new DESTROY_AUCTION_INFO(&tmAuctionData);
 		tmVecAuctionList.push_back(ptmAuctionListData);
 		MEMSET_ZERO(&tmAuctionData, sizeof(DESTROY_AUCTION_INFO));
+	}
+	if ( SQL_NO_DATA != ret )
+	{
+		ProcessLogMessagesField(SQL_HANDLE_STMT, hstmt, "QP_DestroyAuction_GetBiddingInfo PROCEDURE_131226_0006 Fetch Failed!\n", TRUE, q.pFieldIOCPSocket, q);
 	}
 	SQLFreeStmt(hstmt, SQL_CLOSE);
 		
@@ -22809,12 +22826,16 @@ void CAtumFieldDBManager::QP_DestroyAuction_GetBiddingInfo(FIELD_DB_QUERY q, SQL
 			SQLBindCol(hstmt, 2, SQL_C_UTINYINT, &tmenchant.Count	, 0,&arrCB[2]);
 			
 			int nCount = 0;
-			while ( (ret = SQLFetch(hstmt)) != SQL_NO_DATA )
+			while ( nCount < _countof((*itr)->Enchant) && (SQL_SUCCESS == (ret = SQLFetch(hstmt)) || SQL_SUCCESS_WITH_INFO == ret) )
 			{
 				(*itr)->Enchant[nCount].ItemNum	= tmenchant.ItemNum;
 				(*itr)->Enchant[nCount].Count	= tmenchant.Count;	
 				nCount++;
 				MEMSET_ZERO(&tmenchant,sizeof(MARKET_ENCHANT_INFO));
+			}
+			if ( SQL_SUCCESS != ret && SQL_SUCCESS_WITH_INFO != ret && SQL_NO_DATA != ret )
+			{
+				ProcessLogMessagesField(SQL_HANDLE_STMT, hstmt, "QP_DestroyAuction_GetBiddingInfo PROCEDURE_131126_0002 Fetch Failed!\n", TRUE, q.pFieldIOCPSocket, q);
 			}
 			SQLFreeStmt(hstmt, SQL_CLOSE);
 		}
