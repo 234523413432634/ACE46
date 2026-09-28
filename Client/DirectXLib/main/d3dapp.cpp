@@ -17,6 +17,7 @@
 //#include <D3D8.h>
 #include <d3d9.h>
 #include "D3DApp.h"
+#include "D3DFilteredDevice.h"
 #include "D3DHanFont.h"
 #include "D3DUtil.h"
 #include "DXUtil.h"
@@ -1564,6 +1565,11 @@ HRESULT CD3DApplication::Initialize3DEnvironment()
 
 	if (SUCCEEDED(hr))
 	{
+		// From here on everything talks to the device through the filter, which
+		// drops the state calls that would not change anything - see
+		// D3DFilteredDevice.h.
+		m_pd3dDevice = CD3DFilteredDevice::Wrap(m_pd3dDevice);
+
 		// When moving from fullscreen to windowed mode, it is important to
 		// adjust the window size after recreating the device rather than
 		// beforehand to ensure that you get the window size you want.  For

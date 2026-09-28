@@ -2296,6 +2296,9 @@
     <ClCompile Include="..\..\Common\AtumSound.cpp" />
     <ClCompile Include="main\Camera.cpp" />
     <ClCompile Include="main\d3dapp.cpp" />
+    <ClCompile Include="main\D3DFilteredDevice.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="main\d3denumeration.cpp" />
     <ClCompile Include="main\D3DHanFont.cpp" />
     <ClCompile Include="main\d3dsettings.cpp" />
@@ -2315,6 +2318,9 @@
     <ClInclude Include="main\Camera.h" />
     <ClInclude Include="main\d3d9types.h" />
     <ClInclude Include="main\d3dapp.h" />
+    <ClInclude Include="main\D3DFilteredDevice.h" />
+    <ClInclude Include="main\D3DFilteredDevice.inl" />
+    <ClInclude Include="main\D3DFilteredDevice_Forward.inl" />
     <ClInclude Include="main\d3denumeration.h" />
     <ClInclude Include="main\D3DHanFont.h" />
     <ClInclude Include="main\FontGlyphRaster.h" />
