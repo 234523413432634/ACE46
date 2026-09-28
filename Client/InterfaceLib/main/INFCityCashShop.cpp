@@ -2993,9 +2993,16 @@ void CINFCityCashShop::UpdateGiftButton(int i_nCurrentSelectTab, int i_nItemSele
 	//int nSelectTotalIdx = i_nItemSelect + m_pScroll->GetCurrentScrollIndex();
 	int nSelectTotalIdx = i_nItemSelect + (m_pScroll->GetCurrentScrollIndex() * CASHSHOP_TAB_W_SIZE);	// 2013-07-30 by ssjung 캐쉬샾 선물하기 관련 이슈 해결 
 
+	// m_vecImgCashIcon and m_vecItemInfo are filled in different places and do
+	// not have to be the same length - the recommended items tab pushes to one
+	// without pushing to the other - so the size of the icons said nothing about
+	// whether nSelectTotalIdx was a real entry of m_vecItemInfo, which is the one
+	// read below.
 	if((i_nCurrentSelectTab < 0)
 		|| (i_nCurrentSelectTab >= (MAX_CASH_SHOP_TAB-1))
-		|| (m_vecImgCashIcon[i_nCurrentSelectTab].size() <= nSelectTotalIdx))
+		|| (nSelectTotalIdx < 0)
+		|| (m_vecImgCashIcon[i_nCurrentSelectTab].size() <= (size_t)nSelectTotalIdx)
+		|| (m_vecItemInfo[i_nCurrentSelectTab].size() <= (size_t)nSelectTotalIdx))
 	{
 		// 초과 방지
 		m_pImgGiftButton->EnableBtn(FALSE);

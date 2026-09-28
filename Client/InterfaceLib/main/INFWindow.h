@@ -176,7 +176,10 @@ public:
 	void OnButtonClick(int i, BOOL bTimerClick=FALSE);
 	// END 2013-04-05 by bhsohn 지옥맵 5분 부활 시스템 추가
 	void GetInputMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
-	void SetData(DWORD dwData1, DWORD dwData2=0, UID64_t UniqueNumber = 0);
+	// dwData1 carries a pointer in several of the message box types - see
+	// _Q_STORE_PUT_COUNTABLE_ITEM in OnButtonClick() - so it has to be wide
+	// enough to hold one.
+	void SetData(DWORD_PTR dwData1, DWORD dwData2=0, UID64_t UniqueNumber = 0);
 	void SetMessageBoxTitleChange(char *strTitle);
 	void ClearMessageBoxString(){ ZERO_MEMORY(m_strInputMessage);}
 	void SetInputStrName(char * strName);
@@ -246,14 +249,14 @@ public:
 //	void AddMsgBox(char* strMsg, int nType, DWORD_PTR dwData1=0, DWORD dwData2=0, int nLiveTime=0,UID64_t UniqueNumber=0, char* strName=NULL);
 	void AddMsgBox(char* strMsg, int nType, DWORD_PTR dwData1=0, DWORD dwData2=0, int nLiveTime=0,UID64_t UniqueNumber=0, char* strName=NULL, BOOL bChRtn=FALSE);
 	// END 2013-06-26 by bhsohn 아머 컬렉션 추가 개발
-	void AddTimeMsgBox(char* strMsg, int nType, int nLiveTime, char* strTime, DWORD dwData1 = 0, DWORD dwData2 = 0,UID64_t UniqueNumber = 0);
+	void AddTimeMsgBox(char* strMsg, int nType, int nLiveTime, char* strTime, DWORD_PTR dwData1 = 0, DWORD dwData2 = 0,UID64_t UniqueNumber = 0);
 	void AddRadioOption(char *strRadio,  int nRadioArrayType = 2);
 	void SetMessageBoxTitleChange(char *strTitle, int nMsgType);
 	BOOL IsExistMsgBox( int nType);
 	void RadioClear() {m_vecRadioString.clear();}	
 	
 	// message box option
-	void MessageBoxProgressOption(int nType, DWORD dwData1, DWORD dwData2, char* strName);
+	void MessageBoxProgressOption(int nType, DWORD_PTR dwData1, DWORD dwData2, char* strName);
 	void SetMessageFlag(BOOL nFlag){m_bMessageBoxFlag = nFlag;}
 	void ClearAllMessageString();
 	void ResetMessageString();

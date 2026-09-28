@@ -5233,7 +5233,7 @@ void CINFMessageBox::SendCharacterDeadGameStart(BOOL bGoCityMap)
 	}			
 }
 
-void CINFMessageBox::SetData(DWORD dwData1, DWORD dwData2,UID64_t UniqueNumber)
+void CINFMessageBox::SetData(DWORD_PTR dwData1, DWORD dwData2,UID64_t UniqueNumber)
 {
 	m_dwData = dwData1; 
 	m_nAllNumber = dwData2;
@@ -5552,7 +5552,7 @@ void CINFWindow::InitHellMapLiveTime()
 /// \param		
 /// \return		
 ///////////////////////////////////////////////////////////////////////////////
-void CINFWindow::AddTimeMsgBox(char* strMsg, int nType, int nLiveTime, char* strTime, DWORD dwData1, DWORD dwData2,UID64_t UniqueNumber)
+void CINFWindow::AddTimeMsgBox(char* strMsg, int nType, int nLiveTime, char* strTime, DWORD_PTR dwData1, DWORD dwData2,UID64_t UniqueNumber)
 {
 	FLOG( "CINFWindow::AddMsgBox(char* strMsg, int nType, DWORD dwData1, DWORD dwData2)" );
 	if(nType == _MESSAGE || (SINGLE_MSGBOX))
@@ -7197,7 +7197,7 @@ void CINFWindow::ResetMessageString()
 }
 
 
-void CINFWindow::MessageBoxProgressOption(int nType, DWORD dwData1, DWORD dwData2, char* strName)
+void CINFWindow::MessageBoxProgressOption(int nType, DWORD_PTR dwData1, DWORD dwData2, char* strName)
 {
 	//////////////////////////////////////////////////////////////////////////
 	// 창켜기 창끄기 옵션 - 2005-08-12 by ydkim -

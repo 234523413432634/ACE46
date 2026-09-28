@@ -4753,7 +4753,8 @@ void CSceneData::RenderWater()
 	g_pD3dDev->SetStreamSource(0, m_pGround->m_pToRenderWaterVB, 0, sizeof(WATERBUMPVERTEX));
 
 	// 2009. 02.
-	if(NULL != m_pGround->m_pToRenderWaterIB
+	if(nRenderWaterTileCount > 0
+	   && NULL != m_pGround->m_pToRenderWaterIB
 	   && (UINT)nRenderWaterTileCount <= m_pGround->m_nToRenderWaterTileMax)
 	{
 		g_pD3dDev->SetIndices(m_pGround->m_pToRenderWaterIB);
