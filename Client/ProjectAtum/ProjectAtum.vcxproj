@@ -754,7 +754,7 @@
     <EnableManagedIncrementalBuild>true</EnableManagedIncrementalBuild>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)..\dx9blink\include\;$(IncludePath)</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(SolutionDir)..\dx9blink\lib\x64\;$(SolutionDir)..\Lib\x64\;$(SolutionDir)..\Build\Lib\x64\;$(LibraryPath)</LibraryPath>
-    <TargetName>Engine</TargetName>
+    <TargetName>Engine_64</TargetName>
     <TargetExt>.atm</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='D_Gameforge4D_Pol|Win32'">

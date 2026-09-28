@@ -129,6 +129,7 @@ public:
 	int		m_nWindowDegree;
 	BOOL	m_ctlbWindowMode;
 	BOOL	m_ctlbBorderlessMode;		// mutually exclusive with m_ctlbWindowMode
+	BOOL	m_ctlbClient64Bit;			// start Engine_64.atm rather than Engine.atm
 	//}}AFX_DATA
 
 	// ClassWizard generated virtual function overrides
@@ -261,6 +262,9 @@ public:
 	// is a window, where GAME_MODE_WINDOW is 0 and GAME_MODE_FULLSCREEN is 1.
 	static int GameModeToStoredValue(int i_nGameMode);
 	static int GameModeFromStoredValue(int i_nStoredValue);
+
+	// Which client the tick box asks for.
+	const char *ClientExecutableName();
 	// TRUE when the game will be in a window of some kind, which is what
 	// decides whether the resolution list is limited to what fits on screen.
 	BOOL IsWindowedGameMode()	{ return (GAME_MODE_FULLSCREEN != GameModeFromCheckBoxes()); }
@@ -350,6 +354,7 @@ protected:
 	afx_msg void OnBtnHomepage();
 	afx_msg void OnCheckWindowsMode();
 	afx_msg void OnCheckBorderlessMode();
+	afx_msg void OnCheckClient64Bit();
 	//}}AFX_MSG
 	afx_msg LONG OnSocketNotify(WPARAM wParam, LPARAM lParam);
 	afx_msg LONG OnAsyncSocketMessage(WPARAM wParam, LPARAM lParam);

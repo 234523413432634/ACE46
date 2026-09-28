@@ -148,6 +148,7 @@ CAtumLauncherDlg::CAtumLauncherDlg(CWnd* pParent /*=NULL*/)
 	m_nWindowDegree = 0;
 	m_ctlbWindowMode = FALSE;
 	m_ctlbBorderlessMode = FALSE;
+	m_ctlbClient64Bit = FALSE;
 	//}}AFX_DATA_INIT
 	// Note that LoadIcon does not require a subsequent DestroyIcon in Win32
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
@@ -248,6 +249,7 @@ void CAtumLauncherDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_CBIndex(pDX, IDC_COMBO_WINDOW_DEGREE_LAUNCHER, m_nWindowDegree);
 	DDX_Check(pDX, IDC_CHECK_WINDOWS_MODE, m_ctlbWindowMode);
 	DDX_Check(pDX, IDC_CHECK_BORDERLESS_MODE, m_ctlbBorderlessMode);
+	DDX_Check(pDX, IDC_CHECK_CLIENT_64BIT, m_ctlbClient64Bit);
 	DDX_Control(pDX, IDGO, m_KbcGO);
 	DDX_Control(pDX, IDJOIN, m_kbcBtnJoin);
 	DDX_Control(pDX, IDC_BTN_HOMEPAGE, m_bmpBtnHomepage);
@@ -281,6 +283,7 @@ BEGIN_MESSAGE_MAP(CAtumLauncherDlg, CDialog)
 	ON_BN_CLICKED(IDGO, OnOk)
 	ON_BN_CLICKED(IDC_CHECK_WINDOWS_MODE, OnCheckWindowsMode)
 	ON_BN_CLICKED(IDC_CHECK_BORDERLESS_MODE, OnCheckBorderlessMode)
+	ON_BN_CLICKED(IDC_CHECK_CLIENT_64BIT, OnCheckClient64Bit)
 	//}}AFX_MSG_MAP
 	ON_MESSAGE(WM_PACKET_NOTIFY, OnSocketNotify)
 	ON_MESSAGE(WM_ASYNC_EVENT, OnAsyncSocketMessage)
@@ -424,6 +427,13 @@ BOOL CAtumLauncherDlg::ReadNoticeFile()
 #define EXE2_BG_BORDERLESSMODE_CHECKBOX_HEIGHT		15		// room for the caption
 #define EXE2_BG_BORDERLESSMODE_CHECKBOX_GAP			12		// clear of "Window Mode"
 #define EXE2_BG_BORDERLESSMODE_CHECKBOX_OFFSET_Y	-1		// centre the taller box
+
+// 64 bit Client Check Box - its own caption too, for the same reason.  It goes
+// on the row above, to the left of "Remember ID", where the artwork is empty.
+#define EXE2_BG_CLIENT64_CHECKBOX_WIDTH				110
+#define EXE2_BG_CLIENT64_CHECKBOX_HEIGHT			15
+#define EXE2_BG_CLIENT64_CHECKBOX_GAP				12		// clear of "Remember ID"
+#define EXE2_BG_CLIENT64_CHECKBOX_OFFSET_Y			-1
 
 #define EXE2_BG_SERVERLIST_BOX_POS_X			570		// ServerList Box 위치 X
 #define EXE2_BG_SERVERLIST_BOX_POS_Y			130		// ServerList Box 위치 Y
@@ -713,6 +723,14 @@ BOOL CAtumLauncherDlg::OnInitDialog()
 											- EXE2_BG_BORDERLESSMODE_CHECKBOX_GAP,
 		EXE2_BG_WINDOWSMODE_CHECKBOX_POS_Y + EXE2_BG_BORDERLESSMODE_CHECKBOX_OFFSET_Y,
 		EXE2_BG_BORDERLESSMODE_CHECKBOX_WIDTH, EXE2_BG_BORDERLESSMODE_CHECKBOX_HEIGHT);
+
+	// Which client to start, on the row above and left of "Remember ID", placed
+	// off that box for the same reason as the one above.
+	GetDlgItem(IDC_CHECK_CLIENT_64BIT)->MoveWindow(
+		EXE2_BG_REMEMBERID_CHECKBOX_POS_X - EXE2_BG_CLIENT64_CHECKBOX_WIDTH
+											- EXE2_BG_CLIENT64_CHECKBOX_GAP,
+		EXE2_BG_REMEMBERID_CHECKBOX_POS_Y + EXE2_BG_CLIENT64_CHECKBOX_OFFSET_Y,
+		EXE2_BG_CLIENT64_CHECKBOX_WIDTH, EXE2_BG_CLIENT64_CHECKBOX_HEIGHT);
 
 
 
@@ -1914,7 +1932,9 @@ LONG CAtumLauncherDlg::OnSocketNotify(WPARAM wParam, LPARAM lParam)
 						// 2009-01-30 by cmkwon, 러시아 Innova 런처 시스템(프로스트) 수정 - 아래와 같이 수정함.
 						char szAppPath[1024];		MEMSET_ZERO(szAppPath, 1024);
 						char szCmdParam[1024];		MEMSET_ZERO(szCmdParam, 1024);
-						STRNCPY_MEMSET(szAppPath, CLIENT_EXEUTE_FILE_NAME, 1024);
+						// Engine.atm or Engine_64.atm, whichever the tick box
+						// asks for; everything after this is the same for both.
+						STRNCPY_MEMSET(szAppPath, this->ClientExecutableName(), 1024);
 
 #ifndef _ATUM_DEVELOP
 						// Release용
@@ -3966,11 +3986,13 @@ HBRUSH CAtumLauncherDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 				pDC->SetTextColor(RGB(255, 255, 255));
 				return m_StaticBrushGray;
 			}
-			else if(NULL != GetDlgItem(IDC_CHECK_BORDERLESS_MODE)
-					&& GetDlgItem(IDC_CHECK_BORDERLESS_MODE)->m_hWnd == pWnd->m_hWnd)
+			else if((NULL != GetDlgItem(IDC_CHECK_BORDERLESS_MODE)
+					 && GetDlgItem(IDC_CHECK_BORDERLESS_MODE)->m_hWnd == pWnd->m_hWnd)
+					|| (NULL != GetDlgItem(IDC_CHECK_CLIENT_64BIT)
+						&& GetDlgItem(IDC_CHECK_CLIENT_64BIT)->m_hWnd == pWnd->m_hWnd))
 			{	// A check box asks its parent for a static colour to draw its
-				// caption with. This one has to sit on the background artwork, so: no
-				// fill, and white to match the "Window Mode" label painted beside it.
+				// caption with.  These two sit on the background artwork, so:
+				// no fill, and white to match the labels painted beside them.
 				pDC->SetBkMode(TRANSPARENT);
 				pDC->SetTextColor(RGB(255, 255, 255));
 				return (HBRUSH)GetStockObject(NULL_BRUSH);
@@ -4777,6 +4799,22 @@ void CAtumLauncherDlg::RefreshWindowDegreeListForGameMode()
 	int nIdx = this->FindWindowDegreeComboBoxIndex(pComboBox, (LPSTR)(LPCSTR)csBeforeWDegree);
 	nIdx = max(0, nIdx);
 	pComboBox->SetCurSel(nIdx);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// \brief The client this installation should start.
+///
+/// Both builds are in the same folder and the server knows the checksum of
+/// each, so this only decides which one is run.
+///////////////////////////////////////////////////////////////////////////////
+const char *CAtumLauncherDlg::ClientExecutableName()
+{
+	return m_ctlbClient64Bit ? CLIENT_EXEUTE_FILE_NAME_64 : CLIENT_EXEUTE_FILE_NAME;
+}
+
+void CAtumLauncherDlg::OnCheckClient64Bit()
+{
+	UpdateData();		// nothing else to do: it is read when the game starts
 }
 
 void CAtumLauncherDlg::OnCheckBorderlessMode()

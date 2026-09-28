@@ -1367,6 +1367,16 @@ Err_t GReadVersionInfoFile(VersionInfo *o_pLauncherVerInfo, SREG_DATA_EXE_2 *o_p
 				o_pRegDataExe2->IsWindowMode	= atoi(token);
 			}
 		}
+		else if (0 == stricmp(token, COMMON_STRMSG_REG_KEY_NAME_CLIENT64))
+		{	// Which of the two clients to start.  A file written before there
+			// were two does not have this line at all, and then it keeps the
+			// default - the 32 bit one, which is what such an install has.
+			char *token = strtok(NULL, seps);
+			if (token)
+			{
+				o_pRegDataExe2->IsClient64		= atoi(token);
+			}
+		}
 		else if (0 == stricmp(token, COMMON_STRMSG_REG_KEY_NAME_ACCOUNT_NAME))	// 2013-10-15 by bckim, 국가별 공용으로 쓰는 스트링 구분 STRMSG_REG_KEY_NAME_ACCOUNT_NAME->COMMON_STRMSG_REG_KEY_NAME_ACCOUNT_NAME
 		{
 			char *token = strtok(NULL, seps);
@@ -1475,6 +1485,9 @@ Err_t GWriteVersionInfoFile(VersionInfo *i_pLauncherVerInfo, SREG_DATA_EXE_2 *i_
 	
 	// 2008-01-03 by cmkwon, 윈도우모드 상태 저장하기 - 
 	sprintf(buff, "%s\t\t\t\t%d\r\n\r\n", COMMON_STRMSG_REG_KEY_NAME_WINDOWMODE, i_pRegDataEXE2->IsWindowMode);	// 2013-10-15 by bckim, 국가별 공용으로 쓰는 스트링 구분 STRMSG_REG_KEY_NAME_WINDOWMODE->COMMON_STRMSG_REG_KEY_NAME_WINDOWMODE
+	WriteFile(hFile, buff, strlen(buff), &nWritten, NULL);
+
+	sprintf(buff, "%s\t\t\t\t%d\r\n\r\n", COMMON_STRMSG_REG_KEY_NAME_CLIENT64, i_pRegDataEXE2->IsClient64);
 	WriteFile(hFile, buff, strlen(buff), &nWritten, NULL);
 
 	sprintf(buff, "%s\t\t\t\t%s\r\n", COMMON_STRMSG_REG_KEY_NAME_ACCOUNT_NAME, i_pRegDataEXE2->BeforeAccountName);	// 2013-10-15 by bckim, 국가별 공용으로 쓰는 스트링 구분 STRMSG_REG_KEY_NAME_ACCOUNT_NAME->COMMON_STRMSG_REG_KEY_NAME_ACCOUNT_NAME

@@ -62,6 +62,7 @@ extern char *GET_LANGUAGE_TYPE_STRING(int i_nLangTy);	// 2008-04-25 by cmkwon, �
 #define COMMON_STRMSG_REG_KEY_NAME_CLIENT_VERSION			"ClientVersion"			
 #define COMMON_STRMSG_REG_KEY_NAME_WINDOWDEGREE_NEW			"WindowDegreeNew"
 #define COMMON_STRMSG_REG_KEY_NAME_WINDOWMODE				"WindowMode"
+#define COMMON_STRMSG_REG_KEY_NAME_CLIENT64					"Client64"				// which of the two clients the launcher starts
 #define COMMON_STRMSG_REG_KEY_NAME_ACCOUNT_NAME				"AccountName"
 #define COMMON_STRMSG_REG_KEY_NAME_SERVER_GROUP_NAME		"ServerGroupName"		// ??
 // End. 2013-10-15 by bckim, 국가별 공용으로 쓰는 스트링 구분
@@ -5441,6 +5442,8 @@ struct SREG_DATA_EXE_2
 	char			BeforeAccountName[SIZE_MAX_ACCOUNT_NAME];
 	char			SelectedServerGroupName[SIZE_MAX_SERVER_NAME];
 	int				IsWindowMode;	// 2008-01-03 by cmkwon, 윈도우모드 상태 저장하기 - SREG_DATA_EXE_2 에 필드 추가
+	// Non-zero to start the 64 bit client rather than the 32 bit one.
+	int				IsClient64;
 
 	void resetREG_DATA_EXE_2(void)
 	{
@@ -5453,6 +5456,7 @@ struct SREG_DATA_EXE_2
 		MEMSET_ZERO(BeforeAccountName, SIZE_MAX_ACCOUNT_NAME);
 		MEMSET_ZERO(SelectedServerGroupName, SIZE_MAX_SERVER_NAME);
 		IsWindowMode		= FALSE;	// 2008-01-03 by cmkwon, 윈도우모드 상태 저장하기 - 
+		IsClient64			= FALSE;
 	}
 };
 Err_t GLoadExe1VersionInfo(VersionInfo *o_pLauncherVerInfo, char *i_szVersionInfoFileName);

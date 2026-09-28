@@ -263,6 +263,13 @@
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////
+// The 64 bit client. It is built from the same sources as the 32 bit one and
+// sits beside it in the same installation, so it needs a name of its own; the
+// launcher decides which of the two to start.
+///////////////////////////////////////////////////////////////////////////////
+#define CLIENT_EXEUTE_FILE_NAME_64				"Engine_64.atm"
+
+///////////////////////////////////////////////////////////////////////////////
 // 2006-12-22 by cmkwon, °ÔŔÓŔĚ¸§ şŻ°ćÇĎ¸éĽ­ 
 
 // ±ą°ˇ ĽŇ˝şĹëÇŐ ¶§ Ăß°ˇ µÇľîľß ÇŇ şÎşĐ ĽřĽ­ 10

@@ -442,6 +442,7 @@ void CAtumLauncherApp::WriteProfile()
 		// IsWindowMode carries the whole window mode now rather than a flag, but in
 		// the file's own numbering, which is not GAME_MODE_* - see
 		// GameModeToStoredValue().
+		regDataExe2.IsClient64			= pDlg->m_ctlbClient64Bit;
 		regDataExe2.IsWindowMode		= CAtumLauncherDlg::GameModeToStoredValue(
 												pDlg->GameModeFromCheckBoxes());			// 2008-01-03 by cmkwon, 윈도우모드 상태 저장하기 - 	
 
@@ -542,6 +543,7 @@ void CAtumLauncherApp::ReadProfile()
 
 		///////////////////////////////////////////////////////////////////////////////
 		// 2008-01-03 by cmkwon, 윈도우모드 상태 저장하기 - 
+		pDlg->m_ctlbClient64Bit = regDataExe2.IsClient64 ? TRUE : FALSE;
 		pDlg->m_nWindowModeReg = CAtumLauncherDlg::GameModeFromStoredValue(		// 2008-01-03 by cmkwon, 윈도우모드 상태 저장하기 - 
 										regDataExe2.IsWindowMode);				// 2007-05-09 by cmkwon, 항상 FullScreenMode
 
@@ -733,7 +735,10 @@ void CAtumLauncherApp::RemainingProcessRemove()
 	{		
 		if(bRes==FALSE)
 			break;        
-		if(!strncmp(pEntry.szExeFile,CLIENT_EXEUTE_FILE_NAME,15))
+		// Either client: a 64 bit one left running holds the same single-instance
+		// mutex as a 32 bit one, so it blocks the next start just the same.
+		if(0 == _stricmp(pEntry.szExeFile, CLIENT_EXEUTE_FILE_NAME)
+			|| 0 == _stricmp(pEntry.szExeFile, CLIENT_EXEUTE_FILE_NAME_64))
 		{
 			bCrrent = TRUE;
 		}

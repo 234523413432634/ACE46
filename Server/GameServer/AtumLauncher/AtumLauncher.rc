@@ -381,6 +381,8 @@ BEGIN
                     WS_TABSTOP,397,275,8,8
     CONTROL         "Borderless",IDC_CHECK_BORDERLESS_MODE,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,340,275,55,9
+    CONTROL         "64 bit client",IDC_CHECK_CLIENT_64BIT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,330,293,63,9
     CONTROL         "",IDC_CHECK_REMEMBER_ID,"Button",BS_AUTOCHECKBOX | NOT 
                     WS_VISIBLE | WS_TABSTOP,397,293,8,8
 END

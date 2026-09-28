@@ -219,6 +219,7 @@
 #define IDC_BTN_VIEW_SCREEN_KEYBOARD    1093
 #define IDC_CHECK_WINDOWS_MODE          1094
 #define IDC_CHECK_BORDERLESS_MODE       1098
+#define IDC_CHECK_CLIENT_64BIT          1099
 #define IDC_CHECK_REMEMBER_ID           1095
 #define IDC_BTN_BACKSPACE               1097
 #define IDC_EDIT_AGREEMENT_TEXT         1097
@@ -233,7 +234,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        366
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1099
+#define _APS_NEXT_CONTROL_VALUE         1100
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
