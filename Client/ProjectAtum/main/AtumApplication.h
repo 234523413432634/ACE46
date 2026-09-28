@@ -412,6 +412,10 @@ public:
 	VOID	CalcObjectSourceScreenCoords(D3DXVECTOR3 vObjPos,int iScreenWidth, int iScreenHeight,int &iCoordX, int &iCoordY, int &iCoordW);
 	VOID	CheckRenderState();
 	VOID	SetCamPosInit();
+
+	// The near plane the camera wants this frame - see SetCamPosInit() - set
+	// on the camera only when it differs from what is already there.
+	VOID	ApplyCameraNearPlane();
 	FLOAT	Distance3DTo2D(D3DXVECTOR3 vPos1, D3DXVECTOR3 vPos2);
 	VOID	ChangeEffectTexture(CAtumNode * pNode,char * str);
 	// 2008-01-18 by bhsohn 중국 클라이언트 죽는 문제 해결

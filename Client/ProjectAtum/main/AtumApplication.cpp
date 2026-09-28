@@ -2052,21 +2052,15 @@ HRESULT CAtumApplication::RestoreDeviceObjects()
 	if( FAILED( g_pD3dDev->CreateVertexBuffer( 4 * sizeof(NOSPRITE),
 		0, D3DFVF_NOSPRITE, D3DPOOL_MANAGED, &m_pVBSleep ,NULL) ) )
 		return E_FAIL;
-	float hsx,hsy; 
+	// The death overlay, in clip space: x and y from -1 to 1 are the edges of the
+	// screen whatever its size or shape, and RenderGame() draws it with identity
+	// transforms.
 	NOSPRITE* v;
 	m_pVBSleep->Lock( 0, 0, (void**)&v, 0 );
-	hsx = 1.5f;
-	hsy = 1.5f;
-	// 2008-06-27 by bhsohn 1600X900 에서 유닛 죽었을 시, 붉은 이미지 처리 짧게 나오는 현상처리
-	if(g_pD3dApp->GetWidth() > 1440)
-	{
-		hsx = 1.7f;
-	}
-	// end 2008-06-27 by bhsohn 1600X900 에서 유닛 죽었을 시, 붉은 이미지 처리 짧게 나오는 현상처리
-	v[0].p = D3DXVECTOR3(-hsx,-hsy,0);	v[0].color=0x77FF0000;
-	v[1].p = D3DXVECTOR3(-hsx,hsy,0);	v[1].color=0x77FF0000;
-	v[2].p = D3DXVECTOR3(hsx,-hsy,0);	v[2].color=0x77FF0000;
-	v[3].p = D3DXVECTOR3(hsx,hsy,0); 	v[3].color=0x77FF0000;
+	v[0].p = D3DXVECTOR3(-1.0f,-1.0f,0.5f);	v[0].color=0x77FF0000;
+	v[1].p = D3DXVECTOR3(-1.0f, 1.0f,0.5f);	v[1].color=0x77FF0000;
+	v[2].p = D3DXVECTOR3( 1.0f,-1.0f,0.5f);	v[2].color=0x77FF0000;
+	v[3].p = D3DXVECTOR3( 1.0f, 1.0f,0.5f);	v[3].color=0x77FF0000;
 	m_pVBSleep->Unlock();
 
 	//ysw 9_15
@@ -3383,6 +3377,11 @@ HRESULT CAtumApplication::FrameMove()
 				m_pCamera->CharacterCamTick();
 			}
 
+			// Before the frustum is built from the projection below: entering
+			// or leaving siege changes the near plane on the next frame, not
+			// the one after.
+			ApplyCameraNearPlane();
+
 			// 2006-05-17 by ispark
 			if(g_pCamera)
 			{
@@ -3944,26 +3943,35 @@ void CAtumApplication::RenderGame()
 			m_pShuttleChild->m_dwState == _FALLING || 
 			m_pShuttleChild->m_dwState == _FALLEN)
 		{
-			D3DXVECTOR3 vTemp,vTemppos;
-			D3DXMATRIX mat;
-			D3DXVec3Normalize(&vTemp,&(m_pCamera->GetLookatPt() - m_pCamera->GetEyePt()));
-			vTemppos = m_pCamera->GetEyePt()+1.5f*vTemp;
+			// Identity world, view and projection, so the quad's clip-space corners are
+			// the screen's corners.
+			D3DXMATRIX matIdentity;
+			D3DXMatrixIdentity(&matIdentity);
+
+			DWORD dwCull = D3DCULL_CCW;
+			DWORD dwFog  = FALSE;
+			g_pD3dDev->GetRenderState( D3DRS_CULLMODE, &dwCull );
+			g_pD3dDev->GetRenderState( D3DRS_FOGENABLE, &dwFog );
 
 			g_pD3dDev->SetRenderState( D3DRS_LIGHTING, FALSE );
 			g_pD3dDev->SetRenderState( D3DRS_ALPHABLENDENABLE,  TRUE );
 			g_pD3dDev->SetRenderState( D3DRS_SRCBLEND,  D3DBLEND_SRCALPHA );
 			g_pD3dDev->SetRenderState( D3DRS_DESTBLEND,  D3DBLEND_DESTALPHA );
 			g_pD3dDev->SetRenderState( D3DRS_ZENABLE, FALSE );
-			D3DXMatrixIdentity(&mat);
-			mat = m_pCamera->GetBillboardMatrix();
-			mat._41 = vTemppos.x;
-			mat._42 = vTemppos.y;
-			mat._43 = vTemppos.z;
+			g_pD3dDev->SetRenderState( D3DRS_CULLMODE, D3DCULL_NONE );
+			g_pD3dDev->SetRenderState( D3DRS_FOGENABLE, FALSE );
 			g_pD3dDev->SetTexture(0, NULL);
 			g_pD3dDev->SetFVF(D3DFVF_NOSPRITE);
-			g_pD3dDev->SetTransform(D3DTS_WORLD, &mat);
+			g_pD3dDev->SetTransform(D3DTS_WORLD, &matIdentity);
+			g_pD3dDev->SetTransform(D3DTS_VIEW, &matIdentity);
+			g_pD3dDev->SetTransform(D3DTS_PROJECTION, &matIdentity);
 			g_pD3dDev->SetStreamSource(0, m_pVBSleep,0, sizeof(NOSPRITE));
 			g_pD3dDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+
+			g_pD3dDev->SetTransform(D3DTS_VIEW, &m_pCamera->GetViewMatrix());
+			g_pD3dDev->SetTransform(D3DTS_PROJECTION, &m_pCamera->GetProjMatrix());
+			g_pD3dDev->SetRenderState( D3DRS_CULLMODE, dwCull );
+			g_pD3dDev->SetRenderState( D3DRS_FOGENABLE, dwFog );
 		}
 	}
 
@@ -4098,6 +4106,23 @@ VOID CAtumApplication::CleanIMEControl()
 // How close to the eye the camera starts drawing, for each of the two cameras.
 #define CAMERA_NEAR_ON_FOOT		1.0f
 #define CAMERA_NEAR_IN_FLIGHT	6.0f
+#define CAMERA_NEAR_IN_SIEGE	1.0f
+
+// Which near plane the camera wants right now.
+//
+// Siege mode is the exception to "in flight".
+static float WantedNearPlane()
+{
+	if(TRUE == g_pD3dApp->m_bCharacter)
+	{
+		return CAMERA_NEAR_ON_FOOT;
+	}
+	if(NULL != g_pShuttleChild && _SIEGE == g_pShuttleChild->m_bAttackMode)
+	{
+		return CAMERA_NEAR_IN_SIEGE;
+	}
+	return CAMERA_NEAR_IN_FLIGHT;
+}
 
 void CAtumApplication::SetCamPosInit()
 {
@@ -4134,10 +4159,33 @@ void CAtumApplication::SetCamPosInit()
 		// a far plane this large the (f - n) / f part is pinned at one - so the
 		// expression is really z^2 / n, the *near* plane is the only lever of the
 		// two, and lowering the far plane buys nothing at all.
-		const float fNearPlane = (g_pD3dApp->m_bCharacter == TRUE)
-							   ? CAMERA_NEAR_ON_FOOT : CAMERA_NEAR_IN_FLIGHT;
+		const float fNearPlane = WantedNearPlane();
 		m_pCamera->SetProjParams( D3DX_PI/2.5, fAspect, fNearPlane, 100000.0f );		//AO 2022 increased fov
 	}
+}
+
+void CAtumApplication::ApplyCameraNearPlane()
+{
+	if(NULL == m_pCamera || NULL == m_pScene)
+	{
+		return;
+	}
+	// The city camera has its own projection, from SetCityCamera(), and the
+	// shadow harness sets one of its own every frame for its probes.
+	if(NULL != m_pShadowTest || MAP_TYPE_CITY == m_pScene->m_byMapType)
+	{
+		return;
+	}
+
+	const float fWant = WantedNearPlane();
+	if(fabs(m_pCamera->GetNearPlane() - fWant) < 0.001f)
+	{
+		return;
+	}
+
+	// Everything else about the projection stays as SetCamPosInit() left it.
+	m_pCamera->SetProjParams(m_pCamera->GetFOV(), m_pCamera->GetAspect(),
+							 fWant, m_pCamera->GetFarPlane());
 }
 
 int CAtumApplication::MsgProcGame( UINT uMsg, WPARAM wParam, LPARAM lParam )

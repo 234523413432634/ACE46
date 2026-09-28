@@ -1932,7 +1932,10 @@ BOOL CShadowMap::BuildLightMatrices()
 
 	// The kernel goes with them.
 	m_fFilterWidth       = bCity ? m_fCityFilterWidth : m_fMapFilterWidth;
-	m_fReceiverSlopeBias = bCity ? m_fCitySlopeBias   : m_fMapSlopeBias;
+
+	// The slope bias is not about the map, though.
+	const float fNearPlane = (NULL != g_pCamera) ? g_pCamera->GetNearPlane() : 1.0f;
+	m_fReceiverSlopeBias = (bCity || fNearPlane < 3.0f) ? m_fCitySlopeBias : m_fMapSlopeBias;
 	if(bCity && m_nCityFilter > 0)
 	{
 		m_nFilter = m_nCityFilter;
