@@ -2317,6 +2317,7 @@
     <ClInclude Include="main\d3dapp.h" />
     <ClInclude Include="main\d3denumeration.h" />
     <ClInclude Include="main\D3DHanFont.h" />
+    <ClInclude Include="main\FontGlyphRaster.h" />
     <ClInclude Include="main\d3dres.h" />
     <ClInclude Include="main\d3dsettings.h" />
     <ClInclude Include="main\d3dutil.h" />

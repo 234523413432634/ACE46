@@ -17,6 +17,7 @@
 //#include <D3D8.h>
 #include <d3d9.h>
 #include "D3DApp.h"
+#include "D3DHanFont.h"
 #include "D3DUtil.h"
 #include "DXUtil.h"
 #include "D3DRes.h"
@@ -1770,7 +1771,11 @@ HRESULT CD3DApplication::Resize3DEnvironment()
 	}
 	// end 2010-09-29 by jskim, SpriteDevice Lost 되었을 때 구조 변경
 
-	//	DBGOUT("m_pd3dDevice->Reset Start\n");
+	//	DBGOUT("m_pd3dDevice->Reset Start\n"); The glyph atlases are
+	//	D3DPOOL_MANAGED and ride a reset out, but the vertex buffer every
+	//	CD3DHanFont draws through is not, and belongs to no single one of them.
+	CD3DHanFont::ReleaseSharedDeviceObjects();
+
 		// Reset the device
 	if (FAILED(hr = m_pd3dDevice->Reset(&m_d3dpp)))
 		return hr;
@@ -2843,6 +2848,10 @@ VOID CD3DApplication::Cleanup3DEnvironment()
 	{
 		InvalidateDeviceObjects();
 		DeleteDeviceObjects();
+
+		// The shared glyph atlases hold textures, so they have to go before
+		// the device that made them.
+		CD3DHanFont::ReleaseAllAtlases();
 
 		m_pd3dDevice->Release();
 		m_pD3D->Release();

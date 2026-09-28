@@ -3616,6 +3616,17 @@ BOOL CheckFontColor( char chr )
 		return TRUE;
 	case DARKBLUE_FONT:
 		return TRUE;
+// 2013-10-17 by ssjung 글자 색상 추가 - GetFontColor() recognises these three,
+// so the two have to agree: this is what decides whether a tag is stripped before
+// the text is measured and wrapped.
+#ifdef C_FONT_COLOR_ADD
+	case PINK_FONT:
+		return TRUE;
+	case LIGHTGREEN_FONT:
+		return TRUE;
+	case BLACK_FONT:
+		return TRUE;
+#endif
 	}
 
 	return FALSE;
