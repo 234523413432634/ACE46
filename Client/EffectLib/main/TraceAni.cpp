@@ -11,7 +11,6 @@
 #include "dxutil.h"
 
 #define NUMBER_OF_EFFECT_PLANE		1//(m_nNumberOfCross*4)
-#define PLANE_VB_SIZE				16//최소 사이즈 : 8
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -28,7 +27,7 @@ CEffectPlane::CEffectPlane(CTraceAni* pParent, int nIBIndex )
 	}
 	dwType = EFFECT_TYPE_TRACE;
 	fDistance = 0;
-	m_pVB = NULL;
+	memset(m_arrVertex, 0x00, sizeof(m_arrVertex));
 }
 
 CEffectPlane::~CEffectPlane()
@@ -45,15 +44,6 @@ HRESULT CEffectPlane::InitDeviceObjects()
 HRESULT CEffectPlane::RestoreDeviceObjects()
 {
 	FLOG("CEffectPlane::RestoreDeviceObjects()");
-	if( FAILED( g_pD3dDev->CreateVertexBuffer( sizeof(SPRITE_VERTEX)*4*PLANE_VB_SIZE,
-												0, 
-												D3DFVF_SPRITE_VERTEX, 
-												D3DPOOL_MANAGED, 
-												&m_pVB,
-												NULL) ) )
-	{
-		return E_FAIL;
-	}
 /*	m_pVB->Lock( 0, 0, (BYTE**)&v, 0 );
 		D3DXVECTOR3 vPos = m_pParent->m_vCurrentPos;
 		D3DXVECTOR3 vSide(m_pParent->m_pParent->m_pParent->m_mMatrix._11,//CTraceAni->CEffectInfo->CBodyConditionInfo
@@ -111,8 +101,7 @@ HRESULT CEffectPlane::RestoreDeviceObjects()
 ///////////////////////////////////////////////////////////////////////////////
 void CEffectPlane::SetEndIndex()
 {
-	SPRITE_VERTEX* v;
-	m_pVB->Lock( 0, 0, (void**)&v, 0 );
+	SPRITE_VERTEX* v = m_arrVertex;
 	int i; for(i=0;i<PLANE_VB_SIZE;i++)
 	{
 		if( i%2 > 0 )
@@ -130,7 +119,6 @@ void CEffectPlane::SetEndIndex()
 			v[i*4+3].c=0x33333333;
 		}
 	}
-	m_pVB->Unlock();
 }
 ///////////////////////////////////////////////////////////////////////////////
 /// \fn			VOID CEffectPlane::SetFirstIndex(BOOL bSet)
@@ -160,8 +148,7 @@ VOID CEffectPlane::SetFirstIndex(BOOL bSet)
 		D3DXMatrixRotationAxis(&mat,&vTarget,PI/(PLANE_VB_SIZE/8)*(i/2));
 		D3DXVec3TransformCoord( &vSide[i], &vSide[0], &mat );
 	}
-	SPRITE_VERTEX* v;
-	m_pVB->Lock( 0, 0, (void**)&v, 0 );
+	SPRITE_VERTEX* v = m_arrVertex;
 	for(i=0;i<PLANE_VB_SIZE;i++)
 	{
 		if( i%2 > 0 )
@@ -195,7 +182,6 @@ VOID CEffectPlane::SetFirstIndex(BOOL bSet)
 			m_pParent->m_vOldPos.x, m_pParent->m_vOldPos.y, m_pParent->m_vOldPos.z);
 		DBGOUT( buf );
 #endif // _DEBUG_endif*/
-	m_pVB->Unlock();
 }
 
 BOOL CEffectPlane::Tick(float fElapsedTime)
@@ -217,8 +203,7 @@ BOOL CEffectPlane::Tick(float fElapsedTime)
 			D3DXVec3TransformCoord( &vSide[i], &vSide[0], &mat );
 		}
 
-		SPRITE_VERTEX* v;
-		m_pVB->Lock( 0, 0, (void**)&v, 0 );
+		SPRITE_VERTEX* v = m_arrVertex;
 		for(i=0;i<PLANE_VB_SIZE;i++)
 		{
 			if( i%2 > 0 )
@@ -232,7 +217,6 @@ BOOL CEffectPlane::Tick(float fElapsedTime)
 				v[i*4+3].p = m_pParent->m_vCurrentPos + vSide[i]*m_pParent->m_fHalfSize;
 			}
 		}
-		m_pVB->Unlock();
 	}
 	return TRUE;
 }
@@ -241,16 +225,15 @@ void CEffectPlane::Render()
 {
 	FLOG("CEffectPlane::Render()");
 	g_pD3dDev->SetTextureStageState( 0, D3DTSS_COLOROP,   D3DTOP_MODULATE );
-	g_pD3dDev->SetStreamSource( 0,m_pVB,0, sizeof(SPRITE_VERTEX) );
-	//g_pD3dDev->SetTexture( 0, m_pTexture );
-	g_pD3dDev->DrawPrimitive( D3DPT_TRIANGLESTRIP, 0, 2*PLANE_VB_SIZE );
+	// g_pD3dDev->SetTexture( 0, m_pTexture ); One segment on its own.
+	g_pD3dDev->DrawPrimitiveUP( D3DPT_TRIANGLESTRIP, TRIANGLE_COUNT,
+								m_arrVertex, sizeof(SPRITE_VERTEX) );
 }
 
 
 HRESULT CEffectPlane::InvalidateDeviceObjects()
 {
 	FLOG("CEffectPlane::InvalidateDeviceObjects()");
-	SAFE_RELEASE( m_pVB );
 	return S_OK;
 }
 

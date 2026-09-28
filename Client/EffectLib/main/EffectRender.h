@@ -68,6 +68,32 @@ public:
 	HRESULT DeleteDeviceObjects();
 	void Tick(float fElapsedTime);
 
+	///////////////////////////////////////////////////////////////////////////
+	//  The answers LoadTexture() has already given
+	//
+	//  The batch asks it once per particle and once per trail segment, only to
+	//  work out which run each one belongs in - seven or eight thousand times a
+	//  frame in a heavy scene, and always for the same handful of names.
+	///////////////////////////////////////////////////////////////////////////
+	enum
+	{
+		TEXTURE_CACHE_SIZE	= 256,
+		TEXTURE_CACHE_MISS	= -2		// -1 is a real answer: no such texture
+	};
+
+	struct TextureCacheEntry
+	{
+		char	szName[24];				// the names are char[20] where they are declared
+		int		nIndex;
+		DWORD	dwGeneration;
+	};
+
+	int  TextureCacheGet(const char* i_szName);
+	void TextureCachePut(const char* i_szName, int i_nIndex);
+
+	TextureCacheEntry		m_arrTextureCache[TEXTURE_CACHE_SIZE];
+	DWORD					m_dwTextureGeneration;
+
 	int GetEmptyTextureIndex();
 	int LoadTexture(char* strName);
 //	int GetEmptyObjectIndex();
@@ -113,6 +139,129 @@ public:
 	LPDIRECT3DVERTEXBUFFER9 m_pVB4[4];			
 	LPDIRECT3DVERTEXBUFFER9 m_pVB8[8];			
 	LPDIRECT3DVERTEXBUFFER9 m_pVB16[16];
+
+	///////////////////////////////////////////////////////////////////////////
+	//  The sprite particles of RenderZEnable(), gathered into one draw each
+	//
+	//  A particle used to be a whole pipeline of its own: a world transform, a
+	//  material, a light, a stream binding and a DrawPrimitive of two triangles,
+	//  four thousand times over in a heavy frame.
+	///////////////////////////////////////////////////////////////////////////
+	enum { PARTICLE_BATCH_QUAD_MAX = 8192 };	// the heaviest frame seen held ~4,300
+
+	// What a run has in common.  Two particles can share a draw only if all of
+	// it matches, because these are what the per particle loop used to set.
+	struct ParticleBatchState
+	{
+		LPDIRECT3DBASETEXTURE9	pTexture;
+		DWORD					dwSrcBlend;
+		DWORD					dwDestBlend;
+		BOOL					bZbufferEnable;
+		BOOL					bZWriteEnable;
+	};
+
+	// FALSE when the buffers could not be made, and the particles are drawn one
+	// at a time exactly as they always were.
+	BOOL ParticleBatchReady() const
+	{
+		return (NULL != m_pParticleBatchVB && NULL != m_pParticleBatchIB
+				&& NULL != m_pParticleBatchVertex && NULL != m_pParticleBatchRunOf);
+	}
+	// How many runs either batch may hold at once.
+	enum { EFFECT_BATCH_RUN_MAX = 64 };
+
+	// Why a flush happened, which is the whole of what decides whether any of
+	// this can be made to gather better.  Counted, not guessed at.
+	enum
+	{
+		EFFECT_BATCH_WHY_OTHER,			// something not gathered is about to draw
+		EFFECT_BATCH_WHY_ORDERED,		// what is held cannot be drawn out of turn
+		EFFECT_BATCH_WHY_FULL,			// no room for another run or another item
+		EFFECT_BATCH_WHY_END,			// the list is finished
+		EFFECT_BATCH_WHY_COUNT
+	};
+
+	void EffectBatchFlush(int i_nWhy);
+	void ParticleBatchAdd(CParticle* p);
+	void ParticleBatchFlush();
+	LPDIRECT3DBASETEXTURE9 ParticleBatchTexture(CParticleSystem* pParticleSystem, CParticle* p);
+	void ParticleWorldMatrix(CParticleSystem* pParticleSystem, CParticle* p,
+							 const D3DXVECTOR3& vAxis, D3DXMATRIX* o_pMatrix);
+
+	LPDIRECT3DVERTEXBUFFER9	m_pParticleBatchVB;			// dynamic, written a run at a time
+	LPDIRECT3DINDEXBUFFER9	m_pParticleBatchIB;			// six indices a quad, built once
+	SPRITE_VERTEX*			m_pParticleBatchVertex;		// built here, in the order walked, before the copy in
+	SPRITE_VERTEX			m_arrParticleQuad[4];		// the corners of m_pVB1, kept to transform
+	ParticleBatchState		m_arrParticleBatchRun[EFFECT_BATCH_RUN_MAX];
+	UINT					m_arrParticleBatchRunCount[EFFECT_BATCH_RUN_MAX];
+	UINT					m_nParticleBatchRuns;
+	BYTE*					m_pParticleBatchRunOf;		// which run each gathered quad joins
+	UINT					m_nParticleBatchQuadMax;
+	UINT					m_nParticleBatchQuadCount;	// quads gathered, over all the runs
+	UINT					m_nParticleBatchVertexAt;	// where in the buffer the next lot goes
+
+	///////////////////////////////////////////////////////////////////////////
+	//  The trail segments of RenderZEnable(), the same way
+	//
+	//  A segment was a draw of its own too, and there are more of them than there
+	//  are particles: a trail is m_nNumberOfTrace of them and every rocket in the
+	//  sky has one.
+	///////////////////////////////////////////////////////////////////////////
+	enum { EFFECT_PLANE_BATCH_MAX = 2048 };		// the heaviest frame seen held ~2,500
+
+	// What a run of segments has in common.
+	struct EffectPlaneBatchState
+	{
+		LPDIRECT3DBASETEXTURE9	pTexture;
+		BOOL					bAlphaBlendEnable;
+		DWORD					dwSrcBlend;
+		DWORD					dwDestBlend;
+		BOOL					bZbufferEnable;
+		BOOL					bZWriteEnable;
+	};
+
+	BOOL EffectPlaneBatchReady() const
+	{
+		return (NULL != m_pEffectPlaneBatchVB && NULL != m_pEffectPlaneBatchIB
+				&& NULL != m_ppEffectPlaneBatch && NULL != m_pEffectPlaneBatchRunOf);
+	}
+	void EffectPlaneBatchAdd(CEffectPlane* pEffect);
+	void EffectPlaneBatchFlush();
+	LPDIRECT3DBASETEXTURE9 EffectPlaneBatchTexture(CEffectPlane* pEffect);
+
+	LPDIRECT3DVERTEXBUFFER9	m_pEffectPlaneBatchVB;
+	LPDIRECT3DINDEXBUFFER9	m_pEffectPlaneBatchIB;
+	CEffectPlane**			m_ppEffectPlaneBatch;		// the run in hand, in the order it was walked
+	UINT					m_nEffectPlaneBatchMax;
+	UINT					m_nEffectPlaneBatchCount;
+	UINT					m_nEffectPlaneBatchVertexAt;
+	EffectPlaneBatchState	m_arrEffectPlaneBatchRun[EFFECT_BATCH_RUN_MAX];
+	UINT					m_arrEffectPlaneBatchRunCount[EFFECT_BATCH_RUN_MAX];
+	UINT					m_nEffectPlaneBatchRuns;
+	BYTE*					m_pEffectPlaneBatchRunOf;
+
+	// TRUE while something held cannot be drawn out of its turn, in which case
+	// it is the only thing held and the next thing to gather flushes it first.
+	BOOL					m_bEffectBatchOrdered;
+
+	// What both batches did, so that a run which is not batching shows up as a
+	// number rather than a suspicion.  A line a minute, beside the D3D one.
+	void EffectBatchReport();
+
+	unsigned __int64		m_nParticleBatchQuads;
+	unsigned __int64		m_nParticleBatchDraws;
+	unsigned __int64		m_nEffectPlaneBatchPlanes;
+	unsigned __int64		m_nEffectPlaneBatchDraws;
+	unsigned __int64		m_nEffectBatchFlushes;
+	unsigned __int64		m_arrEffectBatchWhy[EFFECT_BATCH_WHY_COUNT];
+
+	// Of the things gathered, how many could be drawn out of their turn - and
+	// of the runs opened, how many were opened by nothing but a texture, which
+	// is what says whether putting the textures in one sheet would merge them.
+	unsigned __int64		m_nParticleBatchIndependent;
+	unsigned __int64		m_nParticleBatchRunsTextureOnly;
+	unsigned __int64		m_nEffectPlaneBatchIndependent;
+	unsigned __int64		m_nEffectPlaneBatchRunsTextureOnly;
 
 	float					m_fTextureCheckTime;
 	CGameData*				m_pTexEffectData;

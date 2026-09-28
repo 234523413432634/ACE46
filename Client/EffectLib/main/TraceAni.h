@@ -59,12 +59,30 @@ public:
 	void SetEndIndex();
 	D3DXVECTOR3 GetPos() { return m_vPos; }
 
+	// One trail segment is PLANE_VB_SIZE crosses of four vertices, drawn as a
+	// single triangle strip.
+	enum
+	{
+		PLANE_VB_SIZE		= 16,						//최소 사이즈 : 8
+		VERTEX_COUNT		= PLANE_VB_SIZE * 4,
+		TRIANGLE_COUNT		= PLANE_VB_SIZE * 2,
+		DRAWN_VERTEX_COUNT	= TRIANGLE_COUNT + 2
+	};
+
+	// Read by CEffectRender's trail batch, which draws a run of segments in one
+	// call instead of one call each.
+	const SPRITE_VERTEX* GetVertices() const { return m_arrVertex; }
+
 public:
 	CTraceAni				*m_pParent;				// 부모 객체
 protected:
 	D3DXVECTOR3				m_vPos ;				// 유닛좌표를 계산한 절대좌표(ZEnable시에 거리계산에 사용), parent의 m_vPos참조
 	int						m_nIBIndex;				// 0 ~ 15 사이 값
-	LPDIRECT3DVERTEXBUFFER9 m_pVB;					// 버텍스버퍼(4*32)
+	// The segment's vertices. They used to be a vertex buffer of its own, but a
+	// segment is thrown away and built again every m_fCreateTick - so that was a
+	// CreateVertexBuffer and a Release per segment per trail, for four vertices'
+	// worth of change.
+	SPRITE_VERTEX			m_arrVertex[VERTEX_COUNT];	// 버텍스버퍼(4*32)
 	BOOL					m_bIsFirstIndex;
 	BOOL					m_bZbufferEnable;
 

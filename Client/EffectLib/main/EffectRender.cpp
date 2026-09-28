@@ -24,6 +24,7 @@
 #include "dxutil.h"
 #include "SunData.h"
 #include "D3DHanFont.h"
+#include "D3DFilteredDevice.h"
 #include "ObjRender.h"
 #include "SkillEffect.h"
 #include "TutorialSystem.h"
@@ -45,9 +46,46 @@ CEffectRender::CEffectRender()
 	memset(m_pVB8,0x00,4*8);
 	memset(m_pVB16,0x00,4*16);
 
+	m_pParticleBatchVB			= NULL;
+	m_pParticleBatchIB			= NULL;
+	m_pParticleBatchVertex		= NULL;
+	memset(m_arrParticleQuad, 0x00, sizeof(m_arrParticleQuad));
+	memset(m_arrParticleBatchRun, 0x00, sizeof(m_arrParticleBatchRun));
+	memset(m_arrParticleBatchRunCount, 0x00, sizeof(m_arrParticleBatchRunCount));
+	m_nParticleBatchRuns		= 0;
+	m_pParticleBatchRunOf		= NULL;
+	m_nParticleBatchQuadMax		= 0;
+	m_nParticleBatchQuadCount	= 0;
+	m_nParticleBatchVertexAt	= 0;
+
+	m_pEffectPlaneBatchVB		= NULL;
+	m_pEffectPlaneBatchIB		= NULL;
+	m_ppEffectPlaneBatch		= NULL;
+	memset(m_arrEffectPlaneBatchRun, 0x00, sizeof(m_arrEffectPlaneBatchRun));
+	memset(m_arrEffectPlaneBatchRunCount, 0x00, sizeof(m_arrEffectPlaneBatchRunCount));
+	m_nEffectPlaneBatchRuns		= 0;
+	m_pEffectPlaneBatchRunOf	= NULL;
+	m_bEffectBatchOrdered		= FALSE;
+	m_nEffectPlaneBatchMax		= 0;
+	m_nEffectPlaneBatchCount	= 0;
+	m_nEffectPlaneBatchVertexAt	= 0;
+
+	m_nParticleBatchQuads		= 0;
+	m_nParticleBatchDraws		= 0;
+	m_nEffectPlaneBatchPlanes	= 0;
+	m_nEffectPlaneBatchDraws	= 0;
+	m_nEffectBatchFlushes		= 0;
+	memset(m_arrEffectBatchWhy, 0x00, sizeof(m_arrEffectBatchWhy));
+	m_nParticleBatchIndependent			= 0;
+	m_nParticleBatchRunsTextureOnly		= 0;
+	m_nEffectPlaneBatchIndependent		= 0;
+	m_nEffectPlaneBatchRunsTextureOnly	= 0;
+
 	m_pTexEffectData = NULL;
 	memset(m_pTexture, 0x00, TEX_EFFECT_NUM*sizeof(DWORD));
 	memset(m_nTextureRenderCount, 0x00, TEX_EFFECT_NUM*sizeof(int));
+	memset(m_arrTextureCache, 0x00, sizeof(m_arrTextureCache));
+	m_dwTextureGeneration = 1;			// nought is what an entry never written holds
 //	memset(m_pObjEffectMesh, 0x00, OBJ_EFFECT_NUM*sizeof(DWORD));
 	m_fTextureCheckTime = 300.0f;// 5분에 한번씩 이펙트 사용여부 검사
 
@@ -91,6 +129,14 @@ CEffectRender::~CEffectRender()
 		SAFE_RELEASE(m_pVB8[i]);
 	for(i=0;i<16;i++)
 		SAFE_RELEASE(m_pVB16[i]);
+	SAFE_RELEASE(m_pParticleBatchVB);
+	SAFE_RELEASE(m_pParticleBatchIB);
+	SAFE_DELETE_ARRAY(m_pParticleBatchVertex);
+	SAFE_DELETE_ARRAY(m_pParticleBatchRunOf);
+	SAFE_RELEASE(m_pEffectPlaneBatchVB);
+	SAFE_RELEASE(m_pEffectPlaneBatchIB);
+	SAFE_DELETE_ARRAY(m_ppEffectPlaneBatch);
+	SAFE_DELETE_ARRAY(m_pEffectPlaneBatchRunOf);
 
 	SAFE_DELETE(m_pTexEffectData);
 	SAFE_DELETE(m_pEffectData);
@@ -356,6 +402,48 @@ DataHeader* CEffectRender::FindObjectInfo(char* strName)
 	return NULL;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+//  What LoadTexture() last answered for this name, or TEXTURE_CACHE_MISS.
+///////////////////////////////////////////////////////////////////////////////
+int CEffectRender::TextureCacheGet(const char* i_szName)
+{
+	UINT nHash = 2166136261u;
+	const char* p;
+	for(p = i_szName; *p; ++p)
+	{
+		nHash = (nHash ^ (UINT)(unsigned char)(*p)) * 16777619u;
+	}
+
+	const TextureCacheEntry& entry = m_arrTextureCache[nHash % TEXTURE_CACHE_SIZE];
+	if(entry.dwGeneration == m_dwTextureGeneration
+	   && 0 == strncmp(entry.szName, i_szName, sizeof(entry.szName)))
+	{
+		return entry.nIndex;
+	}
+	return TEXTURE_CACHE_MISS;
+}
+
+void CEffectRender::TextureCachePut(const char* i_szName, int i_nIndex)
+{
+	const size_t nLength = strlen(i_szName);
+	if(nLength >= sizeof(m_arrTextureCache[0].szName))
+	{
+		return;			// cannot be told apart from another name later
+	}
+
+	UINT nHash = 2166136261u;
+	const char* p;
+	for(p = i_szName; *p; ++p)
+	{
+		nHash = (nHash ^ (UINT)(unsigned char)(*p)) * 16777619u;
+	}
+
+	TextureCacheEntry& entry = m_arrTextureCache[nHash % TEXTURE_CACHE_SIZE];
+	memcpy(entry.szName, i_szName, nLength + 1);
+	entry.nIndex		= i_nIndex;
+	entry.dwGeneration	= m_dwTextureGeneration;
+}
+
 int CEffectRender::LoadTexture(char* strName)
 {
 	FLOG( "CEffectRender::LoadTexture(char* strName)" );
@@ -365,6 +453,12 @@ int CEffectRender::LoadTexture(char* strName)
 	{
 		return -1;
 	}
+	const int nCached = TextureCacheGet(strName);
+	if(TEXTURE_CACHE_MISS != nCached)
+	{
+		return nCached;
+	}
+
 	map<string,int>::iterator it = m_mapTexNameToIndex.find(strName);
 	if(it == m_mapTexNameToIndex.end())
 	{
@@ -389,6 +483,7 @@ int CEffectRender::LoadTexture(char* strName)
 				}
 				m_nTextureRenderCount[index] = 2;
 				m_mapTexNameToIndex[strName] = index;
+				TextureCachePut(strName, index);
 				return index;
 			}
 			pDataHeader = m_pTexEffectData->GetNext();
@@ -396,9 +491,12 @@ int CEffectRender::LoadTexture(char* strName)
 	} 
 	else
 	{
+		TextureCachePut(strName, it->second);
 		return it->second;
 	}
+	// Not in the pack at all.
 	DBGOUT("ERROR, CEffectRender::LoadTexture (%s)\n", strName);
+	TextureCachePut(strName, -1);
 	return -1;
 }
 
@@ -442,6 +540,7 @@ void CEffectRender::Tick(float fElapsedTime)
 				if(it->second == i)
 				{
 					m_mapTexNameToIndex.erase(it);
+					m_dwTextureGeneration++;		// what the cache holds is stale now
 					break;
 				}
 				it++;
@@ -2205,15 +2304,14 @@ void CEffectRender::ParticleSystemRender(CParticleSystem* pEffect)
 
 }
 
-int CEffectRender::ParticleRender(CParticleSystem* pParticleSystem, CParticle* p, D3DXVECTOR3 vAxis, int nOldTextureIndex)
+///////////////////////////////////////////////////////////////////////////////
+//  Where one particle's quad ends up: scaled, turned to face the camera,
+//  optionally spun about the view axis, and the position written straight into
+//  the translation.  A couple of percent of the frame and correct, so the one
+//  at a time path and the batch share this one copy of it.
+void CEffectRender::ParticleWorldMatrix(CParticleSystem* pParticleSystem, CParticle* p,
+										const D3DXVECTOR3& vAxis, D3DXMATRIX* o_pMatrix)
 {
-	FLOG( "CEffectRender::ParticleRender(CParticleSystem* pParticleSystem, CParticle* p, D3DXVECTOR3 vAxis, int nOldTextureIndex)" );
-	D3DXMATRIX matScale;
-	D3DXVECTOR3 pos;
-	D3DMATERIAL9 mtrl;
-	D3DUtil_InitMaterial(mtrl, p->m_cColor.r, p->m_cColor.g,p->m_cColor.b, p->m_cColor.a);
-	pos = p->m_vPos;//실제 좌표
-	
 	// 2010. 03. 18 by jskim 몬스터변신 카드
 	float tempScale = 0.0f;
 	if(p->m_pParent->m_pParent->m_pParent->m_MonsterTransformer &&
@@ -2225,11 +2323,11 @@ int CEffectRender::ParticleRender(CParticleSystem* pParticleSystem, CParticle* p
 	{
 		tempScale = p->m_fSize;
 	}
-	//D3DXMatrixScaling(&matScale, p->m_fSize,p->m_fSize,p->m_fSize);	
-	D3DXMatrixScaling(&matScale, tempScale,tempScale,tempScale);
+	//D3DXMatrixScaling(o_pMatrix, p->m_fSize,p->m_fSize,p->m_fSize);	
+	D3DXMatrixScaling(o_pMatrix, tempScale,tempScale,tempScale);
 	// 2010. 03. 18 by jskim 몬스터변신 카드
 	
-	matScale *= g_pD3dApp->m_pCamera->GetBillboardMatrix();
+	*o_pMatrix *= g_pD3dApp->m_pCamera->GetBillboardMatrix();
 	// 2004.2.16 파티클 랜덤 회전
 	if(pParticleSystem->m_pParent && p->m_fCurrentRotateAngle != 0 )//pParticleSystem->m_pParent->m_fBillboardRotateAngle > 0)
 	{
@@ -2237,14 +2335,25 @@ int CEffectRender::ParticleRender(CParticleSystem* pParticleSystem, CParticle* p
 //			vAxis = pParticleSystem->m_pParent->m_vPos - g_pD3dApp->m_pCamera->GetEyePt();
 //			vAxis = p->m_vPos - g_pD3dApp->m_pCamera->GetEyePt();
 		D3DXMatrixRotationAxis( &matRotate, &vAxis, p->m_fCurrentRotateAngle );
-		matScale *= matRotate;
+		*o_pMatrix *= matRotate;
 	}
-	matScale._41 = pos.x;
-	matScale._42 = pos.y;
-	matScale._43 = pos.z;
-//		matScale._41 += pParticleSystem->m_pParent->m_vPos.x;
-//		matScale._42 += pParticleSystem->m_pParent->m_vPos.y;
-//		matScale._43 += pParticleSystem->m_pParent->m_vPos.z;
+	o_pMatrix->_41 = p->m_vPos.x;//실제 좌표
+	o_pMatrix->_42 = p->m_vPos.y;
+	o_pMatrix->_43 = p->m_vPos.z;
+//		o_pMatrix->_41 += pParticleSystem->m_pParent->m_vPos.x;
+//		o_pMatrix->_42 += pParticleSystem->m_pParent->m_vPos.y;
+//		o_pMatrix->_43 += pParticleSystem->m_pParent->m_vPos.z;
+
+}
+
+int CEffectRender::ParticleRender(CParticleSystem* pParticleSystem, CParticle* p, D3DXVECTOR3 vAxis, int nOldTextureIndex)
+{
+	FLOG( "CEffectRender::ParticleRender(CParticleSystem* pParticleSystem, CParticle* p, D3DXVECTOR3 vAxis, int nOldTextureIndex)" );
+	D3DXMATRIX matScale;
+	D3DMATERIAL9 mtrl;
+	D3DUtil_InitMaterial(mtrl, p->m_cColor.r, p->m_cColor.g,p->m_cColor.b, p->m_cColor.a);
+
+	ParticleWorldMatrix(pParticleSystem, p, vAxis, &matScale);
 
 	g_pD3dDev->SetTransform( D3DTS_WORLD, &matScale );
 	// set texture
@@ -2268,6 +2377,319 @@ int CEffectRender::ParticleRender(CParticleSystem* pParticleSystem, CParticle* p
 
 	return nOldTextureIndex;
 
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//  Whether drawing a run out of its turn would look any different.
+//
+//  Run length batching only ever joins neighbours, and that is why the
+//  particles came out at three and a half to a draw: a run ended at every
+//  trail, and at every particle system, whether or not the state had actually
+//  changed.
+///////////////////////////////////////////////////////////////////////////////
+static BOOL EffectBatchIsOrderIndependent(BOOL i_bAlphaBlendEnable, DWORD i_dwSrcBlend,
+										  DWORD i_dwDestBlend, BOOL i_bZWriteEnable)
+{
+	// Not blending at all means the last one drawn is the one on the screen.
+	if(!i_bAlphaBlendEnable)
+		return FALSE;
+
+	// Writing depth means an earlier draw can hide a later one.
+	if(i_bZWriteEnable)
+		return FALSE;
+
+	// Only an addition to what is there commutes.
+	if(D3DBLEND_ONE != i_dwDestBlend)
+		return FALSE;
+
+	// And only while what is added does not depend on what is already there.
+	switch(i_dwSrcBlend)
+	{
+	case D3DBLEND_ZERO:
+	case D3DBLEND_ONE:
+	case D3DBLEND_SRCCOLOR:
+	case D3DBLEND_INVSRCCOLOR:
+	case D3DBLEND_SRCALPHA:
+	case D3DBLEND_INVSRCALPHA:
+		return TRUE;
+	}
+	return FALSE;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//  Which texture this particle would have been drawn with.
+//
+//  The same choice ParticleRender() makes, including its quiet corner: when
+//  the texture cannot be loaded it set none at all, and the particle came out
+//  wearing whatever was bound before it.
+///////////////////////////////////////////////////////////////////////////////
+LPDIRECT3DBASETEXTURE9 CEffectRender::ParticleBatchTexture(CParticleSystem* pParticleSystem, CParticle* p)
+{
+	if(pParticleSystem->m_pParent && pParticleSystem->m_pParent->m_pTexture)
+	{
+		return pParticleSystem->m_pParent->m_pTexture;
+	}
+
+	const int index = LoadTexture(pParticleSystem->m_strTextureName[p->m_nTextureType]);
+	if(index >= 0)
+	{
+		if(m_nTextureRenderCount[index] == 2)
+			m_nTextureRenderCount[index]++;
+		return m_pTexture[index];
+	}
+
+	if(m_nParticleBatchRuns > 0)
+	{
+		return m_arrParticleBatchRun[m_nParticleBatchRuns - 1].pTexture;
+	}
+
+	// Only which one it is is wanted, and the device holds it bound and so alive,
+	// so the reference GetTexture() hands back goes straight back.
+	LPDIRECT3DBASETEXTURE9 pBound = NULL;
+	if(SUCCEEDED(g_pD3dDev->GetTexture(0, &pBound)) && NULL != pBound)
+	{
+		pBound->Release();
+	}
+	return pBound;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//  One more particle, into whichever run is being drawn the way it wants to be.
+void CEffectRender::ParticleBatchAdd(CParticle* p)
+{
+	CParticleSystem* pParticleSystem = p->m_pParent;
+
+	// no room for another one
+	if(m_nParticleBatchQuadCount >= m_nParticleBatchQuadMax)
+	{
+		EffectBatchFlush(EFFECT_BATCH_WHY_FULL);
+	}
+
+	ParticleBatchState state;
+	state.pTexture			= ParticleBatchTexture(pParticleSystem, p);
+	state.dwSrcBlend		= pParticleSystem->m_dwSrcBlend;
+	state.dwDestBlend		= pParticleSystem->m_dwDestBlend;
+	state.bZbufferEnable	= pParticleSystem->m_bZbufferEnable;
+	state.bZWriteEnable		= pParticleSystem->m_bZWriteEnable;
+
+	int nRun = -1;
+	UINT n;
+	for(n = 0; n < m_nParticleBatchRuns; ++n)
+	{
+		if(state.pTexture			== m_arrParticleBatchRun[n].pTexture
+		   && state.dwSrcBlend		== m_arrParticleBatchRun[n].dwSrcBlend
+		   && state.dwDestBlend		== m_arrParticleBatchRun[n].dwDestBlend
+		   && state.bZbufferEnable	== m_arrParticleBatchRun[n].bZbufferEnable
+		   && state.bZWriteEnable	== m_arrParticleBatchRun[n].bZWriteEnable)
+		{
+			nRun = (int)n;
+			break;
+		}
+	}
+
+	if(nRun < 0)
+	{
+		// The particle path always blends, so that half of it is not a question.
+		const BOOL bIndependent = EffectBatchIsOrderIndependent(TRUE, state.dwSrcBlend,
+																state.dwDestBlend,
+																state.bZWriteEnable);
+		// Something already gathered has to be drawn first if it cannot wait, and
+		// this one cannot be made to wait if it is not order independent either.
+		if(m_bEffectBatchOrdered || !bIndependent)
+		{
+			EffectBatchFlush(EFFECT_BATCH_WHY_ORDERED);
+		}
+		else if(m_nParticleBatchRuns >= EFFECT_BATCH_RUN_MAX)
+		{
+			EffectBatchFlush(EFFECT_BATCH_WHY_FULL);
+		}
+		nRun = (int)m_nParticleBatchRuns++;
+		m_arrParticleBatchRun[nRun]			= state;
+		m_arrParticleBatchRunCount[nRun]	= 0;
+		if(!bIndependent)
+		{
+			m_bEffectBatchOrdered = TRUE;
+		}
+	}
+	if(EffectBatchIsOrderIndependent(TRUE, state.dwSrcBlend, state.dwDestBlend,
+									 state.bZWriteEnable))
+	{
+		m_nParticleBatchIndependent++;
+	}
+
+	D3DXMATRIX matWorld;
+	ParticleWorldMatrix(pParticleSystem, p, g_pD3dApp->m_pCamera->GetViewDir(), &matWorld);
+
+	// The corners, put where the device would have put them from that world
+	// matrix.
+	const D3DCOLOR cColour = (D3DCOLOR)p->m_cColor;
+	SPRITE_VERTEX* pVertex = m_pParticleBatchVertex + m_nParticleBatchQuadCount * 4;
+	for(n = 0; n < 4; n++)
+	{
+		D3DXVec3TransformCoord(&pVertex[n].p, &m_arrParticleQuad[n].p, &matWorld);
+		pVertex[n].c	= cColour;
+		pVertex[n].tu	= m_arrParticleQuad[n].tu;
+		pVertex[n].tv	= m_arrParticleQuad[n].tv;
+	}
+	m_pParticleBatchRunOf[m_nParticleBatchQuadCount] = (BYTE)nRun;
+	m_nParticleBatchQuadCount++;
+	m_arrParticleBatchRunCount[nRun]++;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//  Draw every run of particles gathered, if there are any.
+void CEffectRender::ParticleBatchFlush()
+{
+	if(0 == m_nParticleBatchQuadCount)
+	{
+		m_nParticleBatchRuns = 0;
+		return;
+	}
+
+	const UINT nQuads = m_nParticleBatchQuadCount;
+	const UINT nRuns  = m_nParticleBatchRuns;
+	m_nParticleBatchQuadCount	= 0;
+	m_nParticleBatchRuns		= 0;
+
+	if(!ParticleBatchReady())
+		return;
+
+	// Where each run's quads go in the buffer, one run after another.
+	UINT arrBase[EFFECT_BATCH_RUN_MAX];
+	UINT arrAt[EFFECT_BATCH_RUN_MAX];
+	UINT n, nSoFar = 0;
+	for(n = 0; n < nRuns; ++n)
+	{
+		arrBase[n]	= nSoFar;
+		arrAt[n]	= nSoFar;
+		nSoFar	   += m_arrParticleBatchRunCount[n];
+	}
+
+	// Appended rather than discarded every time: DISCARD only where the lot
+	// would run off the end, NOOVERWRITE for the rest, which is the pair those
+	// two flags exist for.
+	DWORD dwLock = D3DLOCK_NOOVERWRITE;
+	if(m_nParticleBatchVertexAt + nQuads * 4 > m_nParticleBatchQuadMax * 4)
+	{
+		m_nParticleBatchVertexAt	= 0;
+		dwLock						= D3DLOCK_DISCARD;
+	}
+
+	SPRITE_VERTEX* pLocked = NULL;
+	if(FAILED(m_pParticleBatchVB->Lock(m_nParticleBatchVertexAt * sizeof(SPRITE_VERTEX),
+									   nQuads * 4 * sizeof(SPRITE_VERTEX),
+									   (void**)&pLocked, dwLock))
+	   || NULL == pLocked)
+	{
+		return;
+	}
+	// The quads were built in the order they were walked; this is the only place
+	// that puts each one with the others it will be drawn with.
+	for(n = 0; n < nQuads; ++n)
+	{
+		const UINT nRun = m_pParticleBatchRunOf[n];
+		memcpy(pLocked + arrAt[nRun] * 4, m_pParticleBatchVertex + n * 4,
+			   4 * sizeof(SPRITE_VERTEX));
+		arrAt[nRun]++;
+	}
+	m_pParticleBatchVB->Unlock();
+
+	// Of the runs about to be drawn, how many are here only because the texture
+	// differs - the rest of their state matching one already open.
+	for(n = 1; n < nRuns; ++n)
+	{
+		UINT k;
+		for(k = 0; k < n; ++k)
+		{
+			if(m_arrParticleBatchRun[n].dwSrcBlend		== m_arrParticleBatchRun[k].dwSrcBlend
+			   && m_arrParticleBatchRun[n].dwDestBlend	== m_arrParticleBatchRun[k].dwDestBlend
+			   && m_arrParticleBatchRun[n].bZbufferEnable == m_arrParticleBatchRun[k].bZbufferEnable
+			   && m_arrParticleBatchRun[n].bZWriteEnable == m_arrParticleBatchRun[k].bZWriteEnable)
+			{
+				m_nParticleBatchRunsTextureOnly++;
+				break;
+			}
+		}
+	}
+
+	// What the per particle loop set for every particle, set once for the lot.
+	g_pD3dDev->SetTextureStageState( 0, D3DTSS_COLOROP,   D3DTOP_MODULATE );
+	g_pD3dDev->SetFVF( D3DFVF_SPRITE_VERTEX );
+	g_pD3dDev->SetRenderState( D3DRS_ALPHABLENDENABLE, TRUE );
+	g_pD3dDev->SetRenderState( D3DRS_LIGHTING, TRUE );
+
+	// Either every run is order independent, in which case all of them have
+	// z writing off, or there is exactly one run - so this is the same pair of
+	// calls the one at a time path made, just not once per run.
+	BOOL bZWriteOff = FALSE;
+	for(n = 0; n < nRuns; ++n)
+	{
+		if(m_arrParticleBatchRun[n].bZWriteEnable == FALSE)		{ bZWriteOff = TRUE; }
+	}
+	if(bZWriteOff)
+	{
+		g_pD3dDev->SetRenderState( D3DRS_ZWRITEENABLE, FALSE );
+	}
+
+	// The colour is in the vertices now, and these three are what make that the
+	// same picture the material was.
+	DWORD dwColorVertex = TRUE, dwAmbientSource = D3DMCS_MATERIAL, dwDiffuseSource = D3DMCS_COLOR1;
+	g_pD3dDev->GetRenderState( D3DRS_COLORVERTEX, &dwColorVertex );
+	g_pD3dDev->GetRenderState( D3DRS_AMBIENTMATERIALSOURCE, &dwAmbientSource );
+	g_pD3dDev->GetRenderState( D3DRS_DIFFUSEMATERIALSOURCE, &dwDiffuseSource );
+	g_pD3dDev->SetRenderState( D3DRS_COLORVERTEX, TRUE );
+	g_pD3dDev->SetRenderState( D3DRS_AMBIENTMATERIALSOURCE, D3DMCS_COLOR1 );
+	g_pD3dDev->SetRenderState( D3DRS_DIFFUSEMATERIALSOURCE, D3DMCS_MATERIAL );
+
+	D3DMATERIAL9 mtrl;
+	D3DUtil_InitMaterial(mtrl, 1.0f, 1.0f, 1.0f, 1.0f);
+	g_pD3dDev->SetMaterial( &mtrl );
+
+	// the corners went into the buffer in world space
+	D3DXMATRIX matIdentity;
+	D3DXMatrixIdentity(&matIdentity);
+	g_pD3dDev->SetTransform( D3DTS_WORLD, &matIdentity );
+
+	g_pD3dDev->SetStreamSource( 0, m_pParticleBatchVB, 0, sizeof(SPRITE_VERTEX) );
+	g_pD3dDev->SetIndices( m_pParticleBatchIB );
+
+	// Hoisted out of the loop, not dropped: the scene gives this light a white
+	// Ambient and an ambient term needs no normal, so without it every particle
+	// in the game washes out.
+	m_light2			= g_pD3dApp->m_pScene->m_light2;
+	m_light2.Direction	= g_pD3dApp->m_pCamera->GetViewDir();
+	g_pD3dDev->SetLight( 2, &m_light2 );
+	g_pD3dDev->LightEnable( 2, TRUE );
+
+	// and only what actually differs between them, run by run
+	for(n = 0; n < nRuns; ++n)
+	{
+		const UINT nCount = m_arrParticleBatchRunCount[n];
+		if(0 == nCount)
+			continue;
+
+		g_pD3dDev->SetRenderState( D3DRS_ZENABLE, m_arrParticleBatchRun[n].bZbufferEnable );
+		g_pD3dDev->SetRenderState( D3DRS_SRCBLEND, m_arrParticleBatchRun[n].dwSrcBlend );
+		g_pD3dDev->SetRenderState( D3DRS_DESTBLEND, m_arrParticleBatchRun[n].dwDestBlend );
+		g_pD3dDev->SetTexture( 0, m_arrParticleBatchRun[n].pTexture );
+
+		g_pD3dDev->DrawIndexedPrimitive( D3DPT_TRIANGLELIST,
+										 (INT)(m_nParticleBatchVertexAt + arrBase[n] * 4), 0,
+										 nCount * 4, 0, nCount * 2 );
+		m_nParticleBatchDraws += 1;
+	}
+
+	g_pD3dDev->LightEnable( 2, FALSE );
+	g_pD3dDev->SetRenderState( D3DRS_COLORVERTEX, dwColorVertex );
+	g_pD3dDev->SetRenderState( D3DRS_AMBIENTMATERIALSOURCE, dwAmbientSource );
+	g_pD3dDev->SetRenderState( D3DRS_DIFFUSEMATERIALSOURCE, dwDiffuseSource );
+	if(bZWriteOff)
+	{
+		g_pD3dDev->SetRenderState( D3DRS_ZWRITEENABLE, TRUE );
+	}
+
+	m_nParticleBatchVertexAt += nQuads * 4;
+	m_nParticleBatchQuads	 += nQuads;
 }
 
 // 2007-11-08 by bhsohn 인벤 이펙트 관련 처리
@@ -2702,6 +3124,362 @@ void CEffectRender::EffectPlaneRender( CEffectPlane *pEffect )
 	{
 		g_pD3dDev->SetRenderState( D3DRS_ZWRITEENABLE, TRUE );
 	}
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//  Which texture this segment would have been drawn with - the same choice
+//  EffectPlaneRender() makes, down to setting none at all when the texture
+//  cannot be loaded, which left the segment wearing whatever was bound before
+//  it.  As with the particles, the run most recently opened stands in for that.
+LPDIRECT3DBASETEXTURE9 CEffectRender::EffectPlaneBatchTexture(CEffectPlane* pEffect)
+{
+	CTraceAni* pTrace = pEffect->m_pParent;
+
+	const int index = LoadTexture(pTrace->m_strTextureName[pTrace->m_nCurrentTextureNumber]);
+	if(index >= 0)
+	{
+		if(m_nTextureRenderCount[index] == 2)
+		{
+			m_nTextureRenderCount[index]++;
+		}
+		if(pTrace->m_pParent && pTrace->m_pParent->m_pTexture)
+		{
+			return pTrace->m_pParent->m_pTexture;
+		}
+		return m_pTexture[index];
+	}
+
+	if(m_nEffectPlaneBatchRuns > 0)
+	{
+		return m_arrEffectPlaneBatchRun[m_nEffectPlaneBatchRuns - 1].pTexture;
+	}
+
+	LPDIRECT3DBASETEXTURE9 pBound = NULL;
+	if(SUCCEEDED(g_pD3dDev->GetTexture(0, &pBound)) && NULL != pBound)
+	{
+		pBound->Release();
+	}
+	return pBound;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//  One more segment, into whichever run is drawn the way it wants to be.
+void CEffectRender::EffectPlaneBatchAdd(CEffectPlane* pEffect)
+{
+	CTraceAni* pTrace = pEffect->m_pParent;
+
+	// EffectPlaneRender() draws nothing for these, so neither does this - and a
+	// segment that draws nothing need not disturb anything gathered either.
+	if(pTrace->m_nCurrentNumberOfTrace <= 0)
+		return;
+
+	if(m_nEffectPlaneBatchCount >= m_nEffectPlaneBatchMax)
+	{
+		EffectBatchFlush(EFFECT_BATCH_WHY_FULL);
+	}
+
+	EffectPlaneBatchState state;
+	state.pTexture			= EffectPlaneBatchTexture(pEffect);
+	state.bAlphaBlendEnable	= pTrace->m_bAlphaBlendEnable;
+	state.dwSrcBlend		= pTrace->m_dwSrcBlend;
+	state.dwDestBlend		= pTrace->m_dwDestBlend;
+	state.bZbufferEnable	= pTrace->m_bZbufferEnable;
+	state.bZWriteEnable		= pTrace->m_bZWriteEnable;
+
+	int nRun = -1;
+	UINT n;
+	for(n = 0; n < m_nEffectPlaneBatchRuns; ++n)
+	{
+		if(state.pTexture				== m_arrEffectPlaneBatchRun[n].pTexture
+		   && state.bAlphaBlendEnable	== m_arrEffectPlaneBatchRun[n].bAlphaBlendEnable
+		   && state.dwSrcBlend			== m_arrEffectPlaneBatchRun[n].dwSrcBlend
+		   && state.dwDestBlend			== m_arrEffectPlaneBatchRun[n].dwDestBlend
+		   && state.bZbufferEnable		== m_arrEffectPlaneBatchRun[n].bZbufferEnable
+		   && state.bZWriteEnable		== m_arrEffectPlaneBatchRun[n].bZWriteEnable)
+		{
+			nRun = (int)n;
+			break;
+		}
+	}
+
+	if(nRun < 0)
+	{
+		const BOOL bIndependent = EffectBatchIsOrderIndependent(state.bAlphaBlendEnable,
+																state.dwSrcBlend,
+																state.dwDestBlend,
+																state.bZWriteEnable);
+		if(m_bEffectBatchOrdered || !bIndependent)
+		{
+			EffectBatchFlush(EFFECT_BATCH_WHY_ORDERED);
+		}
+		else if(m_nEffectPlaneBatchRuns >= EFFECT_BATCH_RUN_MAX)
+		{
+			EffectBatchFlush(EFFECT_BATCH_WHY_FULL);
+		}
+		nRun = (int)m_nEffectPlaneBatchRuns++;
+		m_arrEffectPlaneBatchRun[nRun]		= state;
+		m_arrEffectPlaneBatchRunCount[nRun]	= 0;
+		if(!bIndependent)
+		{
+			m_bEffectBatchOrdered = TRUE;
+		}
+	}
+	if(EffectBatchIsOrderIndependent(state.bAlphaBlendEnable, state.dwSrcBlend,
+									 state.dwDestBlend, state.bZWriteEnable))
+	{
+		m_nEffectPlaneBatchIndependent++;
+	}
+
+	m_pEffectPlaneBatchRunOf[m_nEffectPlaneBatchCount] = (BYTE)nRun;
+	m_ppEffectPlaneBatch[m_nEffectPlaneBatchCount] = pEffect;
+	m_nEffectPlaneBatchCount++;
+	m_arrEffectPlaneBatchRunCount[nRun]++;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//  Draw every run of segments gathered, if there are any.
+void CEffectRender::EffectPlaneBatchFlush()
+{
+	if(0 == m_nEffectPlaneBatchCount)
+	{
+		m_nEffectPlaneBatchRuns = 0;
+		return;
+	}
+
+	const UINT nPlanes = m_nEffectPlaneBatchCount;
+	const UINT nRuns   = m_nEffectPlaneBatchRuns;
+	m_nEffectPlaneBatchCount	= 0;
+	m_nEffectPlaneBatchRuns		= 0;
+
+	if(!EffectPlaneBatchReady())
+		return;
+
+	UINT arrBase[EFFECT_BATCH_RUN_MAX];
+	UINT arrAt[EFFECT_BATCH_RUN_MAX];
+	UINT n, nSoFar = 0;
+	for(n = 0; n < nRuns; ++n)
+	{
+		arrBase[n]	= nSoFar;
+		arrAt[n]	= nSoFar;
+		nSoFar	   += m_arrEffectPlaneBatchRunCount[n];
+	}
+
+	const UINT nVertices = nPlanes * CEffectPlane::DRAWN_VERTEX_COUNT;
+	DWORD dwLock = D3DLOCK_NOOVERWRITE;
+	if(m_nEffectPlaneBatchVertexAt + nVertices > m_nEffectPlaneBatchMax * CEffectPlane::DRAWN_VERTEX_COUNT)
+	{
+		m_nEffectPlaneBatchVertexAt	= 0;
+		dwLock						= D3DLOCK_DISCARD;
+	}
+
+	// The segments keep their own vertices, so the copy is from them straight
+	// into the buffer.  Nothing is called between the lock and the unlock.
+	SPRITE_VERTEX* pLocked = NULL;
+	if(FAILED(m_pEffectPlaneBatchVB->Lock(m_nEffectPlaneBatchVertexAt * sizeof(SPRITE_VERTEX),
+										  nVertices * sizeof(SPRITE_VERTEX),
+										  (void**)&pLocked, dwLock))
+	   || NULL == pLocked)
+	{
+		return;
+	}
+	for(n = 0; n < nPlanes; ++n)
+	{
+		const UINT nRun = m_pEffectPlaneBatchRunOf[n];
+		memcpy(pLocked + arrAt[nRun] * CEffectPlane::DRAWN_VERTEX_COUNT,
+			   m_ppEffectPlaneBatch[n]->GetVertices(),
+			   CEffectPlane::DRAWN_VERTEX_COUNT * sizeof(SPRITE_VERTEX));
+		arrAt[nRun]++;
+	}
+	m_pEffectPlaneBatchVB->Unlock();
+
+	for(n = 1; n < nRuns; ++n)
+	{
+		UINT k;
+		for(k = 0; k < n; ++k)
+		{
+			if(m_arrEffectPlaneBatchRun[n].bAlphaBlendEnable == m_arrEffectPlaneBatchRun[k].bAlphaBlendEnable
+			   && m_arrEffectPlaneBatchRun[n].dwSrcBlend		== m_arrEffectPlaneBatchRun[k].dwSrcBlend
+			   && m_arrEffectPlaneBatchRun[n].dwDestBlend	== m_arrEffectPlaneBatchRun[k].dwDestBlend
+			   && m_arrEffectPlaneBatchRun[n].bZbufferEnable	== m_arrEffectPlaneBatchRun[k].bZbufferEnable
+			   && m_arrEffectPlaneBatchRun[n].bZWriteEnable	== m_arrEffectPlaneBatchRun[k].bZWriteEnable)
+			{
+				m_nEffectPlaneBatchRunsTextureOnly++;
+				break;
+			}
+		}
+	}
+
+	// What EffectPlaneRender() set for every segment, set once for the lot.
+	DWORD dwSrc, dwDest, dwColorOp;
+	g_pD3dDev->GetRenderState(D3DRS_SRCBLEND, &dwSrc);
+	g_pD3dDev->GetRenderState(D3DRS_DESTBLEND, &dwDest);
+	g_pD3dDev->GetTextureStageState(0, D3DTSS_COLOROP, &dwColorOp);
+
+	g_pD3dDev->SetRenderState( D3DRS_LIGHTING, FALSE );
+	g_pD3dDev->SetTextureStageState( 0, D3DTSS_COLORARG1, D3DTA_TEXTURE );
+	// EffectPlaneRender() set this to the trail's m_nTextureRenderState and then
+	// CEffectPlane::Render() set it to MODULATE before the draw, so MODULATE is
+	// what a trail has always been drawn with.
+	g_pD3dDev->SetTextureStageState( 0, D3DTSS_COLOROP, D3DTOP_MODULATE );
+
+	BOOL bZWriteOff = FALSE;
+	for(n = 0; n < nRuns; ++n)
+	{
+		if(m_arrEffectPlaneBatchRun[n].bZWriteEnable == FALSE)		{ bZWriteOff = TRUE; }
+	}
+	if(bZWriteOff)
+	{
+		g_pD3dDev->SetRenderState( D3DRS_ZWRITEENABLE, FALSE );
+	}
+
+	D3DXMATRIX matIdentity;
+	D3DXMatrixIdentity( &matIdentity );
+	g_pD3dDev->SetTransform( D3DTS_WORLD, &matIdentity );
+	g_pD3dDev->SetFVF( D3DFVF_SPRITE_VERTEX );
+
+	D3DMATERIAL9 mtrl;
+	D3DUtil_InitMaterial(mtrl, 1.0f, 1.0f, 1.0f, 1.0f);
+	g_pD3dDev->SetMaterial( &mtrl );
+
+	g_pD3dDev->SetStreamSource( 0, m_pEffectPlaneBatchVB, 0, sizeof(SPRITE_VERTEX) );
+	g_pD3dDev->SetIndices( m_pEffectPlaneBatchIB );
+
+	for(n = 0; n < nRuns; ++n)
+	{
+		const UINT nCount = m_arrEffectPlaneBatchRunCount[n];
+		if(0 == nCount)
+			continue;
+
+		g_pD3dDev->SetRenderState( D3DRS_ZENABLE, m_arrEffectPlaneBatchRun[n].bZbufferEnable );
+		g_pD3dDev->SetRenderState( D3DRS_ALPHABLENDENABLE, m_arrEffectPlaneBatchRun[n].bAlphaBlendEnable );
+		g_pD3dDev->SetRenderState( D3DRS_SRCBLEND, m_arrEffectPlaneBatchRun[n].dwSrcBlend );
+		g_pD3dDev->SetRenderState( D3DRS_DESTBLEND, m_arrEffectPlaneBatchRun[n].dwDestBlend );
+		g_pD3dDev->SetTexture( 0, m_arrEffectPlaneBatchRun[n].pTexture );
+
+		g_pD3dDev->DrawIndexedPrimitive( D3DPT_TRIANGLELIST,
+										 (INT)(m_nEffectPlaneBatchVertexAt
+											   + arrBase[n] * CEffectPlane::DRAWN_VERTEX_COUNT), 0,
+										 nCount * CEffectPlane::DRAWN_VERTEX_COUNT, 0,
+										 nCount * CEffectPlane::TRIANGLE_COUNT );
+		m_nEffectPlaneBatchDraws += 1;
+	}
+
+	g_pD3dDev->SetRenderState( D3DRS_SRCBLEND, dwSrc );
+	g_pD3dDev->SetRenderState( D3DRS_DESTBLEND, dwDest );
+	g_pD3dDev->SetTextureStageState( 0, D3DTSS_COLOROP, dwColorOp );
+	g_pD3dDev->SetRenderState( D3DRS_LIGHTING, TRUE );
+	if(bZWriteOff)
+	{
+		g_pD3dDev->SetRenderState( D3DRS_ZWRITEENABLE, TRUE );
+	}
+
+	m_nEffectPlaneBatchVertexAt	+= nVertices;
+	m_nEffectPlaneBatchPlanes	+= nPlanes;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//  Everything gathered, drawn now.
+//
+//  Called before anything that is not gathered draws, and once when the list
+//  is done.
+///////////////////////////////////////////////////////////////////////////////
+void CEffectRender::EffectBatchFlush(int i_nWhy)
+{
+	if(m_nParticleBatchQuadCount > 0 || m_nEffectPlaneBatchCount > 0)
+	{
+		m_nEffectBatchFlushes++;
+		m_arrEffectBatchWhy[i_nWhy]++;
+	}
+	ParticleBatchFlush();
+	EffectPlaneBatchFlush();
+	m_bEffectBatchOrdered = FALSE;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//  A line a minute saying how well the runs are gathering, next to the one
+//  CD3DFilteredDevice writes.  A run of one is a draw call spent on nothing, and
+//  the only way to tell is to count.
+void CEffectRender::EffectBatchReport()
+{
+	static DWORD			s_dwNextReport	= 0;
+	static unsigned __int64	s_nWasFrames	= 0;
+	static unsigned __int64	s_nWasQuads		= 0;
+	static unsigned __int64	s_nWasParticleDraws = 0;
+	static unsigned __int64	s_nWasPlanes	= 0;
+	static unsigned __int64	s_nWasPlaneDraws = 0;
+	static unsigned __int64	s_nWasFlushes	= 0;
+	static unsigned __int64	s_arrWasWhy[EFFECT_BATCH_WHY_COUNT] = { 0 };
+	static unsigned __int64	s_nWasParticleIndependent	= 0;
+	static unsigned __int64	s_nWasPlaneIndependent		= 0;
+	static unsigned __int64	s_nWasParticleTextureOnly	= 0;
+	static unsigned __int64	s_nWasPlaneTextureOnly		= 0;
+
+	unsigned __int64 nSeen, nPassed, nDraws, nFrames;
+	CD3DFilteredDevice::GetCounters(&nSeen, &nPassed, &nDraws, &nFrames);
+
+	const DWORD dwNow = GetTickCount();
+	if(0 == s_dwNextReport)
+	{
+		s_dwNextReport = dwNow + 60 * 1000;
+	}
+	if((int)(dwNow - s_dwNextReport) < 0)
+	{
+		return;
+	}
+
+	const double fFrames	= (double)(nFrames - s_nWasFrames);
+	const double fQuads		= (double)(m_nParticleBatchQuads - s_nWasQuads);
+	const double fPDraws	= (double)(m_nParticleBatchDraws - s_nWasParticleDraws);
+	const double fPlanes	= (double)(m_nEffectPlaneBatchPlanes - s_nWasPlanes);
+	const double fTDraws	= (double)(m_nEffectPlaneBatchDraws - s_nWasPlaneDraws);
+	const double fFlushes	= (double)(m_nEffectBatchFlushes - s_nWasFlushes);
+
+	char szLine[320];
+	_snprintf_s(szLine, sizeof(szLine), _TRUNCATE,
+				"Effect batch: particles %.0f/frame in %.0f draws (%.1f a draw), "
+				"trails %.0f/frame in %.0f draws (%.1f a draw), %.0f flushes/frame\n",
+				(fFrames > 0) ? fQuads / fFrames : 0.0,
+				(fFrames > 0) ? fPDraws / fFrames : 0.0,
+				(fPDraws > 0) ? fQuads / fPDraws : 0.0,
+				(fFrames > 0) ? fPlanes / fFrames : 0.0,
+				(fFrames > 0) ? fTDraws / fFrames : 0.0,
+				(fTDraws > 0) ? fPlanes / fTDraws : 0.0,
+				(fFrames > 0) ? fFlushes / fFrames : 0.0);
+	OutputDebugStringA(szLine);
+
+	_snprintf_s(szLine, sizeof(szLine), _TRUNCATE,
+				"Effect batch why: %.0f other, %.0f ordered, %.0f full, %.0f end per frame; "
+				"%.0f%% of particles and %.0f%% of segments could be drawn out of turn; "
+				"%.0f of %.0f particle runs and %.0f of %.0f trail runs opened only for a texture\n",
+				(fFrames > 0) ? (double)(m_arrEffectBatchWhy[EFFECT_BATCH_WHY_OTHER] - s_arrWasWhy[EFFECT_BATCH_WHY_OTHER]) / fFrames : 0.0,
+				(fFrames > 0) ? (double)(m_arrEffectBatchWhy[EFFECT_BATCH_WHY_ORDERED] - s_arrWasWhy[EFFECT_BATCH_WHY_ORDERED]) / fFrames : 0.0,
+				(fFrames > 0) ? (double)(m_arrEffectBatchWhy[EFFECT_BATCH_WHY_FULL] - s_arrWasWhy[EFFECT_BATCH_WHY_FULL]) / fFrames : 0.0,
+				(fFrames > 0) ? (double)(m_arrEffectBatchWhy[EFFECT_BATCH_WHY_END] - s_arrWasWhy[EFFECT_BATCH_WHY_END]) / fFrames : 0.0,
+				(fQuads > 0) ? 100.0 * (double)(m_nParticleBatchIndependent - s_nWasParticleIndependent) / fQuads : 0.0,
+				(fPlanes > 0) ? 100.0 * (double)(m_nEffectPlaneBatchIndependent - s_nWasPlaneIndependent) / fPlanes : 0.0,
+				(fFrames > 0) ? (double)(m_nParticleBatchRunsTextureOnly - s_nWasParticleTextureOnly) / fFrames : 0.0,
+				(fFrames > 0) ? fPDraws / fFrames : 0.0,
+				(fFrames > 0) ? (double)(m_nEffectPlaneBatchRunsTextureOnly - s_nWasPlaneTextureOnly) / fFrames : 0.0,
+				(fFrames > 0) ? fTDraws / fFrames : 0.0);
+	OutputDebugStringA(szLine);
+
+	int nWhy;
+	for(nWhy = 0; nWhy < EFFECT_BATCH_WHY_COUNT; ++nWhy)
+	{
+		s_arrWasWhy[nWhy] = m_arrEffectBatchWhy[nWhy];
+	}
+	s_nWasParticleIndependent	= m_nParticleBatchIndependent;
+	s_nWasPlaneIndependent		= m_nEffectPlaneBatchIndependent;
+	s_nWasParticleTextureOnly	= m_nParticleBatchRunsTextureOnly;
+	s_nWasPlaneTextureOnly		= m_nEffectPlaneBatchRunsTextureOnly;
+
+	s_dwNextReport			= dwNow + 60 * 1000;
+	s_nWasFrames			= nFrames;
+	s_nWasQuads				= m_nParticleBatchQuads;
+	s_nWasParticleDraws		= m_nParticleBatchDraws;
+	s_nWasPlanes			= m_nEffectPlaneBatchPlanes;
+	s_nWasPlaneDraws		= m_nEffectPlaneBatchDraws;
+	s_nWasFlushes			= m_nEffectBatchFlushes;
 }
 
 void CEffectRender::TraceAniRender( CTraceAni* pEffect )
@@ -3630,6 +4408,16 @@ void CEffectRender::RenderZEnable()
 
 #endif //_DBGOUT_EFFECT_endif
 		
+		// Everything gathered has to reach the device before anything that is not
+		// gathered draws, and this is the only place that can tell.
+		if(!(ParticleBatchReady()
+			 && EFFECT_TYPE_PARTICLE == pEffect->dwType
+			 && PARTICLE_SPRITE_TYPE == ((CParticle*)pEffect)->m_pParent->m_nParticleType)
+		   && !(EffectPlaneBatchReady() && EFFECT_TYPE_TRACE == pEffect->dwType))
+		{
+			EffectBatchFlush(EFFECT_BATCH_WHY_OTHER);
+		}
+
 		switch(pEffect->dwType)
 		{
 		case EFFECT_TYPE_OBJECT:
@@ -3666,30 +4454,39 @@ void CEffectRender::RenderZEnable()
 					break;
 				case PARTICLE_SPRITE_TYPE:
 					{
-						g_pD3dDev->SetTextureStageState( 0, D3DTSS_COLOROP,   D3DTOP_MODULATE );
-						g_pD3dDev->SetFVF( D3DFVF_SPRITE_VERTEX );
-						g_pD3dDev->SetRenderState( D3DRS_ZENABLE, ((CParticle*)pEffect)->m_pParent->m_bZbufferEnable );
-						//g_pD3dDev->SetRenderState( D3DRS_ZENABLE, TRUE);
-						if( ((CParticle*)pEffect)->m_pParent->m_bZWriteEnable == FALSE)
+						if(ParticleBatchReady())
 						{
-							g_pD3dDev->SetRenderState( D3DRS_ZWRITEENABLE, ((CParticle*)pEffect)->m_pParent->m_bZWriteEnable );
+							// gathered with its neighbours, and drawn when the
+							// run ends
+							ParticleBatchAdd((CParticle*)pEffect);
 						}
-						g_pD3dDev->SetRenderState( D3DRS_ALPHABLENDENABLE, TRUE );
-						g_pD3dDev->SetRenderState( D3DRS_SRCBLEND, ((CParticle*)pEffect)->m_pParent->m_dwSrcBlend );
-						g_pD3dDev->SetRenderState( D3DRS_DESTBLEND, ((CParticle*)pEffect)->m_pParent->m_dwDestBlend );
-						g_pD3dDev->SetRenderState( D3DRS_LIGHTING, TRUE );
-						g_pD3dDev->SetStreamSource( 0, m_pVB1,0, sizeof(SPRITE_VERTEX) );
-						// set light
-						D3DXVECTOR3 vAxis = g_pD3dApp->m_pCamera->GetViewDir();
-						m_light2 = g_pD3dApp->m_pScene->m_light2;
-						m_light2.Direction  = vAxis;
- 						g_pD3dDev->SetLight( 2, &m_light2 );
-						g_pD3dDev->LightEnable( 2, TRUE );
-						ParticleRender(((CParticle*)pEffect)->m_pParent, (CParticle*)pEffect, vAxis, -1);
-						g_pD3dDev->LightEnable( 2, FALSE );
-						if( ((CParticle*)pEffect)->m_pParent->m_bZWriteEnable == FALSE)
+						else
 						{
-							g_pD3dDev->SetRenderState( D3DRS_ZWRITEENABLE, TRUE );
+							g_pD3dDev->SetTextureStageState( 0, D3DTSS_COLOROP,   D3DTOP_MODULATE );
+							g_pD3dDev->SetFVF( D3DFVF_SPRITE_VERTEX );
+							g_pD3dDev->SetRenderState( D3DRS_ZENABLE, ((CParticle*)pEffect)->m_pParent->m_bZbufferEnable );
+							//g_pD3dDev->SetRenderState( D3DRS_ZENABLE, TRUE);
+							if( ((CParticle*)pEffect)->m_pParent->m_bZWriteEnable == FALSE)
+							{
+								g_pD3dDev->SetRenderState( D3DRS_ZWRITEENABLE, ((CParticle*)pEffect)->m_pParent->m_bZWriteEnable );
+							}
+							g_pD3dDev->SetRenderState( D3DRS_ALPHABLENDENABLE, TRUE );
+							g_pD3dDev->SetRenderState( D3DRS_SRCBLEND, ((CParticle*)pEffect)->m_pParent->m_dwSrcBlend );
+							g_pD3dDev->SetRenderState( D3DRS_DESTBLEND, ((CParticle*)pEffect)->m_pParent->m_dwDestBlend );
+							g_pD3dDev->SetRenderState( D3DRS_LIGHTING, TRUE );
+							g_pD3dDev->SetStreamSource( 0, m_pVB1,0, sizeof(SPRITE_VERTEX) );
+							// set light
+							D3DXVECTOR3 vAxis = g_pD3dApp->m_pCamera->GetViewDir();
+							m_light2 = g_pD3dApp->m_pScene->m_light2;
+							m_light2.Direction  = vAxis;
+							g_pD3dDev->SetLight( 2, &m_light2 );
+							g_pD3dDev->LightEnable( 2, TRUE );
+							ParticleRender(((CParticle*)pEffect)->m_pParent, (CParticle*)pEffect, vAxis, -1);
+							g_pD3dDev->LightEnable( 2, FALSE );
+							if( ((CParticle*)pEffect)->m_pParent->m_bZWriteEnable == FALSE)
+							{
+								g_pD3dDev->SetRenderState( D3DRS_ZWRITEENABLE, TRUE );
+							}
 						}
 					}
 					break;
@@ -3702,13 +4499,25 @@ void CEffectRender::RenderZEnable()
 				if(((CEffectPlane*)pEffect)->m_pParent->m_pParent->m_nAlphaValue == SKILL_OBJECT_ALPHA_OTHER_INFLUENCE)
 					break;
 
-				EffectPlaneRender((CEffectPlane*)pEffect );
+				if(EffectPlaneBatchReady())
+				{
+					// gathered with its neighbours, and drawn when the run ends
+					EffectPlaneBatchAdd((CEffectPlane*)pEffect);
+				}
+				else
+				{
+					EffectPlaneRender((CEffectPlane*)pEffect );
+				}
 //				TraceAniRender((CTraceAni*)pEffect);
 			}
 			break;
 		}
 		itEffect++;
 	}//if(itEffect != m_vecZEnableEffect.end())
+
+	// nothing else is coming, so whatever is still held is drawn now
+	EffectBatchFlush(EFFECT_BATCH_WHY_END);
+	EffectBatchReport();
 
 	m_vecZEnableEffect.clear();
 	// 2005-01-07 by jschoi
@@ -3806,7 +4615,113 @@ HRESULT CEffectRender::RestoreDeviceObjects()// create vertex buffer
 	v[1].p = D3DXVECTOR3(-hsx,hsy,0);	v[1].tu=0.0f;	v[1].tv=0.0f;		v[1].c = 0xffffffff;
 	v[2].p = D3DXVECTOR3(hsx,-hsy,0);	v[2].tu=1.0f;	v[2].tv=1.0f;		v[2].c = 0xffffffff;
 	v[3].p = D3DXVECTOR3(hsx,hsy,0);	v[3].tu=1.0f;	v[3].tv=0.0f;		v[3].c = 0xffffffff;
+	// The batch transforms these same four corners itself, so it keeps a copy
+	// rather than a second set of numbers that could drift from these.
+	memcpy(m_arrParticleQuad, v, sizeof(m_arrParticleQuad));
 	m_pVB1->Unlock();
+
+	///////////////////////////////////////////////////////////////////////////
+	// Room for a run of particles, and the indices that draw one - see
+	// ParticleBatchFlush().
+	///////////////////////////////////////////////////////////////////////////
+	SAFE_RELEASE(m_pParticleBatchVB);
+	SAFE_RELEASE(m_pParticleBatchIB);
+	SAFE_DELETE_ARRAY(m_pParticleBatchVertex);
+	SAFE_DELETE_ARRAY(m_pParticleBatchRunOf);
+	m_nParticleBatchQuadMax		= 0;
+	m_nParticleBatchQuadCount	= 0;
+	m_nParticleBatchVertexAt	= 0;
+	if( SUCCEEDED( g_pD3dDev->CreateVertexBuffer( PARTICLE_BATCH_QUAD_MAX * 4 * sizeof( SPRITE_VERTEX ),
+												  D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY,
+												  D3DFVF_SPRITE_VERTEX, D3DPOOL_DEFAULT,
+												  &m_pParticleBatchVB, NULL ) )
+		&& SUCCEEDED( g_pD3dDev->CreateIndexBuffer( PARTICLE_BATCH_QUAD_MAX * 6 * sizeof( DWORD ),
+												   D3DUSAGE_WRITEONLY, D3DFMT_INDEX32,
+												   D3DPOOL_MANAGED, &m_pParticleBatchIB, NULL ) ) )
+	{
+		DWORD* pIndex = NULL;
+		if( SUCCEEDED( m_pParticleBatchIB->Lock( 0, 0, (void**)&pIndex, 0 ) ) )
+		{
+			UINT nQuad;
+			for(nQuad = 0; nQuad < PARTICLE_BATCH_QUAD_MAX; ++nQuad)
+			{
+				const DWORD nBase = nQuad * 4;
+				pIndex[nQuad*6+0] = nBase + 0;
+				pIndex[nQuad*6+1] = nBase + 1;
+				pIndex[nQuad*6+2] = nBase + 2;
+				pIndex[nQuad*6+3] = nBase + 2;
+				pIndex[nQuad*6+4] = nBase + 1;
+				pIndex[nQuad*6+5] = nBase + 3;
+			}
+			m_pParticleBatchIB->Unlock();
+
+			m_pParticleBatchVertex	= new SPRITE_VERTEX[PARTICLE_BATCH_QUAD_MAX * 4];
+			m_pParticleBatchRunOf	= new BYTE[PARTICLE_BATCH_QUAD_MAX];
+			m_nParticleBatchQuadMax	= PARTICLE_BATCH_QUAD_MAX;
+		}
+	}
+	if(0 == m_nParticleBatchQuadMax)
+	{
+		DBGOUT("CEffectRender: no particle batch buffers, drawing them one at a time\n");
+		SAFE_RELEASE(m_pParticleBatchVB);
+		SAFE_RELEASE(m_pParticleBatchIB);
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+	// And the same for a run of trail segments - see EffectPlaneBatchFlush().
+	///////////////////////////////////////////////////////////////////////////
+	SAFE_RELEASE(m_pEffectPlaneBatchVB);
+	SAFE_RELEASE(m_pEffectPlaneBatchIB);
+	SAFE_DELETE_ARRAY(m_ppEffectPlaneBatch);
+	SAFE_DELETE_ARRAY(m_pEffectPlaneBatchRunOf);
+	m_nEffectPlaneBatchMax		= 0;
+	m_nEffectPlaneBatchCount	= 0;
+	m_nEffectPlaneBatchVertexAt	= 0;
+	if( SUCCEEDED( g_pD3dDev->CreateVertexBuffer( EFFECT_PLANE_BATCH_MAX * CEffectPlane::DRAWN_VERTEX_COUNT * sizeof( SPRITE_VERTEX ),
+												  D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY,
+												  D3DFVF_SPRITE_VERTEX, D3DPOOL_DEFAULT,
+												  &m_pEffectPlaneBatchVB, NULL ) )
+		&& SUCCEEDED( g_pD3dDev->CreateIndexBuffer( EFFECT_PLANE_BATCH_MAX * CEffectPlane::TRIANGLE_COUNT * 3 * sizeof( DWORD ),
+												   D3DUSAGE_WRITEONLY, D3DFMT_INDEX32,
+												   D3DPOOL_MANAGED, &m_pEffectPlaneBatchIB, NULL ) ) )
+	{
+		DWORD* pIndex = NULL;
+		if( SUCCEEDED( m_pEffectPlaneBatchIB->Lock( 0, 0, (void**)&pIndex, 0 ) ) )
+		{
+			UINT nPlane;
+			for(nPlane = 0; nPlane < EFFECT_PLANE_BATCH_MAX; ++nPlane)
+			{
+				const DWORD nBase = nPlane * CEffectPlane::DRAWN_VERTEX_COUNT;
+				int nTriangle;
+				for(nTriangle = 0; nTriangle < CEffectPlane::TRIANGLE_COUNT; ++nTriangle)
+				{
+					DWORD* pAt = pIndex + (nPlane * CEffectPlane::TRIANGLE_COUNT + nTriangle) * 3;
+					if(nTriangle & 1)
+					{
+						pAt[0] = nBase + nTriangle + 1;
+						pAt[1] = nBase + nTriangle + 0;
+					}
+					else
+					{
+						pAt[0] = nBase + nTriangle + 0;
+						pAt[1] = nBase + nTriangle + 1;
+					}
+					pAt[2] = nBase + nTriangle + 2;
+				}
+			}
+			m_pEffectPlaneBatchIB->Unlock();
+
+			m_ppEffectPlaneBatch	= new CEffectPlane*[EFFECT_PLANE_BATCH_MAX];
+			m_pEffectPlaneBatchRunOf = new BYTE[EFFECT_PLANE_BATCH_MAX];
+			m_nEffectPlaneBatchMax	= EFFECT_PLANE_BATCH_MAX;
+		}
+	}
+	if(0 == m_nEffectPlaneBatchMax)
+	{
+		DBGOUT("CEffectRender: no trail batch buffers, drawing them one at a time\n");
+		SAFE_RELEASE(m_pEffectPlaneBatchVB);
+		SAFE_RELEASE(m_pEffectPlaneBatchIB);
+	}
 	DBGOUT("CEffectRender::RestoreDeviceObjects()\n");
 	return S_OK;
 }
@@ -3824,6 +4739,23 @@ HRESULT CEffectRender::InvalidateDeviceObjects()
 		SAFE_RELEASE(m_pVB8[i]);
 	for(i=0;i<16;i++)
 		SAFE_RELEASE(m_pVB16[i]);
+
+	SAFE_RELEASE(m_pParticleBatchVB);
+	SAFE_RELEASE(m_pParticleBatchIB);
+	SAFE_DELETE_ARRAY(m_pParticleBatchVertex);
+	SAFE_DELETE_ARRAY(m_pParticleBatchRunOf);
+	m_nParticleBatchQuadMax		= 0;
+	m_nParticleBatchQuadCount	= 0;
+	m_nParticleBatchVertexAt	= 0;
+
+	SAFE_RELEASE(m_pEffectPlaneBatchVB);
+	SAFE_RELEASE(m_pEffectPlaneBatchIB);
+	SAFE_DELETE_ARRAY(m_ppEffectPlaneBatch);
+	SAFE_DELETE_ARRAY(m_pEffectPlaneBatchRunOf);
+	m_nEffectPlaneBatchMax		= 0;
+	m_nEffectPlaneBatchCount	= 0;
+	m_nEffectPlaneBatchVertexAt	= 0;
+
 	return S_OK;
 }
 
@@ -3838,6 +4770,7 @@ HRESULT CEffectRender::DeleteDeviceObjects()
 		SAFE_RELEASE(m_pTexture[i]);
 	}
 	m_mapTexNameToIndex.clear();
+	m_dwTextureGeneration++;
 /*	m_mapObjNameToIndex.clear();
 	for(i=0;i<OBJ_EFFECT_NUM;i++)
 	{
