@@ -467,7 +467,7 @@
 #define STRMSG_C_ITEM_0003		"%d SPI has been deducted."
 #define STRMSG_C_ITEM_0004		"[Item] %s has been deleted."
 #define STRMSG_C_ITEM_0005		"[Mission Item Status] %s earned %d of requested %d."
-#define STRMSG_C_ITEM_0006		"[Acquired Item] %s×%d."
+#define STRMSG_C_ITEM_0006		"[Acquired Item] %sx%d."
 #define STRMSG_C_ITEM_0007		"You cannot un-equip that item. Another item requires the stats it provides."                                   
 #define STRMSG_C_ITEM_0008		"Equipped items cannot be thrown away."
 #define STRMSG_C_ITEM_0009		"Are you sure you want to throw away %s?"
@@ -520,7 +520,7 @@
 #define STRMSG_C_ITEM_0056		"Description: "
 #define STRMSG_C_ITEM_0057		"Shop Price: %d(SPI) / %d per piece"
 #define STRMSG_C_ITEM_0058		"Shop Price: %d(SPI)"
-#define STRMSG_C_ITEM_0059		"Acquired %s×%d."
+#define STRMSG_C_ITEM_0059		"Acquired %sx%d."
 #define STRMSG_C_ITEM_0060		"Acquired %s."
 #define STRMSG_C_ITEM_0061		"Cannot acquire corresponding item."
 #define STRMSG_C_ITEM_0062		"Error while receiving Buy Item Size(-)"
@@ -1301,7 +1301,7 @@
 #define STRMSG_C_050516_0001	"\"NPC\" has presently occupied \"%s\"."
 #define STRMSG_C_050516_0002	"\"%s\" brigade has presently occupied \"%s\"."	
 #define STRMSG_C_050517_0001	"defense"
-#define STRMSG_C_050518_0001	"\\e%s\\e ×\\w%d/%d\\w"
+#define STRMSG_C_050518_0001	"\\e%s\\e x\\w%d/%d\\w"
 #define STRMSG_C_050518_0002	"[Help] "
 #define STRMSG_C_050518_0003	"A GEAR use is impossible"
 
@@ -1314,10 +1314,10 @@
 #define STRMSG_C_050627_0001	"Unable to warp."
 
 #define STRMSG_C_050726_0001	"\\yProgress condition\\y"
-#define STRMSG_C_050726_0002	"Target : [%s]×%d"
+#define STRMSG_C_050726_0002	"Target : [%s]x%d"
 #define STRMSG_C_050726_0003	"Find [%s]!"
 #define STRMSG_C_050726_0004	"Go to target area in: [%s]!"
-#define STRMSG_C_050726_0005	"\\e%s\\e ×\\w%d\\w"
+#define STRMSG_C_050726_0005	"\\e%s\\e x\\w%d\\w"
 
 #define STRMSG_C_050802_0001	"%sDualist]"
 #define STRMSG_C_050802_0002	"%sBlaster]"
@@ -1596,9 +1596,9 @@
 #define STRMSG_C_060730_0003	"Buy"
 #define STRMSG_C_060730_0004	"%s has started a private shop.(%s)"
 
-#define STRMSG_C_060731_0000	"%s has bought %s×%d.\n Selling price of %d SPI has been received.(%s)"
+#define STRMSG_C_060731_0000	"%s has bought %sx%d.\n Selling price of %d SPI has been received.(%s)"
 #define	STRMSG_C_060731_0001	"%s is browsing the shop.(%s)"
-#define	STRMSG_C_060731_0002	"%s has sold %s×%d to you.\n You have paid %d SPI as purchasing fee.(%s)"
+#define	STRMSG_C_060731_0002	"%s has sold %sx%d to you.\n You have paid %d SPI as purchasing fee.(%s)"
 #define	STRMSG_C_060731_0003	"Due to insufficient SPI, %s item cannot be purchased.(%s)"
 #define	STRMSG_C_060731_0004	"There is not enough room in your inventory so %s cannot be purchased.(%s)"
 
@@ -1627,9 +1627,9 @@
 #define STRMSG_C_060802_0005	"You have exceeded the maximum amount of SPI.(2 billion SPI)"
 
 #define STRMSG_C_060803_0000	"Choose an item."
-#define STRMSG_C_060803_0001 	"You have spent SPI×%d."
-#define STRMSG_C_060803_0002 	"You have received SPI×%d."
-#define STRMSG_C_060803_0003 	"[%s]×%d has been sold."
+#define STRMSG_C_060803_0001 	"You have spent SPIx%d."
+#define STRMSG_C_060803_0002 	"You have received SPIx%d."
+#define STRMSG_C_060803_0003 	"[%s]x%d has been sold."
 #define STRMSG_C_060803_0004	"You cannot register a stackable item twice."
 
 #define STRMSG_C_060804_0000	"You will be disconnected when the server goes down in %d seconds."
@@ -1663,17 +1663,17 @@
 #define STRMSG_C_060830_0101	"This is affiliated internet cafe."
 #define STRMSG_C_060830_0102	"PC cafe happy hour event is occuring now."
 
-#define STRMSG_C_060904_0100	"You received event item %s×%d."
+#define STRMSG_C_060904_0100	"You received event item %sx%d."
 
 #define STRMSG_C_060920_0100	"Brigade"
 #define STRMSG_C_060920_0101	"Brigade Log"
 #define STRMSG_C_060920_0102	"The warehouse of the selected character does not exist"
 #define STRMSG_C_060920_0103	"Not a membership user."
 
-#define STRMSG_C_060927_0100	"%s %s has deposited %s×%d."//"%s %s has deposited %s(%d)"
-#define STRMSG_C_060927_0101	"%s %s has withdrawn %s×%d."//"%s %s has withdrawn %s(%d)"
-#define STRMSG_C_060927_0102	"%s %s has deposited SPI×%d."
-#define STRMSG_C_060927_0103	"%s %s has withdrawn SPI×%d."
+#define STRMSG_C_060927_0100	"%s %s has deposited %sx%d."//"%s %s has deposited %s(%d)"
+#define STRMSG_C_060927_0101	"%s %s has withdrawn %sx%d."//"%s %s has withdrawn %s(%d)"
+#define STRMSG_C_060927_0102	"%s %s has deposited SPIx%d."
+#define STRMSG_C_060927_0103	"%s %s has withdrawn SPIx%d."
 
 #define STRMSG_C_061010_0001	"Duels in the city will result in damage to city infrastructure. Duels in the city are prohibitted."
 
@@ -2283,7 +2283,7 @@
 #define STRMSG_C_081124_0100	"No token inserted. Insert the token and try again."
 #define STRMSG_C_081124_0101	"Slot Machine cannot be used because your inventory space is insufficient."
 #define STRMSG_C_081124_0102	"This item cannot be used in corresponding shop."
-#define STRMSG_C_081124_0103	"[Redeemed Item] %s×%d."	 
+#define STRMSG_C_081124_0103	"[Redeemed Item] %sx%d."	 
 #define STRMSG_C_081201_0100	"Run Slots"
 #define STRMSG_C_081201_0101	"To prevent Token jams, another Token cannot be inserted while machine is in motion."
 #define STRMSG_C_081201_0102	"Insert Token here."
@@ -2369,9 +2369,9 @@
 
 #define STRMSG_C_090112_0201	"\\yCannot request battle to opponent.\\y"
 #define STRMSG_C_090112_0202	"\\yCannot enter due to excess in number of users.\\y"
-#define STRMSG_C_090112_0203	"Target Monster:[%s]×%d"
+#define STRMSG_C_090112_0203	"Target Monster:[%s]x%d"
 #define STRMSG_C_090112_0204	"Cannot invite others."
-#define STRMSG_C_090112_0205	"Target Item:[%s(from %s)]×%d"
+#define STRMSG_C_090112_0205	"Target Item:[%s(from %s)]x%d"
 #define STRMSG_C_090112_0206	"%s has added you as a Friend. Would you like to add back as well?"
 
 #define STRMSG_C_090116_0200	"Accept"
