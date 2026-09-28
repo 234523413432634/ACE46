@@ -55,7 +55,25 @@ LONG __stdcall Exception_Minidump(_EXCEPTION_POINTERS* pExceptionInfo)
     eInfo.ExceptionPointers = pExceptionInfo;
     eInfo.ClientPointers = FALSE;
 
-    MiniDumpWriteDump(hProcess, dwProcessID, hFile, MiniDumpNormal, pExceptionInfo ? &eInfo : NULL, NULL, NULL);
+    // With the process's own read-write memory, not just its stacks: a stacks-
+    // only dump has no heap in it, so neither a damaged object nor whoever
+    // still points at it can be read back. The file is the size of the
+    // client's private working set.
+    const MINIDUMP_TYPE eDumpType = (MINIDUMP_TYPE)(MiniDumpWithPrivateReadWriteMemory |
+                                                    MiniDumpWithDataSegs |
+                                                    MiniDumpWithIndirectlyReferencedMemory |
+                                                    MiniDumpWithHandleData |
+                                                    MiniDumpWithThreadInfo |
+                                                    MiniDumpWithUnloadedModules);
+    if(!MiniDumpWriteDump(hProcess, dwProcessID, hFile, eDumpType, pExceptionInfo ? &eInfo : NULL, NULL, NULL))
+    {
+        // An older dbghelp that does not know some of the flags writes nothing at
+        // all; a dump with only the stacks is still better than none.
+        SetFilePointer(hFile, 0, NULL, FILE_BEGIN);
+        SetEndOfFile(hFile);
+        MiniDumpWriteDump(hProcess, dwProcessID, hFile, MiniDumpNormal, pExceptionInfo ? &eInfo : NULL, NULL, NULL);
+    }
+    CloseHandle(hFile);
 
 // 2014-02-10 by ssjung, ¹ö±× Æ®·¦
 #ifdef SC_BUGTRAP_BCKIM_SSJUNG		

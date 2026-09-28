@@ -23,6 +23,11 @@ public:
 	virtual HRESULT DeleteDeviceObjects();
 	virtual void Render();
 	virtual void Tick();
+
+	// Called by Tick() on a child it is about to delete, but only on one that it
+	// ticked in the same pass - a node that switched itself off.
+	virtual void OnReaped() {}
+
 	CAtumNode* AddChild( CAtumNode* pAtumNode );
 	void DeleteChild( CAtumNode* pAtumNode );
 

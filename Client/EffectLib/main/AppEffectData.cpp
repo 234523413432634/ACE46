@@ -522,6 +522,16 @@ CAppEffectData::CAppEffectData(GUIUnitRenderInfo * pParent,int nType)
 	// end 2009. 11. 02 by ckPark 인피니티 필드 인스턴스 던젼 시스템
 }
 
+// A part effect that ended itself - see CAtumNode::OnReaped().
+void CAppEffectData::OnReaped()
+{
+	CAtumData* pOwner = dynamic_cast<CAtumData*>(m_pParent);
+	if(NULL != pOwner)
+	{
+		pOwner->ForgetPartEffect(this);
+	}
+}
+
 CAppEffectData::~CAppEffectData()
 {
 	FLOG( "~CAppEffectData()" );

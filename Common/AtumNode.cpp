@@ -105,10 +105,15 @@ void CAtumNode::Tick()
 	CAtumNode* pNext;
 	while( pAtumNode ) 
 	{
+		const BOOL bTicked = pAtumNode->m_bUsing;
 		if(pAtumNode->m_bUsing)
 			pAtumNode->Tick();
 		pNext = pAtumNode->m_pNext;
 		if(!pAtumNode->m_bUsing){
+			// It ended itself during this Tick.  Let it tell whoever still
+			// points at it, before that pointer is left aimed at freed memory.
+			if(bTicked)
+				pAtumNode->OnReaped();
 			if(pAtumNode->m_pPrev)
 				pAtumNode->m_pPrev->m_pNext = pAtumNode->m_pNext;
 			else m_pChild = pAtumNode->m_pNext;

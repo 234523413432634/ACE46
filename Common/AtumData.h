@@ -42,6 +42,14 @@ public:
 	CAtumData();
 	virtual ~CAtumData();
 
+	// Clears whichever part pointer below still points at i_pEffect.  A part
+	// effect lives in g_pD3dApp->m_pEffectList, not here, and can end itself -
+	// its animation finishes, or it has no body condition for the mode the unit
+	// is in - and the list deletes it the same frame.  Nothing told the unit, so
+	// the pointer stayed; CEffectRender::CheckAlphaRender() then read
+	// m_pPartner1 through it, which is what page heap caught on 2026-09-13.
+	void ForgetPartEffect(const CAtumNode* i_pEffect);
+
 	D3DXVECTOR3			m_vPos;					// 렌더링 상의 좌표
 	D3DXVECTOR3			m_vNextPos;				// 몬스터 및 적캐릭의 실제 좌표
 	D3DXVECTOR3			m_vUp;

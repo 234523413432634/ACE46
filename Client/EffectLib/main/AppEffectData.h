@@ -40,6 +40,9 @@ public:
 
 	virtual ~CAppEffectData();
 	virtual void Tick();
+
+	// Ended itself: take this effect out of the owning unit's part pointers.
+	virtual void OnReaped();
 	void SetHeight(); 
 	void SetEffectTick(float fTick);
 	BOOL CheckItemPoint();

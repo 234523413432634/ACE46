@@ -436,3 +436,26 @@ void CAtumData::SetMarkPosition()
 
 }
 //end 2011-03-21 by jhAhn 마크시스템 마크 위치 생성
+
+void CAtumData::ForgetPartEffect(const CAtumNode* i_pEffect)
+{
+	if(NULL == i_pEffect)
+	{
+		return;
+	}
+
+	CAppEffectData** arrPart[] =
+	{
+		&m_pWeapon1_2, &m_pWeapon2_2, &m_pEngine, &m_pRadar, &m_pContainer,
+		&m_pAccessories, &m_pWingIn, &m_pWeapon1_1_1, &m_pWeapon1_1_2,
+		&m_pWeapon2_1_1, &m_pWeapon2_1_2, &m_pRobotAGearWeapon_1,
+		&m_pPartner, &m_pPartner1, &m_pDummyPartner, &m_pDummyPartner1,
+	};
+	for(int n = 0; n < (int)(sizeof(arrPart) / sizeof(arrPart[0])); n++)
+	{
+		if((const CAtumNode*)*arrPart[n] == i_pEffect)
+		{
+			*arrPart[n] = NULL;
+		}
+	}
+}

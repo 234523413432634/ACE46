@@ -1138,6 +1138,20 @@ void CUnitData::CreateWearItem( int nWearItemKind, int nEffectNum, BOOL bCharact
 	// 2010-06-08 by dgwoo, 펫시스템 추가. 
 	case WEAR_ITEM_KIND_PET:
 		{
+			// Whatever pet effects the unit already has go first, as
+			// DeleteWearItem() does.  Assigning over them orphaned the old
+			// effects, and on foot only m_pPartner is made again - so
+			// m_pPartner1 stayed pointed at the flight pet, which has no body
+			// condition on foot, ends itself, and is deleted under the pointer.
+			if(m_pPartner)			{ DeleteWearItemEffect(m_pPartner); }
+			if(m_pPartner1)			{ DeleteWearItemEffect(m_pPartner1); }
+			if(m_pDummyPartner)		{ DeleteWearItemEffect(m_pDummyPartner); }
+			if(m_pDummyPartner1)	{ DeleteWearItemEffect(m_pDummyPartner1); }
+			m_pPartner = NULL;
+			m_pPartner1 = NULL;
+			m_pDummyPartner = NULL;
+			m_pDummyPartner1 = NULL;
+
 			if(bCharacter)
 			{				
 				m_pPartner = CreateWearItemEffect( nWearItemKind,
