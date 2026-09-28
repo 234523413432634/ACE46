@@ -40,6 +40,11 @@
 
 // 2005-08-18 by ispark
 #define ROTATION_ANGLE				0.01f
+
+// Camera follow : how the camera eases into the character heading.
+#define CAMERA_FOLLOW_BASE_FPS		60.0f
+#define CAMERA_FOLLOW_RATE			0.02f	// part of the remaining angle per 60 fps frame
+#define CAMERA_FOLLOW_MIN_SPEED		0.2192f	// radian/sec, slowest the camera closes the last of the angle
 #define ANGLE_X_UP					-1.5 + m_fAngleError	// 라디안 값
 #define ANGLE_X_DOWN				0.9 + m_fAngleError
 
@@ -1898,18 +1903,32 @@ void CCamera::SetCamMove(BOOL bRButton, BOOL bWhell, BOOL bWarp, BOOL bNoAutoRot
 		float dot = D3DXVec3Dot(&vChaVel, &vCamDist);
 		if(0.999f > dot)
 		{
-			float fAngel;
-			dot = dot < (1.0f - g_pD3dApp->GetElapsedTime()) ? dot : (1.0f - g_pD3dApp->GetElapsedTime());
+			float fElapsedTime = g_pD3dApp->GetElapsedTime();
+			float fFrameCount = fElapsedTime * CAMERA_FOLLOW_BASE_FPS;		// 60 fps frames this frame lasted
+			float fRemainAngle = (float)ACOS(dot);
+			float fMinRotate = CAMERA_FOLLOW_MIN_SPEED * fElapsedTime;
+			float fRotate;
+
+			// Taking the 60 fps step fFrameCount times over, so a frame that lasts
+			// twice as long turns the camera as far as the two frames it stands for.
+			fRotate = fRemainAngle * (1.0f - (float)pow(1.0f - CAMERA_FOLLOW_RATE, fFrameCount));
+
+			if(fRotate < fMinRotate)
+				fRotate = fMinRotate;
+			if(fRotate > fRemainAngle)
+				fRotate = fRemainAngle;
+
+			// SetAngleX() is scaled by ROTATION_ANGLE again in RotationLocal3Y()
+			fRotate /= ROTATION_ANGLE;
+
 			if(0.0f > vCrossVec.y)
 			{
-				fAngel = ACOS(dot);
+				g_pCamera->SetAngleX(fRotate);
 			}
 			else
 			{
-				fAngel = -ACOS(dot);
+				g_pCamera->SetAngleX(-fRotate);
 			}
-
-			g_pCamera->SetAngleX(fAngel * 2.0f);
 		}
 	}
 }
