@@ -7385,7 +7385,7 @@ BOOL CINFCharacterInfoExtend::CheckUseSkillApprovalEnd(ITEM_BASE* pSkill)
 				{
 					wsprintf(msgBox, STRMSG_C_060730_0000, STRMSG_C_060730_0003);		// "%s 상점을 종료하시겠습니까?"
 				}
-				g_pGameMain->m_pInfWindow->AddMsgBox(msgBox, _Q_BAZAAR_OPEN_SHOP_END, (DWORD)pSkillInfo);
+				g_pGameMain->m_pInfWindow->AddMsgBox(msgBox, _Q_BAZAAR_OPEN_SHOP_END, (DWORD_PTR)pSkillInfo);
 
 				return FALSE;
 			}

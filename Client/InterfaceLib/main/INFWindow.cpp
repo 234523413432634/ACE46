@@ -4886,7 +4886,7 @@ void CINFMessageBox::OnButtonClick(int i, BOOL bTimerClick/*=FALSE*/)// if i==0 
 		{
 			if( i == 1 )
 			{
-				::PostMessage( g_pD3dApp->GetHwnd(), WM_ADDMSGBOX, _Q_ARENA_RESTART, reinterpret_cast<long>(STRMSG_C_070507_0100) );
+				::PostMessage( g_pD3dApp->GetHwnd(), WM_ADDMSGBOX, _Q_ARENA_RESTART, reinterpret_cast<LPARAM>(STRMSG_C_070507_0100) );
 			}
 		}
 		break;
@@ -5358,8 +5358,8 @@ BOOL CINFWindow::IsExistMsgBoxString( int nType, char* pInputMessage)
 }
 
 // 2013-06-26 by bhsohn 아머 컬렉션 추가 개발
-//void CINFWindow::AddMsgBox(char* strMsg, int nType, DWORD dwData1, DWORD dwData2, int nLiveTime,UID64_t UniqueNumber, char* strName)
-void CINFWindow::AddMsgBox(char* strMsg, int nType, DWORD dwData1, DWORD dwData2, int nLiveTime,UID64_t UniqueNumber, char* strName, BOOL bChRtn/*=FALSE*/)
+//void CINFWindow::AddMsgBox(char* strMsg, int nType, DWORD_PTR dwData1, DWORD dwData2, int nLiveTime,UID64_t UniqueNumber, char* strName)
+void CINFWindow::AddMsgBox(char* strMsg, int nType, DWORD_PTR dwData1, DWORD dwData2, int nLiveTime,UID64_t UniqueNumber, char* strName, BOOL bChRtn/*=FALSE*/)
 {
 	FLOG( "CINFWindow::AddMsgBox(char* strMsg, int nType, DWORD dwData1, DWORD dwData2)" );
 

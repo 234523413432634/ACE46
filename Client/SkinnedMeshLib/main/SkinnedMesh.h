@@ -554,12 +554,12 @@ public: // protected:
 		//LPDIRECTXFILEOBJECT pxofChild = NULL;
 		//LPDIRECTXFILEDATAREFERENCE pxofobjChildRef = NULL;
 		GUID type;
-		DWORD dwSize;
+		SIZE_T dwSize;
 		const BYTE* pData;
 		DWORD dwKeyType;
 		DWORD cKeys;
 		DWORD iKey;
-		DWORD cchName;
+		SIZE_T cchName;
 		char* szFrameName;
 
 		pframeCur = new SFrame();

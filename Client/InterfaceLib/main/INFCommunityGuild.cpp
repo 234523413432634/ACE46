@@ -3550,7 +3550,7 @@ void CINFCommunityGuild::OnButtonClicked(int nButton)
 				break;
 			if(m_nGuildRank == GUILD_RANK_COMMANDER)
 			{
-				g_pGameMain->m_pInfWindow->AddMsgBox(STRMSG_C_GUILD_0018, _Q_GUILD_MARK, (DWORD)this);
+				g_pGameMain->m_pInfWindow->AddMsgBox(STRMSG_C_GUILD_0018, _Q_GUILD_MARK, (DWORD_PTR)this);
 			}
 		}
 		break;

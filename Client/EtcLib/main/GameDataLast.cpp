@@ -15,6 +15,10 @@
 #include <stdio.h>
 #include "sha256.h"		// 2009-05-29 by cmkwon, Hash알고리즘 추가(SHA256) - 
 
+// A DataHeader record on disk stops right before m_pData, which is only ever
+// filled in at run time.
+#define SIZE_DATAHEADER_ON_DISK	offsetof(DataHeader, m_pData)
+
 
 // 2008-10-15 by bhsohn 리소스 메모리 보호 기능 추가
 #include "AtumApplication.h"		
@@ -223,7 +227,7 @@ DataHeader* CGameData::FindFromFile(char* strName)
 	{
 		memset(pDataHeader, 0x00, sizeof(DataHeader) );
 		_lseek( ReadFile, readPointer, SEEK_SET );
-		read( ReadFile, (char*)pDataHeader,sizeof(DataHeader)-4);// 4: data pointer
+		read( ReadFile, (char*)pDataHeader,SIZE_DATAHEADER_ON_DISK);
 		if(strcmp(pDataHeader->m_FileName, strName ) == 0)
 		{
 			pDataHeader->m_pData = new char[pDataHeader->m_DataSize+1];
@@ -232,7 +236,7 @@ DataHeader* CGameData::FindFromFile(char* strName)
 			close( ReadFile );
 			return pDataHeader;
 		}
-		readPointer += sizeof(DataHeader)-4 + pDataHeader->m_DataSize;// 4: data pointer
+		readPointer += SIZE_DATAHEADER_ON_DISK + pDataHeader->m_DataSize;
 	}
 	close( ReadFile );
 //	delete pDataHeader;
@@ -337,8 +341,8 @@ BOOL CGameData::make_parse_file_ext()
 	{
 		DataHeader* pHeader = NULL;
 		pHeader = new DataHeader;
-		memcpy((void*) pHeader, &pTemp[readPointer], sizeof(DataHeader)-4);
-		readPointer += sizeof(DataHeader)-4;
+		memcpy((void*) pHeader, &pTemp[readPointer], SIZE_DATAHEADER_ON_DISK);
+		readPointer += SIZE_DATAHEADER_ON_DISK;
 		pHeader->m_pData = new char[pHeader->m_DataSize+1];
 		memset(pHeader->m_pData, 0x00, pHeader->m_DataSize+1);			// 2006-04-03 by ispark
 		memcpy((void*) pHeader->m_pData, &pTemp[readPointer], pHeader->m_DataSize );

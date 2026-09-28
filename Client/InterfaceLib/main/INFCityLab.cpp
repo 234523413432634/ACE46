@@ -1712,7 +1712,7 @@ int CINFCityLab::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						else
 						{
 							((CINFGameMain*)m_pParent)->m_pInfWindow->AddMsgBox(
-								STRMSG_C_CITYLAP_0001, _Q_LAB_ITEM_NUMBER, (DWORD)this, pItemInfo->CurrentCount);//"몇개를 올리시겠습니까?"
+								STRMSG_C_CITYLAP_0001, _Q_LAB_ITEM_NUMBER, (DWORD_PTR)this, pItemInfo->CurrentCount);//"몇개를 올리시겠습니까?"
 						}
 					}					
 				}
@@ -2956,7 +2956,7 @@ void CINFCityLab::UpLoadItem(CItemInfo* i_pItem)
 			else
 			{
 				((CINFGameMain*)m_pParent)->m_pInfWindow->AddMsgBox(
-					STRMSG_C_CITYLAP_0001, _Q_LAB_ITEM_NUMBER, (DWORD)this, i_pItem->CurrentCount);//"몇개를 올리시겠습니까?"
+					STRMSG_C_CITYLAP_0001, _Q_LAB_ITEM_NUMBER, (DWORD_PTR)this, i_pItem->CurrentCount);//"몇개를 올리시겠습니까?"
 				}
 #else
 					((CINFGameMain*)m_pParent)->m_pInfWindow->AddMsgBox(

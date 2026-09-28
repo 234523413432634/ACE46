@@ -9,6 +9,14 @@
 // Bug     : 
 //######################################################################################
 #include "NTDbgHelperWindow.h"
+
+// The two architectures name their registers differently.  Only the faulting
+// address is wanted outside the register dump itself.
+#if defined(_M_X64)
+	#define ATUM_FAULT_ADDRESS(ctx)		((void*)(ctx)->Rip)
+#else
+	#define ATUM_FAULT_ADDRESS(ctx)		((void*)(ctx)->Eip)
+#endif
 #include "NTSystemInfo.h"
 #include "NTExceptionCause.h"
 #include <commctrl.h>
@@ -122,7 +130,7 @@ void CNTDbgHelperWindow::SetMoreInfo(_EXCEPTION_POINTERS *pException, CNTSystemI
 		_snprintf( szTempString, 256, _T("발생원인 : %s \r\n "), szExceptionCause );
 		strSnedEdit += szTempString;
 
-		_snprintf( szTempString, 256, _T("오류주소 : 0x%08x \r\n "), pException->ContextRecord->Eip );
+		_snprintf( szTempString, 256, _T("오류주소 : 0x%p \r\n "), ATUM_FAULT_ADDRESS(pException->ContextRecord) );
 		strSnedEdit += szTempString;
 
 
@@ -162,6 +170,23 @@ void CNTDbgHelperWindow::SetMoreInfo(_EXCEPTION_POINTERS *pException, CNTSystemI
 
 
 		strSnedEdit += _T("=================레지스터 정보================= \r\n ");
+#if defined(_M_X64)
+		_snprintf( szTempString, 256, _T("RDI\t: 0x%016llx\r\nRSI\t: 0x%016llx\r\nRAX\t: 0x%016llx\r\n"), 
+			pException->ContextRecord->Rdi, pException->ContextRecord->Rsi, pException->ContextRecord->Rax );
+		strSnedEdit += szTempString;
+
+		_snprintf( szTempString, 256, _T("RBX\t: 0x%016llx\r\nRCX\t: 0x%016llx\r\nRDX\t: 0x%016llx\r\n"), 
+			pException->ContextRecord->Rbx, pException->ContextRecord->Rcx, pException->ContextRecord->Rdx );
+		strSnedEdit += szTempString;
+
+		_snprintf( szTempString, 256, _T("RIP\t: 0x%016llx\r\nRBP\t: 0x%016llx\r\nSegCs\t: 0x%08x\r\n"), 
+			pException->ContextRecord->Rip, pException->ContextRecord->Rbp, pException->ContextRecord->SegCs );
+		strSnedEdit += szTempString;
+
+		_snprintf( szTempString, 256, _T("EFlags\t: 0x%08x\r\nRSP\t: 0x%016llx\r\nSegSs\t: 0x%08x\r\n"), 
+			pException->ContextRecord->EFlags, pException->ContextRecord->Rsp, pException->ContextRecord->SegSs );
+		strSnedEdit += szTempString;
+#else
 		_snprintf( szTempString, 256, _T("EDI	: 0x%08x \r\n ESI	: 0x%08x \r\n EAX	: 0x%08x \r\n "), 
 			pException->ContextRecord->Edi, pException->ContextRecord->Esi, pException->ContextRecord->Eax );
 		strSnedEdit += szTempString;
@@ -177,6 +202,7 @@ void CNTDbgHelperWindow::SetMoreInfo(_EXCEPTION_POINTERS *pException, CNTSystemI
 		_snprintf( szTempString, 256, _T("EFlags	: 0x%08x \r\n ESP	: 0x%08x \r\n SegSs	: 0x%08x \r\n "), 
 			pException->ContextRecord->EFlags, pException->ContextRecord->Esp, pException->ContextRecord->SegSs );
 		strSnedEdit += szTempString;
+#endif
 
 		SetWindowText( m_hSendEdithWnd ,strSnedEdit.c_str() );
 	}

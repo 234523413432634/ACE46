@@ -138,7 +138,7 @@ public:
 	int				m_nButtonState[2];// ok, cancel
 	BOOL			m_bLockWindow;
 	POINT			m_ptMouse;
-	DWORD			m_dwData;
+	DWORD_PTR		m_dwData;
 	int				m_nAllButtonState;
 	int				m_nAllNumber;
 	int				m_nAllCurrentData;
@@ -243,8 +243,8 @@ public:
 	int MsgBoxWndProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
 	void DeleteMsgBox(int nType);
 	// 2013-06-26 by bhsohn 아머 컬렉션 추가 개발
-//	void AddMsgBox(char* strMsg, int nType, DWORD dwData1=0, DWORD dwData2=0, int nLiveTime=0,UID64_t UniqueNumber=0, char* strName=NULL);
-	void AddMsgBox(char* strMsg, int nType, DWORD dwData1=0, DWORD dwData2=0, int nLiveTime=0,UID64_t UniqueNumber=0, char* strName=NULL, BOOL bChRtn=FALSE);
+//	void AddMsgBox(char* strMsg, int nType, DWORD_PTR dwData1=0, DWORD dwData2=0, int nLiveTime=0,UID64_t UniqueNumber=0, char* strName=NULL);
+	void AddMsgBox(char* strMsg, int nType, DWORD_PTR dwData1=0, DWORD dwData2=0, int nLiveTime=0,UID64_t UniqueNumber=0, char* strName=NULL, BOOL bChRtn=FALSE);
 	// END 2013-06-26 by bhsohn 아머 컬렉션 추가 개발
 	void AddTimeMsgBox(char* strMsg, int nType, int nLiveTime, char* strTime, DWORD dwData1 = 0, DWORD dwData2 = 0,UID64_t UniqueNumber = 0);
 	void AddRadioOption(char *strRadio,  int nRadioArrayType = 2);

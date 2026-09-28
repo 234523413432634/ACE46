@@ -1382,7 +1382,7 @@ int CINFInvenExtend::WndProcOnCityBase(UINT uMsg, WPARAM wParam, LPARAM lParam)
 							{
 								wsprintf(buf, STRMSG_C_ITEM_0009, pITEM->ItemName);//"아이템 %s 몇개를 버리시겠습니까?"
 								((CINFGameMain*)m_pParent)->m_pInfWindow->AddMsgBox(buf,
-									_Q_ITEM_DELETE_NUM, (DWORD)pSelectItem, pSelectItem->CurrentCount);
+									_Q_ITEM_DELETE_NUM, (DWORD_PTR)pSelectItem, pSelectItem->CurrentCount);
 							}
 							else
 							{

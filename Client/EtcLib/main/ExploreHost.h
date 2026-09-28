@@ -24,7 +24,7 @@ public:
 	void	ReleaseExplore(HWND orghWnd = NULL);
 
 private:
-	long m_hWnd;
+	SHANDLE_PTR m_hWnd;
 	IWebBrowser2*		m_pWebBrowser;
 
 };

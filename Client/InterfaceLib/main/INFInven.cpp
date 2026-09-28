@@ -1015,7 +1015,7 @@ int CINFInven::WndProcOnCityBase(UINT uMsg, WPARAM wParam, LPARAM lParam)
 								g_pGameMain->m_pInfWindow->DeleteMsgBox(_Q_STORE_MULTI_GET_ITEM);
 							}
 							g_pGameMain->m_pInfWindow->AddMsgBox(buf, _Q_SHOP_SELL_ENERGY,
-								(DWORD)pItemInfo,
+								(DWORD_PTR)pItemInfo,
 								pItemInfo->CurrentCount);
 						}
 						else
@@ -1055,7 +1055,7 @@ int CINFInven::WndProcOnCityBase(UINT uMsg, WPARAM wParam, LPARAM lParam)
 								g_pGameMain->m_pInfWindow->DeleteMsgBox(_Q_STORE_MULTI_GET_ITEM);
 							}
 							g_pGameMain->m_pInfWindow->AddMsgBox(buf, _Q_SHOP_SELL_ITEM,
-								(DWORD)pItemInfo);
+								(DWORD_PTR)pItemInfo);
 						}
 						else
 						{
@@ -1845,7 +1845,7 @@ int CINFInven::WndProcOnCityBase(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						{
 							wsprintf(buf, STRMSG_C_ITEM_0009, pITEM->ItemName);
 							((CINFGameMain*)m_pParent)->m_pInfWindow->AddMsgBox(buf,
-								_Q_ITEM_DELETE_NUM, (DWORD)pSelectItem, pSelectItem->CurrentCount);
+								_Q_ITEM_DELETE_NUM, (DWORD_PTR)pSelectItem, pSelectItem->CurrentCount);
 						}
 						else
 						{
@@ -2614,7 +2614,7 @@ int CINFInven::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						{
 							wsprintf(buf, STRMSG_C_ITEM_0009, item->ItemName);
 							((CINFGameMain*)m_pParent)->m_pInfWindow->AddMsgBox(buf,
-								_Q_ITEM_DELETE_NUM, (DWORD)pSelectItem, pSelectItem->CurrentCount);
+								_Q_ITEM_DELETE_NUM, (DWORD_PTR)pSelectItem, pSelectItem->CurrentCount);
 						}
 						else
 						{

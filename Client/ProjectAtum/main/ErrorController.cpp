@@ -11,6 +11,14 @@
 //#include "./Network/NTClientSocket.h"
 #include "ErrorController.h"
 
+// The two architectures name their registers differently.  Only the faulting
+// address is wanted outside the register dump itself.
+#if defined(_M_X64)
+	#define ATUM_FAULT_ADDRESS(ctx)		((void*)(ctx)->Rip)
+#else
+	#define ATUM_FAULT_ADDRESS(ctx)		((void*)(ctx)->Eip)
+#endif
+
 #include <Shlwapi.h>
 #pragma comment( lib, "shlwapi.lib" )
 
@@ -460,7 +468,7 @@ bool CErrorController::OnlyDumpString(_EXCEPTION_POINTERS *pException, CNTSystem
 		_snprintf( szTempString, N_BUF_SIZE, _T("발생원인	: %x\r\n"), pException->ExceptionRecord->ExceptionCode );
 		strSnedEdit += szTempString;
 
-		_snprintf( szTempString, N_BUF_SIZE, _T("오류주소	: 0x%08x\r\n"), pException->ContextRecord->Eip );
+		_snprintf( szTempString, N_BUF_SIZE, _T("오류주소	: 0x%p\r\n"), ATUM_FAULT_ADDRESS(pException->ContextRecord) );
 		strSnedEdit += szTempString;
 
 		SYSTEMTIME creationTime_;
@@ -511,6 +519,23 @@ bool CErrorController::OnlyDumpString(_EXCEPTION_POINTERS *pException, CNTSystem
 
 
 		strSnedEdit += _T("\r\n<레지스터 정보>\r\n");
+#if defined(_M_X64)
+		_snprintf( szTempString, N_BUF_SIZE, _T("RDI\t: 0x%016llx\r\nRSI\t: 0x%016llx\r\nRAX\t: 0x%016llx\r\n"), 
+			pException->ContextRecord->Rdi, pException->ContextRecord->Rsi, pException->ContextRecord->Rax );
+		strSnedEdit += szTempString;
+
+		_snprintf( szTempString, N_BUF_SIZE, _T("RBX\t: 0x%016llx\r\nRCX\t: 0x%016llx\r\nRDX\t: 0x%016llx\r\n"), 
+			pException->ContextRecord->Rbx, pException->ContextRecord->Rcx, pException->ContextRecord->Rdx );
+		strSnedEdit += szTempString;
+
+		_snprintf( szTempString, N_BUF_SIZE, _T("RIP\t: 0x%016llx\r\nRBP\t: 0x%016llx\r\nSegCs\t: 0x%08x\r\n"), 
+			pException->ContextRecord->Rip, pException->ContextRecord->Rbp, pException->ContextRecord->SegCs );
+		strSnedEdit += szTempString;
+
+		_snprintf( szTempString, N_BUF_SIZE, _T("EFlags\t: 0x%08x\r\nRSP\t: 0x%016llx\r\nSegSs\t: 0x%08x\r\n"), 
+			pException->ContextRecord->EFlags, pException->ContextRecord->Rsp, pException->ContextRecord->SegSs );
+		strSnedEdit += szTempString;
+#else
 		_snprintf( szTempString, N_BUF_SIZE, _T("EDI	: 0x%08x\r\nESI	: 0x%08x\r\nEAX	: 0x%08x\r\n"), 
 			pException->ContextRecord->Edi, pException->ContextRecord->Esi, pException->ContextRecord->Eax );
 		strSnedEdit += szTempString;
@@ -526,10 +551,11 @@ bool CErrorController::OnlyDumpString(_EXCEPTION_POINTERS *pException, CNTSystem
 		_snprintf( szTempString, N_BUF_SIZE, _T("EFlags	: 0x%08x\r\nESP	: 0x%08x\r\nSegSs	: 0x%08x\r\n"), 
 			pException->ContextRecord->EFlags, pException->ContextRecord->Esp, pException->ContextRecord->SegSs );
 		strSnedEdit += szTempString;
+#endif
 
 		PathRemoveFileSpec( tcPath );
 		
-		_snprintf( szTempString, N_BUF_SIZE, _T("%s\\%08x_%s.txt"), tcPath, pException->ContextRecord->Eip, m_pstrUserName.c_str() ); 
+		_snprintf( szTempString, N_BUF_SIZE, _T("%s\\%p_%s.txt"), tcPath, ATUM_FAULT_ADDRESS(pException->ContextRecord), m_pstrUserName.c_str() ); 
 		
 #ifdef SC_DARK_CRASH_FILE_OUTPUT_HSSON
 		//txt파일로 뽑는 기능

@@ -2033,14 +2033,14 @@ int CINFCityStore::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 //							}
 							wsprintf( buf, STRMSG_C_STORE_0004, pITEM->ItemName, STORE_KEEPING_COST);//"%s 몇개를 맡기시겠습니까?[가격:%d(스피)]"
 							g_pGameMain->m_pInfWindow->AddMsgBox(buf, _Q_STORE_PUT_COUNTABLE_ITEM,
-								(DWORD)pItemInfo,
+								(DWORD_PTR)pItemInfo,
 								pItemInfo->CurrentCount);
 						}
 						else
 						{
 							wsprintf( buf, STRMSG_C_STORE_0005, pITEM->ItemName, STORE_KEEPING_COST);//"%s 를 맡기시겠습니까?[가격:%d(스피)]"
 							g_pGameMain->m_pInfWindow->AddMsgBox(buf, _Q_STORE_PUT_ITEM,
-								(DWORD)pItemInfo);
+								(DWORD_PTR)pItemInfo);
 						}
 					}
 				}

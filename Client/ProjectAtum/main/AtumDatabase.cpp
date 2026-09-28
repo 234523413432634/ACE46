@@ -19,7 +19,9 @@
 #include "StoreData.h" // 2013-05-28 by bhsohn 아머 컬렉션 시스템
 
 #include "INFImageEx.h"	           // 2011. 10. 10 by jskim UI시스템 변경		 
-#define GUILD_POINTER_SIZE		8	// loading시에 struct에서 제외할 사이즈
+// The guild mark file holds the three leading ints of GUILD_MARK_VERSION; the
+// two pointers after them are run time state.
+#define GUILD_MARK_FILE_SIZE		offsetof(GUILD_MARK_VERSION, pImage)
 
 #define MAX_AUTOSEARCH_COUNT		1000 // 자동 완성 보이는 리스트 수 // 2013-02-28 by bhsohn [인게임 조합식] 자동 완성 처리
 
@@ -246,7 +248,7 @@ BOOL CAtumDatabase::LoadGuildMark(FILE* fd, int nCount)
 	int i; for(i=0;i<nCount;i++)
 	{
 		GUILD_MARK_VERSION * pGuildMark = new GUILD_MARK_VERSION;
-		if( fread(pGuildMark,sizeof(GUILD_MARK_VERSION)-GUILD_POINTER_SIZE,1,fd) == 0)
+		if( fread(pGuildMark,GUILD_MARK_FILE_SIZE,1,fd) == 0)
 			return FALSE;
 		pGuildMark->pData = new char[pGuildMark->nSizeOfImage];
 		if( fread(pGuildMark->pData, pGuildMark->nSizeOfImage, 1, fd) == 0)
@@ -1821,7 +1823,7 @@ BOOL CAtumDatabase::SaveGuildMark(FILE* fd)
 		// 2007-08-03 by bhsohn 길드 마크 심사 시스템 구현
 		if(pGuildMark->nSizeOfImage > 0)
 		{
-			fwrite( pGuildMark, sizeof(GUILD_MARK_VERSION) - GUILD_POINTER_SIZE, 1, fd );
+			fwrite( pGuildMark, GUILD_MARK_FILE_SIZE, 1, fd );
 			fwrite( pGuildMark->pData, pGuildMark->nSizeOfImage, 1, fd );
 		}
 		// end 2007-08-03 by bhsohn 길드 마크 심사 시스템 구현

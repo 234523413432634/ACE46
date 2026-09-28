@@ -25,6 +25,13 @@
 #include "INFCityBoard.h"			// 2006-04-11 by ispark
 #include "INFImageEx.h"				// 2011. 10. 10 by jskim UI시스템 변경
 
+// An empty branch kept so a breakpoint can be set on it.
+#if defined(_M_X64)
+	#define ATUM_BREAKPOINT_NOP()	__nop()
+#else
+	#define ATUM_BREAKPOINT_NOP()	__asm { nop }
+#endif
+
 #define MAP_BLOCK_MAX_NUM		256
 
 //////////////////////////////////////////////////////////////////////
@@ -547,7 +554,7 @@ HRESULT CBackground::InitDeviceObjects()
 
 				else if (pNode->m_pObjectInfo == NULL)
 				{
-					_asm nop
+					ATUM_BREAKPOINT_NOP();
 				}
 			}
 			else

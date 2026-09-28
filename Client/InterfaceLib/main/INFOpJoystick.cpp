@@ -2058,7 +2058,7 @@ void CINFOpJoystick::OnClickSaveBtn()
 ///////////////////////////////////////////////////////////////////////////////
 void CINFOpJoystick::OnClickSaveAsBtn()
 {
-	g_pGameMain->m_pInfWindow->AddMsgBox(STRMSG_C_081127_0219, _Q_JOYSTICK_SETUP, (DWORD)this);
+	g_pGameMain->m_pInfWindow->AddMsgBox(STRMSG_C_081127_0219, _Q_JOYSTICK_SETUP, (DWORD_PTR)this);
 }
 ///////////////////////////////////////////////////////////////////////////////
 /// \fn			

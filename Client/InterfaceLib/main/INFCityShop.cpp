@@ -1138,7 +1138,7 @@ int CINFCityShop::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 							MakeCurrencySeparator( temp2, temp1, 3, ',' );
 							wsprintf( buf, STRMSG_C_SHOP_0007, pITEM->ItemName, pITEM->MinTradeQuantity, temp2 );//"%s 몇개 파시겠습니까?[가격:%d개당 %s(스피)]"
 							g_pGameMain->m_pInfWindow->AddMsgBox(buf, _Q_SHOP_SELL_ENERGY,
-								(DWORD)pItemInfo, 
+								(DWORD_PTR)pItemInfo, 
 								pItemInfo->CurrentCount);
 						}
 						else
@@ -1158,7 +1158,7 @@ int CINFCityShop::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 							MakeCurrencySeparator( temp2, temp1, 3, ',' );
 							wsprintf( buf, STRMSG_C_SHOP_0009, pITEM->ItemName, temp2);//"%s 를 파시겠습니까?[가격:%s(스피)]"
 							g_pGameMain->m_pInfWindow->AddMsgBox(buf, _Q_SHOP_SELL_ITEM,
-								(DWORD)pItemInfo);
+								(DWORD_PTR)pItemInfo);
 						}
 						else
 						{
@@ -1742,7 +1742,7 @@ int CINFCityShop::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 							MakeCurrencySeparator( temp2, temp1, 3, ',' );
 							wsprintf( buf, STRMSG_C_SHOP_0007, pITEM->ItemName, pITEM->MinTradeQuantity, temp2 );//"%s 몇개 파시겠습니까?[가격:%d개당 %s(스피)]"
 							g_pGameMain->m_pInfWindow->AddMsgBox(buf, _Q_SHOP_SELL_ENERGY,
-								(DWORD)pItemInfo, 
+								(DWORD_PTR)pItemInfo, 
 								pItemInfo->CurrentCount);
 						}
 						else
@@ -1762,7 +1762,7 @@ int CINFCityShop::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 							MakeCurrencySeparator( temp2, temp1, 3, ',' );
 							wsprintf( buf, STRMSG_C_SHOP_0009, pITEM->ItemName, temp2);
 							g_pGameMain->m_pInfWindow->AddMsgBox(buf, _Q_SHOP_SELL_ITEM,
-								(DWORD)pItemInfo);
+								(DWORD_PTR)pItemInfo);
 						}
 						else
 						{

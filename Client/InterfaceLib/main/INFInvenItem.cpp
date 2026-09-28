@@ -1169,7 +1169,7 @@ int CINFInvenItem::OnRButtonDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL b
 						}																
 						// end 2007-02-12 by bhsohn Item 다중 선택 처리								
 						g_pGameMain->m_pInfWindow->AddMsgBox(buf, _Q_SHOP_SELL_ENERGY,
-							(DWORD)pItemInfo, 
+							(DWORD_PTR)pItemInfo, 
 							pItemInfo->CurrentCount);
 					}
 					else
@@ -1214,7 +1214,7 @@ int CINFInvenItem::OnRButtonDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL b
 						// end 2007-02-12 by bhsohn Item 다중 선택 처리								
 						
 						g_pGameMain->m_pInfWindow->AddMsgBox(buf, _Q_SHOP_SELL_ITEM,
-							(DWORD)pItemInfo);
+							(DWORD_PTR)pItemInfo);
 					}
 					else
 					{
@@ -1606,7 +1606,7 @@ int CINFInvenItem::OnLButtonUpInvenPosItem(POINT pt, CItemInfo* pSelectItem)
 					{
 						wsprintf(buf, STRMSG_C_ITEM_0009, item->ItemName);//"아이템 %s 몇개를 버리시겠습니까?"
 						g_pGameMain->m_pInfWindow->AddMsgBox(buf, 
-							_Q_ITEM_DELETE_NUM, (DWORD)pSelectItem, pSelectItem->CurrentCount);
+							_Q_ITEM_DELETE_NUM, (DWORD_PTR)pSelectItem, pSelectItem->CurrentCount);
 					}
 					else
 					{
@@ -1837,7 +1837,7 @@ int CINFInvenItem::OnLButtonUpStorePosItem(POINT pt, CItemInfo* pSelectItem)
 			char buf[256];
 			wsprintf( buf, STRMSG_C_STORE_0003, pItemInfo->ItemInfo->ItemName);//"%s 몇개의 아이템을 찾으시겠습니까?"
 			g_pGameMain->m_pInfWindow->AddMsgBox(buf, _Q_STORE_PUSH_ITEM,
-				(DWORD)pItemInfo,pItemInfo->CurrentCount);
+				(DWORD_PTR)pItemInfo,pItemInfo->CurrentCount);
 		}
 		else
 		{

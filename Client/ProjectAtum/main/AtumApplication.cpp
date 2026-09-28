@@ -257,7 +257,15 @@ int __stdcall HS_MainCallbackProc ( long lCode, long lParamSize, void* pParam );
 
 // 2012-03-21 by hskim, 핵쉴드 기능 추가 [자동 업데이트/옵션 추가/모니터링 시스템]
 #include "ConfigHackShield.h"
+
 // 2012-03-21 by hskim, 핵쉴드 기능 추가 [자동 업데이트/옵션 추가/모니터링 시스템]
+
+// An empty branch kept so a breakpoint can be set on it.
+#if defined(_M_X64)
+	#define ATUM_BREAKPOINT_NOP()	__nop()
+#else
+	#define ATUM_BREAKPOINT_NOP()	__asm { nop }
+#endif
 
 // 2009. 09. 21 by jskim 게임가드 XTRAP 적용(배트남)
 #if defined(LANGUAGE_VIETNAM)
@@ -6003,13 +6011,13 @@ int CAtumApplication::OnRecvFieldSocketMessage( DWORD wParam, UINT nSocketNotify
 
 				case T_FC_ITEM_USE_PET_SOCKET_ITEM_OK:
 					{
-						_asm nop
+						ATUM_BREAKPOINT_NOP();
 					}
 					break;
 
 				case T_FC_ITEM_CANCEL_PET_SOCKET_ITEM_OK:
 					{
-						_asm nop
+						ATUM_BREAKPOINT_NOP();
 					}
 					break;
 //end 2011-10-06 by jhahn 파트너 성장형 시스템
@@ -30556,23 +30564,23 @@ BOOL CAtumApplication::FieldSocketErrorByErrorCode(MSG_ERROR* pMsg)
 
 	else if( pMsg->ErrorCode == ERR_DEBUFF_SKILL_APPLYING_SLIENCE )
 	{
-		_asm nop
+		ATUM_BREAKPOINT_NOP();
 	}
 	else if( pMsg->ErrorCode == ERR_RELEASE_SKILL_NOT_FIND )
 	{
-		_asm nop
+		ATUM_BREAKPOINT_NOP();
 	}
 	else if( pMsg->ErrorCode == ERR_DEBUFF_SKILL_APPLYING_NOT_HP_RECOVERY )
 	{
-		_asm nop
+		ATUM_BREAKPOINT_NOP();
 	}
 	else if( pMsg->ErrorCode == ERR_DEBUFF_SKILL_APPLYING_NOT_DP_RECOVERY )
 	{
-		_asm nop
+		ATUM_BREAKPOINT_NOP();
 	}
 	else if( pMsg->ErrorCode == ERR_DEBUFF_SKILL_APPLYING_NOT_SP_RECOVERY )
 	{
-		_asm nop
+		ATUM_BREAKPOINT_NOP();
 	}
 
 	// end 2009. 09. 21 by ckPark 인피니티 필드 몬스터 스킬 구현
@@ -30602,31 +30610,31 @@ BOOL CAtumApplication::FieldSocketErrorByErrorCode(MSG_ERROR* pMsg)
 	}
 	else if( pMsg->ErrorCode == ERR_INFINITY_MODE )
 	{
-		_asm nop
+		ATUM_BREAKPOINT_NOP();
 	}
 	else if( pMsg->ErrorCode == ERR_INFINITY_CREATEUID )
 	{
-		_asm nop
+		ATUM_BREAKPOINT_NOP();
 	}
 	else if( pMsg->ErrorCode == ERR_INFINITY_NO_SUCH_MASTER_USER )
 	{
-		_asm nop
+		ATUM_BREAKPOINT_NOP();
 	}
 	else if( pMsg->ErrorCode == ERR_INFINITY_NO_SUCH_MEMBER_LIST )
 	{
-		_asm nop
+		ATUM_BREAKPOINT_NOP();
 	}
 	else if( pMsg->ErrorCode == ERR_INFINITY_SAME_MASTER )
 	{
-		_asm nop
+		ATUM_BREAKPOINT_NOP();
 	}
 	else if( pMsg->ErrorCode == ERR_INFINITY_MASTER )
 	{
-		_asm nop
+		ATUM_BREAKPOINT_NOP();
 	}
 	else if( pMsg->ErrorCode == ERR_INFINITY_CREATE_MAPCHANNEL )
 	{
-		_asm nop
+		ATUM_BREAKPOINT_NOP();
 	}
 
 	// 2010. 05. 19 by hsLee 인피니티 필드 2차 난이도 조절. (신호처리 + 몬스터 처리(서버) )
@@ -30647,7 +30655,7 @@ BOOL CAtumApplication::FieldSocketErrorByErrorCode(MSG_ERROR* pMsg)
 	// 2010. 07. 27 by hsLee 인피니티 2차 거점 방어 시네마 연출 스킵 처리.
 	else if ( pMsg->ErrorCode == ERR_INFINITY_MISMATCH_CREATEUID )
 	{
-		_asm nop
+		ATUM_BREAKPOINT_NOP();
 	}
 		// 2010. 12. 01 by jskim 인피방 생성 또는 입장시 메시지 출력 
 	else if ( pMsg->ErrorCode == ERR_INFINITY_MISMATCH_LEVEL )
@@ -30663,11 +30671,11 @@ BOOL CAtumApplication::FieldSocketErrorByErrorCode(MSG_ERROR* pMsg)
 	// end 2010. 12. 01 by jskim 인피방 생성 또는 입장시 메시지 출력 
 	else if ( pMsg->ErrorCode == ERR_INFINITY_PLAYING_STATE )
 	{
-		_asm nop
+		ATUM_BREAKPOINT_NOP();
 	}
 	else if ( pMsg->ErrorCode == ERR_INFINITY_ALWAYS_SKIP_ENDINGCINEMA )
 	{
-		_asm nop
+		ATUM_BREAKPOINT_NOP();
 	}
 	// End 2010. 07. 27 by hsLee 인피니티 2차 거점 방어 시네마 연출 스킵 처리.
 
@@ -31435,7 +31443,7 @@ BOOL CAtumApplication::FieldSocketErrorByMsgType(MSG_ERROR* pMsg)
 				// 2010. 02. 02 by ckPark 거래중 미션시작 워프 관련 에러처리
 				case ERR_PROTOCOL_CANNOT_WARP :
 					{
-						_asm nop
+						ATUM_BREAKPOINT_NOP();
 					}
 					break;
 				// end 2010. 02. 02 by ckPark 거래중 미션시작 워프 관련 에러처리
@@ -33001,7 +33009,7 @@ BOOL CAtumApplication::FieldSocketErrorByMsgType(MSG_ERROR* pMsg)
 				// 2009. 11. 02 by ckPark 인피니티 필드 인스턴스 던젼 시스템
 				case ERR_INFINITY_STATE :
 					{
-						_asm nop
+						ATUM_BREAKPOINT_NOP();
 					}
 					break;
 				// end 2009. 11. 02 by ckPark 인피니티 필드 인스턴스 던젼 시스템
@@ -33046,7 +33054,7 @@ BOOL CAtumApplication::FieldSocketErrorByMsgType(MSG_ERROR* pMsg)
 				// 2009. 11. 02 by ckPark 인피니티 필드 인스턴스 던젼 시스템
 				case ERR_INFINITY_STATE :
 					{
-						_asm nop
+						ATUM_BREAKPOINT_NOP();
 					}
 					break;
 				// end 2009. 11. 02 by ckPark 인피니티 필드 인스턴스 던젼 시스템
@@ -33837,27 +33845,27 @@ BOOL CAtumApplication::FieldSocketErrorByMsgType(MSG_ERROR* pMsg)
 		case T_FC_INFINITY_CREATE :
 			{
 				if( pMsg->ErrorCode == ERR_INFINITY_CREATE_FAIL )
-					_asm nop
+					ATUM_BREAKPOINT_NOP();
 
 				if( pMsg->ErrorCode	== ERR_INFINITY_STATE )
-					_asm nop
+					ATUM_BREAKPOINT_NOP();
 			}
 			break;
 
 		case T_FC_INFINITY_BAN :
 			{
 				if( pMsg->ErrorCode == ERR_INVALID_PEER_CHARACTER )
-					_asm nop
+					ATUM_BREAKPOINT_NOP();
 
 				if( pMsg->ErrorCode == ERR_INFINITY_STATE )
-					_asm nop
+					ATUM_BREAKPOINT_NOP();
 			}
 			break;
 		
 		case T_FC_INFINITY_JOIN :
 			{
 				if( pMsg->ErrorCode == ERR_INFINITY_JOIN_FAIL_SOCKET )
-					_asm nop
+					ATUM_BREAKPOINT_NOP();
 
 				if( pMsg->ErrorCode == ERR_INFINITY_MAX_ADMISSIONCNT )
 				{
@@ -33895,20 +33903,20 @@ BOOL CAtumApplication::FieldSocketErrorByMsgType(MSG_ERROR* pMsg)
 				}
 
 				if( pMsg->ErrorCode == ERR_INFINITY_JOIN_FAIL_ENTRANCECOUNT )
-					_asm nop
+					ATUM_BREAKPOINT_NOP();
 
 				if( pMsg->ErrorCode	== ERR_INFINITY_CREATEUID )
-					_asm nop
+					ATUM_BREAKPOINT_NOP();
 
 				if( pMsg->ErrorCode	== ERR_INFINITY_STATE )
-					_asm nop
+					ATUM_BREAKPOINT_NOP();
 			}
 			break;
 
 		case T_FC_INFINITY_JOIN_REQUEST_MASTERUSER_OK :
 			{
 				if( pMsg->ErrorCode == ERR_INFINITY_STATE )
-					_asm nop
+					ATUM_BREAKPOINT_NOP();
 
 				if( pMsg->ErrorCode == ERR_INFINITY_JOIN_FAIL_MASTERUSER_REJECT )
 				{
@@ -33935,28 +33943,28 @@ BOOL CAtumApplication::FieldSocketErrorByMsgType(MSG_ERROR* pMsg)
 		case T_FC_INFINITY_MEMBER_INFO_LIST :
 			{
 				if( pMsg->ErrorCode == ERR_INFINITY_STATE )
-					_asm nop
+					ATUM_BREAKPOINT_NOP();
 			}
 			break;
 
 		case T_FC_INFINITY_CHANGE_MASTER :
 			{
 				if( pMsg->ErrorCode == ERR_INFINITY_STATE )
-					_asm nop
+					ATUM_BREAKPOINT_NOP();
 			}
 			break;
 
 		case T_FC_INFINITY_LEAVE :
 			{
 				if( pMsg->ErrorCode == ERR_INFINITY_STATE )
-					_asm nop
+					ATUM_BREAKPOINT_NOP();
 			}
 			break;
 
 		case T_FC_INFINITY_READY :
 			{
 				if( pMsg->ErrorCode == ERR_INFINITY_STATE )
-					_asm nop
+					ATUM_BREAKPOINT_NOP();
 			}
 			break;
 		
@@ -33995,21 +34003,21 @@ BOOL CAtumApplication::FieldSocketErrorByMsgType(MSG_ERROR* pMsg)
 		case T_FC_INFINITY_MAP_LOADED :
 			{
 				if( pMsg->ErrorCode == ERR_INFINITY_STATE )
-					_asm nop
+					ATUM_BREAKPOINT_NOP();
 			}
 			break;
 
 		case T_FC_INFINITY_FIN_OK :
 			{
 				if( pMsg->ErrorCode == ERR_INFINITY_STATE )
-					_asm nop
+					ATUM_BREAKPOINT_NOP();
 			}
 			break;
 
 		case T_FC_INFINITY_TENDER_PUT_IN_TENDER :
 			{
 				if( pMsg->ErrorCode == ERR_INFINITY_STATE )
-					_asm nop
+					ATUM_BREAKPOINT_NOP();
 			}
 			break;
 
@@ -34024,7 +34032,7 @@ BOOL CAtumApplication::FieldSocketErrorByMsgType(MSG_ERROR* pMsg)
 		case T_FC_INFINITY_MAP_LOADED_RESTART_BY_DISCONNECT :
 			{
 				if( pMsg->ErrorCode == ERR_INFINITY_STATE )
-					_asm nop
+					ATUM_BREAKPOINT_NOP();
 			}
 			break;
 
@@ -35493,6 +35501,11 @@ void CAtumApplication::CheckReadyStringFiltering(char *szChat, int *nFTWordCount
 ///////////////////////////////////////////////////////////////////////////////
 BOOL CAtumApplication::HS_Init()
 {
+#if defined(_M_X64)
+	// There is no x64 HackShield SDK to drive.  GAMEGUARD_TYPE is
+	// USE_GAMEGUARD_NONE, so nothing reaches this.
+	return FALSE;
+#else
 	int		nRet = 0;
 	TCHAR	szFullFilePath[MAX_PATH] = {0,};
 	TCHAR	szMsg[MAX_PATH];
@@ -35623,6 +35636,7 @@ BOOL CAtumApplication::HS_Init()
 	DBGOUT("HS Init ---> Success\n");
 	return TRUE;
 
+#endif	// _M_X64
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -35637,6 +35651,11 @@ BOOL CAtumApplication::HS_Init()
 ///////////////////////////////////////////////////////////////////////////////
 BOOL CAtumApplication::HS_UnInit()
 {
+#if defined(_M_X64)
+	// There is no x64 HackShield SDK to drive.  GAMEGUARD_TYPE is
+	// USE_GAMEGUARD_NONE, so nothing reaches this.
+	return FALSE;
+#else
 	int	nRet = 0;
 	
 	// ① _AhnHS_Uninitialize 함수를 호출하여 핵쉴드 서비스를 종료합니다.
@@ -35649,6 +35668,7 @@ BOOL CAtumApplication::HS_UnInit()
 
 	DBGOUT("HS UnInit ---> Success\n");
 	return TRUE;
+#endif	// _M_X64
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -35663,6 +35683,11 @@ BOOL CAtumApplication::HS_UnInit()
 ///////////////////////////////////////////////////////////////////////////////
 BOOL CAtumApplication::HS_StartService()
 {
+#if defined(_M_X64)
+	// There is no x64 HackShield SDK to drive.  GAMEGUARD_TYPE is
+	// USE_GAMEGUARD_NONE, so nothing reaches this.
+	return FALSE;
+#else
 	int		nRet = 0;
 //	TCHAR	szMsg[MAX_PATH];
 	
@@ -35690,6 +35715,7 @@ BOOL CAtumApplication::HS_StartService()
 	}
 	DBGOUT("---------- AhnHS Service Start ----------\n");
 	return TRUE;
+#endif	// _M_X64
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -35704,6 +35730,11 @@ BOOL CAtumApplication::HS_StartService()
 ///////////////////////////////////////////////////////////////////////////////
 BOOL CAtumApplication::HS_StopService()
 {
+#if defined(_M_X64)
+	// There is no x64 HackShield SDK to drive.  GAMEGUARD_TYPE is
+	// USE_GAMEGUARD_NONE, so nothing reaches this.
+	return FALSE;
+#else
 	int	nRet = 0;
 	
 	// ① _AhnHS_StopService 함수를 호출하여 핵쉴드 서비스를 정지합니다.
@@ -35714,6 +35745,7 @@ BOOL CAtumApplication::HS_StopService()
 		return FALSE;
 	}
 	return TRUE;
+#endif	// _M_X64
 }
 
 int __stdcall HS_MainCallbackProc ( long lCode, long lParamSize, void* pParam )
