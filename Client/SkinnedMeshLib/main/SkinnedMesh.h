@@ -80,6 +80,8 @@ struct SMeshContainer
 		pmcNext(nullptr),
 		fRadius(0),
 		vCenter(0, 0, 0),
+		m_vecMinXYZ(0, 0, 0),
+		m_vecMaxXYZ(0, 0, 0),
 		szName(nullptr),
 		m_pSkinMesh(nullptr),
 		m_pSkinMeshInfo(nullptr),

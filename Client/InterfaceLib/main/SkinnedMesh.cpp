@@ -47,6 +47,25 @@ array DWORD vertexIndices[nWeights];\
 array FLOAT weights[nWeights];\
 Matrix4x4 matrixOffset;}";
 
+namespace
+{
+	// The first key past uTime, or i_cKeys when there is none - the same answer
+	// the scan this replaces gave.
+	template <class TKey>
+	UINT UpperBoundKey(const TKey* i_pKeys, UINT i_cKeys, DWORD i_uTime)
+	{
+		UINT nLow = 0;
+		UINT nHigh = i_cKeys;
+		while (nLow < nHigh)
+		{
+			const UINT nMid = nLow + (nHigh - nLow) / 2;
+			if (i_pKeys[nMid].dwTime > i_uTime) nHigh = nMid;
+			else nLow = nMid + 1;
+		}
+		return nLow;
+	}
+}
+
 void SFrame::SetTime(float fGlobalTime)
 {
 	UINT iKey;
@@ -88,17 +107,13 @@ void SFrame::SetTime(float fGlobalTime)
 
 			uTime = uGlobalTime % m_pScaleKeys[m_cScaleKeys - 1].dwTime;
 
-			for (iKey = 0; iKey < m_cScaleKeys; iKey++)
+			iKey = UpperBoundKey(m_pScaleKeys, m_cScaleKeys, uTime);
+			if (iKey < m_cScaleKeys)
 			{
-				if (m_pScaleKeys[iKey].dwTime > uTime)
-				{
-					dwp3 = iKey;
+				dwp3 = iKey;
 
-					if (iKey > 0) dwp2 = iKey - 1;
-					else dwp2 = iKey;
-
-					break;
-				}
+				if (iKey > 0) dwp2 = iKey - 1;
+				else dwp2 = iKey;
 			}
 
 			fTime1 = (float)m_pScaleKeys[dwp2].dwTime;
@@ -126,14 +141,11 @@ void SFrame::SetTime(float fGlobalTime)
 			{
 				uTime = uGlobalTime % dwTimeTmp;
 
-				for (iKey = 0; iKey < m_cRotateKeys; iKey++)
+				iKey = UpperBoundKey(m_pRotateKeys, m_cRotateKeys, uTime);
+				if (iKey < m_cRotateKeys)
 				{
-					if (m_pRotateKeys[iKey].dwTime > uTime)
-					{
-						i1 = (iKey > 0) ? iKey - 1 : 0;
-						i2 = iKey;
-						break;
-					}
+					i1 = (iKey > 0) ? iKey - 1 : 0;
+					i2 = iKey;
 				}
 
 				fTime1 = (float)m_pRotateKeys[i1].dwTime;
@@ -159,17 +171,13 @@ void SFrame::SetTime(float fGlobalTime)
 
 			uTime = uGlobalTime % m_pPositionKeys[m_cPositionKeys - 1].dwTime;
 
-			for (iKey = 0; iKey < m_cPositionKeys; iKey++)
+			iKey = UpperBoundKey(m_pPositionKeys, m_cPositionKeys, uTime);
+			if (iKey < m_cPositionKeys)
 			{
-				if (m_pPositionKeys[iKey].dwTime > uTime)
-				{
-					dwp3 = iKey;
+				dwp3 = iKey;
 
-					if (iKey > 0) dwp2 = iKey - 1;
-					else dwp2 = iKey;
-
-					break;
-				}
+				if (iKey > 0) dwp2 = iKey - 1;
+				else dwp2 = iKey;
 			}
 
 			fTime1 = (float)m_pPositionKeys[dwp2].dwTime;
@@ -551,7 +559,15 @@ COLLISION_RESULT CSkinnedMesh::CheckCollDistDetail(SMeshContainer* pmcMesh, cons
 	vPickRayOrig.y = m._42;
 	vPickRayOrig.z = m._43;
 
-	//if (D3DXBoxBoundProbe(&pmcMesh->m_vecMinXYZ, &pmcMesh->m_vecMaxXYZ, &vPickRayOrig, &vPickRayDir))
+	// D3DXIntersect() has no acceleration structure: it tests the ray against
+	// every triangle in the mesh.
+	if (pmcMesh->m_vecMinXYZ != pmcMesh->m_vecMaxXYZ
+		&& !D3DXBoxBoundProbe(&pmcMesh->m_vecMinXYZ, &pmcMesh->m_vecMaxXYZ,
+							  &vPickRayOrig, &vPickRayDir))
+	{
+		return collResult;
+	}
+
 	D3DXIntersect(pmcMesh->pMesh, &vPickRayOrig, &vPickRayDir, &bHit, &dwFace, &fBary1, &fBary2, &fDist, nullptr, nullptr);
 
 	if (bHit)
@@ -2547,11 +2563,12 @@ HRESULT CalculateRadius(SFrame* pframe, D3DXMATRIX* pmatCur, D3DXVECTOR3* pvCent
 		if (FAILED(hr))
 			goto e_Exit;
 
-		// pmcCur->m_vecMinXYZ = { 0, 0 ,0 };
-		// pmcCur->m_vecMaxXYZ = { 0, 0, 0 };
-		//
-		// D3DXComputeBoundingBox(reinterpret_cast<D3DXVECTOR3*>(pbPoints),
-		// 	cVertices, fvfsize, &pmcCur->m_vecMinXYZ, &pmcCur->m_vecMaxXYZ);
+		// The box CheckCollDistDetail() rejects against.
+		pmcCur->m_vecMinXYZ = D3DXVECTOR3(0, 0, 0);
+		pmcCur->m_vecMaxXYZ = D3DXVECTOR3(0, 0, 0);
+
+		D3DXComputeBoundingBox(reinterpret_cast<D3DXVECTOR3*>(pbPoints),
+			cVertices, fvfsize, &pmcCur->m_vecMinXYZ, &pmcCur->m_vecMaxXYZ);
 
 		for (iPoint = 0, pbCur = pbPoints; iPoint < cVertices; iPoint++, pbCur += fvfsize)
 		{
