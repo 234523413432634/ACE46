@@ -127,6 +127,36 @@ BOOL CSystemLogManager::OpenFile(char *szFileName, char *szDirectory)
 
 	m_hFile = CreateFile(m_szOpenedFilePath, GENERIC_WRITE, FILE_SHARE_READ, NULL,
 							CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	///////////////////////////////////////////////////////////////////////////////
+	// The name only resolves to the second, so anything that opens a log twice
+	// inside the same second lands on a name that already exists and CREATE_NEW
+	// fails with ERROR_FILE_EXISTS(80).
+	///////////////////////////////////////////////////////////////////////////////
+	if(INVALID_HANDLE_VALUE == m_hFile
+		&& ERROR_FILE_EXISTS == GetLastError())
+	{
+		char szBaseTime[128];
+		STRNCPY_MEMSET(szBaseTime, szCurrTime, 128);
+
+		// szCurrTime carries the ".log" already; drop it so the counter goes in
+		// front of the extension rather than after it
+		char *pszExt = strrchr(szBaseTime, '.');
+		if(pszExt)
+		{
+			*pszExt = '\0';
+		}
+
+		for(int nTry = 1; nTry <= 99 && INVALID_HANDLE_VALUE == m_hFile; nTry++)
+		{
+			sprintf(m_szOpenedFilePath, "%s%s_%s_%02d.log"
+				, m_szDirectory, m_szFileName, szBaseTime, nTry);
+
+			m_hFile = CreateFile(m_szOpenedFilePath, GENERIC_WRITE, FILE_SHARE_READ, NULL,
+								 CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
+		}
+	}
+
 	if ( m_hFile == INVALID_HANDLE_VALUE)
 	{
 		// error
