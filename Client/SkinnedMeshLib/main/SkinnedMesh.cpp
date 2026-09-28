@@ -86,18 +86,65 @@ void SFrame::SetTime(float fGlobalTime)
 
 	if (m_pMatrixKeys)
 	{
-		uTime = uGlobalTime % m_pMatrixKeys[m_cMatrixKeys - 1].dwTime;
+		// Every other kind of key below interpolates between the two either side of
+		// the time asked for.
+		DWORD dwLastTime = m_pMatrixKeys[m_cMatrixKeys - 1].dwTime;
+		if (dwLastTime != 0)		// as the rotate keys below: no dividing by nought
+		{
+			uTime = uGlobalTime % dwLastTime;
 
-		dwp3 = m_mapMatrixKeys.upper_bound(uTime)->second;
-		dwp2 = dwp3 > 0 ? dwp3 - 1 : 0;
+			// The modulo is meant to leave a key after this time and does not when the
+			// keys are not in time order, in which case upper_bound answers end() and
+			// reading through it was undefined - a pose out of nowhere for a frame.
+			map<DWORD, DWORD>::const_iterator itKey = m_mapMatrixKeys.upper_bound(uTime);
+			if (itKey == m_mapMatrixKeys.end())
+			{
+				pframeToAnimate->matRot = m_pMatrixKeys[m_cMatrixKeys - 1].mat;
+				return;
+			}
 
-		DWORD range = m_pMatrixKeys[dwp3].dwTime - m_pMatrixKeys[dwp2].dwTime;
-		DWORD doubledt = 2 * (uTime - m_pMatrixKeys[dwp2].dwTime);
+			dwp3 = itKey->second;
+			dwp2 = dwp3 > 0 ? dwp3 - 1 : 0;
 
-		if (doubledt >= range) iKey = dwp3;
-		else iKey = dwp2;
+			DWORD range = m_pMatrixKeys[dwp3].dwTime - m_pMatrixKeys[dwp2].dwTime;
 
-		pframeToAnimate->matRot = m_pMatrixKeys[iKey].mat;
+			if (range > 0 && m_pMatrixKeys[dwp2].bDecomposed && m_pMatrixKeys[dwp3].bDecomposed)
+			{
+				// uGlobalTime is the time truncated to a whole tick, so this
+				// puts the fraction of a tick back - the same way the scale,
+				// rotate and position keys do it.
+				fLerpValue = (uTime + fGlobalTime - uGlobalTime - (float)m_pMatrixKeys[dwp2].dwTime)
+							 / (float)range;
+				if (fLerpValue < 0.0f) fLerpValue = 0.0f;
+				if (fLerpValue > 1.0f) fLerpValue = 1.0f;
+
+				D3DXVec3Lerp(&vScale, &m_pMatrixKeys[dwp2].vScale, &m_pMatrixKeys[dwp3].vScale, fLerpValue);
+				D3DXQuaternionSlerp(&quat, &m_pMatrixKeys[dwp2].quatRotate,
+									&m_pMatrixKeys[dwp3].quatRotate, fLerpValue);
+				D3DXVec3Lerp(&vPos, &m_pMatrixKeys[dwp2].vTranslate,
+							 &m_pMatrixKeys[dwp3].vTranslate, fLerpValue);
+
+				// put back together the way D3DXMatrixDecompose took it apart
+				D3DXMatrixScaling(&matResult, vScale.x, vScale.y, vScale.z);
+				D3DXMatrixRotationQuaternion(&matTemp, &quat);
+				D3DXMatrixMultiply(&matResult, &matResult, &matTemp);
+				D3DXMatrixTranslation(&matTemp, vPos.x, vPos.y, vPos.z);
+				D3DXMatrixMultiply(&matResult, &matResult, &matTemp);
+
+				pframeToAnimate->matRot = matResult;
+			}
+			else
+			{
+				// a key that would not come apart, or two keys at the same time:
+				// the nearer one, as it always was
+				DWORD doubledt = 2 * (uTime - m_pMatrixKeys[dwp2].dwTime);
+
+				if (doubledt >= range) iKey = dwp3;
+				else iKey = dwp2;
+
+				pframeToAnimate->matRot = m_pMatrixKeys[iKey].mat;
+			}
+		}
 	}
 	else
 	{

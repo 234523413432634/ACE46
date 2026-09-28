@@ -7,6 +7,13 @@
 #define FIRST_BODYCONDITION 0x00000001 // 64bit flag
 #define VEL_COLOR_CHANGE	fElapsedTime * 50.0f
 
+// A particle's movement is written as so much per frame rather than so much
+// per second: CParticle::Tick() adds m_vVel times the particle's age, and
+// takes off m_fGravity times its age, once for every frame, without asking how
+// long the frame was.
+#define PARTICLE_AUTHORED_FPS	60.0f
+#define VEL_MOVE_CHANGE			(fElapsedTime * PARTICLE_AUTHORED_FPS)
+
 // object particle moving type
 #define OBJ_MOVE_TYPE0	0
 #define OBJ_MOVE_TYPE1	1

@@ -206,7 +206,76 @@ struct SMatrixKey
 {
 	DWORD dwTime;
 	D3DXMATRIXA16 mat;
+
+	// The same transform taken apart, because two matrices cannot be blended by
+	// adding them - scale, rotation and position have to be interpolated
+	// separately and put back together.
+	BOOL bDecomposed;
+	D3DXVECTOR3 vScale;
+	D3DXQUATERNION quatRotate;
+	D3DXVECTOR3 vTranslate;
 };
+
+// Whether a decomposed key really does describe the matrix it came from.
+//
+// D3DXMatrixDecompose answers a scale, a rotation and a translation for almost
+// anything handed to it, but a matrix carrying a mirror or a shear has no such
+// answer and what comes back will not rebuild it.
+inline BOOL MatrixKeyRoundTrips(const SMatrixKey& i_key)
+{
+	D3DXMATRIXA16 matScale, matRotate, matTranslate, matRebuilt;
+
+	D3DXMatrixScaling(&matScale, i_key.vScale.x, i_key.vScale.y, i_key.vScale.z);
+	D3DXMatrixRotationQuaternion(&matRotate, &i_key.quatRotate);
+	D3DXMatrixTranslation(&matTranslate, i_key.vTranslate.x, i_key.vTranslate.y, i_key.vTranslate.z);
+	D3DXMatrixMultiply(&matRebuilt, &matScale, &matRotate);
+	D3DXMatrixMultiply(&matRebuilt, &matRebuilt, &matTranslate);
+
+	for (int n = 0; n < 16; n++)
+	{
+		const float fWas = ((const float*)&i_key.mat)[n];
+		const float fNow = ((const float*)&matRebuilt)[n];
+		const float fSize = (fWas < 0.0f ? -fWas : fWas);
+		const float fRoom = 0.001f * (fSize > 1.0f ? fSize : 1.0f);
+		const float fOff = (fWas - fNow < 0.0f ? fNow - fWas : fWas - fNow);
+
+		if (fOff > fRoom)
+			return FALSE;
+	}
+	return TRUE;
+}
+
+// Takes a key apart into the scale, rotation and translation SFrame::SetTime()
+// interpolates between, in a way two keys running will agree on.
+inline BOOL DecomposeMatrixKey(SMatrixKey& io_key)
+{
+	D3DXMATRIXA16 mat = io_key.mat;
+
+	const float fDeterminant =
+		  mat._11 * (mat._22 * mat._33 - mat._23 * mat._32)
+		- mat._12 * (mat._21 * mat._33 - mat._23 * mat._31)
+		+ mat._13 * (mat._21 * mat._32 - mat._22 * mat._31);
+
+	// row zero is what the x scale multiplies, so negating it moves the mirror
+	// out of the matrix and into a sign this puts back afterwards
+	const BOOL bMirrored = (fDeterminant < 0.0f);
+	if (bMirrored)
+	{
+		mat._11 = -mat._11;
+		mat._12 = -mat._12;
+		mat._13 = -mat._13;
+	}
+
+	if (FAILED(D3DXMatrixDecompose(&io_key.vScale, &io_key.quatRotate, &io_key.vTranslate, &mat)))
+		return FALSE;
+
+	if (bMirrored)
+	{
+		io_key.vScale.x = -io_key.vScale.x;
+	}
+
+	return MatrixKeyRoundTrips(io_key);
+}
 
 struct SFrame
 {
@@ -773,7 +842,27 @@ public: // protected:
 									pframeCur->m_pMatrixKeys[iKey].dwTime = pFileMatrixKey->dwTime;
 									pframeCur->m_pMatrixKeys[iKey].mat = pFileMatrixKey->mat;
 									pframeCur->m_mapMatrixKeys[pFileMatrixKey->dwTime] = iKey;
+									pframeCur->m_pMatrixKeys[iKey].bDecomposed =
+										DecomposeMatrixKey(pframeCur->m_pMatrixKeys[iKey]);
 									pFileMatrixKey += 1;
+								}
+
+								// All of them or none of them.
+								BOOL bEveryKeyCameApart = TRUE;
+								for (iKey = 0; iKey < cKeys; iKey++)
+								{
+									if (!pframeCur->m_pMatrixKeys[iKey].bDecomposed)
+									{
+										bEveryKeyCameApart = FALSE;
+										break;
+									}
+								}
+								if (!bEveryKeyCameApart)
+								{
+									for (iKey = 0; iKey < cKeys; iKey++)
+									{
+										pframeCur->m_pMatrixKeys[iKey].bDecomposed = FALSE;
+									}
 								}
 							}
 							else

@@ -76,30 +76,30 @@ BOOL CParticle::Tick(float fElapsedTime)
 	}
 	if(m_fRotateAngle == 0)
 	{
-		m_vPos += m_vVel * m_fCurrentLifeTime + m_vDir * fElapsedTime;//방향 및 가속도
+		m_vPos += m_vVel * m_fCurrentLifeTime * VEL_MOVE_CHANGE + m_vDir * fElapsedTime;//방향 및 가속도
 		if(m_nParticleType == PARTICLE_OBJECT_TYPE && m_pParent->m_nObjMoveTargetType == OBJ_MOVE_TYPE0)
 		{
-			m_vObjTarget = /*m_vPos +*/ (m_vVel * m_fCurrentLifeTime + m_vDir * fElapsedTime);
+			m_vObjTarget = /*m_vPos +*/ (m_vVel * m_fCurrentLifeTime * VEL_MOVE_CHANGE + m_vDir * fElapsedTime);
 			m_vObjUp = D3DXVECTOR3(0,1,0);
 		}
 	} else
 	{
 		D3DXMATRIX	matTemp;
 		D3DXVECTOR3 vPos;
-		m_vPos += m_vVel * m_fCurrentLifeTime;
-		D3DXMatrixRotationAxis( &matTemp, &m_vDir, m_fRotateAngle );
+		m_vPos += m_vVel * m_fCurrentLifeTime * VEL_MOVE_CHANGE;
+		D3DXMatrixRotationAxis( &matTemp, &m_vDir, m_fRotateAngle * VEL_MOVE_CHANGE );
 		vPos = m_vPos - m_vStartPos;
 		D3DXVec3TransformCoord( &vPos, &vPos, &matTemp );
 		m_vPos = vPos + m_vStartPos;
 		D3DXVec3Normalize( &vPos, &vPos );
-		m_vPos += vPos*m_fCircleForce;
+		m_vPos += vPos*m_fCircleForce * VEL_MOVE_CHANGE;
 		if(m_nParticleType == PARTICLE_OBJECT_TYPE && m_pParent->m_nObjMoveTargetType == OBJ_MOVE_TYPE0)
 		{
-			m_vObjTarget = /*m_vPos +*/ (m_vVel * m_fCurrentLifeTime + vPos * m_fCircleForce);
+			m_vObjTarget = /*m_vPos +*/ (m_vVel * m_fCurrentLifeTime * VEL_MOVE_CHANGE + vPos * m_fCircleForce * VEL_MOVE_CHANGE);
 			m_vObjUp = D3DXVECTOR3(0,1,0);
 		}
 	}
-	m_vPos.y -= m_fGravity * m_fCurrentLifeTime;// 중력
+	m_vPos.y -= m_fGravity * m_fCurrentLifeTime * VEL_MOVE_CHANGE;// 중력
 	if(m_pParent->m_pParent->m_bUseCharacterMatrix)
 	{
 		D3DXVECTOR3 vOld( m_mOldParentMatrix._41, m_mOldParentMatrix._42, m_mOldParentMatrix._43 );
@@ -461,13 +461,22 @@ BOOL CParticleSystem::Tick(float fElapsedTime)
 	}
 	if(m_fCurrentTick<0)
 	{
+		// How long it is since the last time this ran.  m_fCurrentTick counted
+		// down from m_fTick and is at or below nought now, so the difference is
+		// the real time that has passed - a frame when m_fTick is zero, and
+		// m_fTick or a little more when it is not.
+		//
+		// Everything below used to be handed fElapsedTime instead, which is one
+		// frame however long the gate had been holding it back.  At sixty frames
+		// a second, with m_fTick a sixtieth, those are the same number.  At a
+		// thousand frames a second the gate still opens every sixtieth of a
+		// second but a frame is a thousandth, so the whole system aged at six
+		// per cent of real time and ran in slow motion.
+		const float fSinceLast = m_fTick - m_fCurrentTick;
 		// 생성
 		if(m_fCurrentEmitLifeTime>0)
 		{
-			if(m_fTick==0)
-				m_fCurrentEmitTime -= fElapsedTime;
-			else
-				m_fCurrentEmitTime -= fElapsedTime;//m_fTick;//fElapsedTime;
+			m_fCurrentEmitTime -= fSinceLast;
 			if(m_fCurrentEmitTime<0)
 			{
 				int i; for(i=0; i<m_nEmitMass; i++)
@@ -646,9 +655,6 @@ BOOL CParticleSystem::Tick(float fElapsedTime)
 		m_fRadius = 0.0f;
 		while(iter != m_vecParticle.end())
 		{
-			float tick = fElapsedTime;//m_fTick;
-			if(tick == 0)
-				tick = fElapsedTime;
 			CParticle* pParticle=NULL;
 			CParticle* p = (CParticle*)(*iter);
 			// 잔상(persistence)
@@ -661,7 +667,7 @@ BOOL CParticleSystem::Tick(float fElapsedTime)
 			if(m_fRadius < p->m_fCullRadius)
 				m_fRadius = p->m_fCullRadius;
 
-			if(p->Tick(tick>fElapsedTime ? tick : fElapsedTime))
+			if(p->Tick(fSinceLast))
 			{
 				if(p->m_nPersistence>0
 					&& m_nPersistence > 0)
