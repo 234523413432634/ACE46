@@ -11,6 +11,8 @@
 #include "Frustum.h"
 #include "Cinema.h"
 #include "Background.h"
+#include "ShadowMap.h"		// unguarded: ShadowBlobLevel() is called from
+							// the blob paths below, which are not
 //#include "ObjectRender.h"
 #include "ObjectChild.h"
 //#include "MonsterRender.h"
@@ -476,6 +478,12 @@ void CSceneData::RenderCity()
 	g_pD3dDev->SetTextureStageState( 0, D3DTSS_COLOROP, D3DTOP_SELECTARG1 );
 	g_pD3dDev->SetFVF( D3DFVF_SPRITEVERTEX );
 
+	// And the ship's own, from the pass that draws it before the scene.
+	if(0 == ShadowBlobLevel())
+	{
+		return;
+	}
+
 	g_pD3dApp->m_pUnitRender->RenderShadow(g_pShuttleChild);
 
 }
@@ -561,6 +569,14 @@ void CSceneData::Render()
 		g_pD3dDev->LightEnable( 2, FALSE );
 		g_pD3dDev->LightEnable( 3, FALSE );
 	}
+#ifdef _SHADOW_MAP
+	// The objects, shaded, now that they have all been drawn.  One effect Begin
+	// and End for the whole list.
+	if(g_pD3dApp->m_pShadowMap)
+	{
+		g_pD3dApp->m_pShadowMap->FlushObjectReceivers();
+	}
+#endif
 	g_bDetailDrawFrame = FALSE;	// 2005-01-06 by jschoi - 세부 컬링 기능을 복구(사용 안함)
 	
 
@@ -628,7 +644,9 @@ void CSceneData::Render()
 	g_pD3dDev->SetRenderState (D3DRS_DEPTHBIAS, 0);
 
 	float fOffset = 0.0f;
-	if(g_pGameMain->m_pCityBoard)
+	// g_pGameMain is built when a character enters the world, and this is the one
+	// place in this function that reaches through it without asking.
+	if(NULL != g_pGameMain && g_pGameMain->m_pCityBoard)
 	{
 		g_pGameMain->m_pCityBoard->Render(&fOffset);
 	}
@@ -644,12 +662,18 @@ void CSceneData::Render()
 		fOffset += -0.00002f;
 		g_pD3dDev->SetRenderState(D3DRS_DEPTHBIAS, F2DW(fOffset));
 		g_pD3dDev->SetRenderState( D3DRS_ZWRITEENABLE,  FALSE );
-		g_pD3dApp->m_pCharacterRender->RenderShadow();
+		// The player's own blob, which nothing ever gated - not the option and not
+		// the cascade map.
+		if(0 != ShadowBlobLevel())
+		{
+			g_pD3dApp->m_pCharacterRender->RenderShadow();
+		}
 		g_pD3dDev->SetRenderState( D3DRS_ZWRITEENABLE,  TRUE );
 	}
 	else
 	{
-		if(g_pShuttleChild->m_nAlphaValue == SKILL_OBJECT_ALPHA_NONE)
+		if(g_pShuttleChild->m_nAlphaValue == SKILL_OBJECT_ALPHA_NONE &&
+		   0 != ShadowBlobLevel())
 		{
 			g_pD3dApp->m_pUnitRender->RenderShadow(g_pShuttleChild);
 		}
@@ -659,7 +683,7 @@ void CSceneData::Render()
 	g_pD3dDev->SetRenderState(D3DRS_SLOPESCALEDEPTHBIAS, 0);
 	g_pD3dDev->SetRenderState(D3DRS_DEPTHBIAS, 0);
 
-	if(g_pSOption->sShadowState)
+	if(ShadowBlobLevel())
 	{
 		CVecEnemyIterator itEnemy = m_vecEnemyShadowRenderList.begin();
 		while(itEnemy != m_vecEnemyShadowRenderList.end())

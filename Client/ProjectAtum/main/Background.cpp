@@ -11,6 +11,9 @@
 #include "FileHeader.h"
 #include "INFImage.h"
 #include "QuadGround.h"
+#ifdef _SHADOW_MAP
+#include "ShadowMap.h"
+#endif
 #include "SceneData.h"
 #include "ShuttleChild.h"
 #include "Camera.h"
@@ -1464,6 +1467,15 @@ void CBackground::Render()
 		}
 
 		m_pQuad->Render();
+
+#ifdef _SHADOW_MAP
+		// The whole ground, shaded in one go now that the quad tree has been walked
+		// - one effect Begin and End rather than one per block.
+		if(g_pD3dApp->m_pShadowMap)
+		{
+			g_pD3dApp->m_pShadowMap->FlushTerrainReceivers();
+		}
+#endif
 
 		if(!m_bDetailMapBlockByBlock)
 		{

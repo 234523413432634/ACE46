@@ -77,6 +77,9 @@ void CObjRender::Render(CObjectChild * pObj)
 		{
 			g_pD3dDev->SetRenderState( D3DRS_ALPHATESTENABLE,  FALSE );
 		}
+		// This copy's own blended vertices, for the length of this draw.
+		pObj->m_pObjMesh->SetSkinInstance(pObj->SkinInstance());
+
 		pObj->m_pObjMesh->Tick(pObj->m_fCurrentTime);
 		pObj->m_pObjMesh->SetWorldMatrix(pObj->m_mMatrix);
 		pObj->m_pObjMesh->m_bMaterial = FALSE;		// 임시 코드
@@ -97,7 +100,8 @@ void CObjRender::Render(CObjectChild * pObj)
 //		g_pD3dDev->SetSamplerState(0,D3DSAMP_MAGFILTER,D3DTEXF_LINEAR);
 //		g_pD3dDev->SetSamplerState(0,D3DSAMP_MIPFILTER,D3DTEXF_LINEAR);
 	
-		pObj->m_pObjMesh->Render();	
+		pObj->m_pObjMesh->Render();
+		pObj->m_pObjMesh->SetSkinInstance(NULL);	
 		g_pD3dDev->SetRenderState( D3DRS_ALPHABLENDENABLE, dwAlpha );
 	}
 }

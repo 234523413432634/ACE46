@@ -3056,6 +3056,9 @@
     <ClCompile Include="main\SceneData.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='R_LIN_Arg|Win32'"> /"../BaseClasses"   /"../BaseClasses" </AdditionalOptions>
     </ClCompile>
+    <ClCompile Include="main\ShadowTest.cpp">
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='R_LIN_Arg|Win32'"> /"../BaseClasses"   /"../BaseClasses" </AdditionalOptions>
+    </ClCompile>
     <ClCompile Include="main\SinglePlayGame.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='R_LIN_Arg|Win32'"> /"../BaseClasses"   /"../BaseClasses" </AdditionalOptions>
     </ClCompile>
@@ -3169,6 +3172,7 @@
     <ClInclude Include="main\QuadTree.h" />
     <ClInclude Include="main\resource.h" />
     <ClInclude Include="main\SceneData.h" />
+    <ClInclude Include="main\ShadowTest.h" />
     <ClInclude Include="main\SinglePlayGame.h" />
     <ClInclude Include="main\textures.h" />
     <ClInclude Include="main\TimeMgr.h" />

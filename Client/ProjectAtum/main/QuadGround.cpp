@@ -12,6 +12,9 @@
 #include "GameDataLast.h"
 #include "Water.h"
 #include "ShuttleChild.h"
+#ifdef _SHADOW_MAP
+#include "ShadowMap.h"
+#endif
 
 
 #define QUAD_BLOCK_SIZE		64
@@ -795,6 +798,17 @@ void CQuadGround::Render()
 				((QUAD_BLOCK_SIZE + 1) * (QUAD_BLOCK_SIZE + 1)), 
 				0, 
 				m_nTriangleNumber );
+#ifdef _SHADOW_MAP
+			// Hand this block to the shadow pass before the count goes, and let
+			// CBackground::Render() shade the whole ground in one go.
+			if(g_pD3dApp->m_pShadowMap)
+			{
+				g_pD3dApp->m_pShadowMap->QueueTerrainReceiver(
+					m_pVBTest, m_pIBTest,
+					((QUAD_BLOCK_SIZE + 1) * (QUAD_BLOCK_SIZE + 1)),
+					m_nTriangleNumber);
+			}
+#endif
 			m_nTriangleNumber = 0;
 			if(g_pGround->m_bDetailMapBlockByBlock)
 			{

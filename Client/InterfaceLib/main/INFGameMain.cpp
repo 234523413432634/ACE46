@@ -6,6 +6,10 @@
 #include "INFGameMain.h"
 #include "QuestData.h"
 #include "AtumApplication.h"
+#ifdef _SHADOW_MAP
+#include "ShadowMap.h"
+#include "ShadowTest.h"		// Ctrl+Shift+F8 writes a probe
+#endif
 
 #include "GameDataLast.h"
 #include "INFWindow.h"
@@ -3348,6 +3352,26 @@ int CINFGameMain::WndProcKeyDown(WPARAM wParam, LPARAM lParam)
 		break;
 	case VK_F8:
 		{
+#ifdef _SHADOW_MAP
+			// Ctrl+Shift+F8 writes what the camera is looking at as a shadow test
+			// probe, before the trade window below gets the key.
+			if(COMPARE_RACE(g_pShuttleChild->m_myShuttleInfo.Race, RACE_OPERATION) &&
+			   (GetAsyncKeyState(VK_CONTROL) & 0x8000) && (GetAsyncKeyState(VK_SHIFT) & 0x8000))
+			{
+				const char* pszWritten = CShadowTest::CaptureProbeFromGame();
+				if(NULL != pszWritten)
+				{
+					char szSaid[256];
+					wsprintf(szSaid, "Shadow test probe written to %s", pszWritten);
+					g_pD3dApp->m_pChat->CreateChatChild(szSaid, COLOR_HELP);
+				}
+				else
+				{
+					g_pD3dApp->m_pChat->CreateChatChild("Shadow test probe could not be written", COLOR_ERROR);
+				}
+				break;
+			}
+#endif
 			// 2005-04-07 by jschoi - Tutorial
 			// 2005-08-04 by ispark - 비행중일때 일때 키를 막는다.
 			// 2005-08-08 by ispark - 정지시에는 허용
@@ -3424,6 +3448,22 @@ int CINFGameMain::WndProcKeyDown(WPARAM wParam, LPARAM lParam)
 		g_pD3dApp->m_pIMSocket->SendChat(T_IC_CHAT_REGION, g_pShuttleChild->m_myShuttleInfo.CharacterName, STRCMD_CS_COMMAND_BRINGCALLGM_1 );
 		}*/
 		SHORT KeyState = GetAsyncKeyState(VK_SHIFT);
+		// Ctrl+Shift is tested first, or the Ctrl-only arm below would take it.
+		if (COMPARE_RACE(nRace, RACE_OPERATION) &&
+			(GetAsyncKeyState(VK_CONTROL) & 0x8000) && (GetAsyncKeyState(VK_SHIFT) & 0x8000))
+		{
+#ifdef _SHADOW_MAP
+			// off -> on -> on and shown -> off.  Reading the frame rate at 0
+			// and again at 1 is what the light pass costs.
+			g_pD3dApp->m_nShadowMapMode = (g_pD3dApp->m_nShadowMapMode + 1) % 4;
+			if(2 == g_pD3dApp->m_nShadowMapMode && g_pD3dApp->m_pShadowMap)
+			{
+				// Showing the map also writes it out, with the numbers behind it.
+				g_pD3dApp->m_pShadowMap->RequestDump();
+			}
+#endif
+		}
+		else
 		if (COMPARE_RACE(nRace, RACE_OPERATION) && (1 << 16) & KeyState)
 		{
 #ifdef _NOCLIP

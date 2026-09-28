@@ -282,6 +282,9 @@ void CSkinnedMesh::InitSkinnedMesh()
 	m_maxBones = 0;
 	m_method = SOFTWARE; //m_method = D3DNONINDEXED;
 
+	m_pSkinInstance = nullptr;
+	m_nSkinSlots = -1;
+
 	m_dwFVF = D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_NORMAL | D3DFVF_TEX1;
 
 	m_bTotalTextureNum = 0;
@@ -1937,6 +1940,205 @@ HRESULT CSkinnedMesh::UpdateFrames(SFrame* pframeCur, D3DXMATRIX& matCur, D3DXVE
 	return S_OK;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+//  Skinning without drawing
+//
+//  The software path produces its skinned vertices as a side effect of
+//  drawing: DrawMeshContainer() blends the bones into pMesh and then draws it.
+///////////////////////////////////////////////////////////////////////////////
+
+// One container, skinned into its pMesh.  Does no drawing and touches no
+// device state except the vertex buffers it locks.
+DWORD g_dwSkinFrame = 0;
+
+void CSkinInstance::Release()
+{
+	for (auto n = 0; n < m_nSlots; n++)
+	{
+		SAFE_RELEASE(m_ppMesh[n]);
+	}
+	delete[] m_ppMesh;
+	m_ppMesh = nullptr;
+	m_nSlots = 0;
+	m_dwFrame = 0xFFFFFFFF;
+}
+
+BOOL CSkinInstance::Reserve(int i_nSlots)
+{
+	if (i_nSlots <= 0) return FALSE;
+	if (m_nSlots == i_nSlots) return TRUE;
+
+	Release();
+
+	m_ppMesh = new ID3DXMesh*[i_nSlots];
+	if (m_ppMesh == nullptr) return FALSE;
+
+	for (auto n = 0; n < i_nSlots; n++) m_ppMesh[n] = nullptr;
+	m_nSlots = i_nSlots;
+	return TRUE;
+}
+
+void CSkinInstance::SetMesh(int i_nSlot, ID3DXMesh* i_pMesh)
+{
+	if (i_nSlot < 0 || i_nSlot >= m_nSlots) return;
+
+	SAFE_RELEASE(m_ppMesh[i_nSlot]);
+	m_ppMesh[i_nSlot] = i_pMesh;
+}
+
+DWORD CSkinInstance::Bytes() const
+{
+	DWORD dwBytes = 0;
+	for (auto n = 0; n < m_nSlots; n++)
+	{
+		if (m_ppMesh[n] == nullptr) continue;
+		dwBytes += m_ppMesh[n]->GetNumVertices() * m_ppMesh[n]->GetNumBytesPerVertex();
+	}
+	return dwBytes;
+}
+
+// Numbers the skinned containers, once.
+static void NumberSkinnedContainers(SFrame* pframeCur, int* pnNext)
+{
+	if (pframeCur == nullptr) return;
+
+	for (auto pmcMesh = pframeCur->pmcMesh; pmcMesh != nullptr; pmcMesh = pmcMesh->pmcNext)
+	{
+		pmcMesh->m_nSkinSlot = (pmcMesh->m_pSkinMeshInfo != nullptr) ? (*pnNext)++ : -1;
+	}
+
+	for (auto pframeChild = pframeCur->pframeFirstChild; pframeChild != nullptr; pframeChild = pframeChild->pframeSibling)
+
+		NumberSkinnedContainers(pframeChild, pnNext);
+}
+
+int CSkinnedMesh::SkinSlotCount()
+{
+	if (m_nSkinSlots >= 0) return m_nSkinSlots;
+
+	auto nNext = 0;
+	for (auto pdeCur = m_pdeHead; pdeCur != nullptr; pdeCur = pdeCur->pdeNext)
+
+		NumberSkinnedContainers(pdeCur->pframeRoot, &nNext);
+
+	m_nSkinSlots = nNext;
+	return m_nSkinSlots;
+}
+
+ID3DXMesh* CSkinnedMesh::SkinTarget(SMeshContainer* i_pmc) const
+{
+	if (i_pmc == nullptr) return nullptr;
+
+	if (m_pSkinInstance != nullptr && i_pmc->m_nSkinSlot >= 0)
+	{
+		auto pInstance = m_pSkinInstance->Mesh(i_pmc->m_nSkinSlot);
+		if (pInstance != nullptr) return pInstance;
+	}
+	return i_pmc->pMesh;
+}
+
+HRESULT CSkinnedMesh::SkinMeshContainer(SMeshContainer* pmcMesh)
+{
+	if (pmcMesh == nullptr || pmcMesh->m_pSkinMeshInfo == nullptr) return S_OK;
+
+	// The two blend paths leave their bones in D3DTS_WORLDMATRIX(i) for fixed
+	// function to combine, and produce no world-space vertices at all.
+	if (m_method != SOFTWARE) return S_OK;
+
+	// Already blended for this frame, into a buffer that belongs to this instance
+	// and that nothing else writes to.
+	if (m_pSkinInstance != nullptr && m_pSkinInstance->IsCurrent(g_dwSkinFrame)) return S_OK;
+
+	PBYTE pbVerticesSrc;
+	PBYTE pbVerticesDest;
+
+	auto cBones = pmcMesh->m_pSkinMeshInfo->GetNumBones();
+
+	// set up bone transforms
+	for (DWORD iBone = 0; iBone < cBones; ++iBone)
+
+		D3DXMatrixMultiply(&m_pBoneMatrices[iBone], &pmcMesh->m_pBoneOffsetMat[iBone], pmcMesh->m_pBoneMatrix[iBone]);
+
+	// Which buffer this blend fills.
+	ID3DXMesh* pDest = nullptr;
+
+	if (m_pSkinInstance != nullptr && pmcMesh->m_nSkinSlot >= 0)
+	{
+		pDest = m_pSkinInstance->Mesh(pmcMesh->m_nSkinSlot);
+
+		// An instance outlives the model it was cloned from if that model is
+		// reloaded, and UpdateSkinnedMesh() writes as many vertices as the
+		// source has.  Cheaper to check the shape than to debug the overrun.
+		if (pDest != nullptr &&
+			(pDest->GetNumVertices() != pmcMesh->m_pSkinMesh->GetNumVertices() ||
+			 pDest->GetNumBytesPerVertex() != pmcMesh->m_pSkinMesh->GetNumBytesPerVertex()))
+		{
+			m_pSkinInstance->SetMesh(pmcMesh->m_nSkinSlot, nullptr);
+			pDest = nullptr;
+		}
+
+		if (pDest == nullptr)
+		{
+			ID3DXMesh* pClone = nullptr;
+			auto hr = pmcMesh->m_pSkinMesh->CloneMeshFVF(D3DXMESH_MANAGED, pmcMesh->m_pSkinMesh->GetFVF(), m_pd3dDevice, &pClone);
+			if (FAILED(hr)) return hr;
+
+			m_pSkinInstance->SetMesh(pmcMesh->m_nSkinSlot, pClone);
+			pDest = pClone;
+		}
+	}
+
+	if (pDest == nullptr)
+	{
+		if (pmcMesh->pMesh == nullptr) // 2005-01-05 by jschoi
+		{
+			auto hr = pmcMesh->m_pSkinMesh->CloneMeshFVF(D3DXMESH_MANAGED, pmcMesh->m_pSkinMesh->GetFVF(), m_pd3dDevice, &pmcMesh->pMesh);
+			if (FAILED(hr)) return hr;
+		}
+		pDest = pmcMesh->pMesh;
+	}
+
+	pmcMesh->m_pSkinMesh->LockVertexBuffer(D3DLOCK_READONLY, (LPVOID*)&pbVerticesSrc);
+	pDest->LockVertexBuffer(0, (LPVOID*)&pbVerticesDest);
+	pmcMesh->m_pSkinMeshInfo->UpdateSkinnedMesh(m_pBoneMatrices, nullptr, pbVerticesSrc, pbVerticesDest);
+	pmcMesh->m_pSkinMesh->UnlockVertexBuffer();
+	pDest->UnlockVertexBuffer();
+
+	return S_OK;
+}
+
+// Every container under one frame, and every frame under it.
+void CSkinnedMesh::SkinFrames(SFrame* pframeCur)
+{
+	if (pframeCur == nullptr) return;
+
+	for (auto pmcMesh = pframeCur->pmcMesh; pmcMesh != nullptr; pmcMesh = pmcMesh->pmcNext)
+
+		SkinMeshContainer(pmcMesh);
+
+	for (auto pframeChild = pframeCur->pframeFirstChild; pframeChild != nullptr; pframeChild = pframeChild->pframeSibling)
+
+		SkinFrames(pframeChild);
+}
+
+// The whole model.  Call after Tick(), SetWorldMatrix() and UpdateFrames(),
+// which are what put the bone matrices where this reads them from.
+void CSkinnedMesh::UpdateSkinnedVertices()
+{
+	if (m_method != SOFTWARE) return;
+
+	// Already this frame's, and in a buffer nothing else writes to, so the pass
+	// that asked can just draw it.
+	if (m_pSkinInstance != nullptr && m_pSkinInstance->IsCurrent(g_dwSkinFrame)) return;
+
+	for (auto pdeCur = m_pdeHead; pdeCur != nullptr; pdeCur = pdeCur->pdeNext)
+
+		SkinFrames(pdeCur->pframeRoot);
+
+	if (m_pSkinInstance != nullptr) m_pSkinInstance->MarkCurrent(g_dwSkinFrame);
+}
+
+
 HRESULT CSkinnedMesh::DrawMeshContainer(SMeshContainer* pmcMesh, DWORD nType)
 {
 	UINT ipattr;
@@ -2179,31 +2381,20 @@ HRESULT CSkinnedMesh::DrawMeshContainer(SMeshContainer* pmcMesh, DWORD nType)
 		}
 		else if (m_method == SOFTWARE)
 		{
-			D3DXMATRIX Identity;
-			auto cBones = pmcMesh->m_pSkinMeshInfo->GetNumBones();
-			PBYTE pbVerticesSrc;
-			PBYTE pbVerticesDest;
-
-			// set up bone transforms
-			for (DWORD iBone = 0; iBone < cBones; ++iBone)
-
-				D3DXMatrixMultiply(&m_pBoneMatrices[iBone], &pmcMesh->m_pBoneOffsetMat[iBone], pmcMesh->m_pBoneMatrix[iBone]);
-
 			// set world transform
+			D3DXMATRIX Identity;
 			D3DXMatrixIdentity(&Identity);
 			m_pd3dDevice->SetTransform(D3DTS_WORLD, &Identity);
 
-			// 2005-01-04 by jschoi - UpdateSkinnedMesh 
-			if (pmcMesh->pMesh == nullptr) // 2005-01-05 by jschoi - 디바이스를 잃으면서 pMesh가 NULL이 된다.
-			{
-				auto hr = pmcMesh->m_pSkinMesh->CloneMeshFVF(D3DXMESH_MANAGED, pmcMesh->m_pSkinMesh->GetFVF(), m_pd3dDevice, &pmcMesh->pMesh);
-				if (FAILED(hr)) return hr;
-			}
-			pmcMesh->m_pSkinMesh->LockVertexBuffer(D3DLOCK_READONLY, (LPVOID*)&pbVerticesSrc);
-			pmcMesh->pMesh->LockVertexBuffer(0, (LPVOID*)&pbVerticesDest);
-			pmcMesh->m_pSkinMeshInfo->UpdateSkinnedMesh(m_pBoneMatrices, nullptr, pbVerticesSrc, pbVerticesDest);
-			pmcMesh->m_pSkinMesh->UnlockVertexBuffer();
-			pmcMesh->pMesh->UnlockVertexBuffer();
+			// 2005-01-04 by jschoi - UpdateSkinnedMesh Lifted into SkinMeshContainer()
+			// rather than copied there: the shadow caster pass has to run the same skin
+			// without drawing, because it goes before the main pass and at that point
+			// this buffer still holds another instance's pose.
+			auto hrSkin = SkinMeshContainer(pmcMesh);
+			if (FAILED(hrSkin)) return hrSkin;
+
+			auto pSkinned = SkinTarget(pmcMesh);
+			if (pSkinned == nullptr) return E_FAIL;
 
 			for (ipattr = 0; ipattr < pmcMesh->cpattr; ipattr++)
 			{
@@ -2216,7 +2407,7 @@ HRESULT CSkinnedMesh::DrawMeshContainer(SMeshContainer* pmcMesh, DWORD nType)
 
 				else g_pD3dDev->SetTexture(0, m_pTexture[m_bTextureNum - 1]);
 
-				pmcMesh->pMesh->DrawSubset(ipattr);
+				pSkinned->DrawSubset(ipattr);
 				//	g_pApp->m_iDrawSubsetCallCount++;
 			}
 		}
@@ -2371,7 +2562,11 @@ HRESULT CSkinnedMesh::DrawFrames(SFrame* pframeCur, UINT& cTriangles, DWORD nTyp
 	{
 		auto hr = DrawMeshContainer(pmcMesh, nType);
 		if (FAILED(hr)) return hr;
-		cTriangles += pmcMesh->pMesh->GetNumFaces();
+
+		// SkinTarget(), because a skinned container's own pMesh is never
+		// cloned when the vertices are going to an instance instead.
+		auto pDrawn = SkinTarget(pmcMesh);
+		if (pDrawn != nullptr) cTriangles += pDrawn->GetNumFaces();
 	}
 
 	for (auto pframeChild = pframeCur->pframeFirstChild; pframeChild != nullptr; pframeChild = pframeChild->pframeSibling)

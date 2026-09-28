@@ -4,6 +4,7 @@
 
 #include "stdafx.h"
 #include "EnemyData.h"
+#include "ShadowMap.h"		// the blob shadows stop when the map takes over
 #include "ChatMoveData.h"
 #include "AtumApplication.h"
 //#include "TraceData.h"
@@ -3461,7 +3462,10 @@ void CEnemyData::TickUnit(float fElapsedTime)
 			bOnObject = TRUE;
 		}
 		m_bShadowIsRender = FALSE;
-		if(g_pSOption->sShadowState > 0)
+		// ShadowBlobLevel(), not the option: the blob and a real cascade shadow
+		// together is a soft smudge under a sharp shape.
+		const int nBlob = ShadowBlobLevel();
+		if(nBlob > 0)
 		{
 			BOOL bResult = g_pFrustum->CheckSphere( vShadowPos.x, vShadowPos.y, vShadowPos.z, m_fObjectSize );
 			float fDistanceToCam = D3DXVec3Length(&(vShadowPos - g_pD3dApp->m_pCamera->GetEyePt()));
@@ -3469,7 +3473,7 @@ void CEnemyData::TickUnit(float fElapsedTime)
 //			if( bResult && 
 //				fDistanceToCam < g_pScene->m_fFogEndValue*g_pSOption->sShadowState/MAX_OPTION_VALUE)
 			if( bResult && 
-				fDistanceToCam < RANGE_OF_VISION*g_pSOption->sShadowState/MAX_OPTION_VALUE)
+				fDistanceToCam < RANGE_OF_VISION*nBlob/MAX_OPTION_VALUE)
 			{
 				m_bShadowIsRender = TRUE;
 				g_pScene->m_vecEnemyShadowRenderList.push_back(this);
@@ -3829,7 +3833,7 @@ void CEnemyData::TickCharacter(float fElapsedTime)
 			}
 
 			// ±×¸²ÀÚ
-			if(0 < g_pSOption->sShadowState)
+			if(0 < ShadowBlobLevel())
 			{
 				m_bShadowIsRender = TRUE;
 				g_pScene->m_vecEnemyShadowRenderList.push_back(this);

@@ -12,6 +12,7 @@
 #include "AtumNode.h"
 
 class CSkinnedMesh;
+class CSkinInstance;
 class CCharacterInfo;
 class CObjRender;
 class CChatMoveData;
@@ -29,6 +30,10 @@ public:
 	BOOL IsShowNode();
 	void SetShowNode(BOOL bShowNode);
 	// END 2013-05-07 by bhsohn 세력포인트 개선안 시스템
+
+	// Where this object's animated parts keep their blended vertices, or NULL if
+	// the model has none.
+	CSkinInstance* SkinInstance();
 
 	void CheckShadowPos();
 	void ChangeBodycondition( BodyCond_t bodycon );
@@ -85,6 +90,7 @@ public:
 	void LoadCharacterEffect(char* strFileName);
 //	LPDIRECT3DVERTEXBUFFER8 m_pVBShadow;			// Shadow VB
 	CSkinnedMesh*		m_pObjMesh;
+	CSkinInstance*		m_pSkinInstance;	// made on first use, see SkinInstance()
 	// 2013-05-07 by bhsohn 세력포인트 개선안 시스템
 	BOOL			m_bShowNode;
 	// END 2013-05-07 by bhsohn 세력포인트 개선안 시스템

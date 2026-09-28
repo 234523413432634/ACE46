@@ -4,6 +4,7 @@
 
 #include "stdafx.h"
 #include "MonsterData.h"
+#include "ShadowMap.h"		// the blob shadows stop when the map takes over
 #include "ChatMoveData.h"
 //#include "MonsterRender.h"
 #include "AtumApplication.h"
@@ -932,7 +933,10 @@ void CMonsterData::Tick()
 		vShadowPos.y = g_pCamera->CheckMap(m_vPos);
 	}
 	m_bShadowIsRender = FALSE;
-	if(g_pSOption->sShadowState > 0)
+	// See the note in CEnemyData - one place decides whether blobs are still
+	// wanted, and it is not the option.
+	const int nBlob = ShadowBlobLevel();
+	if(nBlob > 0)
 	{
 		BOOL bResult = g_pFrustum->CheckSphere( vShadowPos.x, vShadowPos.y, vShadowPos.z, m_fObjectSize );
 		float fDistanceToCam = D3DXVec3Length(&(vShadowPos - g_pD3dApp->m_pCamera->GetEyePt()));
@@ -942,7 +946,7 @@ void CMonsterData::Tick()
 //		if( bResult && 
 //			fDistanceToCam < g_pScene->m_fFogEndValue*g_pSOption->sShadowState/MAX_OPTION_VALUE)
 		if( bResult && 
-			fDistanceToCam < RANGE_OF_VISION*g_pSOption->sShadowState/MAX_OPTION_VALUE)
+			fDistanceToCam < RANGE_OF_VISION*nBlob/MAX_OPTION_VALUE)
 		{
 			m_bShadowIsRender = TRUE;
 			g_pScene->m_vecMonsterShadowRenderList.push_back(this);

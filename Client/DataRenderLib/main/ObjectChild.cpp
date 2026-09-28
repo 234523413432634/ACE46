@@ -4,6 +4,7 @@
 
 #include "stdafx.h"
 #include "ObjectChild.h"
+#include "ShadowMap.h"		// the blob shadows stop when the map takes over
 //#include "ObjectRender.h"
 #include "AtumApplication.h"
 #include "Background.h"
@@ -33,6 +34,7 @@ CObjectChild::CObjectChild(OBJECTINFOCLIENT objInfo, OBJECTSCALEINFO ScaleInfo)
 	m_pCharacterInfo = NULL;
 	m_nObjectCont = objInfo.nObjCount;
 	m_pRenderer = g_pScene->m_pObjectRender;
+	m_pSkinInstance = NULL;
 	m_vPos = objInfo.vPos;
 	m_vUp = objInfo.vUp;
 	m_vScale = ScaleInfo.vObjScale;		// 2012-05-02 by isshin 맵툴 개선 오브젝트 스케일 정보
@@ -191,6 +193,7 @@ CObjectChild::~CObjectChild()
 {
 	FLOG( "~CObjectChild()" );
 //	SAFE_RELEASE(m_pVBShadow);
+	SAFE_DELETE(m_pSkinInstance);
 	m_pRenderer = NULL;
 	m_pObjectInfo = NULL;
 //ysw3_16
@@ -333,6 +336,32 @@ void CObjectChild::Tick()
 //	CAtumNode::Tick();
 }
 
+// Made on first use, and only for a model that has an animated part at all -
+// most of the static world has none and pays nothing for this.
+CSkinInstance* CObjectChild::SkinInstance()
+{
+	if(NULL == m_pObjMesh)
+	{
+		return NULL;
+	}
+
+	const int nSlots = m_pObjMesh->SkinSlotCount();
+	if(nSlots <= 0)
+	{
+		return NULL;
+	}
+
+	if(NULL == m_pSkinInstance)
+	{
+		m_pSkinInstance = new CSkinInstance();
+	}
+	if(NULL == m_pSkinInstance || !m_pSkinInstance->Reserve(nSlots))
+	{
+		return NULL;
+	}
+	return m_pSkinInstance;
+}
+
 void CObjectChild::Render()
 {
 	FLOG( "CObjectChild::Render()" );
@@ -456,7 +485,7 @@ void CObjectChild::SetShowNode(BOOL bShowNode)
 void CObjectChild::CheckShadowPos()
 {
 	FLOG( "CObjectChild::CheckShadowPos()" );
-	if( g_pSOption->sShadowState == FALSE )
+	if( 0 == ShadowBlobLevel() )
 	{
 		return;
 	}

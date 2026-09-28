@@ -66,6 +66,10 @@ struct SMeshContainer
 	METHOD m_Method; // NumInfl
 	DWORD m_paletteSize; // NumPaletteEntries
 	BOOL m_bUseSW; // UseSoftwareVP
+
+	// This container's place in its model's numbering of skinned containers, or
+	// -1 for one that carries no skin.
+	int m_nSkinSlot;
 	// 2005-01-04 by jschoi
 	// SkinMesh info     
 	//	LPD3DXMESH           m_pOrigMesh;
@@ -96,7 +100,8 @@ struct SMeshContainer
 		m_pBoneCombinationBuf(nullptr),
 		m_Method(NONE),
 		m_paletteSize(0),
-		m_bUseSW(FALSE)
+		m_bUseSW(FALSE),
+		m_nSkinSlot(-1)
 	{
 	}
 
@@ -511,6 +516,56 @@ struct COLLISION_OBJ_RESULT
 	}
 };
 
+// Bumped once a frame, at BeginScene().
+extern DWORD g_dwSkinFrame;
+
+// One object's own copy of its skinned vertices.
+//
+// The blend writes world-space vertices into a buffer that one CSkinnedMesh
+// shares between every copy of a model, so a pass that is not drawing that
+// copy at that moment cannot use what is in it.
+class CSkinInstance
+{
+public:
+	CSkinInstance() : m_ppMesh(nullptr), m_nSlots(0), m_dwFrame(0xFFFFFFFF)
+	{
+	}
+
+	~CSkinInstance()
+	{
+		Release();
+	}
+
+	void Release();
+
+	// Room for one buffer per skinned container.  Kept across frames: the
+	// meshes are the expensive part and they do not change shape.
+	BOOL Reserve(int i_nSlots);
+
+	ID3DXMesh* Mesh(int i_nSlot) const
+	{
+		return (i_nSlot >= 0 && i_nSlot < m_nSlots) ? m_ppMesh[i_nSlot] : nullptr;
+	}
+
+	// Takes the reference.
+	void SetMesh(int i_nSlot, ID3DXMesh* i_pMesh);
+
+	BOOL IsCurrent(DWORD i_dwFrame) const	{ return m_dwFrame == i_dwFrame; }
+	void MarkCurrent(DWORD i_dwFrame)		{ m_dwFrame = i_dwFrame; }
+	void Forget()							{ m_dwFrame = 0xFFFFFFFF; }
+
+	// What it is holding, for the dump.
+	DWORD Bytes() const;
+
+private:
+	CSkinInstance(const CSkinInstance&);
+	CSkinInstance& operator=(const CSkinInstance&);
+
+	ID3DXMesh**	m_ppMesh;
+	int			m_nSlots;
+	DWORD		m_dwFrame;
+};
+
 class CSkinnedMesh : public CAtumNode
 {
 public:
@@ -561,6 +616,15 @@ public:
 	void BaseTexture()
 	{
 		m_bTextureNum = 0;
+	}
+
+	// The texture DrawMeshContainer() falls back to when an attribute group
+	// carries none of its own.
+	LPDIRECT3DTEXTURE9 GetFallbackTexture() const
+	{
+		const int nIndex = int(m_bTextureNum) - 1;
+		if (m_pTexture == nullptr || nIndex < 0) return nullptr;
+		return m_pTexture[nIndex];
 	}
 
 	LPDIRECT3DTEXTURE9 SetTexture(LPDIRECT3DTEXTURE9 pTexture, BYTE tex_num);// by dhkwon, 030917
@@ -899,6 +963,28 @@ public: // protected:
 	HRESULT DrawInstancedGeometry(SDrawElement* pdeCur, SFrame* pframeCur, const D3DXMATRIX* matCur, const vector<tuple<D3DXMATRIXA16, float>>& Instances) = delete;
 
 	HRESULT DrawMeshContainer(SMeshContainer* pmcMesh, DWORD nType = 0);
+
+	// The skin on its own, with nothing drawn.
+	//
+	// The software path produces its world-space vertices as a side effect of
+	// drawing, which is all the shadow receiver needs - it runs immediately after
+	// the model drew itself.
+	void    UpdateSkinnedVertices();
+	void    SkinFrames(SFrame* pframeCur);
+	HRESULT SkinMeshContainer(SMeshContainer* pmcMesh);
+
+	// The instance whose buffers the next blend writes into and the next draw
+	// reads from, or NULL for the one buffer the model shares.
+	void			SetSkinInstance(CSkinInstance* i_pInstance)	{ m_pSkinInstance = i_pInstance; }
+	CSkinInstance*	GetSkinInstance() const						{ return m_pSkinInstance; }
+
+	// How many skinned containers this model has, numbering them on the way past.
+	int				SkinSlotCount();
+
+	// Where a container's skinned vertices actually are - the instance's
+	// buffer when one is set and this container is skinned, the container's
+	// own otherwise.  Every reader of a skinned pMesh has to go through this.
+	ID3DXMesh*		SkinTarget(SMeshContainer* i_pmc) const;
 	HRESULT SetProjectionMatrix() const;
 	void ReleaseDeviceDependentMeshes(SFrame* pframe);
 
@@ -927,8 +1013,13 @@ protected:
 	D3DCAPS9 m_d3dCaps;
 	D3DXMATRIX m_mWorld;
 
+	CSkinInstance* m_pSkinInstance;
+	int m_nSkinSlots;			// -1 until SkinSlotCount() has counted them
+
 	DataHeader* m_pDataHeader;
 public:
+	// Which skinning path this mesh is drawn through.
+	METHOD	GetMethod() const		{ return m_method; }
 	float m_fRadius;
 	D3DXVECTOR3 m_vCenter;
 	BYTE m_bTextureNum;

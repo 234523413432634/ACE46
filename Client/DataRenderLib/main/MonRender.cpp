@@ -4,6 +4,7 @@
 
 #include "stdafx.h"
 #include "AtumApplication.h"
+#include "ShadowMap.h"		// monsters receive
 #include "MonRender.h"
 #include "MonsterData.h"
 #include "ShuttleChild.h"
@@ -187,12 +188,26 @@ void CMonRender::Render(CMonsterData * pMonData)
 		g_pD3dDev->SetLight( 2, &light );
 		pMonData->m_pMonMesh->AnotherTexture(pMonData->m_pMonsterInfo->TextureIndex);
 		pMonData->m_pMonMesh->Render();
+#ifdef _SHADOW_MAP
+		// Shaded here, while the skinned vertices are still this model's.
+		if(g_pD3dApp->m_pShadowMap)
+		{
+			g_pD3dApp->m_pShadowMap->ShadeSkinnedMesh(pMonData->m_pMonMesh);
+		}
+#endif
 		g_pD3dDev->LightEnable( 2, FALSE );
 	}
 	else
 	{
 		pMonData->m_pMonMesh->AnotherTexture(pMonData->m_pMonsterInfo->TextureIndex);
 		pMonData->m_pMonMesh->Render();
+#ifdef _SHADOW_MAP
+		// Shaded here, while the skinned vertices are still this model's.
+		if(g_pD3dApp->m_pShadowMap)
+		{
+			g_pD3dApp->m_pShadowMap->ShadeSkinnedMesh(pMonData->m_pMonMesh);
+		}
+#endif
 	}		
 }
 

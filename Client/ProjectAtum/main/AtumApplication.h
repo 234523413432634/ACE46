@@ -59,6 +59,8 @@ class CINFChannelList;
 class CUnitRender;
 class CCharacterRender;						// 2005-07-21 by ispark
 class CFxSystem;
+class CShadowMap;
+class CShadowTest;
 class CTutorialSystem;
 class CInputManager;
 class CGlobalImage;
@@ -2132,6 +2134,12 @@ public:
 	CINFStageEffect	*			m_pStageEffect;
 	CQuestData		*			m_pQuestData;
 	CFxSystem *					m_pFxSystem;	
+#ifdef _SHADOW_MAP
+	CShadowMap *				m_pShadowMap;
+	// Non-NULL only when the client was started with -shadowtest, in which case
+	// it owns the frame: no login, no network, one map, a scripted camera.
+	CShadowTest *				m_pShadowTest;
+#endif
 	BOOL						m_bWeb;
 	BOOL						m_bRequestEnable;		// 서버로 요청 할 수 있는 상태인가?
 	BOOL						m_bInputItemDone;		// 2007-07-16 by dgwoo 처음 진입시 모든 아이템을 받았는가?
@@ -2273,6 +2281,12 @@ public:
 #endif
 #ifdef _DRAW_EVENTS
 	BOOL		m_bDrawEvents; //2015-01-29 by St0rmy, Draw Events
+#endif
+#ifdef _SHADOW_MAP
+	// Ctrl+Shift+F11 cycles it. 0 the light pass does not run at all, 1 it runs
+	// and nothing shows for it, 2 it runs and the map is drawn in the corner, 3
+	// the same but the shading pass ignores the depth buffer.
+	int			m_nShadowMapMode;
 #endif
 #ifdef _SHOW_LATENCY
 	FLOAT		m_fLatency;

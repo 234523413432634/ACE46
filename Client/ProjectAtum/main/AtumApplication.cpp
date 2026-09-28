@@ -118,6 +118,10 @@
 #include "INFCityAuction.h"
 #include "INFCityMission.h"
 #include "FxSystem.h"
+#ifdef _SHADOW_MAP
+#include "ShadowMap.h"
+#include "ShadowTest.h"
+#endif
 #include "INFUnitNameInfo.h"
 #include "PkNormalTimer.h"
 #include "INFCityOccupy.h"
@@ -676,6 +680,11 @@ CAtumApplication::CAtumApplication()
 	m_nSendMovePacketCount = 0;
 
 	m_pFxSystem = new CFxSystem;
+#ifdef _SHADOW_MAP
+	m_pShadowMap = new CShadowMap;
+	m_pShadowTest = NULL;		// only -shadowtest makes one
+	m_nShadowMapMode = 1;
+#endif
 
 	// 2005-02-21 by jschoi - 웹
 	m_bWeb = FALSE;
@@ -998,6 +1007,10 @@ CAtumApplication::~CAtumApplication()
 	CFieldWinSocket::SocketClean();
 
 	SAFE_DELETE( m_pFxSystem );
+#ifdef _SHADOW_MAP
+	SAFE_DELETE( m_pShadowMap );
+	SAFE_DELETE( m_pShadowTest );
+#endif
 	SAFE_DELETE( m_pTutorial );
 	SAFE_DELETE( m_pInputManager );
 //	SAFE_DELETE( m_pImgManager );
@@ -1927,6 +1940,9 @@ HRESULT CAtumApplication::InitDeviceObjects()
 	// end 2008-08-11 by bhsohn 단독으로 실행 되게끔
 
 	m_pFxSystem->InitDeviceObjects();
+#ifdef _SHADOW_MAP
+	if(m_pShadowMap)	m_pShadowMap->InitDeviceObjects();
+#endif
 	if(m_pTutorial->IsTutorialMode() == TRUE)
 	{
 		m_pTutorial->InitDeviceObjects();
@@ -2082,6 +2098,9 @@ HRESULT CAtumApplication::RestoreDeviceObjects()
 	m_bReadyBeginScene = TRUE;
 
 	m_pFxSystem->RestoreDeviceObjects();
+#ifdef _SHADOW_MAP
+	if(m_pShadowMap)	m_pShadowMap->RestoreDeviceObjects();
+#endif
 	if(m_pTutorial->IsTutorialMode() == TRUE)
 	{
 		m_pTutorial->RestoreDeviceObjects();
@@ -2209,6 +2228,9 @@ HRESULT CAtumApplication::InvalidateDeviceObjects()
 	m_pd3dxSprite = NULL;
 
 	m_pFxSystem->InvalidateDeviceObjects();
+#ifdef _SHADOW_MAP
+	if(m_pShadowMap)	m_pShadowMap->InvalidateDeviceObjects();
+#endif
 	if(m_pTutorial->IsTutorialMode() == TRUE)
 	{
 		m_pTutorial->InvalidateDeviceObjects();
@@ -2380,6 +2402,9 @@ HRESULT CAtumApplication::DeleteDeviceObjects()
 	}
 
 	m_pFxSystem->DeleteDeviceObjects();
+#ifdef _SHADOW_MAP
+	if(m_pShadowMap)	m_pShadowMap->DeleteDeviceObjects();
+#endif
 	if(m_pTutorial->IsTutorialMode() == TRUE)
 	{
 		m_pTutorial->DeleteDeviceObjects();
@@ -2476,6 +2501,23 @@ HRESULT CAtumApplication::Render()
 
     if( SUCCEEDED( g_pD3dDev->BeginScene() ) )
     {
+		// A new frame, so every instance's blended vertices are stale.
+		g_dwSkinFrame++;
+
+#ifdef _SHADOW_MAP
+		// The sun's view of the world, before the camera's.
+		if( m_pShadowMap && m_nShadowMapMode > 0 &&
+			(m_dwGameState == _GAME || m_dwGameState == _CITY || m_dwGameState == _SHOP) )
+		{
+			m_pShadowMap->RenderCasters();
+		}
+		// The harness draws the ground and the static objects and nothing else.
+		if(NULL != m_pShadowTest)
+		{
+			m_pShadowTest->Render();
+		}
+		else
+#endif
 		switch(m_dwGameState)
 		{
 		case _MOVIE:
@@ -2786,6 +2828,13 @@ HRESULT CAtumApplication::Render()
 		
 		FadeEffectRender();
 		RenderDbg();
+#ifdef _SHADOW_MAP
+		// Last, so that nothing draws over it.
+		if(m_pShadowMap)
+		{
+			m_pShadowMap->RenderDebugOverlay();
+		}
+#endif
 		g_pD3dDev->EndScene();
 	}
 	LeaveCriticalSection(&m_cs);	
@@ -2910,6 +2959,29 @@ HRESULT  CAtumApplication::TickSleep()
 HRESULT CAtumApplication::FrameMove()
 {
 	FLOG("CAtumApplication::FrameMove()");
+
+#ifdef _SHADOW_MAP
+	// The harness owns the frame when it is running.
+	//
+	// Everything below this point is the game: input, the sockets, the state
+	// machine, the ship, the interface and the clock.
+	if(NULL != m_pShadowTest)
+	{
+		// A fixed step in place of the wall clock, so that two runs of one
+		// probe pose the same models the same way and consecutive frames of
+		// one run differ in the camera and in nothing else.
+		m_fElapsedTime = CShadowTest::GetFrameStep();
+
+		if(!m_pShadowTest->Tick())
+		{
+			// The run is over.  WM_CLOSE rather than exit() so the device,
+			// the loader threads and the archives all come down the way they
+			// do when a person closes the window.
+			PostMessage(m_hWnd, WM_CLOSE, 0, 0);
+		}
+		return S_OK;
+	}
+#endif
 #ifdef _DEBUG
 	g_fMoveCountFrame += GetElapsedTime();
 #endif
@@ -4508,6 +4580,17 @@ int CAtumApplication::MsgProcCreate( UINT uMsg, WPARAM wParam, LPARAM lParam )
 LRESULT CAtumApplication::MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
 	FLOG("CAtumApplication::MsgProc()");
+
+#ifdef _SHADOW_MAP
+	// Nothing below this line, for the harness. It pretends to be in _GAME so
+	// that the render around it behaves as it does in play, but it never builds
+	// the interface, so CInterface::WndProc() must not be handed a message -
+	// g_pGameMain is null here.
+	if(NULL != m_pShadowTest)
+	{
+		return CD3DApplication::MsgProc( hWnd, uMsg, wParam, lParam );
+	}
+#endif
 	// 2008-11-06 by bhsohn 마우스 가두기 모드 보완
 	// 2008-06-20 by bhsohn EP3 옵션관련 처리
 //	if(IsWindowMode())
@@ -4744,6 +4827,7 @@ LRESULT CAtumApplication::MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM l
 
 		// end 2009. 11. 02 by ckPark 인피니티 필드 인스턴스 던젼 시스템
 	}
+
 
 	switch(m_dwGameState)
 	{
@@ -33154,7 +33238,7 @@ BOOL CAtumApplication::FieldSocketErrorByMsgType(MSG_ERROR* pMsg)
 					break;
 				// end 2007-09-12 by bhsohn 2차 암호 시스템 구현
 
-				// 2008-08-18 by bhsohn 1초 간격 아이템 이동 시스템 
+				// 2008-08-18 by bhsohn 1초 간격 아이템 ?絹?시스템 
 				case ERR_INTERVAL_SYSTEM_SECOND :
 				
 					break;
@@ -42763,6 +42847,14 @@ void CAtumApplication::IMGuildChangeFameRank(MSG_IC_GUILD_CHANGE_FAME_RANK* pMsg
 ///////////////////////////////////////////////////////////////////////////////
 BOOL CAtumApplication::IsSingletonMode()
 {
+#ifdef _SHADOW_MAP
+	// The harness is exactly what this switch was built for and never used with:
+	// a client that runs without a server.
+	if(NULL != m_pShadowTest)
+	{
+		return TRUE;
+	}
+#endif
 	return FALSE;
 	//return TRUE; // 서버 연결 없이 실행
 	//return FALSE; // 서버 연결 하고 실행

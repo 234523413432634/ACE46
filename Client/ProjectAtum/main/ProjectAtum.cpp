@@ -16,6 +16,9 @@
 #include "DarkCrash.h" // 2011-08-17 by hsson 클라이언트 크래쉬 날때 서버로 클라 정보 전송
 #include "ShuttleChild.h"		// 2014-02-10 by ssjung, 버그 트랩
 #include "ResourcePack.h"		// Res-Eff, Res-Map, Res-Obj, Res-Tex from .zip as well as from disk
+#ifdef _SHADOW_MAP
+#include "ShadowTest.h"			// -shadowtest
+#endif
 
  #define  SET_CRT_DEBUG_FIELD(a) \
                  _CrtSetDbgFlag((a) | _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG))
@@ -288,6 +291,50 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 #endif // MULTI_LOADER_HSSON
 
 	// 2014-01-06 by bhsohn Xtrap 테스트서버 키 다르게 처리
+#ifdef _SHADOW_MAP
+	///////////////////////////////////////////////////////////////////////////
+	//  Engine.atm -shadowtest <config.ini>
+	//
+	//  Read before loadArgc() rather than through it: loadArgc() only accepts the
+	//  launcher's own thirteen-to-eighteen positional arguments and would refuse
+	//  this outright.
+	///////////////////////////////////////////////////////////////////////////
+	const char* pszShadowTestConfig = NULL;
+	for(int nArg = 1; nArg < __argc; nArg++)
+	{
+		if(0 == _stricmp(__argv[nArg], "-shadowtest"))
+		{
+			pszShadowTestConfig = (nArg + 1 < __argc) ? __argv[nArg + 1] : "Shadow-Test.ini";
+			break;
+		}
+	}
+
+	if(NULL != pszShadowTestConfig)
+	{
+		CShadowTest* pShadowTest = new CShadowTest;
+		if(!pShadowTest->LoadConfig(pszShadowTestConfig))
+		{
+			delete pShadowTest;
+			return FALSE;
+		}
+
+		pD3dApp.m_pShadowTest = pShadowTest;
+
+		// What loadArgc() would have filled in.
+		pD3dApp.m_IsFullMode  = pShadowTest->GetWindowMode();
+		pD3dApp.m_nWidth      = pShadowTest->GetWidth();
+		pD3dApp.m_nHeight     = pShadowTest->GetHeight();
+		pD3dApp.m_bDegree     = 0;
+		pD3dApp.m_bMovePlayer = 0;
+		strcpy(pD3dApp.m_strFieldIP,      "127.0.0.1");
+		strcpy(pD3dApp.m_strChatIP,       "127.0.0.1");
+		pD3dApp.m_nFieldPort  = 4000;
+		pD3dApp.m_nChatPort   = 4001;
+		strcpy(pD3dApp.m_strUserID,       "shadowtest");
+		strcpy(pD3dApp.m_strUserPassword, "shadowtest");
+	}
+	else
+#endif
 	if(!loadArgc(lpCmdLine, &pD3dApp))
 	{
 		DbgOut("Fail Load Argc");

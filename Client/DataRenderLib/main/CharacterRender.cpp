@@ -6,6 +6,9 @@
 #include "CharacterRender.h"
 #include "AtumApplication.h"
 #include "SkinnedMesh.h"
+#ifdef _SHADOW_MAP
+#include "ShadowMap.h"		// units and characters receive
+#endif
 #include "UnitData.h"
 #include "CharacterChild.h"				// 2005-07-21 by ispark
 #include "EnemyData.h"
@@ -110,6 +113,13 @@ void CCharacterRender::Render()
 	pSkinnedMesh->SetWorldMatrix(g_pCharacterChild->m_mMatrix);
 	pSkinnedMesh->AnotherTexture(1);
 	pSkinnedMesh->Render();
+#ifdef _SHADOW_MAP
+	// Shaded here, while the skinned vertices are still this model's.
+	if(g_pD3dApp->m_pShadowMap)
+	{
+		g_pD3dApp->m_pShadowMap->ShadeSkinnedMesh(pSkinnedMesh);
+	}
+#endif
 }
 
 void CCharacterRender::Render(CUnitData * pNode)
@@ -131,6 +141,13 @@ void CCharacterRender::Render(CUnitData * pNode)
 		pSkinnedMesh->SetWorldMatrix(pEnemy->m_mMatrix);
 		pSkinnedMesh->AnotherTexture(1);
 		pSkinnedMesh->Render();
+#ifdef _SHADOW_MAP
+		// Shaded here, while the skinned vertices are still this model's.
+		if(g_pD3dApp->m_pShadowMap)
+		{
+			g_pD3dApp->m_pShadowMap->ShadeSkinnedMesh(pSkinnedMesh);
+		}
+#endif
 	}
 }
 

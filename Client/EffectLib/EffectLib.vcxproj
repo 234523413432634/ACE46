@@ -2311,6 +2311,7 @@
     <ClCompile Include="main\ParticleSystem.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug_ScreenShot|Win32'"> /Od2   /Od2 </AdditionalOptions>
     </ClCompile>
+    <ClCompile Include="main\ShadowMap.cpp" />
     <ClCompile Include="main\SkillEffect.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug_ScreenShot|Win32'"> /Od2   /Od2 </AdditionalOptions>
     </ClCompile>
@@ -2329,6 +2330,7 @@
     <ClInclude Include="main\FxSystem.h" />
     <ClInclude Include="main\ObjectAniData.h" />
     <ClInclude Include="main\ParticleSystem.h" />
+    <ClInclude Include="main\ShadowMap.h" />
     <ClInclude Include="main\SkillEffect.h" />
     <ClInclude Include="main\SpriteAniData.h" />
     <ClInclude Include="main\TraceAni.h" />

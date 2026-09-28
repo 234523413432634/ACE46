@@ -6,6 +6,9 @@
 #include "UnitRender.h"
 #include "AtumApplication.h"
 #include "SkinnedMesh.h"
+#ifdef _SHADOW_MAP
+#include "ShadowMap.h"		// units and characters receive
+#endif
 #include "UnitData.h"
 #include "ShuttleChild.h"
 #include "CharacterChild.h"				// 2005-07-21 by ispark
@@ -216,6 +219,13 @@ void CUnitRender::Render(CUnitData * pNode, int nAmorColor)
 			pSkinnedMesh->Render(FALSE, _SHUTTLE);
 		else
 			pSkinnedMesh->Render(FALSE, _MONSTER);
+#ifdef _SHADOW_MAP
+		// Shaded here, while the skinned vertices are still this model's.
+		if(g_pD3dApp->m_pShadowMap)
+		{
+			g_pD3dApp->m_pShadowMap->ShadeSkinnedMesh(pSkinnedMesh);
+		}
+#endif
 		// end 2009. 07. 07 by ckPark 로봇기어 요청사항(롤링, 선택화면, 무기, A기어포대)
 
 
@@ -287,6 +297,13 @@ void CUnitRender::Render(CUnitData * pNode, int nAmorColor)
 			pSkinnedMesh->Render(FALSE, _ENEMY);
 		else
 			pSkinnedMesh->Render(FALSE, _MONSTER);
+#ifdef _SHADOW_MAP
+		// Shaded here, while the skinned vertices are still this model's.
+		if(g_pD3dApp->m_pShadowMap)
+		{
+			g_pD3dApp->m_pShadowMap->ShadeSkinnedMesh(pSkinnedMesh);
+		}
+#endif
 		// end 2009. 07. 07 by ckPark 로봇기어 요청사항(롤링, 선택화면, 무기, A기어포대)
 
 		pSkinnedMesh->SetDecalCount(0);
@@ -332,6 +349,13 @@ void CUnitRender::Render(CUnitData * pNode, int nAmorColor)
 		//end 2010. 03. 18 by jskim 몬스터변신 카드
 		pSkinnedMesh->AnotherTexture(1);
 		pSkinnedMesh->Render();
+#ifdef _SHADOW_MAP
+		// Shaded here, while the skinned vertices are still this model's.
+		if(g_pD3dApp->m_pShadowMap)
+		{
+			g_pD3dApp->m_pShadowMap->ShadeSkinnedMesh(pSkinnedMesh);
+		}
+#endif
 	}
 }
 
