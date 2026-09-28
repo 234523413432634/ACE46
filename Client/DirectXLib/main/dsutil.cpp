@@ -347,13 +347,16 @@ HRESULT CSoundManager::CreateFromMemory( CSound** ppSound,
     {
         if( FAILED( hr = m_pDS->DuplicateSoundBuffer( apDSBuffer[0], &apDSBuffer[i] ) ) )
         {
+            // Not fatal. The count is only how many copies of this sound may overlap,
+            // so falling short costs polyphony rather than the sound itself. Keep the
+            // ones that were made and go on with those, i is how many that is.
             DXTRACE_ERR( TEXT("DuplicateSoundBuffer"), hr );
-            goto LFail;
+            break;
         }
     }
 
     // Create the sound
-    *ppSound = new CSound( apDSBuffer, dwDSBufferSize, dwNumBuffers, pWaveFile, i_b3DSoundFlag);
+    *ppSound = new CSound( apDSBuffer, dwDSBufferSize, i, pWaveFile, i_b3DSoundFlag);
 
     SAFE_DELETE( apDSBuffer );
     return S_OK;
@@ -492,11 +495,13 @@ CSound::CSound( LPDIRECTSOUNDBUFFER* apDSBuffer,
     m_dwNumBuffers   = dwNumBuffers;
     m_pWaveFile      = pWaveFile;
     
+    // A duplicated buffer shares the memory of the one it was made from, so
+    // the wave only has to be written once however many buffers there are.
+    FillBufferWithSound(m_pSCDirect3DSound[0].pDSBuffer, FALSE );
+
     for( i=0; i<dwNumBuffers; i++ )
     {		
-		FillBufferWithSound(m_pSCDirect3DSound[i].pDSBuffer, FALSE );
-
-		// Make DirectSound do pre-processing on sound effects
+		// Play position, volume and 3D parameters are each buffer's own.
 		m_pSCDirect3DSound[i].pDSBuffer->SetCurrentPosition(0);
 		
 		if(m_b3DSoundFlag)

@@ -12,9 +12,10 @@
 #include <dsound.h>
 
 #define MAX_SOUND_FILE_NAME_SIZE			64
-#define COUNT_3DSOUND_PLAY_MULTI_BUFFER		4
+// How many copies of one sound may overlap.
+#define COUNT_3DSOUND_PLAY_MULTI_BUFFER		64
 // 2015-05-15 by jwlee COUNT_3DSOUND_PLAY_MULTI_BUFFER_UPKEEP 추가
-#define COUNT_3DSOUND_PLAY_MULTI_BUFFER_UPKEEP		24
+#define COUNT_3DSOUND_PLAY_MULTI_BUFFER_UPKEEP		88
 // end 2015-05-15 by jwlee COUNT_3DSOUND_PLAY_MULTI_BUFFER_UPKEEP 추가
 
 ///////////////////////////////////////////////////////////////////////////////
