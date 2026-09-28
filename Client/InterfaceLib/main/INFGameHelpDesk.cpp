@@ -39,8 +39,8 @@
 #define ITEMNUM_FUEL3						7008090
 #define ITEMNUM_FUEL4						7008100
 
-#define HELP_LOW_LEVEL_START_X			(g_pD3dApp->GetBackBufferDesc().Width-246)
-#define HELP_LOW_LEVEL_START_Y			(g_pD3dApp->GetBackBufferDesc().Height-227)
+#define HELP_LOW_LEVEL_START_X			(UIScreenW()-246)
+#define HELP_LOW_LEVEL_START_Y			(UIScreenH()-227)
 
 #define LOW_LEVEL_STRING_LENGTH				203
 #define LOW_LEVEL_STRING_X					HELP_LOW_LEVEL_START_X + 10
@@ -624,7 +624,7 @@ void CINFGameHelpDesk::Render()
 	//if(m_bQuestAlarmFlag)
 	//{
 	//	int height = 300 + (HELPDESK_FONT_HEIGHT*m_vecQuestFontLine.size());
-	//	int startY = g_pD3dApp->GetBackBufferDesc().Height - height;		
+	//	int startY = UIScreenH() - height;		
 	//	
 	//	RenderQuestAlarm(200, startY, 150, height);
 	//}
@@ -803,8 +803,8 @@ void CINFGameHelpDesk::Tick()
 //					m_nHelpDeskIndex < 3)
 //				{
 //					SetHelpDeskBox( CITY_BASE_DOWN_BUTTON_START_X(m_nCityButtonNumber), // 7 : button 개수
-//						g_pD3dApp->GetBackBufferDesc().Height *2/3, 
-//						g_pD3dApp->GetBackBufferDesc().Width /2, 
+//						UIScreenH() *2/3, 
+//						UIScreenW() /2, 
 //						m_nHelpDeskIndex+1, TRUE, HELPDESK_REMOVE_BOX_TIME );
 //					if(m_nHelpDeskIndex == 3)
 //					{
@@ -819,8 +819,8 @@ void CINFGameHelpDesk::Tick()
 //					m_bButtonViewNPC	 = FALSE;
 //					m_nBlinkButtonIndex = 0;
 //					SetHelpDeskBox( CITY_BASE_DOWN_BUTTON_START_X(m_nCityButtonNumber),
-//						g_pD3dApp->GetBackBufferDesc().Height *2/3, 
-//						g_pD3dApp->GetBackBufferDesc().Width /2, 
+//						UIScreenH() *2/3, 
+//						UIScreenW() /2, 
 //						m_nHelpDeskIndex, TRUE,HELPDESK_REMOVE_BOX_TIME );
 //				}
 //
@@ -834,8 +834,8 @@ void CINFGameHelpDesk::Tick()
 ////					m_bKeyHelpDeskSPACE = TRUE;
 ////					m_bMouseHelpDesk = TRUE;
 ////					SetHelpDeskBox( MISSION_HELP_START_X,
-////						g_pD3dApp->GetBackBufferDesc().Height *2/3, 
-////						g_pD3dApp->GetBackBufferDesc().Width /2, 
+////						UIScreenH() *2/3, 
+////						UIScreenW() /2, 
 ////						42, TRUE,HELPDESK_REMOVE_BOX_TIME ); // 도시를 가로질러 정면에 보이는 워프게이트를 통과하세요.
 ////				}
 //			}
@@ -852,8 +852,8 @@ void CINFGameHelpDesk::Tick()
 ////				m_bKeyHelpDeskSPACE = TRUE;
 ////				m_bMouseHelpDesk = TRUE;
 ////				SetHelpDeskBox( CITY_BASE_DOWN_BUTTON_START_X(m_nCityButtonNumber),
-////					g_pD3dApp->GetBackBufferDesc().Height *2/3, 
-////					g_pD3dApp->GetBackBufferDesc().Width /2, 
+////					UIScreenH() *2/3, 
+////					UIScreenW() /2, 
 ////					42, TRUE,HELPDESK_REMOVE_BOX_TIME ); // 도시를 가로질러 정면에 보이는 워프게이트를 통과하세요.
 ////			}
 //			if( g_pInterface->m_pCityBase->GetCurrentBuildingNPC() == NULL &&
@@ -868,8 +868,8 @@ void CINFGameHelpDesk::Tick()
 //				m_nCharacterStatePos = HELPDESK_STATE_CITY;
 //				m_bButtonViewNPC	 = FALSE;
 //				SetHelpDeskBox( CITY_BASE_DOWN_BUTTON_START_X(m_nCityButtonNumber),
-//					g_pD3dApp->GetBackBufferDesc().Height *2/3, 
-//					g_pD3dApp->GetBackBufferDesc().Width /2, 
+//					UIScreenH() *2/3, 
+//					UIScreenW() /2, 
 //					4, TRUE,HELPDESK_REMOVE_BOX_TIME);
 //			}
 //			if(g_pInterface->m_pCityBase->GetCurrentBuildingNPC())
@@ -927,15 +927,15 @@ void CINFGameHelpDesk::Tick()
 //				if(m_nHelpDeskIndex < 5)
 //				{
 //					SetHelpDeskBox( CITY_BASE_DOWN_BUTTON_START_X(m_nCityButtonNumber),
-//						g_pD3dApp->GetBackBufferDesc().Height *2/3, 
-//						g_pD3dApp->GetBackBufferDesc().Width /2, 
+//						UIScreenH() *2/3, 
+//						UIScreenW() /2, 
 //						m_nHelpDeskIndex+1, TRUE, 3.0f );
 //				}
 //				else if(m_nHelpDeskIndex == 5)
 //				{
 //					SetHelpDeskBox( CITY_BASE_DOWN_BUTTON_START_X(m_nCityButtonNumber),
-//						g_pD3dApp->GetBackBufferDesc().Height *2/3, 
-//						g_pD3dApp->GetBackBufferDesc().Width /2, 
+//						UIScreenH() *2/3, 
+//						UIScreenW() /2, 
 //						m_nHelpDeskIndex+1, TRUE, 20.0f );
 //					m_bButtonView = TRUE;
 //					m_nBlinkButtonIndex = 7;
@@ -945,8 +945,8 @@ void CINFGameHelpDesk::Tick()
 //					m_bButtonView = TRUE;
 //					m_nBlinkButtonIndex = 7;
 //					SetHelpDeskBox( CITY_BASE_DOWN_BUTTON_START_X(m_nCityButtonNumber),
-//						g_pD3dApp->GetBackBufferDesc().Height *2/3, 
-//						g_pD3dApp->GetBackBufferDesc().Width /2, 
+//						UIScreenH() *2/3, 
+//						UIScreenW() /2, 
 //						m_nHelpDeskIndex, TRUE, 20.0f );
 //				}
 //				if( m_nHelpDeskIndex == 10 ||
@@ -957,8 +957,8 @@ void CINFGameHelpDesk::Tick()
 //					m_bKeyHelpDeskSPACE = FALSE;
 //					m_bMouseHelpDesk = FALSE;
 //					SetHelpDeskBox( CITY_BASE_DOWN_BUTTON_START_X(m_nCityButtonNumber),
-//						g_pD3dApp->GetBackBufferDesc().Height *2/3, 
-//						g_pD3dApp->GetBackBufferDesc().Width /2, 
+//						UIScreenH() *2/3, 
+//						UIScreenW() /2, 
 //						m_nHelpDeskIndex+1, TRUE,HELPDESK_REMOVE_BOX_TIME );
 //				}
 //// 2005-08-03 by ispark, 예전 2001번 맵 처리 사항
@@ -971,8 +971,8 @@ void CINFGameHelpDesk::Tick()
 ////					m_bKeyHelpDeskSPACE = TRUE;
 ////					m_bMouseHelpDesk = TRUE;
 ////					SetHelpDeskBox( MISSION_HELP_START_X,
-////						g_pD3dApp->GetBackBufferDesc().Height *2/3, 
-////						g_pD3dApp->GetBackBufferDesc().Width /2, 
+////						UIScreenH() *2/3, 
+////						UIScreenW() /2, 
 ////						42, TRUE,HELPDESK_REMOVE_BOX_TIME ); // 도시를 가로질러 정면에 보이는 워프게이트를 통과하세요.
 ////				}
 //			}
@@ -1802,9 +1802,9 @@ void CINFGameHelpDesk::SetHelpDeskBox(int nPosX,
 	m_tBlinkTime.Start();	
 }
 #define HELPDESK_WINDOW_KEYPRESS_POS_X			83													// 키보드 입력시 도우말 X
-#define HELPDESK_WINDOW_KEYPRESS_POS_Y			(g_pD3dApp->GetBackBufferDesc().Height - 217)		// 키보드 입력시 도우말 Y
-#define HELPDESK_WINDOW_MOUSE_POS_X				(g_pD3dApp->GetBackBufferDesc().Width  - 130)		// 키보드 입력시 도우말 X
-#define HELPDESK_WINDOW_MOUSE_POS_Y				(g_pD3dApp->GetBackBufferDesc().Height - 190)		// 키보드 입력시 도우말 Y
+#define HELPDESK_WINDOW_KEYPRESS_POS_Y			(UIScreenH() - 217)		// 키보드 입력시 도우말 Y
+#define HELPDESK_WINDOW_MOUSE_POS_X				(UIScreenW()  - 130)		// 키보드 입력시 도우말 X
+#define HELPDESK_WINDOW_MOUSE_POS_Y				(UIScreenH() - 190)		// 키보드 입력시 도우말 Y
 
 void CINFGameHelpDesk::RenderKeyPressHelpDesk(int selectkey)
 {
@@ -1843,12 +1843,12 @@ void CINFGameHelpDesk::RenderKeyPressHelpDesk(int selectkey)
 	{
 		if(m_nKeyHelpDeskKEY & HELPDESK_KEY_STATE_TAB)
 		{
-			m_pHelpKeyImage2[HELPDESK_IMAGE_INDEX_3]->Move(18,g_pD3dApp->GetBackBufferDesc().Height - 217);
+			m_pHelpKeyImage2[HELPDESK_IMAGE_INDEX_3]->Move(18,UIScreenH() - 217);
 			m_pHelpKeyImage2[HELPDESK_IMAGE_INDEX_3]->Render();
 		}
 		else
 		{
-			m_pHelpKeyImage2[HELPDESK_IMAGE_INDEX_2]->Move(18,g_pD3dApp->GetBackBufferDesc().Height - 217);
+			m_pHelpKeyImage2[HELPDESK_IMAGE_INDEX_2]->Move(18,UIScreenH() - 217);
 			m_pHelpKeyImage2[HELPDESK_IMAGE_INDEX_2]->Render();
 		}
 	}
@@ -1856,12 +1856,12 @@ void CINFGameHelpDesk::RenderKeyPressHelpDesk(int selectkey)
 	{
 		if(m_nKeyHelpDeskKEY & HELPDESK_KEY_STATE_C)
 		{
-			m_pHelpKeyImage2[HELPDESK_IMAGE_INDEX_5]->Move(169,g_pD3dApp->GetBackBufferDesc().Height - 129);
+			m_pHelpKeyImage2[HELPDESK_IMAGE_INDEX_5]->Move(169,UIScreenH() - 129);
 			m_pHelpKeyImage2[HELPDESK_IMAGE_INDEX_5]->Render();
 		}
 		else
 		{
-			m_pHelpKeyImage2[HELPDESK_IMAGE_INDEX_4]->Move(169,g_pD3dApp->GetBackBufferDesc().Height - 129);
+			m_pHelpKeyImage2[HELPDESK_IMAGE_INDEX_4]->Move(169,UIScreenH() - 129);
 			m_pHelpKeyImage2[HELPDESK_IMAGE_INDEX_4]->Render();
 		}
 	}
@@ -1869,12 +1869,12 @@ void CINFGameHelpDesk::RenderKeyPressHelpDesk(int selectkey)
 	{
 		if(m_nKeyHelpDeskKEY & HELPDESK_KEY_STATE_CTRL)
 		{
-			m_pHelpKeyImage2[HELPDESK_IMAGE_INDEX_1]->Move(18,g_pD3dApp->GetBackBufferDesc().Height - 129);
+			m_pHelpKeyImage2[HELPDESK_IMAGE_INDEX_1]->Move(18,UIScreenH() - 129);
 			m_pHelpKeyImage2[HELPDESK_IMAGE_INDEX_1]->Render();
 		}
 		else
 		{
-			m_pHelpKeyImage2[HELPDESK_IMAGE_INDEX_0]->Move(18,g_pD3dApp->GetBackBufferDesc().Height - 129);
+			m_pHelpKeyImage2[HELPDESK_IMAGE_INDEX_0]->Move(18,UIScreenH() - 129);
 			m_pHelpKeyImage2[HELPDESK_IMAGE_INDEX_0]->Render();
 		}
 	}
@@ -1882,12 +1882,12 @@ void CINFGameHelpDesk::RenderKeyPressHelpDesk(int selectkey)
 	{
 		if(m_nKeyHelpDeskKEY & HELPDESK_KEY_STATE_SPACE)
 		{
-			m_pHelpKeyImage2[HELPDESK_IMAGE_INDEX_7]->Move((g_pD3dApp->GetBackBufferDesc().Width-168)/2,g_pD3dApp->GetBackBufferDesc().Height - 108);
+			m_pHelpKeyImage2[HELPDESK_IMAGE_INDEX_7]->Move((UIScreenW()-168)/2,UIScreenH() - 108);
 			m_pHelpKeyImage2[HELPDESK_IMAGE_INDEX_7]->Render();
 		}
 		else
 		{
-			m_pHelpKeyImage2[HELPDESK_IMAGE_INDEX_6]->Move((g_pD3dApp->GetBackBufferDesc().Width-168)/2,g_pD3dApp->GetBackBufferDesc().Height - 108);
+			m_pHelpKeyImage2[HELPDESK_IMAGE_INDEX_6]->Move((UIScreenW()-168)/2,UIScreenH() - 108);
 			m_pHelpKeyImage2[HELPDESK_IMAGE_INDEX_6]->Render();
 		}
 	}
@@ -2002,8 +2002,8 @@ void CINFGameHelpDesk::StartHelpDesk()
 		m_nCharacterStatePos = HELPDESK_STATE_NEW;
 		m_bShowCityMouse = FALSE;
 		SetHelpDeskBox( CITY_BASE_DOWN_BUTTON_START_X(m_nCityButtonNumber), // 7 : button 개수
-			g_pD3dApp->GetBackBufferDesc().Height *2/3, 
-			g_pD3dApp->GetBackBufferDesc().Width /2, 
+			UIScreenH() *2/3, 
+			UIScreenW() /2, 
 			0, TRUE, HELPDESK_REMOVE_BOX_TIME );
 
 	}

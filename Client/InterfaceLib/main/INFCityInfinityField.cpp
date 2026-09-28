@@ -1152,8 +1152,8 @@
 // 		if( m_pInfinityBackGround[ nInfinityState ] )
 // 			ptBkSize = m_pInfinityBackGround[ nInfinityState ]->GetImgSize();
 // 
-// 		ptShowPos.x = (g_pD3dApp->GetBackBufferDesc().Width - ptBkSize.x)/2;
-// 		ptShowPos.y = (g_pD3dApp->GetBackBufferDesc().Height - ptBkSize.y)/2;
+// 		ptShowPos.x = (UIScreenW() - ptBkSize.x)/2;
+// 		ptShowPos.y = (UIScreenH() - ptBkSize.y)/2;
 // 
 // 		m_InfinityState	= nInfinityState;
 // 	}
@@ -1391,8 +1391,8 @@
 // 	if( m_bRoomJoinWait )
 // 	{
 // 		POINT pt	= m_pRoomJoinWaitBG->GetImgSize();
-// 		pt.x		= (g_pD3dApp->GetBackBufferDesc().Width - pt.x)/2;
-// 		pt.y		= (g_pD3dApp->GetBackBufferDesc().Height - pt.y)/2;
+// 		pt.x		= (UIScreenW() - pt.x)/2;
+// 		pt.y		= (UIScreenH() - pt.y)/2;
 // 
 // 		m_pRoomJoinWaitBG->Move( pt.x, pt.y );
 // 		m_pRoomJoinWaitBG->Render();
@@ -1406,8 +1406,8 @@
 // 	if( pCreateInfo->MapIndex )
 // 	{
 // 		POINT pt	= m_pRoomCreateBG->GetImgSize();
-// 		pt.x		= (g_pD3dApp->GetBackBufferDesc().Width - pt.x)/2;
-// 		pt.y		= (g_pD3dApp->GetBackBufferDesc().Height - pt.y)/2;
+// 		pt.x		= (UIScreenW() - pt.x)/2;
+// 		pt.y		= (UIScreenH() - pt.y)/2;
 // 
 // 		m_pRoomCreateBG->Move( pt.x, pt.y );
 // 		m_pRoomCreateBG->Render();
@@ -1627,8 +1627,8 @@
 // 	if( pRequest )
 // 	{
 // 		POINT pt	= m_pJoinRequestBG->GetImgSize();
-// 		pt.x		= (g_pD3dApp->GetBackBufferDesc().Width - pt.x)/2;
-// 		pt.y		= (g_pD3dApp->GetBackBufferDesc().Height - pt.y)/2;
+// 		pt.x		= (UIScreenW() - pt.x)/2;
+// 		pt.y		= (UIScreenH() - pt.y)/2;
 // 
 // 		m_pJoinRequestBG->Move( pt.x, pt.y );
 // 		m_pJoinRequestBG->Render();
@@ -1671,8 +1671,8 @@
 // 		else
 // 		{
 // 			POINT pt	= m_pRejectBG->GetImgSize();
-// 			pt.x		= (g_pD3dApp->GetBackBufferDesc().Width - pt.x)/2;
-// 			pt.y		= (g_pD3dApp->GetBackBufferDesc().Height - pt.y)/2;
+// 			pt.x		= (UIScreenW() - pt.x)/2;
+// 			pt.y		= (UIScreenH() - pt.y)/2;
 // 			
 // 			m_pRejectBG->Move( pt.x, pt.y );
 // 			m_pRejectBG->Render();
@@ -3410,8 +3410,8 @@ void	CINFCityInfinityField::ShowWndEx( BOOL bShowWnd, POINT *ptPos /* = NULL */,
 		if( m_pDescBack )
 			ptBkSize = m_pDescBack->GetImgSize();
 
-		ptShowPos.x = (g_pD3dApp->GetBackBufferDesc().Width - ptBkSize.x)/2;
-		ptShowPos.y = (g_pD3dApp->GetBackBufferDesc().Height - ptBkSize.y)/2;
+		ptShowPos.x = (UIScreenW() - ptBkSize.x)/2;
+		ptShowPos.y = (UIScreenH() - ptBkSize.y)/2;
 	}
 
 	CINFDefaultWnd::ShowWnd( bShowWnd, &ptShowPos, nWndWidth );
@@ -4216,7 +4216,7 @@ HRESULT CINFCityInfinityFieldPopUp::InitDeviceObjects()
 		m_pClosePopupBtn->InitDeviceObjects( "if_wct", "if_wcb", "if_wct", "if_wcb" );
 	}
 
-	m_MinimizeWindowPos.x = g_pD3dApp->GetBackBufferDesc().Width - 300;
+	m_MinimizeWindowPos.x = UIScreenW() - 300;
 	m_MinimizeWindowPos.y = 250;
 
 	return S_OK;
@@ -5371,8 +5371,8 @@ void	CINFCityInfinityFieldPopUp::ShowWndEx( INFINITY_STATE nInfinityState, BOOL 
 		if( m_pInfinityBackGround[ nInfinityState ] )
 			ptBkSize = m_pInfinityBackGround[ nInfinityState ]->GetImgSize();
 
-		ptShowPos.x = (g_pD3dApp->GetBackBufferDesc().Width - ptBkSize.x)/2;
-		ptShowPos.y = (g_pD3dApp->GetBackBufferDesc().Height - ptBkSize.y)/2;
+		ptShowPos.x = (UIScreenW() - ptBkSize.x)/2;
+		ptShowPos.y = (UIScreenH() - ptBkSize.y)/2;
 
 		m_InfinityState	= nInfinityState;
 	}
@@ -5695,8 +5695,8 @@ void	CINFCityInfinityFieldPopUp::RenderRoomJoin( void )
 	if( m_bRoomJoinWait )
 	{
 		POINT pt	= m_pRoomJoinWaitBG->GetImgSize();
-		pt.x		= (g_pD3dApp->GetBackBufferDesc().Width - pt.x)/2;
-		pt.y		= (g_pD3dApp->GetBackBufferDesc().Height - pt.y)/2;
+		pt.x		= (UIScreenW() - pt.x)/2;
+		pt.y		= (UIScreenH() - pt.y)/2;
 		
 		m_pRenewInfiJoinBackImage->Move( pt.x, pt.y );
 		m_pRenewInfiJoinBackImage->Render();													  
@@ -5716,8 +5716,8 @@ void	CINFCityInfinityFieldPopUp::RenderRoomCreate( void )
 	if( pCreateInfo->MapIndex )
 	{
 		POINT pt	= m_pRoomCreateBG->GetImgSize();
-		pt.x		= (g_pD3dApp->GetBackBufferDesc().Width - pt.x)/2;
-		pt.y		= (g_pD3dApp->GetBackBufferDesc().Height - pt.y)/2;
+		pt.x		= (UIScreenW() - pt.x)/2;
+		pt.y		= (UIScreenH() - pt.y)/2;
 		
 		m_pRoomCreateBG->Move( pt.x, pt.y );
 		m_pRoomCreateBG->Render();
@@ -6061,8 +6061,8 @@ void	CINFCityInfinityFieldPopUp::RenderJoinRequest( void )
 	if( pRequest )
 	{
 		POINT pt	= m_pJoinRequestBG->GetImgSize();
-		pt.x		= (g_pD3dApp->GetBackBufferDesc().Width - pt.x)/2;
-		pt.y		= (g_pD3dApp->GetBackBufferDesc().Height - pt.y)/2;
+		pt.x		= (UIScreenW() - pt.x)/2;
+		pt.y		= (UIScreenH() - pt.y)/2;
 		m_pRenewInfiJoinRejectImage->Move( pt.x, pt.y );
 		m_pRenewInfiJoinRejectImage->Render();
 		
@@ -6145,8 +6145,8 @@ void	CINFCityInfinityFieldPopUp::RenderMemberBan( void )
 		else
 		{
 			POINT pt	= m_pRejectBG->GetImgSize();
-			pt.x		= (g_pD3dApp->GetBackBufferDesc().Width - pt.x)/2;
-			pt.y		= (g_pD3dApp->GetBackBufferDesc().Height - pt.y)/2;
+			pt.x		= (UIScreenW() - pt.x)/2;
+			pt.y		= (UIScreenH() - pt.y)/2;
 			m_pRenewInfiRejectImage->Move( pt.x, pt.y );
 			m_pRenewInfiRejectImage->Render();
 
@@ -6232,8 +6232,8 @@ void CINFCityInfinityFieldPopUp::RenderRoomDifficultSetWnd( void )
 	{
 
 		POINT pt	= m_pRoomDifficultSetBG->GetImgSize();
-		pt.x		= (g_pD3dApp->GetBackBufferDesc().Width - pt.x)/2;
-		pt.y		= (g_pD3dApp->GetBackBufferDesc().Height - pt.y)/2;
+		pt.x		= (UIScreenW() - pt.x)/2;
+		pt.y		= (UIScreenH() - pt.y)/2;
 
 
 	m_pRenewInfiLevelImage->Move( pt.x , pt.y );
@@ -6638,6 +6638,7 @@ int		CINFCityInfinityFieldPopUp::WndProcRoomSel( UINT uMsg, WPARAM wParam, LPARA
 	POINT ptToolTip;
 		GetCursorPos ( &ptToolTip );
 		ScreenToClient ( g_pD3dApp->GetHwnd() , &ptToolTip );
+		CheckMouseReverse ( &ptToolTip );
 
 	RenderRoomSelToolTip_DifficultInfo ( ptToolTip );
 	// End. 2010. 04. 28 by hsLee 인피니티 필드 2차 난이도 조절.
@@ -7895,6 +7896,7 @@ int CINFCityInfinityFieldPopUp::WndProcRoomDifficultSetWnd( UINT uMsg , WPARAM w
 		GetCursorPos ( &ptToolTip );
 
 	ScreenToClient(g_pD3dApp->GetHwnd(),&ptToolTip);
+	CheckMouseReverse(&ptToolTip);
 
 	if ( m_pRoomDifficultSetBtn->GetBtnState() == BTN_STATUS_DISABLE &&
 		m_pRoomDifficultSetBtn->IsMouseOverlab( ptToolTip ) )

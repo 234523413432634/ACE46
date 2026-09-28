@@ -6907,8 +6907,8 @@ void CINFCharacterInfoExtend::ShowCharacterInfoWnd(BOOL bShowWnd, POINT* pPos/*=
 		ptSize.x = m_pInformationBK->GetMaxPos().x - m_pInformationBK->GetMinPos().x;
 		ptSize.y = m_pInformationBK->GetMaxPos().y - m_pInformationBK->GetMinPos().y;			  
 		
-		m_ptBkPos.x = (g_pD3dApp->GetBackBufferDesc().Width-ptSize.x)/2;
-		m_ptBkPos.y = (g_pD3dApp->GetBackBufferDesc().Height-ptSize.y)/2;
+		m_ptBkPos.x = (UIScreenW()-ptSize.x)/2;
+		m_ptBkPos.y = (UIScreenH()-ptSize.y)/2;
 //2011-10-06 by jhahn 파트너 성장형 시스템
 		POINT ptSkillSize;
 		ptSkillSize.x = ptSkillSize.y = 0;
@@ -6921,8 +6921,8 @@ void CINFCharacterInfoExtend::ShowCharacterInfoWnd(BOOL bShowWnd, POINT* pPos/*=
 		ptSkillSize.y += PARTNER_SKILL_POPUPSHOP_Y_GAP;
 
 
-		m_ptSkillBkPos.x = (g_pD3dApp->GetBackBufferDesc().Width-ptSkillSize.x)/9;
-		m_ptSkillBkPos.y = (g_pD3dApp->GetBackBufferDesc().Height-ptSkillSize.y)/10;
+		m_ptSkillBkPos.x = (UIScreenW()-ptSkillSize.x)/9;
+		m_ptSkillBkPos.y = (UIScreenH()-ptSkillSize.y)/10;
 //end 2011-10-06 by jhahn 파트너 성장형 시스템
 	}	
 	if(bShowWnd)

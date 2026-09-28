@@ -228,8 +228,8 @@ HRESULT CINFInvenEquip::InitDeviceObjects()
 		m_pMirrorVB->Unlock();
 		
 		D3DXMatrixOrthoLH(&m_pMatInvenBackProj, 
-			(float)g_pD3dApp->GetBackBufferDesc().Width,
-			(float)g_pD3dApp->GetBackBufferDesc().Height, 
+			(float)UIScreenW(),
+			(float)UIScreenH(), 
 			0.0f, 1.0f);
 		
 		pDataHeader = FindResource("w_w11");
@@ -246,7 +246,7 @@ HRESULT CINFInvenEquip::InitDeviceObjects()
 
 	if(NULL == m_pFontSPIWPToolTip )
 	{
-		m_pFontSPIWPToolTip = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9 * HIDPI_COEFF, D3DFONT_ZENABLE,  TRUE,1024 * HIDPI_COEFF,32 * HIDPI_COEFF);
+		m_pFontSPIWPToolTip = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE,  TRUE,1024,32);
 		m_pFontSPIWPToolTip->InitDeviceObjects(g_pD3dDev);
 	}
 	return S_OK;
@@ -894,8 +894,8 @@ void CINFInvenEquip::RenderInvenBack(POINT ptPos, SIZE szSize)
 	g_pD3dDev->SetRenderState( D3DRS_LIGHTING, FALSE );	
 	g_pD3dDev->SetRenderState( D3DRS_ZENABLE, FALSE );
 	
-	int nScreenWidth = -(int)g_pD3dApp->GetBackBufferDesc().Width / 2;
-	int nScreenHeight = ((float)g_pD3dApp->GetBackBufferDesc().Height / 2) + 0.5f;	
+	int nScreenWidth = -(int)UIScreenW() / 2;
+	int nScreenHeight = ((float)UIScreenH() / 2) + 0.5f;	
 	
 	D3DXMatrixScaling(&pMatBack, szSize.cx, szSize.cy, 1.0f);
 	D3DXMatrixTranslation(&pTemp, 
@@ -1099,12 +1099,12 @@ void CINFInvenEquip::RenderMirror(POINT *pMirrorPos/*=NULL*/)
 		// into normalized device coordinates : a fixed scale covers a fixed part of
 		// the screen and grows in pixels with the resolution, while the window it
 		// has to sit in is a fixed number of pixels wide.
-		float fUnitScaling = UNIT_SCALE * UNIT_SCALE_BASE_WIDTH / (float)g_pD3dApp->GetBackBufferDesc().Width;
-		float fEqPosX = ((float)(*pMirrorPos).x / (float)g_pD3dApp->GetBackBufferDesc().Width) * 2;
+		float fUnitScaling = UNIT_SCALE * UNIT_SCALE_BASE_WIDTH / (float)UIScreenW();
+		float fEqPosX = ((float)(*pMirrorPos).x / (float)UIScreenW()) * 2;
 
-		float fEqCenterX	= ((float)((CINFInvenExtend*)m_pParent)->GetBkSize().x / (float)g_pD3dApp->GetBackBufferDesc().Width); 
-		float fEqPosY		= ((float)(*pMirrorPos).y / (float)g_pD3dApp->GetBackBufferDesc().Height) * 2;
-		float fEqCenterY	= ((float)((((CINFInvenExtend*)m_pParent)->GetBkSize().y - 20) / 2) / (float)g_pD3dApp->GetBackBufferDesc().Height);
+		float fEqCenterX	= ((float)((CINFInvenExtend*)m_pParent)->GetBkSize().x / (float)UIScreenW()); 
+		float fEqPosY		= ((float)(*pMirrorPos).y / (float)UIScreenH()) * 2;
+		float fEqCenterY	= ((float)((((CINFInvenExtend*)m_pParent)->GetBkSize().y - 20) / 2) / (float)UIScreenH());
 		
 		if(g_pShuttleChild->GetMonsterTransformer())
 		{
@@ -1695,9 +1695,9 @@ void CINFInvenEquip::RenderSPIWPTooltip()
 	}
 	int leng = m_pFontSPIWPToolTip->GetStringSize(buf).cx + 5;
 	
-	if(nX + leng > g_pD3dApp->GetBackBufferDesc().Width)
+	if(nX + leng > UIScreenW())
  	{
-		nX = g_pD3dApp->GetBackBufferDesc().Width - leng;
+		nX = UIScreenW() - leng;
  	}
 	g_pGameMain->RenderPopUpWindowImage(nX, m_SPIWPToolTipPos.y-13, leng, 1);
 	m_pFontSPIWPToolTip->DrawText(nX, m_SPIWPToolTipPos.y-13, GUI_FONT_COLOR_W, buf);

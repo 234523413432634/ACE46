@@ -724,7 +724,7 @@ void CINFReturnAuctionCenter::BlackBackImgRender()
 	if(m_pBlackBackImg)
 	{
 		m_pBlackBackImg->Move(0, 0);
-		m_pBlackBackImg->SetAniScale(g_pD3dApp->GetBackBufferDesc().Width, g_pD3dApp->GetBackBufferDesc().Height);
+		m_pBlackBackImg->SetAniScale(UIScreenW(), UIScreenH());
 		m_pBlackBackImg->Render();
 	}
 }

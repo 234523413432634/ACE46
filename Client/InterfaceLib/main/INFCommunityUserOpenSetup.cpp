@@ -140,7 +140,7 @@ HRESULT CINFCommunityUserOpenSetup::InitDeviceObjects()
 
 	// 커뮤니티 옵션배	
 	m_ptCommOpBk.x = ptBkPos.x + COMMUNITY_OPENBK_X;
-	m_ptCommOpBk.y = (g_pD3dApp->GetBackBufferDesc().Height/2) - COMMUNITY_OPENBK_HEIGHT/2;
+	m_ptCommOpBk.y = (UIScreenH()/2) - COMMUNITY_OPENBK_HEIGHT/2;
 
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("open");	
 	m_pBkImage = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
@@ -539,7 +539,7 @@ void CINFCommunityUserOpenSetup::ShowWindow(BOOL bShow, BOOL bCharacter)
 
 		// 커뮤니티 옵션배	
 		
-		m_ptCommOpBk.y = (g_pD3dApp->GetBackBufferDesc().Height/2) - COMMUNITY_OPENBK_HEIGHT/2;
+		m_ptCommOpBk.y = (UIScreenH()/2) - COMMUNITY_OPENBK_HEIGHT/2;
 
 		InitControl();
 		// UI유저 지정 

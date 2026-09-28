@@ -56,7 +56,7 @@ void CINFToolTip::Render()
 		DWORD dwAlpha = GetCurrentColor(fUnLifeTime, ALPHA_DELAY_WAVE, TOOLTIP_SHOW_TIME,2.0f);
 		
 		POINT pt = m_pImgTemp->GetImgSize();
-		DWORD nX = (int)(g_pD3dApp->GetBackBufferDesc().Width - pt.x)/2;
+		DWORD nX = (int)(UIScreenW() - pt.x)/2;
 		DWORD nY = TOOLTIP_RENDER_Y;
 		m_pImgTemp->SetColor(dwAlpha);
 		m_pImgTemp->Move(nX,nY);
@@ -67,9 +67,9 @@ void CINFToolTip::Render()
 	{
 		SIZE Size = m_pToolTipFont->GetStringSize(m_pViewName);
 		LONG temp = 0;
-		if((int)(g_pD3dApp->GetBackBufferDesc().Width) - (int)(m_nPoint.x + Size.cx + POINT_LEFT_GAB * 2 + 2 ) < 0 ) 
+		if((int)(UIScreenW()) - (int)(m_nPoint.x + Size.cx + POINT_LEFT_GAB * 2 + 2 ) < 0 ) 
 		{
-			temp = abs((LONG)((g_pD3dApp->GetBackBufferDesc().Width) - (int)(m_nPoint.x + Size.cx + POINT_LEFT_GAB * 2 + 2)));
+			temp = abs((LONG)((UIScreenW()) - (int)(m_nPoint.x + Size.cx + POINT_LEFT_GAB * 2 + 2)));
 		}
 		g_pGameMain->RenderPopUpWindowImage(m_nPoint.x - temp, m_nPoint.y + POINT_TOP_GAB, Size.cx + POINT_LEFT_GAB * 2 + 2, Size.cy);
 		m_pToolTipFont->DrawText(m_nPoint.x + POINT_LEFT_GAB - temp, m_nPoint.y,GUI_FONT_COLOR_W,m_pViewName);
@@ -105,7 +105,7 @@ HRESULT CINFToolTip::InitDeviceObjects()
 	pImage->InitDeviceObjects(pDataHeader ) ;
 	m_mapToolTip[TOOLTIP_IMGTYPE_TELEPORT_DESTROY] = pImage;
 // 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현	
-	m_pToolTipFont = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9 * HIDPI_COEFF, D3DFONT_ZENABLE,  FALSE,256 * HIDPI_COEFF,32 * HIDPI_COEFF);
+	m_pToolTipFont = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE,  FALSE,256,32);
 	m_pToolTipFont->InitDeviceObjects(g_pD3dDev);
 
 	int nCnt = 0;

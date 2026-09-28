@@ -147,7 +147,7 @@ void CINFTradeItemCenter::Init()
 	m_nMySPI = 0;
 	m_nMyWP = 0;
 	
-	m_ptStartPos.x = (g_pD3dApp->GetBackBufferDesc().Width - TRADEITEMBUY_WIDTH)/2;
+	m_ptStartPos.x = (UIScreenW() - TRADEITEMBUY_WIDTH)/2;
 	m_ptStartPos.y = CITY_BASE_NPC_BOX_START_Y  - (TRADEITEMBUY_HEIGHT - (CITY_BASE_NPC_BOX_SIZE_Y+CITY_BASE_DOWN_BOX_HEIGHT));
 	//m_ptStartPos.y = m_pBackImg->GetTransY();
 	
@@ -157,7 +157,7 @@ void CINFTradeItemCenter::Init()
 	m_dwState = _TRADE_ITEM_BUY;
 	m_pImgTapBtn[m_dwState]->SetBtnState(BTN_STATUS_DOWN);
 
-	//m_pBackImg->Move((g_pD3dApp->GetBackBufferDesc().Width - 936) /2, CITY_BASE_NPC_BOX_START_Y  - 	(642 - (CITY_BASE_NPC_BOX_SIZE_Y+CITY_BASE_DOWN_BOX_HEIGHT)));
+	//m_pBackImg->Move((UIScreenW() - 936) /2, CITY_BASE_NPC_BOX_START_Y  - 	(642 - (CITY_BASE_NPC_BOX_SIZE_Y+CITY_BASE_DOWN_BOX_HEIGHT)));
 }
 
 HRESULT CINFTradeItemCenter::InitDeviceObjects()
@@ -1013,7 +1013,7 @@ void CINFTradeItemCenter::BlackBackImgRender()
 	if(m_pBlackBackImg)
 	{
 		m_pBlackBackImg->Move(0,0);
-		m_pBlackBackImg->SetAniScale(g_pD3dApp->GetBackBufferDesc().Width,g_pD3dApp->GetBackBufferDesc().Height);
+		m_pBlackBackImg->SetAniScale(UIScreenW(),UIScreenH());
 		m_pBlackBackImg->Render();
 	}
 }

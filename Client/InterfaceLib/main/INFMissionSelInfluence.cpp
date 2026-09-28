@@ -250,13 +250,13 @@ HRESULT CINFMissionSelInfluence::RestoreDeviceObjects()
 
 		POINT ptBk = m_pMissionImg->GetImgSize();		
 		
-		if(g_pD3dApp->GetBackBufferDesc().Width > ptBk.x)
+		if(UIScreenW() > ptBk.x)
 		{
-			m_fBackPosX = (g_pD3dApp->GetBackBufferDesc().Width/2)-(ptBk.x/2);
+			m_fBackPosX = (UIScreenW()/2)-(ptBk.x/2);
 		}
-		if(g_pD3dApp->GetBackBufferDesc().Height > ptBk.y)
+		if(UIScreenH() > ptBk.y)
 		{
-			m_fBackPosY = (g_pD3dApp->GetBackBufferDesc().Height/2)-(ptBk.y/2);
+			m_fBackPosY = (UIScreenH()/2)-(ptBk.y/2);
 		}	
 	}
 	
@@ -449,8 +449,8 @@ void CINFMissionSelInfluence::InitInfluenceMission()
 	m_vecVCUfluenceDesc.clear();		// 미션 설명
 	m_vecANIfluenceDesc.clear();		// 미션 설명
 
-	m_nInfluencePosX = (g_pD3dApp->GetBackBufferDesc().Width/2);
-	m_nInfluencePosY = (g_pD3dApp->GetBackBufferDesc().Height/2);
+	m_nInfluencePosX = (UIScreenW()/2);
+	m_nInfluencePosY = (UIScreenH()/2);
 	
 	POINT pSize = m_pMissionImg->GetImgSize();
 

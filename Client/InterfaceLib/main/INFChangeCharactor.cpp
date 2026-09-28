@@ -198,8 +198,8 @@ HRESULT CINFChangeCharactor::InitDeviceObjects()
 	}
 	m_pFontName->InitDeviceObjects(g_pD3dDev);
 
-	m_nWindowX = (g_pD3dApp->GetBackBufferDesc().Width - CHANGE_CHARACTOR_WINDOW_W)/2;
-	m_nWindowY = (g_pD3dApp->GetBackBufferDesc().Height - (CHANGE_CHARACTOR_WINDOW_H*2))/2;
+	m_nWindowX = (UIScreenW() - CHANGE_CHARACTOR_WINDOW_W)/2;
+	m_nWindowY = (UIScreenH() - (CHANGE_CHARACTOR_WINDOW_H*2))/2;
 	return S_OK;
 }
 HRESULT CINFChangeCharactor::RestoreDeviceObjects()

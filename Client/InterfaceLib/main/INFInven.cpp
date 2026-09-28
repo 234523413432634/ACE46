@@ -286,8 +286,8 @@ HRESULT CINFInven::InitDeviceObjects()
 	v[1].uv.x = v[2].uv.y = v[3].uv.y = v[3].uv.x = 1;
 	m_pMirrorVB->Unlock();
 	D3DXMatrixOrthoLH(&m_pMatInvenBackProj,
-		(float)g_pD3dApp->GetBackBufferDesc().Width,
-		(float)g_pD3dApp->GetBackBufferDesc().Height,
+		(float)UIScreenW(),
+		(float)UIScreenH(),
 		0.0f, 1.0f);
 	pDataHeader = FindResource("w_wi11");
 	if (!pDataHeader)
@@ -3548,8 +3548,8 @@ void CINFInven::RenderInvenBack(BOOL bShop)
 	g_pD3dDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 	g_pD3dDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 	g_pD3dDev->SetRenderState(D3DRS_ZENABLE, FALSE);
-	int nScreenWidth = -(int)g_pD3dApp->GetBackBufferDesc().Width / 2;
-	int nScreenHeight = ((float)g_pD3dApp->GetBackBufferDesc().Height / 2) + 0.5f;
+	int nScreenWidth = -(int)UIScreenW() / 2;
+	int nScreenHeight = ((float)UIScreenH() / 2) + 0.5f;
 	int nWindowPosY = g_pGameMain->m_nLeftWindowY;
 	D3DXMatrixScaling(&pMatBack, INVEN_BACK_W, INVEN_BACK_H, 1.0f);
 	if (bShop)

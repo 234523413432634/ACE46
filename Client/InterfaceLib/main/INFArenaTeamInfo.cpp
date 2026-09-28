@@ -25,15 +25,15 @@
 
 
 
-//#define ARENA_TEAMINFO_BUTTON_X					(g_pD3dApp->GetBackBufferDesc().Width - 326 + m_nInfoButtonX)
+//#define ARENA_TEAMINFO_BUTTON_X					(UIScreenW() - 326 + m_nInfoButtonX)
 //#define ARENA_TEAMINFO_BUTTON_Y					(22 + m_nInfoButtonY)
 #define ARENA_TEAMINFO_BUTTON_X					(m_nInfoButtonX)
 #define ARENA_TEAMINFO_BUTTON_Y					(m_nInfoButtonY)
 #define ARENA_TEAMINFO_BUTTON_W					177
 #define ARENA_TEAMINFO_BUTTON_H					25
 
-#define ARENA_TEAMINFO_BUTTON_LIMIT_X			(g_pD3dApp->GetBackBufferDesc().Width - (ARENA_TEAMINFO_BUTTON_W))
-#define ARENA_TEAMINFO_BUTTON_LIMIT_Y			(g_pD3dApp->GetBackBufferDesc().Height - (ARENA_TEAMINFO_BUTTON_H + 40))
+#define ARENA_TEAMINFO_BUTTON_LIMIT_X			(UIScreenW() - (ARENA_TEAMINFO_BUTTON_W))
+#define ARENA_TEAMINFO_BUTTON_LIMIT_Y			(UIScreenH() - (ARENA_TEAMINFO_BUTTON_H + 40))
 
 #define ARENA_TEAMINFO_INFO_START_X				ARENA_TEAMINFO_BUTTON_X
 #define ARENA_TEAMINFO_INFO_START_Y				ARENA_TEAMINFO_BUTTON_Y + 25
@@ -87,8 +87,8 @@
 #define ARENA_GEAR_CASE_CREATE_W					423
 #define ARENA_GEAR_CASE_CREATE_H					204
 
-#define ARENA_GEAR_CASE_CREATE_X			((g_pD3dApp->GetBackBufferDesc().Width - ARENA_GEAR_CASE_CREATE_W ) /2 )
-#define ARENA_GEAR_CASE_CREATE_Y			((g_pD3dApp->GetBackBufferDesc().Height - ARENA_GEAR_CASE_CREATE_H ) /2 )
+#define ARENA_GEAR_CASE_CREATE_X			((UIScreenW() - ARENA_GEAR_CASE_CREATE_W ) /2 )
+#define ARENA_GEAR_CASE_CREATE_Y			((UIScreenH() - ARENA_GEAR_CASE_CREATE_H ) /2 )
 
 #define ARENA_GEAR_CASE_IMAGE_X						37
 #define ARENA_GEAR_CASE_IMAGE_Y						50
@@ -174,7 +174,7 @@ CINFArenaTeamInfo::CINFArenaTeamInfo(CAtumNode* pParent)
 	m_nLimitPerson = 0;
 	m_nPerson = 0;
 
-	m_nInfoButtonX = g_pD3dApp->GetBackBufferDesc().Width - 326;
+	m_nInfoButtonX = UIScreenW() - 326;
 	m_nInfoButtonY = 22;
 	
 	m_bInfoButton = FALSE;

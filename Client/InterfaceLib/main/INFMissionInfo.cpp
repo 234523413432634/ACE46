@@ -53,13 +53,13 @@
 #define MISSION_VIEW_ALL					0
 #define MISSION_VIEW_SOLVE					1
 #define MISSION_VIEW_UNSOLVE				2
-#define MISSION_VIEW_INFO_POSX				(g_pD3dApp->GetBackBufferDesc().Width-390)
+#define MISSION_VIEW_INFO_POSX				(UIScreenW()-390)
 
 // 출격하기 미션맵 이동 좌표
-#define MISSION_LAUNCH_SHUTTLE_X			(g_pD3dApp->GetBackBufferDesc().Width-127)
-#define MISSION_LAUNCH_SHUTTLE_Y			(g_pD3dApp->GetBackBufferDesc().Height-72)
-#define MISSION_MAP_MOVE_X					(g_pD3dApp->GetBackBufferDesc().Width-252)
-#define MISSION_MAP_MOVE_Y					(g_pD3dApp->GetBackBufferDesc().Height-72)
+#define MISSION_LAUNCH_SHUTTLE_X			(UIScreenW()-127)
+#define MISSION_LAUNCH_SHUTTLE_Y			(UIScreenH()-72)
+#define MISSION_MAP_MOVE_X					(UIScreenW()-252)
+#define MISSION_MAP_MOVE_Y					(UIScreenH()-72)
 
 // 색상 설정
 #define MISSION_SELECT_COLOR				(RGB(194, 155, 0))
@@ -85,8 +85,8 @@
 #define MISSION_ERR_POSENDQUEST				112
 
 // 경고창 
-#define MISSION_WARNING_X					((g_pD3dApp->GetBackBufferDesc().Width / 2) - 225)
-#define MISSION_WARNING_Y					((g_pD3dApp->GetBackBufferDesc().Height / 2) - 103)
+#define MISSION_WARNING_X					((UIScreenW() / 2) - 225)
+#define MISSION_WARNING_Y					((UIScreenH() / 2) - 103)
 #define MISSION_WARNING_OK_X				MISSION_WARNING_X + 139
 #define MISSION_WARNING_OK_Y				MISSION_WARNING_Y + 118
 #define MISSION_WARNING_CAN_X				MISSION_WARNING_X + 226
@@ -387,8 +387,8 @@ HRESULT CINFMissionInfo::InitDeviceObjects()
 	pSize.x = 768; 
 	pSize.y = 554;
 
-	int nPosX = (g_pD3dApp->GetBackBufferDesc().Width/2)-(pSize.x/2);
-	int nPosY = (g_pD3dApp->GetBackBufferDesc().Height/2)-(pSize.y/2);
+	int nPosX = (UIScreenW()/2)-(pSize.x/2);
+	int nPosY = (UIScreenH()/2)-(pSize.y/2);
 
 	m_pScrollLeftfluence = new CINFScrollBar(this,
 								nPosX+381, 
@@ -483,8 +483,8 @@ HRESULT CINFMissionInfo::RestoreDeviceObjects()
 
 	// 스크롤 설정
 	POINT pSize = m_pMissionImg[MISS_INFLUENCE_BK]->GetImgSize();
-	m_nInfluencePosX = (g_pD3dApp->GetBackBufferDesc().Width/2)-(pSize.x/2);
-	m_nInfluencePosY = (g_pD3dApp->GetBackBufferDesc().Height/2)-(pSize.y/2);	
+	m_nInfluencePosX = (UIScreenW()/2)-(pSize.x/2);
+	m_nInfluencePosY = (UIScreenH()/2)-(pSize.y/2);	
 
 	m_pScrollLeftfluence->SetScrollLinePos( m_nInfluencePosX+381, m_nInfluencePosY+86);
 	m_pScrollLeftfluence->SetWheelRect(
@@ -1715,8 +1715,8 @@ DWORD CINFMissionInfo::MissionProcFlag(BOOL bFlag)
 		return MISSION_RUN_RENDER_ERR;
 	}
 
-	m_PointMissionPos.x = ((g_pD3dApp->GetBackBufferDesc().Width/2)-(MISSION_WINDOW_SIZE_WIDTH/2));
-	m_PointMissionPos.y = ((g_pD3dApp->GetBackBufferDesc().Height/2)-(MISSION_WINDOW_SIZE_HEIGHT/2));
+	m_PointMissionPos.x = ((UIScreenW()/2)-(MISSION_WINDOW_SIZE_WIDTH/2));
+	m_PointMissionPos.y = ((UIScreenH()/2)-(MISSION_WINDOW_SIZE_HEIGHT/2));
 
 	InitMission();
 	
@@ -2546,8 +2546,8 @@ void CINFMissionInfo::InitInfluenceMission()
 {
 	m_bInfluenceFlag = TRUE;
 
-	m_nInfluencePosX = (g_pD3dApp->GetBackBufferDesc().Width/2);
-	m_nInfluencePosY = (g_pD3dApp->GetBackBufferDesc().Height/2);
+	m_nInfluencePosX = (UIScreenW()/2);
+	m_nInfluencePosY = (UIScreenH()/2);
 	
 	POINT pSize = m_pMissionImg[MISS_INFLUENCE_BK]->GetImgSize();
 

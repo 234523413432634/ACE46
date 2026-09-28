@@ -455,13 +455,13 @@ HRESULT CINFArenaResult::RestoreDeviceObjects()
 	
 	{
 		RECT rcMouseWhell[MAX_ARENA_RESULT], rcMousePos[MAX_ARENA_RESULT];
-		if(g_pD3dApp->GetBackBufferDesc().Width > ptArena.x)
+		if(UIScreenW() > ptArena.x)
 		{
-			fBKX = (g_pD3dApp->GetBackBufferDesc().Width/2)-(ptArena.x/2);
+			fBKX = (UIScreenW()/2)-(ptArena.x/2);
 		}
-		if(g_pD3dApp->GetBackBufferDesc().Height > ptArena.y)
+		if(UIScreenH() > ptArena.y)
 		{
-			fBKY = (g_pD3dApp->GetBackBufferDesc().Height/2)-(ptArena.y/2);
+			fBKY = (UIScreenH()/2)-(ptArena.y/2);
 		}	
 		m_fBackPosX = fBKX;
 		m_fBackPosY = fBKY;

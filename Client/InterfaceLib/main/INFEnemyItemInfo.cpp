@@ -469,8 +469,8 @@ void CINFEnemyItemInfo::ShowWindow(BOOL b_show)
 	m_bShow = b_show;
 	if(m_bShow)
 	{		
-		m_ptCommOpBk.x = (g_pD3dApp->GetBackBufferDesc().Width) - ENEMYITEMINFO_OPENBK_WIDTH;
-		m_ptCommOpBk.y = (g_pD3dApp->GetBackBufferDesc().Height/2) - ENEMYITEMINFO_OPENBK_HEIGHT/2;
+		m_ptCommOpBk.x = (UIScreenW()) - ENEMYITEMINFO_OPENBK_WIDTH;
+		m_ptCommOpBk.y = (UIScreenH()/2) - ENEMYITEMINFO_OPENBK_HEIGHT/2;
 		UpdateUIPos();			
 	}
 }
@@ -1269,12 +1269,12 @@ void CINFEnemyItemInfo::RenderMirror(POINT *pMirrorPos)
 		
 		// View and projection are identity here, so the world matrix writes straight
 		// into normalized device coordinates.
-		float fUnitScaling	= UNIT_SCALE * UNIT_SCALE_BASE_WIDTH / (float)g_pD3dApp->GetBackBufferDesc().Width;
+		float fUnitScaling	= UNIT_SCALE * UNIT_SCALE_BASE_WIDTH / (float)UIScreenW();
 
-		float fEqPosX		= ((float)(*pMirrorPos).x / (float)g_pD3dApp->GetBackBufferDesc().Width) * 2;	
-		float fEqCenterX	= ((float)EXTEND_INVEN_BACK_W / (float)g_pD3dApp->GetBackBufferDesc().Width); 
-		float fEqPosY		= ((float)(*pMirrorPos).y / (float)g_pD3dApp->GetBackBufferDesc().Height) * 2;
-		float fEqCenterY	= ((float)EXTEND_INVEN_BACK_H / (float)g_pD3dApp->GetBackBufferDesc().Height);
+		float fEqPosX		= ((float)(*pMirrorPos).x / (float)UIScreenW()) * 2;	
+		float fEqCenterX	= ((float)EXTEND_INVEN_BACK_W / (float)UIScreenW()); 
+		float fEqPosY		= ((float)(*pMirrorPos).y / (float)UIScreenH()) * 2;
+		float fEqCenterY	= ((float)EXTEND_INVEN_BACK_H / (float)UIScreenH());
 		// A device coordinate is as wide as the screen and as tall as it, so the
 		// same number covers more pixels across than down and the ship comes out
 		// squashed.

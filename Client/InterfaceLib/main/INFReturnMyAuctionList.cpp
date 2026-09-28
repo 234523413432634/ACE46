@@ -1253,9 +1253,9 @@ void CINFReturnMyAuctionList::ToolTipRender()
 
 	int leng = m_pToolTipFont->GetStringSize(buf).cx + 4;
 	
-	if(g_pD3dApp->GetBackBufferDesc().Width < nX + leng)
+	if(UIScreenW() < nX + leng)
 	{
-		nX = g_pD3dApp->GetBackBufferDesc().Width - leng;
+		nX = UIScreenW() - leng;
 	}
 	g_pGameMain->RenderPopUpWindowImage(nX, m_ptToolTipPos.y + TOOLTIP_POSITION_Y, leng, 1);
 	m_pToolTipFont->DrawText(nX + 1, m_ptToolTipPos.y + TOOLTIP_POSITION_Y - 2, GUI_FONT_COLOR_W, buf);

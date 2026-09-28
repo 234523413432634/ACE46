@@ -31,13 +31,13 @@
 #define PLAY_ADD_TIME			1.0f
 #define MAX_PLAY_TIME			6.0f
 
-#define OPWND_POS_X				(g_pD3dApp->GetBackBufferDesc().Width-332)
-#define OPWND_POS_Y				(g_pD3dApp->GetBackBufferDesc().Height-197)
+#define OPWND_POS_X				(UIScreenW()-332)
+#define OPWND_POS_Y				(UIScreenH()-197)
 
 
 
-#define OPWND_BOTTOM_POS_Y		(g_pD3dApp->GetBackBufferDesc().Height)
-#define OPWND_BOTTOM_POS_X		(g_pD3dApp->GetBackBufferDesc().Width)
+#define OPWND_BOTTOM_POS_Y		(UIScreenH())
+#define OPWND_BOTTOM_POS_X		(UIScreenW())
 #define OPWND_POS_Y_GAP			20
 #define OPWND_POS_Y_FONT_GAP	 5
 #define OPWND_POS_X_GAP			10

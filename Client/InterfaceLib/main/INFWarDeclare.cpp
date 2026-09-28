@@ -593,8 +593,8 @@ void	CINFWarDeclare::ShowWarDeclare(void)
 	}
 
 	m_bWarDeclareAct	= TRUE;
-	m_nWarDeclarePosX	= (g_pD3dApp->GetBackBufferDesc().Width - MOTHERSHIP_WAR_DECLARE_BG_W)/2;
-	m_nWarDeclarePosY	= (g_pD3dApp->GetBackBufferDesc().Height - MOTHERSHIP_WAR_DECLARE_BG_H)/2;
+	m_nWarDeclarePosX	= (UIScreenW() - MOTHERSHIP_WAR_DECLARE_BG_W)/2;
+	m_nWarDeclarePosY	= (UIScreenH() - MOTHERSHIP_WAR_DECLARE_BG_H)/2;
 
 	// 현재 시간으로 달력 생성
 	ATUM_DATE_TIME serverTime	= GetServerDateTime();

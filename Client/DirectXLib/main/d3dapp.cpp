@@ -1260,7 +1260,7 @@ LRESULT CD3DApplication::MsgProc(HWND hWnd, UINT uMsg,
 			{
 				ScreenToClient(m_hWnd, &ptCursor);
 			}
-			CheckMouseReverse(&ptCursor);
+			CheckMouseReversePixels(&ptCursor);
 			m_ptCursor = ptCursor;
 		}
 		break;

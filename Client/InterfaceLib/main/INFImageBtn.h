@@ -38,6 +38,9 @@ public:
 	
 	void Render();
 	void SetBtnPosition(float i_fPosX, float i_fPosY);
+	// How much bigger than its artwork the button is drawn.  The hit test
+	// follows it, so a scaled button is still clickable where it is drawn.
+	void SetBtnScale(float i_fScale);
 	// 2009. 05. 07 by ckPark 럭키머신 버튼 수정
 	inline	POINT GetBtnPosition( void )
 	{
@@ -105,6 +108,7 @@ private:
 	
 	float			m_fWidth;
 	float			m_fHeight;
+	float			m_fScale;
 
 	// 2007-06-12 by bhsohn 미션 인터페이스 수정안
 	BOOL			m_bShowBtn;

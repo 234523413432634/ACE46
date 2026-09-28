@@ -589,7 +589,7 @@ void CINFSystem::Render()
 			}
 
 			// 2007-12-21 by dgwoo 창모드 지원.
-			//wsprintf( m_strSelectOptionComboData[0], "%d*%d", g_pD3dApp->GetBackBufferDesc().Width, g_pD3dApp->GetBackBufferDesc().Height);
+			//wsprintf( m_strSelectOptionComboData[0], "%d*%d", UIScreenW(), UIScreenH());
 			if(g_pD3dApp->m_IsFullMode)
 			{
 				wsprintf( m_strSelectOptionComboData[0], "%d*%d", g_pD3dApp->m_nWidth,g_pD3dApp->m_nHeight);

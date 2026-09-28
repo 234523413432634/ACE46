@@ -1015,7 +1015,7 @@ int		CINFInfinity::WndProc( UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 void	CINFInfinity::RenderTimeLimit( void )
 {
-	SIZE bkSize = { g_pD3dApp->GetBackBufferDesc().Width, g_pD3dApp->GetBackBufferDesc().Height };
+	SIZE bkSize = { UIScreenW(), UIScreenH() };
 
 	char szHour[32] = {0,}, szMin[32] = {0,}, szSec[32] = {0,};
 
@@ -1238,7 +1238,7 @@ void	CINFInfinity::SetInfinityChangeLimitTime( MSG_FC_INFINITY_CHANGE_LIMITTIME*
 
 void	CINFInfinity::RenderInfinityResult( void )
 {
- 	SIZE bkSize = { g_pD3dApp->GetBackBufferDesc().Width, g_pD3dApp->GetBackBufferDesc().Height };
+ 	SIZE bkSize = { UIScreenW(), UIScreenH() };
 
 // 2010. 05. 27 by jskim 시네마 적용 카메라 구현 
 // 	POINT pt;
@@ -1268,7 +1268,7 @@ void	CINFInfinity::RenderInfinityResult( void )
 // 2010. 05. 27 by jskim 시네마 적용 카메라 구현 
 void	CINFInfinity::RenderResult()
 {
-	SIZE bkSize = { g_pD3dApp->GetBackBufferDesc().Width, g_pD3dApp->GetBackBufferDesc().Height };
+	SIZE bkSize = { UIScreenW(), UIScreenH() };
 	
 	if(m_pResultImage)
 	{
@@ -1616,7 +1616,7 @@ void	CINFInfinity::SetResult( BOOL bSucceeded )
 void	CINFInfinity::RenderTenderItem()
 {
 	// 2010. 04. 13 by ckPark 인피니티 필드 2차(입찰 보상관련 변경)
-// 	SIZE bkSize = { g_pD3dApp->GetBackBufferDesc().Width, g_pD3dApp->GetBackBufferDesc().Height };
+// 	SIZE bkSize = { UIScreenW(), UIScreenH() };
 // 	POINT imgSize = m_pTenderBG->GetImgSize();
 // 	POINT bkPos	= { (bkSize.cx - imgSize.x) / 2, bkSize.cy - 350 };
 // 
@@ -1870,7 +1870,7 @@ void CINFInfinity::SerchTipImg( char* szTipFileName )
 //end 2011-07-22 by jhahn 인피3차 (연출 처리) 시간단축
 void	CINFInfinity::RenderTipImg( void )
 {
-	SIZE bkSize = { g_pD3dApp->GetBackBufferDesc().Width, g_pD3dApp->GetBackBufferDesc().Height };
+	SIZE bkSize = { UIScreenW(), UIScreenH() };
 
 	POINT pt;
 	pt.x	= (bkSize.cx - m_pTipImg->GetImgSize().x)/2;
@@ -2121,7 +2121,7 @@ void	CINFInfinity::ReArrangeTenderItemPosition( void )
 	else
 		nCol	= 3;
 
-	SIZE	bkSize	= { g_pD3dApp->GetBackBufferDesc().Width, g_pD3dApp->GetBackBufferDesc().Height };
+	SIZE	bkSize	= { UIScreenW(), UIScreenH() };
 	POINT	imgSize = m_pTenderBG->GetImgSize();
 	POINT	bkPos	= { (bkSize.cx - imgSize.x * nRow) / 2, (bkSize.cy - imgSize.y * nCol) / 2 - 14 };
 
@@ -2338,7 +2338,7 @@ void CINFInfinity :: SetAlarm_DefenseStep ( const INT a_iStep )
 
 	SetValue_Alarm_DefenseStep ( max ( GetValue_Alarm_DefenseStep() , a_iStep ) );
 
-	D3DXVECTOR2 v2StPos(g_pD3dApp->GetBackBufferDesc().Width/2 , g_pD3dApp->GetBackBufferDesc().Height/2 );
+	D3DXVECTOR2 v2StPos(UIScreenW()/2 , UIScreenH()/2 );
 	D3DXVECTOR2 v2EdPos = m_v2AlarmTargetPos;
 
 	tALARM_DEFENSESTEPINFO sAddInfo;

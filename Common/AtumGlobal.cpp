@@ -1876,7 +1876,7 @@ void SetOptionFogDistance(USHORT nMapIndex,BOOL bDay, float fFogStart, float fFo
 }
 
 // 2005-03-04 by jschoi
-void CheckMouseReverse(POINT* pt)
+void CheckMouseReversePixels(POINT* pt)
 {
 	if(g_pD3dApp->m_dwGameState != _GAME)
 	{
@@ -1900,6 +1900,17 @@ void CheckMouseReverse(POINT* pt)
 	{
 		pt->y = g_pD3dApp->GetBackBufferDesc().Height - pt->y;
 	}
+}
+
+void CheckMouseReverse(POINT* pt)
+{
+	CheckMouseReversePixels(pt);
+
+	// Into the pixels the interface is laid out in, so a panel can compare a
+	// cursor against the same numbers it drew itself with.
+	const float fUI = UIScale();
+	pt->x = (LONG)(pt->x / fUI);
+	pt->y = (LONG)(pt->y / fUI);
 }
 
 
@@ -3646,8 +3657,8 @@ void GetScale(float& fXScale, float& fYScale)
 {
 	if((fXScale*fYScale) <= 0)
 		return;
-	fXScale = (float)(g_pD3dApp->GetBackBufferDesc().Width)/fXScale;
-	fYScale = (float)(g_pD3dApp->GetBackBufferDesc().Height)/fYScale;
+	fXScale = (float)UIScreenW()/fXScale;
+	fYScale = (float)UIScreenH()/fYScale;
 }
 DWORD GetCurrentColor(float fTime, DWORD dwType, float fTotal, float fDelay)
 {	// fTime 전체 시간, dwType 알파타입, fTotal 페이드 인아웃 타임, fDelay 지연 시간

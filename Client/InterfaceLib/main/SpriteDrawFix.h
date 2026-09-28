@@ -2,6 +2,10 @@
 
 #include "StdAfx.h"
 
+// Every CINFImage draw in the client comes through here, which makes it the one
+// place the interface scale has to be applied: a caller works in the 1920x1080
+// pixels the interface is laid out in, and this turns them into back buffer
+// pixels.
 HRESULT SpriteDrawFix(
 	LPD3DXSPRITE pSprite,				// The sprite
 	LPDIRECT3DTEXTURE9 pSrcTexture,		// The texture to draw.

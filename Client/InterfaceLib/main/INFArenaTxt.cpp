@@ -409,15 +409,15 @@ void CINFArenaTxt::Render()
 				if(m_nBlueScore == m_nRedScore && m_nArenaTeamAverage[ARENA_TEAM_BLUE] != m_nArenaTeamAverage[ARENA_TEAM_RED])
 				{
 					POINT ptArenaGageBase = m_pArenaGageBaseTxt->GetImgSize();
-					fX = (g_pD3dApp->GetBackBufferDesc().Width/2)-(ptArenaGageBase.x/2);
-					fY = (g_pD3dApp->GetBackBufferDesc().Height/2)-(ptArenaGageBase.y/2);
+					fX = (UIScreenW()/2)-(ptArenaGageBase.x/2);
+					fY = (UIScreenH()/2)-(ptArenaGageBase.y/2);
 					
 					m_pArenaGageBaseTxt->Move(fX, fY);
 					m_pArenaGageBaseTxt->Render();
 					
 					POINT ptArenaGage = m_pArenaGageBlueTxt->GetImgSize();
-					fX = (g_pD3dApp->GetBackBufferDesc().Width/2)-(ptArenaGage.x/2);
-					fY = (g_pD3dApp->GetBackBufferDesc().Height/2)-(ptArenaGage.y/2);
+					fX = (UIScreenW()/2)-(ptArenaGage.x/2);
+					fY = (UIScreenH()/2)-(ptArenaGage.y/2);
 					
 					float fGagePixel = ptArenaGage.x / 100.0f;
 					float fTeamAverageBlue = m_nArenaTeamAverage[ARENA_TEAM_BLUE] / 100.0f;
@@ -513,7 +513,7 @@ void CINFArenaTxt::Render()
 					}
 					
 					POINT ptArena = m_pArenaTxt[m_nArenaIssue]->GetImgSize();				
-				fX = (g_pD3dApp->GetBackBufferDesc().Width/2)-(ptArena.x/2);
+				fX = (UIScreenW()/2)-(ptArena.x/2);
 					fY = fY + ARENA_RESULT_START_Y;
 				
 				m_pArenaTxt[m_nArenaIssue]->Move(fX, fY);
@@ -522,8 +522,8 @@ void CINFArenaTxt::Render()
 				else
 				{
 					POINT ptArena = m_pArenaTxt[m_nArenaIssue]->GetImgSize();				
-					fX = (g_pD3dApp->GetBackBufferDesc().Width/2)-(ptArena.x/2);
-					fY = (g_pD3dApp->GetBackBufferDesc().Height/2)-(ptArena.y/2);
+					fX = (UIScreenW()/2)-(ptArena.x/2);
+					fY = (UIScreenH()/2)-(ptArena.y/2);
 					
 					m_pArenaTxt[m_nArenaIssue]->Move(fX, fY);
 					m_pArenaTxt[m_nArenaIssue]->Render();
@@ -531,8 +531,8 @@ void CINFArenaTxt::Render()
 #else
 				POINT ptArena = m_pArenaTxt[m_nArenaIssue]->GetImgSize();
 				float fX,fY;
-				fX = (g_pD3dApp->GetBackBufferDesc().Width/2)-(ptArena.x/2);
-				fY = (g_pD3dApp->GetBackBufferDesc().Height/2)-(ptArena.y/2);
+				fX = (UIScreenW()/2)-(ptArena.x/2);
+				fY = (UIScreenH()/2)-(ptArena.y/2);
 				
 				m_pArenaTxt[m_nArenaIssue]->Move(fX, fY);
 				m_pArenaTxt[m_nArenaIssue]->Render();
@@ -547,8 +547,8 @@ void CINFArenaTxt::Render()
 			{
 				POINT ptArena = m_pArenaCnt[m_nArenaCnt]->GetImgSize();
 				float fX,fY;
-				fX = (g_pD3dApp->GetBackBufferDesc().Width/2)-(ptArena.x/2);
-				fY = (g_pD3dApp->GetBackBufferDesc().Height/2)-(ptArena.y/2);
+				fX = (UIScreenW()/2)-(ptArena.x/2);
+				fY = (UIScreenH()/2)-(ptArena.y/2);
 				
 				m_pArenaCnt[m_nArenaCnt]->Move(fX, fY);
 				m_pArenaCnt[m_nArenaCnt]->Render();
@@ -561,7 +561,7 @@ void CINFArenaTxt::Render()
 		{			
 			POINT ptArena = m_pArenaTeamTxt[m_nInflIdx]->GetImgSize();
 			float fX,fY;
-			fX = (g_pD3dApp->GetBackBufferDesc().Width/2)-(ptArena.x/2);
+			fX = (UIScreenW()/2)-(ptArena.x/2);
 // 2012-06-15 by mspark, 아레나 팀 이미지 위치 수정 - 기존 0에서 200으로 수정
 #ifdef SC_ARENA_EX_1ST_JHSEOL_MSPARK
 			fY = 200;

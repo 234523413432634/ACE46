@@ -223,13 +223,13 @@ HRESULT CINFSecuSelectMenu::RestoreDeviceObjects()
 		m_pSetPassBk->RestoreDeviceObjects();		
 		POINT ptBk = m_pSetPassBk->GetImgSize();
 				
-		if(g_pD3dApp->GetBackBufferDesc().Width > ptBk.x)
+		if(UIScreenW() > ptBk.x)
 		{
-			m_nBackPosX = (g_pD3dApp->GetBackBufferDesc().Width/2)-(ptBk.x/2);
+			m_nBackPosX = (UIScreenW()/2)-(ptBk.x/2);
 		}
-		if(g_pD3dApp->GetBackBufferDesc().Height > ptBk.y)
+		if(UIScreenH() > ptBk.y)
 		{
-			m_nBackPosY = (g_pD3dApp->GetBackBufferDesc().Height/2)-(ptBk.y/2);
+			m_nBackPosY = (UIScreenH()/2)-(ptBk.y/2);
 		}
 		m_nCx = ptBk.x;
 		m_nCy = ptBk.y;
@@ -476,6 +476,7 @@ int CINFSecuSelectMenu::OnMouseMove(WPARAM wParam, LPARAM lParam)
 	POINT pt;
 	pt.x = LOWORD(lParam);
 	pt.y = HIWORD(lParam);
+	CheckMouseReverse(&pt);
 
 	m_pSetOk->OnMouseMove(pt);	
 	m_pSetCancel->OnMouseMove(pt);	
@@ -494,9 +495,9 @@ int CINFSecuSelectMenu::OnMouseMove(WPARAM wParam, LPARAM lParam)
 	{
 		m_nBackPosX = 0;
 	}
-	else if((m_nBackPosX+m_nCx) > g_pD3dApp->GetBackBufferDesc().Width)
+	else if((m_nBackPosX+m_nCx) > UIScreenW())
 	{
-		m_nBackPosX = g_pD3dApp->GetBackBufferDesc().Width - m_nCx;
+		m_nBackPosX = UIScreenW() - m_nCx;
 	}
 	
 	// Y 좌표 보정
@@ -504,9 +505,9 @@ int CINFSecuSelectMenu::OnMouseMove(WPARAM wParam, LPARAM lParam)
 	{
 		m_nBackPosY = 0;
 	}
-	else if((m_nBackPosY+m_nCy) > g_pD3dApp->GetBackBufferDesc().Height)
+	else if((m_nBackPosY+m_nCy) > UIScreenH())
 	{
-		m_nBackPosY = g_pD3dApp->GetBackBufferDesc().Height - m_nCy;
+		m_nBackPosY = UIScreenH() - m_nCy;
 	}	
 
 	// 버튼 위치 업데이트 
@@ -544,6 +545,7 @@ int CINFSecuSelectMenu::OnLButtonUp(WPARAM wParam, LPARAM lParam)
 	POINT pt;
 	pt.x = LOWORD(lParam);
 	pt.y = HIWORD(lParam);
+	CheckMouseReverse(&pt);
 
 	{
 		if(TRUE == m_pSetOk->OnLButtonUp(pt))

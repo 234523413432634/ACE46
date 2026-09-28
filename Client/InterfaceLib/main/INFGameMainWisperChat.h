@@ -12,15 +12,15 @@
 #include "INFBase.h"
 #include "ChatTab_t.h"
 
-#define CHAT_CHATBOX_MAX_X							(g_pD3dApp->GetBackBufferDesc().Width * 2.0f/3.0f)  // 귓말 메세지박스 최대크기 X
-#define CHAT_CHATBOX_MAX_Y							(g_pD3dApp->GetBackBufferDesc().Height / 2)			// 귓말 메세지박스 최대크기 Y
+#define CHAT_CHATBOX_MAX_X							(UIScreenW() * 2.0f/3.0f)  // 귓말 메세지박스 최대크기 X
+#define CHAT_CHATBOX_MAX_Y							(UIScreenH() / 2)			// 귓말 메세지박스 최대크기 Y
 
 #define WISPERBOX_FIELD_MINIMUM_INIT_HEIGHT			63		// 필드에서 귓말 팝업창이 최소화 될때 기준점 y(해상도에서 이값을 뺀것이 y좌표이다)
 #define WISPERBOX_CITY_MINIMUM_INIT_HEIGHT			108		// 도시에서 귓말 팝업창이 최소화 될때 기준점 y(해상도에서 이값을 뺀것이 y좌표이다)
 
-#define WISPERBOX_MINIMUM_WINDOW_BUTTON_X			(g_pD3dApp->GetBackBufferDesc().Width - 304)
+#define WISPERBOX_MINIMUM_WINDOW_BUTTON_X			(UIScreenW() - 304)
 #define WISPERBOX_MINIMUM_WINDOW_BUTTON_Y			2
-#define WISPERBOX_MINIMUM_WINDOW_START_X			(g_pD3dApp->GetBackBufferDesc().Width - 304)
+#define WISPERBOX_MINIMUM_WINDOW_START_X			(UIScreenW() - 304)
 #define WISPERBOX_MINIMUM_WINDOW_START_Y			21
 #define WISPERBOX_MINIMUM_WINDOW_HEIGHT				22
 #define WISPERBOX_MINIMUM_WINDOW_WIDTH				160//140
@@ -46,7 +46,7 @@
 #define CHATBOX_SCROLL_IMAGE_BOTTOM_GAP_Y			6		// 2012-04-02 by isshin 채팅창 스크롤 버그 수정 - 스크롤 Y BOTTOM_Gap
 
 #define CHAT_INPUT_LANGUAGE_X2						224
-#define CHAT_INPUT_LANGUAGE_Y2						(g_pD3dApp->GetBackBufferDesc().Height - 27)
+#define CHAT_INPUT_LANGUAGE_Y2						(UIScreenH() - 27)
 #define CHAT_INPUT_LANGUAGE_WH2						22
 
 #define CHAT_BOX_INPUT_WIDTH						279
@@ -55,8 +55,8 @@
 
 
 
-#define SYSTEM_WINDOW_START_X						(g_pD3dApp->GetBackBufferDesc().Width - m_nSystemBoxWidth)//260)
-#define SYSTEM_WINDOW_START_Y						(g_pD3dApp->GetBackBufferDesc().Height - 183) 
+#define SYSTEM_WINDOW_START_X						(UIScreenW() - m_nSystemBoxWidth)//260)
+#define SYSTEM_WINDOW_START_Y						(UIScreenH() - 183) 
 
 #define SYSTEM_SWOW_NOT_SHOWBOX_LINE				6
 

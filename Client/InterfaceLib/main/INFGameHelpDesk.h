@@ -25,8 +25,8 @@
 #define HELPDESK_WINDOW_TEXT_VIEW_GAP			20			// TextView시 공백 
 #define HELPDESK_WINDOW_IMAGE_VIEW_GAP			20			// TextView시 공백 
 
-//g_pD3dApp->GetBackBufferDesc().Width
-//g_pD3dApp->GetBackBufferDesc().Height
+//UIScreenW()
+//UIScreenH()
 
 
 #define HELPDESK_BUTTON_TWINKLE_TIME			1			// 버튼 깜박이는 타이밍

@@ -31,13 +31,13 @@ typedef DWORD InfAttackDirection_t;
 #define IMAGE_SIZE_X				193	
 #define IMAGE_SIZE_Y				115	
 
-#define IMAGE_SCALE					((float)g_pD3dApp->GetBackBufferDesc().Width/1024.0f)
+#define IMAGE_SCALE					((float)UIScreenW()/1024.0f)
 
-#define IMAGE_CENTER_X				(g_pD3dApp->GetBackBufferDesc().Width/2)
-#define IMAGE_CENTER_Y				(g_pD3dApp->GetBackBufferDesc().Height/2)
+#define IMAGE_CENTER_X				(UIScreenW()/2)
+#define IMAGE_CENTER_Y				(UIScreenH()/2)
 
-#define IMAGE_START_X				((g_pD3dApp->GetBackBufferDesc().Width/2) - (IMAGE_SIZE_X/2)*IMAGE_SCALE)
-#define IMAGE_START_Y				((g_pD3dApp->GetBackBufferDesc().Height/2) - (IMAGE_SIZE_Y/2)*IMAGE_SCALE)+45
+#define IMAGE_START_X				((UIScreenW()/2) - (IMAGE_SIZE_X/2)*IMAGE_SCALE)
+#define IMAGE_START_Y				((UIScreenH()/2) - (IMAGE_SIZE_Y/2)*IMAGE_SCALE)+45
 
 
 #define IMAGE_VIEWING_TIME			1

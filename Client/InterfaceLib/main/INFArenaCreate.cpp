@@ -441,7 +441,7 @@ void CINFArenaCreate::Render()
 #ifdef SC_ARENA_EX_1ST_JHSEOL_MSPARK
 		// 2012-04-13 by mspark, 아레나 UI 작업
 		m_pImgFadeBG->Move(0, 0);
-		m_pImgFadeBG->SetScale((INT)g_pD3dApp->GetBackBufferDesc().Width,(INT)g_pD3dApp->GetBackBufferDesc().Height);
+		m_pImgFadeBG->SetScale((INT)UIScreenW(),(INT)UIScreenH());
 		m_pImgFadeBG->Render();
 		// end 2012-04-13 by mspark, 아레나 UI 작업
 #endif

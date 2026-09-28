@@ -977,7 +977,7 @@ void CShuttleChild::TurnOnWall(float fElapsedTime)
 			GetCursorPos(&pt);
 			pt2 = pt;
 			ScreenToClient(g_pD3dApp->GetHwnd(), &pt);
-			CheckMouseReverse(&pt);
+			CheckMouseReversePixels(&pt);
 			
 			if(reS*100 <= -1)
 			{
@@ -1045,7 +1045,7 @@ void CShuttleChild::TurnOnWall(float fElapsedTime)
 			GetCursorPos(&pt);
 			pt2 = pt;
 			ScreenToClient(g_pD3dApp->GetHwnd(), &pt);
-			CheckMouseReverse(&pt);
+			CheckMouseReversePixels(&pt);
 			
 			if(reS*100 <= -1)
 			{
@@ -1109,7 +1109,7 @@ void CShuttleChild::TurnOnWall(float fElapsedTime)
 			GetCursorPos(&pt);
 			pt2 = pt;
 			ScreenToClient(g_pD3dApp->GetHwnd(), &pt);
-			CheckMouseReverse(&pt);
+			CheckMouseReversePixels(&pt);
 			
 			if(reS*100 <= -1)
 			{
@@ -1174,7 +1174,7 @@ void CShuttleChild::TurnOnWall(float fElapsedTime)
 			GetCursorPos(&pt);
 			pt2 = pt;
 			ScreenToClient(g_pD3dApp->GetHwnd(), &pt);
-			CheckMouseReverse(&pt);
+			CheckMouseReversePixels(&pt);
 			
 			if(reS*100 <= -1)
 			{
@@ -1347,7 +1347,7 @@ void CShuttleChild::TickCity(float fElapsedTime)
 	// 2005-03-18 by jschoi - For ToolTip
 	GetCursorPos(&m_pt);
 	ScreenToClient(g_pD3dApp->GetHwnd(), &m_pt);				
-	CheckMouseReverse(&m_pt);
+	CheckMouseReversePixels(&m_pt);
 
 
 //	const int nKeyMove = 1; // 키보드 감도
@@ -5428,16 +5428,21 @@ void CShuttleChild::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					POINT pt;
 					GetCursorPos(&pt);
 					ScreenToClient(g_pD3dApp->GetHwnd(), &pt);
-					CheckMouseReverse(&pt);
+					CheckMouseReversePixels(&pt);
 					
 					
 					if(g_pGameMain->m_bMenuLock || g_pD3dApp->IsLockMode() == FALSE)
 						break;
 					
 				
-					if(g_pInterface->m_bShowInterface && (pt.x >= 0 && pt.x <= g_pD3dApp->GetBackBufferDesc().Width) &&
-						(pt.y >= g_pD3dApp->GetBackBufferDesc().Height - 39) || ((pt.y >= g_pD3dApp->GetBackBufferDesc().Height - 51) && 
-						(pt.x >= g_pD3dApp->GetBackBufferDesc().Width / 2 - 117 && pt.x <= g_pD3dApp->GetBackBufferDesc().Width / 2 + 117)))
+					// The chat box and the quick slot bar are interface, so the area
+					// they cover is measured in layout pixels.
+					POINT ptUI;
+					ptUI.x = UIFromPixels(pt.x);
+					ptUI.y = UIFromPixels(pt.y);
+					if(g_pInterface->m_bShowInterface && (ptUI.x >= 0 && ptUI.x <= UIScreenW()) &&
+						(ptUI.y >= UIScreenH() - 39) || ((ptUI.y >= UIScreenH() - 51) && 
+						(ptUI.x >= UIScreenW() / 2 - 117 && ptUI.x <= UIScreenW() / 2 + 117)))
 					{
 						break;
 					}		
@@ -5504,7 +5509,7 @@ void CShuttleChild::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						POINT pt;
 						pt.x = LOWORD(lParam);
 						pt.y = HIWORD(lParam);
-						CheckMouseReverse(&pt);
+						CheckMouseReversePixels(&pt);
 	
 						m_pOldMousePoint = pt;
 					}
@@ -5558,7 +5563,7 @@ void CShuttleChild::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				POINT pt;
 				pt.x = LOWORD(lParam);
 				pt.y = HIWORD(lParam);
-				CheckMouseReverse(&pt);
+				CheckMouseReversePixels(&pt);
 
 				if((m_dwState == _FALLEN || 
 					m_dwState == _EXPLODED || 
@@ -9876,7 +9881,7 @@ void CShuttleChild::SiegeTarget()
 
 		ClientToScreen(g_pD3dApp->GetHwnd(), &pt2);
 		ScreenToClient(g_pD3dApp->GetHwnd(), &pt);
-		CheckMouseReverse(&pt);
+		CheckMouseReversePixels(&pt);
 		ClientToScreen(g_pD3dApp->GetHwnd(),&pt);
 		
 		if(pt2.x + SIGEMODE_MOUSE_FITPOINT < pt.x ||
@@ -9910,9 +9915,8 @@ void CShuttleChild::SiegeTarget()
 		pt2 = pt;
 
 		ScreenToClient(g_pD3dApp->GetHwnd(), &pt);
-		//CheckMouseReverse(&pt);
-		//--------------------------------------------------------------------------//
-		// 클라이언트와 스크린 좌표의 차를 구한다.
+		// CheckMouseReversePixels(&pt); --------------------------------------------
+		// ------------------------------// 클라이언트와 스크린 좌표의 차를 구한다.
 		int nX = pt2.x - pt.x;
 		int nY = pt2.y - pt.y;
 		
@@ -11254,7 +11258,7 @@ void CShuttleChild::CheckCollForMap()
 //		GetCursorPos(&pt);
 //		pt2 = pt;
 //		ScreenToClient(g_pD3dApp->GetHwnd(), &pt);
-//		CheckMouseReverse(&pt);
+//		CheckMouseReversePixels(&pt);
 //
 //		int nY = pt2.y - pt.y;
 //		nY += g_pD3dApp->GetBackBufferDesc().Height/2 - SHUTTLE_MAX_MOUSE_MOVE*g_pD3dApp->GetBackBufferDesc().Height/600;
@@ -11305,7 +11309,7 @@ void CShuttleChild::CheckCollForMap()
 //		GetCursorPos(&pt);
 //		pt2 = pt;
 //		ScreenToClient(g_pD3dApp->GetHwnd(), &pt);
-//		CheckMouseReverse(&pt);
+//		CheckMouseReversePixels(&pt);
 //
 //		int nX = pt2.x - pt.x;
 //		nX += g_pD3dApp->GetBackBufferDesc().Width/2 + SHUTTLE_MAX_MOUSE_MOVE*g_pD3dApp->GetBackBufferDesc().Width/800;
@@ -11340,7 +11344,7 @@ void CShuttleChild::CheckCollForMap()
 //		GetCursorPos(&pt);
 //		pt2 = pt;
 //		ScreenToClient(g_pD3dApp->GetHwnd(), &pt);
-//		CheckMouseReverse(&pt);
+//		CheckMouseReversePixels(&pt);
 //
 //		int nX = pt2.x - pt.x;
 //		nX += g_pD3dApp->GetBackBufferDesc().Width/2 - SHUTTLE_MAX_MOUSE_MOVE*g_pD3dApp->GetBackBufferDesc().Width/800;
@@ -11370,7 +11374,7 @@ void CShuttleChild::CheckCollForMap()
 //		GetCursorPos(&pt);
 //		pt2 = pt;
 //		ScreenToClient(g_pD3dApp->GetHwnd(), &pt);
-//		CheckMouseReverse(&pt);
+//		CheckMouseReversePixels(&pt);
 //
 //		int nY = pt2.y - pt.y;
 //		nY += g_pD3dApp->GetBackBufferDesc().Height/2 - SHUTTLE_MAX_MOUSE_MOVE*g_pD3dApp->GetBackBufferDesc().Height/600;
@@ -11400,7 +11404,7 @@ void CShuttleChild::CheckCollForMap()
 //		GetCursorPos(&pt);
 //		pt2 = pt;
 //		ScreenToClient(g_pD3dApp->GetHwnd(), &pt);
-//		CheckMouseReverse(&pt);
+//		CheckMouseReversePixels(&pt);
 //
 //		int nY = pt2.y - pt.y;
 //		nY += g_pD3dApp->GetBackBufferDesc().Height/2 + SHUTTLE_MAX_MOUSE_MOVE*g_pD3dApp->GetBackBufferDesc().Height/600;
@@ -12418,7 +12422,7 @@ void CShuttleChild::CheckMouseDir()
 
 	GetCursorPos(&m_pt);
 	ScreenToClient(g_pD3dApp->GetHwnd(), &m_pt);
-	CheckMouseReverse(&m_pt);
+	CheckMouseReversePixels(&m_pt);
 
 	D3DXVECTOR3 v;
 	D3DXMATRIX matProj,matView;
@@ -12521,7 +12525,7 @@ void CShuttleChild::OldCheckTarget()
 
 		GetCursorPos(&m_pt);
 		ScreenToClient(g_pD3dApp->GetHwnd(), &m_pt);
-		CheckMouseReverse(&m_pt);
+		CheckMouseReversePixels(&m_pt);
 
 		m_pTarget = NULL;
 
@@ -12716,7 +12720,7 @@ void CShuttleChild::Old2CheckTarget()
 
 		GetCursorPos(&m_pt);
 		ScreenToClient(g_pD3dApp->GetHwnd(), &m_pt);
-		CheckMouseReverse(&m_pt);
+		CheckMouseReversePixels(&m_pt);
 
 		m_pTarget = NULL;
 
@@ -12976,7 +12980,7 @@ void CShuttleChild::NewCheckTarget()
 	{
 		GetCursorPos(&m_pt);
 		ScreenToClient(g_pD3dApp->GetHwnd(), &m_pt);
-		CheckMouseReverse(&m_pt);
+		CheckMouseReversePixels(&m_pt);
 
 		m_pTarget = NULL;
 
@@ -13586,9 +13590,9 @@ void CShuttleChild::SetCursorInit()
 	POINT pt,pt2;
 	GetCursorPos(&pt);
 	pt2 = pt;
-//	CheckMouseReverse(&pt2);
+//	CheckMouseReversePixels(&pt2);
 	ScreenToClient(g_pD3dApp->GetHwnd(), &pt);
-//	CheckMouseReverse(&pt);
+//	CheckMouseReversePixels(&pt);
 	int nX = pt2.x - pt.x;
 	int nY = pt2.y - pt.y;
 	nX += g_pD3dApp->GetBackBufferDesc().Width/2;
@@ -15559,7 +15563,7 @@ BOOL CShuttleChild::CheckPickingTarget(CUnitData* pTarget)
 		POINT MousePt;
 		GetCursorPos(&MousePt);
 		ScreenToClient(g_pD3dApp->GetHwnd(), &MousePt);
-		CheckMouseReverse(&MousePt);
+		CheckMouseReversePixels(&MousePt);
 
 		D3DXVECTOR3 v,vDir,vPos,vUp;
 		v.x =  (((2.0f*MousePt.x)/g_pD3dApp->GetBackBufferDesc().Width)-1)/matProj._11;

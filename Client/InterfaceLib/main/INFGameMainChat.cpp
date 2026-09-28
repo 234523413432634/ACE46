@@ -62,7 +62,7 @@
 // 추가 수정 채팅
 	// 채팅 창부분은 CHAT_INPUT_WINDOW_X에따라 위치가 정해진다
 	#define CHAT_WINDOW_X			2//25												// 채팅 입력창 
-	#define CHAT_WINDOW_Y			(g_pD3dApp->GetBackBufferDesc().Height - 34)//27)	// 채팅 입력창
+	#define CHAT_WINDOW_Y			(UIScreenH() - 34)//27)	// 채팅 입력창
 	//#define CHAT_WINDOW_W			210 
 	//#define CHAT_WINDOW_H			22
 
@@ -106,7 +106,7 @@
 	#define CHAT_HELPDESK_STRLEN		280//50											// 도움말 글자르기(픽셀값으로 변경)
 
 	#define CHAR_INF_CANDIDATE_POS_X	3
-	#define CHAR_INF_CANDIDATE_POS_Y	(g_pD3dApp->GetBackBufferDesc().Height-35)
+	#define CHAR_INF_CANDIDATE_POS_Y	(UIScreenH()-35)
 
 	#define CHAT_INPUT_LANGUAGE_X		(CHAT_WINDOW_X+21)//224
 	#define CHAT_INPUT_LANGUAGE_Y		(CHAT_WINDOW_Y)
@@ -375,7 +375,7 @@ CINFGameMainChat::CINFGameMainChat(CAtumNode* pParent, int nWidth, int nHeight)
 	m_bShowMiniWisperUnder	= FALSE;
 
 	m_nActMacro				= -1;
-	m_nMacroX				= (g_pD3dApp->GetBackBufferDesc().Width - 305)/2;
+	m_nMacroX				= (UIScreenW() - 305)/2;
 	m_nMacroY				= 300;
 	m_bMacroMove			= FALSE;
 	m_nSendMacroNum			= 0;
@@ -401,7 +401,7 @@ CINFGameMainChat::CINFGameMainChat(CAtumNode* pParent, int nWidth, int nHeight)
 	m_nChatMode = CHAT_TAB_ALLUSER;
 
 	m_bShowVoiceChatControl		= FALSE;
-	m_nVCCPosX					= (g_pD3dApp->GetBackBufferDesc().Width - 305)/2;
+	m_nVCCPosX					= (UIScreenW() - 305)/2;
 	m_nVCCPosY					= 320;
 	m_nVolum					= 9999;
 	m_pVoiceChatBG				= NULL;
@@ -1091,8 +1091,8 @@ HRESULT CINFGameMainChat::InitDeviceObjects()
 		nStartX = nStartY = nWidth = nHeight = -1;		
 		if(g_pD3dApp->IsOptionEtc(OPTION_RADIO_INTERFACE_POS))
 		{
-			float fWidth = (float)g_pD3dApp->GetBackBufferDesc().Width;
-			float fHeight = (float)g_pD3dApp->GetBackBufferDesc().Height;
+			float fWidth = (float)UIScreenW();
+			float fHeight = (float)UIScreenH();
 
 			stcuctRateRect stRateRect = g_pD3dApp->GetOptionInterfacePOS();
 			if((stRateRect.fGameWidth == fWidth)
@@ -1742,7 +1742,7 @@ void CINFGameMainChat::Render()
 		// 도시이면 인터페이스 보이기
 // 2008-05-19 by dgwoo 메인 인터페이스 위치 변경.
 //		m_nCashButtonGab = 45;
-		m_nChatBoxYPos = g_pD3dApp->GetBackBufferDesc().Height - CHATBOX_CITY_SHOWCHATBOX_INIT_HEIGHT - m_nChatBoxHeight;
+		m_nChatBoxYPos = UIScreenH() - CHATBOX_CITY_SHOWCHATBOX_INIT_HEIGHT - m_nChatBoxHeight;
 		g_pInterface->m_bShowInterface = TRUE;
 	}
 	else
@@ -1756,7 +1756,7 @@ void CINFGameMainChat::Render()
 		{
 			m_nCashButtonGab = 0;
 		}
-		m_nChatBoxYPos = g_pD3dApp->GetBackBufferDesc().Height - CHATBOX_FIELD_SHOWCHATBOX_INIT_HEIGHT - m_nChatBoxHeight;
+		m_nChatBoxYPos = UIScreenH() - CHATBOX_FIELD_SHOWCHATBOX_INIT_HEIGHT - m_nChatBoxHeight;
 	}
 
 	// 2007-03-27 by bhsohn 옵저버 모드시 인터페이스 숨김
@@ -2548,12 +2548,12 @@ int	CINFGameMainChat::WndProcVoiceOption(UINT uMsg, WPARAM wParam, LPARAM lParam
 					m_nVCCPosY += (pt.y - m_ptVCCOldPos.y);
 					if(m_nVCCPosX < 0)
 						m_nVCCPosX = 0;
-					else if(m_nVCCPosX > g_pD3dApp->GetBackBufferDesc().Width - VOICECHAT_BAR_W)
-						m_nVCCPosX = g_pD3dApp->GetBackBufferDesc().Width - VOICECHAT_BAR_W;
+					else if(m_nVCCPosX > UIScreenW() - VOICECHAT_BAR_W)
+						m_nVCCPosX = UIScreenW() - VOICECHAT_BAR_W;
 					if(m_nVCCPosY < 0)
 						m_nVCCPosY = 0;
-					else if(m_nVCCPosY > g_pD3dApp->GetBackBufferDesc().Height - VOICECHAT_BAR_H)
-						m_nVCCPosY = g_pD3dApp->GetBackBufferDesc().Height - VOICECHAT_BAR_H;
+					else if(m_nVCCPosY > UIScreenH() - VOICECHAT_BAR_H)
+						m_nVCCPosY = UIScreenH() - VOICECHAT_BAR_H;
 					m_ptVCCOldPos.x = pt.x;
 					m_ptVCCOldPos.y = pt.y;
 
@@ -2752,12 +2752,12 @@ int	CINFGameMainChat::WndProcMacro(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					m_nMacroY += (pt.y - m_nMacroOldY);
 					if(m_nMacroX < 0)
 						m_nMacroX = 0;
-					else if(m_nMacroX > g_pD3dApp->GetBackBufferDesc().Width - CHAT_MACRO_W)
-						m_nMacroX = g_pD3dApp->GetBackBufferDesc().Width - CHAT_MACRO_W;
+					else if(m_nMacroX > UIScreenW() - CHAT_MACRO_W)
+						m_nMacroX = UIScreenW() - CHAT_MACRO_W;
 					if(m_nMacroY < 0)
 						m_nMacroY = 0;
-					else if(m_nMacroY > g_pD3dApp->GetBackBufferDesc().Height - CHAT_MACRO_H)
-						m_nMacroY = g_pD3dApp->GetBackBufferDesc().Height - CHAT_MACRO_H;
+					else if(m_nMacroY > UIScreenH() - CHAT_MACRO_H)
+						m_nMacroY = UIScreenH() - CHAT_MACRO_H;
 					m_nMacroOldX = pt.x;
 					m_nMacroOldY = pt.y;
 				}
@@ -6654,18 +6654,18 @@ void CINFGameMainChat::RenderWisperChat()
 	// 귓말 팝업창 처리
 //	if(_CITY == g_pD3dApp->m_dwGameState)
 //	{
-//		SetWisperBoxMinimumStatusInitPosition(g_pD3dApp->GetBackBufferDesc().Width - WISPERBOX_MINIMUM_WINDOW_WIDTH
-//			, g_pD3dApp->GetBackBufferDesc().Height - WISPERBOX_CITY_MINIMUM_INIT_HEIGHT);
+//		SetWisperBoxMinimumStatusInitPosition(UIScreenW() - WISPERBOX_MINIMUM_WINDOW_WIDTH
+//			, UIScreenH() - WISPERBOX_CITY_MINIMUM_INIT_HEIGHT);
 //	}
 //	else if(g_pD3dApp->m_bCharacter == TRUE)
 //	{
-//		SetWisperBoxMinimumStatusInitPosition(g_pD3dApp->GetBackBufferDesc().Width - WISPERBOX_MINIMUM_WINDOW_WIDTH
-//			, g_pD3dApp->GetBackBufferDesc().Height - WISPERBOX_FIELD_MINIMUM_INIT_HEIGHT-35);	
+//		SetWisperBoxMinimumStatusInitPosition(UIScreenW() - WISPERBOX_MINIMUM_WINDOW_WIDTH
+//			, UIScreenH() - WISPERBOX_FIELD_MINIMUM_INIT_HEIGHT-35);	
 //	}
 //	else
 //	{
-//		SetWisperBoxMinimumStatusInitPosition(g_pD3dApp->GetBackBufferDesc().Width - WISPERBOX_MINIMUM_WINDOW_WIDTH
-//			, g_pD3dApp->GetBackBufferDesc().Height - WISPERBOX_FIELD_MINIMUM_INIT_HEIGHT);			
+//		SetWisperBoxMinimumStatusInitPosition(UIScreenW() - WISPERBOX_MINIMUM_WINDOW_WIDTH
+//			, UIScreenH() - WISPERBOX_FIELD_MINIMUM_INIT_HEIGHT);			
 		SetWisperBoxMinimumStatusInitPosition(WISPERBOX_MINIMUM_WINDOW_START_X
 			,WISPERBOX_MINIMUM_WINDOW_START_Y);			
 //	}

@@ -10,6 +10,8 @@
 #endif // _MSC_VER > 1000
 
 #include "INFBase.h"
+#include "UIScale.h"
+#include "QSlotLayout.h"
 //#include "GameDataLast.h"
 //#include "INFImage.h"
 //#include "INFInven.h"
@@ -23,7 +25,6 @@
 #define QSLOT_BUTTON_STATE_NUMBER	4
 #define QSLOT_BUTTON_NUMBER			2
 
-#define QSLOT_ICON_SIZE		 28*HIDPI_COEFF
 #define QSLOT_COUNTERBLE_NUMBER		RGB(255,255,255)
 
 #define QSLOT_ITEMTYPE_NONE		0	// ƒ¸ΩΩ∑‘ æ∆¿Ã≈€ ≈∏¿‘
@@ -31,9 +32,10 @@
 #define QSLOT_ITEMTYPE_SKILL	2	// ƒ¸ΩΩ∑‘ æ∆¿Ã≈€ ≈∏¿‘
 #define QSLOT_ITEMTYPE_ITEM		3	// ƒ¸ΩΩ∑‘ æ∆¿Ã≈€ ≈∏¿‘
 
-#define QSLOT_SIZE_X			318*HIDPI_COEFF//254
-#define QSLOT_SIZE_Y			30*HIDPI_COEFF
-#define QSLOT_ICON_INTERVAL		32*HIDPI_COEFF
+#define QSLOT_SIZE_X			QSLOT_BAR_WIDTH
+#define QSLOT_SIZE_Y			QSLOT_BAR_HEIGHT
+// Kept for CINFMissionMain, which stacks its buttons above the bar.
+#define QSLOT_ICON_INTERVAL		QSLOT_COLUMN_PITCH
 #define QSLOT_TIMER				0.4f
 
 // 2008-11-13 by bhsohn ¡∂¿ÃΩ∫∆Ω ¿€æ˜
@@ -68,6 +70,11 @@ public:
 	void SetAllQSlotInfo();
 	BOOL LButtonUpQuickSlot(POINT pt);
 	void StartReattackTime(ITEM *pItem);
+
+	// Where the bar is drawn and how many rows of it are showing.  Everything
+	// that needs a rectangle goes through these.
+	QSLOT_LAYOUT GetLayout() const;
+	int GetVisibleRowCount() const;
 
 	virtual HRESULT InitDeviceObjects();
 	virtual HRESULT RestoreDeviceObjects();
@@ -115,8 +122,9 @@ protected:
 	void SetToolTip(int x, int y, ITEM_BASE* pItem);
 	void SetSelectItem(INVEN_DISPLAY_INFO* pDisplayInfo);
 	BOOL RenderDisableSkill(int nSkillNum);
-	void RenderSkillReAttackTime(int nItemNum, int nRenderIndex, int nLine = 0, float fsizeX = 0.0f, float fsizeY = 0.0f );
-	void RenderItemUsableReAttackTime(int nItemNum, int nRenderIndex, int nLine =0, float fsizeX = 0.0f, float fsizeY = 0.0f);
+	// nRenderIndex is the column, nLine the row; the size comes from the layout.
+	void RenderSkillReAttackTime(int nItemNum, int nRenderIndex, int nLine = 0);
+	void RenderItemUsableReAttackTime(int nItemNum, int nRenderIndex, int nLine = 0);
 	
 	BOOL IsQSlotShowTime(ITEM *ItemInfo);
 

@@ -36,21 +36,22 @@
 #include "INFWindow.h"	// 2012-12-21 by bhsohn [드레인모듈] 아이템 슬롯 등록 안되게 수정
 #include "INFCityCashShop.h"	// 2014-02-07 by ymjoo 캡슐형 캐시 아이템 경고 메세지
 		  
-#define QSLOT_START_X			g_pD3dApp->GetBackBufferDesc().Width/2 - 168*HIDPI_COEFF	// c_nbar + mnbtnBG + mnQSlot
-#define QSLOT_START_Y			(g_pD3dApp->GetBackBufferDesc().Height - 57* HIDPI_COEFF)
-#define QSLOT_GAP				(m_pBack->GetImgSize().y + 4)* HIDPI_COEFF
+// The bar is centred on the bottom edge of the screen.
+#define QSLOT_START_X			((UIScreenW() - QSLOT_BAR_WIDTH) / 2)
+#define QSLOT_START_Y			(UIScreenH() - 57)
 
 #define REAL_TAB_NUMBER			3	// 실제 적용되는 탭 개수
 
 // 2007-07-09 by bhsohn 출격과 바자상점 동시 사용시 문제점 처리
 #define	BAZAAR_CLICK_TIME		2.0f
 
-#define QSLOT_BUTTON_UP_START_X			(m_nX + QSLOT_SIZE_X + 7* HIDPI_COEFF)
-#define QSLOT_BUTTON_UP_START_Y			(m_nY + 12)
-#define QSLOT_BUTTON_DOWN_START_X		(m_nX + QSLOT_SIZE_X + 4)
-#define QSLOT_BUTTON_DOWN_START_Y		(m_nY + 23)
-#define QSLOT_BUTTON_SIZE_X				8
-#define QSLOT_BUTTON_SIZE_Y				8
+// Both tab buttons share one place; only one of them is drawn at a time.
+#define QSLOT_BUTTON_UP_START_X			(QSlotTabButtonRect(GetLayout()).x)
+#define QSLOT_BUTTON_UP_START_Y			(QSlotTabButtonRect(GetLayout()).y)
+#define QSLOT_BUTTON_DOWN_START_X		QSLOT_BUTTON_UP_START_X
+#define QSLOT_BUTTON_DOWN_START_Y		QSLOT_BUTTON_UP_START_Y
+#define QSLOT_BUTTON_SIZE_X				(QSlotTabButtonRect(GetLayout()).cx)
+#define QSLOT_BUTTON_SIZE_Y				(QSlotTabButtonRect(GetLayout()).cy)
 
 // 2006-03-07 by ispark, 언어에 따라 위치 수정
 #if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
@@ -169,13 +170,14 @@ HRESULT CINFGameMainQSlot::InitDeviceObjects()
 	m_pImgTabButton[QSLOT_BUTTON_DOWN] = new CINFImageBtn;
 	m_pImgTabButton[QSLOT_BUTTON_DOWN]->InitDeviceObjects( "mnQdn03", "mnQdn01", "mnQdn00", "mnQdn02" );
 
+	// Authored point size; CD3DHanFont rasterises it at the size it is drawn.
 	for(i=0; i<QSLOT_NUMBER; i++)
 	{
-		m_vecFontLine[i] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),8 * HIDPI_COEFF, D3DFONT_ZENABLE,  TRUE,256 * HIDPI_COEFF,32 * HIDPI_COEFF);
+		m_vecFontLine[i] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 8, D3DFONT_ZENABLE, TRUE, 256, 32);
 		m_vecFontLine[i]->InitDeviceObjects(g_pD3dDev);
 	}
 
-	m_pFontTabNum = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),8 * HIDPI_COEFF, D3DFONT_ZENABLE,  TRUE,256 * HIDPI_COEFF,32 * HIDPI_COEFF);
+	m_pFontTabNum = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 8, D3DFONT_ZENABLE, TRUE, 256, 32);
 	m_pFontTabNum->InitDeviceObjects(g_pD3dDev);
 
 	
@@ -185,31 +187,52 @@ HRESULT CINFGameMainQSlot::InitDeviceObjects()
 	return S_OK ;
 }
 
+// Where the bar sits and how big it is drawn.
+QSLOT_LAYOUT CINFGameMainQSlot::GetLayout() const
+{
+	QSLOT_LAYOUT layout;
+	layout.nOriginX = m_nX;
+	layout.nOriginY = m_nY;
+	// Everything here is in layout pixels; the draw applies the scale.
+	layout.fScale	= 1.0f;
+	return layout;
+}
+
+// m_pIsSlotOpen reads backwards: TRUE means only the current tab is showing.
+int CINFGameMainQSlot::GetVisibleRowCount() const
+{
+	return (m_pIsSlotOpen == TRUE) ? 1 : QSLOT_TAB_NUMBER;
+}
+
 HRESULT CINFGameMainQSlot::RestoreDeviceObjects()
 {
 	FLOG( "CINFGameMainQSlot::RestoreDeviceObjects()" );
 	if(!m_bRestored)
 	{
-		m_nX = QSLOT_START_X;
-		m_nY = QSLOT_START_Y;
 		m_pBack->RestoreDeviceObjects() ;
 		m_pNumber->RestoreDeviceObjects() ;
 		m_pImgDisSkill->RestoreDeviceObjects() ;
-		// 탭 버튼 관련
+		// tab buttons
 		m_pImgTabButton[QSLOT_BUTTON_UP]->RestoreDeviceObjects();
-		m_pImgTabButton[QSLOT_BUTTON_UP]->SetBtnPosition(QSLOT_BUTTON_UP_START_X,QSLOT_BUTTON_UP_START_Y);
 		m_pImgTabButton[QSLOT_BUTTON_DOWN]->RestoreDeviceObjects();
-		m_pImgTabButton[QSLOT_BUTTON_DOWN]->SetBtnPosition(QSLOT_BUTTON_UP_START_X,QSLOT_BUTTON_UP_START_Y);
 		m_bRestored = TRUE;
 	}
-	
+
+	// The back buffer may be a different size than it was last time, so the
+	// anchor and everything measured from it are worked out on every restore.
+	m_nX = QSLOT_START_X;
+	m_nY = QSLOT_START_Y;
+
 	int i; for(i=0; i<QSLOT_NUMBER; i++)
 	{
 		m_vecFontLine[i]->RestoreDeviceObjects() ;
 	}
 	m_pFontTabNum->RestoreDeviceObjects() ;
 
-	m_pImgBlind->RestoreDeviceObjects();														  
+	m_pImgTabButton[QSLOT_BUTTON_UP]->SetBtnPosition(QSLOT_BUTTON_UP_START_X,QSLOT_BUTTON_UP_START_Y);
+	m_pImgTabButton[QSLOT_BUTTON_DOWN]->SetBtnPosition(QSLOT_BUTTON_DOWN_START_X,QSLOT_BUTTON_DOWN_START_Y);
+
+	m_pImgBlind->RestoreDeviceObjects();
 	return S_OK ;
 }
 
@@ -383,214 +406,121 @@ void CINFGameMainQSlot::Render()
 	FLOG( "CINFGameMainQSlot::Render()" );
 	char buf[64];
 
-	if( m_pIsSlotOpen == FALSE )
+	// Every rectangle below comes out of QSlotLayout.h so that what is drawn and
+	// what the hit tests below look for are the same thing at any scale.
+	const QSLOT_LAYOUT layout = GetLayout();
+	const int nRowCount = GetVisibleRowCount();
+
+	int nRow; for(nRow = 0; nRow < nRowCount; nRow++)
 	{
-		int i; for(i=0; i < QSLOT_TAB_NUMBER; i++ )
-		{
-			m_pBack->Move(m_nX , m_nY +4 * HIDPI_COEFF - i * (m_pBack->GetImgSize().y + 2) * HIDPI_COEFF);
-			m_pBack->SetScale(HIDPI_COEFF, HIDPI_COEFF);
-			m_pBack->Render();
-		}
-	}
-	else
-	{
-		m_pBack->Move( m_nX, m_nY +4 * HIDPI_COEFF);
-		m_pBack->SetScale(HIDPI_COEFF, HIDPI_COEFF);
+		const QSLOT_RECT rcBar = QSlotBarRect(layout, nRow);
+		m_pBack->Move((float)rcBar.x, (float)rcBar.y);
+		m_pBack->SetScale(layout.fScale, layout.fScale);
 		m_pBack->Render();
 	}
 
-	// 단축키 아이콘
 	CINFIcon* pIconInfo = ((CINFGameMain*)m_pParent)->m_pIcon;
-	
-// 	int i; for(i=0;i<QSLOT_NUMBER;i++)
-// 	{
-// 		if(m_pQSlotInfo[m_nCurrentTab][i].pItem && IsValidQSlotInfo(m_nCurrentTab, i))
-// 		{
-// 			strcpy( buf, m_pQSlotInfo[m_nCurrentTab][i].IconName );
-// 
-// 			pIconInfo->SetIcon(buf, 
-// 				m_nX + 8 + (pIconInfo->GetIconSize().x + 3) * i,
-// 				m_nY+11, 1.0f);
-// 			pIconInfo->Render();
-// 			
-// 			if(IS_SKILL_ITEM(m_pQSlotInfo[m_nCurrentTab][i].pItem->Kind) 
-// 			 && FALSE == RenderDisableSkill(m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemNum))
-// 			{
-// 				m_pImgDisSkill->Move(m_nX + 7 + (pIconInfo->GetIconSize().x + 3) * i, m_nY + 11);
-// 				m_pImgDisSkill->Render();
-// 			}
-// 
-// 			// 2005-11-22 by ispark
-// 			// 스킬 재발동 시간 표시
-// 			if(IS_SKILL_ITEM(m_pQSlotInfo[m_nCurrentTab][i].pItem->Kind))
-// 			{
-// 				RenderSkillReAttackTime(m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemNum, i);
-// 			}
-// 			else if(ITEMKIND_CARD == m_pQSlotInfo[m_nCurrentTab][i].pItem->Kind
-// 				&& COMPARE_BIT_FLAG(m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemInfo->ItemAttribute, ITEM_ATTR_TIME_LIMITE)
-// 				&& 0 < m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemInfo->ReAttacktime)
-// 			{
-// 				RenderItemUsableReAttackTime(m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemNum, i);
-// 			}
-// 			// 2008-11-26 by bhsohn 절대시간 제한 아이템 구현
-// 			else if(ITEMKIND_CARD == m_pQSlotInfo[m_nCurrentTab][i].pItem->Kind
-// 				&& COMPARE_BIT_FLAG(m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemInfo->ItemAttribute, ITEM_ATTR_DELETED_TIME_LIMITE_AFTER_USED)
-// 				&& 0 < m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemInfo->ReAttacktime)
-// 			{
-// 				RenderItemUsableReAttackTime(m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemNum, i);
-// 			}
-// 			// end 2008-11-26 by bhsohn 절대시간 제한 아이템 구현
-// 
-// 			//갯수 아이템.
-// 			if( IS_COUNTABLE_ITEM(m_pQSlotInfo[m_nCurrentTab][i].pItem->Kind) )
-// 			{
-// 				CItemInfo* pItemInfo = g_pStoreData->FindItemInInventoryByUniqueNumber( m_pQSlotInfo[m_nCurrentTab][i].pItem->UniqueNumber );
-// 				if( pItemInfo->CurrentCount > 1 )
-// 				{
-// 					// 갯수를 보여준다.
-// 					// 2006-09-08 by ispark, 위치 수정
-// 					wsprintf(buf, "%d",pItemInfo->CurrentCount);
-// 					int len = strlen(buf) - 1;			// 여기는 한개 이상 들어온다는 정의에 -1를 했다.
-// 					m_vecFontLine[i]->DrawText(m_nX+pIconInfo->GetIconSize().x*i+21 - len*6,m_nY-1,QSLOT_COUNTERBLE_NUMBER,buf, 0L);
-// 				}
-// 			}
-// 			// 2010. 02. 11 by ckPark 발동류 장착아이템
-// 			if(m_pQSlotInfo[m_nCurrentTab][i].pItem && IsValidQSlotInfo(m_nCurrentTab, i))
-// 			{
-// 				if( m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemInfo->InvokingDestParamID
-// 					|| m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemInfo->InvokingDestParamIDByUse )
-// 				{
-// 					char buf[128];
-// 					
-// 					// 퀵슬롯에서는 장착된 아이템의 쿨타임만 표시한다
-// 					CItemInfo* pItemInfo = g_pStoreData->FindItemInWearByItemNum(m_pQSlotInfo[m_nCurrentTab][i].pItem->ItemNum);
-// 					if( pItemInfo && GetString_CoolTime( pItemInfo, buf ) )
-// 					{
-// 						int len = strlen(buf) - 1;
-// 						
-// 						int nFontPosX = m_nX + pIconInfo->GetIconSize().x * i + FONTLINE_X + 20 - len * 6; // 여기서 6은 영문 숫자 텍스트 간격이다.
-// 						int nFontPosY = m_nY + FONTLINE_Y + 7;
-// 						
-// 						m_vecFontLine[i]->DrawText(nFontPosX,nFontPosY, QSLOT_COUNTERBLE_NUMBER,buf, 0L);
-// 					}
-// 				}
-// 			}
-// 			// end 2010. 02. 11 by ckPark 발동류 장착아이템
-// 		}
-// 	}
-// 추가 퀵슬롯
-	int TabNum = 0;
-	for(int j=0;j<QSLOT_TAB_NUMBER;j++)
-	{
-// 			if(j == m_nCurrentTab)
-// 				continue;
-		
-		int nNum = ( m_nCurrentTab + TabNum )%QSLOT_TAB_NUMBER;
-		int i; for(i=0;i<QSLOT_NUMBER;i++)
-		{
-			if(m_pQSlotInfo[nNum][i].pItem && IsValidQSlotInfo(nNum, i))
-			{
-				strcpy( buf, m_pQSlotInfo[nNum][i].IconName );	
-				pIconInfo->SetIcon(buf, 
-					m_nX + 8 * HIDPI_COEFF + (pIconInfo->GetIconSize().x + 3) * HIDPI_COEFF * i,
-					m_nY +11 * HIDPI_COEFF - (TabNum * (pIconInfo->GetIconSize().y + 14) * HIDPI_COEFF)
-				, 1.0f * HIDPI_COEFF);
-				pIconInfo->Render();
 
-				if(IS_SKILL_ITEM(m_pQSlotInfo[nNum][i].pItem->Kind) 
-					&& FALSE == RenderDisableSkill(m_pQSlotInfo[nNum][i].pItem->ItemNum))
+	for(nRow = 0; nRow < nRowCount; nRow++)
+	{
+		const int nTab = ( m_nCurrentTab + nRow ) % QSLOT_TAB_NUMBER;
+
+		int i; for(i = 0; i < QSLOT_NUMBER; i++)
+		{
+			if(NULL == m_pQSlotInfo[nTab][i].pItem || FALSE == IsValidQSlotInfo(nTab, i))
+			{
+				continue;
+			}
+
+			const QSLOT_RECT rcIcon = QSlotIconRect(layout, i, nRow);
+
+			strcpy( buf, m_pQSlotInfo[nTab][i].IconName );
+			pIconInfo->SetIcon(buf, rcIcon.x, rcIcon.y, layout.fScale);
+			pIconInfo->Render();
+
+			if(IS_SKILL_ITEM(m_pQSlotInfo[nTab][i].pItem->Kind)
+				&& FALSE == RenderDisableSkill(m_pQSlotInfo[nTab][i].pItem->ItemNum))
+			{
+				const QSLOT_RECT rcDisable = QSlotDisableRect(layout, i, nRow);
+				m_pImgDisSkill->Move((float)rcDisable.x, (float)rcDisable.y);
+				m_pImgDisSkill->SetScale(layout.fScale, layout.fScale);
+				m_pImgDisSkill->Render();
+			}
+
+			// Skill cooldown, then the two kinds of time-limited card.
+			if(IS_SKILL_ITEM(m_pQSlotInfo[nTab][i].pItem->Kind))
+			{
+				RenderSkillReAttackTime(m_pQSlotInfo[nTab][i].pItem->ItemNum, i, nRow);
+			}
+			else if(ITEMKIND_CARD == m_pQSlotInfo[nTab][i].pItem->Kind
+				&& COMPARE_BIT_FLAG(m_pQSlotInfo[nTab][i].pItem->ItemInfo->ItemAttribute, ITEM_ATTR_TIME_LIMITE)
+				&& 0 < m_pQSlotInfo[nTab][i].pItem->ItemInfo->ReAttacktime)
+			{
+				RenderItemUsableReAttackTime(m_pQSlotInfo[nTab][i].pItem->ItemNum, i, nRow);
+			}
+			else if(ITEMKIND_CARD == m_pQSlotInfo[nTab][i].pItem->Kind
+				&& COMPARE_BIT_FLAG(m_pQSlotInfo[nTab][i].pItem->ItemInfo->ItemAttribute, ITEM_ATTR_DELETED_TIME_LIMITE_AFTER_USED)
+				&& 0 < m_pQSlotInfo[nTab][i].pItem->ItemInfo->ReAttacktime)
+			{
+				RenderItemUsableReAttackTime(m_pQSlotInfo[nTab][i].pItem->ItemNum, i, nRow);
+			}
+
+			// How many are left, right aligned on the icon.  GetStringSize
+			// reports real pixels, so it must not be scaled again.
+			if( IS_COUNTABLE_ITEM(m_pQSlotInfo[nTab][i].pItem->Kind) )
+			{
+				CItemInfo* pItemInfo = g_pStoreData->FindItemInInventoryByUniqueNumber( m_pQSlotInfo[nTab][i].pItem->UniqueNumber );
+				if( pItemInfo->CurrentCount > 1 )
 				{
-					m_pImgDisSkill->Move(m_nX + 7 + (pIconInfo->GetIconSize().x + 3) * i, m_nY +10 - TabNum * (pIconInfo->GetIconSize().y + 14) );
-					m_pImgDisSkill->SetScale(HIDPI_COEFF, HIDPI_COEFF);
-					m_pImgDisSkill->Render();
+					wsprintf(buf, "%d",pItemInfo->CurrentCount);
+
+					SIZE szText = m_vecFontLine[i]->GetStringSize( buf );
+					int nFontPosX, nFontPosY;
+					QSlotCountTextPos(layout, i, nRow, szText.cx, &nFontPosX, &nFontPosY);
+
+					m_vecFontLine[i]->DrawText(nFontPosX, nFontPosY, QSLOT_COUNTERBLE_NUMBER, buf, 0L);
 				}
-				
-				// 2005-11-22 by ispark
-				// 스킬 재발동 시간 표시
-				if(IS_SKILL_ITEM(m_pQSlotInfo[nNum][i].pItem->Kind))
+			}
+
+			// An item that grants a buff shows the buff's remaining time.
+			if( m_pQSlotInfo[nTab][i].pItem->ItemInfo->InvokingDestParamID
+				|| m_pQSlotInfo[nTab][i].pItem->ItemInfo->InvokingDestParamIDByUse )
+			{
+				char strCoolTime[128];
+
+				CItemInfo* pItemInfo = g_pStoreData->FindItemInWearByItemNum(m_pQSlotInfo[nTab][i].pItem->ItemNum);
+				if( pItemInfo && GetString_CoolTime( pItemInfo, strCoolTime ) )
 				{
-					RenderSkillReAttackTime(m_pQSlotInfo[nNum][i].pItem->ItemNum, i, TabNum, pIconInfo->GetIconSize().x*HIDPI_COEFF, pIconInfo->GetIconSize().y * HIDPI_COEFF);
+					SIZE szText = m_vecFontLine[i]->GetStringSize(strCoolTime);
+					int nFontPosX, nFontPosY;
+					QSlotCenterTextPos(layout, i, nRow, szText.cx, szText.cy, &nFontPosX, &nFontPosY);
+
+					m_vecFontLine[i]->DrawText(nFontPosX, nFontPosY, QSLOT_COUNTERBLE_NUMBER, strCoolTime, 0L);
 				}
-				else if(ITEMKIND_CARD == m_pQSlotInfo[nNum][i].pItem->Kind
-					&& COMPARE_BIT_FLAG(m_pQSlotInfo[nNum][i].pItem->ItemInfo->ItemAttribute, ITEM_ATTR_TIME_LIMITE)
-					&& 0 < m_pQSlotInfo[nNum][i].pItem->ItemInfo->ReAttacktime)
-				{
-					RenderItemUsableReAttackTime(m_pQSlotInfo[nNum][i].pItem->ItemNum, i, TabNum, pIconInfo->GetIconSize().x * HIDPI_COEFF, pIconInfo->GetIconSize().y * HIDPI_COEFF);
-				}
-				// 2008-11-26 by bhsohn 절대시간 제한 아이템 구현
-				else if(ITEMKIND_CARD == m_pQSlotInfo[nNum][i].pItem->Kind
-					&& COMPARE_BIT_FLAG(m_pQSlotInfo[nNum][i].pItem->ItemInfo->ItemAttribute, ITEM_ATTR_DELETED_TIME_LIMITE_AFTER_USED)
-					&& 0 < m_pQSlotInfo[nNum][i].pItem->ItemInfo->ReAttacktime)
-				{
-					RenderItemUsableReAttackTime(m_pQSlotInfo[nNum][i].pItem->ItemNum, i, TabNum, pIconInfo->GetIconSize().x * HIDPI_COEFF, pIconInfo->GetIconSize().y * HIDPI_COEFF);
-				}
-				// end 2008-11-26 by bhsohn 절대시간 제한 아이템 구현
-				
-				//갯수 아이템.
-				if( IS_COUNTABLE_ITEM(m_pQSlotInfo[nNum][i].pItem->Kind) )
-				{
-					CItemInfo* pItemInfo = g_pStoreData->FindItemInInventoryByUniqueNumber( m_pQSlotInfo[nNum][i].pItem->UniqueNumber );
-					if( pItemInfo->CurrentCount > 1 )
-					{
-						// 갯수를 보여준다.
-						// 2006-09-08 by ispark, 위치 수정
-						wsprintf(buf, "%d",pItemInfo->CurrentCount);
-						//int len = strlen(buf) - 1;			// 여기는 한개 이상 들어온다는 정의에 -1를 했다.
-						SIZE nSize = m_vecFontLine[i]->GetStringSize( buf );
-						m_vecFontLine[i]->DrawText(m_nX + 7 * HIDPI_COEFF + ( pIconInfo->GetIconSize().x + 3) * HIDPI_COEFF * i + ( pIconInfo->GetIconSize().x - nSize.cx ) * HIDPI_COEFF, m_nY + 8 * HIDPI_COEFF - TabNum * (pIconInfo->GetIconSize().y + 14) * HIDPI_COEFF,QSLOT_COUNTERBLE_NUMBER,buf, 0L);
-					}
-				}
-				// 2010. 02. 11 by ckPark 발동류 장착아이템
-				if(m_pQSlotInfo[nNum][i].pItem && IsValidQSlotInfo(nNum, i))
-				{
-					if( m_pQSlotInfo[nNum][i].pItem->ItemInfo->InvokingDestParamID
-						|| m_pQSlotInfo[nNum][i].pItem->ItemInfo->InvokingDestParamIDByUse )
-					{
-						char buf[128];
-						
-						// 퀵슬롯에서는 장착된 아이템의 쿨타임만 표시한다
-						CItemInfo* pItemInfo = g_pStoreData->FindItemInWearByItemNum(m_pQSlotInfo[nNum][i].pItem->ItemNum);
-						if( pItemInfo && GetString_CoolTime( pItemInfo, buf ) )
-						{
-							SIZE len = m_vecFontLine[i]->GetStringSize(buf);
-							
-							int nFontPosX = m_nX + 7 + ( pIconInfo->GetIconSize().x + 3) * i + ( ( pIconInfo->GetIconSize().x - len.cx ) / 2 ) ; // 여기서 6은 영문 숫자 텍스트 간격이다.
-							int nFontPosY = m_nY + 10 - TabNum * (pIconInfo->GetIconSize().y + 14) + ( ( pIconInfo->GetIconSize().y - len.cy ) /2 );
-							
-							m_vecFontLine[i]->DrawText(nFontPosX,nFontPosY, QSLOT_COUNTERBLE_NUMBER,buf, 0L);
-						}
-					}
-				}
-				if( TabNum != 0 )
-				{
-					m_pImgBlind->Move(m_nX + 8 * HIDPI_COEFF + (pIconInfo->GetIconSize().x + 3) * HIDPI_COEFF * i, m_nY +11 * HIDPI_COEFF - (TabNum * (pIconInfo->GetIconSize().y + 14)) * HIDPI_COEFF);
-					m_pImgBlind->SetScale( pIconInfo->GetIconSize().x * HIDPI_COEFF, pIconInfo->GetIconSize().y*HIDPI_COEFF );
-					m_pImgBlind->Render();
-				}
-				// end 2010. 02. 11 by ckPark 발동류 장착아이템
+			}
+
+			// Rows other than the current one are dimmed.  LM_inven is one
+			// pixel, so its scale is the size to cover.
+			if( nRow != 0 )
+			{
+				m_pImgBlind->Move((float)rcIcon.x, (float)rcIcon.y);
+				m_pImgBlind->SetScale( (float)rcIcon.cx, (float)rcIcon.cy );
+				m_pImgBlind->Render();
 			}
 		}
-		if(m_pIsSlotOpen == TRUE)
-			break;
-
-		TabNum++;
 	}
 
-	
-
-
-	// 2007-01-22 by bhsohn 탭키 인터 페이스 수정안
+	const QSLOT_RECT rcTabBtn = QSlotTabButtonRect(layout);
 	wsprintf(buf, "%d",m_nCurrentTab+1);
-	m_pFontTabNum->DrawText(QSLOT_BUTTON_UP_START_X + 1,
-								QSLOT_BUTTON_UP_START_Y + QSLOT_BUTTON_SIZE_Y , 
-								QSLOT_COUNTERBLE_NUMBER,buf, 0L);
+	m_pFontTabNum->DrawText(rcTabBtn.x + QSlotScale(layout, (float)QSLOT_TAB_TEXT_OFFSET_X),
+							rcTabBtn.y + QSlotScale(layout, (float)QSLOT_TAB_TEXT_OFFSET_Y),
+							QSLOT_COUNTERBLE_NUMBER,buf, 0L);
 
-	m_pNumber->Move(m_nX - 5, m_nY);
-	m_pNumber->SetScale(HIDPI_COEFF, HIDPI_COEFF);
+	const QSLOT_RECT rcKeyStrip = QSlotKeyStripRect(layout);
+	m_pNumber->Move((float)rcKeyStrip.x, (float)rcKeyStrip.y);
+	m_pNumber->SetScale(layout.fScale, layout.fScale);
 	m_pNumber->Render();
 
-	// 2010. 02. 11 by ckPark 발동류 장착아이템
-	// 탭 버튼 관련
 	if( m_pIsSlotOpen == TRUE )
 	{
 		m_pImgTabButton[QSLOT_BUTTON_UP]->Render();
@@ -705,34 +635,14 @@ int CINFGameMainQSlot::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 			// 툴 팁 보여 주기 
 		
-			int TabNum = 0;
-			CINFIcon* pIconInfo = ((CINFGameMain*)m_pParent)->m_pIcon;
+			int nColumn, nRow;
+			if(QSlotHitTest(GetLayout(), QSLOT_NUMBER, GetVisibleRowCount(), pt.x, pt.y, &nColumn, &nRow))
 			{
-				for(int j=0;j<QSLOT_TAB_NUMBER;j++)
-				{
-					int nNum = ( m_nCurrentTab + TabNum )%QSLOT_TAB_NUMBER;
-					int i; for(i=0;i< QSLOT_NUMBER;i++)
-					{
-						int nTempX = m_nX + 8 * HIDPI_COEFF + ( pIconInfo->GetIconSize().x + 3) * HIDPI_COEFF * i;
-						int nTempY = m_nY + 11 * HIDPI_COEFF - j * ( pIconInfo->GetIconSize().y + 14 ) * HIDPI_COEFF;
-						if( pt.y > nTempY &&
-							pt.y < nTempY + pIconInfo->GetIconSize().y * HIDPI_COEFF &&
-							pt.x > nTempX &&
-							pt.x < nTempX + pIconInfo->GetIconSize().x * HIDPI_COEFF)
-						{
-							SetToolTip( pt.x - 10, pt.y + 13, m_pQSlotInfo[nNum][i].pItem );
-							return INF_MSGPROC_BREAK;
-						}
-						else
-						{
-							((CINFGameMain*)m_pParent)->SetToolTip(0, 0,NULL);
-						}					
-					}
-					if(m_pIsSlotOpen == TRUE)
-						break;
-					TabNum++;
-				}
+				const int nTab = ( m_nCurrentTab + nRow ) % QSLOT_TAB_NUMBER;
+				SetToolTip( pt.x - 10, pt.y + 13, m_pQSlotInfo[nTab][nColumn].pItem );
+				return INF_MSGPROC_BREAK;
 			}
+			((CINFGameMain*)m_pParent)->SetToolTip(0, 0,NULL);
 // 			if( pt.y > m_nY &&
 // 				pt.y < m_nY+QSLOT_SIZE_Y &&
 // 				pt.x > m_nX &&
@@ -814,32 +724,15 @@ int CINFGameMainQSlot::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 // 				}
 // 			}
 // 		}
-			int TabNum = 0;
-			CINFIcon* pIconInfo = ((CINFGameMain*)m_pParent)->m_pIcon;
+			// Only while a window that can hold items is open, the same as before.
+			if(g_pGameMain->m_nLeftWindowInfo || g_pGameMain->m_nRightWindowInfo)
 			{
-				for(int j=0;j<QSLOT_TAB_NUMBER;j++)
+				int nColumn, nRow;
+				if(QSlotHitTest(GetLayout(), QSLOT_NUMBER, GetVisibleRowCount(), pt.x, pt.y, &nColumn, &nRow))
 				{
-					int nNum = ( m_nCurrentTab + TabNum )%QSLOT_TAB_NUMBER;
-					int i; for(i=0;i< QSLOT_NUMBER;i++)
-					{
-						if(!g_pGameMain->m_nLeftWindowInfo && !g_pGameMain->m_nRightWindowInfo)
-						{
-							break;
-						}		
-						int nTempX = m_nX + 8 * HIDPI_COEFF + ( pIconInfo->GetIconSize().x + 3) * HIDPI_COEFF * i;
-						int nTempY = m_nY + 11 * HIDPI_COEFF - j * ( pIconInfo->GetIconSize().y + 14 ) * HIDPI_COEFF;
-						if( pt.y > nTempY &&
-							pt.y < nTempY + pIconInfo->GetIconSize().y * HIDPI_COEFF &&
-							pt.x > nTempX &&
-							pt.x < nTempX + pIconInfo->GetIconSize().x * HIDPI_COEFF)
-						{
-							m_pQSlotInfo[nNum][i].pItem = NULL;	
-							return INF_MSGPROC_BREAK;
-						}
-					}
-					if(m_pIsSlotOpen == TRUE)
-						break;
-					TabNum++;
+					const int nTab = ( m_nCurrentTab + nRow ) % QSLOT_TAB_NUMBER;
+					m_pQSlotInfo[nTab][nColumn].pItem = NULL;
+					return INF_MSGPROC_BREAK;
 				}
 			}
 		}
@@ -866,110 +759,82 @@ int CINFGameMainQSlot::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			{
 			}
 			
-			int TabNum = 0;
-			CINFIcon* pIconInfo = ((CINFGameMain*)m_pParent)->m_pIcon;
-			for(int j=0;j<QSLOT_TAB_NUMBER;j++)
+			// Picking an item up only works while a window that can receive it is
+			// open, which is what the old loop's early break amounted to.
+			if(!g_pGameMain->m_nLeftWindowInfo && !g_pGameMain->m_nRightWindowInfo)
 			{
-				int nNum = ( m_nCurrentTab + TabNum )%QSLOT_TAB_NUMBER;
-				int i; for(i=0;i< QSLOT_NUMBER;i++)
+				break;
+			}
+
+			int nColumn, nRow;
+			const BOOL bOnSlot = QSlotHitTest(GetLayout(), QSLOT_NUMBER, GetVisibleRowCount(), pt.x, pt.y, &nColumn, &nRow) ? TRUE : FALSE;
+			const int nTab = bOnSlot ? (( m_nCurrentTab + nRow ) % QSLOT_TAB_NUMBER) : 0;
+
+			// A stack that is no longer in the inventory leaves a stale slot behind.
+			if(bOnSlot &&
+				NULL != m_pQSlotInfo[nTab][nColumn].pItem &&
+				IS_GENERAL_ITEM(m_pQSlotInfo[nTab][nColumn].pItem->Kind) &&
+				g_pInterface->m_pBazaarShop == NULL &&
+				IS_COUNTABLE_ITEM(m_pQSlotInfo[nTab][nColumn].pItem->Kind))
+			{
+				ITEM *pITEM = g_pDatabase->GetServerItemInfo(m_pQSlotInfo[nTab][nColumn].pItem->ItemNum);
+				if(pITEM &&
+					NULL == g_pStoreData->FindItemInInventoryByUniqueNumber(((ITEM_GENERAL*)m_pQSlotInfo[nTab][nColumn].pItem)->UniqueNumber))
 				{
-					if(!g_pGameMain->m_nLeftWindowInfo && !g_pGameMain->m_nRightWindowInfo)
-					{
-						break;
-					}
-					int nTempX = m_nX + 8 * HIDPI_COEFF + ( pIconInfo->GetIconSize().x + 3) * HIDPI_COEFF * i;
-					int nTempY = m_nY + 11 * HIDPI_COEFF - j * ( pIconInfo->GetIconSize().y + 14 ) * HIDPI_COEFF;
-					if( pt.y > nTempY &&
-						pt.y < nTempY + pIconInfo->GetIconSize().y * HIDPI_COEFF &&
-						pt.x > nTempX &&
-						pt.x < nTempX + pIconInfo->GetIconSize().x * HIDPI_COEFF)
-					{
-						if(NULL != m_pQSlotInfo[nNum][i].pItem &&
-							IS_GENERAL_ITEM(m_pQSlotInfo[nNum][i].pItem->Kind) &&
-							g_pInterface->m_pBazaarShop == NULL)
-						{
-							if(IS_COUNTABLE_ITEM(m_pQSlotInfo[nNum][i].pItem->Kind))
-							{
-								ITEM *pITEM = g_pDatabase->GetServerItemInfo(m_pQSlotInfo[nNum][i].pItem->ItemNum);
-								if(pITEM)
-								{
-									CItemInfo* pItemInfo = g_pStoreData->FindItemInInventoryByUniqueNumber(((ITEM_GENERAL*)m_pQSlotInfo[nNum][i].pItem)->UniqueNumber);
-									if(pItemInfo == NULL)
-									{
-										SetQSlotInfo(nNum,i,NULL);
-										m_bLButtonDown = FALSE;
-										return INF_MSGPROC_BREAK;
-									}
-								}
-							}
-						}					
-					}
-				// 2006-07-27 by ispark
-					if(((CINFGameMain*)m_pParent)->m_stSelectItem.pSelectItem &&
-						((CINFGameMain*)m_pParent)->m_stSelectItem.bySelectType == ITEM_QSLOT_POS)
-					{
-						m_bLButtonDown = TRUE;
-						return INF_MSGPROC_BREAK;
-					}
-
-  					m_nItemType	= QSLOT_ITEMTYPE_NONE;
-					
-					if( pt.y > nTempY &&
-						pt.y < nTempY + pIconInfo->GetIconSize().y * HIDPI_COEFF &&
-						pt.x > nTempX &&
-						pt.x < nTempX + pIconInfo->GetIconSize().x * HIDPI_COEFF)
-					{
-  						if( m_pQSlotInfo[nNum][i].pItem &&
-  							i >= 0 && 
-  							i < QSLOT_NUMBER ) 
-  						{
-  							if(((CINFGameMain*)m_pParent)->m_stSelectItem.pSelectItem == NULL)
-  							{
-								m_nRenderMoveIconIntervalWidth  = pt.x - nTempX; 
-								m_nRenderMoveIconIntervalHeight = pt.y - nTempY;
-  								if(IS_SKILL_ITEM(m_pQSlotInfo[nNum][i].pItem->Kind))
- 								{
-		 //							g_pGameMain->m_pCharacterInfo->m_pSelectSkill = (ITEM_SKILL*)m_pQSlotInfo[m_nCurrentTab][i].pItem;
- 									SetSelectItem(&m_pQSlotInfo[nNum][i]);
- 									m_nItemType				= QSLOT_ITEMTYPE_SKILL;
- 								}
- 								else
- 								{
-		 //							g_pGameMain->m_pInven->m_pSelectItem = (CItemInfo*)m_pQSlotInfo[m_nCurrentTab][i].pItem;
- 									SetSelectItem(&m_pQSlotInfo[nNum][i]);
- 									m_nItemType				= QSLOT_ITEMTYPE_ITEM;
- 								}						
-								m_bQSlotSwapFlag		= TRUE;
-								m_nQSlotSwapTab			= nNum;
-								m_nQSlotSwapNum			= i;
-
-								m_pQSlotMove = m_pQSlotInfo[nNum][i].pItem;
-								m_pQSlotInfo[nNum][i].pItem = NULL;
- 							}
- 							else
- 							{
- 								m_bQSlotSwapFlag		= FALSE;
- 							}
- 							
- 							return INF_MSGPROC_BREAK;
-  						}
- 						else
-  						{
-  							if(m_bLButtonDown && 
-  								((CINFGameMain*)m_pParent)->m_stSelectItem.bySelectType == ITEM_QSLOT_POS)
-  							{
-  								m_nSelectSlotNumber = -1;
-  								m_nItemType = QSLOT_ITEMTYPE_NONE;
-  								m_bLButtonDown = FALSE;
-  								SetSelectItem(NULL);
-  								return INF_MSGPROC_BREAK;
-  							}
-  						}
-					}
+					SetQSlotInfo(nTab,nColumn,NULL);
+					m_bLButtonDown = FALSE;
+					return INF_MSGPROC_BREAK;
 				}
-				if(m_pIsSlotOpen == TRUE)
-					break;
-				TabNum++;
+			}
+
+			// 2006-07-27 by ispark
+			if(((CINFGameMain*)m_pParent)->m_stSelectItem.pSelectItem &&
+				((CINFGameMain*)m_pParent)->m_stSelectItem.bySelectType == ITEM_QSLOT_POS)
+			{
+				m_bLButtonDown = TRUE;
+				return INF_MSGPROC_BREAK;
+			}
+
+			m_nItemType	= QSLOT_ITEMTYPE_NONE;
+
+			if(bOnSlot)
+			{
+				if( m_pQSlotInfo[nTab][nColumn].pItem )
+				{
+					if(((CINFGameMain*)m_pParent)->m_stSelectItem.pSelectItem == NULL)
+					{
+						// Where in the icon it was grabbed, so the dragged copy
+						// keeps sitting under the cursor.
+						const QSLOT_RECT rcIcon = QSlotIconRect(GetLayout(), nColumn, nRow);
+						m_nRenderMoveIconIntervalWidth  = pt.x - rcIcon.x;
+						m_nRenderMoveIconIntervalHeight = pt.y - rcIcon.y;
+
+						SetSelectItem(&m_pQSlotInfo[nTab][nColumn]);
+						m_nItemType	= IS_SKILL_ITEM(m_pQSlotInfo[nTab][nColumn].pItem->Kind) ? QSLOT_ITEMTYPE_SKILL : QSLOT_ITEMTYPE_ITEM;
+
+						m_bQSlotSwapFlag		= TRUE;
+						m_nQSlotSwapTab			= nTab;
+						m_nQSlotSwapNum			= nColumn;
+
+						m_pQSlotMove = m_pQSlotInfo[nTab][nColumn].pItem;
+						m_pQSlotInfo[nTab][nColumn].pItem = NULL;
+					}
+					else
+					{
+						m_bQSlotSwapFlag		= FALSE;
+					}
+
+					return INF_MSGPROC_BREAK;
+				}
+				else if(m_bLButtonDown &&
+					((CINFGameMain*)m_pParent)->m_stSelectItem.bySelectType == ITEM_QSLOT_POS)
+				{
+					m_nSelectSlotNumber = -1;
+					m_nItemType = QSLOT_ITEMTYPE_NONE;
+					m_bLButtonDown = FALSE;
+					SetSelectItem(NULL);
+					return INF_MSGPROC_BREAK;
+				}
 			}
  		}
 		break;
@@ -1011,62 +876,29 @@ int CINFGameMainQSlot::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 //					pItem = (ITEM_BASE*)((CINFGameMain*)m_pParent)->m_pCharacterInfo->m_pSelectSkill;
 //				}
 //			}
-			int TabNum = 0;
-			CINFIcon* pIconInfo = ((CINFGameMain*)m_pParent)->m_pIcon;
-			int j;
-			for(j=0;j<QSLOT_TAB_NUMBER;j++)
+			int nColumn, nRow;
+			if(QSlotHitTest(GetLayout(), QSLOT_NUMBER, GetVisibleRowCount(), pt.x, pt.y, &nColumn, &nRow))
 			{
-				int nNum = ( m_nCurrentTab + TabNum )%QSLOT_TAB_NUMBER;
-				int i;
-				for(i=0;i< QSLOT_NUMBER;i++)
-				{	
-					if( pSelectItem && 
-	    			  (m_bLButtonDown || ((CINFGameMain*)m_pParent)->m_stSelectItem.bySelectType != ITEM_QSLOT_POS))
-					{
-						int nTempX = m_nX + 8 * HIDPI_COEFF + ( pIconInfo->GetIconSize().x + 3) * HIDPI_COEFF * i;
-						int nTempY = m_nY + 11 * HIDPI_COEFF - j * ( pIconInfo->GetIconSize().y + 14 ) * HIDPI_COEFF;
-						if( pt.y > nTempY &&
-							pt.y < nTempY + pIconInfo->GetIconSize().y * HIDPI_COEFF &&
-							pt.x > nTempX &&
-							pt.x < nTempX + pIconInfo->GetIconSize().x * HIDPI_COEFF)
-						{
-							SetQSlotInfo(nNum, i, pSelectItem);
-							m_nSelectSlotNumber = -1;
-							m_nItemType = QSLOT_ITEMTYPE_NONE;
-							m_bLButtonDown = FALSE;
-							SetSelectItem(NULL);
-						}
-					}
-				}
-				if(m_pIsSlotOpen == TRUE)
-					break;
-				TabNum++;
-			}
+				const int nTab = ( m_nCurrentTab + nRow ) % QSLOT_TAB_NUMBER;
 
-			for(j=0;j<QSLOT_TAB_NUMBER;j++)
-			{
-				int nNum = ( m_nCurrentTab + TabNum )%QSLOT_TAB_NUMBER;
-				int i; for(i=0;i< QSLOT_NUMBER;i++)
-				{	
-					if( m_nSelectSlotNumber>=0 )
-					{
-						int nTempX = m_nX + 8 * HIDPI_COEFF + ( pIconInfo->GetIconSize().x + 3) * HIDPI_COEFF * i;
-						int nTempY = m_nY + 11 * HIDPI_COEFF - j * ( pIconInfo->GetIconSize().y + 14 ) * HIDPI_COEFF;
-						if( pt.y > nTempY &&
-							pt.y < nTempY + pIconInfo->GetIconSize().y * HIDPI_COEFF &&
-							pt.x > nTempX &&
-							pt.x < nTempX + pIconInfo->GetIconSize().x * HIDPI_COEFF)
-						{
-							m_nItemType = QSLOT_ITEMTYPE_NONE;
-							SetQSlotInfo(m_nCurrentTab,m_nSelectSlotNumber,NULL);
-							m_bLButtonDown = FALSE;
-							SetSelectItem(NULL);
-						}
-					}
+				// Something dropped on a slot lands in it.
+				if( pSelectItem &&
+					(m_bLButtonDown || ((CINFGameMain*)m_pParent)->m_stSelectItem.bySelectType != ITEM_QSLOT_POS))
+				{
+					SetQSlotInfo(nTab, nColumn, pSelectItem);
+					m_nSelectSlotNumber = -1;
+					m_nItemType = QSLOT_ITEMTYPE_NONE;
+					m_bLButtonDown = FALSE;
+					SetSelectItem(NULL);
 				}
-				if(m_pIsSlotOpen == TRUE)
-					break;
-				TabNum++;
+				// Dropping a slot onto the bar clears where it came from.
+				else if( m_nSelectSlotNumber >= 0 )
+				{
+					m_nItemType = QSLOT_ITEMTYPE_NONE;
+					SetQSlotInfo(m_nCurrentTab,m_nSelectSlotNumber,NULL);
+					m_bLButtonDown = FALSE;
+					SetSelectItem(NULL);
+				}
 			}
 			m_nSelectSlotNumber = -1;
 //			if( (m_pSelectItem || pItem) && 
@@ -1177,25 +1009,13 @@ int CINFGameMainQSlot::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 // 					UseQuickSlot(m_nCurrentTab, i);
 // 				}
 // 			}
-			int TabNum = 0;
-			CINFIcon* pIconInfo = ((CINFGameMain*)m_pParent)->m_pIcon;
-// 			for(int j=0;j<QSLOT_TAB_NUMBER;j++)
-// 			{
-				int nNum = ( m_nCurrentTab + TabNum )%QSLOT_TAB_NUMBER;
-				int i; for(i=0;i< QSLOT_NUMBER;i++)
-				{
-					int nTempX = m_nX + 8 * HIDPI_COEFF + ( pIconInfo->GetIconSize().x + 3) * HIDPI_COEFF * i;
-					int nTempY = m_nY + 11 * HIDPI_COEFF - 0 * ( pIconInfo->GetIconSize().y + 14 ) * HIDPI_COEFF;
-					if( pt.y > nTempY &&
-						pt.y < nTempY + pIconInfo->GetIconSize().y * HIDPI_COEFF &&
-						pt.x > nTempX &&
-						pt.x < nTempX + pIconInfo->GetIconSize().x * HIDPI_COEFF)
-					{
-						UseQuickSlot(nNum, i);
-					}
-				}
-// 				TabNum++;
-// 			}
+			// Any visible row, not just the current tab - the rows above it are
+			// just as clickable.
+			int nColumn, nRow;
+			if(QSlotHitTest(GetLayout(), QSLOT_NUMBER, GetVisibleRowCount(), pt.x, pt.y, &nColumn, &nRow))
+			{
+				UseQuickSlot(( m_nCurrentTab + nRow ) % QSLOT_TAB_NUMBER, nColumn);
+			}
 		}
 		break;
 	case WM_KEYDOWN:
@@ -1915,7 +1735,7 @@ void CINFGameMainQSlot::StartReattackTime(ITEM *pItem)
 /// \param		
 /// \return		
 ///////////////////////////////////////////////////////////////////////////////
-void CINFGameMainQSlot::RenderItemUsableReAttackTime(int nItemNum, int nRenderIndex, int nLine /* =0 */, float fsizeX /* = 0.0f */, float fsizeY /* = 0.0f */)
+void CINFGameMainQSlot::RenderItemUsableReAttackTime(int nItemNum, int nRenderIndex, int nLine /* = 0 */)
 {
 	CItemInfo * pItemInfo = g_pStoreData->FindItemInInventoryByItemNum(nItemNum);
 	float fElapsedTime = g_pD3dApp->GetElapsedTime();
@@ -1958,22 +1778,16 @@ void CINFGameMainQSlot::RenderItemUsableReAttackTime(int nItemNum, int nRenderIn
 
 		if(nRemainedReattackTime >= 0)
 		{
-			if(bIsMinute)
-			{
-				wsprintf(strRemainedTime, STRMSG_C_SKILL_0009, nRemainedReattackTime);
-				m_vecFontLine[nRenderIndex]->DrawText(m_nX + QSLOT_ICON_INTERVAL * nRenderIndex + FONTLINE_X,
-														m_nY + FONTLINE_Y - nLine * (fsizeY + 14),
-														D3DCOLOR_ARGB(0,0,255,255),
-														strRemainedTime, 0L);
-			}
-			else
-			{
-				wsprintf(strRemainedTime, STRMSG_C_SKILL_0010, nRemainedReattackTime);//"%d초"
-				m_vecFontLine[nRenderIndex]->DrawText(m_nX + QSLOT_ICON_INTERVAL * nRenderIndex + FONTLINE_X,
-														m_nY + FONTLINE_Y - nLine * (fsizeY + 14) ,	   
-														D3DCOLOR_ARGB(0,255,255,255),
-														strRemainedTime, 0L);
-			}
+			wsprintf(strRemainedTime, bIsMinute ? STRMSG_C_SKILL_0009 : STRMSG_C_SKILL_0010, nRemainedReattackTime);
+
+			// Centred on the icon, the same as the skill cooldown next door.
+			SIZE szText = m_vecFontLine[nRenderIndex]->GetStringSize(strRemainedTime);
+			int nFontPosX, nFontPosY;
+			QSlotCenterTextPos(GetLayout(), nRenderIndex, nLine, szText.cx, szText.cy, &nFontPosX, &nFontPosY);
+
+			m_vecFontLine[nRenderIndex]->DrawText(nFontPosX, nFontPosY,
+									bIsMinute ? D3DCOLOR_ARGB(0,0,255,255) : D3DCOLOR_ARGB(0,255,255,255),
+									strRemainedTime, 0L);
 		}
 	}
 	
@@ -1988,7 +1802,7 @@ void CINFGameMainQSlot::RenderItemUsableReAttackTime(int nItemNum, int nRenderIn
 /// \param		
 /// \return		
 ///////////////////////////////////////////////////////////////////////////////
-void CINFGameMainQSlot::RenderSkillReAttackTime(int nItemNum, int nRenderIndex, int nLine /* = 0 */, float fsizeX /* = 0.0f */, float fsizeY /* = 0.0f */ )
+void CINFGameMainQSlot::RenderSkillReAttackTime(int nItemNum, int nRenderIndex, int nLine /* = 0 */)
 {
 	float fRemainedTime, fRemainedReattackTime;
 
@@ -2040,30 +1854,17 @@ void CINFGameMainQSlot::RenderSkillReAttackTime(int nItemNum, int nRenderIndex, 
 			
 				if(nRemainedReattackTime >= 0)
 				{
-					if(bIsMinute)
-					{
-						wsprintf(strRemainedTime, STRMSG_C_SKILL_0009, nRemainedReattackTime);
-						SIZE len = m_vecFontLine[nRenderIndex]->GetStringSize( strRemainedTime );
+					wsprintf(strRemainedTime, bIsMinute ? STRMSG_C_SKILL_0009 : STRMSG_C_SKILL_0010, nRemainedReattackTime);
 
-						int nFontPosX = m_nX + 7 + ( fsizeX + 3) * nRenderIndex + ( ( fsizeX - len.cx ) / 2 ) ; // 여기서 6은 영문 숫자 텍스트 간격이다.
-						int nFontPosY = m_nY + 10 - nLine * (fsizeX + 14) + ( ( fsizeX - len.cy ) /2 );
-						m_vecFontLine[nRenderIndex]->DrawText(	nFontPosX,
-																nFontPosY,
-																D3DCOLOR_ARGB(0,0,255,255),
-																strRemainedTime, 0L);			  
-					}
-					else
-					{
-						wsprintf(strRemainedTime, STRMSG_C_SKILL_0010, nRemainedReattackTime);//"%d초"
-						SIZE len = m_vecFontLine[nRenderIndex]->GetStringSize( strRemainedTime );
-						
-						int nFontPosX = m_nX + 7 + ( fsizeX + 3) * nRenderIndex + ( ( fsizeX - len.cx ) / 2 ) ; // 여기서 6은 영문 숫자 텍스트 간격이다.
-						int nFontPosY = m_nY + 10 - nLine * (fsizeX + 14) + ( ( fsizeX - len.cy ) /2 );
-						m_vecFontLine[nRenderIndex]->DrawText(	nFontPosX,
-																nFontPosY,
-																D3DCOLOR_ARGB(0,255,255,255),
-																strRemainedTime, 0L);			  
-					}
+					// The centring used to measure both axes against the icon
+					// width, and its offsets were never scaled.
+					SIZE szText = m_vecFontLine[nRenderIndex]->GetStringSize(strRemainedTime);
+					int nFontPosX, nFontPosY;
+					QSlotCenterTextPos(GetLayout(), nRenderIndex, nLine, szText.cx, szText.cy, &nFontPosX, &nFontPosY);
+
+					m_vecFontLine[nRenderIndex]->DrawText(nFontPosX, nFontPosY,
+											bIsMinute ? D3DCOLOR_ARGB(0,0,255,255) : D3DCOLOR_ARGB(0,255,255,255),
+											strRemainedTime, 0L);
 				}
 			}
 		}
@@ -2083,29 +1884,12 @@ void CINFGameMainQSlot::RenderSkillReAttackTime(int nItemNum, int nRenderIndex, 
 ///////////////////////////////////////////////////////////////////////////////
 BOOL CINFGameMainQSlot::LButtonUpQuickSlot(POINT pt)
 {
-	int TabNum = 0;
-	CINFIcon* pIconInfo = ((CINFGameMain*)m_pParent)->m_pIcon;
+	// This used raw, unscaled offsets, so on anything above 1080p the drop
+	// target sat left of and above the icons it was meant to match.
+	if(QSlotHitTest(GetLayout(), QSLOT_NUMBER, GetVisibleRowCount(), pt.x, pt.y, NULL, NULL))
 	{
-		for(int j=0;j<QSLOT_TAB_NUMBER;j++)
-		{
-			int nNum = ( m_nCurrentTab + TabNum )%QSLOT_TAB_NUMBER;
-			int i; for(i=0;i< QSLOT_NUMBER;i++)
-			{
-				int nTempX = m_nX + 8 + ( pIconInfo->GetIconSize().x + 3) * i;
-				int nTempY = m_nY + 11 - j * ( pIconInfo->GetIconSize().y + 14 );
-				if( pt.y > nTempY &&
-					pt.y < nTempY + pIconInfo->GetIconSize().y &&
-					pt.x > nTempX &&
-					pt.x < nTempX + pIconInfo->GetIconSize().x)
-				{
-					return TRUE;
-				}				
-			}
-			if(m_pIsSlotOpen == TRUE)
-				break;
-			TabNum++;
-		}
-	} 
+		return TRUE;
+	}
 // 	if( pt.y > m_nY &&
 // 		pt.y < m_nY + QSLOT_SIZE_Y &&
 // 		pt.x > m_nX &&

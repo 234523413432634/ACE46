@@ -695,8 +695,8 @@ CINFMessageBox::CINFMessageBox(CAtumNode* pParent)
 {
 	FLOG( "CINFMessageBox(CAtumNode* pParent)" );
 	m_nMsgType = 0;
-	m_nX = g_pD3dApp->GetBackBufferDesc().Width/2-50;
-	m_nY = g_pD3dApp->GetBackBufferDesc().Height/2-50;
+	m_nX = UIScreenW()/2-50;
+	m_nY = UIScreenH()/2-50;
 	m_nCx = 50;
 	m_nCy = 50;
 	m_pFontMessage = NULL;
@@ -871,7 +871,7 @@ void CINFMessageBox::SetText(char* strText, int nMsgType, BOOL bChRtn/*=FALSE*/)
 	sizeX += nMaxSize;
 	if(m_nCx < sizeX+19*2)
 		m_nCx = sizeX+19*2;
-	m_nX = g_pD3dApp->GetBackBufferDesc().Width/2-m_nCx/2;
+	m_nX = UIScreenW()/2-m_nCx/2;
 
 	if(INPUT_MSG_BUTTON)
 	{
@@ -881,7 +881,7 @@ void CINFMessageBox::SetText(char* strText, int nMsgType, BOOL bChRtn/*=FALSE*/)
 		if(m_nCy < 19*3 + 22)
 			m_nCy = 19*3 + 22;
 		m_nCy = m_nCy + (SIZE_MSGBOX_BUTTON_Y * vecstrTotalMessage.size());
-		m_nY = g_pD3dApp->GetBackBufferDesc().Height/2-m_nCy/2;
+		m_nY = UIScreenH()/2-m_nCy/2;
 		g_pD3dApp->m_bChatMode = TRUE;
 		// 2007.04.24 by bhsohn China IME Working
 		// 2009-01-12 by bhsohn Japan Working
@@ -894,7 +894,7 @@ void CINFMessageBox::SetText(char* strText, int nMsgType, BOOL bChRtn/*=FALSE*/)
 	{
 		if(m_nCy < 19*3 + SIZE_MSGBOX_BUTTON_Y + 30)
 			m_nCy = 19*3 + SIZE_MSGBOX_BUTTON_Y + 30;
-		m_nY = g_pD3dApp->GetBackBufferDesc().Height/2-m_nCy/2;
+		m_nY = UIScreenH()/2-m_nCy/2;
 		g_pD3dApp->m_bChatMode = TRUE;
 		// 2007.04.24 by bhsohn China IME Working
 		// 2009-01-12 by bhsohn Japan Working
@@ -909,13 +909,13 @@ void CINFMessageBox::SetText(char* strText, int nMsgType, BOOL bChRtn/*=FALSE*/)
 		m_nRadioCount = ((CINFWindow*)m_pParent)->m_vecRadioString.size();
 		m_nCy = (19*3 + SIZE_MSGBOX_BUTTON_Y + 35)+((m_nRadioCount/((CINFWindow*)m_pParent)->m_nRadioButtonArray)*15);		
 		// 가운데 렌더링
-		m_nY = g_pD3dApp->GetBackBufferDesc().Height/2-m_nCy/2;
+		m_nY = UIScreenH()/2-m_nCy/2;
 	}
 	else
 	{
 		if(m_nCy < 19*2 + SIZE_MSGBOX_BUTTON_Y + 22)
 			m_nCy = 19*2 + SIZE_MSGBOX_BUTTON_Y + 22 + ((vecstrTotalMessage.size() - 1) * MESSAGE_FONT_LINE_HEIGHT);
-		m_nY = g_pD3dApp->GetBackBufferDesc().Height/2-m_nCy/2;
+		m_nY = UIScreenH()/2-m_nCy/2;
 	}
 }
 
@@ -1361,11 +1361,11 @@ int CINFMessageBox::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)// return va
 				m_nX += pt.x - m_ptMouse.x;
 				m_nY += pt.y - m_ptMouse.y;
 				if(m_nX < 0) m_nX = 0;
-				if(m_nX > g_pD3dApp->GetBackBufferDesc().Width)
-					m_nX = g_pD3dApp->GetBackBufferDesc().Width;
+				if(m_nX > UIScreenW())
+					m_nX = UIScreenW();
 				if(m_nY < 0) m_nY = 0;
-				if(m_nY > g_pD3dApp->GetBackBufferDesc().Height-19)
-					m_nY = g_pD3dApp->GetBackBufferDesc().Height-19;
+				if(m_nY > UIScreenH()-19)
+					m_nY = UIScreenH()-19;
 				m_ptMouse = pt;
 				return INF_MSGPROC_BREAK;
 			}
@@ -1659,6 +1659,9 @@ int CINFMessageBox::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)// return va
 
 			CheckMouseReverse(&pt);
 			D3DXVECTOR2 vPos1 = D3DXVECTOR2(pt.x,pt.y);
+			// The scene picks a player by where it was projected on the back buffer, so a
+			// click that fills in a name has to go back out of layout pixels first.
+			const D3DXVECTOR2 vPick( (float)UIToPixels(pt.x), (float)UIToPixels(pt.y) );
 
 			////////////////////////////////////////////////////////////////////////////////////
 			//
@@ -1714,7 +1717,7 @@ int CINFMessageBox::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)// return va
 				{					
 					// Enemy 중에서 타겟이 있는지 검사
 					CEnemyData * pTp = NULL;
-					pTp = g_pScene->GetEnemyCharaterID(vPos1);
+					pTp = g_pScene->GetEnemyCharaterID(vPick);
 
 					if(pTp)
 					{
@@ -1731,7 +1734,7 @@ int CINFMessageBox::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)// return va
 				if( m_nMsgType == _Q_VOIP_NAME)
 				{					
 					CEnemyData * pcp = NULL;					
-					pcp = g_pScene->GetEnemyCharaterID(vPos1);
+					pcp = g_pScene->GetEnemyCharaterID(vPick);
 					
 					if(pcp)
 					{
@@ -1746,7 +1749,7 @@ int CINFMessageBox::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)// return va
 					if(g_pShuttleChild->m_nObjScreenW > 0)
 					{
 						float fLength = 50.0f;
-						D3DXVECTOR2 vPos2 = D3DXVECTOR2(g_pShuttleChild->m_nObjScreenX, g_pShuttleChild->m_nObjScreenY);
+						D3DXVECTOR2 vPos2 = D3DXVECTOR2(UIFromPixels(g_pShuttleChild->m_nObjScreenX), UIFromPixels(g_pShuttleChild->m_nObjScreenY));
 						if(D3DXVec2Length(&(vPos1 - vPos2)) < fLength)
 						{
 							strcpy(m_strInputMessage,g_pShuttleChild->m_myShuttleInfo.CharacterName);
@@ -1755,7 +1758,7 @@ int CINFMessageBox::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)// return va
 						}
 					}					
 					CEnemyData * pTp = NULL;
-					pTp = g_pScene->GetEnemyCharaterID(vPos1);
+					pTp = g_pScene->GetEnemyCharaterID(vPick);
 
 					if(pTp)
 					{
@@ -6222,7 +6225,7 @@ void CINFWindow::Render()
 
 	// 2008-09-22 by bhsohn EP3 캐릭터 창
 //	nWindowPosY = g_pGameMain->m_nRightWindowY;	
-//	DrawRightWindow(g_pD3dApp->GetBackBufferDesc().Width - (int)((float)((CINFGameMain*)m_pParent)->m_nRightWindowScaleSize/(float)SIZE_NORMAL_WINDOW_Y*SIZE_NORMAL_WINDOW_X),
+//	DrawRightWindow(UIScreenW() - (int)((float)((CINFGameMain*)m_pParent)->m_nRightWindowScaleSize/(float)SIZE_NORMAL_WINDOW_Y*SIZE_NORMAL_WINDOW_X),
 //		nWindowPosY,
 //		(int)((float)((CINFGameMain*)m_pParent)->m_nRightWindowScaleSize/(float)SIZE_NORMAL_WINDOW_Y*SIZE_NORMAL_WINDOW_X),
 //		((CINFGameMain*)m_pParent)->m_nRightWindowScaleSize);
@@ -6296,7 +6299,7 @@ int CINFWindow::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)// 1: normal, 2:
 				((CINFGameMain*)m_pParent)->m_nLeftWindowPosY += nMove;
 
 				int nWindowPosY = g_pGameMain->m_nLeftWindowY;
-				if(abs(((CINFGameMain*)m_pParent)->m_nLeftWindowPosY - DEAULT_WINDOW_POS_Y) < g_pD3dApp->GetBackBufferDesc().Height/80)
+				if(abs(((CINFGameMain*)m_pParent)->m_nLeftWindowPosY - DEAULT_WINDOW_POS_Y) < UIScreenH()/80)
 					((CINFGameMain*)m_pParent)->m_nLeftWindowPosY = DEAULT_WINDOW_POS_Y;
 				else
 					m_ptMouse[0] = pt;
@@ -6308,7 +6311,7 @@ int CINFWindow::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)// 1: normal, 2:
 				((CINFGameMain*)m_pParent)->m_nRightWindowPosY += nMove;
 				int nWindowPosY = g_pGameMain->m_nRightWindowY;
 
-				if(abs(((CINFGameMain*)m_pParent)->m_nRightWindowPosY - DEAULT_WINDOW_POS_Y) < g_pD3dApp->GetBackBufferDesc().Height/80)
+				if(abs(((CINFGameMain*)m_pParent)->m_nRightWindowPosY - DEAULT_WINDOW_POS_Y) < UIScreenH()/80)
 					((CINFGameMain*)m_pParent)->m_nRightWindowPosY = DEAULT_WINDOW_POS_Y;
 				else
 					m_ptMouse[1] = pt;
@@ -6401,9 +6404,9 @@ int CINFWindow::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)// 1: normal, 2:
 			// x-close
 			nWindowPosY = g_pGameMain->m_nRightWindowY;
 			if(RIGHT_WINDOW_WEAPON != ((CINFGameMain*)m_pParent)->m_nRightWindowInfo &&
-			   pt.x > g_pD3dApp->GetBackBufferDesc().Width - 14 &&
+			   pt.x > UIScreenW() - 14 &&
 			   pt.y > nWindowPosY+5 &&
-			   pt.x < g_pD3dApp->GetBackBufferDesc().Width - 7 &&
+			   pt.x < UIScreenW() - 7 &&
 			   pt.y < nWindowPosY+15) // 19: title bar height
 			{
 				// 2008-09-22 by bhsohn EP3 캐릭터 창
@@ -6411,18 +6414,18 @@ int CINFWindow::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)// 1: normal, 2:
 //				return INF_MSGPROC_BREAK;
 			}
 			
-			if(pt.x > g_pD3dApp->GetBackBufferDesc().Width - (int)((float)((CINFGameMain*)m_pParent)->m_nRightWindowScaleSize/(float)SIZE_NORMAL_WINDOW_Y*SIZE_RNORMAL_WINDOW_X) &&
+			if(pt.x > UIScreenW() - (int)((float)((CINFGameMain*)m_pParent)->m_nRightWindowScaleSize/(float)SIZE_NORMAL_WINDOW_Y*SIZE_RNORMAL_WINDOW_X) &&
 			   pt.y > nWindowPosY &&
-			   pt.x < g_pD3dApp->GetBackBufferDesc().Width &&
+			   pt.x < UIScreenW() &&
 			   pt.y < nWindowPosY+19 && g_pShuttleChild->GetRenderInvenFlag())
 			{
 //				m_bLockWindowPosY[1] = TRUE;
 //				m_ptMouse[1] = pt;
 //				return INF_MSGPROC_BREAK;
 			}
-			else if(pt.x > g_pD3dApp->GetBackBufferDesc().Width - (int)((float)((CINFGameMain*)m_pParent)->m_nRightWindowScaleSize/(float)SIZE_NORMAL_WINDOW_Y*SIZE_NORMAL_WINDOW_X) &&
+			else if(pt.x > UIScreenW() - (int)((float)((CINFGameMain*)m_pParent)->m_nRightWindowScaleSize/(float)SIZE_NORMAL_WINDOW_Y*SIZE_NORMAL_WINDOW_X) &&
 			   pt.y > nWindowPosY &&
-			   pt.x < g_pD3dApp->GetBackBufferDesc().Width &&
+			   pt.x < UIScreenW() &&
 			   pt.y < nWindowPosY+19 && !g_pShuttleChild->GetRenderInvenFlag())
 			{
 				// 2005-12-01 by ispark, 2형무기 이동하기 위한거... 재정의
@@ -6616,15 +6619,15 @@ void CINFWindow::DrawRightWindow(int x, int y, int cx, int cy)// cx > 39, cy > 3
 		nPosX += nImageSizeX;
 		m_pBoxImage[8]->Move( nPosX, y + cy );
 		m_pBoxImage[8]->Render();
-		m_pXclose->Move(g_pD3dApp->GetBackBufferDesc().Width-14,y+6);
+		m_pXclose->Move(UIScreenW()-14,y+6);
 		m_pXclose->Render();
 //	}
 //
 //	if(g_pD3dApp->m_dwGameState != _SHOP)
 //	{
-// 		m_pRollImage[2]->Move(g_pD3dApp->GetBackBufferDesc().Width-25,y-36);
+// 		m_pRollImage[2]->Move(UIScreenW()-25,y-36);
 // 		m_pRollImage[2]->Render();
-// 		m_pRollImage[3]->Move(g_pD3dApp->GetBackBufferDesc().Width-25,y+cy);
+// 		m_pRollImage[3]->Move(UIScreenW()-25,y+cy);
 // 		m_pRollImage[3]->Render();
 // end 2011. 10. 10 by jskim UI시스템 변경
 	}

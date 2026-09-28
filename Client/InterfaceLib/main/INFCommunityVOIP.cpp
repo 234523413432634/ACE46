@@ -61,8 +61,8 @@ enum{ B_UP, B_DOWN, B_NON, B_NORMAL};
 
 CINFCommunityVOIP::CINFCommunityVOIP()
 {
-	m_CenterX = g_pD3dApp->GetBackBufferDesc().Width/2-152;
-	m_CenterY = g_pD3dApp->GetBackBufferDesc().Height/2-90;
+	m_CenterX = UIScreenW()/2-152;
+	m_CenterY = UIScreenH()/2-90;
 	m_MoveX = m_MoveY = 0;
 	m_ptWindowTitleDown.x = 0;
 	m_ptWindowTitleDown.y = 0;

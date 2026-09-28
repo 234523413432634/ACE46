@@ -278,7 +278,7 @@ void CINFGameMainOutPost::Render()
 		DWORD dwAlpha = g_pGameMain->GetCurrentColor(fUnLifeTime, ALPHA_DELAY_WAVE, OUTPOST_IMG_LIFE_TIME,2.0f);
 		
 		POINT pt = m_pOutPostInfo->m_pImgTemp->GetImgSize();
-		DWORD nX = (int)(g_pD3dApp->GetBackBufferDesc().Width - pt.x)/2;
+		DWORD nX = (int)(UIScreenW() - pt.x)/2;
 		DWORD nY = OUTPOST_RENDER_MESSAGE_Y;
 		m_pOutPostInfo->m_pImgTemp->SetColor(dwAlpha);
 		m_pOutPostInfo->m_pImgTemp->Move(nX,nY);
@@ -289,8 +289,8 @@ void CINFGameMainOutPost::Render()
 		&& m_bOutPostImgShow)
 	{
 		POINT pt = m_pImgResetBarBack->GetImgSize();
-		DWORD nX = (int)(g_pD3dApp->GetBackBufferDesc().Width - pt.x)/2;
-		DWORD nY = (int)(g_pD3dApp->GetBackBufferDesc().Height - OUTPOST_IMG_RESET_BAR_Y);
+		DWORD nX = (int)(UIScreenW() - pt.x)/2;
+		DWORD nY = (int)(UIScreenH() - OUTPOST_IMG_RESET_BAR_Y);
 
 		// ¹è°æ.
 		m_pImgResetBarBack->Move(nX,nY);

@@ -28,13 +28,13 @@
 #define ARENA_OPERATION_INFLUENCE_BCU_Y		184 + 140
 // end 2011-07-06 by hsson 관전자 UI 위치 수정
 
-#define ARENA_OPERATION_INFLUENCE_ANI_X		(g_pD3dApp->GetBackBufferDesc().Width - 104)
+#define ARENA_OPERATION_INFLUENCE_ANI_X		(UIScreenW() - 104)
 // 2011-07-06 by hsson 관전자 UI 위치 수정
 #define ARENA_OPERATION_INFLUENCE_ANI_Y		184 + 140
 // end 2011-07-06 by hsson 관전자 UI 위치 수정
 
 #define ARENA_OPERATION_USERINFO_BCU_X		4
-#define ARENA_OPERATION_USERINFO_ANI_X		(g_pD3dApp->GetBackBufferDesc().Width - 126)
+#define ARENA_OPERATION_USERINFO_ANI_X		(UIScreenW() - 126)
 // 2011-07-06 by hsson 관전자 UI 위치 수정
 #define ARENA_OPERATION_USERINFO_Y			224 + 140
 // end 2011-07-06 by hsson 관전자 UI 위치 수정

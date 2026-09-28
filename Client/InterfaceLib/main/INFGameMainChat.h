@@ -28,8 +28,8 @@
 #define CHAT_CHATBOX_START_DEFAULT_MIN_X	280							// 채팅 박스 시작시 최소 X 
 #define CHAT_CHATBOX_START_DEFAULT_MIN_Y	120							// 채팅 박스 시작시 최소 Y
 
-#define CHAT_CHATBOX_START_DEFAULT_MAX_X	(g_pD3dApp->GetBackBufferDesc().Width * 2.0f/3.0f)	// 채팅 박스 시작시 최대 X 
-#define CHAT_CHATBOX_START_DEFAULT_MAX_Y	(g_pD3dApp->GetBackBufferDesc().Height / 2)			// 채팅 박스 시작시 최대 Yt
+#define CHAT_CHATBOX_START_DEFAULT_MAX_X	(UIScreenW() * 2.0f/3.0f)	// 채팅 박스 시작시 최대 X 
+#define CHAT_CHATBOX_START_DEFAULT_MAX_Y	(UIScreenH() / 2)			// 채팅 박스 시작시 최대 Yt
 
 #define CHAT_BUTTON_NORMAL					0							// 버튼상태 노말
 #define CHAT_BUTTON_DOWN					1							// 버튼상태 다운
@@ -47,7 +47,7 @@
 #define CHAT_FONT_WIDTH_ENGLISH				6							// 영문 글자 WIDTH
 
 #define CHAT_CHATBOX_START_X				0							// 채팅박스 시작위치 X
-#define CHAT_CHATBOX_START_Y				(g_pD3dApp->GetBackBufferDesc().Height - CHAT_CHATBOX_START_DEFAULT_MIN_Y)		// 채팅박스 시작위치 Y
+#define CHAT_CHATBOX_START_Y				(UIScreenH() - CHAT_CHATBOX_START_DEFAULT_MIN_Y)		// 채팅박스 시작위치 Y
 
 #define CHATBOX_FIELD_SHOWCHATBOX_INIT_HEIGHT			60				// 필드에서 귓말 팝업창이 최소화 될때 기준점 y(해상도에서 이값을 뺀것이 y좌표이다)
 #define CHATBOX_CITY_SHOWCHATBOX_INIT_HEIGHT			70				// 도시에서 귓말 팝업창이 최소화 될때 기준점 y(해상도에서 이값을 뺀것이 y좌표이다)
@@ -63,16 +63,16 @@
 #define CHAT_MENUBOX_SELECT_COUNT			5							// 메뉴박스 갯수  
 #define CHAT_MENUBOX_SELECT_STATE			2							// 메뉴박스 상태
 #define CHAT_MENUBOX_GAB_WIDTH				4							// 메뉴박스 사이 간격
-#define CHAT_MENUBOX_START_Y				(g_pD3dApp->GetBackBufferDesc().Height - 20)		// 메뉴박스 시작위치 Y
+#define CHAT_MENUBOX_START_Y				(UIScreenH() - 20)		// 메뉴박스 시작위치 Y
 
-#define CHAT_FONT_START_Y					(g_pD3dApp->GetBackBufferDesc().Height - 23)//30)		// 맨 아래 라인의 시작점(맨 아래부터 그린다) : Y
+#define CHAT_FONT_START_Y					(UIScreenH() - 23)//30)		// 맨 아래 라인의 시작점(맨 아래부터 그린다) : Y
 #define CHAT_FONT_START_X					55//31							// 채팅 시작 라인 : X
 #define CHAT_INPUT_FONT_LENGTH              240//189				// 채팅입력창 길이
 #define CHAT_STRING_SIZE_GM					84
 
 // 옵션 버튼.
 #define CHAT_OPTION_BUTTON_X				309
-#define CHAT_OPTION_BUTTON_Y				(g_pD3dApp->GetBackBufferDesc().Height - 34)
+#define CHAT_OPTION_BUTTON_Y				(UIScreenH() - 34)
 
 #define CHATBOX_CLOSE_GAB					27							// 채팅박스 감추기 Heith - 27
 #define CHATBOX_IMAGE_GAB_WIDTH_TOP			18							// 채팅박스 이미지 크기 W Top

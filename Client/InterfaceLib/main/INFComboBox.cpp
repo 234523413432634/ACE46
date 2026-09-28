@@ -262,6 +262,7 @@ int CINFComboBox::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			POINT pt;
 			pt.x = LOWORD(lParam);
 			pt.y = HIWORD(lParam);
+			CheckMouseReverse(&pt);
 
 //			if(m_bShowList == TRUE)
 			{

@@ -16,7 +16,7 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-#define		SCORE_ARENA_BK_STARTX		(g_pD3dApp->GetBackBufferDesc().Width / 2)
+#define		SCORE_ARENA_BK_STARTX		(UIScreenW() / 2)
 #define		SCORE_ARENA_BK_STARTY		22
 
 // 카운트 수치

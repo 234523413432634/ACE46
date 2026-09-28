@@ -45,9 +45,9 @@
 #define CRE_BUTTON_STATE_DOWN	1
 #define CRE_BUTTON_STATE_NORMAL	2
 
-#define POS_CRE_TITLE_X		g_pD3dApp->GetBackBufferDesc().Width /2 - ( ( m_pTitle->GetMaxPos().x - m_pTitle->GetMinPos().x) / 2 )
-#define POS_CRE_BACK_X		g_pD3dApp->GetBackBufferDesc().Width /2 - ( ( m_pBack->GetMaxPos().x - m_pBack->GetMinPos().x) / 2 )
-#define POS_CRE_BACK_Y		g_pD3dApp->GetBackBufferDesc().Height - 148
+#define POS_CRE_TITLE_X		UIScreenW() /2 - ( ( m_pTitle->GetMaxPos().x - m_pTitle->GetMinPos().x) / 2 )
+#define POS_CRE_BACK_X		UIScreenW() /2 - ( ( m_pBack->GetMaxPos().x - m_pBack->GetMinPos().x) / 2 )
+#define POS_CRE_BACK_Y		UIScreenH() - 148
 
 #define POS_CRE_CHAR_FACE_X	POS_CRE_BACK_X+200
 #define POS_CRE_CHAR_FACE_Y	POS_CRE_BACK_Y+37
@@ -110,27 +110,27 @@
 #define CREATE_CHARACTER_FOCUS_SAME_NAME	3
 #define CREATE_CHARACTER_FOCUS_NONE			-1
 
-#define CREATE_CHARACTER_INFO_STAT_X		((g_pD3dApp->GetBackBufferDesc().Width - 400)/2)
-#define CREATE_CHARACTER_INFO_STAT_Y		(g_pD3dApp->GetBackBufferDesc().Height-217)
+#define CREATE_CHARACTER_INFO_STAT_X		((UIScreenW() - 400)/2)
+#define CREATE_CHARACTER_INFO_STAT_Y		(UIScreenH()-217)
 
 #define FADE_TIME							2.0f
 
-#define CRE_UP								(g_pD3dApp->GetBackBufferDesc().Width/800.0f) * 50.0f
+#define CRE_UP								(UIScreenW()/800.0f) * 50.0f
 
 // 2006-03-07 by ispark, 언어에 따라 위치 수정
 #if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
 	//#define POS_CRE_CHARACTER_NAME_X		215//243
 	#ifdef INNOVA_RELEASE
-		#define POS_CRE_CHARACTER_NAME_X		( g_pD3dApp->GetBackBufferDesc().Width / 2) - (size.cx / 2)//243	// 2008-09-18 by bhsohn 러시아 캐릭 생성창에서 캐릭입력 위치 변경
+		#define POS_CRE_CHARACTER_NAME_X		( UIScreenW() / 2) - (size.cx / 2)//243	// 2008-09-18 by bhsohn 러시아 캐릭 생성창에서 캐릭입력 위치 변경
 	#else
-		#define POS_CRE_CHARACTER_NAME_X		( g_pD3dApp->GetBackBufferDesc().Width / 2) - (size.cx / 2)//243
+		#define POS_CRE_CHARACTER_NAME_X		( UIScreenW() / 2) - (size.cx / 2)//243
 	#endif
 	#define POS_CRE_CHARACTER_NAME_Y		POS_CRE_BACK_Y + 5//32
 	#define POS_CRE_CHARACTER_INFO_START_Y	48//50 
 	#define CREATE_CHARACTER_INFO_RACE_X	10
 	#define CREATE_CHARACTER_FOCUS_NAME_X	207
 #else
-#define POS_CRE_CHARACTER_NAME_X		( g_pD3dApp->GetBackBufferDesc().Width / 2) - (size.cx / 2)
+#define POS_CRE_CHARACTER_NAME_X		( UIScreenW() / 2) - (size.cx / 2)
 #define POS_CRE_CHARACTER_NAME_Y		POS_CRE_BACK_Y + 5//32
 #define POS_CRE_CHARACTER_INFO_START_Y	48//48//50		// 2006-08-11 by dgwoo캐릭터 생성시 Y값 위치 변경.
 #define CREATE_CHARACTER_INFO_RACE_X	10
@@ -484,10 +484,10 @@ HRESULT CINFCreateMenu::RestoreDeviceObjects()
 	m_fButtonPos[CRE_BUTTON_RIGHT][0] = POS_CRE_LEFT_START_X + pMinPos.x;
 	m_fButtonPos[CRE_BUTTON_RIGHT][1] = POS_CRE_LEFT_START_Y + pMinPos.y;
 
-	m_fButtonPos[CRE_BUTTON_UP][0] = g_pD3dApp->GetBackBufferDesc().Width /2 - m_pButton[CRE_BUTTON_UP][0]->GetImgSize().x / 2;
+	m_fButtonPos[CRE_BUTTON_UP][0] = UIScreenW() /2 - m_pButton[CRE_BUTTON_UP][0]->GetImgSize().x / 2;
 	m_fButtonPos[CRE_BUTTON_UP][1] = (int)(CRE_UP + 130);
 
-	m_fButtonPos[CRE_BUTTON_DOWN][0] = g_pD3dApp->GetBackBufferDesc().Width /2 - m_pButton[CRE_BUTTON_DOWN][0]->GetImgSize().x / 2;
+	m_fButtonPos[CRE_BUTTON_DOWN][0] = UIScreenW() /2 - m_pButton[CRE_BUTTON_DOWN][0]->GetImgSize().x / 2;
 	m_fButtonPos[CRE_BUTTON_DOWN][1] = (int)(CRE_UP + 455);
 	for(i=0; i<3; i++)
 	{

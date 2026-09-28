@@ -987,8 +987,8 @@ void CINFMotherShipManager::ShowWindowOption()
 		return;
 	}
 	m_bOptionAct		= TRUE; 
-	m_nOptionPosX = (g_pD3dApp->GetBackBufferDesc().Width - MOTHERSHIP_OPTION_BG_W)/2;
-	m_nOptionPosY = (g_pD3dApp->GetBackBufferDesc().Height - MOTHERSHIP_OPTION_BG_H)/2;
+	m_nOptionPosX = (UIScreenW() - MOTHERSHIP_OPTION_BG_W)/2;
+	m_nOptionPosY = (UIScreenH() - MOTHERSHIP_OPTION_BG_H)/2;
 
 
 	m_nTempOption = m_nOption; 

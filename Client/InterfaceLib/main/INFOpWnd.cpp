@@ -18,8 +18,8 @@
 #include "INFOpWnd.h"
 
 // 오퍼레이터
-#define OPWND_POS_X		(g_pD3dApp->GetBackBufferDesc().Width-345)
-#define OPWND_POS_Y		(g_pD3dApp->GetBackBufferDesc().Height-205)								  
+#define OPWND_POS_X		(UIScreenW()-345)
+#define OPWND_POS_Y		(UIScreenH()-205)								  
 
 #define OPWND_NPC_POS_X		(OPWND_POS_X)
 #define OPWND_NPC_POS_Y		(OPWND_POS_Y)

@@ -164,7 +164,7 @@ HRESULT CINFSpeakeMsg::RestoreDeviceObjects()
 		m_pMsgGmBk->RestoreDeviceObjects();
 
 		POINT ptSize = m_pMsgBk->GetImgSize();
-		m_ptMsgBk.x = (int)((g_pD3dApp->GetBackBufferDesc().Width - ptSize.x)/2);
+		m_ptMsgBk.x = (int)((UIScreenW() - ptSize.x)/2);
 		if(m_ptMsgBk.x < 0)
 		{
 			m_ptMsgBk.x = 0;

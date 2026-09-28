@@ -216,9 +216,9 @@ HRESULT CINFMissionPopupInfo::RestoreDeviceObjects()
 		m_fBackWidth	= ptBk.x;
 		m_fBackHeight	= ptBk.y;
 		
-		if(g_pD3dApp->GetBackBufferDesc().Width > ptBk.x)
+		if(UIScreenW() > ptBk.x)
 		{
-			m_fBackPosX = (g_pD3dApp->GetBackBufferDesc().Width/2)-(ptBk.x/2);
+			m_fBackPosX = (UIScreenW()/2)-(ptBk.x/2);
 		}
 		m_fShowPosY = m_fBackHeight; // 보이는 영역
 		m_fBackPosY = BK_POS_Y;

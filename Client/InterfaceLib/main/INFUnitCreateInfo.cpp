@@ -14,11 +14,11 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-#define IMAGE_SCALE					((float)g_pD3dApp->GetBackBufferDesc().Width/800.0f)
+#define IMAGE_SCALE					((float)UIScreenW()/800.0f)
 #define UNIT_CREATE_INFO_SIZE_X		(474*IMAGE_SCALE)
 #define UNIT_CREATE_INFO_Y			(50*IMAGE_SCALE)
 
-#define UNIT_CREATE_INFO_START_X	((g_pD3dApp->GetBackBufferDesc().Width/2))
+#define UNIT_CREATE_INFO_START_X	((UIScreenW()/2))
 #define UNIT_CREATE_INFO_START_Y	(UNIT_CREATE_INFO_Y)
 
 #define VIEWING_TIME				(D3DX_PI/2.0f+0.5f)
@@ -116,12 +116,12 @@ HRESULT CINFUnitCreateInfo::RestoreDeviceObjects()
 		m_bRestored = TRUE;
 
 		m_pBack->RestoreDeviceObjects();		// 2011. 10. 10 by jskim UI시스템 변경
-		m_pBack->Move( ((float)g_pD3dApp->GetBackBufferDesc().Width/2) - m_pBack->GetImgSize().x /2, UNIT_CREATE_INFO_START_Y + 4);
+		m_pBack->Move( ((float)UIScreenW()/2) - m_pBack->GetImgSize().x /2, UNIT_CREATE_INFO_START_Y + 4);
 
 		int i; for(i=0; i < 4; i++)
 		{
 			m_pGearInfo[i]->RestoreDeviceObjects();
-			m_pGearInfo[i]->Move( ((float)g_pD3dApp->GetBackBufferDesc().Width/2) - m_pGearInfo[i]->GetImgSize().x /2, UNIT_CREATE_INFO_START_Y + 110 );
+			m_pGearInfo[i]->Move( ((float)UIScreenW()/2) - m_pGearInfo[i]->GetImgSize().x /2, UNIT_CREATE_INFO_START_Y + 110 );
 		}
 	}
 	return S_OK;

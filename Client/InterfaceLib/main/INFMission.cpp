@@ -42,8 +42,8 @@
 */
 #define MISSION_SIZE_X				587
 #define MISSION_SIZE_Y				294
-#define MISSION_DEFAULT_START_X		(g_pD3dApp->GetBackBufferDesc().Width - MISSION_SIZE_X)/2
-#define MISSION_DEFAULT_START_Y		(g_pD3dApp->GetBackBufferDesc().Height - MISSION_SIZE_Y)/2
+#define MISSION_DEFAULT_START_X		(UIScreenW() - MISSION_SIZE_X)/2
+#define MISSION_DEFAULT_START_Y		(UIScreenH() - MISSION_SIZE_Y)/2
 #define MISSION_TITLE_START_X		11
 #define MISSION_TITLE_START_Y		6
 #define MISSION_NAME_START_X		22
@@ -671,12 +671,12 @@ int CINFMission::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				int moveY = pt.y - m_ptMouse.y;
 				m_nX += moveX;
 				if(m_nX < 0 ) m_nX = 0;
-				if(m_nX > g_pD3dApp->GetBackBufferDesc().Width - MISSION_SIZE_X )
-					m_nX = g_pD3dApp->GetBackBufferDesc().Width - MISSION_SIZE_X;
+				if(m_nX > UIScreenW() - MISSION_SIZE_X )
+					m_nX = UIScreenW() - MISSION_SIZE_X;
 				m_nY += moveY;
 				if(m_nY < 0 ) m_nY = 0;
-				if(m_nY > g_pD3dApp->GetBackBufferDesc().Height - MISSION_SIZE_Y )
-					m_nY = g_pD3dApp->GetBackBufferDesc().Height - MISSION_SIZE_Y;
+				if(m_nY > UIScreenH() - MISSION_SIZE_Y )
+					m_nY = UIScreenH() - MISSION_SIZE_Y;
 				m_ptMouse = pt;
 			}
 			if( m_nButtonState[MISSION_BUTTON_OK] != BUTTON_STATE_DISABLE &&

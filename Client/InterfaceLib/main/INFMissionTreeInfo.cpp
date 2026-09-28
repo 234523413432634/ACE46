@@ -1321,13 +1321,13 @@ HRESULT CINFMissionTreeInfo::RestoreDeviceObjects()
  		m_fBackWidth	= ptBk.x;
  		m_fBackHeight	= ptBk.y;
 		
-		if(g_pD3dApp->GetBackBufferDesc().Width > ptBk.x)
+		if(UIScreenW() > ptBk.x)
 		{
-			m_fBackPosX = (g_pD3dApp->GetBackBufferDesc().Width/2)-(ptBk.x/2);
+			m_fBackPosX = (UIScreenW()/2)-(ptBk.x/2);
 		}
-		if(g_pD3dApp->GetBackBufferDesc().Height > ptBk.y)
+		if(UIScreenH() > ptBk.y)
 		{
-			m_fBackPosY = (g_pD3dApp->GetBackBufferDesc().Height/2)-(ptBk.y/2);
+			m_fBackPosY = (UIScreenH()/2)-(ptBk.y/2);
 		}	
 	}
 	// 리스트 컨트롤 

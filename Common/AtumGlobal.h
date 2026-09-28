@@ -55,6 +55,11 @@ void SetFogLevel(USHORT nMapIndex,BOOL bDay);
 void SetOptionFogDistance(USHORT nMapIndex,BOOL bDay, float fFogStart, float fFogEnd);
 DWORD GetFogColor(USHORT nMapIndex, BOOL bDay);
 D3DXVECTOR3 GetMapDirection(USHORT nMapIndex,BOOL bDay);
+// Applies the reverse-left/reverse-up options, in back buffer pixels.  For
+// anything aiming or steering, which works in the same pixels the scene does.
+void CheckMouseReversePixels(POINT* pt);
+
+// The same, then into the 1920x1080 pixels the interface is laid out in.
 void CheckMouseReverse(POINT* pt);
 
 // 2007-04-13 by bhsohn A기어 포대문제

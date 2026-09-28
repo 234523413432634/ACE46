@@ -141,8 +141,8 @@ HRESULT CINFCommunity::InitDeviceObjects()
 //	DataHeader* pDataHeader = FindResource("com_logo");
 //	m_pLogo = new CINFImage;
 //	m_pLogo->InitDeviceObjects(pDataHeader->m_pData,pDataHeader->m_DataSize) ;	
-	m_ptCommunityBk.x = (g_pD3dApp->GetBackBufferDesc().Width/2) - COMMUNITY_BK_WIDTH/2;
-	m_ptCommunityBk.y = (g_pD3dApp->GetBackBufferDesc().Height/2) - COMMUNITY_BK_HEIGHT/2;	
+	m_ptCommunityBk.x = (UIScreenW()/2) - COMMUNITY_BK_WIDTH/2;
+	m_ptCommunityBk.y = (UIScreenH()/2) - COMMUNITY_BK_HEIGHT/2;	
 
 	m_pParty = new CINFCommunityParty(this);
 	m_pParty->SetGameData(m_pGameData);
@@ -983,8 +983,8 @@ void CINFCommunity::ShowCommunityWindow(BOOL bShow, int nSubTyepe/*=COMMUNITY_PA
 		// end 2012-12-17 by jhjang 비행중 마우스 커서가 제대로 동작하지 않는 버그 수정
 		g_pGameMain->m_bChangeMousePoint = TRUE;
 		// end 2009. 08. 19 by jsKim 랜딩 중 메뉴 생성할 경우 커서가 변하지 않는 버그
-		m_ptCommunityBk.x = (g_pD3dApp->GetBackBufferDesc().Width/2) - COMMUNITY_BK_WIDTH/2;
-		m_ptCommunityBk.y = (g_pD3dApp->GetBackBufferDesc().Height/2) - COMMUNITY_BK_HEIGHT/2;	
+		m_ptCommunityBk.x = (UIScreenW()/2) - COMMUNITY_BK_WIDTH/2;
+		m_ptCommunityBk.y = (UIScreenH()/2) - COMMUNITY_BK_HEIGHT/2;	
 
 		g_pInterface->SetWindowOrder(WNDCommunityWnd);
 		// 쇼하면 디폴트로 편대창으로

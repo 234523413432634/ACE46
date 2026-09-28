@@ -133,8 +133,8 @@ CINFGameMainFAQ::CINFGameMainFAQ()
 	m_pScroll = NULL;
 	m_pScrollUnder = NULL;
 
-	m_nStartFAQPositionX = ((g_pD3dApp->GetBackBufferDesc().Width/2));							  
-	m_nStartFAQPositionY = ((g_pD3dApp->GetBackBufferDesc().Height/2)-(INF_FAQ_WINDOWS_HEIGTH/2));
+	m_nStartFAQPositionX = ((UIScreenW()/2));							  
+	m_nStartFAQPositionY = ((UIScreenH()/2)-(INF_FAQ_WINDOWS_HEIGTH/2));
 	m_nSelectindexQuestion = -1;
 	m_nMouseButtonState = 0;
 

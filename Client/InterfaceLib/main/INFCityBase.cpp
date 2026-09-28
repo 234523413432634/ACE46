@@ -2119,10 +2119,10 @@ void CINFCityBase::RenderUpBox()
 {
 	FLOG( "CINFCityBase::RenderUpBox()" );
 	m_pUpBoxImage[1]->Move(0, 0);
-	m_pUpBoxImage[1]->SetScale(g_pD3dApp->GetBackBufferDesc().Width, CITY_BASE_UP_BOX_HEIGHT-2);
+	m_pUpBoxImage[1]->SetScale(UIScreenW(), CITY_BASE_UP_BOX_HEIGHT-2);
 	m_pUpBoxImage[1]->Render();
 	m_pUpBoxImage[0]->Move(0, CITY_BASE_UP_BOX_HEIGHT-2);
-	m_pUpBoxImage[0]->SetScale(g_pD3dApp->GetBackBufferDesc().Width, 1);
+	m_pUpBoxImage[0]->SetScale(UIScreenW(), 1);
 	m_pUpBoxImage[0]->Render();
 }
 
@@ -2130,10 +2130,10 @@ void CINFCityBase::RenderDownBox()
 {
 	FLOG( "CINFCityBase::RenderDownBox()" );
 	m_pDownBoxImage[0]->Move( 0, CITY_BASE_DOWN_BOX_START_Y );
-	m_pDownBoxImage[0]->SetScale(g_pD3dApp->GetBackBufferDesc().Width, 1);
+	m_pDownBoxImage[0]->SetScale(UIScreenW(), 1);
 	m_pDownBoxImage[0]->Render();
 	m_pDownBoxImage[1]->Move( 0, CITY_BASE_DOWN_BOX_START_Y+2 );
-	m_pDownBoxImage[1]->SetScale(g_pD3dApp->GetBackBufferDesc().Width, CITY_BASE_DOWN_BOX_HEIGHT-2);
+	m_pDownBoxImage[1]->SetScale(UIScreenW(), CITY_BASE_DOWN_BOX_HEIGHT-2);
 	m_pDownBoxImage[1]->Render();
 }
 

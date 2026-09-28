@@ -48,9 +48,9 @@
 #define	SIZE_CITYLEADER_WINDOWR_X	338
 #define	SIZE_CITYLEADER_WINDOWR_WARINFO_X	536
 #define	SIZE_CITYLEADER_WINDOWR_Y	275
-#define	LEFT_WINDOW_MAX_Y			(g_pD3dApp->GetBackBufferDesc().Height-(600-448))//DEAULT_WINDOW_POS_Y*2 - SIZE_ROLL_Y
-#define DEAULT_WINDOW_POS_Y			(350.0f*(float)g_pD3dApp->GetBackBufferDesc().Height / 600.0f)
-#define	RIGHT_WINDOW_MAX_Y			g_pD3dApp->GetBackBufferDesc().Height-SIZE_ROLL_Y
+#define	LEFT_WINDOW_MAX_Y			(UIScreenH()-(600-448))//DEAULT_WINDOW_POS_Y*2 - SIZE_ROLL_Y
+#define DEAULT_WINDOW_POS_Y			(350.0f*(float)UIScreenH() / 600.0f)
+#define	RIGHT_WINDOW_MAX_Y			UIScreenH()-SIZE_ROLL_Y
 
 #define DELETE_MASSAGEBOX_TIME		30.0f
 

@@ -178,6 +178,9 @@
 
 // 2013-04-05 by bhsohn Help옵션 저장 안되는 현상 처리
 #define	SETUP_INFO_OPETC_HELP_FUC						"helpfuc"			// 옵션값 저장
+
+// UI_SCALE, the multiplier on top of the resolution scale.
+#define	SETUP_INFO_UI_SCALE								"uiscale"
 // END 2013-04-05 by bhsohn Help옵션 저장 안되는 현상 처리
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -1528,7 +1531,7 @@ void CInterface::Render()
 				if(pName)
 				{
 					pName->SetColor(m_pMapLoad->m_dwAlpha);
-					pName->Move((g_pD3dApp->GetBackBufferDesc().Width/2)-152, RENDER_MAPNAME_POS_Y);
+					pName->Move((UIScreenW()/2)-152, RENDER_MAPNAME_POS_Y);
 					pName->Render();
 				}
 
@@ -1549,7 +1552,7 @@ void CInterface::Render()
 				if(pName2)
 				{
 					pName2->SetColor(m_pMapLoad->m_dwAlpha);
-					pName2->Move((g_pD3dApp->GetBackBufferDesc().Width/2)-152, RENDER_MAPNAME_POS_Y);
+					pName2->Move((UIScreenW()/2)-152, RENDER_MAPNAME_POS_Y);
 					pName2->Render();
 				}
 			}
@@ -2070,6 +2073,10 @@ BOOL CInterface::LoadOptionFile()
 		}
 	}	
 	// end 2007-07-23 by bhsohn 오퍼레이터 추가작업
+	// UI_SCALE comes from the same file, and has to be in place before
+	// InitDeviceObjects builds the panels and their fonts.
+	LoadUIScale();
+
 	// 2008-06-20 by bhsohn EP3 옵션관련 처리
 	LoadOptionEtcInfo(g_pSOptionEtc);
 	// end 2008-06-20 by bhsohn EP3 옵션관련 처리
@@ -2312,6 +2319,49 @@ int CInterface::GetSpeakerMode()
 	}
 	return 1;	
 }
+///////////////////////////////////////////////////////////////////////////////
+//  UI_SCALE
+//
+//  The uiscale entry in setupinfo.ver, on top of the resolution scale.
+///////////////////////////////////////////////////////////////////////////////
+void CInterface::LoadUIScale()
+{
+	char chBuf[CONFIG_SIZE_BUFF];
+	memset(chBuf, 0x00, sizeof(chBuf));
+
+	float fScale = UI_SCALE_DEFAULT;
+	if(m_pSetupConfig->GetSetupInfo(SETUP_INFO_UI_SCALE, chBuf))
+	{
+		// Edited by hand as often as not, so a comma is taken as the decimal
+		// point too.  Anything that is not a positive number means the default.
+		char* pComma = strchr(chBuf, ',');
+		if(pComma)
+		{
+			*pComma = '.';
+		}
+		fScale = (float)atof(chBuf);
+		if(fScale <= 0.0f)
+		{
+			fScale = UI_SCALE_DEFAULT;
+		}
+	}
+	else
+	{
+		// Put the default in the file so it can be found and changed there.
+		// wsprintf has no %f, hence sprintf.
+		sprintf(chBuf, "%.2f", UI_SCALE_DEFAULT);
+		m_pSetupConfig->AddSetupInfo(SETUP_INFO_UI_SCALE, chBuf);
+
+		char chMaxPath[MAX_PATH];
+		memset(chMaxPath, 0x00, MAX_PATH);
+		wsprintf(chMaxPath, SETUP_INFO_PATH);
+		m_pSetupConfig->SaveSetupInfo(chMaxPath);
+	}
+
+	// SetUIScale clamps to [UI_SCALE_MIN, UI_SCALE_MAX].
+	SetUIScale(fScale);
+}
+
 void CInterface::SetSpeakerMode(int nMode)
 {	
 	if(nMode != 0 && nMode !=1 )
@@ -2670,8 +2720,8 @@ int CInterface::WindowsWndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		// 채팅 이외에 클릭시 무효
 		if( !(pt.x > 25 && 
 			pt.x < 245 &&
-			pt.y < g_pD3dApp->GetBackBufferDesc().Height - 6 && 
-			pt.y > g_pD3dApp->GetBackBufferDesc().Height - 28))
+			pt.y < UIScreenH() - 6 && 
+			pt.y > UIScreenH() - 28))
 		{
 			m_pGameMain->m_pChat->SetCleanChat();
 		}
@@ -3290,7 +3340,7 @@ void CInterface::RenderProcMapName()
 		if(pName)
 		{
 			pName->SetColor(m_pMapLoad->m_dwAlpha);
-			pName->Move((g_pD3dApp->GetBackBufferDesc().Width/2)-152, RENDER_MAPNAME_POS_Y);
+			pName->Move((UIScreenW()/2)-152, RENDER_MAPNAME_POS_Y);
 			pName->Render();
 		}
 		
@@ -3311,7 +3361,7 @@ void CInterface::RenderProcMapName()
 		if(pName2)
 		{
 			pName2->SetColor(m_pMapLoad->m_dwAlpha);
-			pName2->Move((g_pD3dApp->GetBackBufferDesc().Width/2)-152, RENDER_MAPNAME_POS_Y);
+			pName2->Move((UIScreenW()/2)-152, RENDER_MAPNAME_POS_Y);
 			pName2->Render();
 		}
 	}

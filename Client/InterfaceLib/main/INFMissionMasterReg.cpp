@@ -11,8 +11,8 @@
 #include "INFGroupImage.h"
 #include "INFGroupManager.h"
 
-#define MISSIONMASTER_WINDOW_BASE_POS_X				((g_pD3dApp->GetBackBufferDesc().Width - 517)/2)
-#define MISSIONMASTER_WINDOW_BASE_POS_Y				((g_pD3dApp->GetBackBufferDesc().Height - 245)/2)
+#define MISSIONMASTER_WINDOW_BASE_POS_X				((UIScreenW() - 517)/2)
+#define MISSIONMASTER_WINDOW_BASE_POS_Y				((UIScreenH() - 245)/2)
 
 #define MISSIONMASTER_OK_BTN_POS_X					(m_ptWindow.x + 193)
 #define MISSIONMASTER_OK_BTN_POS_Y					(m_ptWindow.y + 209)
@@ -119,6 +119,7 @@ int CINFMissionMasterReg::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	POINT pt;
 	pt.x = LOWORD(lParam);
 	pt.y = HIWORD(lParam);
+	CheckMouseReverse(&pt);
 
 	switch(uMsg)
 	{

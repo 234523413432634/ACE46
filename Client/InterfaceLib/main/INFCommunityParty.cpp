@@ -1943,6 +1943,7 @@ void	CINFCommunityParty::RenderPartyDebuffIcon( PARTYENEMYINFO* pPartyMember, co
 		POINT ptMouse;
 		GetCursorPos( &ptMouse );
 		ScreenToClient(g_pD3dApp->GetHwnd(), &ptMouse);
+		CheckMouseReverse(&ptMouse);
 		
 		// 툴팁 조건 체크
 		if( bBoolTip && PtInRect( &rect, ptMouse ) )
@@ -3611,7 +3612,7 @@ BOOL CINFCommunityParty::PartyQuestionInviteUser(CINFMessageBox* pMsgBox, int x,
 		if(	itEnemy->second->m_nPartyID == 0 && 
 			itEnemy->second->m_nObjScreenW > 0)
 		{
-			D3DXVECTOR2 vPos2 = D3DXVECTOR2(itEnemy->second->m_nObjScreenX,itEnemy->second->m_nObjScreenY);
+			D3DXVECTOR2 vPos2 = D3DXVECTOR2(UIFromPixels(itEnemy->second->m_nObjScreenX),UIFromPixels(itEnemy->second->m_nObjScreenY));
 			float fLengthTemp = D3DXVec2Length(&(vPos1-vPos2));
 			if(fLengthTemp < 50.0f && fLengthTemp < fLength)
 			{

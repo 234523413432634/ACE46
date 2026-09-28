@@ -464,6 +464,14 @@ CD3DHanFont::CD3DHanFont(TCHAR* strFontName, DWORD dwHeight, DWORD dwFlags,
     SafeStrCpy(m_strFontName, strFontName, sizeof(m_strFontName));
     m_szCheckSize.cx = m_szCheckSize.cy = 0;
 
+    // The caller asks for the size the interface was authored at; the
+    // glyphs are rasterised at the size it is actually drawn, so the text
+    // is crisp rather than magnified.
+    const float fUI = UIScale();
+    m_dwFontHeight = (DWORD)(m_dwFontHeight * fUI + 0.5f);
+    m_dwTexWidth   = (DWORD)(m_dwTexWidth * fUI + 0.5f);
+    m_dwTexHeight  = (DWORD)(m_dwTexHeight * fUI + 0.5f);
+
     if (m_dwFontHeight < 1) m_dwFontHeight = 1;
     m_pAtlas = AcquireAtlas(m_strFontName, (int)m_dwFontHeight, m_dwFontFlags, m_bOutLine);
 }
@@ -550,6 +558,14 @@ SIZE CD3DHanFont::GetStringSize(TCHAR* strText)
     if (0 == size.cy)
         size.cy = m_pAtlas->GetLineHeight();
 
+    // Measured in back buffer pixels; reported in the layout pixels the caller
+    // positions in, so its alignment arithmetic adds up.
+    {
+        const float fUI = UIScale();
+        size.cx = (LONG)(size.cx / fUI + 0.5f);
+        size.cy = (LONG)(size.cy / fUI + 0.5f);
+    }
+
     m_strSizeCheckText = strText;
     m_szCheckSize = size;
     m_bSizeCheckValid = TRUE;
@@ -565,6 +581,11 @@ HRESULT CD3DHanFont::DrawText(FLOAT sx, FLOAT sy, DWORD dwColor,
     if (!m_pd3dDevice || !m_pAtlas || !strText || 0 == strText[0]) return S_OK;
     if (!EnsureSharedVB(m_pd3dDevice)) return S_OK;
 
+    // The caller gives layout pixels; this is where they become real ones.
+    {
+        const float fUI = UIScale();
+        sx *= fUI; sy *= fUI;
+    }
     m_fPosX = sx; m_fPosY = sy;
 
     // Only the chat edit box needs the drawn string kept, and it is the only
@@ -761,6 +782,11 @@ HRESULT CD3DHanFont::DrawText(FLOAT sx, FLOAT sy, DWORD dwColor,
 ///////////////////////////////////////////////////////////////////////////////
 HRESULT CD3DHanFont::SetText(FLOAT sx, FLOAT sy, TCHAR* texts, DWORD color, RECT* i_pFillRect, BOOL bColorState)
 {
+    // The caller gives layout pixels; this is where they become real ones.
+    {
+        const float fUI = UIScale();
+        sx *= fUI; sy *= fUI;
+    }
     m_fPosX = sx;
     m_fPosY = sy;
 

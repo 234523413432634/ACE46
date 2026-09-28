@@ -16,10 +16,9 @@
 
 #define GLOBAL_IMAGE_VIEW_TIME		0.0f
 
-// 2007-03-20 by bhsohn 게임 등급물 위원회 아이콘 추가
-// 2007-06-21 by bhsohn 게임 등급물 위원회 아이콘 변경
-//#define GDWL_START_X				(g_pD3dApp->GetBackBufferDesc().Width-380)
-#define GDWL_START_X				(g_pD3dApp->GetBackBufferDesc().Width-168)
+// 2007-03-20 by bhsohn 게임 등급물 위원회 아이콘 추가 2007-06-21 by bhsohn
+// 게임 등급물 위원회 아이콘 변경 #define GDWL_START_X (UIScreenW()-380).
+#define GDWL_START_X				(UIScreenW()-168)
 #define GDWL_START_Y				23
 
 #define MAX_GAP_TIME				3600.0f
@@ -362,8 +361,8 @@ void CGlobalImage::SetImageInfo(int nImageIndex, BOOL bMissionImg, int nQuestInd
 	if(m_nRenderPosX == 0 && m_nRenderPosY ==0)
 	{
 		POINT pPos = m_pImageGlobal[m_nSelectImageIndex]->GetImgSize();
-		m_nRenderPosX = (g_pD3dApp->GetBackBufferDesc().Width/2)-(pPos.x/2);
-		m_nRenderPosY = (g_pD3dApp->GetBackBufferDesc().Height/3)-(pPos.y/2);
+		m_nRenderPosX = (UIScreenW()/2)-(pPos.x/2);
+		m_nRenderPosY = (UIScreenH()/3)-(pPos.y/2);
 	}
 	
 	m_bRenderFlag = TRUE;

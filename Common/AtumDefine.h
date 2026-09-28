@@ -4,6 +4,7 @@
 
 #include "ObjectDefine.h"
 #include "Contents.h"
+#include "UIScale.h"
 
 
 #define OPTION_DEFAULT_SOUNDVOLUME			-2000	// 소리 
@@ -19,9 +20,6 @@
 #define OPTION_DEFAULT_MENU_USE				1		// 2010. 10. 26 by jskim 펫 오퍼레이터 옵션 처리
 
 #define OPTION_DEFAULT_MP3_USE				1		// 뮤직 플레이어
-
-//the implementation is moronic, but it works and seemingly doesn't affect the performance
-#define HIDPI_COEFF								((((float)g_pD3dApp->GetBackBufferDesc().Height/1200.0f)<=1)? 1: (float)g_pD3dApp->GetBackBufferDesc().Height/1024.0f)
 
 #define MAX_OPTION_VALUE						9
 
@@ -48,8 +46,8 @@
 // 캐쉬상점관련 렌더링 위치
 #define CHAT_MENU_CASH_START_W		75 
 #define CHAT_MENU_CASH_START_H		57
-#define CHAT_MENU_CASH_START_X		(g_pD3dApp->GetBackBufferDesc().Width-CHAT_MENU_CASH_START_W)
-#define CHAT_MENU_CASH_START_Y		(g_pD3dApp->GetBackBufferDesc().Height-CHAT_MENU_CASH_START_H-84)
+#define CHAT_MENU_CASH_START_X		(UIScreenW()-CHAT_MENU_CASH_START_W)
+#define CHAT_MENU_CASH_START_Y		(UIScreenH()-CHAT_MENU_CASH_START_H-84)
 
 
 
@@ -907,8 +905,8 @@ typedef DWORD InfUnitState_t;
 #define WEB_WIDTH		660		// 720
 #define WEB_HEIGHT		550		// 338// 2009-03-03 by bhsohn 일본웹페이지 크기 변경
 // end 2009-02-24 by bhsohn 캐쉬샵 충전 웹페이지 추가
-#define WEB_START_X		((g_pD3dApp->GetBackBufferDesc().Width-WEB_WIDTH)/2)
-#define WEB_START_Y		((g_pD3dApp->GetBackBufferDesc().Height-WEB_HEIGHT)/2)
+#define WEB_START_X		((UIScreenW()-WEB_WIDTH)/2)
+#define WEB_START_Y		((UIScreenH()-WEB_HEIGHT)/2)
 
 
 
@@ -944,8 +942,8 @@ enum{ALPHA_WAVE,ALPHA_DELAY_WAVE,ALPHA_FADE_IN,ALPHA_FADE_OUT};
 // 미션 메세지 보내기( 이미지 렌더링 후 )
 #define SENDMESSAGE_MISSION_COMPLETE		1
 #define SENDMESSAGE_MISSION_CANCER			2
-#define SET_MISSION_RESAULT_IMG_X			((g_pD3dApp->GetBackBufferDesc().Width/2)-142)
-#define SET_MISSION_RESAULT_IMG_Y			((g_pD3dApp->GetBackBufferDesc().Height/3)-24)
+#define SET_MISSION_RESAULT_IMG_X			((UIScreenW()/2)-142)
+#define SET_MISSION_RESAULT_IMG_Y			((UIScreenH()/3)-24)
 
 // 2005-07-27 by ispark
 // Picking 오브젝트

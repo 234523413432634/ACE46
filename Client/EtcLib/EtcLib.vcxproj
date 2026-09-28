@@ -2324,6 +2324,7 @@
     <ClCompile Include="..\..\Common\AtumParamProtocol.cpp" />
     <ClCompile Include="..\..\Common\AtumParamProtocolFunctions.cpp" />
     <ClCompile Include="..\..\Common\AtumSJ.cpp" />
+    <ClCompile Include="..\..\Common\UIScale.cpp" />
     <ClCompile Include="..\..\Common\FunctionLog.cpp" />
     <ClCompile Include="..\..\Common\FunctionLogGFunctions.cpp" />
     <ClCompile Include="..\..\Common\MGameDecryption.cpp" />

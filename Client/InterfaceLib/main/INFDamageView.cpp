@@ -128,7 +128,7 @@ HRESULT CINFDamageView::DeleteDeviceObjects()
 #define NORMAL_SIZE_Y			15
 #define MISS_SIZE_X				40
 #define MISS_SIZE_Y				10
-#define IMAGE_SCALE				((float)g_pD3dApp->GetBackBufferDesc().Width/1024.0f)
+#define IMAGE_SCALE				((float)UIScreenW()/1024.0f)
 #define SHOW_SPEED				60
 #define Y_START_POS				72
 void CINFDamageView::Render()
@@ -152,8 +152,8 @@ void CINFDamageView::Render()
 		// (pUnit &&
 		//	pUnit->m_nObjScreenW > 0.0f)
 		//{
-		//x = pUnit->m_nObjScreenX;
-		//y = pUnit->m_nObjScreenY;
+		//x = UIFromPixels(pUnit->m_nObjScreenX);
+		//y = UIFromPixels(pUnit->m_nObjScreenY);
 		if( pUnit )
 		{
 			// 2011. 09. 28 by jskim 넌 타겟 시스템 버그 수정( 케스팅 문제 )
@@ -164,11 +164,12 @@ void CINFDamageView::Render()
 			{
 				D3DXVECTOR3 temp = ((CMonsterData*)pUnit)->GetMultiPos((*it).nMultiIndex);
 				((CMonsterData*)pUnit)->GetScreenPos(temp, x, y, w);
+				x = UIFromPixels(x); y = UIFromPixels(y);
 			}
 			else
 			{
-				x = pUnit->m_nObjScreenX;
-				y = pUnit->m_nObjScreenY;
+				x = UIFromPixels(pUnit->m_nObjScreenX);
+				y = UIFromPixels(pUnit->m_nObjScreenY);
 			}
 			// end . 03. 08 by jskim 인피3차 구현 - 넌 타겟 시스템
 

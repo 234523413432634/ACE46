@@ -92,6 +92,9 @@
     <ClCompile Include="..\..\Common\AtumSJ.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Common\UIScale.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Common\FunctionLog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

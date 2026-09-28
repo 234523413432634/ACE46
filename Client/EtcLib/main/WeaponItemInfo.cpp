@@ -2308,7 +2308,7 @@ float CWeaponItemInfo::CheckPrimaryInNet(CUnitData* pTarget, BOOL bEqualTarget2E
 		POINT pt;
 		GetCursorPos(&pt);
 		ScreenToClient(g_pD3dApp->GetHwnd(), &pt);
-		CheckMouseReverse(&pt);
+		CheckMouseReversePixels(&pt);
 		
 		D3DXVECTOR2 v1, v2;
 		v1 = D3DXVECTOR2(pt.x,pt.y);
@@ -2372,7 +2372,7 @@ float CWeaponItemInfo::CheckPrimaryInNet(CUnitData* pTarget, BOOL bEqualTarget2E
 			POINT pt;
 			GetCursorPos(&pt);
 			ScreenToClient(g_pD3dApp->GetHwnd(), &pt);
-			CheckMouseReverse(&pt);
+			CheckMouseReversePixels(&pt);
 
 			D3DXVECTOR2 v1, v2;
 			v1 = D3DXVECTOR2(pt.x,pt.y);
@@ -2421,7 +2421,7 @@ float CWeaponItemInfo::CheckPrimaryInNet(CUnitData* pTarget, BOOL bEqualTarget2E
 			POINT pt;
 			GetCursorPos(&pt);
 			ScreenToClient(g_pD3dApp->GetHwnd(), &pt);
-			CheckMouseReverse(&pt);
+			CheckMouseReversePixels(&pt);
 
 			D3DXVECTOR2 v1, v2;
 			v1 = D3DXVECTOR2(pt.x,pt.y);
@@ -2500,7 +2500,7 @@ float CWeaponItemInfo::CheckPrimaryMultiInNet(CUnitData* pTarget, BOOL bEqualTar
 		POINT pt;
 		GetCursorPos(&pt);
 		ScreenToClient(g_pD3dApp->GetHwnd(), &pt);
-		CheckMouseReverse(&pt);
+		CheckMouseReversePixels(&pt);
 			
 		D3DXVECTOR2 v1, v2;
 		v1 = D3DXVECTOR2(pt.x,pt.y);

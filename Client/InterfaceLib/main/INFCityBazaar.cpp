@@ -49,8 +49,8 @@
 	// 2006-08-29 by dgwoo 
 	#define BAZAAR_SHOP_MINIBAR_W			210
 	#define	BAZAAR_SHOP_MINIBAR_H			18
-	#define BAZAAR_SHOP_MINIBAR_Y			(g_pD3dApp->GetBackBufferDesc().Height - 84 - BAZAAR_SHOP_MINIBAR_H)
-	#define BAZAAR_SHOP_MINIBAR_X			((g_pD3dApp->GetBackBufferDesc().Width-BAZAAR_SHOP_MINIBAR_W))
+	#define BAZAAR_SHOP_MINIBAR_Y			(UIScreenH() - 84 - BAZAAR_SHOP_MINIBAR_H)
+	#define BAZAAR_SHOP_MINIBAR_X			((UIScreenW()-BAZAAR_SHOP_MINIBAR_W))
 
 	#define BAZAAR_SHOP_WINDOW_X			(CITY_SHOP_START_X + 194)
 	#define BAZAAR_SHOP_WINDOW_Y			(CITY_SHOP_START_Y + 9)

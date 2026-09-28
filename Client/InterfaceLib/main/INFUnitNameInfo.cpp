@@ -91,8 +91,8 @@
 #define ID_CHAT_VIEW_COUNT				220 // APP에 같이 정의
 
 // 2007-02-28 by bhsohn 부스터 사용시 ID위치 재조정
-#define	UNITNAME_POS_X					(g_pD3dApp->GetBackBufferDesc().Width/2)
-#define	UNITNAME_POS_Y					(g_pD3dApp->GetBackBufferDesc().Height/2 - 2*TARGET_MOUSE_SCALE)
+#define	UNITNAME_POS_X					(UIScreenW()/2)
+#define	UNITNAME_POS_Y					(UIScreenH()/2 - 2*TARGET_MOUSE_SCALE)
 // end 2007-02-28 by bhsohn 부스터 사용시 ID위치 재조정
 
 CINFUnitNameInfo::CINFUnitNameInfo(CAtumNode* pParent)
@@ -435,8 +435,8 @@ void CINFUnitNameInfo::Render()
 {
 	FLOG( "CINFUnitNameInfo::Render()" );
 	// 자신 캐릭터의 채팅 내용 표시
-	int nScreenX = g_pShuttleChild->m_nObjScreenX;
-	int nScreenY = g_pShuttleChild->m_nObjScreenY;
+	int nScreenX = UIFromPixels(g_pShuttleChild->m_nObjScreenX);
+	int nScreenY = UIFromPixels(g_pShuttleChild->m_nObjScreenY);
 	int nScreenW = g_pShuttleChild->m_nObjScreenW;
 
 	// 2005-04-08 by jschoi - Tutorial
@@ -445,9 +445,9 @@ void CINFUnitNameInfo::Render()
 		&& !g_pShuttleChild->IsOperation())
 	{
 		if(	nScreenX > 0 &&
-			nScreenX < g_pD3dApp->GetBackBufferDesc().Width &&
+			nScreenX < UIScreenW() &&
 			nScreenY > 0 &&
-			nScreenY < g_pD3dApp->GetBackBufferDesc().Height &&
+			nScreenY < UIScreenH() &&
 			nScreenW > 0)
 		{
 			// 2006-07-28 by ispark, 상점 이름
@@ -482,8 +482,8 @@ void CINFUnitNameInfo::Render()
 				int count = 0;
 				if(pChatData)
 				{
-					pChatData->Render(g_pD3dApp->m_pShuttleChild->m_nObjScreenX,
-						g_pD3dApp->m_pShuttleChild->m_nObjScreenY - nBazaarH - nChatDataH);
+					pChatData->Render(UIFromPixels(g_pD3dApp->m_pShuttleChild->m_nObjScreenX),
+						UIFromPixels(g_pD3dApp->m_pShuttleChild->m_nObjScreenY) - nBazaarH - nChatDataH);
 				}
 			}
 			else
@@ -548,7 +548,7 @@ void CINFUnitNameInfo::Render()
 
 			if(g_pCharacterChild->m_pMoveChatShop)
 			{
-				g_pCharacterChild->m_pMoveChatShop->Render(g_pD3dApp->m_pShuttleChild->m_nObjScreenX, g_pD3dApp->m_pShuttleChild->m_nObjScreenY - nChatDataH);
+				g_pCharacterChild->m_pMoveChatShop->Render(UIFromPixels(g_pD3dApp->m_pShuttleChild->m_nObjScreenX), UIFromPixels(g_pD3dApp->m_pShuttleChild->m_nObjScreenY) - nChatDataH);
 			}
 		}
 		else
@@ -626,8 +626,8 @@ void CINFUnitNameInfo::Render()
 
 			CChatMoveData * pChatData = (CChatMoveData *)(*itEnemy)->m_pMoveChat->m_pChild;
 			int count = 0;
-			if( (*itEnemy)->m_nObjScreenX > 0 && (*itEnemy)->m_nObjScreenX < g_pD3dApp->GetBackBufferDesc().Width &&
-				(*itEnemy)->m_nObjScreenY > 0 && (*itEnemy)->m_nObjScreenY < g_pD3dApp->GetBackBufferDesc().Height &&
+			if( UIFromPixels((*itEnemy)->m_nObjScreenX) > 0 && UIFromPixels((*itEnemy)->m_nObjScreenX) < UIScreenW() &&
+				UIFromPixels((*itEnemy)->m_nObjScreenY) > 0 && UIFromPixels((*itEnemy)->m_nObjScreenY) < UIScreenH() &&
 				(*itEnemy)->m_nObjScreenW > 0)
 			{
 				// 2006-07-28 by ispark, 상점 이름
@@ -651,15 +651,15 @@ void CINFUnitNameInfo::Render()
 				if(pChatData)
 				{
 					
-					pChatData->Render(	(*itEnemy)->m_nObjScreenX,
-										(*itEnemy)->m_nObjScreenY - nBazaarH - nChatDataH);
+					pChatData->Render(	UIFromPixels((*itEnemy)->m_nObjScreenX),
+										UIFromPixels((*itEnemy)->m_nObjScreenY) - nBazaarH - nChatDataH);
 				}
 				else
 				{
 					DWORD dwEnemyNameColor = GetInfluenceColor((*itEnemy)->m_infoCharacter.CharacterInfo.InfluenceType, (*itEnemy)->m_infoCharacter.CharacterInfo.Race);
 //					DWORD dwEnemyNameColor = GetNameColor((*itEnemy)->m_infoCharacter.CharacterInfo.CityWarTeamType);
 					// 2006-01-13 by ispark, 기어와 캐릭터의 이름 찍는 Y값이 다르게 했다.
-					int nScreenY = (*itEnemy)->m_nObjScreenY - 5;
+					int nScreenY = UIFromPixels((*itEnemy)->m_nObjScreenY) - 5;
 					if((*itEnemy)->m_bEnemyCharacter == FALSE)
 						nScreenY -= 10;
 
@@ -673,7 +673,7 @@ void CINFUnitNameInfo::Render()
 						// 서버 이름 제거
 						g_pD3dApp->ConevertArenaRenderUserName(g_pD3dApp->GetArenaState(), szCharName);
 
-						RenderCharacterInfo( (*itEnemy)->m_nObjScreenX, 
+						RenderCharacterInfo( UIFromPixels((*itEnemy)->m_nObjScreenX), 
 											 nScreenY, 
 											 (CChatMoveData *)(*itEnemy)->m_pIDChat->m_pChild, 
 											 //(*itEnemy)->m_infoCharacter.CharacterInfo.CharacterName,
@@ -698,7 +698,7 @@ void CINFUnitNameInfo::Render()
 							// 서버 이름 제거
 							g_pD3dApp->ConevertArenaRenderUserName(g_pD3dApp->GetArenaState(), szCharName);
 							
-							RenderCharacterInfo( (*itEnemy)->m_nObjScreenX, 
+							RenderCharacterInfo( UIFromPixels((*itEnemy)->m_nObjScreenX), 
 											 nScreenY, 
 											 (CChatMoveData *)(*itEnemy)->m_pIDChat->m_pChild, 
 											 //(*itEnemy)->m_infoCharacter.CharacterInfo.CharacterName,
@@ -716,7 +716,7 @@ void CINFUnitNameInfo::Render()
 
 				if((*itEnemy)->m_pMoveChatShop)
 				{
-					(*itEnemy)->m_pMoveChatShop->Render((*itEnemy)->m_nObjScreenX, (*itEnemy)->m_nObjScreenY - nChatDataH);
+					(*itEnemy)->m_pMoveChatShop->Render(UIFromPixels((*itEnemy)->m_nObjScreenX), UIFromPixels((*itEnemy)->m_nObjScreenY) - nChatDataH);
 				}
 			}
 		}
@@ -738,11 +738,11 @@ void CINFUnitNameInfo::Render()
 		{
 			
 			int count = 0;
-			if( (*itMonster)->m_nObjScreenX > 0 && (*itMonster)->m_nObjScreenX < g_pD3dApp->GetBackBufferDesc().Width &&
-				(*itMonster)->m_nObjScreenY > 0 && (*itMonster)->m_nObjScreenY < g_pD3dApp->GetBackBufferDesc().Height &&
+			if( UIFromPixels((*itMonster)->m_nObjScreenX) > 0 && UIFromPixels((*itMonster)->m_nObjScreenX) < UIScreenW() &&
+				UIFromPixels((*itMonster)->m_nObjScreenY) > 0 && UIFromPixels((*itMonster)->m_nObjScreenY) < UIScreenH() &&
 				(*itMonster)->m_nObjScreenW > 0)
 			{
-				((CChatMoveData *)(*itMonster)->m_pMoveChat->m_pChild)->Render(	(*itMonster)->m_nObjScreenX, (*itMonster)->m_nObjScreenY - 16 );
+				((CChatMoveData *)(*itMonster)->m_pMoveChat->m_pChild)->Render(	UIFromPixels((*itMonster)->m_nObjScreenX), UIFromPixels((*itMonster)->m_nObjScreenY) - 16 );
 			}
 		}
 		

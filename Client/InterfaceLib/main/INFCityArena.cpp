@@ -50,8 +50,8 @@
 #define ARENA_CREATE_H					200
 #endif
 // end 2012-05-29 by mspark, 아레나 통합(전달)
-#define ARENA_START_CREATE_X			((g_pD3dApp->GetBackBufferDesc().Width - ARENA_CREATE_W ) /2 )
-#define ARENA_START_CREATE_Y			((g_pD3dApp->GetBackBufferDesc().Height - ARENA_CREATE_H ) /2 )
+#define ARENA_START_CREATE_X			((UIScreenW() - ARENA_CREATE_W ) /2 )
+#define ARENA_START_CREATE_Y			((UIScreenH() - ARENA_CREATE_H ) /2 )
 
 #define ARENA_MATCH_LIST_GAP			31
 

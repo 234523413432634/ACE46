@@ -137,8 +137,8 @@ HRESULT CINFSecuPassWnd::RestoreDeviceObjects()
 	m_nCx = SECURITU_WND_WIDTH;
 	m_nCy = SECURITU_WND_HEIGHT;
 
-	m_nBackPosX = g_pD3dApp->GetBackBufferDesc().Width/2-m_nCx/2;
-	m_nBackPosY = g_pD3dApp->GetBackBufferDesc().Height/2-m_nCy/2;
+	m_nBackPosX = UIScreenW()/2-m_nCx/2;
+	m_nBackPosY = UIScreenH()/2-m_nCy/2;
 	
 		
 	int i; for(i=0;i<9;i++)
@@ -383,6 +383,7 @@ int CINFSecuPassWnd::OnMouseMove(WPARAM wParam, LPARAM lParam)
 	POINT pt;
 	pt.x = LOWORD(lParam);
 	pt.y = HIWORD(lParam);
+	CheckMouseReverse(&pt);
 
 	m_pSetOk->OnMouseMove(pt);	
 	m_pSetCancel->OnMouseMove(pt);	
@@ -401,9 +402,9 @@ int CINFSecuPassWnd::OnMouseMove(WPARAM wParam, LPARAM lParam)
 	{
 		m_nBackPosX = 0;
 	}
-	else if((m_nBackPosX+m_nCx) > g_pD3dApp->GetBackBufferDesc().Width)
+	else if((m_nBackPosX+m_nCx) > UIScreenW())
 	{
-		m_nBackPosX = g_pD3dApp->GetBackBufferDesc().Width - m_nCx;
+		m_nBackPosX = UIScreenW() - m_nCx;
 	}
 	
 	// Y 좌표 보정
@@ -411,9 +412,9 @@ int CINFSecuPassWnd::OnMouseMove(WPARAM wParam, LPARAM lParam)
 	{
 		m_nBackPosY = 0;
 	}
-	else if((m_nBackPosY+m_nCy) > g_pD3dApp->GetBackBufferDesc().Height)
+	else if((m_nBackPosY+m_nCy) > UIScreenH())
 	{
-		m_nBackPosY = g_pD3dApp->GetBackBufferDesc().Height - m_nCy;
+		m_nBackPosY = UIScreenH() - m_nCy;
 	}	
 
 	// 버튼 위치 업데이트 
@@ -426,6 +427,7 @@ int CINFSecuPassWnd::OnLButtonUp(WPARAM wParam, LPARAM lParam)
 	POINT pt;
 	pt.x = LOWORD(lParam);
 	pt.y = HIWORD(lParam);
+	CheckMouseReverse(&pt);
 
 	{
 		if(TRUE == m_pSetOk->OnLButtonUp(pt))

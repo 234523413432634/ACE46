@@ -1408,7 +1408,7 @@ BOOL CSkill::FindTargetForSkill()
 	POINT pt;
 	GetCursorPos(&pt);			
 	ScreenToClient(g_pD3dApp->GetHwnd(), &pt);
-	CheckMouseReverse(&pt);
+	CheckMouseReversePixels(&pt);
 	SetSkillTargetState(FALSE);		// 스킬 마우스 포인터 해제
 	
 	D3DXVECTOR2 vPos1 = D3DXVECTOR2(pt.x,pt.y);

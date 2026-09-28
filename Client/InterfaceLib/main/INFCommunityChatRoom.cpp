@@ -156,8 +156,8 @@
 	#define CHATROOM_SCR_BALL_B					(m_ptCommunityPos.y + 317)	// 2013-01-08 by mspark, 채팅방 스크롤 문제 해결 - 기존 337에서 317로 수정
 
 	// 채팅방 새로 만들기 창.
-	#define CHATROOM_CREATE_DEFUALT_X			((g_pD3dApp->GetBackBufferDesc().Width - 238)/2)
-	#define CHATROOM_CREATE_DEFUALT_Y			((g_pD3dApp->GetBackBufferDesc().Height - 258)/2)
+	#define CHATROOM_CREATE_DEFUALT_X			((UIScreenW() - 238)/2)
+	#define CHATROOM_CREATE_DEFUALT_Y			((UIScreenH() - 258)/2)
 	#define CHATROOM_CREATE_W					263
 	#define CHATROOM_CREATE_H					302
 	#define CHATROOM_CREATE_OK_BTN_X			(m_ptCreatePos.x + 185)
@@ -187,8 +187,8 @@
 
 
 	// 채팅방 정보.
-	#define CHATROOM_INFO_DEFUALT_X				((g_pD3dApp->GetBackBufferDesc().Width - 225)/2)
-	#define CHATROOM_INFO_DEFUALT_Y				((g_pD3dApp->GetBackBufferDesc().Height - 282)/2)
+	#define CHATROOM_INFO_DEFUALT_X				((UIScreenW() - 225)/2)
+	#define CHATROOM_INFO_DEFUALT_Y				((UIScreenH() - 282)/2)
 	#define CHATROOM_INFO_DEFUALT_W				(225)
 	#define CHATROOM_INFO_DEFUALT_H				(282)
 	#define CHATROOM_INFO_BAR_H					(27)
@@ -333,8 +333,8 @@
 	#define CHATROOM_SCR_BALL_B					(m_ptCommunityPos.y + 317)	// 2013-01-08 by mspark, 채팅방 스크롤 문제 해결 - 기존 337에서 317로 수정
 
 	// 채팅방 새로 만들기 창.
-	#define CHATROOM_CREATE_DEFUALT_X			((g_pD3dApp->GetBackBufferDesc().Width - 238)/2)
-	#define CHATROOM_CREATE_DEFUALT_Y			((g_pD3dApp->GetBackBufferDesc().Height - 258)/2)
+	#define CHATROOM_CREATE_DEFUALT_X			((UIScreenW() - 238)/2)
+	#define CHATROOM_CREATE_DEFUALT_Y			((UIScreenH() - 258)/2)
 	#define CHATROOM_CREATE_W					263
 	#define CHATROOM_CREATE_H					302
 	#define CHATROOM_CREATE_OK_BTN_X			(m_ptCreatePos.x + 185)
@@ -364,8 +364,8 @@
 
 
 	// 채팅방 정보.
-	#define CHATROOM_INFO_DEFUALT_X				((g_pD3dApp->GetBackBufferDesc().Width - 225)/2)
-	#define CHATROOM_INFO_DEFUALT_Y				((g_pD3dApp->GetBackBufferDesc().Height - 282)/2)
+	#define CHATROOM_INFO_DEFUALT_X				((UIScreenW() - 225)/2)
+	#define CHATROOM_INFO_DEFUALT_Y				((UIScreenH() - 282)/2)
 	#define CHATROOM_INFO_DEFUALT_W				(225)
 	#define CHATROOM_INFO_DEFUALT_H				(282)
 	#define CHATROOM_INFO_BAR_H					(27)
@@ -2072,16 +2072,16 @@ int	CINFCommunityChatRoom::WndProcChatRoomInfo(UINT uMsg, WPARAM wParam, LPARAM 
 				if(m_ptChatRoomInfoPos.x < 0)
 				{
 					m_ptChatRoomInfoPos.x = 0;
-				}else if(m_ptChatRoomInfoPos.x + CHATROOM_INFO_DEFUALT_W > g_pD3dApp->GetBackBufferDesc().Width)
+				}else if(m_ptChatRoomInfoPos.x + CHATROOM_INFO_DEFUALT_W > UIScreenW())
 				{
-					m_ptChatRoomInfoPos.x = g_pD3dApp->GetBackBufferDesc().Width - CHATROOM_INFO_DEFUALT_W;
+					m_ptChatRoomInfoPos.x = UIScreenW() - CHATROOM_INFO_DEFUALT_W;
 				}
 				if(m_ptChatRoomInfoPos.y < 0)
 				{
 					m_ptChatRoomInfoPos.y = 0;
-				}else if(m_ptChatRoomInfoPos.y + CHATROOM_INFO_DEFUALT_H > g_pD3dApp->GetBackBufferDesc().Height)
+				}else if(m_ptChatRoomInfoPos.y + CHATROOM_INFO_DEFUALT_H > UIScreenH())
 				{
-					m_ptChatRoomInfoPos.y = g_pD3dApp->GetBackBufferDesc().Height - CHATROOM_INFO_DEFUALT_H;
+					m_ptChatRoomInfoPos.y = UIScreenH() - CHATROOM_INFO_DEFUALT_H;
 				}
 				m_ptOldPos = pt;
 			}

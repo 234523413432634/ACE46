@@ -21,11 +21,11 @@ extern CTutorialSystem   *g_pTutorial;   // 튜토리얼
 
 
 // 헬퍼NPC의 위치
-#define	HELPER_POS_X		(g_pD3dApp->GetBackBufferDesc().Width-224)
-#define	HELPER_POS_Y		(g_pD3dApp->GetBackBufferDesc().Height-441)
+#define	HELPER_POS_X		(UIScreenW()-224)
+#define	HELPER_POS_Y		(UIScreenH()-441)
 
-#define	HELPER_TUTO_POS_X	(g_pD3dApp->GetBackBufferDesc().Width-208)
-#define	HELPER_TUTO_POS_Y	(g_pD3dApp->GetBackBufferDesc().Height-401)
+#define	HELPER_TUTO_POS_X	(UIScreenW()-208)
+#define	HELPER_TUTO_POS_Y	(UIScreenH()-401)
 
 
 
@@ -34,14 +34,14 @@ extern CTutorialSystem   *g_pTutorial;   // 튜토리얼
 
 
 // 헬퍼의 위치
-#define	HELPER_BUBBLE_POS_X		(g_pD3dApp->GetBackBufferDesc().Width-105)
-#define	HELPER_BUBBLE_POS_Y		(g_pD3dApp->GetBackBufferDesc().Height-485)
+#define	HELPER_BUBBLE_POS_X		(UIScreenW()-105)
+#define	HELPER_BUBBLE_POS_Y		(UIScreenH()-485)
 #define	HELPER_BUBBLE_BUBBLE_X		276
 #define	STRING_CAP_WIDTH			384			// 전체 글씨
 #define	STRING_FONT_WIDTH			(STRING_CAP_WIDTH+20)// 생성되는 폰트 버퍼
 
-#define	HELPER_BUBBLE_TUTO_POS_X		(g_pD3dApp->GetBackBufferDesc().Width-25)
-#define	HELPER_BUBBLE_TUTO_POS_Y		(g_pD3dApp->GetBackBufferDesc().Height-445)
+#define	HELPER_BUBBLE_TUTO_POS_X		(UIScreenW()-25)
+#define	HELPER_BUBBLE_TUTO_POS_Y		(UIScreenH()-445)
 #define	HELPER_BUBBLE_TUTO_BUBBLE_X		112
 #define	STRING_CAP_TUTO_WIDTH		302
 

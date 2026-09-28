@@ -21,8 +21,8 @@
 
 // 2008-02-14 by bhsohn 최초 설명 오퍼레이터 안나오는 문제 해결
 // 빅맵 배경
-//#define	HELPER_BIG_BK_POS_X		(g_pD3dApp->GetBackBufferDesc().Width - 904)
-//#define	HELPER_BIG_BK_POS_Y		(g_pD3dApp->GetBackBufferDesc().Height- 708)
+//#define	HELPER_BIG_BK_POS_X		(UIScreenW() - 904)
+//#define	HELPER_BIG_BK_POS_Y		(UIScreenH()- 708)
 //#define	HELPER_BIG_NEXT_POS_X		(HELPER_BIG_BK_POS_X+574)
 //#define	HELPER_BIG_NEXT_POS_Y		(HELPER_BIG_BK_POS_Y+533)
 #define	HELPER_BIG_NEXT_POS_X		(628)
@@ -138,13 +138,13 @@ HRESULT CINFOpBigHelper::RestoreDeviceObjects()
 		m_fBackPosX = m_fBackPosY = 0.0f;
 		POINT ptBk = m_pBigOpBk->GetImgSize();		
 		
-		if(g_pD3dApp->GetBackBufferDesc().Width > ptBk.x)
+		if(UIScreenW() > ptBk.x)
 		{
-			m_fBackPosX = (g_pD3dApp->GetBackBufferDesc().Width/2)-(ptBk.x/2);
+			m_fBackPosX = (UIScreenW()/2)-(ptBk.x/2);
 		}
-		if(g_pD3dApp->GetBackBufferDesc().Height > ptBk.y)
+		if(UIScreenH() > ptBk.y)
 		{
-			m_fBackPosY = (g_pD3dApp->GetBackBufferDesc().Height/2)-(ptBk.y/2);
+			m_fBackPosY = (UIScreenH()/2)-(ptBk.y/2);
 		}	
 		// end 2008-02-14 by bhsohn 최초 설명 오퍼레이터 안나오는 문제 해결
 	}	

@@ -737,7 +737,8 @@ void CItemData::RenderItemName()
 {
 	if(m_pMoveChat && m_bIsRender)
 	{
-		m_pMoveChat->Render( m_nObjScreenX, m_nObjScreenY );
+		// A projected position; the balloon is interface, drawn in layout pixels.
+		m_pMoveChat->Render( UIFromPixels(m_nObjScreenX), UIFromPixels(m_nObjScreenY) );
 	}
 }
 

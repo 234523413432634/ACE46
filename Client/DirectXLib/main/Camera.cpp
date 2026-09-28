@@ -615,7 +615,7 @@ void CCamera::ObserveTick()
 		POINT pt;
 		GetCursorPos(&pt);
 		ScreenToClient(g_pD3dApp->GetHwnd(), &pt);
-		CheckMouseReverse(&pt);	
+		CheckMouseReversePixels(&pt);	
 
 		// 2005-07-25 by ispark
 		BOOL bResultMap = FALSE;
@@ -1126,7 +1126,7 @@ void CCamera::Tick()
 		POINT pt;
 		GetCursorPos(&pt);
 		ScreenToClient(g_pD3dApp->GetHwnd(), &pt);
-		CheckMouseReverse(&pt);	
+		CheckMouseReversePixels(&pt);	
 
 		// 2005-07-25 by ispark
 		BOOL bResultMap = FALSE;

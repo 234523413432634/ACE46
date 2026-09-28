@@ -178,6 +178,10 @@ public:
 	int GetSpeakerMode();
 	void SetSpeakerMode(int nMode);
 
+	// UI_SCALE, from the uiscale entry in setupinfo.ver.  Read once at start-up,
+	// before any panel or font is built, because both take the scale then.
+	void LoadUIScale();
+
 	// 2007-09-12 by bhsohn 2차 암호 시스템 구현
 	DataHeader * FindResource_LoadSelect(char* szRcName);
 

@@ -14,9 +14,9 @@
 
 extern LPDIRECT3DDEVICE9		g_pD3dDev;
 
-#define IMAGE_SCALE				((float)g_pD3dApp->GetBackBufferDesc().Width/1024.0f)
+#define IMAGE_SCALE				((float)UIScreenW()/1024.0f)
 // 2008-01-16 by bhsohn 프롤로그 스케일문제 해결
-#define IMAGE_SCALE_Y			(((float)g_pD3dApp->GetBackBufferDesc().Height)/768.0f)
+#define IMAGE_SCALE_Y			(((float)UIScreenH())/768.0f)
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

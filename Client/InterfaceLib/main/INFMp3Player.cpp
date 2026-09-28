@@ -338,13 +338,13 @@ HRESULT CINFMp3Player::RestoreDeviceObjects()
 // 		MP3PLAYER_LIST_POS_Y);
 // 	m_pScroll->SetWheelRect(MP3PLAYER_BASE_POS_X-1, 
 // 							MP3PLAYER_BASE_POS_Y-132,
-// 							g_pD3dApp->GetBackBufferDesc().Width-4,
-// 							g_pD3dApp->GetBackBufferDesc().Height-39);
+// 							UIScreenW()-4,
+// 							UIScreenH()-39);
 // 	m_pScrollVolum->SetScrollLinePos( MP3PLAYER_POS_X,MP3PLAYER_POS_Y);
-// 	m_pScrollVolum->SetWheelRect(g_pD3dApp->GetBackBufferDesc().Width-256, 
-// 								g_pD3dApp->GetBackBufferDesc().Height-37,
-// 								g_pD3dApp->GetBackBufferDesc().Width-9,
-// 								g_pD3dApp->GetBackBufferDesc().Height-24+(2*MP3PLAYER_VOLUM_STEP));
+// 	m_pScrollVolum->SetWheelRect(UIScreenW()-256, 
+// 								UIScreenH()-37,
+// 								UIScreenW()-9,
+// 								UIScreenH()-24+(2*MP3PLAYER_VOLUM_STEP));
 	m_pImgBack->RestoreDeviceObjects();
 	int i; for(i=0; i<MP3PLAYER_BASE_TAB; i++)
 		m_pImgTab[i]->RestoreDeviceObjects();
@@ -366,16 +366,16 @@ HRESULT CINFMp3Player::RestoreDeviceObjects()
 		m_pFontTitle[i]->RestoreDeviceObjects();
 
 	m_pScrollVolum->RestoreDeviceObjects();
-	m_pScrollVolum->SetWheelRect(g_pD3dApp->GetBackBufferDesc().Width-256, 
-		g_pD3dApp->GetBackBufferDesc().Height-37,
-		g_pD3dApp->GetBackBufferDesc().Width-9,
-		g_pD3dApp->GetBackBufferDesc().Height-24+(2*MP3PLAYER_VOLUM_STEP));
+	m_pScrollVolum->SetWheelRect(UIScreenW()-256, 
+		UIScreenH()-37,
+		UIScreenW()-9,
+		UIScreenH()-24+(2*MP3PLAYER_VOLUM_STEP));
 	
 	m_pScroll->RestoreDeviceObjects();
 	m_pScroll->SetWheelRect(MP3PLAYER_BASE_POS_X-1, 
 							MP3PLAYER_BASE_POS_Y-132,
-							g_pD3dApp->GetBackBufferDesc().Width-4,
-							g_pD3dApp->GetBackBufferDesc().Height-39);
+							UIScreenW()-4,
+							UIScreenH()-39);
 	
 	m_pImgPlayImage->RestoreDeviceObjects();
 	m_pImgStopImage->RestoreDeviceObjects();
@@ -568,13 +568,13 @@ void CINFMp3Player::Tick()
 //		MP3PLAYER_LIST_POS_Y);
 //	m_pScroll->SetWheelRect(MP3PLAYER_BASE_POS_X-1, 
 //							MP3PLAYER_BASE_POS_Y-132,
-//							g_pD3dApp->GetBackBufferDesc().Width-4,
-//							g_pD3dApp->GetBackBufferDesc().Height-39);
+//							UIScreenW()-4,
+//							UIScreenH()-39);
 //	m_pScrollVolum->SetScrollLinePos( MP3PLAYER_POS_X,MP3PLAYER_POS_Y);
-//	m_pScrollVolum->SetWheelRect(g_pD3dApp->GetBackBufferDesc().Width-256, 
-//		g_pD3dApp->GetBackBufferDesc().Height-37,
-//		g_pD3dApp->GetBackBufferDesc().Width-9,
-//		g_pD3dApp->GetBackBufferDesc().Height-24+(2*MP3PLAYER_VOLUM_STEP));
+//	m_pScrollVolum->SetWheelRect(UIScreenW()-256, 
+//		UIScreenH()-37,
+//		UIScreenW()-9,
+//		UIScreenH()-24+(2*MP3PLAYER_VOLUM_STEP));
 
 	// 2006-09-15 by ispark
 	if(g_pD3dApp->m_pSound->GetMusicMp3() == NULL)

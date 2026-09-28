@@ -76,7 +76,7 @@
 #define	GAMEMAIN_TIME_VIEW_TOP				27
 
 
-#define HELP_START_X						(g_pD3dApp->GetBackBufferDesc().Width/2)-220
+#define HELP_START_X						(UIScreenW()/2)-220
 #define HELP_START_Y						130
 #define HELP_TEXT_CHECK_TIME				20
 
@@ -1047,7 +1047,7 @@ public:
 
 #define POS_LEFT_WINDOW_Y	(((CINFGameMain*)m_pParent)->m_nLeftWindowPosY - ((CINFGameMain*)m_pParent)->m_nLeftWindowScaleSize/2)
 #define POS_RIGHT_WINDOW_Y	(((CINFGameMain*)m_pParent)->m_nRightWindowPosY - ((CINFGameMain*)m_pParent)->m_nRightWindowScaleSize/2)
-#define POS_RIGHT_WINDOW_X		(g_pD3dApp->GetBackBufferDesc().Width - SIZE_NORMAL_WINDOW_X)
+#define POS_RIGHT_WINDOW_X		(UIScreenW() - SIZE_NORMAL_WINDOW_X)
 
 
 #endif // !defined(AFX_INFGameMain_H__0FB2504C_BB3C_4763_9ADD_64687E4275A3__INCLUDED_)

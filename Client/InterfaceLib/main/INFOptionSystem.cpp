@@ -699,8 +699,8 @@ HRESULT CINFOptionSystem::RestoreDeviceObjects()
 		m_ptBakSize.x  = m_pOptionBk->GetMaxPos().x - m_pOptionBk->GetMinPos().x;
 		m_ptBakSize.y  = m_pOptionBk->GetMaxPos().y - m_pOptionBk->GetMinPos().y;
 
-		m_ptBakPos.x = (g_pD3dApp->GetBackBufferDesc().Width/2 - m_ptBakSize.x/2);
-		m_ptBakPos.y = (g_pD3dApp->GetBackBufferDesc().Height/2 - m_ptBakSize.y/2);
+		m_ptBakPos.x = (UIScreenW()/2 - m_ptBakSize.x/2);
+		m_ptBakPos.y = (UIScreenH()/2 - m_ptBakSize.y/2);
 
 		if(m_ptBakPos.x < 0)
 		{
@@ -1777,6 +1777,7 @@ int CINFOptionSystem::OnMouseMove(WPARAM wParam, LPARAM lParam)
 	int nCnt = 0;
 	pt.x = LOWORD(lParam);
 	pt.y = HIWORD(lParam);
+	CheckMouseReverse(&pt);
 
 	m_pOptionApp->OnMouseMove(pt);	
 	m_pOptionInit->OnMouseMove(pt);	
@@ -1794,6 +1795,7 @@ int CINFOptionSystem::OnLButtonUp(WPARAM wParam, LPARAM lParam)
 	POINT pt;
 	pt.x = LOWORD(lParam);
 	pt.y = HIWORD(lParam);
+	CheckMouseReverse(&pt);
 
 	{
 		if(TRUE == m_pOptionApp->OnLButtonUp(pt))

@@ -29,6 +29,7 @@ CINFImageBtn::CINFImageBtn()
 	m_nBtnBlingStatus = BTN_STATUS_UP; // 2013-07-11 by bhsohn 아머 컬렉션 수정안
 	m_fPosX = m_fPosY = 0;
 	m_fWidth =  m_fHeight = 1;
+	m_fScale = 1.0f;
 
 	m_bShowBtn = TRUE;
 
@@ -402,6 +403,7 @@ void CINFImageBtn::Render()
 		// END 2013-07-11 by bhsohn 아머 컬렉션 수정안
 	}
 	m_pImageBtn[m_nBtnStatus]->Move(m_fPosX, m_fPosY);
+	m_pImageBtn[m_nBtnStatus]->SetScale(m_fScale, m_fScale);
 	m_pImageBtn[m_nBtnStatus]->Render();	
 }
 
@@ -415,6 +417,11 @@ void CINFImageBtn::SetBtnPosition(float i_fPosX, float i_fPosY)
 	m_fHeight	= ptGoCityBtn.y;
 }
 
+void CINFImageBtn::SetBtnScale(float i_fScale)
+{
+	m_fScale = i_fScale;
+}
+
 POINT CINFImageBtn::GetImgSize()
 {
 	return m_pImageBtn[m_nBtnStatus]->GetImgSize();
@@ -423,9 +430,9 @@ POINT CINFImageBtn::GetImgSize()
 // 버튼 위에 마우스가 있냐?
 BOOL CINFImageBtn::IsMouseOverlab(POINT ptPos)
 {
-	if((m_fPosX <= ptPos.x) &&(ptPos.x <= (m_fPosX + m_fWidth * m_pImageBtn[m_nBtnStatus]->GetAniScale().x )))		
+	if((m_fPosX <= ptPos.x) &&(ptPos.x <= (m_fPosX + m_fWidth * m_fScale * m_pImageBtn[m_nBtnStatus]->GetAniScale().x )))		
 	{
-		if((m_fPosY <= ptPos.y)	&&( ptPos.y <= (m_fPosY + m_fHeight * m_pImageBtn[m_nBtnStatus]->GetAniScale().y ) ))
+		if((m_fPosY <= ptPos.y)	&&( ptPos.y <= (m_fPosY + m_fHeight * m_fScale * m_pImageBtn[m_nBtnStatus]->GetAniScale().y ) ))
 		{
 			// 2013-04-08 by bhsohn 인게임 조합창 추가 구현
 // 2011. 1. 12 by jskim UI 이미지 버튼 툴팁 구현	

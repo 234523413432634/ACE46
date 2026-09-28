@@ -1206,7 +1206,7 @@ void CCharacterChild::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				POINT pt;
 				GetCursorPos(&pt);
 				ScreenToClient(g_pD3dApp->GetHwnd(), &pt);
-				CheckMouseReverse(&pt);
+				CheckMouseReversePixels(&pt);
 	
 				// Pick
 				// 2005-08-25 by ispark, 팝업 메뉴 띄우상태라면
@@ -1219,12 +1219,17 @@ void CCharacterChild::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 				// 2005-09-14 by ispark
 				// 기본인터페이스 밑줄 클릭을 막는다.
+				POINT ptUI;
+				ptUI.x = UIFromPixels(pt.x);
+				ptUI.y = UIFromPixels(pt.y);
+				// The chat box and the quick slot bar are interface, so the area
+				// they cover is measured in layout pixels.
 				if(g_pInterface->m_bShowInterface && 
-					(pt.x >= 0 && pt.x <= g_pD3dApp->GetBackBufferDesc().Width) &&
-					(pt.y >= g_pD3dApp->GetBackBufferDesc().Height - 70) || // #define CHATBOX_FIELD_SHOWCHATBOX_INIT_HEIGHT			70 -> INFGameMainChat에 있음
-					((pt.y >= g_pD3dApp->GetBackBufferDesc().Height - 51) && 
-					(pt.x >= g_pD3dApp->GetBackBufferDesc().Width / 2 - 117 &&
-					pt.x <= g_pD3dApp->GetBackBufferDesc().Width / 2 + 117)))
+					(ptUI.x >= 0 && ptUI.x <= UIScreenW()) &&
+					(ptUI.y >= UIScreenH() - 70) ||
+					((ptUI.y >= UIScreenH() - 51) && 
+					(ptUI.x >= UIScreenW() / 2 - 117 &&
+					ptUI.x <= UIScreenW() / 2 + 117)))
 				{
 					break;
 				}
@@ -1276,7 +1281,7 @@ void CCharacterChild::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					POINT pt;
 					pt.x = LOWORD(lParam);
 					pt.y = HIWORD(lParam);
-					CheckMouseReverse(&pt);
+					CheckMouseReversePixels(&pt);
 
 					m_pOldMousePoint = pt;
 				}
@@ -1299,7 +1304,7 @@ void CCharacterChild::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				POINT pt;
 				pt.x = LOWORD(lParam);
 				pt.y = HIWORD(lParam);
-				CheckMouseReverse(&pt);
+				CheckMouseReversePixels(&pt);
 
 				// 2007-07-27 by bhsohn 프리스카 맵만 상점 인식 범위 증가
 				//CheckEnterShopNPC(&pt, CHARACTER_SHOP_SERCH_DISTANCE);
@@ -1995,7 +2000,7 @@ void CCharacterChild::CameraMoveTick()
 
 	if(m_bRButtonState && m_bMouseMove)
 	{
-//		CheckMouseReverse(&pt);
+//		CheckMouseReversePixels(&pt);
 		// 일반, 외곽에서 마우스 움직임일 때
 		if(pt.y <= 0)
 			fDirY = 10.0f;

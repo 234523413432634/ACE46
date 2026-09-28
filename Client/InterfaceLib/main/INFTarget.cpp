@@ -485,13 +485,13 @@ HRESULT CINFTarget::InitDeviceObjects()
 	}
 	// end 2010. 03. 03 by ckPark 인피니티 필드 2차(입장 UI변경)
 	
-	m_pFontAutoTargetName = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9*HIDPI_COEFF, D3DFONT_ZENABLE, TRUE,128 * HIDPI_COEFF,32 * HIDPI_COEFF);
+	m_pFontAutoTargetName = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,128,32);
 	m_pFontAutoTargetName->InitDeviceObjects(g_pD3dDev);
-	m_pFontAutoTargetDistance = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9 * HIDPI_COEFF, D3DFONT_ZENABLE, TRUE,128 * HIDPI_COEFF,32 * HIDPI_COEFF);
+	m_pFontAutoTargetDistance = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,128,32);
 	m_pFontAutoTargetDistance->InitDeviceObjects(g_pD3dDev);
 	// 2008-09-18 by bhsohn 이름이 긴 타켓 이름 짤리는 문제 처리
 	//m_pFontTargetArrow = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,128,32);
-	m_pFontTargetArrow = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9 * HIDPI_COEFF, D3DFONT_ZENABLE, TRUE,256 * HIDPI_COEFF,32 * HIDPI_COEFF);
+	m_pFontTargetArrow = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,256,32);
 	m_pFontTargetArrow->InitDeviceObjects(g_pD3dDev);
 	m_pOtherInfo = new CINFGameMainOtherInfo(this);
 	m_pOtherInfo->SetGameData( m_pGameData );
@@ -1011,8 +1011,8 @@ void CINFTarget::Tick()
     // 2011. 03. 08 by jskim 인피3차 구현
 	if(g_pShuttleChild->m_pOrderTarget)
 	{
-		m_nOrderTargetX = g_pShuttleChild->m_pOrderTarget->m_nObjScreenX;
-		m_nOrderTargetY = g_pShuttleChild->m_pOrderTarget->m_nObjScreenY;
+		m_nOrderTargetX = UIFromPixels(g_pShuttleChild->m_pOrderTarget->m_nObjScreenX);
+		m_nOrderTargetY = UIFromPixels(g_pShuttleChild->m_pOrderTarget->m_nObjScreenY);
 	}	
     // end 2011. 03. 08 by jskim 인피3차 구현
 	// end 2011-09-26 by hsSon, 몬스터가 사정거리 안으로 들어와도 타겟이 빨간색을 변하지 않는 버그
@@ -1060,7 +1060,7 @@ POINT CINFTarget::RenderTargetArrow( D3DXVECTOR3 vPos )
 
 	int x, y, w;
 	D3DXVECTOR3 vScreenPos = g_pD3dApp->m_pCamera->GetEyePt() + 42.0f*vScreenVel + 17.5f*vNew;
-	g_pD3dApp->CalcObjectSourceScreenCoords(vScreenPos, g_pD3dApp->GetBackBufferDesc().Width, g_pD3dApp->GetBackBufferDesc().Height, 
+	g_pD3dApp->CalcObjectSourceScreenCoords(vScreenPos, UIScreenW(), UIScreenH(), 
 		x, y, w );
 
 
@@ -1099,7 +1099,7 @@ POINT CINFTarget::RenderTargetArrow( D3DXVECTOR3 vPos )
 			m_fTargetDirVel = 1.0f;
 		}
 		vScreenPos = g_pD3dApp->m_pCamera->GetEyePt() + 50.0f*vScreenVel + 16.5f*vNew*m_fTargetDirVel;
-		g_pD3dApp->CalcObjectSourceScreenCoords(vScreenPos, g_pD3dApp->GetBackBufferDesc().Width, g_pD3dApp->GetBackBufferDesc().Height, 
+		g_pD3dApp->CalcObjectSourceScreenCoords(vScreenPos, UIScreenW(), UIScreenH(), 
 			x, y, w );
 //		m_pTargetDirArrow[1]->Move(x-TARGET_DIR_ARROW_HALF_SIZE,y-TARGET_DIR_ARROW_HALF_SIZE*2);
 //		m_pTargetDirArrow[1]->Rotate(TARGET_DIR_ARROW_HALF_SIZE,TARGET_DIR_ARROW_HALF_SIZE*2/*30/2*/,fAngle);
@@ -1107,7 +1107,7 @@ POINT CINFTarget::RenderTargetArrow( D3DXVECTOR3 vPos )
 //		m_pTargetDirArrow[1]->Render();
 
 		vScreenPos = g_pD3dApp->m_pCamera->GetEyePt() + 50.0f*vScreenVel + 19.5f*vNew;
-		g_pD3dApp->CalcObjectSourceScreenCoords(vScreenPos, g_pD3dApp->GetBackBufferDesc().Width, g_pD3dApp->GetBackBufferDesc().Height, 
+		g_pD3dApp->CalcObjectSourceScreenCoords(vScreenPos, UIScreenW(), UIScreenH(), 
 			x, y, w );
 		if( abs( fAngle ) < PI/2 )
 		{
@@ -1234,11 +1234,12 @@ void CINFTarget::Render()
 			{	
 				vScreenposition = ((CMonsterData*)pTarget)->GetMultiPos( (*it).nTargetMultiIndex );
 				((CMonsterData*)pTarget)->GetScreenPos(vScreenposition, x, y, w);
+				x = UIFromPixels(x); y = UIFromPixels(y);
 			}
 			else if(pTarget)
 			{
-				x = pTarget->m_nObjScreenX;
-				y = pTarget->m_nObjScreenY;
+				x = UIFromPixels(pTarget->m_nObjScreenX);
+				y = UIFromPixels(pTarget->m_nObjScreenY);
 				w = pTarget->m_nObjScreenW;
 			}
 			
@@ -1286,7 +1287,7 @@ void CINFTarget::Render()
 				g_pD3dApp->m_dwTargetting == OLD2_TARGETTING )
 			{
 				
-				//int nYSc = (g_pD3dApp->GetBackBufferDesc().Height/768.0f);
+				//int nYSc = (UIScreenH()/768.0f);
 				if( TRUE == m_bTargetDistance &&
 					FIRE_ANGLE_START_X+(TARGET_MOUSE_SCALE*45) > m_nOrderTargetX-(TARGET_MOUSE_SCALE*45) &&
 					FIRE_ANGLE_START_X/*+TARGET_MOUSE_SCALE*45*/ < m_nOrderTargetX &&
@@ -1362,8 +1363,8 @@ void CINFTarget::RenderMouse(int x, int y, int type)
 //				if(g_pShuttleChild->m_bLButtonState)
 //      					nMouseType = MOUSE_TYPE_4;
 				// 2011. 03. 08 by jskim 인피3차 구현 - 넌 타겟 시스템
-// 				RenderMouse( g_pShuttleChild->m_pTarget->m_nObjScreenX, 
-// 					g_pShuttleChild->m_pTarget->m_nObjScreenY, 
+// 				RenderMouse( UIFromPixels(g_pShuttleChild->m_pTarget->m_nObjScreenX), 
+// 					UIFromPixels(g_pShuttleChild->m_pTarget->m_nObjScreenY), 
 // 					nMouseType  );
 
 				D3DXVECTOR2 v1, v2;
@@ -1380,11 +1381,12 @@ void CINFTarget::RenderMouse(int x, int y, int type)
 				{
 					v3 = ((CMonsterData*)g_pShuttleChild->m_pOrderTarget)->GetMultiPos(((CMonsterData*)g_pShuttleChild->m_pOrderTarget)->m_nMultiIndex);
 					((CMonsterData*)g_pShuttleChild->m_pOrderTarget)->GetScreenPos(v3, x, y, w);
+					x = UIFromPixels(x); y = UIFromPixels(y);
 					v2 = D3DXVECTOR2(x,y);				
 				}
 				else if(g_pShuttleChild->m_pOrderTarget)
 				{
-					v2 = D3DXVECTOR2(g_pShuttleChild->m_pOrderTarget->m_nObjScreenX,g_pShuttleChild->m_pOrderTarget->m_nObjScreenY);
+					v2 = D3DXVECTOR2(UIFromPixels(g_pShuttleChild->m_pOrderTarget->m_nObjScreenX),UIFromPixels(g_pShuttleChild->m_pOrderTarget->m_nObjScreenY));
 				}
 					
 				RenderMouse( v2.x, 
@@ -1393,13 +1395,13 @@ void CINFTarget::RenderMouse(int x, int y, int type)
 
 				// end 2011. 03. 08 by jskim 인피3차 구현 - 넌 타겟 시스템
 			}
-			float fX = (float)(x-(int)g_pD3dApp->GetBackBufferDesc().Width/2);
-			float fY = (float)(y-(int)g_pD3dApp->GetBackBufferDesc().Height/2);
+			float fX = (float)(x-(int)UIScreenW()/2);
+			float fY = (float)(y-(int)UIScreenH()/2);
 			v1 = D3DXVECTOR2(0,-1);
 			v2 = D3DXVECTOR2(fX, fY);
 			D3DXVec2Normalize(&v2, &v2);
 			float fAngle = ACOS(D3DXVec2Dot(&v1, &v2));
-			if(x > g_pD3dApp->GetBackBufferDesc().Width/2)
+			if(x > UIScreenW()/2)
 				fAngle *= -1;
 			m_pArrowMouse->Move(x-TARGET_ARROW_HALF_SIZE/**TARGET_MOUSE_SCALE*/,y);
 			m_pArrowMouse->Rotate(TARGET_ARROW_HALF_SIZE,0/*30/2*/,fAngle);
@@ -1583,12 +1585,13 @@ void CINFTarget::RenderAutoTarget(BOOL bAutoTarget,
 		MultiTargetPos = ((CMonsterData*)pUnit)->GetMultiPos( ((CMonsterData*)pUnit)->m_nMultiIndex );
 
 		((CMonsterData*)pUnit)->GetScreenPos(MultiTargetPos,x, y, w);
+		x = UIFromPixels(x); y = UIFromPixels(y);
 	}
 	else if( pUnit )
 	{
 		MultiTargetPos = pUnit->m_vPos;
-		x = pUnit->m_nObjScreenX;
-		y = pUnit->m_nObjScreenY;
+		x = UIFromPixels(pUnit->m_nObjScreenX);
+		y = UIFromPixels(pUnit->m_nObjScreenY);
 		w = pUnit->m_nObjScreenW;
 	}
 	// end 2011. 03. 08 by jskim 인피3차 구현 - 넌 타겟 시스템
@@ -1733,14 +1736,14 @@ void CINFTarget::RenderAutoTarget(BOOL bAutoTarget,
 		{
 			m_pImgTargetMe[1]->SetScale(TARGET_MOUSE_SCALE,TARGET_MOUSE_SCALE);
 			// 2011. 03. 08 by jskim 인피3차 구현
-//			m_pImgTargetMe[1]->Move(g_pShuttleChild->m_pOrderTarget->m_nObjScreenX-AUTO_TARGET_HALF_SIZE+m_nAttackerTargetX-20, y-6);
+//			m_pImgTargetMe[1]->Move(UIFromPixels(g_pShuttleChild->m_pOrderTarget->m_nObjScreenX)-AUTO_TARGET_HALF_SIZE+m_nAttackerTargetX-20, y-6);
 			m_pImgTargetMe[1]->Move(x-AUTO_TARGET_HALF_SIZE+m_nAttackerTargetX-20, y-6);
             // end 2011. 03. 08 by jskim 인피3차 구현
 			m_pImgTargetMe[1]->Render();
 			
 			m_pImgTargetMe[0]->SetScale(TARGET_MOUSE_SCALE,TARGET_MOUSE_SCALE);
             // 2011. 03. 08 by jskim 인피3차 구현
-//			m_pImgTargetMe[0]->Move(g_pShuttleChild->m_pOrderTarget->m_nObjScreenX+(48*TARGET_MOUSE_SCALE)-m_nAttackerTargetX, y-6);
+//			m_pImgTargetMe[0]->Move(UIFromPixels(g_pShuttleChild->m_pOrderTarget->m_nObjScreenX)+(48*TARGET_MOUSE_SCALE)-m_nAttackerTargetX, y-6);
 			m_pImgTargetMe[0]->Move(x+(48*TARGET_MOUSE_SCALE)-m_nAttackerTargetX, y-6);
             // end 2011. 03. 08 by jskim 인피3차 구현
 			m_pImgTargetMe[0]->Render();		
@@ -1836,11 +1839,11 @@ void CINFTarget::RenderAttackMeObject()
 	if(pObj == NULL)
 		return;
 	int nObjScreenX,nObjScreenY,nObjScreenW;
-	g_pD3dApp->CalcObjectSourceScreenCoords(vPos, g_pD3dApp->GetBackBufferDesc().Width, g_pD3dApp->GetBackBufferDesc().Height, 
+	g_pD3dApp->CalcObjectSourceScreenCoords(vPos, UIScreenW(), UIScreenH(), 
 		nObjScreenX, nObjScreenY, nObjScreenW );
 
-	if(nObjScreenX > 0 && nObjScreenX < g_pD3dApp->GetBackBufferDesc().Width &&
-		nObjScreenY > 0 && nObjScreenY < g_pD3dApp->GetBackBufferDesc().Height &&
+	if(nObjScreenX > 0 && nObjScreenX < UIScreenW() &&
+		nObjScreenY > 0 && nObjScreenY < UIScreenH() &&
 		nObjScreenW > 0)
 	{
 	}
@@ -1860,15 +1863,15 @@ void CINFTarget::RenderAttackMeMonster()
 	{
 		pMonster = itMonster->second;
 		
-		if( pMonster->m_nObjScreenX > 0 && pMonster->m_nObjScreenX < g_pD3dApp->GetBackBufferDesc().Width &&
-			pMonster->m_nObjScreenY > 0 && pMonster->m_nObjScreenY < g_pD3dApp->GetBackBufferDesc().Height &&
+		if( UIFromPixels(pMonster->m_nObjScreenX) > 0 && UIFromPixels(pMonster->m_nObjScreenX) < UIScreenW() &&
+			UIFromPixels(pMonster->m_nObjScreenY) > 0 && UIFromPixels(pMonster->m_nObjScreenY) < UIScreenH() &&
 			pMonster->m_nObjScreenW > 0 && pMonster->m_nTargetIndex == g_pShuttleChild->m_myShuttleInfo.ClientIndex &&
 			ATTACK_AVAILABLE_STATE(pMonster->m_dwState))
 		{
 			SIZE tsize;
 			tsize = ((CChatMoveData *)pMonster->m_pIDChat->m_pChild)->m_vecFontInput[0]->GetStringSize(pMonster->m_pMonsterInfo->MonsterName);
-			int nTargetNamePosX = pMonster->m_nObjScreenX-(tsize.cx / 2);
-			int nTargetNamePosY = pMonster->m_nObjScreenY-NAME_FROM_MOUSE_CENTER_Y;
+			int nTargetNamePosX = UIFromPixels(pMonster->m_nObjScreenX)-(tsize.cx / 2);
+			int nTargetNamePosY = UIFromPixels(pMonster->m_nObjScreenY)-NAME_FROM_MOUSE_CENTER_Y;
 			int nMonNameSize = tsize.cx;
 			int nTextY = 3;
 			int nTextX = 17* TARGET_MOUSE_SCALE;
@@ -1908,15 +1911,15 @@ void CINFTarget::RenderAttackMeMonster()
 			((CChatMoveData *)pMonster->m_pIDChat->m_pChild)->Render( nTargetNamePosX, nTargetNamePosY );
 		}
 		// 2008-06-17 by dgwoo 파티원이 타겟으로 잡혔을경우 타겟이미지 변경.
-		else if(pMonster->m_nObjScreenX > 0 && pMonster->m_nObjScreenX < g_pD3dApp->GetBackBufferDesc().Width &&
-			pMonster->m_nObjScreenY > 0 && pMonster->m_nObjScreenY < g_pD3dApp->GetBackBufferDesc().Height &&
+		else if(UIFromPixels(pMonster->m_nObjScreenX) > 0 && UIFromPixels(pMonster->m_nObjScreenX) < UIScreenW() &&
+			UIFromPixels(pMonster->m_nObjScreenY) > 0 && UIFromPixels(pMonster->m_nObjScreenY) < UIScreenH() &&
 			pMonster->m_nObjScreenW > 0 && IsTargetToParty(pMonster->m_nTargetIndex) &&
 			ATTACK_AVAILABLE_STATE(pMonster->m_dwState))
 		{
 			SIZE tsize;
 			tsize = ((CChatMoveData *)pMonster->m_pIDChat->m_pChild)->m_vecFontInput[0]->GetStringSize(pMonster->m_pMonsterInfo->MonsterName);
-			int nTargetNamePosX = pMonster->m_nObjScreenX-(tsize.cx / 2);
-			int nTargetNamePosY = pMonster->m_nObjScreenY-NAME_FROM_MOUSE_CENTER_Y;
+			int nTargetNamePosX = UIFromPixels(pMonster->m_nObjScreenX)-(tsize.cx / 2);
+			int nTargetNamePosY = UIFromPixels(pMonster->m_nObjScreenY)-NAME_FROM_MOUSE_CENTER_Y;
 			int nMonNameSize = tsize.cx;
 			int nTextY = 3;
 			int nTextX = 17 * TARGET_MOUSE_SCALE;
@@ -1959,12 +1962,13 @@ void CINFTarget::RenderAutoTargetDrow()
 	{
 		MultiTargetPos = ((CMonsterData*)(g_pShuttleChild->m_pOrderTarget))->GetMultiPos(((CMonsterData*)g_pShuttleChild->m_pOrderTarget)->m_nMultiIndex);
 		((CMonsterData*)(g_pShuttleChild->m_pOrderTarget))->GetScreenPos(MultiTargetPos,x, y, w);
+		x = UIFromPixels(x); y = UIFromPixels(y);
 	}
 	else if(g_pShuttleChild->m_pOrderTarget)
 	{
 		MultiTargetPos = g_pShuttleChild->m_pOrderTarget->m_vPos;
-		x = g_pShuttleChild->m_pOrderTarget->m_nObjScreenX;
-		y = g_pShuttleChild->m_pOrderTarget->m_nObjScreenY;
+		x = UIFromPixels(g_pShuttleChild->m_pOrderTarget->m_nObjScreenX);
+		y = UIFromPixels(g_pShuttleChild->m_pOrderTarget->m_nObjScreenY);
 		w = g_pShuttleChild->m_pOrderTarget->m_nObjScreenW;
 	}
 	// end 2011. 03. 08 by jskim 인피3차 구현 - 넌 타겟 시스템
@@ -1973,15 +1977,15 @@ void CINFTarget::RenderAutoTargetDrow()
 		if(g_pShuttleChild->m_pOrderTarget)
 		{	
             // 2011. 03. 08 by jskim 인피3차 구현
-// 			if(!(g_pShuttleChild->m_pOrderTarget->m_nObjScreenX > 30.0f 
-// 				&& g_pShuttleChild->m_pOrderTarget->m_nObjScreenX < g_pD3dApp->GetBackBufferDesc().Width - 30.0f 
-// 				&& g_pShuttleChild->m_pOrderTarget->m_nObjScreenY > 20.0f 
-// 				&& g_pShuttleChild->m_pOrderTarget->m_nObjScreenY < g_pD3dApp->GetBackBufferDesc().Height - 20.0f
+// 			if(!(UIFromPixels(g_pShuttleChild->m_pOrderTarget->m_nObjScreenX) > 30.0f 
+// 				&& UIFromPixels(g_pShuttleChild->m_pOrderTarget->m_nObjScreenX) < UIScreenW() - 30.0f 
+// 				&& UIFromPixels(g_pShuttleChild->m_pOrderTarget->m_nObjScreenY) > 20.0f 
+// 				&& UIFromPixels(g_pShuttleChild->m_pOrderTarget->m_nObjScreenY) < UIScreenH() - 20.0f
 // 				&& g_pShuttleChild->m_pOrderTarget->m_nObjScreenW > 0.0f))
 			if(!(x > 30.0f 
-				&& x < g_pD3dApp->GetBackBufferDesc().Width - 30.0f 
+				&& x < UIScreenW() - 30.0f 
 				&& y > 20.0f 
-				&& y < g_pD3dApp->GetBackBufferDesc().Height - 20.0f
+				&& y < UIScreenH() - 20.0f
 				&& w > 0.0f))
             // end 2011. 03. 08 by jskim 인피3차 구현
 			{
@@ -2007,8 +2011,8 @@ void CINFTarget::RenderAutoTargetDrow()
 				if(g_pShuttleChild->m_pOrderTarget->m_dwPartType == _ENEMY && (TRUE == bShowUnitName))
 				{
 					RenderGameMainEnemyInfo( (CEnemyData*)g_pShuttleChild->m_pOrderTarget, 
-						g_pShuttleChild->m_pOrderTarget->m_nObjScreenX, 
-						g_pShuttleChild->m_pOrderTarget->m_nObjScreenY);
+						UIFromPixels(g_pShuttleChild->m_pOrderTarget->m_nObjScreenX), 
+						UIFromPixels(g_pShuttleChild->m_pOrderTarget->m_nObjScreenY));
 				}
 				else if(g_pShuttleChild->m_pOrderTarget->m_dwPartType == _MONSTER)
 				{
@@ -2128,7 +2132,7 @@ void CINFTarget::RenderOutSideObject(D3DXVECTOR3 vPos)
 
 	int x, y, w;
 	D3DXVECTOR3 vScreenPos = g_pD3dApp->m_pCamera->GetEyePt() + 42.0f*vScreenVel + 17.5f*vNew;
-	g_pD3dApp->CalcObjectSourceScreenCoords(vScreenPos, g_pD3dApp->GetBackBufferDesc().Width, g_pD3dApp->GetBackBufferDesc().Height, 
+	g_pD3dApp->CalcObjectSourceScreenCoords(vScreenPos, UIScreenW(), UIScreenH(), 
 		x, y, w );
 
 	if( w > 0 )
@@ -2169,7 +2173,7 @@ void CINFTarget::RenderOutSideMonster(CMonsterData* pMonster)
 
 	int x, y, w;
 	D3DXVECTOR3 vScreenPos = g_pD3dApp->m_pCamera->GetEyePt() + 42.0f*vScreenVel + 17.5f*vNew;
-	g_pD3dApp->CalcObjectSourceScreenCoords(vScreenPos, g_pD3dApp->GetBackBufferDesc().Width, g_pD3dApp->GetBackBufferDesc().Height, 
+	g_pD3dApp->CalcObjectSourceScreenCoords(vScreenPos, UIScreenW(), UIScreenH(), 
 		x, y, w );
 
 	if( w > 0 )
@@ -2247,8 +2251,8 @@ void CINFTarget::RenderAttackMePKEnemy()
 	{
 		if(itEnemy->second != g_pShuttleChild->m_pOrderTarget)
 		{
-			if( itEnemy->second->m_nObjScreenX > 0 && itEnemy->second->m_nObjScreenX < g_pD3dApp->GetBackBufferDesc().Width &&
-				itEnemy->second->m_nObjScreenY > 0 && itEnemy->second->m_nObjScreenY < g_pD3dApp->GetBackBufferDesc().Height &&
+			if( UIFromPixels(itEnemy->second->m_nObjScreenX) > 0 && UIFromPixels(itEnemy->second->m_nObjScreenX) < UIScreenW() &&
+				UIFromPixels(itEnemy->second->m_nObjScreenY) > 0 && UIFromPixels(itEnemy->second->m_nObjScreenY) < UIScreenH() &&
 				itEnemy->second->m_nObjScreenW > 0 && 
 				(itEnemy->second->m_nTargetIndex == g_pShuttleChild->m_myShuttleInfo.ClientIndex &&
 				itEnemy->second->m_bySkillStateFlag == CL_SKILL_NONE) &&
@@ -2256,8 +2260,8 @@ void CINFTarget::RenderAttackMePKEnemy()
 			{
 				SIZE tsize;
 				tsize = ((CChatMoveData *)itEnemy->second->m_pIDChat->m_pChild)->m_vecFontInput[0]->GetStringSize(itEnemy->second->m_infoCharacter.CharacterInfo.CharacterName);
-				int nTargetNamePosX = itEnemy->second->m_nObjScreenX-(tsize.cx / 2);
-				int nTargetNamePosY = itEnemy->second->m_nObjScreenY - 25;
+				int nTargetNamePosX = UIFromPixels(itEnemy->second->m_nObjScreenX)-(tsize.cx / 2);
+				int nTargetNamePosY = UIFromPixels(itEnemy->second->m_nObjScreenY) - 25;
 				int nMonNameSize = tsize.cx;
 				int nTextY = 3;
 				int nTextX = 16;
@@ -2273,8 +2277,8 @@ void CINFTarget::RenderAttackMePKEnemy()
 				
 //				((CChatMoveData *)itEnemy->second->m_pIDChat->m_pChild)->Render( nTargetNamePosX, nTargetNamePosY );
 			}
-			else if( itEnemy->second->m_nObjScreenX > 0 && itEnemy->second->m_nObjScreenX < g_pD3dApp->GetBackBufferDesc().Width &&
-				itEnemy->second->m_nObjScreenY > 0 && itEnemy->second->m_nObjScreenY < g_pD3dApp->GetBackBufferDesc().Height &&
+			else if( UIFromPixels(itEnemy->second->m_nObjScreenX) > 0 && UIFromPixels(itEnemy->second->m_nObjScreenX) < UIScreenW() &&
+				UIFromPixels(itEnemy->second->m_nObjScreenY) > 0 && UIFromPixels(itEnemy->second->m_nObjScreenY) < UIScreenH() &&
 				itEnemy->second->m_nObjScreenW > 0 && 
 				(IsTargetToParty(itEnemy->second->m_nTargetIndex) &&
 				itEnemy->second->m_bySkillStateFlag == CL_SKILL_NONE) &&
@@ -2282,8 +2286,8 @@ void CINFTarget::RenderAttackMePKEnemy()
 			{
 				SIZE tsize;
 				tsize = ((CChatMoveData *)itEnemy->second->m_pIDChat->m_pChild)->m_vecFontInput[0]->GetStringSize(itEnemy->second->m_infoCharacter.CharacterInfo.CharacterName);
-				int nTargetNamePosX = itEnemy->second->m_nObjScreenX-(tsize.cx / 2);
-				int nTargetNamePosY = itEnemy->second->m_nObjScreenY - 25;
+				int nTargetNamePosX = UIFromPixels(itEnemy->second->m_nObjScreenX)-(tsize.cx / 2);
+				int nTargetNamePosY = UIFromPixels(itEnemy->second->m_nObjScreenY) - 25;
 				int nMonNameSize = tsize.cx;
 				int nTextY = 3;
 				int nTextX = 16;
@@ -2345,7 +2349,7 @@ void CINFTarget::RenderOutSideEnemy(CEnemyData *pEnemy)
 
 	int x, y, w;
 	D3DXVECTOR3 vScreenPos = g_pD3dApp->m_pCamera->GetEyePt() + 42.0f*vScreenVel + 17.5f*vNew;
-	g_pD3dApp->CalcObjectSourceScreenCoords(vScreenPos, g_pD3dApp->GetBackBufferDesc().Width, g_pD3dApp->GetBackBufferDesc().Height, 
+	g_pD3dApp->CalcObjectSourceScreenCoords(vScreenPos, UIScreenW(), UIScreenH(), 
 		x, y, w );
 
 	if( w > 0 )
@@ -2387,8 +2391,8 @@ void CINFTarget::RenderOtherTargetMonster()
 		{
 			// 냉무
 		}
-		else if((*itMon)->m_nObjScreenX > 0 && (*itMon)->m_nObjScreenX < g_pD3dApp->GetBackBufferDesc().Width &&
-				(*itMon)->m_nObjScreenY > 0 && (*itMon)->m_nObjScreenY < g_pD3dApp->GetBackBufferDesc().Height &&
+		else if(UIFromPixels((*itMon)->m_nObjScreenX) > 0 && UIFromPixels((*itMon)->m_nObjScreenX) < UIScreenW() &&
+				UIFromPixels((*itMon)->m_nObjScreenY) > 0 && UIFromPixels((*itMon)->m_nObjScreenY) < UIScreenH() &&
 				(*itMon)->m_nObjScreenW > 0)
 		{
 			// 세력 몬스터 표시
@@ -2430,8 +2434,8 @@ void CINFTarget::RenderOtherTargetMonster()
 				// end 2010. 03. 03 by ckPark 인피니티 필드 2차(입장 UI변경)
 				!IsTargetToParty((*itMon)->m_nTargetIndex))		// 2008-06-17 by dgwoo 파티원이 타겟으로 잡혔을경우 타겟이미지 변경.
 			{
-				int nTargetPosX = (*itMon)->m_nObjScreenX;
-				int nTargetPosY = (*itMon)->m_nObjScreenY - NAME_FROM_MOUSE_CENTER_Y + 2;
+				int nTargetPosX = UIFromPixels((*itMon)->m_nObjScreenX);
+				int nTargetPosY = UIFromPixels((*itMon)->m_nObjScreenY) - NAME_FROM_MOUSE_CENTER_Y + 2;
 				const int nImageSize = 8;
 
 				// 2007-05-17 by bhsohn 오브젝트 뒤에 숨었을시 에 대한 처 검사 처리	
@@ -2463,8 +2467,8 @@ void CINFTarget::RenderOtherTargetMonster()
 ///////////////////////////////////////////////////////////////////////////////
 void CINFTarget::RenderInfluenceMonster(CMonsterData * pMon)
 {
-	int x = pMon->m_nObjScreenX;
-	int y = pMon->m_nObjScreenY;
+	int x = UIFromPixels(pMon->m_nObjScreenX);
+	int y = UIFromPixels(pMon->m_nObjScreenY);
 	int nTargetNamePosX = 0;
 	int nTargetNamePosY = 0;
 	float fCurHP = (float)pMon->m_info.CurrentHP;

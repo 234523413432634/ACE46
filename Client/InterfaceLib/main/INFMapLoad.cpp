@@ -36,20 +36,20 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-//#define SCALE_MAPLOAD_Y		g_pD3dApp->GetBackBufferDesc().Height/768.0f
-//#define POS_LOADBACK_X(i)	(g_pD3dApp->GetBackBufferDesc().Width/4.0f)*i
-//#define POS_LOADBACK_Y		g_pD3dApp->GetBackBufferDesc().Height/2.0f - 128.0f*(g_pD3dApp->GetBackBufferDesc().Height/768.0f)
-//#define POS_LOADBAR_X		g_pD3dApp->GetBackBufferDesc().Width - 300.0f*(g_pD3dApp->GetBackBufferDesc().Width/1024.0f)
-//#define POS_LOADBAR_Y		g_pD3dApp->GetBackBufferDesc().Height - 100.0f*(g_pD3dApp->GetBackBufferDesc().Height/768.0f)
-//#define POS_LOADROUND_X		g_pD3dApp->GetBackBufferDesc().Width - 400.0f*(g_pD3dApp->GetBackBufferDesc().Width/1024.0f)
-//#define POS_LOADROUND_Y		g_pD3dApp->GetBackBufferDesc().Height - 105.0f*(g_pD3dApp->GetBackBufferDesc().Height/768.0f)
-//#define POS_LOADATUM_X		50*(g_pD3dApp->GetBackBufferDesc().Width/1024.0f)
-//#define POS_LOADATUM_Y		50*(g_pD3dApp->GetBackBufferDesc().Height/768.0f)
+//#define SCALE_MAPLOAD_Y		UIScreenH()/768.0f
+//#define POS_LOADBACK_X(i)	(UIScreenW()/4.0f)*i
+//#define POS_LOADBACK_Y		UIScreenH()/2.0f - 128.0f*(UIScreenH()/768.0f)
+//#define POS_LOADBAR_X		UIScreenW() - 300.0f*(UIScreenW()/1024.0f)
+//#define POS_LOADBAR_Y		UIScreenH() - 100.0f*(UIScreenH()/768.0f)
+//#define POS_LOADROUND_X		UIScreenW() - 400.0f*(UIScreenW()/1024.0f)
+//#define POS_LOADROUND_Y		UIScreenH() - 105.0f*(UIScreenH()/768.0f)
+//#define POS_LOADATUM_X		50*(UIScreenW()/1024.0f)
+//#define POS_LOADATUM_Y		50*(UIScreenH()/768.0f)
 
-#define SCALE					(((float)g_pD3dApp->GetBackBufferDesc().Width)/1024.0f)
+#define SCALE					(((float)UIScreenW())/1024.0f)
 // 2007-04-24 by bhsohn 와이드 모니터 관련 처리
-#define SCALE_Y					(((float)g_pD3dApp->GetBackBufferDesc().Height)/768.0f)
-#define SCALE_BACK				(((float)g_pD3dApp->GetBackBufferDesc().Width)/512.0f)
+#define SCALE_Y					(((float)UIScreenH())/768.0f)
+#define SCALE_BACK				(((float)UIScreenW())/512.0f)
 #define NOWLOADING_START_X		30 //33     // 2007-03-12 by dgwoo 중국버젼에 따른 위치수정. 다른 나라도 동일.
 #define NOWLOADING_START_Y		683//676
 #define BAR_START_X				28
@@ -375,7 +375,7 @@ void  CINFMapLoad::Render()
 	float fYScale = SCALE_Y; // screenHeight / 768.0f
 	float fAspectScale = fYScale;
 	float fTotalScaledWidth = 1024.0f * fAspectScale;
-	float fOffsetX = (g_pD3dApp->GetBackBufferDesc().Width - fTotalScaledWidth) / 2.0f;
+	float fOffsetX = (UIScreenW() - fTotalScaledWidth) / 2.0f;
 
 	// Render background image (centered, aspect-corrected)
 	m_pImgBack->SetScale(fAspectScale, fAspectScale);
@@ -411,8 +411,8 @@ void  CINFMapLoad::Render()
 
 }
 
-#define ROTATE_VALUE_LOADROUND_X		32.5f*(float)g_pD3dApp->GetBackBufferDesc().Width/1024.0f
-#define ROTATE_VALUE_LOADROUND_Y		33.0f*(float)g_pD3dApp->GetBackBufferDesc().Width/1024.0f
+#define ROTATE_VALUE_LOADROUND_X		32.5f*(float)UIScreenW()/1024.0f
+#define ROTATE_VALUE_LOADROUND_Y		33.0f*(float)UIScreenW()/1024.0f
 
 void CINFMapLoad::Tick()
 {

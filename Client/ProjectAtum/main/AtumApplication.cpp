@@ -283,14 +283,14 @@ int __stdcall HS_MainCallbackProc ( long lCode, long lParamSize, void* pParam );
 //end 2009. 09. 21 by jskim 게임가드 XTRAP 적용(배트남)
 
 // 2007.04.24 by bhsohn China IME Working
-#define IME_POS_SELECT_X						(g_pD3dApp->GetBackBufferDesc().Width /2 +165)
-#define IME_POS_SELECT_Y						(g_pD3dApp->GetBackBufferDesc().Height - 127)
+#define IME_POS_SELECT_X						(UIScreenW() /2 +165)
+#define IME_POS_SELECT_Y						(UIScreenH() - 127)
 
-#define IME_POS_CREATE_X						(g_pD3dApp->GetBackBufferDesc().Width /2 + 112)
-#define IME_POS_CREATE_Y						(g_pD3dApp->GetBackBufferDesc().Height - 127)
+#define IME_POS_CREATE_X						(UIScreenW() /2 + 112)
+#define IME_POS_CREATE_Y						(UIScreenH() - 127)
 
-#define IME_POS_GAME_X							((g_pD3dApp->GetBackBufferDesc().Width - 254)/2)+26
-#define IME_POS_GAME_Y							(g_pD3dApp->GetBackBufferDesc().Height - 70)
+#define IME_POS_GAME_X							((UIScreenW() - 254)/2)+26
+#define IME_POS_GAME_Y							(UIScreenH() - 70)
 
 // 2007-05-21 by bhsohn China IME Working
 #define IME_TYPE_SHOW_TIME						30
@@ -4395,7 +4395,7 @@ int CAtumApplication::MsgProcCity( UINT uMsg, WPARAM wParam, LPARAM lParam )
 			ptOld.x = LOWORD(lParam);
 			ptOld.y = HIWORD(lParam);
 
-			CheckMouseReverse(&ptOld);
+			CheckMouseReversePixels(&ptOld);
 		}
 		break;
 	case WM_RBUTTONUP:
@@ -4411,7 +4411,7 @@ int CAtumApplication::MsgProcCity( UINT uMsg, WPARAM wParam, LPARAM lParam )
 				pt.x = LOWORD(lParam);
 				pt.y = HIWORD(lParam);
 
-				CheckMouseReverse(&pt);
+				CheckMouseReversePixels(&pt);
 				m_pCamera->SetCameraRotate( (int)pt.x - (int)ptOld.x, (int)pt.y - (int)ptOld.y );
 				ptOld = pt;
 			}
@@ -26003,7 +26003,7 @@ void CAtumApplication::RenderDbg()
 				wsprintf(buff, "%s(%s)", buff, STRMSG_C_140619_0002);	// "열세"
 			}
 		}
-		UINT nInflEndX = GetBackBufferDesc().Width - 140;
+		UINT nInflEndX = UIScreenW() - 140;
 		// 2014-06-27 by ymjoo DrawText 성능 개선 작업 (DBG 텍스트)
 #ifdef C_DRAWTEXT_UPGRADE_YMJOO
 		SIZE size = m_pFontInfl->GetStringSize(buff);
@@ -42327,6 +42327,8 @@ BOOL CAtumApplication::ForceMousePos(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	
 	BOOL bForse = FALSE;
 	RECT rtClient,rtWindow;
+	// UIScaleCheck: physical - clamping the cursor inside the window, which is
+	// measured in window pixels like the rect it is clamped to.
 	POINT pt;
 	GetCursorPos(&pt);
 	ScreenToClient(g_pD3dApp->GetHwnd(),&pt);
@@ -42372,7 +42374,7 @@ BOOL CAtumApplication::ForceMousePos(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			pt.y = rtClient.bottom;
 		}
-		CheckMouseReverse(&pt);
+		CheckMouseReversePixels(&pt);
 		ClientToScreen(g_pD3dApp->GetHwnd(),&pt);
 		SetCursorPos(pt.x, pt.y);
 	}	

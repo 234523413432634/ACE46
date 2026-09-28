@@ -1052,9 +1052,9 @@ int CINFSelectBack::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 				CheckMouseReverse(&pt);
 				
-				D3DXVECTOR2 v2((float)g_pD3dApp->GetBackBufferDesc().Width/2 - pt.x, (float)g_pD3dApp->GetBackBufferDesc().Height/2 - pt.y);
+				D3DXVECTOR2 v2((float)UIScreenW()/2 - pt.x, (float)UIScreenH()/2 - pt.y);
 				float fLen = D3DXVec2Length(&v2);
-				if(fLen < g_pD3dApp->GetBackBufferDesc().Width/4)
+				if(fLen < UIScreenW()/4)
 				{
 					// 2009. 10. 14 by jskim 프리스카 제거
 					((CINFSelect*)m_pParent)->GameStart(((CINFSelect*)m_pParent)->m_character[GetCurrentSelectIndex()].Material);
@@ -1068,9 +1068,9 @@ int CINFSelectBack::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			pt.x = LOWORD(lParam);
 			pt.y = HIWORD(lParam);
 			CheckMouseReverse(&pt);
-			D3DXVECTOR2 v2((float)g_pD3dApp->GetBackBufferDesc().Width/2 - pt.x, (float)g_pD3dApp->GetBackBufferDesc().Height/2 - pt.y);
+			D3DXVECTOR2 v2((float)UIScreenW()/2 - pt.x, (float)UIScreenH()/2 - pt.y);
 			float fLen = D3DXVec2Length(&v2);
-			if(fLen < g_pD3dApp->GetBackBufferDesc().Width/4)
+			if(fLen < UIScreenW()/4)
 			{
 				((CINFSelect*)m_pParent)->SetMouseState(SELECT_MOUSE_STATE_UP);
 				return INF_MSGPROC_NORMAL;
@@ -1103,8 +1103,8 @@ int CINFSelectBack::HitTest(LPARAM lParam)
 	D3DXVECTOR3 vPickRayOrig;
 	D3DXMATRIX matProj = g_pD3dApp->m_pCamera->GetProjMatrix();
 	D3DXVECTOR3 v;
-	v.x =  ( ( ( 2.0f * pt.x ) / g_pD3dApp->GetBackBufferDesc().Width  ) - 1 ) / matProj._11;
-	v.y = -( ( ( 2.0f * pt.y ) / g_pD3dApp->GetBackBufferDesc().Height ) - 1 ) / matProj._22;
+	v.x =  ( ( ( 2.0f * pt.x ) / UIScreenW()  ) - 1 ) / matProj._11;
+	v.y = -( ( ( 2.0f * pt.y ) / UIScreenH() ) - 1 ) / matProj._22;
 	v.z =  1.0f;
 
 	// Get the inverse view matrix

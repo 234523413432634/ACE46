@@ -1602,9 +1602,9 @@ void CINFBaseWarManager::RenderBaseWarToolTip()
 
 	(tempX > temp02X) ? lengX = tempX : lengX = temp02X;
 	
-	if(nX + lengX > g_pD3dApp->GetBackBufferDesc().Width)
+	if(nX + lengX > UIScreenW())
 	{
-		nX = g_pD3dApp->GetBackBufferDesc().Width - lengX;
+		nX = UIScreenW() - lengX;
 	}
 	g_pGameMain->RenderPopUpWindowImage(nX, m_strShowToolTipInfo->pMousePos.y-(lengY*2), lengX, 1);
 	g_pGameMain->RenderPopUpWindowImage(nX, m_strShowToolTipInfo->pMousePos.y-lengY, lengX, 1);
@@ -1704,7 +1704,7 @@ void CINFBaseWarManager::DestroyBaseWarInfo(MapIndex_t MapIndex, SHORT MapInflue
 
 void CINFBaseWarManager::RenderTimeLimit()
 {
-	SIZE bkSize = { g_pD3dApp->GetBackBufferDesc().Width, g_pD3dApp->GetBackBufferDesc().Height };
+	SIZE bkSize = { UIScreenW(), UIScreenH() };
 
 	char szHour[32] = {0,}, szMin[32] = {0,}, szSec[32] = {0,};
 
@@ -1786,8 +1786,8 @@ void CINFBaseWarManager::RenderInflGauge()
 {
 	{
 		POINT pt = m_pImgResetBarBack->GetImgSize();
-		DWORD nX = (int)(g_pD3dApp->GetBackBufferDesc().Width - pt.x)/2;
-		DWORD nY = (int)(g_pD3dApp->GetBackBufferDesc().Height - NGC_BASEWAR_IMG_RESET_BAR_Y);
+		DWORD nX = (int)(UIScreenW() - pt.x)/2;
+		DWORD nY = (int)(UIScreenH() - NGC_BASEWAR_IMG_RESET_BAR_Y);
 		
 		// ¹è°æ.
 		m_pImgResetBarBack->Move(nX,nY);

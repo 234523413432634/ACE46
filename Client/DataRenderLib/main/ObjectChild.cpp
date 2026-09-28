@@ -445,7 +445,8 @@ void CObjectChild::ObjectNameRender()
 			m_fDistanceCamera < g_pScene->m_fFogStartValue &&
 			m_nObjScreenW > 0)
 		{
-			m_pMoveChat->Render( m_nObjScreenX, m_nObjScreenY );
+			// A projected position; the balloon is interface, drawn in layout pixels.
+		m_pMoveChat->Render( UIFromPixels(m_nObjScreenX), UIFromPixels(m_nObjScreenY) );
 		}
 //#ifdef _SCREENSHOT
 	}

@@ -47,28 +47,28 @@
 //////////////////////////////////////////////////////////////////////
 
 #define MINI_MARK_HEIGHT			40
-#define BACK_START_X				(g_pD3dApp->GetBackBufferDesc().Width-140)
+#define BACK_START_X				(UIScreenW()-140)
 #define BACK_START_Y				(18 + 16)
-#define BIGMAP_START_X				(g_pD3dApp->GetBackBufferDesc().Width / 2) - 256
-#define BIGMAP_START_Y				(g_pD3dApp->GetBackBufferDesc().Height / 2) - 256
-#define SMALLMAP_START_X			(g_pD3dApp->GetBackBufferDesc().Width - 170)
+#define BIGMAP_START_X				(UIScreenW() / 2) - 256
+#define BIGMAP_START_Y				(UIScreenH() / 2) - 256
+#define SMALLMAP_START_X			(UIScreenW() - 170)
 #define SMALLMAP_START_Y			193		// 2012-03-29 by mspark, 미니맵&고도 표시 위치 수정 - 기존 183에서 193으로 수정
 #define SMALLMAP_SCALE				0.25f
 #define BIGMAP_WIDTH				512 
 #define BIGMAP_HEIGHT				512
-#define MISSILE_WARNING_X			(g_pD3dApp->GetBackBufferDesc().Width-126)
+#define MISSILE_WARNING_X			(UIScreenW()-126)
 #define MISSILE_WARNING_Y			18 + 30
-#define SITE_START_X				(g_pD3dApp->GetBackBufferDesc().Width-98)
+#define SITE_START_X				(UIScreenW()-98)
 #define SITE_START_Y				32 + 16
-#define UNIT_START_X				(g_pD3dApp->GetBackBufferDesc().Width-75)
+#define UNIT_START_X				(UIScreenW()-75)
 #define UNIT_START_Y				82 + 16
 #define BUTTON_SHOW_SIZE_X			52
 #define BUTTON_SHOW_SIZE_Y			11
-#define BUTTON_SHOW_START_X			(g_pD3dApp->GetBackBufferDesc().Width-BUTTON_SHOW_SIZE_X)
+#define BUTTON_SHOW_START_X			(UIScreenW()-BUTTON_SHOW_SIZE_X)
 #define BUTTON_SHOW_START_Y			22 + 16
 #define BUTTON_ZOOM_SIZE_X			33
 #define BUTTON_ZOOM_SIZE_Y			11
-#define BUTTON_ZOOM_START_X			(g_pD3dApp->GetBackBufferDesc().Width-BUTTON_ZOOM_SIZE_X)
+#define BUTTON_ZOOM_START_X			(UIScreenW()-BUTTON_ZOOM_SIZE_X)
 #define BUTTON_ZOOM_START_Y			34 + 16
 
 #define RENDER_RADIUS				55
@@ -91,7 +91,7 @@
 
 #define BACK_IMAGE_SIZE				138.0f
 #define RADAR_MINIMAP_SIZE			118.0f
-#define RADAR_MINIMAP_X				(g_pD3dApp->GetBackBufferDesc().Width-129)
+#define RADAR_MINIMAP_X				(UIScreenW()-129)
 #define RADAR_MINIMAP_Y				44.0f
 
 #define RADAR_BACKIMAGE_X				SMALLMAP_START_X - ( m_pBackImage->GetImgSize().x - pImageTEMP->GetImgSize().x * SMALLMAP_SCALE ) / 2
@@ -1407,7 +1407,7 @@ void CINFGameMainMiniMap::RenderBigMap()
 //		int nX, nY, nW;
 //		int length = (strlen((*it)->sQuestMonsterName)*6)/2;
 //		D3DXVec3TransformCoord( &vcPos, &vcPos, &mat);
-//		g_pD3dApp->CalcObjectSourceScreenCoords(vcPos, g_pD3dApp->GetBackBufferDesc().Width, g_pD3dApp->GetBackBufferDesc().Height, 
+//		g_pD3dApp->CalcObjectSourceScreenCoords(vcPos, UIScreenW(), UIScreenH(), 
 //			nX, nY, nW);			
 //		m_vecQuestPosition[0]->DrawText(nX-length,nY-30,GUI_FONT_COLOR_Y,(*it)->sQuestMonsterName, 0L);
 		
@@ -1765,8 +1765,8 @@ int CINFGameMainMiniMap::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if(m_bZoomState)
 			{
 				float fMiniMapX, fMiniMapY;
-				fMiniMapX = (g_pD3dApp->GetBackBufferDesc().Width / 2) - 256;
-				fMiniMapY = (g_pD3dApp->GetBackBufferDesc().Height / 2) - 256;
+				fMiniMapX = (UIScreenW() / 2) - 256;
+				fMiniMapY = (UIScreenH() / 2) - 256;
 				CINFImage* pMiniBigMapImageTEMP = NULL;
 				if(g_pD3dApp->m_bCharacter)
 				{

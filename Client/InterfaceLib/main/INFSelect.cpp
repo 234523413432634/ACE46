@@ -49,12 +49,12 @@
 
 // 2007-07-04 by bhsohn 오퍼레이터 추가
 // NPC이미지 위치
-#define SEL_NPC_POS_X	(g_pD3dApp->GetBackBufferDesc().Width-255)
-#define SEL_NPC_POS_Y	(g_pD3dApp->GetBackBufferDesc().Height-481)
+#define SEL_NPC_POS_X	(UIScreenW()-255)
+#define SEL_NPC_POS_Y	(UIScreenH()-481)
 
 // 2007-07-23 by bhsohn 오퍼레이터 추가작업
-#define SEL_NPC_BUBBLE_POS_X	(g_pD3dApp->GetBackBufferDesc().Width-387)
-#define SEL_NPC_BUBBLE_POS_Y	(g_pD3dApp->GetBackBufferDesc().Height-647)
+#define SEL_NPC_BUBBLE_POS_X	(UIScreenW()-387)
+#define SEL_NPC_BUBBLE_POS_Y	(UIScreenH()-647)
 #define SEL_NPC_BUBBLE_WIDTH	(350)
 #define SEL_NPC_BUBBLE_HEIGHT	(150)
 #define SEL_NPC_BUBBLE_ARROW_X	(112)
@@ -63,7 +63,7 @@
 
 // 유닛 스텟배경 
 #define UNIT_STATBK_POS_X		(0)
-#define UNIT_STATBK_POS_Y		(g_pD3dApp->GetBackBufferDesc().Height/2-40)
+#define UNIT_STATBK_POS_Y		(UIScreenH()/2-40)
 
 // 보이는 스텝
 #define UNIT_SHOW_STEP			30
@@ -129,8 +129,8 @@ CINFSelect::CINFSelect(CAtumNode* pParent)
 	m_nMouseState = 0;
 	memset((void*)m_guiUnitInfo, 0x00, sizeof(FC_CONNECT_LOGIN_INFO)*SELECT_MODE);
 	memset((void*)m_character, 0x00, sizeof(CHARACTER)*SELECT_MODE);
-	m_ptMouse.x = g_pD3dApp->GetBackBufferDesc().Width / 1024.0f;
-	m_ptMouse.y = g_pD3dApp->GetBackBufferDesc().Height / 768.0f;
+	m_ptMouse.x = UIScreenW() / 1024.0f;
+	m_ptMouse.y = UIScreenH() / 768.0f;
 	m_bDelete = FALSE;			// 유닛 삭제 윈도우 
 
 	// 2005-03-03 by jschoi
@@ -849,8 +849,8 @@ void CINFSelect::Render()
 			// 2009. 10. 14 by jskim 프리스카 제거 
 			if(m_binfluenceSelect)
 			{					
-				const int nInfluenceSelectPos_X = g_pD3dApp->GetBackBufferDesc().Width/2 - INFLUENCE_SELECT_SIZE_X/2;
-				const int nInfluenceSelectPos_Y = g_pD3dApp->GetBackBufferDesc().Height/3 - INFLUENCE_SELECT_SIZE_Y/2;
+				const int nInfluenceSelectPos_X = UIScreenW()/2 - INFLUENCE_SELECT_SIZE_X/2;
+				const int nInfluenceSelectPos_Y = UIScreenH()/3 - INFLUENCE_SELECT_SIZE_Y/2;
 				const int nBCUButtonPos_X = nInfluenceSelectPos_X + INFLUENCE_SELECT_SIZE_X*2/5 - INFLUENCE_BUTTON_SIZE_X;
  				const int nBCUButtonPos_Y = nInfluenceSelectPos_Y+ INFLUENCE_BUTTON_SIZE_Y * 4;
 				const int nANIButtonPos_X = nInfluenceSelectPos_X + INFLUENCE_SELECT_SIZE_X*3/5;
@@ -872,7 +872,7 @@ void CINFSelect::Render()
 								wsprintf(chMsgBuff, STRMSG_C_091014_0401);	//"시작할 도시를 선택해 주세요"
 
 				SIZE size = m_pFontHelpInfo->GetStringSize(chMsgBuff);
- 				m_pFontHelpInfo->DrawText(g_pD3dApp->GetBackBufferDesc().Width/2 - size.cx / 2,
+ 				m_pFontHelpInfo->DrawText(UIScreenW()/2 - size.cx / 2,
  					nInfluenceSelectPos_Y + INFLUENCE_BUTTON_SIZE_Y,
  					NAME_COLOR_NORMAL,
  					chMsgBuff);	
@@ -891,7 +891,7 @@ void CINFSelect::Render()
 					string str = (*it);
 					strcpy( szBuff, str.c_str() );
 					size = m_pFontHelpInfo->GetStringSize( szBuff );
-					m_pFontHelpInfo->DrawText( g_pD3dApp->GetBackBufferDesc().Width/2 - size.cx / 2,
+					m_pFontHelpInfo->DrawText( UIScreenW()/2 - size.cx / 2,
 											   nInfluenceSelectPos_Y + INFLUENCE_BUTTON_SIZE_Y * nRenderLine,
 											   NAME_COLOR_NORMAL,
 											   szBuff );
@@ -901,8 +901,8 @@ void CINFSelect::Render()
 			if(m_bTutorialMenu)
 			{
 				// 2005-04-19 by jschoi - Tutorial 
-				const int nTutorialSelectPos_X = g_pD3dApp->GetBackBufferDesc().Width/2 - TUTORIAL_SELECT_SIZE_X/2;
-				const int nTutorialSelectPos_Y = g_pD3dApp->GetBackBufferDesc().Height/3 - TUTORIAL_SELECT_SIZE_Y/2;
+				const int nTutorialSelectPos_X = UIScreenW()/2 - TUTORIAL_SELECT_SIZE_X/2;
+				const int nTutorialSelectPos_Y = UIScreenH()/3 - TUTORIAL_SELECT_SIZE_Y/2;
 		
 				const int nStartButtonPos_X = nTutorialSelectPos_X + TUTORIAL_SELECT_SIZE_X/2 - TUTORIAL_BUTTON_SIZE_X;
 				const int nStartButtonPos_Y = nTutorialSelectPos_Y + TUTORIAL_SELECT_SIZE_Y;
@@ -912,7 +912,7 @@ void CINFSelect::Render()
 				if(m_pImgFadeBG)
 				{
 				m_pImgFadeBG->Move(0,0);
-				m_pImgFadeBG->SetScale((INT)g_pD3dApp->GetBackBufferDesc().Width,(INT)g_pD3dApp->GetBackBufferDesc().Height);	
+				m_pImgFadeBG->SetScale((INT)UIScreenW(),(INT)UIScreenH());	
 				m_pImgFadeBG->Render();
 				}
 				// end 2012-02-28 by mspark, 튜토리얼 시작 시(튜토리얼을 시작하시겠습니까?) 화면에서 배경 어둡게 처리
@@ -1262,8 +1262,8 @@ int CINFSelect::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	// 2009. 10. 14 by jskim 프리스카 제거 
 	if(m_binfluenceSelect)
 	{
-		const int nInfluenceSelectPos_X = g_pD3dApp->GetBackBufferDesc().Width/2 - INFLUENCE_SELECT_SIZE_X/2;
-		const int nInfluenceSelectPos_Y = g_pD3dApp->GetBackBufferDesc().Height/3 - INFLUENCE_SELECT_SIZE_Y/2;
+		const int nInfluenceSelectPos_X = UIScreenW()/2 - INFLUENCE_SELECT_SIZE_X/2;
+		const int nInfluenceSelectPos_Y = UIScreenH()/3 - INFLUENCE_SELECT_SIZE_Y/2;
 		const int nBCUButtonPos_X = nInfluenceSelectPos_X + INFLUENCE_SELECT_SIZE_X*2/5 - INFLUENCE_BUTTON_SIZE_X;
 		const int nBCUButtonPos_Y = nInfluenceSelectPos_Y+ INFLUENCE_BUTTON_SIZE_Y * 4;
 		const int nANIButtonPos_X = nInfluenceSelectPos_X + INFLUENCE_SELECT_SIZE_X*3/5;
@@ -1400,8 +1400,8 @@ int CINFSelect::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	//end 2009. 10. 14 by jskim 프리스카 제거
 	if(m_bTutorialMenu)	 
 	{
-	const int nTutorialSelectPos_X = g_pD3dApp->GetBackBufferDesc().Width/2 - TUTORIAL_SELECT_SIZE_X/2;
-	const int nTutorialSelectPos_Y = g_pD3dApp->GetBackBufferDesc().Height/3 - TUTORIAL_SELECT_SIZE_Y/2;
+	const int nTutorialSelectPos_X = UIScreenW()/2 - TUTORIAL_SELECT_SIZE_X/2;
+	const int nTutorialSelectPos_Y = UIScreenH()/3 - TUTORIAL_SELECT_SIZE_Y/2;
 	const int nStartButtonPos_X = nTutorialSelectPos_X + TUTORIAL_SELECT_SIZE_X/2 - TUTORIAL_BUTTON_SIZE_X;
 	const int nStartButtonPos_Y = nTutorialSelectPos_Y + TUTORIAL_SELECT_SIZE_Y;
 	const int nSkipButtonPos_X = nTutorialSelectPos_X + TUTORIAL_SELECT_SIZE_X/2 + 15;
@@ -1910,12 +1910,12 @@ void CINFSelect::RenderRequestEnable(float fAniTime)
 	dwAlpha = dwAlpha << 24;
 	dwColor |= dwAlpha;
 
-	m_pRequestEnableBack->Move((g_pD3dApp->GetBackBufferDesc().Width - REQUEST_ENABLE_BOX_WIDTH)/2,
-								(g_pD3dApp->GetBackBufferDesc().Height - REQUEST_ENABLE_BOX_HEIGHT)/2);
+	m_pRequestEnableBack->Move((UIScreenW() - REQUEST_ENABLE_BOX_WIDTH)/2,
+								(UIScreenH() - REQUEST_ENABLE_BOX_HEIGHT)/2);
 	m_pRequestEnableBack->Render();
 	m_pRequestEnableTriangle->SetColor(dwColor);
-	m_pRequestEnableTriangle->Move((g_pD3dApp->GetBackBufferDesc().Width - REQUEST_ENABLE_BOX_WIDTH)/2,
-									(g_pD3dApp->GetBackBufferDesc().Height - REQUEST_ENABLE_BOX_HEIGHT)/2);
+	m_pRequestEnableTriangle->Move((UIScreenW() - REQUEST_ENABLE_BOX_WIDTH)/2,
+									(UIScreenH() - REQUEST_ENABLE_BOX_HEIGHT)/2);
 	m_pRequestEnableTriangle->Render();
 }
 

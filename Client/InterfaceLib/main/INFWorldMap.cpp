@@ -31,10 +31,10 @@
 #define WMAP_INF_WIDTH			988
 
 #define WMAP_WIDTH				867
-#define WMAP_LEFT				(max((((int)(g_pD3dApp->GetBackBufferDesc().Width) - WMAP_INF_WIDTH) / 2 + 121), 0))
+#define WMAP_LEFT				(max((((int)(UIScreenW()) - WMAP_INF_WIDTH) / 2 + 121), 0))
 #define WMAP_RIGHT				(WMAP_LEFT + WMAP_WIDTH)
 #define WMAP_HEIGHT				709
-#define WMAP_TOP				(max((((int)(g_pD3dApp->GetBackBufferDesc().Height) - WMAP_HEIGHT) / 2), 0))
+#define WMAP_TOP				(max((((int)(UIScreenH()) - WMAP_HEIGHT) / 2), 0))
 #define WMAP_BOTTOM				(WMAP_TOP + WMAP_HEIGHT)
 #define WMAP_MARGIN_TOP			19
 #define WMAP_MARGIN_BOTTOM		31
@@ -45,10 +45,10 @@
 
 // 맵정보 크기/위치
 #define WMAP_INFO_WIDTH			123
-#define WMAP_INFO_LEFT			(max((((int)(g_pD3dApp->GetBackBufferDesc().Width) - WMAP_INF_WIDTH) / 2), 0))
+#define WMAP_INFO_LEFT			(max((((int)(UIScreenW()) - WMAP_INF_WIDTH) / 2), 0))
 #define WMAP_INFO_RIGHT			(WMAP_INFO_LEFT + WMAP_INFO_WIDTH)
 #define WMAP_INFO_HEIGHT		709
-#define WMAP_INFO_TOP			(max((((int)(g_pD3dApp->GetBackBufferDesc().Height) - WMAP_INFO_HEIGHT) / 2), 0))
+#define WMAP_INFO_TOP			(max((((int)(UIScreenH()) - WMAP_INFO_HEIGHT) / 2), 0))
 #define WMAP_INFO_BOTTOM		(WMAP_INFO_TOP + WMAP_INFO_HEIGHT)
 
 // 맵 이미지
@@ -302,7 +302,7 @@ HRESULT CINFWorldMap::InitDeviceObjects()
 	}
 	if(NULL == m_pToolTipMapNameFont)
 	{
-		m_pToolTipMapNameFont = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 9 * HIDPI_COEFF, D3DFONT_ZENABLE|D3DFONT_BOLD, FALSE, 512 * HIDPI_COEFF, 32 * HIDPI_COEFF);
+		m_pToolTipMapNameFont = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()), 9, D3DFONT_ZENABLE|D3DFONT_BOLD, FALSE, 512, 32);
 		m_pToolTipMapNameFont->InitDeviceObjects(g_pD3dDev);
 	}
 	if(NULL == m_pToolTipBaseEnImg)
@@ -947,6 +947,7 @@ int	CINFWorldMap::OnMouseMove(WPARAM wParam, LPARAM lParam)
 	POINT pt;
 	pt.x = LOWORD(lParam);
 	pt.y = HIWORD(lParam);
+	CheckMouseReverse(&pt);
 	
 	m_bIsMouseDownAndMoved = TRUE;
 
@@ -993,6 +994,7 @@ int	CINFWorldMap::OnLButtonDown(WPARAM wParam, LPARAM lParam)
 	POINT pt;
 	pt.x = LOWORD(lParam);
 	pt.y = HIWORD(lParam);
+	CheckMouseReverse(&pt);
 
 	if(WMAP_LEFT + WMAP_MARGIN_LEFT < pt.x && pt.x < WMAP_RIGHT - WMAP_MARGIN_RIGHT
 		&& WMAP_TOP + WMAP_MARGIN_TOP < pt.y && pt.y < WMAP_BOTTOM - WMAP_MARGIN_BOTTOM)
@@ -1033,6 +1035,7 @@ int CINFWorldMap::OnRButtonDown(WPARAM wParam, LPARAM lParam)
 	POINT pt;
 	pt.x = LOWORD(lParam);
 	pt.y = HIWORD(lParam);
+	CheckMouseReverse(&pt);
 	if(WMAP_LEFT + WMAP_MARGIN_LEFT < pt.x && pt.x < WMAP_RIGHT - WMAP_MARGIN_RIGHT
 		&& WMAP_TOP + WMAP_MARGIN_TOP < pt.y && pt.y < WMAP_BOTTOM - WMAP_MARGIN_BOTTOM)
 	{
@@ -1056,6 +1059,7 @@ int CINFWorldMap::OnRButtonUp(WPARAM wParam, LPARAM lParam)
 	POINT pt;
 	pt.x = LOWORD(lParam);
 	pt.y = HIWORD(lParam);
+	CheckMouseReverse(&pt);
 	if(WMAP_LEFT + WMAP_MARGIN_LEFT < pt.x && pt.x < WMAP_RIGHT - WMAP_MARGIN_RIGHT
 		&& WMAP_TOP + WMAP_MARGIN_TOP < pt.y && pt.y < WMAP_BOTTOM - WMAP_MARGIN_BOTTOM)
 	{
@@ -1103,6 +1107,7 @@ int	CINFWorldMap::OnMouseWheel(WPARAM wParam, LPARAM lParam)
 	POINT pt;
 	pt.x = LOWORD(lParam);
 	pt.y = HIWORD(lParam);
+	CheckMouseReverse(&pt);
 	
 // 	if(WMAP_LEFT < pt.x && pt.x < WMAP_RIGHT
 // 		&& WMAP_TOP < pt.y && pt.y < WMAP_BOTTOM)

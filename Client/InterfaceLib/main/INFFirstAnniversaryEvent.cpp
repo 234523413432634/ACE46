@@ -287,12 +287,12 @@ void CINFFirstAnniversaryEvent::ShowWnd(BOOL bShow,POINT *ptMixWndPos)
 		}
 		else
 		{
-			m_ptBkPos.x = ( g_pD3dApp->GetBackBufferDesc().Width/2) - (m_pBackImg->GetImgSize().x / 2);
-			m_ptBkPos.y = ( g_pD3dApp->GetBackBufferDesc().Height/2) - (m_pBackImg->GetImgSize().y / 2);		
+			m_ptBkPos.x = ( UIScreenW()/2) - (m_pBackImg->GetImgSize().x / 2);
+			m_ptBkPos.y = ( UIScreenH()/2) - (m_pBackImg->GetImgSize().y / 2);		
 		}
 
-		m_ptWinSize.x = g_pD3dApp->GetBackBufferDesc().Width;
-		m_ptWinSize.y = g_pD3dApp->GetBackBufferDesc().Height;
+		m_ptWinSize.x = UIScreenW();
+		m_ptWinSize.y = UIScreenH();
 
 		UpdateBtnPos();
 

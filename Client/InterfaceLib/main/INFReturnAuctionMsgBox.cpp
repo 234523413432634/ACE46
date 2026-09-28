@@ -31,8 +31,8 @@
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
-#define WINSTART_POS_X					((g_pD3dApp->GetBackBufferDesc().Width - 286) / 2)
-#define WINSTART_POS_Y					((g_pD3dApp->GetBackBufferDesc().Height - 436) / 2)
+#define WINSTART_POS_X					((UIScreenW() - 286) / 2)
+#define WINSTART_POS_Y					((UIScreenH() - 436) / 2)
 
 // 2014-07-11 by ymjoo 파괴경매장 빅아이콘을 스몰아이콘으로 변경
 #define SMALL_ICON_POS_X				131

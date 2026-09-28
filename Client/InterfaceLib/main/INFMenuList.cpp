@@ -346,7 +346,7 @@ void CINFMenuList::RenderMenuList(int x, int y)
 	if(m_vecpTargetEnemy && m_vecpTargetEnemy->m_nObjScreenW > 0)
 	{
 		m_pImgEnemySelect->SetScale(TARGET_MOUSE_SCALE,TARGET_MOUSE_SCALE);
-		m_pImgEnemySelect->Move(m_vecpTargetEnemy->m_nObjScreenX-AUTO_TARGET_HALF_SIZE, m_vecpTargetEnemy->m_nObjScreenY-AUTO_TARGET_HALF_SIZE);
+		m_pImgEnemySelect->Move(UIFromPixels(m_vecpTargetEnemy->m_nObjScreenX)-AUTO_TARGET_HALF_SIZE, UIFromPixels(m_vecpTargetEnemy->m_nObjScreenY)-AUTO_TARGET_HALF_SIZE);
 		m_pImgEnemySelect->Render();
 	}
 

@@ -260,7 +260,7 @@ HRESULT CINFTradeItemAdd::InitDeviceObjects()
 }
 HRESULT CINFTradeItemAdd::RestoreDeviceObjects()
 {
-	m_ptStartPos.x = (g_pD3dApp->GetBackBufferDesc().Width - TRADEITEMBUY_WIDTH)/2;
+	m_ptStartPos.x = (UIScreenW() - TRADEITEMBUY_WIDTH)/2;
 	m_ptStartPos.y = CITY_BASE_NPC_BOX_START_Y - (TRADEITEMBUY_HEIGHT - (CITY_BASE_NPC_BOX_SIZE_Y+CITY_BASE_DOWN_BOX_HEIGHT));
 
 	m_byMoneySelect = SPI;

@@ -58,7 +58,7 @@ CChatMoveData::CChatMoveData(CAtumNode pParent, TCHAR *str, DWORD dwColor,int si
 
 	m_dwFontFlags = D3DFONT_ZENABLE | dwFlage;
 	// 글자를 컬링 할것인가D3DFONT_BOLD
-	CD3DHanFont* pFont = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),m_nSize * HIDPI_COEFF, m_dwFontFlags, TRUE,m_nWidth * HIDPI_COEFF,m_nHeight * HIDPI_COEFF);
+	CD3DHanFont* pFont = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),m_nSize, m_dwFontFlags, TRUE,m_nWidth,m_nHeight);
 	pFont->InitDeviceObjects(g_pD3dDev);
 	pFont->RestoreDeviceObjects();
 	if(nCullLen)
@@ -176,7 +176,7 @@ void CChatMoveData::ResetHanFontLine(int nFontCnt)
 
 	for(i=0;i < nFontCnt;i++)
 	{
-		CD3DHanFont* pFont = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),m_nSize * HIDPI_COEFF, m_dwFontFlags, TRUE,m_nWidth * HIDPI_COEFF,m_nHeight * HIDPI_COEFF);
+		CD3DHanFont* pFont = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),m_nSize, m_dwFontFlags, TRUE,m_nWidth,m_nHeight);
 //		pFont->InitDeviceObjects(g_pD3dDev);
 //		pFont->RestoreDeviceObjects();
 		pFont->SetUV(0.0f,0.0f,1.0f, 1.0f); 

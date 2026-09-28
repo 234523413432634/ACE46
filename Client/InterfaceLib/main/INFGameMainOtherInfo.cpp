@@ -14,9 +14,9 @@
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
-#define IMAGE_SCALE					((float)g_pD3dApp->GetBackBufferDesc().Width/1024.0f)
+#define IMAGE_SCALE					((float)UIScreenW()/1024.0f)
 //#define AI_GAGE_BACK_SIZE_X			154
-#define IMAGE_CENTER_X				(g_pD3dApp->GetBackBufferDesc().Width/2)
+#define IMAGE_CENTER_X				(UIScreenW()/2)
 
 //#define AI_GAGE_BACK_START_X		IMAGE_CENTER_X-(AI_GAGE_BACK_SIZE_X*IMAGE_SCALE/2)
 //#define AI_GAGE_BACK_START_Y		22
@@ -43,12 +43,12 @@
 #define AI_LOCK_ON_TARGET_OTHER		1
 #define AI_LOCK_ON_TARGET_MONSTER	2
 
-#define TARGET_INFO_BACK_START_X	((g_pD3dApp->GetBackBufferDesc().Width)/2)
-#define TARGET_INFO_BACK_START_Y	22.5*HIDPI_COEFF+3
+#define TARGET_INFO_BACK_START_X	((UIScreenW())/2)
+#define TARGET_INFO_BACK_START_Y	22.5+3
 
 #define TARGET_INFO_BAR_SIZE		m_pImgTargetInfoBack->GetImgSize().x
-#define TARGET_INFO_BAR_START_X		((g_pD3dApp->GetBackBufferDesc().Width)/2)
-#define TARGET_INFO_BAR_START_Y		22.5*HIDPI_COEFF+3
+#define TARGET_INFO_BAR_START_X		((UIScreenW())/2)
+#define TARGET_INFO_BAR_START_Y		22.5+3
 
 
 
@@ -144,12 +144,12 @@ HRESULT CINFGameMainOtherInfo::InitDeviceObjects()
 	
 	// 2008-09-18 by bhsohn 이름이 긴 타켓 이름 짤리는 문제 처리
 	//m_pFontOtherInfo[0] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,128,32);
-	m_pFontOtherInfo[0] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9 * HIDPI_COEFF, D3DFONT_ZENABLE, TRUE,256 * HIDPI_COEFF,32 * HIDPI_COEFF);
+	m_pFontOtherInfo[0] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,256,32);
 	m_pFontOtherInfo[0]->InitDeviceObjects(g_pD3dDev);
 
 	// 2008-09-18 by bhsohn 이름이 긴 타켓 이름 짤리는 문제 처리
 	//m_pFontOtherInfo[1] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,128,32);
-	m_pFontOtherInfo[1] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9 * HIDPI_COEFF, D3DFONT_ZENABLE, TRUE,256 * HIDPI_COEFF,32 * HIDPI_COEFF);
+	m_pFontOtherInfo[1] = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE, TRUE,256,32);
 	m_pFontOtherInfo[1]->InitDeviceObjects(g_pD3dDev);
 	
 	// 2004-12-09 by jschoi
@@ -433,7 +433,7 @@ void CINFGameMainOtherInfo::DrawText( ) // 적이나 몬스터의 길드, 이름
 		SIZE szSize = m_pFontOtherInfo[0]->GetStringSize(m_strMonsterName);
 		m_pFontOtherInfo[0]->DrawText(fX - (szSize.cx / 2), fY + FONTOTHERINFO_Y, GUI_FONT_COLOR, m_strMonsterName, 0L);
 		szSize = m_pFontOtherInfo[0]->GetStringSize(m_strMonsterHP);
-		m_pFontOtherInfo[0]->DrawText(fX - (szSize.cx / 2), fY + 18*HIDPI_COEFF + FONTOTHERINFO_Y, GUI_FONT_COLOR, m_strMonsterHP, 0L);
+		m_pFontOtherInfo[0]->DrawText(fX - (szSize.cx / 2), fY + 18 + FONTOTHERINFO_Y, GUI_FONT_COLOR, m_strMonsterHP, 0L);
 		// end 2008-09-18 by bhsohn 타켓 글씨 가운데 정렬 안되는 현상처리
 		
 	}

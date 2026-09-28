@@ -777,10 +777,10 @@ int CINFGameMainWisperChat::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				{
 					m_nWisperBoxStartX = 0;					
 				}
-				else if (m_nWisperBoxStartX+m_nWisperBoxWidth+MOVE_RAIL_POSITION_SPACE > g_pD3dApp->GetBackBufferDesc().Width
-					&& m_nWisperBoxStartX+m_nWisperBoxWidth < g_pD3dApp->GetBackBufferDesc().Width) 
+				else if (m_nWisperBoxStartX+m_nWisperBoxWidth+MOVE_RAIL_POSITION_SPACE > UIScreenW()
+					&& m_nWisperBoxStartX+m_nWisperBoxWidth < UIScreenW()) 
 				{
-					m_nWisperBoxStartX = g_pD3dApp->GetBackBufferDesc().Width-m_nWisperBoxWidth;
+					m_nWisperBoxStartX = UIScreenW()-m_nWisperBoxWidth;
 				}
 				else if (m_nWisperBoxStartY < MOVE_RAIL_POSITION_SPACE && m_nWisperBoxStartY > 0) 
 				{
@@ -3079,10 +3079,10 @@ int CINFSystemMsgWindow::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				{
 					m_nSystemBoxStartX = 0;					
 				}
-				else if (m_nSystemBoxStartX+m_nSystemBoxWidth+MOVE_RAIL_POSITION_SPACE > g_pD3dApp->GetBackBufferDesc().Width
-					&& m_nSystemBoxStartX+m_nSystemBoxWidth < g_pD3dApp->GetBackBufferDesc().Width) 
+				else if (m_nSystemBoxStartX+m_nSystemBoxWidth+MOVE_RAIL_POSITION_SPACE > UIScreenW()
+					&& m_nSystemBoxStartX+m_nSystemBoxWidth < UIScreenW()) 
 				{
-					m_nSystemBoxStartX = g_pD3dApp->GetBackBufferDesc().Width-m_nSystemBoxWidth;
+					m_nSystemBoxStartX = UIScreenW()-m_nSystemBoxWidth;
 				}
 				else if (m_nSystemBoxStartY < MOVE_RAIL_POSITION_SPACE && m_nSystemBoxStartY > 0) 
 				{
@@ -3418,8 +3418,8 @@ int CINFSystemMsgWindow::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			{
 				stcuctRateRect	stRateRect;
 				memset(&stRateRect, 0x00, sizeof(stcuctRateRect));
-				float fWidth = (float)g_pD3dApp->GetBackBufferDesc().Width;
-				float fHeight = (float)g_pD3dApp->GetBackBufferDesc().Height;
+				float fWidth = (float)UIScreenW();
+				float fHeight = (float)UIScreenH();
 
 				stRateRect.fRateX		= m_nSystemBoxStartX;
 				stRateRect.fRateY		= m_nSystemBoxStartY;
@@ -3919,8 +3919,8 @@ stcuctRateRect CINFSystemMsgWindow::GetSysMsgWndRect()
 {
 	stcuctRateRect	stRateRect;
 	memset(&stRateRect, 0x00, sizeof(stcuctRateRect));
-	float fWidth = (float)g_pD3dApp->GetBackBufferDesc().Width;
-	float fHeight = (float)g_pD3dApp->GetBackBufferDesc().Height;
+	float fWidth = (float)UIScreenW();
+	float fHeight = (float)UIScreenH();
 	
 	stRateRect.fRateX		= m_nSystemBoxStartX;
 	stRateRect.fRateY		= m_nSystemBoxStartY;
@@ -4066,17 +4066,17 @@ void	CINFSystemMsgWindow::RefreshSystemBox()
 	{
 		m_nSystemBoxStartX = 0;
 	}
-	else if(g_pD3dApp->GetBackBufferDesc().Width < (m_nSystemBoxStartX+m_nSystemBoxWidth))
+	else if(UIScreenW() < (m_nSystemBoxStartX+m_nSystemBoxWidth))
 	{
-		m_nSystemBoxStartX = g_pD3dApp->GetBackBufferDesc().Width - m_nSystemBoxWidth;
+		m_nSystemBoxStartX = UIScreenW() - m_nSystemBoxWidth;
 
 	}
 	if(m_nSystemBoxStartY < 0)
 	{
 		m_nSystemBoxStartY = 0;
 	}
-	else if(g_pD3dApp->GetBackBufferDesc().Height < (m_nSystemBoxStartY+m_nSystemBoxHeight))
+	else if(UIScreenH() < (m_nSystemBoxStartY+m_nSystemBoxHeight))
 	{
-		m_nSystemBoxStartY = g_pD3dApp->GetBackBufferDesc().Height - m_nSystemBoxHeight;		
+		m_nSystemBoxStartY = UIScreenH() - m_nSystemBoxHeight;		
 	}
 }

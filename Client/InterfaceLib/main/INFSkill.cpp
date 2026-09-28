@@ -314,7 +314,7 @@ void CINFSkill::Render()
 {
 	int nIconPosX = SKILL_ICON_START_X;
 	int nIconPosY = SKILL_ICON_START_Y;
-	int nCountWidth = (int)((g_pD3dApp->GetBackBufferDesc().Width/2 - 290)/SKILL_ICON_INTERVAL);	// 스킬아이콘을 렌더할수 있는 가로 갯수 
+	int nCountWidth = (int)((UIScreenW()/2 - 290)/SKILL_ICON_INTERVAL);	// 스킬아이콘을 렌더할수 있는 가로 갯수 
 	char strIconName[32];
 	float fRemainedReattackTime;
 	BOOL bSkillIconRender;
@@ -1015,6 +1015,7 @@ int CINFSkill::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			POINT pt;
 			pt.x = LOWORD(lParam);
 			pt.y = HIWORD(lParam);
+			CheckMouseReverse(&pt);
 			// 2006-04-25 by ispark, 범위
 			if(	pt.x < SKILL_ICON_START_X && 
 

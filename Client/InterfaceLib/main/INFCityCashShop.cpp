@@ -34,8 +34,8 @@
 // end 2012-11-23 by jhjang 게임포지 웹 상점 통합 작업
 
 
-	#define		CASHSHOP_RENDER_START_X				((int)( g_pD3dApp->GetBackBufferDesc().Width / 2 - ( m_pImgBack->GetMaxPos().x - m_pImgBack->GetMinPos().x ) / 2 ) )		// 상점 렌더링 시작위치	X
-	#define		CASHSHOP_RENDER_START_Y				((int)(g_pD3dApp->GetBackBufferDesc().Height/2) - 250)			// 상점 렌더링 시작위치	Y
+	#define		CASHSHOP_RENDER_START_X				((int)( UIScreenW() / 2 - ( m_pImgBack->GetMaxPos().x - m_pImgBack->GetMinPos().x ) / 2 ) )		// 상점 렌더링 시작위치	X
+	#define		CASHSHOP_RENDER_START_Y				((int)(UIScreenH()/2) - 250)			// 상점 렌더링 시작위치	Y
 	#define		CASHSHOP_RENDER_TAB_X				(5+CASHSHOP_RENDER_START_X)			// 선택탭 렌더링 시작 위치
 	#define		CASHSHOP_RENDER_TAB_Y				(28+CASHSHOP_RENDER_START_Y)			// 선택탭 렌더링 시작 위치
 	#define		CASHSHOP_RENDER_BUY_BUTTON_X		(CASHSHOP_RENDER_START_X + 450)		// 충전하기 시작 위치
@@ -3051,16 +3051,16 @@ void CINFCityCashShop::InitScrollbar()
 #endif
 
 // end 2009-02-24 by bhsohn 캐쉬샵 충전 웹페이지 추가
-#define		WEBCASHSHOP_START_X		((g_pD3dApp->GetBackBufferDesc().Width-WEBCASHSHOP_WIDTH)/2)
+#define		WEBCASHSHOP_START_X		((UIScreenW()-WEBCASHSHOP_WIDTH)/2)
 // 2012-12-17 by jhjang 특정 해상도에서 웹 상점이 제대로 뜨지 않던 오류 수정
-//#define		WEBCASHSHOP_START_Y		((g_pD3dApp->GetBackBufferDesc().Height-WEBCASHSHOP_HEIGHT)/2 + 8)
-#define		WEBCASHSHOP_START_Y		(max(((g_pD3dApp->GetBackBufferDesc().Height-WEBCASHSHOP_HEIGHT)/2 + 8),46))
+//#define		WEBCASHSHOP_START_Y		((UIScreenH()-WEBCASHSHOP_HEIGHT)/2 + 8)
+#define		WEBCASHSHOP_START_Y		(max(((UIScreenH()-WEBCASHSHOP_HEIGHT)/2 + 8),46))
 // end 2012-12-17 by jhjang 특정 해상도에서 웹 상점이 제대로 뜨지 않던 오류 수정
 #define		WEBCASHSHOP_RENDER_CROSSX_WIDTH				10
 #define		WEBCASHSHOP_RENDER_CROSSX_HEIGHT			10
 
-//#define		WEBCASHSHOP_RENDER_CROSSX_POSX				(WEBCASHSHOP_START_X + WEBCASHSHOP_WIDTH - WEBCASHSHOP_RENDER_CROSSX_WIDTH - 1)/*((int)(g_pD3dApp->GetBackBufferDesc().Width/2 + 319))*/
-//#define		WEBCASHSHOP_RENDER_CROSSX_POSY				(WEBCASHSHOP_START_Y - 36)/*((int)(g_pD3dApp->GetBackBufferDesc().Height/2 - 311))*/
+//#define		WEBCASHSHOP_RENDER_CROSSX_POSX				(WEBCASHSHOP_START_X + WEBCASHSHOP_WIDTH - WEBCASHSHOP_RENDER_CROSSX_WIDTH - 1)/*((int)(UIScreenW()/2 + 319))*/
+//#define		WEBCASHSHOP_RENDER_CROSSX_POSY				(WEBCASHSHOP_START_Y - 36)/*((int)(UIScreenH()/2 - 311))*/
 // 2013-05-20 by bhsohn 웹캐쉬상점 크기변경
 #ifdef C_MASANG_WEB_CASHSHOP
 	#define		WEBCASHSHOP_RENDER_CROSSX_POSX				(WEBCASHSHOP_START_X + WEBCASHSHOP_WIDTH - WEBCASHSHOP_RENDER_CROSSX_WIDTH + 13)
@@ -3068,7 +3068,7 @@ void CINFCityCashShop::InitScrollbar()
 	#define		WEBCASHSHOP_RENDER_CROSSX_POSX				(WEBCASHSHOP_START_X + WEBCASHSHOP_WIDTH - WEBCASHSHOP_RENDER_CROSSX_WIDTH + 8)
 #endif
 // END 2013-05-20 by bhsohn 웹캐쉬상점 크기변경
-#define		WEBCASHSHOP_RENDER_CROSSX_POSY				(WEBCASHSHOP_START_Y - 29)/*((int)(g_pD3dApp->GetBackBufferDesc().Height/2 - 311))*/
+#define		WEBCASHSHOP_RENDER_CROSSX_POSY				(WEBCASHSHOP_START_Y - 29)/*((int)(UIScreenH()/2 - 311))*/
 //--------------------------------------------------------------------------------------------------------------------------------
 CINFCityWebCashShop::CINFCityWebCashShop(CAtumNode* pParent, BUILDINGNPC* pBuilding)
 {
@@ -3129,8 +3129,8 @@ HRESULT CINFCityWebCashShop::InitDeviceObjects()
 		{
 			m_pBlackImg = new CINFImageEx;
 			m_pBlackImg->InitDeviceObjects(pDataHeader);
-			m_ptWinSize.x = g_pD3dApp->GetBackBufferDesc().Width;
-			m_ptWinSize.y = g_pD3dApp->GetBackBufferDesc().Height;
+			m_ptWinSize.x = UIScreenW();
+			m_ptWinSize.y = UIScreenH();
 		}
 	}
 // end 2013-11-06 by ssjung 웹캐쉬 상점 검정 뒷 배경 추가 
@@ -3362,8 +3362,8 @@ void CINFCityWebCashShop::ShowMasangWebCashShop(char * pAuthenticationKey, INT n
 	memset(strWebParameter,0,sizeof(strWebParameter));
 
 // 2013-11-06 by ssjung 웹캐쉬 상점 검정 뒷 배경 추가 
-	m_ptWinSize.x = g_pD3dApp->GetBackBufferDesc().Width;
-	m_ptWinSize.y = g_pD3dApp->GetBackBufferDesc().Height;
+	m_ptWinSize.x = UIScreenW();
+	m_ptWinSize.y = UIScreenH();
 // end 2013-11-06 by ssjung 웹캐쉬 상점 검정 뒷 배경 추가 
 
 	// 2014-06-09 by ymjoo 웹캐쉬 url 계정 이름 추가

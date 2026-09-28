@@ -1999,16 +1999,16 @@ void CINFArmorCollectWnd::ShowWnd(BOOL bShow, INT nShowItemNum, UID64_t uItemUni
 		m_bMove = FALSE;
 		m_ptCommOpMouse.x = m_ptCommOpMouse.y = 0;		
 
-// 		m_ptBkPos.x = ( g_pD3dApp->GetBackBufferDesc().Width/2) - (m_pImgBackg->GetImgSize().x / 2);
-// 		m_ptBkPos.y = ( g_pD3dApp->GetBackBufferDesc().Height/2) - ( m_pImgBackg->GetImgSize().y/2);		
+// 		m_ptBkPos.x = ( UIScreenW()/2) - (m_pImgBackg->GetImgSize().x / 2);
+// 		m_ptBkPos.y = ( UIScreenH()/2) - ( m_pImgBackg->GetImgSize().y/2);		
 		if(ptMixWndPos)
 		{
 			m_ptBkPos = *ptMixWndPos;
 		}
 		else
 		{
-			m_ptBkPos.x = ( g_pD3dApp->GetBackBufferDesc().Width/2) - (m_pImgBackg->GetImgSize().x / 2);
-			m_ptBkPos.y = ( g_pD3dApp->GetBackBufferDesc().Height/2) - ( m_pImgBackg->GetImgSize().y/2);		
+			m_ptBkPos.x = ( UIScreenW()/2) - (m_pImgBackg->GetImgSize().x / 2);
+			m_ptBkPos.y = ( UIScreenH()/2) - ( m_pImgBackg->GetImgSize().y/2);		
 		}
 
 		InitItemListScroll();  // 2013-07-25 by bhsohn 아머 컬렉션 스크롤 동작 안하는 버그 수정

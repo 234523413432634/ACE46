@@ -66,7 +66,7 @@
 #define L1_5_GATE_POS				D3DXVECTOR3(4800,400,5880)			// 하.
 #define	L1_7_GATE_POS				D3DXVECTOR3(4617,10,2550)			// 땅에 있는 게이트..
 
-#define TUTORIAL_HELPER_LINE_Y		(g_pD3dApp->GetBackBufferDesc().Height - 30)
+#define TUTORIAL_HELPER_LINE_Y		(UIScreenH() - 30)
 #define TUTORIAL_HELPER_X_GAP		100
 #define TUTORIAL_HELPER_RESETTIME	20.f
 
@@ -229,16 +229,16 @@ void CTutorialSystem::InitTutorialSystem()
 	m_bPushEndButton = FALSE;
 	
 	// 2007-07-03 by dgwoo 창들의 위치값.
-	m_fMainX = g_pD3dApp->GetBackBufferDesc().Width/4;
-	m_fMainY = g_pD3dApp->GetBackBufferDesc().Height/2;
+	m_fMainX = UIScreenW()/4;
+	m_fMainY = UIScreenH()/2;
 
-	m_fSystemWinX = (g_pD3dApp->GetBackBufferDesc().Width - m_pImgSysBG->GetImgSize().x)/2;
+	m_fSystemWinX = (UIScreenW() - m_pImgSysBG->GetImgSize().x)/2;
 	m_fSystemWinY = m_fMainY - (m_pImgSysBG->GetImgSize().y/2);
 
 	m_fMainX = m_fMainX - (m_pImgChart->GetImgSize().x/2);
 	m_fMainY = m_fMainY - (m_pImgChart->GetImgSize().y/2);
 	
-	m_nImageInterPos_Y = g_pD3dApp->GetBackBufferDesc().Height - m_pImgInterBG->GetImgSize().y;
+	m_nImageInterPos_Y = UIScreenH() - m_pImgInterBG->GetImgSize().y;
 	m_nImageInterPos_X = 0;
 
 	m_nSelect = 0;
@@ -383,7 +383,7 @@ void CTutorialSystem::Tick(float fElapsedTime)
 
 void CTutorialSystem::SetHelper()
 {
-	m_nHelpTexPosX = (INT)g_pD3dApp->GetBackBufferDesc().Width;
+	m_nHelpTexPosX = (INT)UIScreenW();
 	m_bHelperRender = TRUE;
 	m_fHelperTime = 0.0f;
 }
@@ -391,7 +391,7 @@ void CTutorialSystem::SetHelper()
 void CTutorialSystem::TickHelper(float fElapsedTime)
 {
 	m_fHelperTime += fElapsedTime;
-	m_nHelpTexPosX = (INT)g_pD3dApp->GetBackBufferDesc().Width - (m_fHelperTime * TUTORIAL_HELPER_X_GAP);
+	m_nHelpTexPosX = (INT)UIScreenW() - (m_fHelperTime * TUTORIAL_HELPER_X_GAP);
 	POINT size = m_pImgHelpTex->GetImgSize();
 	if(-m_nHelpTexPosX > size.x)
 	{
@@ -413,7 +413,7 @@ void CTutorialSystem::RenderSystemWindow()
 	float YScale = (float)pt.y;
 //	GetScale(XScale,YScale);
 	m_pImgFadeBG->Move(0,0);
-	m_pImgFadeBG->SetScale((INT)g_pD3dApp->GetBackBufferDesc().Width,(INT)g_pD3dApp->GetBackBufferDesc().Height);	
+	m_pImgFadeBG->SetScale((INT)UIScreenW(),(INT)UIScreenH());	
 	m_pImgFadeBG->Render();
 
 
@@ -522,18 +522,18 @@ void CTutorialSystem::Render()
 
 		if((int)(m_fRemainTime / 100.0f))
 		{
-			nTimePos_X = g_pD3dApp->GetBackBufferDesc().Width/2 - 102 - 5;
+			nTimePos_X = UIScreenW()/2 - 102 - 5;
 			nMaxSize = 4;
 		}
 		else if((int)(m_fRemainTime / 10.0f))
 		{
-			nTimePos_X = g_pD3dApp->GetBackBufferDesc().Width/2 - 68 - 5;
+			nTimePos_X = UIScreenW()/2 - 68 - 5;
 			nMaxSize = 3;
 		}
 //		else if((int)(m_fRemainTime / 1.0f))
 		else
 		{
-			nTimePos_X = g_pD3dApp->GetBackBufferDesc().Width/2 - 34 - 5;
+			nTimePos_X = UIScreenW()/2 - 34 - 5;
 			nMaxSize = 2;
 		}
 
@@ -579,8 +579,8 @@ void CTutorialSystem::RenderLesson0()
 	m_pImgMain->Render();
 
 	pt = m_pImgCari->GetImgSize();
-	m_pImgCari->Move(g_pD3dApp->GetBackBufferDesc().Width - pt.x,
-		g_pD3dApp->GetBackBufferDesc().Height - pt.y);
+	m_pImgCari->Move(UIScreenW() - pt.x,
+		UIScreenH() - pt.y);
 	m_pImgCari->Render();
 
 	m_pImgChart->Move(m_fMainX,m_fMainY);
@@ -708,13 +708,13 @@ void CTutorialSystem::RenderLesson8()
 	{
 		DWORD dwColor = g_pGameMain->GetCurrentColor(m_fStateTime,ALPHA_WAVE);
 		// 2008-07-14 by dgwoo 인터페이스 변경.
-		//m_pImgETCBull2->Move(g_pD3dApp->GetBackBufferDesc().Width - 408,g_pGameMain->m_nLeftWindowY + 48);
+		//m_pImgETCBull2->Move(UIScreenW() - 408,g_pGameMain->m_nLeftWindowY + 48);
 		m_pImgETCBull2->Move(151,0);
 		m_pImgETCBull2->SetColor(dwColor);
 //		m_pImgETCBull2->Render();
 
 		// 2008-07-14 by dgwoo 인터페이스 변경.
-		//m_pImgETCReAtt->Move(g_pD3dApp->GetBackBufferDesc().Width - 408,g_pGameMain->m_nLeftWindowY - 138);
+		//m_pImgETCReAtt->Move(UIScreenW() - 408,g_pGameMain->m_nLeftWindowY - 138);
 		m_pImgETCReAtt->Move(151,0);
 		m_pImgETCReAtt->SetColor(dwColor);
 		m_pImgETCReAtt->Render();
@@ -918,17 +918,17 @@ void CTutorialSystem::RenderETC()
 		}
 		else if(m_dwETCState == 3)
 		{
-			nETCPosition_X = g_pD3dApp->GetBackBufferDesc().Width - 228;
+			nETCPosition_X = UIScreenW() - 228;
 			nETCPosition_Y = g_pGameMain->m_nRightWindowY - 28;
 		}
 		else if(m_dwETCState == 4)
 		{
-			nETCPosition_X = g_pD3dApp->GetBackBufferDesc().Width - 172;
+			nETCPosition_X = UIScreenW() - 172;
 			nETCPosition_Y = g_pGameMain->m_nRightWindowY + 48;
 		}
 		else if(m_dwETCState == 5)
 		{
-			nETCPosition_X = g_pD3dApp->GetBackBufferDesc().Width - 340;//225
+			nETCPosition_X = UIScreenW() - 340;//225
 			nETCPosition_Y = g_pGameMain->m_nRightWindowY - 74;
 		}
 		else if(m_dwETCState == 6 && m_bNeedOrderTarget == FALSE)
@@ -938,7 +938,7 @@ void CTutorialSystem::RenderETC()
 		}
 		else if(m_dwETCState == 7)
 		{// 레이더
-			nETCPosition_X = g_pD3dApp->GetBackBufferDesc().Width - 211;
+			nETCPosition_X = UIScreenW() - 211;
 			nETCPosition_Y = 48;//32
 		}
 		else if(m_dwETCState == 8)
@@ -1970,10 +1970,10 @@ HRESULT CTutorialSystem::DeleteDeviceObjects()
 HRESULT CTutorialSystem::RestoreDeviceObjects()
 {
 	// 2005-04-06 by jschoi - 초기화
-	m_nImagePosition_X = (g_pD3dApp->GetBackBufferDesc().Width - IMAGE_SIZE_X)/2;
-	m_nImagePosition_Y = g_pD3dApp->GetBackBufferDesc().Height/3 - IMAGE_SIZE_Y/2;
-	m_nSkipBoxPosition_X = (g_pD3dApp->GetBackBufferDesc().Width - LESSON_SIZE_X)/2;
-	m_nSkipBoxPosition_Y = g_pD3dApp->GetBackBufferDesc().Height/3 - LESSON_SIZE_Y/2;
+	m_nImagePosition_X = (UIScreenW() - IMAGE_SIZE_X)/2;
+	m_nImagePosition_Y = UIScreenH()/3 - IMAGE_SIZE_Y/2;
+	m_nSkipBoxPosition_X = (UIScreenW() - LESSON_SIZE_X)/2;
+	m_nSkipBoxPosition_Y = UIScreenH()/3 - LESSON_SIZE_Y/2;
 	m_nStartButtonPos_X = m_nImagePosition_X + IMAGE_SIZE_X*2/5 - BUTTON_SIZE_X/2;
 	m_nStartButtonPos_Y = m_nImagePosition_Y + IMAGE_SIZE_Y;
 	m_nCenterButtonPos_X = m_nImagePosition_X + IMAGE_SIZE_X/2 - BUTTON_SIZE_X/2;
@@ -1981,9 +1981,9 @@ HRESULT CTutorialSystem::RestoreDeviceObjects()
 	m_nEndButtonPos_X = m_nImagePosition_X + IMAGE_SIZE_X*3/5 - BUTTON_SIZE_X/2;
 	m_nEndButtonPos_Y = m_nImagePosition_Y + IMAGE_SIZE_Y;
 	m_nInputButtonPos_X = 100;
-	m_nInputButtonPos_Y = g_pD3dApp->GetBackBufferDesc().Height - 70;
-	m_nInputMousePos_X = g_pD3dApp->GetBackBufferDesc().Width - 100;
-	m_nInputMousePos_Y = g_pD3dApp->GetBackBufferDesc().Height - 85;;
+	m_nInputButtonPos_Y = UIScreenH() - 70;
+	m_nInputMousePos_X = UIScreenW() - 100;
+	m_nInputMousePos_Y = UIScreenH() - 85;;
 
 
 	int i;
@@ -5073,7 +5073,8 @@ void CTutorialSystem::SetOrderTargetPosTo2D(D3DXVECTOR3 vPos)
 	g_pD3dApp->CalcObjectSourceScreenCoords(vPos, g_pD3dApp->GetBackBufferDesc().Width, g_pD3dApp->GetBackBufferDesc().Height, 
 		x, y, w );
 
-	SetOrderTargetPos(x, y);
+	// Projected against the real viewport, so bring it into layout pixels.
+	SetOrderTargetPos(UIFromPixels(x), UIFromPixels(y));
 	m_bNeedOrderTarget = FALSE;
 }
 
@@ -5333,7 +5334,7 @@ void CTutorialSystem::SetImgBoxCenterPos(CINFImageEx * pImg)
 {
 	m_pCurrentImage = pImg;
 	POINT pt = pImg->GetImgSize();
-	m_nImagePosition_X = (int)((g_pD3dApp->GetBackBufferDesc().Width - pt.x)/2);
+	m_nImagePosition_X = (int)((UIScreenW() - pt.x)/2);
 	m_dwMessageType = IMAGEBOX;
 }
 
@@ -5341,8 +5342,8 @@ void CTutorialSystem::SetImgBoxCenterGoalPos(CINFImageEx * pImg)
 {
 	m_pCurrentImage = pImg;
 	POINT pt = pImg->GetImgSize();
-	m_nImageGoalPos_X = (int)((g_pD3dApp->GetBackBufferDesc().Width - pt.x)/2);
-	m_nImageGoalPos_Y = (int)(g_pD3dApp->GetBackBufferDesc().Height - pt.y);
+	m_nImageGoalPos_X = (int)((UIScreenW() - pt.x)/2);
+	m_nImageGoalPos_Y = (int)(UIScreenH() - pt.y);
 	m_dwMessageType = IMAGEVIEW;
 }
 

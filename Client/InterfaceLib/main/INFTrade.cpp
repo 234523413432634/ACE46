@@ -1261,7 +1261,7 @@ BOOL CINFTrade::TradeQuestionInviteUser(CINFMessageBox* pMsgBox, int x, int y)//
 	{
 		if( itEnemy->second->m_nObjScreenW > 0)
 		{
-			D3DXVECTOR2 vPos2 = D3DXVECTOR2(itEnemy->second->m_nObjScreenX,itEnemy->second->m_nObjScreenY);
+			D3DXVECTOR2 vPos2 = D3DXVECTOR2(UIFromPixels(itEnemy->second->m_nObjScreenX),UIFromPixels(itEnemy->second->m_nObjScreenY));
 			float fLengthTemp = D3DXVec2Length(&(vPos1-vPos2));
 			if(fLengthTemp < 50.0f && fLengthTemp < fLength)
 			{

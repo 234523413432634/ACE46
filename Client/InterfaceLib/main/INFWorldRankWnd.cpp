@@ -1337,8 +1337,8 @@ void CINFWorldRankWnd::ShowWnd(BOOL bShowWnd, POINT *ptPos/*=NULL*/, int nWndWid
 
 		POINT ptBkSize = m_pBkImage[WORLDRANK_SERVICE_LOCAL]->GetImgSize();
 		
-		ptShowPos.x = (g_pD3dApp->GetBackBufferDesc().Width - ptBkSize.x)/2;
-		ptShowPos.y = (g_pD3dApp->GetBackBufferDesc().Height - ptBkSize.y)/2 - WORLD_RANK_BK_Y;
+		ptShowPos.x = (UIScreenW() - ptBkSize.x)/2;
+		ptShowPos.y = (UIScreenH() - ptBkSize.y)/2 - WORLD_RANK_BK_Y;
 	}	
 
 	CINFDefaultWnd::ShowWnd(bShowWnd, &ptShowPos, nWndWidth);

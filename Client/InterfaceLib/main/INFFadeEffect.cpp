@@ -68,7 +68,7 @@ void CINFFadeEffect::Render()
 #ifndef _NO_FADE
 	if(m_fAlpha>0.0f || m_bFadeIn == FALSE)
 	{
-		D3DXVECTOR2 v2Scaling(g_pD3dApp->GetBackBufferDesc().Width,g_pD3dApp->GetBackBufferDesc().Height);
+		D3DXVECTOR2 v2Scaling(UIScreenW(),UIScreenH());
 		D3DCOLOR dwColor;
 
 

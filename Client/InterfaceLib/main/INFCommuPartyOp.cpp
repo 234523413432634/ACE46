@@ -127,7 +127,7 @@ HRESULT CINFCommuPartyOp::InitDeviceObjects()
 
 	// 커뮤니티 옵션배	
 	m_ptCommOpBk.x = ptBkPos.x + COMMUNITY_OPBK_X;
-	m_ptCommOpBk.y = (g_pD3dApp->GetBackBufferDesc().Height/2) - COMMUNITY_OPBK_HEIGHT/2;
+	m_ptCommOpBk.y = (UIScreenH()/2) - COMMUNITY_OPBK_HEIGHT/2;
 
 
 	{
@@ -814,7 +814,7 @@ void CINFCommuPartyOp::ShowWindow(BOOL bShow)
 
 		// 커뮤니티 옵션배	
 		m_ptCommOpBk.x = ptBkPos.x + COMMUNITY_OPBK_X;
-		m_ptCommOpBk.y = (g_pD3dApp->GetBackBufferDesc().Height/2) - COMMUNITY_OPBK_HEIGHT/2;
+		m_ptCommOpBk.y = (UIScreenH()/2) - COMMUNITY_OPBK_HEIGHT/2;
 		// UI유저 지정 
 		UpdateUIPos();
 

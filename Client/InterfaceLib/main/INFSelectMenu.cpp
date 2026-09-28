@@ -38,13 +38,13 @@
 #define SEL_BUTTON_OPTION	3
 #define SEL_BUTTON_DELETE	4
 
-#define POS_SEL_CENTER_X	(g_pD3dApp->GetBackBufferDesc().Width / 2)
-#define POS_SEL_TITLE_X		( g_pD3dApp->GetBackBufferDesc().Width / 2) - (( m_PSelTitle->GetMaxPos().x - m_PSelTitle->GetMinPos().x) / 2)
-#define POS_SEL_BACK_X		( g_pD3dApp->GetBackBufferDesc().Width / 2) - (( m_PBack->GetMaxPos().x - m_PBack->GetMinPos().x) / 2)
-#define POS_SEL_BACK_Y		g_pD3dApp->GetBackBufferDesc().Height - ( m_PBack->GetMaxPos().y - m_PBack->GetMinPos().y)
-#define POS_CHAR_NAME_X		( g_pD3dApp->GetBackBufferDesc().Width / 2) - (m_pFontCharacterName->GetTexWidth() / 2)
-#define POS_CHAR_NAME_Y		g_pD3dApp->GetBackBufferDesc().Height - ( m_PBack->GetMaxPos().y - m_PBack->GetMinPos().y - 4)
-#define POS_CHAR_LEVEL_Y	g_pD3dApp->GetBackBufferDesc().Height - ( m_PBack->GetMaxPos().y - m_PBack->GetMinPos().y - 4)
+#define POS_SEL_CENTER_X	(UIScreenW() / 2)
+#define POS_SEL_TITLE_X		( UIScreenW() / 2) - (( m_PSelTitle->GetMaxPos().x - m_PSelTitle->GetMinPos().x) / 2)
+#define POS_SEL_BACK_X		( UIScreenW() / 2) - (( m_PBack->GetMaxPos().x - m_PBack->GetMinPos().x) / 2)
+#define POS_SEL_BACK_Y		UIScreenH() - ( m_PBack->GetMaxPos().y - m_PBack->GetMinPos().y)
+#define POS_CHAR_NAME_X		( UIScreenW() / 2) - (m_pFontCharacterName->GetTexWidth() / 2)
+#define POS_CHAR_NAME_Y		UIScreenH() - ( m_PBack->GetMaxPos().y - m_PBack->GetMinPos().y - 4)
+#define POS_CHAR_LEVEL_Y	UIScreenH() - ( m_PBack->GetMaxPos().y - m_PBack->GetMinPos().y - 4)
 
 
 #define POS_SELBTN_OK_X		POS_SEL_BACK_X+663
@@ -457,7 +457,7 @@ void CINFSelectMenu::Render()
 			//m_pFontCharacterName->DrawText(m_nCharacterNamePos[0], m_nCharacterNamePos[1], SELECT_FONT_COLOR, unit.CharacterName, 0L);
 				
 			SIZE size = m_pFontCharacterName->GetStringSize(unit.CharacterName);
-			m_pFontCharacterName->DrawText(( g_pD3dApp->GetBackBufferDesc().Width / 2) - (size.cx / 2), POS_CHAR_NAME_Y, SELECT_FONT_COLOR, unit.CharacterName, 0L);
+			m_pFontCharacterName->DrawText(( UIScreenW() / 2) - (size.cx / 2), POS_CHAR_NAME_Y, SELECT_FONT_COLOR, unit.CharacterName, 0L);
 
 //			strcpy( buf, GetRaceString(unit.Race));
 			if(COMPARE_RACE(unit.Race, RACE_DECA))

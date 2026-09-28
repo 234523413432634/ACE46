@@ -168,8 +168,8 @@ HRESULT CINFCommunityUserInfo::InitDeviceObjects()
 	int nCnt = 0;
 
 	// 커뮤니티 옵션배	
-	m_ptCommOpBk.x = (g_pD3dApp->GetBackBufferDesc().Width) - COMMUNITY_OPENBK_WIDTH;
-	m_ptCommOpBk.y = (g_pD3dApp->GetBackBufferDesc().Height/2) - COMMUNITY_OPENBK_HEIGHT/2;
+	m_ptCommOpBk.x = (UIScreenW()) - COMMUNITY_OPENBK_WIDTH;
+	m_ptCommOpBk.y = (UIScreenH()/2) - COMMUNITY_OPENBK_HEIGHT/2;
 
 	pDataHeader = g_pGameMain->m_GruopImagemanager->FindResource("C_ubk");	
 	m_pBkImage = g_pGameMain->m_GruopImagemanager->GetGroupImage( pDataHeader );
@@ -615,8 +615,8 @@ void CINFCommunityUserInfo::ShowWindow(BOOL bShow)
 	if(bShow)
 	{
 		// 커뮤니티 옵션배	
-		m_ptCommOpBk.x = (g_pD3dApp->GetBackBufferDesc().Width) - COMMUNITY_OPENBK_WIDTH;
-		m_ptCommOpBk.y = (g_pD3dApp->GetBackBufferDesc().Height/2) - COMMUNITY_OPENBK_HEIGHT/2;
+		m_ptCommOpBk.x = (UIScreenW()) - COMMUNITY_OPENBK_WIDTH;
+		m_ptCommOpBk.y = (UIScreenH()/2) - COMMUNITY_OPENBK_HEIGHT/2;
 		// UI유저 지정 
 		UpdateUIPos();		
 		

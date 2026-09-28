@@ -285,7 +285,7 @@ HRESULT CINFTradeMyItemShow::RestoreDeviceObjects()
 	m_nCurrentPage	= 1;	
 	m_nStartPage	= 1;
 	
-	m_ptStartPos.x = (g_pD3dApp->GetBackBufferDesc().Width - TRADEITEMBUY_WIDTH)/2;
+	m_ptStartPos.x = (UIScreenW() - TRADEITEMBUY_WIDTH)/2;
 	m_ptStartPos.y = CITY_BASE_NPC_BOX_START_Y  - (TRADEITEMBUY_HEIGHT - (CITY_BASE_NPC_BOX_SIZE_Y+CITY_BASE_DOWN_BOX_HEIGHT));
 
 	m_pIconInfo = g_pGameMain->m_pIcon;
@@ -1331,9 +1331,9 @@ void CINFTradeMyItemShow::ToolTipRender()
 
 	int leng = m_pToolTipFont->GetStringSize(buf).cx + 4;
 	
-	if(nX + leng > g_pD3dApp->GetBackBufferDesc().Width)
+	if(nX + leng > UIScreenW())
 	{
-		nX = g_pD3dApp->GetBackBufferDesc().Width - leng;
+		nX = UIScreenW() - leng;
 	}
 	g_pGameMain->RenderPopUpWindowImage(nX, m_ptToolTipPos.y + TOOLTIP_POSITION_Y, leng, 1);
 	m_pToolTipFont->DrawText(nX+1, m_ptToolTipPos.y + TOOLTIP_POSITION_Y - 2 , GUI_FONT_COLOR_W, buf);

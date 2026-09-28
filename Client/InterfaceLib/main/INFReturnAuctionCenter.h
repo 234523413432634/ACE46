@@ -48,8 +48,8 @@ enum MONEY_TYPE
 
 #define MONEYCOUNT							2
 
-#define STARTPOS_X							((g_pD3dApp->GetBackBufferDesc().Width - 936)/2)
-//#define STARTPOS_Y							((g_pD3dApp->GetBackBufferDesc().Height - 642)/2)
+#define STARTPOS_X							((UIScreenW() - 936)/2)
+//#define STARTPOS_Y							((UIScreenH() - 642)/2)
 
 #define STARTPOS_Y							((CITY_BASE_NPC_BOX_START_Y)  - (642 - (CITY_BASE_NPC_BOX_SIZE_Y+CITY_BASE_DOWN_BOX_HEIGHT)))
 

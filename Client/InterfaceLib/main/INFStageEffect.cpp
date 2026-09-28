@@ -10,8 +10,8 @@
 #include "dxutil.h"
 #include "INFImageEx.h"								 // 2011. 10. 10 by jskim UI시스템 변경
 
-#define SCALE_X			((float)g_pD3dApp->GetBackBufferDesc().Width/1024)
-#define SCALE_Y			((float)g_pD3dApp->GetBackBufferDesc().Height/768)
+#define SCALE_X			((float)UIScreenW()/1024)
+#define SCALE_Y			((float)UIScreenH()/768)
 #define START_X_1		0
 #define START_Y_1		0
 #define START_X_2		(512*SCALE)
@@ -103,13 +103,13 @@ HRESULT CINFStageEffect::RestoreDeviceObjects()
 //		int i; for(i=0;i<STAGE_IMG_NUM;i++)
 //		{
 //			m_pImage[i]->RestoreDeviceObjects();
-//			m_pImage[i]->SetScale(g_pD3dApp->GetBackBufferDesc().Width / DEFAULT_SIZE, 
-//				(float)g_pD3dApp->GetBackBufferDesc().Width / DEFAULT_SIZE);
+//			m_pImage[i]->SetScale(UIScreenW() / DEFAULT_SIZE, 
+//				(float)UIScreenW() / DEFAULT_SIZE);
 //		}
 		if(m_pImage)			// 2013-12-26 by ssjung 크래쉬 예외처리 
 			m_pImage->RestoreDeviceObjects();
-//			m_pImage->SetScale(g_pD3dApp->GetBackBufferDesc().Width / DEFAULT_SIZE, 
-//				(float)g_pD3dApp->GetBackBufferDesc().Width / DEFAULT_SIZE);
+//			m_pImage->SetScale(UIScreenW() / DEFAULT_SIZE, 
+//				(float)UIScreenW() / DEFAULT_SIZE);
 
 		m_bRestored = TRUE;
 //		m_pImage[0]->SetScale(SCALE, SCALE);

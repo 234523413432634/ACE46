@@ -122,26 +122,26 @@
 #include "MusicMP3Ex.h"												// 2014-11-26 by shchoi 옵션창 열 때 작아진 사운드가 영구지속되는 버그 수정
 
 /* Unused
-#define IMG_UNIT_LOCK_SCALE		((float)g_pD3dApp->GetBackBufferDesc().Width/1024.0f)
+#define IMG_UNIT_LOCK_SCALE		((float)UIScreenW()/1024.0f)
 #define IMG_UNIT_LOCK_SIZE_X	118
 #define IMG_UNIT_LOCK_SIZE_Y	36
-#define IMG_UNIT_LOCK_START_X	(g_pD3dApp->GetBackBufferDesc().Width-IMG_UNIT_LOCK_SIZE_X*IMG_UNIT_LOCK_SCALE)/2
+#define IMG_UNIT_LOCK_START_X	(UIScreenW()-IMG_UNIT_LOCK_SIZE_X*IMG_UNIT_LOCK_SCALE)/2
 #define IMG_UNIT_LOCK_START_Y	3
 */
 
 
 // 2014-01-15 by ssjung 파괴 경매장 구현
 	#ifdef SC_DESTROY_AUCTION_JHSEOL_BCKIM_SSJUNG
-		#define GAMEMAIN_BUTTON_START_X			(g_pD3dApp->GetBackBufferDesc().Width-288) // 275
+		#define GAMEMAIN_BUTTON_START_X			(UIScreenW()-288) // 275
 		#define GAMEMAIN_BUTTON_INTERVAL		47  //55
 	#else
-		#define GAMEMAIN_BUTTON_START_X			(g_pD3dApp->GetBackBufferDesc().Width-275)
+		#define GAMEMAIN_BUTTON_START_X			(UIScreenW()-275)
 		#define GAMEMAIN_BUTTON_INTERVAL		55//60
 	#endif
 // end 2014-01-15 by ssjung 파괴 경매장 구현
-#define GAMEMAIN_BUTTON_START_Y			(g_pD3dApp->GetBackBufferDesc().Height-53)
-#define GAMEMAIN_BK_START_X				(g_pD3dApp->GetBackBufferDesc().Width-335)
-#define GAMEMAIN_BK_START_Y				(g_pD3dApp->GetBackBufferDesc().Height-53)
+#define GAMEMAIN_BUTTON_START_Y			(UIScreenH()-53)
+#define GAMEMAIN_BK_START_X				(UIScreenW()-335)
+#define GAMEMAIN_BK_START_Y				(UIScreenH()-53)
 #define GAMEMAIN_BUTTON_SIZE_X			47//57
 #define GAMEMAIN_BUTTON_SIZE_Y			18//18
 
@@ -152,28 +152,28 @@
 
 //#define GAMEMAIN_MISSION_TIME_CHECK				5
 // 고도계설정
-#define GAMEMAIN_ALTIMETER_X (g_pD3dApp->GetBackBufferDesc().Width-32)
+#define GAMEMAIN_ALTIMETER_X (UIScreenW()-32)
 #define GAMEMAIN_ALTIMETER_Y 188										// 2007-02-22 by dgwoo 위치 수정.165	// 2012-03-29 by mspark, 미니맵&고도 표시 위치 수정 - 기존 178에서 188로 수정
 
 // 2008-11-3 by bhsohn 서버 시간 보기 버튼 추가
-#define GAMEMAIN_SERVER_TIME_X (g_pD3dApp->GetBackBufferDesc().Width-168)
+#define GAMEMAIN_SERVER_TIME_X (UIScreenW()-168)
 #define GAMEMAIN_SERVER_TIME_Y 313
 #define GAMEMAIN_SERVER_TIME_WIDTH (185)
 
 
 // 2007-07-04 by bhsohn 오퍼레이터 추가
-#define FAQ_BTN_POS_X		(g_pD3dApp->GetBackBufferDesc().Width-330)
-#define FAQ_BTN_POS_Y		(g_pD3dApp->GetBackBufferDesc().Height-53)
+#define FAQ_BTN_POS_X		(UIScreenW()-330)
+#define FAQ_BTN_POS_Y		(UIScreenH()-53)
 #define	FAQ_BLING_TIME		(1.0f)
 
-#define COUPON_BTN_POS_X		(g_pD3dApp->GetBackBufferDesc().Width-75)
-#define COUPON_BTN_POS_Y		(g_pD3dApp->GetBackBufferDesc().Height-190)
-#define COUPON_WINDOW_POS_X		((g_pD3dApp->GetBackBufferDesc().Width - 307)/2)
-#define COUPON_WINDOW_POS_Y		((g_pD3dApp->GetBackBufferDesc().Height - 183)/2)	   
+#define COUPON_BTN_POS_X		(UIScreenW()-75)
+#define COUPON_BTN_POS_Y		(UIScreenH()-190)
+#define COUPON_WINDOW_POS_X		((UIScreenW() - 307)/2)
+#define COUPON_WINDOW_POS_Y		((UIScreenH() - 183)/2)	   
 
 // 2009. 10. 14 by jskim 프리스카 제거
 // 튜토리얼 버튼 추가
-#define TUTORIAL_BUTTON_X		(g_pD3dApp->GetBackBufferDesc().Width - 73)		// 2012-03-29 by mspark, 레벨 1~10에서 보여지는 튜토리얼 버튼 위치 수정 - 기존 64에서 73으로 변경
+#define TUTORIAL_BUTTON_X		(UIScreenW() - 73)		// 2012-03-29 by mspark, 레벨 1~10에서 보여지는 튜토리얼 버튼 위치 수정 - 기존 64에서 73으로 변경
 #define TUTORIAL_BUTTON_Y		326												// 2012-03-29 by mspark, 레벨 1~10에서 보여지는 튜토리얼 버튼 위치 수정 - 기존 315에서 326으로 변경
 //end 2009. 10. 14 by jskim 프리스카 제거
 // 2007-07-20 by bhsohn 튜토리얼 수정
@@ -184,7 +184,7 @@
 
 // 2006-03-07 by ispark, 언어에 따라 위치 수정
 #if defined(LANGUAGE_ENGLISH) || defined(LANGUAGE_VIETNAM)|| defined(LANGUAGE_THAI)// 2008-04-30 by bhsohn 태국 버전 추가
-#define FONTTOOLTIP_Y			17*HIDPI_COEFF
+#define FONTTOOLTIP_Y			17
 #else
 #define FONTTOOLTIP_Y			17//15
 #endif
@@ -201,8 +201,8 @@
 #define		VOLUME_SET_MAX			100
 
 // 2008-11-13 by bhsohn 조이스틱 작업
-#define JOYSTICK_WND_POS_X		(g_pD3dApp->GetBackBufferDesc().Width/2-427)
-#define JOYSTICK_WND_POS_Y		(g_pD3dApp->GetBackBufferDesc().Height/2-213)
+#define JOYSTICK_WND_POS_X		(UIScreenW()/2-427)
+#define JOYSTICK_WND_POS_Y		(UIScreenH()/2-213)
 // 2012-10-12 by jhjang 해피 아워 경험치 보너스 시스템 리뉴얼
 #define TUTORIAL_BUTTON_Y_ADDCOUNT	34
 #define KILLCOUNT_MAX				300
@@ -325,7 +325,7 @@ CINFGameMain::CINFGameMain(CAtumNode* pParent, CGameData* pGameData)
 	m_nRightWindowState = RIGHT_WEAPON_WINDOW_INIT ;
 	m_bRightWindowModeChage = FALSE;
 	m_nRightWindowInfo = RIGHT_WINDOW_WEAPON;
-	m_nRightWeaponInfoPosX = g_pD3dApp->GetBackBufferDesc().Width - SIZE_ROLL_X;
+	m_nRightWeaponInfoPosX = UIScreenW() - SIZE_ROLL_X;
 	m_nRightWindowPosY = DEAULT_WINDOW_POS_Y;
 	m_nRightWindowScaleSize = SIZE_WEAPON_Y;
 
@@ -722,21 +722,21 @@ HRESULT CINFGameMain::InitDeviceObjects()
 	m_pIcon = new CINFIcon() ;
 	m_pIcon->InitDeviceObjects() ;
 
-	m_pFontToolTip = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9* HIDPI_COEFF, D3DFONT_ZENABLE,  TRUE,1024 * HIDPI_COEFF,32 * HIDPI_COEFF);		 //2008-12-19 dgwoo 툴팁 사이즈 늘림.
+	m_pFontToolTip = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE,  TRUE,1024,32);		 //2008-12-19 dgwoo 툴팁 사이즈 늘림.
 	m_pFontToolTip->InitDeviceObjects(g_pD3dDev);
 
-	m_pFontTimeLimit = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9 * HIDPI_COEFF, D3DFONT_ZENABLE,  TRUE,512 * HIDPI_COEFF,32 * HIDPI_COEFF);
+	m_pFontTimeLimit = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE,  TRUE,512,32);
 	m_pFontTimeLimit->InitDeviceObjects(g_pD3dDev);
 	
-	m_pFontDrawMent = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9 * HIDPI_COEFF, D3DFONT_ZENABLE,  TRUE,512 * HIDPI_COEFF,32 * HIDPI_COEFF);
+	m_pFontDrawMent = new CD3DHanFont(_T(g_pD3dApp->GetFontStyle()),9, D3DFONT_ZENABLE,  TRUE,512,32);
 	m_pFontDrawMent->InitDeviceObjects(g_pD3dDev);
 
 	int nWidth, nHeight;
 	nWidth = nHeight = -1;		
 	if(g_pD3dApp->IsOptionEtc(OPTION_RADIO_INTERFACE_POS))
 	{
-		float fWidth = (float)g_pD3dApp->GetBackBufferDesc().Width;
-		float fHeight = (float)g_pD3dApp->GetBackBufferDesc().Height;
+		float fWidth = (float)UIScreenW();
+		float fHeight = (float)UIScreenH();
 		
 		stcuctRateRect stRateRect = g_pD3dApp->GetOptionInterfacePOS();
 		stcuctRateRect stChatRect = g_pD3dApp->GetChatInterfacePOS();
@@ -2136,7 +2136,7 @@ BOOL CINFGameMain::ChangeRightWindowMode()
 	{
 	case RIGHT_WEAPON_WINDOW_INIT:// 무기 정보 보여주기(완료)
 		{
-			m_pWeaponInfo->m_nRightWeaponInfoPosX = g_pD3dApp->GetBackBufferDesc().Width - SIZE_WEAPON_X;
+			m_pWeaponInfo->m_nRightWeaponInfoPosX = UIScreenW() - SIZE_WEAPON_X;
 			m_nRightWindowScaleSize = SIZE_WEAPON_Y;
 			m_pInfWindow->m_bRightWindow = FALSE ;
 			m_bRightWindowModeChage = FALSE;
@@ -2147,11 +2147,11 @@ BOOL CINFGameMain::ChangeRightWindowMode()
 	case RIGHT_WEAPON_WINDOW_HIDING:// 무기 정보 줄이기
 		{
 			m_pWeaponInfo->m_nRightWeaponInfoPosX += INF_WINDOW_MOVING_VEL*g_pD3dApp->GetElapsedTime();
-			if(m_pWeaponInfo->m_nRightWeaponInfoPosX > g_pD3dApp->GetBackBufferDesc().Width)
+			if(m_pWeaponInfo->m_nRightWeaponInfoPosX > UIScreenW())
 			{
 				//윈도우 보여주기
 				m_pInfWindow->m_bRightWindow = TRUE ;
-				m_pWeaponInfo->m_nRightWeaponInfoPosX = g_pD3dApp->GetBackBufferDesc().Width ;
+				m_pWeaponInfo->m_nRightWeaponInfoPosX = UIScreenW() ;
 				m_nRightWindowState = RIGHT_WINDOW_SHOWING ;
 				g_pD3dApp->m_pSound->PlayD3DSound(SOUND_OPEN_MENU, g_pShuttleChild->m_vPos, FALSE);
 			}
@@ -2181,7 +2181,7 @@ BOOL CINFGameMain::ChangeRightWindowMode()
 				{
 					//윈도우 보여주기
 					m_pInfWindow->m_bRightWindow = TRUE ;
-					m_pWeaponInfo->m_nRightWeaponInfoPosX = g_pD3dApp->GetBackBufferDesc().Width ;
+					m_pWeaponInfo->m_nRightWeaponInfoPosX = UIScreenW() ;
 					m_nRightWindowState = RIGHT_WINDOW_SHOWING ;
 				}
 			}
@@ -2190,10 +2190,10 @@ BOOL CINFGameMain::ChangeRightWindowMode()
 	case RIGHT_WEAPON_WINDOW_SHOWING:// 무기 창 늘리기
 		{
 			m_pWeaponInfo->m_nRightWeaponInfoPosX -= INF_WINDOW_MOVING_VEL*g_pD3dApp->GetElapsedTime();
-			if(m_pWeaponInfo->m_nRightWeaponInfoPosX < g_pD3dApp->GetBackBufferDesc().Width - SIZE_ROLL_X)
+			if(m_pWeaponInfo->m_nRightWeaponInfoPosX < UIScreenW() - SIZE_ROLL_X)
 			{
 				// 무기창 늘리기 완료로 이동
-				m_pWeaponInfo->m_nRightWeaponInfoPosX = g_pD3dApp->GetBackBufferDesc().Width - SIZE_ROLL_X ;
+				m_pWeaponInfo->m_nRightWeaponInfoPosX = UIScreenW() - SIZE_ROLL_X ;
 				//m_nRightWindowState = RIGHT_WINDOW_INIT ;
 				m_nRightWindowState = RIGHT_WEAPON_WINDOW_INIT ;
 			}
@@ -2631,7 +2631,7 @@ void CINFGameMain::Render()
 	// 퀘스트 아이템 습득 표시
 	if(m_pHelpDesk && m_pHelpDesk->m_bRenderMissionItemInfo)
 	{
-		m_pHelpDesk->DrawHelpWindow((g_pD3dApp->GetBackBufferDesc().Width /2)-((strlen(m_pHelpDesk->m_strMissionItem)*7)/2)+30, 120, 
+		m_pHelpDesk->DrawHelpWindow((UIScreenW() /2)-((strlen(m_pHelpDesk->m_strMissionItem)*7)/2)+30, 120, 
 			m_pHelpDesk->m_nHelpDeskWidth+(HELPDESK_WINDOW_TEXT_VIEW_GAP*2),
 			m_pHelpDesk->m_nHelpDeskHeight+HELPDESK_WINDOW_TEXT_VIEW_GAP);
 	}
@@ -2714,7 +2714,7 @@ void CINFGameMain::RenderHelp()
 {
 	if(m_pHelp[0])
 	{
-		m_pHelp[0]->Move(g_pD3dApp->GetBackBufferDesc().Width/2 - m_pHelp[0]->GetImgSize().x/2,g_pD3dApp->GetBackBufferDesc().Height/2 - m_pHelp[0]->GetImgSize().y/2);
+		m_pHelp[0]->Move(UIScreenW()/2 - m_pHelp[0]->GetImgSize().x/2,UIScreenH()/2 - m_pHelp[0]->GetImgSize().y/2);
 		m_pHelp[0]->Render();
 	}
 }
@@ -4194,8 +4194,10 @@ int CINFGameMain::WndProcButtonMouseMessage( UINT uMsg, WPARAM wParam, LPARAM lP
 			if(m_bMenuLock)
 			{
 				// 2007-10-24 by dgwoo 몬스터를 먼저 클릭 인식할수 있도록 변경.
+				const D3DXVECTOR2 vPick( (float)UIToPixels(pt.x), (float)UIToPixels(pt.y) );
+
 				CMonsterData * pMon = NULL;
-				pMon = g_pScene->GetMonsterInfo2D(vPos1);
+				pMon = g_pScene->GetMonsterInfo2D(vPick);
 				if(pMon)
 				{
 					MonsterAltClick(pMon);
@@ -4204,10 +4206,10 @@ int CINFGameMain::WndProcButtonMouseMessage( UINT uMsg, WPARAM wParam, LPARAM lP
 				{
 					CEnemyData * pTp = NULL;
 					// 캐릭터 alt + click 시 단축키.
-					pTp = g_pScene->GetEnemyCharaterID(vPos1);
+					pTp = g_pScene->GetEnemyCharaterID(vPick);
 					if(pTp)
 					{
-						if(CheckPopUpMenu(vPos1, pTp))
+						if(CheckPopUpMenu(vPick, pTp))
 						{
 							EnemyAltClick(pTp,pt);
 						}
@@ -4491,7 +4493,7 @@ void CINFGameMain::LeftWindowShow(BOOL bHide, int nWindow)
 	}
 
 //	m_nLeftWindowY = DEAULT_WINDOW_POS_Y;
-//	m_nLeftWindowY = (300.0f*(float)g_pD3dApp->GetBackBufferDesc().Height / 600.0f) - (SIZE_WEAPON_Y / 2);
+//	m_nLeftWindowY = (300.0f*(float)UIScreenH() / 600.0f) - (SIZE_WEAPON_Y / 2);
 	m_nLeftWindowY = DEAULT_WINDOW_POS_Y - m_nLeftWindowScaleSize/2;
 	g_pGameMain->m_pInven->InitInven();							// 2005-12-08 by ispark, 초기화
 	
@@ -4523,8 +4525,8 @@ void CINFGameMain::LeftWindowShow(BOOL bHide, int nWindow)
 				g_pGameMain->m_bChangeMousePoint = TRUE;
 				// end 2009. 08. 19 by jsKim 랜딩 중 메뉴 생성할 경우 커서가 변하지 않는 버그
 				POINT ptItem;
-				ptItem.x = g_pD3dApp->GetBackBufferDesc().Width/2 - m_pInven->GetBkSize().x / 2;
-				ptItem.y = g_pD3dApp->GetBackBufferDesc().Height/2 - m_pInven->GetBkSize().y / 2; 	
+				ptItem.x = UIScreenW()/2 - m_pInven->GetBkSize().x / 2;
+				ptItem.y = UIScreenH()/2 - m_pInven->GetBkSize().y / 2; 	
                 
                 m_pInven->ShowInven(&ptItem, NULL, TRUE);	
 				
@@ -4838,9 +4840,9 @@ void CINFGameMain::SetToolTip(int x, int y, char* strToolTip)
 		strncpy(m_strToolTip, strToolTip, 127);
 		// end 2009. 05. 28 by ckPark 툴팁스트링 메모리 넘어가는 에러 체크
 
-		if(strlen(m_strToolTip)*6+x > g_pD3dApp->GetBackBufferDesc().Width)
+		if(strlen(m_strToolTip)*6+x > UIScreenW())
 		{
-			x = g_pD3dApp->GetBackBufferDesc().Width - strlen(m_strToolTip)*6;
+			x = UIScreenW() - strlen(m_strToolTip)*6;
 		}
 	}
 	else
@@ -4899,8 +4901,8 @@ void CINFGameMain :: SetToolTipEx ( int x , int y , char* pszToolTip , PRECT prc
 
 		m_dwFrameToolTip[1] = m_dwFrameToolTip[0];
 
-		if ( m_iToolTipMaxWid+x > g_pD3dApp->GetBackBufferDesc().Width )
-			x = g_pD3dApp->GetBackBufferDesc().Width - m_iToolTipMaxWid;
+		if ( m_iToolTipMaxWid+x > UIScreenW() )
+			x = UIScreenW() - m_iToolTipMaxWid;
 
 		m_ptToolTipEx.x = x;
 		m_ptToolTipEx.y	= y;
@@ -5197,7 +5199,7 @@ CEnemyData * CINFGameMain::GetEnemyCharaterID(POINT pt)
 	{
 		if( itEnemy->second->m_nObjScreenW > 0)
 		{
-			D3DXVECTOR2 vPos2 = D3DXVECTOR2(itEnemy->second->m_nObjScreenX,itEnemy->second->m_nObjScreenY);
+			D3DXVECTOR2 vPos2 = D3DXVECTOR2(UIFromPixels(itEnemy->second->m_nObjScreenX),UIFromPixels(itEnemy->second->m_nObjScreenY));
 			float fLengthTemp = D3DXVec2Length(&(vPos1-vPos2));
 			if(fLengthTemp < fLength)
 			{
@@ -5290,12 +5292,12 @@ void CINFGameMain::RenderRequestEnable(float fAniTime)
 	dwAlpha = dwAlpha << 24;
 	dwColor |= dwAlpha;
 
-	m_pRequestEnableBack->Move((g_pD3dApp->GetBackBufferDesc().Width - REQUEST_ENABLE_BOX_WIDTH)/2,
-								(g_pD3dApp->GetBackBufferDesc().Height - REQUEST_ENABLE_BOX_HEIGHT)/2);
+	m_pRequestEnableBack->Move((UIScreenW() - REQUEST_ENABLE_BOX_WIDTH)/2,
+								(UIScreenH() - REQUEST_ENABLE_BOX_HEIGHT)/2);
 	m_pRequestEnableBack->Render();
 	m_pRequestEnableTriangle->SetColor(dwColor);
-	m_pRequestEnableTriangle->Move((g_pD3dApp->GetBackBufferDesc().Width - REQUEST_ENABLE_BOX_WIDTH)/2,
-									(g_pD3dApp->GetBackBufferDesc().Height - REQUEST_ENABLE_BOX_HEIGHT)/2);
+	m_pRequestEnableTriangle->Move((UIScreenW() - REQUEST_ENABLE_BOX_WIDTH)/2,
+									(UIScreenH() - REQUEST_ENABLE_BOX_HEIGHT)/2);
 	m_pRequestEnableTriangle->Render();
 }
 
@@ -5473,6 +5475,7 @@ void CINFGameMain :: RenderToolTipEx( void )
 		POINT pt;
 			GetCursorPos( &pt );
 			ScreenToClient ( g_pD3dApp->GetHwnd() , &pt );
+			CheckMouseReverse ( &pt );
 
 		if ( !PtInRect ( &m_rcToolTipEx , pt ) )
 			m_bRenderToolTipEx = FALSE;
@@ -5565,8 +5568,8 @@ void CINFGameMain::InitShowWindow()
 	}	
 
 	structInvenPosInfo tempInfo = m_pInven->GetInvenPosInfo();
-	tempInfo.ptItemIvenPos.x = g_pD3dApp->GetBackBufferDesc().Width/2 - m_pInven->GetBkSize().x / 2;;
-	tempInfo.ptItemIvenPos.y = g_pD3dApp->GetBackBufferDesc().Height/2 - m_pInven->GetBkSize().y / 2;
+	tempInfo.ptItemIvenPos.x = UIScreenW()/2 - m_pInven->GetBkSize().x / 2;;
+	tempInfo.ptItemIvenPos.y = UIScreenH()/2 - m_pInven->GetBkSize().y / 2;
 	tempInfo.ptEqIvenPos.x = INVEN_EQ_START_X;
 	tempInfo.ptEqIvenPos.y = INVEN_EQ_START_Y;
 	m_pInven->SetInvenPosInfo(&tempInfo);
@@ -9951,22 +9954,22 @@ void CINFGameMain::RefreshItemTooltipPos()
 		// 2014-07-29 by ymjoo 인벤토리 장착 아이템과 비교 툴팁이 화면 밖으로 나가는 현상 수정
 		SIZE szTotalItemInfo;
 		szTotalItemInfo.cx = szItemInfo.cx + szMyEqItemInfo.cx;
-		ptMyEqPos.x = g_pD3dApp->GetBackBufferDesc().Width / 2 - szTotalItemInfo.cx / 2;
+		ptMyEqPos.x = UIScreenW() / 2 - szTotalItemInfo.cx / 2;
 		ptItemInfo.x = ptMyEqPos.x + szMyEqItemInfo.cx;
-		ptMyEqPos.y = g_pD3dApp->GetBackBufferDesc().Height / 2 - szItemInfo.cy / 2;
+		ptMyEqPos.y = UIScreenH() / 2 - szItemInfo.cy / 2;
 		ptItemInfo.y = ptMyEqPos.y;
 // 		if((ptItemInfo.x + szItemInfo.cx) > ptMyEqPos.x)
 // 		{
 // 			ptMyEqPos.x = ptItemInfo.x - szMyEqItemInfo.cx;
 // 		}
 // 		
-// 		if((ptItemInfo.y + szItemInfo.cy) > g_pD3dApp->GetBackBufferDesc().Height)
+// 		if((ptItemInfo.y + szItemInfo.cy) > UIScreenH())
 // 		{
-// 			ptItemInfo.y = g_pD3dApp->GetBackBufferDesc().Height - szItemInfo.cy;
+// 			ptItemInfo.y = UIScreenH() - szItemInfo.cy;
 // 		}
-// 		if((ptMyEqPos.y + szMyEqItemInfo.cy) > g_pD3dApp->GetBackBufferDesc().Height)
+// 		if((ptMyEqPos.y + szMyEqItemInfo.cy) > UIScreenH())
 // 		{
-// 			ptMyEqPos.y = g_pD3dApp->GetBackBufferDesc().Height - szMyEqItemInfo.cy;
+// 			ptMyEqPos.y = UIScreenH() - szMyEqItemInfo.cy;
 // 		}
 		// END 2014-07-29 by ymjoo 인벤토리 장착 아이템과 비교 툴팁이 화면 밖으로 나가는 현상 수정
 
@@ -10076,14 +10079,14 @@ void CINFGameMain::OnClickItemMixWnd(BOOL bShow, INT nShowItemNum, UID64_t uItem
 	if(bShow)
 	{		
 		int nCap = 15;
-		ptInvenItem.x = g_pD3dApp->GetBackBufferDesc().Width/2 - (m_pInven->GetBkSize().x + m_pINFItemMixWnd->GetBkSize().x)/2;
+		ptInvenItem.x = UIScreenW()/2 - (m_pInven->GetBkSize().x + m_pINFItemMixWnd->GetBkSize().x)/2;
 		ptInvenItem.x -= nCap; // 15픽셀정도 띠우자
-		ptInvenItem.y = g_pD3dApp->GetBackBufferDesc().Height/2 - m_pInven->GetBkSize().y / 2; 	
+		ptInvenItem.y = UIScreenH()/2 - m_pInven->GetBkSize().y / 2; 	
 		m_pInven->SetBkPos(ptInvenItem);	
 
 		ptMixWndPos.x = ptInvenItem.x+m_pInven->GetBkSize().x;
 		ptMixWndPos.x += nCap;
-		ptMixWndPos.y = g_pD3dApp->GetBackBufferDesc().Height/2 - m_pInven->GetBkSize().y / 2; 	
+		ptMixWndPos.y = UIScreenH()/2 - m_pInven->GetBkSize().y / 2; 	
 	}		
 
 	m_pINFItemMixWnd->ShowWnd(bShow, nShowItemNum, uItemUniNum, &ptMixWndPos);
@@ -10140,8 +10143,8 @@ void CINFGameMain::OnClickArmorCollectionWnd(BOOL bShow, INT nShowItemNum, UID64
 
 		m_pInven->ShowInven(NULL, NULL, FALSE, TRUE);			
 		
-		ptMixWndPos.x = g_pD3dApp->GetBackBufferDesc().Width/2 - ARROR_COLLECT_WIDTH/2;
-		ptMixWndPos.y = g_pD3dApp->GetBackBufferDesc().Height/2 - ARROR_COLLECT_HEIGHT/2 - 20;
+		ptMixWndPos.x = UIScreenW()/2 - ARROR_COLLECT_WIDTH/2;
+		ptMixWndPos.y = UIScreenH()/2 - ARROR_COLLECT_HEIGHT/2 - 20;
 	}		
 	
 	m_pINFArmorCollectWnd->ShowWnd(bShow, nShowItemNum, uItemUniNum, &ptMixWndPos);
@@ -10189,8 +10192,8 @@ void CINFGameMain::FirstAnniversaryEventItemUse(BOOL bShow)
 		
 //		m_pInven->ShowInven(NULL, NULL, FALSE, TRUE);			
 		
-		ptMixWndPos.x = g_pD3dApp->GetBackBufferDesc().Width/2 - FIRSTANNIVERSARYEVENT_WIDTH/2;
-		ptMixWndPos.y = (g_pD3dApp->GetBackBufferDesc().Height-53)/2 - FIRSTANNIVERSARYEVENT_HEIGHT/2;
+		ptMixWndPos.x = UIScreenW()/2 - FIRSTANNIVERSARYEVENT_WIDTH/2;
+		ptMixWndPos.y = (UIScreenH()-53)/2 - FIRSTANNIVERSARYEVENT_HEIGHT/2;
 	}		
 	
 	m_pFirstAnniversaryEvent->ShowWnd(bShow,&ptMixWndPos);

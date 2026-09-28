@@ -16,6 +16,7 @@
 #include <map>
 #include <vector>
 #include <string>
+#include "UIScale.h"
 
 // Font creation flags
 #define D3DFONT_BOLD        0x0001
@@ -63,7 +64,8 @@ public:
     HRESULT DeleteDeviceObjects();
 
     void SetUV(float tx1, float ty1, float tx2, float ty2);
-    void SetTextureWidth(float fWidth) { m_fWidth = fWidth; }
+    // The width text is culled at, given in layout pixels like a position.
+    void SetTextureWidth(float fWidth) { m_fWidth = fWidth * UIScale(); }
     SIZE GetStringSize(TCHAR* strText);
 
     DWORD GetTexWidth() { return m_dwTexWidth; }

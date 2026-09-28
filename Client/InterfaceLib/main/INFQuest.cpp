@@ -393,13 +393,13 @@ void CINFQuest::Render()
 	
 	if(_CITY == g_pD3dApp->m_dwGameState)
 	{
-		m_nX = g_pD3dApp->GetBackBufferDesc().Width - QUEST_BOX_WIDTH;
-		m_nY = g_pD3dApp->GetBackBufferDesc().Height - (QUEST_BOX_CITY_HEIGHT+QUEST_BOX_HEIGHT);
+		m_nX = UIScreenW() - QUEST_BOX_WIDTH;
+		m_nY = UIScreenH() - (QUEST_BOX_CITY_HEIGHT+QUEST_BOX_HEIGHT);
 	}
 	else
 	{
-		m_nX = g_pD3dApp->GetBackBufferDesc().Width - QUEST_BOX_WIDTH;
-		m_nY = g_pD3dApp->GetBackBufferDesc().Height - (QUEST_BOX_FIELD_HEIGHT+QUEST_BOX_HEIGHT);
+		m_nX = UIScreenW() - QUEST_BOX_WIDTH;
+		m_nY = UIScreenH() - (QUEST_BOX_FIELD_HEIGHT+QUEST_BOX_HEIGHT);
 	}
 	
 	m_pBack->Move(m_nX, m_nY);
@@ -438,12 +438,12 @@ int CINFQuest::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				int moveY = pt.y - m_ptMouse.y;
 				m_nX += moveX;
 				if(m_nX < 0 ) m_nX = 0;
-				if(m_nX > g_pD3dApp->GetBackBufferDesc().Width - QUEST_WINDOW_SIZE_X )
-					m_nX = g_pD3dApp->GetBackBufferDesc().Width - QUEST_WINDOW_SIZE_X;
+				if(m_nX > UIScreenW() - QUEST_WINDOW_SIZE_X )
+					m_nX = UIScreenW() - QUEST_WINDOW_SIZE_X;
 				m_nY += moveY;
 				if(m_nY < 0 ) m_nY = 0;
-				if(m_nY > g_pD3dApp->GetBackBufferDesc().Height - QUEST_WINDOW_SIZE_Y )
-					m_nY = g_pD3dApp->GetBackBufferDesc().Height - QUEST_WINDOW_SIZE_Y;
+				if(m_nY > UIScreenH() - QUEST_WINDOW_SIZE_Y )
+					m_nY = UIScreenH() - QUEST_WINDOW_SIZE_Y;
 				m_ptMouse = pt;
 			}
 			if( m_nButtonState != BUTTON_STATE_DISABLE &&
@@ -479,6 +479,7 @@ int CINFQuest::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			POINT pt;
 			pt.x = LOWORD(lParam);
 			pt.y = HIWORD(lParam);
+			CheckMouseReverse(&pt);
 			/*
 			if( pt.x>m_nX && pt.x<m_nX+QUEST_TITLE_BAR_SIZE_X &&
 				pt.x>m_nY && pt.y<m_nY+QUEST_TITLE_BAR_SIZE_Y)

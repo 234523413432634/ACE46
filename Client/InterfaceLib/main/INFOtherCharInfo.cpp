@@ -74,7 +74,7 @@ CINFOtherCharInfo::CINFOtherCharInfo(CAtumNode* pParent)
 	memset(m_strFame,		0x00, 16);	
 	memset(m_strLevel,		0x00, 16);
 
-	m_nX = g_pD3dApp->GetBackBufferDesc().Width-USER_INFO_BOX_WIDTH;
+	m_nX = UIScreenW()-USER_INFO_BOX_WIDTH;
 	m_nY = 200;	
 	m_bRenderInfo			= FALSE;
 	m_nGuildUniNum			= 0;
@@ -242,13 +242,13 @@ void CINFOtherCharInfo::GetOtherCharInfo(char *sName, BOOL bRenderLevel)
 	
 	if(g_pD3dApp->m_dwGameState == _CITY)
 	{
-		m_nY = g_pD3dApp->GetBackBufferDesc().Height - USER_CITY_SHOWBOX_INIT_HEIGHT - USER_INFO_BOX_HEIGHT+5;
+		m_nY = UIScreenH() - USER_CITY_SHOWBOX_INIT_HEIGHT - USER_INFO_BOX_HEIGHT+5;
 	}
 	else
 	{
-		m_nY = g_pD3dApp->GetBackBufferDesc().Height - USER_FIELD_SHOWBOX_INIT_HEIGHT - USER_INFO_BOX_HEIGHT+5;
+		m_nY = UIScreenH() - USER_FIELD_SHOWBOX_INIT_HEIGHT - USER_INFO_BOX_HEIGHT+5;
 	}
-	m_nX = g_pD3dApp->GetBackBufferDesc().Width-USER_INFO_BOX_WIDTH;
+	m_nX = UIScreenW()-USER_INFO_BOX_WIDTH;
 	
 	CEnemyData * pOtherInfo = NULL;
 	CMapEnemyIterator itEnemy = g_pD3dApp->m_pScene->m_mapEnemyList.begin();

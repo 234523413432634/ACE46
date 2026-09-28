@@ -27,9 +27,9 @@
 #define UNIT_STATE_STR_SIZE_X		311
 #define UNIT_STATE_STR_SIZE_Y		60
 
-#define UNIT_STATE_START_X			((g_pD3dApp->GetBackBufferDesc().Width)/2)
+#define UNIT_STATE_START_X			((UIScreenW())/2)
 #define UNIT_STATE_START_Y			(UNIT_STATE_SIZE_Y-7)
-#define UNIT_STATE_STR_START_X		((g_pD3dApp->GetBackBufferDesc().Width)/2)
+#define UNIT_STATE_STR_START_X		((UIScreenW())/2)
 #define UNIT_STATE_STR_START_Y		(UNIT_STATE_SIZE_Y-7)
 
 #define TIME_POSITION_1				0

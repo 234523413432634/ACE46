@@ -55,8 +55,8 @@
 
 	#define SELECT_OPTION_W					464
 	#define SELECT_OPTION_H					305	
-	#define SELECT_OPTION_POS_X				(g_pD3dApp->GetBackBufferDesc().Width - SELECT_OPTION_W)/2
-	#define SELECT_OPTION_POS_Y				(g_pD3dApp->GetBackBufferDesc().Height - SELECT_OPTION_H)/2
+	#define SELECT_OPTION_POS_X				(UIScreenW() - SELECT_OPTION_W)/2
+	#define SELECT_OPTION_POS_Y				(UIScreenH() - SELECT_OPTION_H)/2
 
 	#define POS_GRAPHIC_SEE_RANGE_X			319
 	#define POS_GRAPHIC_SEE_RANGE_Y			58
@@ -446,6 +446,7 @@ int CINFSelectOption::OnMouseMove(WPARAM wParam, LPARAM lParam)
 	int nCnt = 0;
 	pt.x = LOWORD(lParam);
 	pt.y = HIWORD(lParam);
+	CheckMouseReverse(&pt);
 	if(pt.x > m_ptPos.x && pt.x < m_ptPos.x + SELECT_OPTION_W 
 		&& pt.y > m_ptPos.y && pt.y < m_ptPos.y + SELECT_OPTION_H)
 	{
@@ -468,6 +469,7 @@ int CINFSelectOption::OnLButtonDown(WPARAM wParam, LPARAM lParam)
 	int nCnt = 0;
 	pt.x = LOWORD(lParam);
 	pt.y = HIWORD(lParam);
+	CheckMouseReverse(&pt);
 	if(pt.x > m_ptPos.x && pt.x < m_ptPos.x + SELECT_OPTION_W 
 		&& pt.y > m_ptPos.y && pt.y < m_ptPos.y + SELECT_OPTION_H)
 	{
@@ -524,6 +526,7 @@ int CINFSelectOption::OnLButtonUp(WPARAM wParam, LPARAM lParam)
 	int nCnt = 0;
 	pt.x = LOWORD(lParam);
 	pt.y = HIWORD(lParam);
+	CheckMouseReverse(&pt);
 	if(pt.x > m_ptPos.x && pt.x < m_ptPos.x + SELECT_OPTION_W
 		&& pt.y > m_ptPos.y && pt.y < m_ptPos.y + SELECT_OPTION_H)
 	{

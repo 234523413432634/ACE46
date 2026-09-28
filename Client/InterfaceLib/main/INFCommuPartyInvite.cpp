@@ -133,7 +133,7 @@ HRESULT CINFCommuPartyInvite::InitDeviceObjects()
 
 	// 커뮤니티 옵션배	
 	m_ptCommOpBk.x = ptBkPos.x + COMMUNITY_OPINVITEBK_X;
-	m_ptCommOpBk.y = (g_pD3dApp->GetBackBufferDesc().Height/2) - COMMUNITY_OPINVITEBK_HEIGHT/2;
+	m_ptCommOpBk.y = (UIScreenH()/2) - COMMUNITY_OPINVITEBK_HEIGHT/2;
 
 
 	if(m_pFormat == NULL)
@@ -618,7 +618,7 @@ void CINFCommuPartyInvite::ShowWindow(BOOL bShow)
 
 		// 커뮤니티 옵션배	
 		m_ptCommOpBk.x = ptBkPos.x + COMMUNITY_OPINVITEBK_X;
-		m_ptCommOpBk.y = (g_pD3dApp->GetBackBufferDesc().Height/2) - COMMUNITY_OPINVITEBK_HEIGHT/2;
+		m_ptCommOpBk.y = (UIScreenH()/2) - COMMUNITY_OPINVITEBK_HEIGHT/2;
 
 		m_pEditUser->EnableEdit(TRUE, TRUE);
 
