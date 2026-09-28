@@ -285,6 +285,14 @@ private:
 	int OnKeyUpFunc(WPARAM wParam, LPARAM lParam);
 
 	int OnKeyDownCursel(WPARAM wParam, LPARAM lParam);
+
+	// Chat history.  A sent line goes on the end; up and down walk back and
+	// forward through it, and walking forward off the end gives back whatever
+	// was half typed when the walk started.
+	void AddChatHistory(const char* i_pszMessage);
+	void BrowseChatHistory(int i_nStep);
+	void SetChatInput(const char* i_pszMessage);
+	void EndChatHistoryBrowse();
 	int OnKeyDownArrow(WPARAM wParam, LPARAM lParam);
 	int OnKeyDownFunc(WPARAM wParam, LPARAM lParam);
 	
@@ -398,6 +406,13 @@ public:
 	vector<CD3DHanFont*> m_vecFontLine;									// 벡터형식의 한폰트 생성								
 												
 	char			m_strInputMessage[SIZE_MAX_CHAT_MESSAGE];
+
+	// Oldest first.  m_nChatHistoryPos is where the walk is, and equals the size
+	// when it is not walking - that is the line being typed.
+	vector<string>	m_vecChatHistory;
+	int				m_nChatHistoryPos;
+	char			m_strChatHistoryDraft[SIZE_MAX_CHAT_MESSAGE];
+	BOOL			m_bChatHistoryLoaded;
 	BOOL			m_bChatMode;
 	float			m_fTimeOfShowChat[CHAT_NOT_SHOWBOX_LINE];
 //	int				m_nShowTimeChatType;

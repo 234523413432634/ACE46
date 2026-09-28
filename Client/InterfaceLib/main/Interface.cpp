@@ -179,6 +179,12 @@
 // 2013-04-05 by bhsohn Help可记 历厘 救登绰 泅惑 贸府
 #define	SETUP_INFO_OPETC_HELP_FUC						"helpfuc"			// 可记蔼 历厘
 
+// Chat history: how many lines to keep, then one entry per line.
+#define	SETUP_INFO_CHAT_HISTORY_MAX						"chathistmax"
+#define	SETUP_INFO_CHAT_HISTORY_ENTRY					"chathist%d"
+#define	CHAT_HISTORY_DEFAULT_MAX						20
+#define	CHAT_HISTORY_LIMIT_MAX							200
+
 // UI_SCALE, the multiplier on top of the resolution scale.
 #define	SETUP_INFO_UI_SCALE								"uiscale"
 // END 2013-04-05 by bhsohn Help可记 历厘 救登绰 泅惑 贸府
@@ -2319,6 +2325,97 @@ int CInterface::GetSpeakerMode()
 	}
 	return 1;	
 }
+///////////////////////////////////////////////////////////////////////////////
+//  Chat history
+//
+//  Kept in setupinfo.ver as chathistmax plus one chathistN entry per line,
+//  oldest first.
+///////////////////////////////////////////////////////////////////////////////
+int CInterface::GetChatHistoryMax()
+{
+	char chBuf[CONFIG_SIZE_BUFF];
+	memset(chBuf, 0x00, sizeof(chBuf));
+
+	int nMax = CHAT_HISTORY_DEFAULT_MAX;
+	if(m_pSetupConfig->GetSetupInfo(SETUP_INFO_CHAT_HISTORY_MAX, chBuf))
+	{
+		nMax = atoi(chBuf);
+	}
+	else
+	{
+		// Put the default in the file so it can be found and changed there.
+		char chDefault[32];
+		wsprintf(chDefault, "%d", nMax);
+		m_pSetupConfig->AddSetupInfo(SETUP_INFO_CHAT_HISTORY_MAX, chDefault);
+	}
+
+	if(nMax < 0)						nMax = 0;
+	if(nMax > CHAT_HISTORY_LIMIT_MAX)	nMax = CHAT_HISTORY_LIMIT_MAX;
+	return nMax;
+}
+
+void CInterface::LoadChatHistory(vector<string>& o_vecHistory)
+{
+	o_vecHistory.clear();
+
+	const int nMax = GetChatHistoryMax();
+	int i; for(i = 0; i < nMax; i++)
+	{
+		char chKey[64];
+		wsprintf(chKey, SETUP_INFO_CHAT_HISTORY_ENTRY, i);
+
+		char chBuf[CONFIG_SIZE_BUFF];
+		memset(chBuf, 0x00, sizeof(chBuf));
+		if(FALSE == m_pSetupConfig->GetSetupInfo(chKey, chBuf))
+		{
+			break;
+		}
+		if(0 == chBuf[0])
+		{
+			continue;
+		}
+		o_vecHistory.push_back(chBuf);
+	}
+}
+
+void CInterface::SaveChatHistory(vector<string>& i_vecHistory)
+{
+	const int nMax = GetChatHistoryMax();
+
+	// Rewrite every slot, blanking the ones past the end, so shrinking the
+	// history does not leave older lines behind to be read back next time.
+	int i; for(i = 0; i < CHAT_HISTORY_LIMIT_MAX; i++)
+	{
+		char chKey[64];
+		wsprintf(chKey, SETUP_INFO_CHAT_HISTORY_ENTRY, i);
+
+		char chExisting[CONFIG_SIZE_BUFF];
+		memset(chExisting, 0x00, sizeof(chExisting));
+		const BOOL bPresent = m_pSetupConfig->GetSetupInfo(chKey, chExisting);
+
+		if(i < nMax && i < (int)i_vecHistory.size())
+		{
+			char chLine[CONFIG_SIZE_BUFF];
+			memset(chLine, 0x00, sizeof(chLine));
+			strncpy(chLine, i_vecHistory[i].c_str(), CONFIG_SIZE_BUFF - 1);
+			m_pSetupConfig->SetSetupInfo(chKey, chLine);
+		}
+		else if(bPresent)
+		{
+			m_pSetupConfig->SetSetupInfo(chKey, "");
+		}
+		else
+		{
+			break;		// nothing written this far out, so nothing beyond it either
+		}
+	}
+
+	char chMaxPath[MAX_PATH];
+	memset(chMaxPath, 0x00, MAX_PATH);
+	wsprintf(chMaxPath, SETUP_INFO_PATH);
+	m_pSetupConfig->SaveSetupInfo(chMaxPath);
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 //  UI_SCALE
 //

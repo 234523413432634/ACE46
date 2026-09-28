@@ -276,6 +276,11 @@ CINFGameMainChat::CINFGameMainChat(CAtumNode* pParent, int nWidth, int nHeight)
 //	memset(m_nCurrentScrollHeight,0x00, CHAT_TAB_NUMBER*sizeof(int));	
 	memset(m_strInputMessage, 0x00, sizeof(m_strInputMessage));
 
+	m_vecChatHistory.clear();
+	m_nChatHistoryPos = 0;
+	m_bChatHistoryLoaded = FALSE;
+	memset(m_strChatHistoryDraft, 0x00, sizeof(m_strChatHistoryDraft));
+
 	// 2010. 04. 01 by ckPark 채팅창 메모리 초기화 버그 수정
 	//memset(m_fTimeOfShowChat,0x00, CHAT_TAB_NUMBER*CHAT_NOT_SHOWBOX_LINE*sizeof(float));
 	memset( m_fTimeOfShowChat, 0x00, CHAT_NOT_SHOWBOX_LINE * sizeof(float) );
@@ -2856,7 +2861,7 @@ int	CINFGameMainChat::WndProcMacro(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						m_nActMacro = i;
 						memset(m_strTempMacro,0x00,SIZE_MAX_CHAT_MESSAGE);
 						//memset(g_pD3dApp->m_inputkey.m_full_str,0x00,SIZE_MAX_CHAT_MESSAGE);
-						g_pD3dApp->CleanText();
+					g_pD3dApp->CleanText();
 
 						// 2009-03-18 by bhsohn 채팅창 커서 이동 시스템 추가
 						InitChatMsgBuff();
@@ -5943,6 +5948,9 @@ int CINFGameMainChat::WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						}
 
 					}
+					// Every branch above ends up here, so this is where a sent line
+					// joins the history - before the box is cleared.
+					AddChatHistory(m_strInputMessage);
 					g_pD3dApp->CleanText();
 					// 2009-03-18 by bhsohn 채팅창 커서 이동 시스템 추가
 					InitChatMsgBuff();
@@ -7718,6 +7726,14 @@ int CINFGameMainChat::OnKeyDownCursel(WPARAM wParam, LPARAM lParam)
 
 	switch(wParam)
 	{
+	case VK_UP:
+	case VK_DOWN:
+		{
+			// Walk back and forward through what has been sent before.
+			BrowseChatHistory((VK_UP == wParam) ? -1 : 1);
+			return INF_MSGPROC_BREAK;
+		}
+		break;
 	case VK_LEFT:
 	case VK_RIGHT:
 	case VK_HOME:		
@@ -9176,4 +9192,131 @@ void CINFGameMainChat :: GetStrPara ( char *o_szStrBuff , char *i_szString , int
 		memcpy ( o_szStrBuff , &i_szString[iStartNum] , iEndNum - iStartNum );
 	}
 
+}
+///////////////////////////////////////////////////////////////////////////////
+//  Chat history
+//
+//  A line goes on the end when it is sent, and up and down walk back and
+//  forward through it.
+///////////////////////////////////////////////////////////////////////////////
+void CINFGameMainChat::AddChatHistory(const char* i_pszMessage)
+{
+	if(NULL == g_pInterface || NULL == i_pszMessage)
+	{
+		return;
+	}
+
+	const int nMax = g_pInterface->GetChatHistoryMax();
+	if(nMax <= 0)
+	{
+		return;
+	}
+
+	if(!m_bChatHistoryLoaded)
+	{
+		g_pInterface->LoadChatHistory(m_vecChatHistory);
+		m_bChatHistoryLoaded = TRUE;
+	}
+
+	// A line that is nothing but a chat type character carries no message.
+	const int nLen = (int)strlen(i_pszMessage);
+	if(nLen <= 0 || (1 == nLen && !ChatModeChack(i_pszMessage[0])))
+	{
+		return;
+	}
+	if(1 == nLen)
+	{
+		return;
+	}
+
+	// Sending the same line twice running should not fill the history with it.
+	if(!m_vecChatHistory.empty() && 0 == strcmp(m_vecChatHistory.back().c_str(), i_pszMessage))
+	{
+		m_nChatHistoryPos = (int)m_vecChatHistory.size();
+		return;
+	}
+
+	m_vecChatHistory.push_back(i_pszMessage);
+	while((int)m_vecChatHistory.size() > nMax)
+	{
+		m_vecChatHistory.erase(m_vecChatHistory.begin());
+	}
+
+	m_nChatHistoryPos = (int)m_vecChatHistory.size();
+	memset(m_strChatHistoryDraft, 0x00, sizeof(m_strChatHistoryDraft));
+
+	g_pInterface->SaveChatHistory(m_vecChatHistory);
+}
+
+// Puts a line into the chat box as though it had been typed there.
+void CINFGameMainChat::SetChatInput(const char* i_pszMessage)
+{
+	// The box is rebuilt from the text before the caret, the IME run and the text
+	// after the caret.
+	InitChatMsgBuff();
+	g_pD3dApp->CleanText();
+
+	strncpy(m_strPreBackupMessage, i_pszMessage, SIZE_MAX_CHAT_MESSAGE - 1);
+	strncpy(m_strBkInputMessage, i_pszMessage, SIZE_MAX_CHAT_MESSAGE - 1);
+
+	memset(m_strInputMessage, 0x00, SIZE_MAX_CHAT_MESSAGE);
+	strncpy(m_strInputMessage, m_strBkInputMessage, SIZE_MAX_CHAT_MESSAGE - 1);
+
+	m_ptCurselPos.x = GetStringBuffLen(m_strBkInputMessage);
+	m_ptSelCurselPos = m_ptCurselPos;
+}
+
+void CINFGameMainChat::EndChatHistoryBrowse()
+{
+	m_nChatHistoryPos = (int)m_vecChatHistory.size();
+	memset(m_strChatHistoryDraft, 0x00, sizeof(m_strChatHistoryDraft));
+}
+
+void CINFGameMainChat::BrowseChatHistory(int i_nStep)
+{
+	if(NULL == g_pInterface)
+	{
+		return;
+	}
+	if(!m_bChatHistoryLoaded)
+	{
+		g_pInterface->LoadChatHistory(m_vecChatHistory);
+		m_bChatHistoryLoaded = TRUE;
+		m_nChatHistoryPos = (int)m_vecChatHistory.size();
+	}
+
+	const int nCount = (int)m_vecChatHistory.size();
+	if(nCount <= 0)
+	{
+		return;
+	}
+	if(m_nChatHistoryPos > nCount || m_nChatHistoryPos < 0)
+	{
+		m_nChatHistoryPos = nCount;
+	}
+
+	// Starting a walk: remember the half typed line to give back at the end.
+	if(m_nChatHistoryPos == nCount)
+	{
+		memset(m_strChatHistoryDraft, 0x00, sizeof(m_strChatHistoryDraft));
+		strncpy(m_strChatHistoryDraft, m_strInputMessage, SIZE_MAX_CHAT_MESSAGE - 1);
+	}
+
+	int nNext = m_nChatHistoryPos + i_nStep;
+	if(nNext < 0)			nNext = 0;
+	if(nNext > nCount)		nNext = nCount;
+	if(nNext == m_nChatHistoryPos)
+	{
+		return;
+	}
+	m_nChatHistoryPos = nNext;
+
+	if(m_nChatHistoryPos == nCount)
+	{
+		SetChatInput(m_strChatHistoryDraft);
+	}
+	else
+	{
+		SetChatInput(m_vecChatHistory[m_nChatHistoryPos].c_str());
+	}
 }

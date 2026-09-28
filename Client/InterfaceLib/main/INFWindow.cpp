@@ -1128,34 +1128,30 @@ void CINFMessageBox::Render()
 
 		if(m_strInputMessage[0])
 		{
-			char chatbuf[COUNT_ITEM_MAX_NUMBER];
-			memset(chatbuf,0x00,COUNT_ITEM_MAX_NUMBER);
-			
-			if(strlen(m_strInputMessage) > COUNT_ITEM_MAX_NUMBER || m_nAllNumber < atoi(g_pD3dApp->m_inputkey.m_full_str)  )
+			// The typed count, with room for a terminator.
+			char chatbuf[COUNT_ITEM_MAX_NUMBER + 1];
+			memset(chatbuf, 0x00, sizeof(chatbuf));
+
+			const int nTyped = (int)strlen(m_strInputMessage);
+
+			if(nTyped > COUNT_ITEM_MAX_NUMBER || m_nAllNumber < atoi(g_pD3dApp->m_inputkey.m_full_str))
 			{
-				int temp = strlen(m_strInputMessage) - COUNT_ITEM_MAX_NUMBER;
-						
-				strncpy(chatbuf,&m_strInputMessage[temp],COUNT_ITEM_MAX_NUMBER);
-				chatbuf[COUNT_ITEM_MAX_NUMBER]='\0';
-			    m_nAllCurrentData = m_nAllNumber;
+				// More than there is to throw away, so hold it at the whole stack.
+				m_nAllCurrentData = m_nAllNumber;
 				wsprintf(g_pD3dApp->m_inputkey.m_full_str, "%d", m_nAllCurrentData );
 				g_pD3dApp->m_inputkey.m_str_pos = strlen(g_pD3dApp->m_inputkey.m_full_str);
-				memset(m_strInputMessage,0x00,SIZE_MAX_CHAT_MESSAGE);
-				strncpy(m_strInputMessage,g_pD3dApp->m_inputkey.m_full_str,strlen(g_pD3dApp->m_inputkey.m_full_str));
-				m_strInputMessage[strlen(m_strInputMessage)] = '_';
-				m_strInputMessage[strlen(m_strInputMessage)+1] = '\0';
+
+				memset(m_strInputMessage, 0x00, SIZE_MAX_CHAT_MESSAGE);
+				strncpy(m_strInputMessage, g_pD3dApp->m_inputkey.m_full_str, SIZE_MAX_CHAT_MESSAGE - 3);
+
+				const int nLen = (int)strlen(m_strInputMessage);
+				m_strInputMessage[nLen]     = '_';
+				m_strInputMessage[nLen + 1] = '\0';
 			}
-// 			if(strlen(m_strInputMessage) > COUNT_ITEM_MAX_NUMBER)
-// 			{
-// 				int temp = strlen(m_strInputMessage) - COUNT_ITEM_MAX_NUMBER;
-// 				
-// 				strncpy(chatbuf,&m_strInputMessage[temp],COUNT_ITEM_MAX_NUMBER);
-// 				chatbuf[COUNT_ITEM_MAX_NUMBER]='\0';
-// 			}
-			else
-			{
-				strncpy(chatbuf,m_strInputMessage,COUNT_ITEM_MAX_NUMBER);
-			}
+
+			strncpy(chatbuf, m_strInputMessage, COUNT_ITEM_MAX_NUMBER);
+			chatbuf[COUNT_ITEM_MAX_NUMBER] = '\0';
+
 			SIZE Size = m_pFontInput[0]->GetStringSize(chatbuf);
 			m_pFontInput[0]->DrawText(ALL_TEXT_START_X - Size.cx, ALL_TEXT_START_Y, GUI_FONT_COLOR_Y, chatbuf, 0L);	
 		}
@@ -2049,6 +2045,25 @@ void CINFMessageBox::GetInputMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		g_pD3dApp->m_inputkey.m_str_pos = 58;
 		g_pD3dApp->m_inputkey.m_full_str[g_pD3dApp->m_inputkey.m_str_pos] = NULL;
+	}
+
+	// A count box takes digits and nothing else.
+	if(INPUT_COUNT_BUTTON)
+	{
+		char* pszInput = g_pD3dApp->m_inputkey.m_full_str;
+		int nRead = 0, nWrite = 0;
+		for(nRead = 0; pszInput[nRead]; nRead++)
+		{
+			if(pszInput[nRead] >= '0' && pszInput[nRead] <= '9')
+			{
+				pszInput[nWrite++] = pszInput[nRead];
+			}
+		}
+		if(nWrite != nRead)
+		{
+			pszInput[nWrite] = '\0';
+			g_pD3dApp->m_inputkey.m_str_pos = nWrite;
+		}
 	}
 	if(strlen(g_pD3dApp->m_inputkey.m_full_str)!=0)
 	{

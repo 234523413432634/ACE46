@@ -178,6 +178,12 @@ public:
 	int GetSpeakerMode();
 	void SetSpeakerMode(int nMode);
 
+	// The chat lines the player last sent, oldest first, kept in setupinfo.ver so
+	// they survive a restart.
+	int  GetChatHistoryMax();
+	void LoadChatHistory(vector<string>& o_vecHistory);
+	void SaveChatHistory(vector<string>& i_vecHistory);
+
 	// UI_SCALE, from the uiscale entry in setupinfo.ver.  Read once at start-up,
 	// before any panel or font is built, because both take the scale then.
 	void LoadUIScale();
