@@ -76,7 +76,7 @@ public:
 	void CharacterCamTick();
 	void SetAngleX(float fangleX) { m_fAngleX = fangleX; }
 	void SetAngleY(float fangleY) { m_fAngleY = fangleY; }
-	void SetCamMove(BOOL bRButton, BOOL bWhell, BOOL bWarp = FALSE);
+	void SetCamMove(BOOL bRButton, BOOL bWhell, BOOL bWarp = FALSE, BOOL bNoAutoRotate = FALSE);
 
 	float CheckCollMapObject(D3DXVECTOR3 vPos, D3DXVECTOR3 vLookAt);
 

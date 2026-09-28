@@ -52,6 +52,7 @@
 #include "PetManager.h"			// 2010-06-15 by shcho&hslee 펫시스템 - 펫 데이터를 가져오는 함수
 #include "INFItemInfo.h"
 #include "WeaponItemInfo.h"
+#include "KeyBoardInput.h"
 
 
 
@@ -94,6 +95,8 @@ CCharacterChild::CCharacterChild()
 //	m_dwPartType = _SHUTTLE;
 	m_bRButtonState = FALSE;
 	m_bPickMove = FALSE;
+	m_bKeyMove = FALSE;
+	m_bKeyMoveAni = FALSE;
 
 	m_pVBShadow = NULL;
 
@@ -564,6 +567,12 @@ void CCharacterChild::Move_Character(float fElapsedTime)
 	{
 		m_fCharacterSpeed = 0.0f;
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Keyboard(WASD) move.
+	// Handled before the picking move, a held key cancels the click move.
+	Move_CharacterByKey(fElapsedTime);
+
 	if(m_bPickMove)
 	{
 		D3DXMATRIX  matTemp;
@@ -757,9 +766,7 @@ void CCharacterChild::Move_Character(float fElapsedTime)
 					m_dwState = _STAND;
 					m_bPickMove = FALSE;
 //					g_pShuttleChild->SendFieldSocketChangeBodyCondition(g_pShuttleChild->m_myShuttleInfo.ClientIndex, BODYCON_CHRACTER_MODE_STOP);
-					m_pCharacterInfo->ChangeBodyCondition(BODYCON_CHARACTER_MODE_STOP);
-					// 2010-06-08 by dgwoo, 펫시스템 추가. 아래의 함수로 통합. 
-					ChangeWearItemBodyConditionAllProcess(BODYCON_CHARACTER_MODE_STOP);
+					ChangeBodyConditionMoveStop();
 					
 // 					g_pShuttleChild->ChangeWearItemBodyCondition(WEAR_ITEM_KIND_ATTACHMENT, BODYCON_CHARACTER_MODE_STOP);
 // 					g_pShuttleChild->ChangeWearItemBodyCondition(WEAR_ITEM_KIND_ACCESSORIES, BODYCON_CHARACTER_MODE_STOP);
@@ -779,9 +786,7 @@ void CCharacterChild::Move_Character(float fElapsedTime)
 				m_dwState = _STAND;
 				m_bPickMove = FALSE;
 //				g_pShuttleChild->SendFieldSocketChangeBodyCondition(g_pShuttleChild->m_myShuttleInfo.ClientIndex, BODYCON_CHRACTER_MODE_STOP);
-				m_pCharacterInfo->ChangeBodyCondition(BODYCON_CHARACTER_MODE_STOP);
-				// 2010-06-08 by dgwoo, 펫시스템 추가. 아래의 함수로 통합. 
-				ChangeWearItemBodyConditionAllProcess(BODYCON_CHARACTER_MODE_STOP);
+				ChangeBodyConditionMoveStop();
 // 				g_pShuttleChild->ChangeWearItemBodyCondition(WEAR_ITEM_KIND_ATTACHMENT, BODYCON_CHARACTER_MODE_STOP);
 // 				g_pShuttleChild->ChangeWearItemBodyCondition(WEAR_ITEM_KIND_ACCESSORIES, BODYCON_CHARACTER_MODE_STOP);
 // 				g_pShuttleChild->ChangeWearItemBodyCondition(WEAR_ITEM_KIND_WINGIN, BODYCON_CHARACTER_MODE_STOP);
@@ -827,9 +832,7 @@ void CCharacterChild::Move_Character(float fElapsedTime)
 		m_dwState = _STAND;
 		m_bPickMove = FALSE;
 //		g_pShuttleChild->SendFieldSocketChangeBodyCondition(g_pShuttleChild->m_myShuttleInfo.ClientIndex, BODYCON_CHRACTER_MODE_STOP);
-		m_pCharacterInfo->ChangeBodyCondition(BODYCON_CHARACTER_MODE_STOP);
-		// 2010-06-08 by dgwoo, 펫시스템 추가. 아래의 함수로 통합. 
-		ChangeWearItemBodyConditionAllProcess(BODYCON_CHARACTER_MODE_STOP);
+		ChangeBodyConditionMoveStop();
 		//g_pShuttleChild->ChangeWearItemBodyCondition(WEAR_ITEM_KIND_ATTACHMENT, BODYCON_CHARACTER_MODE_STOP);
 		//g_pShuttleChild->ChangeWearItemBodyCondition(WEAR_ITEM_KIND_ACCESSORIES, BODYCON_CHARACTER_MODE_STOP);
 		//g_pShuttleChild->ChangeWearItemBodyCondition(WEAR_ITEM_KIND_WINGIN, BODYCON_CHARACTER_MODE_STOP);
@@ -854,6 +857,183 @@ void CCharacterChild::Move_Character(float fElapsedTime)
 	// 2005-07-28 by ispark
 	// Move 패킷을 보낼때 Up 벡터를 Metrix에서 가져온다. 
 	g_pShuttleChild->SetMatrix_Move_Ground(fElapsedTime);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// \fn CCharacterChild::Move_CharacterByKey(float fElapsedTime) \brief
+/// Character move by the WASD keys.
+///////////////////////////////////////////////////////////////////////////////
+void CCharacterChild::Move_CharacterByKey(float fElapsedTime)
+{
+	D3DXVECTOR3 vKeyDir;
+
+	if(!GetKeyMoveDir(&vKeyDir))
+	{
+		StopKeyMove();
+		return;
+	}
+
+	// A pressed key takes over the click move.
+	m_bPickMove = FALSE;
+
+	// Face the requested direction at once, the character answers the key
+	// on the very frame it is pressed.
+	m_vVel = vKeyDir;
+
+	//////////////////////////////////////////////////////////////////////////
+	// Run animation.
+	// It is started once and kept until the key is released :
+	// ChangeBodyConditionMoveStop() leaves it alone while the key move is on, so
+	// bumping into an obstacle makes the character run in place instead of
+	// dropping to the idle animation and sliding once it can move again.
+	if(!m_bKeyMoveAni)
+	{
+		if(m_dwState != _RUN)
+		{
+			m_pCharacterInfo->ChangeBodyCondition(BODYCON_CHARACTER_MODE_RUN);
+			ChangeWearItemBodyConditionAllProcess(BODYCON_CHARACTER_MODE_RUN);
+		}
+		m_bKeyMoveAni = TRUE;
+	}
+
+	m_bKeyMove = TRUE;
+	m_dwState = _RUN;
+
+	CheckMoveRate(fElapsedTime);
+	m_vPos += (m_vNextPos - m_vPos) * fElapsedTime;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// \fn CCharacterChild::GetKeyMoveDir(D3DXVECTOR3* o_pvMoveDir) \brief Builds
+/// the camera relative move direction out of the WASD keys \param o_pvMoveDir
+/// : normalized move direction on the ground plane \return BOOL : FALSE when
+/// no move is requested.
+///////////////////////////////////////////////////////////////////////////////
+BOOL CCharacterChild::GetKeyMoveDir(D3DXVECTOR3* o_pvMoveDir)
+{
+	if(!IsMoveInputEnable())
+		return FALSE;
+
+	float fFront = 0.0f;
+	float fSide = 0.0f;
+
+	if(IsMoveKeyDown(DIK_W))		fFront += 1.0f;
+	if(IsMoveKeyDown(DIK_S))		fFront -= 1.0f;
+	if(IsMoveKeyDown(DIK_D))		fSide += 1.0f;
+	if(IsMoveKeyDown(DIK_A))		fSide -= 1.0f;
+
+	// W+S or A+D cancel each other out
+	if(0.0f == fFront && 0.0f == fSide)
+		return FALSE;
+
+	// The camera sits at m_vDistance from the character, so what the player sees
+	// as forward is the reverse of it flattened onto the ground.
+	D3DXVECTOR3 vUp(0.0f, 1.0f, 0.0f);
+	D3DXVECTOR3 vFront = -g_pCamera->m_vDistance;
+	D3DXVECTOR3 vSide;
+
+	vFront.y = 0.0f;
+	if(0.0f == D3DXVec3LengthSq(&vFront))
+		return FALSE;
+
+	D3DXVec3Normalize(&vFront, &vFront);
+	D3DXVec3Cross(&vSide, &vUp, &vFront);
+	D3DXVec3Normalize(&vSide, &vSide);
+
+	*o_pvMoveDir = vFront * fFront + vSide * fSide;
+	D3DXVec3Normalize(o_pvMoveDir, o_pvMoveDir);
+	return TRUE;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// \fn CCharacterChild::IsMoveKeyDown(int nDIKCode) \brief Keyboard only key
+/// check.
+///////////////////////////////////////////////////////////////////////////////
+BOOL CCharacterChild::IsMoveKeyDown(int nDIKCode)
+{
+	if(NULL == g_pD3dApp->m_pKeyBoard)
+		return FALSE;
+
+	if(TRUE == g_pD3dApp->m_pKeyBoard->GetKeyBoardLostDevice() ||
+		FALSE == g_pD3dApp->m_pKeyBoard->GetKeyBoardFocus())
+		return FALSE;
+
+	return g_pD3dApp->m_pKeyBoard->GetAsyncKeyState(nDIKCode);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// \fn CCharacterChild::IsMoveInputEnable() \brief Can the player move the
+/// character right now.
+///////////////////////////////////////////////////////////////////////////////
+BOOL CCharacterChild::IsMoveInputEnable()
+{
+	// event warp / city enter is handled by Move_Character()
+	if(m_dwState == _WARP || m_dwState == _NCITYIN)
+		return FALSE;
+
+	// chatting
+	if(g_pD3dApp->m_bChatMode)
+		return FALSE;
+
+	if(g_pGameMain && TRUE == g_pGameMain->GetChatModeState())
+		return FALSE;
+
+	// inside a shop(building NPC) menu
+	if(g_pD3dApp->m_dwGameState == _SHOP)
+		return FALSE;
+
+	if(g_pInterface && g_pInterface->m_pCityBase &&
+		g_pInterface->m_pCityBase->GetCurrentBuildingNPC())
+		return FALSE;
+
+	// menu list is open or the client is waiting for the server
+	if(g_pGameMain->m_bMenuLock || g_pD3dApp->IsLockMode() == FALSE)
+		return FALSE;
+
+	return TRUE;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// \fn CCharacterChild::ChangeBodyConditionMoveStop() \brief Stop animation
+/// for a move that an obstacle interrupted.
+///////////////////////////////////////////////////////////////////////////////
+void CCharacterChild::ChangeBodyConditionMoveStop()
+{
+	if(m_bKeyMove)
+		return;
+
+	m_pCharacterInfo->ChangeBodyCondition(BODYCON_CHARACTER_MODE_STOP);
+	ChangeWearItemBodyConditionAllProcess(BODYCON_CHARACTER_MODE_STOP);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// \fn			CCharacterChild::StopKeyMove()
+/// \brief		Stops the keyboard move and puts the stop animation back
+///
+/// \param		
+/// \return		void
+///////////////////////////////////////////////////////////////////////////////
+void CCharacterChild::StopKeyMove()
+{
+	if(!m_bKeyMove)
+		return;
+
+	m_bKeyMove = FALSE;
+
+	if(m_bKeyMoveAni)
+	{
+		m_bKeyMoveAni = FALSE;
+
+		// back to _STAND so a click move that starts on the same frame
+		// initializes itself the same way it does from a standing character
+		if(m_dwState == _RUN)
+			m_dwState = _STAND;
+
+		m_pCharacterInfo->ChangeBodyCondition(BODYCON_CHARACTER_MODE_STOP);
+		g_pShuttleChild->ChangeWearItemBodyCondition(WEAR_ITEM_KIND_ACCESSORY_UNLIMITED, BODYCON_CHARACTER_MODE_STOP);
+		g_pShuttleChild->ChangeWearItemBodyCondition(WEAR_ITEM_KIND_ACCESSORY_TIME_LIMIT, BODYCON_CHARACTER_MODE_STOP);
+		g_pShuttleChild->ChangeWearItemBodyCondition(WEAR_ITEM_KIND_WINGIN, BODYCON_CHARACTER_MODE_STOP);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1337,6 +1517,8 @@ void CCharacterChild::InitCharacterData()
 	m_dwState = _NCITYIN;
 	g_pShuttleChild->ChangeUnitState( _LANDED );
 	m_bPickMove = FALSE;										// 처음에는 Picking 상태 아님
+	m_bKeyMove = FALSE;
+	m_bKeyMoveAni = FALSE;
 	m_bCharacterRender = TRUE;
 	m_bBazaarEventPos = FALSE;
 		
@@ -1855,8 +2037,11 @@ void CCharacterChild::CameraMoveTick()
 	// 이벤트 오브젝트오 인해 카메라가 움직이지만 회전을 하며 안돼는 상황
 	BOOL bWarp = (m_nStartEventType != EVENT_TYPE_NOEVENT) ? TRUE : FALSE;
 
-	if(m_bPickMove == TRUE || m_bMouseWheel == TRUE || bWarp)
-		g_pCamera->SetCamMove(m_bRButtonState, m_bMouseWheel, bWarp);
+	// The keyboard move needs the camera to follow the character as well, but the
+	// camera must not swing behind it : the move direction is taken from the camera,
+	// so an auto rotation would make a strafe run in circles.
+	if(m_bPickMove == TRUE || m_bKeyMove == TRUE || m_bMouseWheel == TRUE || bWarp)
+		g_pCamera->SetCamMove(m_bRButtonState, m_bMouseWheel, bWarp, m_bKeyMove);
 
 	// 카메라 거리가 최소허용치보다 작으면 캐릭터 렌더링 안함
 	float fCollDist = g_pCamera->GetCollDistance();

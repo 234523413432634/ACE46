@@ -72,6 +72,13 @@ protected:
 	void LoadCharacterEffect(CCharacterInfo** pCharacterInfo, char* strFileName);
 
 	void Move_Character(float fElapsedTime);
+	// WASD keyboard move (city character mode)
+	void Move_CharacterByKey(float fElapsedTime);
+	BOOL GetKeyMoveDir(D3DXVECTOR3* o_pvMoveDir);
+	BOOL IsMoveKeyDown(int nDIKCode);
+	BOOL IsMoveInputEnable();
+	void StopKeyMove();
+	void ChangeBodyConditionMoveStop();
 	void CameraMoveTick();														// 2005-08-16 by ispark
 	void SetMatrix_Move_Character(float fElapsedTime);
 	void SetMatrix_Picking(D3DXVECTOR3 vPos, D3DXVECTOR3 vNorPos);
@@ -138,6 +145,8 @@ protected:
 	D3DXVECTOR3				m_vPicking;				// 2005-07-15 by ispark Picking한 좌표
 	D3DXVECTOR3				m_vPickDir;				// Picking한 방향
 	BOOL					m_bPickMove;			// Picking Move 중인가
+	BOOL					m_bKeyMove;				// moving by the WASD keys
+	BOOL					m_bKeyMoveAni;			// run animation started by the WASD key move
 //	int						m_nSelectObjectIndex;	// 선택 오브젝트
 	CObjectChild *			m_pSelectObject;		// 선택 오브젝트
 	CObjectChild *			m_pShopObject;

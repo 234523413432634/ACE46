@@ -1849,7 +1849,7 @@ void CCamera::CharacterCamTick()
 /// \param		
 /// \return		
 ///////////////////////////////////////////////////////////////////////////////
-void CCamera::SetCamMove(BOOL bRButton, BOOL bWhell, BOOL bWarp)
+void CCamera::SetCamMove(BOOL bRButton, BOOL bWhell, BOOL bWarp, BOOL bNoAutoRotate)
 {
 //	DBGOUT("MoveDir %f, %f, %f\n", vMoveDir.x, vMoveDir.y, vMoveDir.z);
 	D3DXVECTOR3 vCamLookAtPos = g_pD3dApp->m_pShuttleChild->m_vPos;
@@ -1884,7 +1884,7 @@ void CCamera::SetCamMove(BOOL bRButton, BOOL bWhell, BOOL bWarp)
 
 	//////////////////////////////////////////////////////////////////////////
 	// 카메라 회전
-	if(bRButton == FALSE && bWhell == FALSE && bWarp == FALSE)
+	if(bRButton == FALSE && bWhell == FALSE && bWarp == FALSE && bNoAutoRotate == FALSE)
 	{
 		D3DXVECTOR3 vChaVel = -g_pCharacterChild->GetVecPickDir();
 		D3DXVECTOR3 vCamDist = vNewCam - vCamLookAtPos;
