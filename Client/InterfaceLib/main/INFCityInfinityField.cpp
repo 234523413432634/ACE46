@@ -5728,14 +5728,16 @@ void	CINFCityInfinityFieldPopUp::RenderRoomCreate( void )
 		m_pRoomCreateTitleEdit->SetPos( pt.x + 44, pt.y + 51 );
 		m_pRoomCreateTitleEdit->Render();
 		
-		POINT pBkSize;
-		pBkSize.x = m_pCreateControl->GetMaxPos().x - m_pCreateControl->GetMinPos().x;		
-		int nSizeX = m_pCreateControl->GetFindControlTargetofMinPos("okb00").x - m_pCreateControl->GetFindControlTargetofMinPos("canb00").x;// 2011-02-08 by jhahn EP4 용해  UI 변경		
-		
-		m_pRoomCreateOK->SetBtnPosition( pt.x + pt.x/3 + m_pCreateControl->GetFindControlTargetofMinPos("okb00").x-4, pt.y + 75 );
+		// The check and the X are centred on the background, as the join dialog's
+		// lone cancel is.
+		const int nPairLeft  = m_pCreateControl->GetFindControlTargetofMinPos("okb00").x;
+		const int nPairWidth = m_pCreateControl->GetFindControlTargetofMaxPos("canb00").x - nPairLeft;
+		const int nPairX     = pt.x + (m_pRoomCreateBG->GetImgSize().x - nPairWidth) / 2 - nPairLeft;
+
+		m_pRoomCreateOK->SetBtnPosition( nPairX + m_pCreateControl->GetFindControlTargetofMinPos("okb00").x, pt.y + 75 );
 		m_pRoomCreateOK->Render();
-		
-		m_pRoomCreateCancel->SetBtnPosition( pt.x + pt.x/3 + m_pCreateControl->GetFindControlTargetofMinPos("canb00").x-4 , pt.y + 75 );
+
+		m_pRoomCreateCancel->SetBtnPosition( nPairX + m_pCreateControl->GetFindControlTargetofMinPos("canb00").x, pt.y + 75 );
 		m_pRoomCreateCancel->Render();
 
 	//	m_pRoomCreateOK->SetBtnPosition( pt.x + 100, pt.y + 99 );
@@ -6364,13 +6366,19 @@ void CINFCityInfinityFieldPopUp::RenderRoomDifficultSetWnd( void )
 // 		m_pRoomDifficultLevelEditBox->Render(0, 1);
 
 
-		int iGabY = 2;
+		// The pair is centred on the level text beside it, up above and down below.
+		char szDigit[] = "0";
+		const int nTextMidY = m_pRoomDifficultLevelEditBox->rtnPos()->y + m_pFont_EditInfinityLevel->GetStringSize( szDigit ).cy / 2;
+		const int nHalfGap  = 2;
 
 		for ( i = 0; i < 2; ++i )
 		{
-			m_pRoomDifficultUpDownBtn[i]->SetBtnPosition( pt.x + 140 - m_pRoomDifficultUpDownBtn[i]->GetImgSize().x/2 , pt.y + 102 + ( i == 0 ? (-(m_pRoomDifficultUpDownBtn[i]->GetImgSize().y+iGabY)) : iGabY ) );
+			const POINT ptArrow = m_pRoomDifficultUpDownBtn[i]->GetImgSize();
+			const int nArrowY   = ( i == 0 ) ? nTextMidY - nHalfGap - ptArrow.y : nTextMidY + nHalfGap;
+
+			m_pRoomDifficultUpDownBtn[i]->SetBtnPosition( pt.x + 140 - ptArrow.x/2 , nArrowY );
 			m_pRoomDifficultUpDownBtn[i]->Render();
-		}  
+		}
 
 	}
 
