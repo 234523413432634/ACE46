@@ -836,7 +836,26 @@ BOOL CMapProject::LoadMFile(void)
 					else
 					{						
 						pMesh->InitDeviceObjects();
-						pMesh->LoadMeshHierarchyFromMem(&gameData, ObjScaleInfo.vObjScale);// 2012-05-23 by isshin 맵툴 개선 오브젝트 스케일 적용
+						///////////////////////////////////////////////////////////////////////////////
+						// The result used to be dropped on the floor.
+						///////////////////////////////////////////////////////////////////////////////
+						HRESULT hrLoadMesh = pMesh->LoadMeshHierarchyFromMem(&gameData, ObjScaleInfo.vObjScale);// 2012-05-23 by isshin 맵툴 개선 오브젝트 스케일 적용
+
+						if(FAILED(hrLoadMesh) || FALSE == pMesh->HasGeometry() || pMesh->GetRadius() <= 0.0f)
+						{
+							char szMeshLog[1024];
+							sprintf(szMeshLog, "[Error] CMapProject::LoadMFile_ Mesh[%08d] UNUSABLE hr[0x%08X] stage[%s] radius[%.1f] geometry[%s] - monsters will pass through every instance of this object\r\n"
+								, ObjInfo.m_dwObjType, hrLoadMesh, pMesh->GetLoadStage(), pMesh->GetRadius(), pMesh->HasGeometry() ? "yes" : "NONE");
+							g_pGlobal->WriteSystemLog(szMeshLog);
+							DBGOUT(szMeshLog);
+						}
+						else
+						{
+							char szMeshLog[1024];
+							sprintf(szMeshLog, "	CMapProject::LoadMFile_ Mesh[%08d] ok radius[%8.1f]\r\n"
+								, ObjInfo.m_dwObjType, pMesh->GetRadius());
+							g_pGlobal->WriteSystemLog(szMeshLog);
+						}
 						pMesh->Tick(0);
 
 						m_mapObjectSkinnedMeshPtr.insert(pair<int, CSkinnedMesh*>(ObjInfo.m_dwObjType, pMesh));						
@@ -965,8 +984,28 @@ BOOL CMapProject::LoadMFile(void)
 		}
 
 #ifdef _ATUM_NPC_SERVER		
-		sprintf(szSystemLog, "	CMapProject::LoadMFile_ LoadObject, MapProject[%04d] TotalObjectCount[%4d] TotalMeshCount[%d]\r\n"
-			, m_nMapIndex, m_vectorObjectInfo.size(), m_mapObjectSkinnedMeshPtr.size());
+		///////////////////////////////////////////////////////////////////////////////
+		// Monsters only collide with objects whose mesh got loaded here, and that
+		// needs both a D3D device and CollisionForServer on the object's
+		// ti_MapObject row.
+		///////////////////////////////////////////////////////////////////////////////
+		if(NULL == g_pNPCGlobal->m_D3DApp.GetD3DDevice())
+		{
+			sprintf(szSystemLog, "[Error] CMapProject::LoadMFile_ MapProject[%04d] no D3D device - NO object collision will exist for monsters on this map\r\n"
+				, m_nMapIndex);
+			g_pGlobal->WriteSystemLog(szSystemLog);
+			DBGOUT(szSystemLog);
+		}
+		else if(m_vectorObjectInfo.empty() && 0 < tmMapInfo.nObjectNumber)
+		{
+			sprintf(szSystemLog, "[Error] CMapProject::LoadMFile_ MapProject[%04d] has %d objects but none carry server collision - check CollisionForServer in ti_MapObject\r\n"
+				, m_nMapIndex, tmMapInfo.nObjectNumber);
+			g_pGlobal->WriteSystemLog(szSystemLog);
+			DBGOUT(szSystemLog);
+		}
+
+		sprintf(szSystemLog, "	CMapProject::LoadMFile_ LoadObject, MapProject[%04d] TotalObjectCount[%4d] CollisionObjectCount[%4d] TotalMeshCount[%d]\r\n"
+			, m_nMapIndex, tmMapInfo.nObjectNumber, m_vectorObjectInfo.size(), m_mapObjectSkinnedMeshPtr.size());
 #else		
 		sprintf(szSystemLog, "	CMapProject::LoadMFile_ LoadObject, MapProject[%04d] TotalObjectCount[%4d]\r\n"
 			, m_nMapIndex, m_vectorObjectInfo.size());

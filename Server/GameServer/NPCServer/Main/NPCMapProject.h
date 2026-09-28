@@ -17,6 +17,24 @@
 #include "AtumProtocol.h"
 
 class CNPCMonster;
+
+///////////////////////////////////////////////////////////////////////////////
+// What a CheckCollisionMesh() call found, carried for the log.
+struct MONSTER_COLLISION_HIT
+{
+	BOOL			bHit;
+	float			fDist;
+	D3DXVECTOR3		vNormal;			// face normal, sign as the mesh winding gave it
+	DWORD			dwObjType;
+	int				nObjectsTotal;
+	int				nObjectsTested;
+
+	MONSTER_COLLISION_HIT()
+		: bHit(FALSE), fDist(0.0f), vNormal(0, 0, 0), dwObjType(0)
+		, nObjectsTotal(0), nObjectsTested(0)
+	{}
+};
+
 class CNPCMapProject : public CMapProject
 {
 	friend class CNPCIOCP;
@@ -65,7 +83,17 @@ public:
 	BOOL NPCOnCityWarEndW(MSG_FN_CITYWAR_END_WAR *i_pRMsg);	
 	BOOL NPCOnCityWarChangeOccupyInfoW(MSG_FN_CITYWAR_CHANGE_OCCUPY_INFO *i_pRMsg);	
 
-	D3DXVECTOR3 CheckCollisionMesh(D3DXVECTOR3 *i_pVec3Position, D3DXVECTOR3 *i_pUnitVec3Target, float i_fSize, INT i_nExcludeObjectNum, mtDeletedObjectInfoList * i_pDeletedObjectInfoList, mtNewObjectInfoList * i_pNewObjectInfoList);	// 2009-09-09 ~ 2010-01 by dhjin, 인피니티 - 소스 체크, // 2009-09-09 ~ 2010 by dhjin, 인피니티 - 변경 오브젝트를 위해!!!!
+
+	// Sweeps the monster's body against the map objects the way the client sweeps
+	// the ship in CObjRender::CheckCollMesh(): six rays out of the monster rather
+	// than one forward ray, each with its own reach.
+	D3DXVECTOR3 CheckCollisionMesh(D3DXVECTOR3 *i_pVec3Position
+		, D3DXVECTOR3 *i_pUnitVec3Target
+		, float i_fSize
+		, INT i_nExcludeObjectNum
+		, mtDeletedObjectInfoList *i_pDeletedObjectInfoList
+		, mtNewObjectInfoList *i_pNewObjectInfoList
+		, MONSTER_COLLISION_HIT *o_pHit = NULL);
 
 	BOOL Send2FieldServer(BYTE *pData, int nSize);
 	BOOL Send2FieldServerByTCP(BYTE *pData, int nSize);		// 2007-11-26 by cmkwon, 몬스터 자동삭제 메시지 TCP로 전송(N->F) - 

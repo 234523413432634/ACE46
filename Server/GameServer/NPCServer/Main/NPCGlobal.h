@@ -60,6 +60,12 @@ public:
 
 	BOOL				m_bIsArenaServer;				// 2008-09-10 by cmkwon, 통합아레나 맵설정(map.cfg) 관련 수정 - 
 	BOOL GetIsArenaServer(void);						// 2008-09-10 by cmkwon, 통합아레나 맵설정(map.cfg) 관련 수정 - 
+
+	// Monster-vs-object collision tracing. 0 = off (default), 1 = log a line
+	// every time a monster is stopped by map geometry, 2 = log every probe
+	// including the misses.
+	int					m_nMonsterCollisionLogLevel;
+	int GetMonsterCollisionLogLevel(void)	{ return m_nMonsterCollisionLogLevel; }
 protected:
 	//////////////////////////////////////////////////////////////////////////
 	// Configuration Variables

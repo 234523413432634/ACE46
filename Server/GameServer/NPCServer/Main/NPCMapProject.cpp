@@ -554,7 +554,6 @@ BOOL CNPCMapProject::Send2FieldServerByTCP(BYTE *pData, int nSize)
 ///
 /// \param		
 /// \return		
-///////////////////////////////////////////////////////////////////////////////
 BOOL CNPCMapProject::SendDelayBuffer2FieldFerver(void)
 {
 	mt_auto_lock mtA(&m_mtlockDelaySendBuffer);
@@ -573,37 +572,44 @@ CNPCMapChannel * CNPCMapProject::GetNPCMapChannelByIndex(int i_nIndex)
 	return (CNPCMapChannel*)GetMapChannelByIndex(i_nIndex);
 }
 
+///////////////////////////////////////////////////////////////////////////////
+/// \fn CNPCMapProject::CheckCollisionMesh \brief One ray from i_pVec3Position
+/// along i_pUnitVec3Target; returns the.
+///////////////////////////////////////////////////////////////////////////////
 D3DXVECTOR3 CNPCMapProject::CheckCollisionMesh(D3DXVECTOR3 *i_pVec3Position
 											   , D3DXVECTOR3 *i_pUnitVec3Target
 											   , float i_fSize
 											   , INT i_nExcludeObjectNum
-											   , mtDeletedObjectInfoList * i_pDeletedObjectInfoList	// 2009-09-09 ~ 2010 by dhjin, 인피니티 - 삭제된 오브젝트
-											   , mtNewObjectInfoList * i_pNewObjectInfoList)			// 2009-09-09 ~ 2010 by dhjin, 인피니티 - 추가된 오브젝트
+											   , mtDeletedObjectInfoList *i_pDeletedObjectInfoList
+											   , mtNewObjectInfoList *i_pNewObjectInfoList
+											   , MONSTER_COLLISION_HIT *o_pHit)
 {
-	// 2003-07-03   jschoi
-	COLLISION_RESULT collResult;
-	collResult.fDist = 10000.0f;
-	collResult.vNormalVector = D3DXVECTOR3(0,0,0);
+	MONSTER_COLLISION_HIT	hit;
+	COLLISION_RESULT		collResult;
+	collResult.fDist			= 10000.0f;
+	collResult.vNormalVector	= D3DXVECTOR3(0, 0, 0);
 
 	D3DXMATRIX		Mat;
-	D3DXVECTOR3		vUp(0, 1, 0);	
-	D3DXMatrixLookAtLH(&Mat, i_pVec3Position,&(*i_pVec3Position + *i_pUnitVec3Target), &vUp);		// 앞		
+	D3DXVECTOR3		vUp(0, 1, 0);
+	D3DXMatrixLookAtLH(&Mat, i_pVec3Position, &(*i_pVec3Position + *i_pUnitVec3Target), &vUp);
 	D3DXMatrixInverse(&Mat, NULL, &Mat);
 
-	int cont = 0;
 	OBJECTINFOSERVER *pObj;
-	mt_auto_lock mtDeletedObjList(i_pDeletedObjectInfoList);	// 2009-09-09 ~ 2010-01 by dhjin, 인피니티 - 소스 체크
+	mt_auto_lock mtDeletedObjList(i_pDeletedObjectInfoList);
 	vectorObjectInfoServer::iterator it(m_vectorObjectInfo.begin());
 	while(it != m_vectorObjectInfo.end())
 	{
-		pObj = &*it;		
-		////////////////////////////////////////////////////////////////////////////////
-		// 2009-09-09 ~ 2010 by dhjin, 인피니티 - 삭제된 오브젝트 처리
-		if(0 < i_pDeletedObjectInfoList->size()) {
+		pObj = &*it;
+		hit.nObjectsTotal++;
+
+		if(0 < i_pDeletedObjectInfoList->size())
+		{
 			BOOL bExcludeObj = FALSE;
-			mtDeletedObjectInfoList::iterator itr = i_pDeletedObjectInfoList->begin();	// 2009-09-09 ~ 2010-01 by dhjin, 인피니티 - 소스 체크
-			for(; itr != i_pDeletedObjectInfoList->end(); itr++) {
-				if(pObj->m_EventInfo.m_EventwParam1 == *itr) {					
+			mtDeletedObjectInfoList::iterator itr = i_pDeletedObjectInfoList->begin();
+			for(; itr != i_pDeletedObjectInfoList->end(); itr++)
+			{
+				if(pObj->m_EventInfo.m_EventwParam1 == *itr)
+				{
 					bExcludeObj = TRUE;
 					break;
 				}
@@ -614,46 +620,60 @@ D3DXVECTOR3 CNPCMapProject::CheckCollisionMesh(D3DXVECTOR3 *i_pVec3Position
 				continue;
 			}
 		}
+
 		if(pObj->m_dwObjType != i_nExcludeObjectNum
 			&& D3DXVec3Length(&(*i_pVec3Position - pObj->m_vPos)) < pObj->m_pSkinnedMesh->m_fRadius)
 		{
-			cont = 0;
-			float fTempDist = 10000;
+			hit.nObjectsTested++;
 			pObj->m_pSkinnedMesh->SetWorldMatrix(pObj->m_matrix);
-			
+
 			collResult = pObj->m_pSkinnedMesh->CheckCollision(Mat);
 			if(collResult.fDist < i_fSize)
 			{
-				mtDeletedObjList.auto_unlock_cancel(); // 2009-09-09 ~ 2010-01 by dhjin, 인피니티 - 소스 체크
-				return collResult.vNormalVector;	
+				mtDeletedObjList.auto_unlock_cancel();
+
+				hit.bHit		= TRUE;
+				hit.fDist		= collResult.fDist;
+				hit.vNormal		= collResult.vNormalVector;
+				hit.dwObjType	= pObj->m_dwObjType;
+				if(o_pHit)	{ *o_pHit = hit; }
+				return collResult.vNormalVector;
 			}
-		}		
+		}
 		it++;
 	}
-	mtDeletedObjList.auto_unlock_cancel(); // 2009-09-09 ~ 2010-01 by dhjin, 인피니티 - 소스 체크
-	////////////////////////////////////////////////////////////////////////////////
-	// 2009-09-09 ~ 2010 by dhjin, 인피니티 - 추가된 오브젝트 처리
-	mt_auto_lock mtCreateObjList(i_pNewObjectInfoList); // 2009-09-09 ~ 2010-01 by dhjin, 인피니티 - 소스 체크
-	mtNewObjectInfoList::iterator Newitr(i_pNewObjectInfoList->begin());	// 2009-09-09 ~ 2010-01 by dhjin, 인피니티 - 소스 체크
+	mtDeletedObjList.auto_unlock_cancel();
+
+	mt_auto_lock mtCreateObjList(i_pNewObjectInfoList);
+	mtNewObjectInfoList::iterator Newitr(i_pNewObjectInfoList->begin());
 	while(Newitr != i_pNewObjectInfoList->end())
 	{
-		pObj = &*Newitr;		
+		pObj = &*Newitr;
+		hit.nObjectsTotal++;
+
 		if(pObj->m_dwObjType != i_nExcludeObjectNum
 			&& D3DXVec3Length(&(*i_pVec3Position - pObj->m_vPos)) < pObj->m_pSkinnedMesh->m_fRadius)
 		{
-			cont = 0;
-			float fTempDist = 10000;
+			hit.nObjectsTested++;
 			pObj->m_pSkinnedMesh->SetWorldMatrix(pObj->m_matrix);
-			
+
 			collResult = pObj->m_pSkinnedMesh->CheckCollision(Mat);
 			if(collResult.fDist < i_fSize)
 			{
-				return collResult.vNormalVector;	
+				mtCreateObjList.auto_unlock_cancel();
+
+				hit.bHit		= TRUE;
+				hit.fDist		= collResult.fDist;
+				hit.vNormal		= collResult.vNormalVector;
+				hit.dwObjType	= pObj->m_dwObjType;
+				if(o_pHit)	{ *o_pHit = hit; }
+				return collResult.vNormalVector;
 			}
-		}		
+		}
 		Newitr++;
 	}
-	mtCreateObjList.auto_unlock_cancel();		// 2009-09-09 ~ 2010-01 by dhjin, 인피니티 - 소스 체크
+	mtCreateObjList.auto_unlock_cancel();
 
-	return D3DXVECTOR3(0,0,0);
+	if(o_pHit)	{ *o_pHit = hit; }
+	return D3DXVECTOR3(0, 0, 0);
 }

@@ -44,6 +44,11 @@ struct SMeshContainer
 	DWORD m_maxFaceInfl;
 	LPD3DXBUFFER m_pBoneCombinationBuf;
 	METHOD  m_Method;
+
+	// Local space bounds, used by CheckCollDistDetail() to throw out the meshes
+	// the pick ray comes nowhere near.
+	D3DXVECTOR3 m_vecMinXYZ;
+	D3DXVECTOR3 m_vecMaxXYZ;
 	DWORD m_paletteSize;
 	bool m_bUseSW;
 
@@ -67,6 +72,8 @@ struct SMeshContainer
 		m_maxFaceInfl(0),
 		m_pBoneCombinationBuf(nullptr),
 		m_Method(NONE),
+		m_vecMinXYZ(0, 0, 0),
+		m_vecMaxXYZ(0, 0, 0),
 		m_paletteSize(0),
 		m_bUseSW(false)
 	{
@@ -242,7 +249,7 @@ struct SFrame
 
 	void SetTime(float fTime);
 
-	SFrame* FindFrame(char* szFrame)
+	SFrame* FindFrame(const char* szFrame)
 	{
 		if (szName && strcmp(szName, szFrame) == 0) return this;
 
@@ -342,7 +349,7 @@ struct SDrawElement
 		pframeAnimHead = pframeAnim;
 	}
 
-	SFrame* FindFrame(char* szName) const
+	SFrame* FindFrame(const char* szName) const
 	{
 		if (!pframeRoot) return nullptr;
 
@@ -374,6 +381,15 @@ struct COLLISION_RESULT
 	int nCollType;
 	float fDist;
 	D3DXVECTOR3 vNormalVector;
+
+	// Every miss in CheckCollDistDetail() returns a default constructed one of
+	// these - no mesh, rejected by the bounding box, or no intersection - so "no
+	// collision" has to mean a distance nothing can be nearer than.
+	COLLISION_RESULT()
+		: nCollType(-1)
+		, fDist(10000.0f)
+		, vNormalVector(0, 0, 0)
+	{}
 };
 
 
@@ -384,6 +400,13 @@ public:
 	explicit CSkinnedMesh(bool bProgressiveMesh);
 
 	float GetRadius() const { return m_fRadius; }
+	// A load that fails anywhere deletes the whole draw list but leaves the
+	// CSkinnedMesh alive, so an empty one is indistinguishable from a loaded
+	// one without asking.
+	BOOL HasGeometry() const { return NULL != m_pdeHead; }
+	// Which step of the last LoadMeshHierarchyFromMem() went wrong, so a
+	// failed object mesh can be reported without a debugger attached.
+	const char* GetLoadStage() const { return m_pszLoadStage ? m_pszLoadStage : "none"; }
 
 	virtual ~CSkinnedMesh();
 
@@ -432,6 +455,8 @@ protected:
 public:
 	LPDIRECT3DDEVICE9		m_pd3dDevice;
 	float					m_fRadius;
+	const char*				m_pszLoadStage;
+	BOOL					m_bLoggedDegenerateNormal;	// see CheckCollDistDetail()
 	D3DXVECTOR3				m_vCenter;
 	BYTE					m_bTextureNum;
 	CGameData* m_pGameData;

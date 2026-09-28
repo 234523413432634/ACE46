@@ -28,6 +28,8 @@ CNPCGlobal::CNPCGlobal()
 	m_pN2FSocket				= NULL;
 
 	m_bIsArenaServer			= FALSE;		// 2008-09-10 by cmkwon, 통합아레나 맵설정(map.cfg) 관련 수정 - 
+
+	m_nMonsterCollisionLogLevel	= 0;
 }
 
 CNPCGlobal::~CNPCGlobal()
@@ -316,6 +318,18 @@ CString CNPCGlobal::LoadConfiguration1()
 					MEMSET_ZERO(m_szODBCPASSWORD, SIZE_MAX_ODBC_CONN_STRING);
 					XOR::XOREncode((BYTE*)m_szODBCPASSWORD, byEncodedBinary, strlen(token)/2, STR_XOR_KEY_STRING_DB_ID_PWD);
 				}
+			}
+		}
+		else if(stricmp(token, "MonsterCollisionLog") == 0)
+		{	// diagnostic only - see CNPCGlobal::m_nMonsterCollisionLogLevel
+			token = config.strtok(NULL, seps);
+			if (token == NULL)
+			{
+				return "Loading Configuration File Failed. MonsterCollisionLog\n";
+			}
+			if(strcmp(token, "") != 0)
+			{
+				this->m_nMonsterCollisionLogLevel = atoi(token);
 			}
 		}
 		else if(stricmp(token, "FieldServer") == 0)

@@ -13,6 +13,8 @@
 #include "NPCMonster.h"
 #include "AtumProtocol.h"
 
+struct MONSTER_COLLISION_HIT;	// NPCMapProject.h
+
 typedef struct
 {
 	int			nCreatedCount;						// 현재까지 영역에서 생성된 몬스터의 숫자
@@ -308,6 +310,10 @@ private:
 	BOOL CheckImpactPositionObjects(D3DXVECTOR3 *i_pVec3Start, D3DXVECTOR3 *i_pVec3End, INT i_nExcludeObjNum);
 	BOOL CheckImpactStraightLineMapAndObjects(D3DXVECTOR3 *vMonPos, D3DXVECTOR3 *vTarPos, INT i_nExcludeObjNum, BOOL bFlagObjectCheck=TRUE);	
 	BOOL CheckAndModifyImpactPositionObjects(CNPCMonster * pMon);
+	void LogMonsterCollision(CNPCMonster *i_pMon
+		, const MONSTER_COLLISION_HIT *i_pHit
+		, const D3DXVECTOR3 *i_pUnitVec3Travel
+		, const char *i_szResult);
 	
 public:	
 	mt_vectorMSG_FN_MONSTER_CREATE_OK			m_mtvectorMSG_FN_MONSTER_CREATE_OK;

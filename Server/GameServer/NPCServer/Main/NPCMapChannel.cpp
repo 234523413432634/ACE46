@@ -5310,8 +5310,9 @@ BOOL CNPCMapChannel::CheckImpactPositionObjects(D3DXVECTOR3 *i_pVec3Start, D3DXV
 	////////////////////////////////////////////////////////////////////////////////
 	// 2009-09-09 ~ 2010 by dhjin, 인피니티 - 변경 오브젝트를 위해!!!! 밑과 같이 수정
 //	D3DXVECTOR3 retedUnitVec3 = m_pNPCMapProject->CheckCollisionMesh(i_pVec3Start, &tmUnitVec3, fLength, i_nExcludeObjNum);
-	D3DXVECTOR3 retedUnitVec3 = m_pNPCMapProject->CheckCollisionMesh(i_pVec3Start, &tmUnitVec3, fLength, i_nExcludeObjNum, &m_mtDeletedObjectInfoList, &m_mtNewObjectInfoList);	// 2009-09-09 ~ 2010-01 by dhjin, 인피니티 - 소스 체크
-	if(retedUnitVec3 != D3DXVECTOR3(0,0,0)) 
+	D3DXVECTOR3 retedUnitVec3 = m_pNPCMapProject->CheckCollisionMesh(i_pVec3Start, &tmUnitVec3
+		, fLength, i_nExcludeObjNum, &m_mtDeletedObjectInfoList, &m_mtNewObjectInfoList);
+	if(retedUnitVec3 != D3DXVECTOR3(0,0,0))
 	{
 		return TRUE;
 	}
@@ -5320,7 +5321,12 @@ BOOL CNPCMapChannel::CheckImpactPositionObjects(D3DXVECTOR3 *i_pVec3Start, D3DXV
 }
 
 //////////////////////////////////////////////////////////////////////
-// 몬스터가 이동시 Object 와의 충돌 처리
+// Object collision for a monster that has just been moved.
+//
+// The 2006 lineage's rule, as it shipped: one ray along the direction of
+// travel, and any hit inside (size + speed) puts the monster back where it
+// started and sends it off in a random direction.
+//////////////////////////////////////////////////////////////////////
 BOOL CNPCMapChannel::CheckAndModifyImpactPositionObjects(CNPCMonster *pMon)
 {
 	if(FALSE == pMon->m_MoveInfo.MovableFlag
@@ -5329,35 +5335,68 @@ BOOL CNPCMapChannel::CheckAndModifyImpactPositionObjects(CNPCMonster *pMon)
 		return FALSE;
 	}
 
-//	충돌한 면의 법선 벡터를 받는다. 2004.07.03 jschoi
 	D3DXVECTOR3 tmUnitVec3, retedUnitVec3;
-	D3DXVec3Normalize(&tmUnitVec3, &(pMon->PositionVector-pMon->m_BeforePosition));
-	////////////////////////////////////////////////////////////////////////////////
-	// 2009-09-09 ~ 2010 by dhjin, 인피니티 - 변경 오브젝트를 위해!!!! 밑과 같이 수정
-//	retedUnitVec3 = m_pNPCMapProject->CheckCollisionMesh(&pMon->m_BeforePosition, &tmUnitVec3
-//		, pMon->MonsterInfoPtr->Size + pMon->GetCurrentSpeed(), DEFAULT_OBJECT_MONSTER_OBJECT+pMon->MonsterInfoPtr->MonsterUnitKind);
-	retedUnitVec3 = m_pNPCMapProject->CheckCollisionMesh(&pMon->m_BeforePosition, &tmUnitVec3
-		, pMon->MonsterInfoPtr->Size + pMon->GetCurrentSpeed(), DEFAULT_OBJECT_MONSTER_OBJECT+pMon->MonsterInfoPtr->MonsterUnitKind, &m_mtDeletedObjectInfoList, &m_mtNewObjectInfoList);	// 2009-09-09 ~ 2010-01 by dhjin, 인피니티 - 소스 체크
-	if(retedUnitVec3 != D3DXVECTOR3(0,0,0)) 
-	{
-		///////////////////////////////////////////////////////////////////////////////
-		// 충돌 면의 법선벡터와 몬스터이동 TargetVector의 각 차이를 구한다.		
-		float fAngle = ACOS(D3DXVec3Dot(&tmUnitVec3, &retedUnitVec3));
-		if(fAngle >= PI/4)
-		{// 각차이가 PI/4보다 크다면 오브젝트 안으로 들어가려는 상황이므로 이전좌표로 돌리고 방향을 랜덤으로 설정한다.
+	D3DXVec3Normalize(&tmUnitVec3, &(pMon->PositionVector - pMon->m_BeforePosition));
 
-			pMon->PositionVector = pMon->m_BeforePosition;		
-			CNPCMonster::GetRandomVector(&tmUnitVec3);
-			pMon->SetMoveTargetVector(&tmUnitVec3);
-			if(pMon->m_nTargetIndex == 0)
-			{// 공격시가 아니면 강제 TargetVector를 설정한다
-				
-				pMon->SetEnforceTargetVector(&tmUnitVec3, pMon->GetSpeed(), MSS_MAP_IMPACT);
-			}
-			return TRUE;
+	MONSTER_COLLISION_HIT	hit;
+	retedUnitVec3 = m_pNPCMapProject->CheckCollisionMesh(&pMon->m_BeforePosition, &tmUnitVec3
+		, pMon->MonsterInfoPtr->Size + pMon->GetCurrentSpeed()
+		, DEFAULT_OBJECT_MONSTER_OBJECT + pMon->MonsterInfoPtr->MonsterUnitKind
+		, &m_mtDeletedObjectInfoList, &m_mtNewObjectInfoList, &hit);
+
+	if(retedUnitVec3 != D3DXVECTOR3(0, 0, 0))
+	{
+		pMon->PositionVector = pMon->m_BeforePosition;
+		CNPCMonster::GetRandomVector(&tmUnitVec3);
+		pMon->SetMoveTargetVector(&tmUnitVec3);
+		if(pMon->m_nTargetIndex == 0)
+		{	// not mid attack, so the enforced target vector is free to be reset
+			pMon->SetEnforceTargetVector(&tmUnitVec3, pMon->GetSpeed(), MSS_MAP_IMPACT);
 		}
+
+		LogMonsterCollision(pMon, &hit, &tmUnitVec3, "blocked");
+		return TRUE;
 	}
+
+	LogMonsterCollision(pMon, &hit, &tmUnitVec3, "pass");
 	return FALSE;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// Diagnostic trace for the object collision.
+///////////////////////////////////////////////////////////////////////////////
+void CNPCMapChannel::LogMonsterCollision(CNPCMonster *i_pMon
+										 , const MONSTER_COLLISION_HIT *i_pHit
+										 , const D3DXVECTOR3 *i_pUnitVec3Travel
+										 , const char *i_szResult)
+{
+	const int nLevel = g_pNPCGlobal->GetMonsterCollisionLogLevel();
+	if(nLevel < 1)
+	{
+		return;
+	}
+	if(nLevel < 2 && FALSE == i_pHit->bHit)
+	{
+		return;
+	}
+
+	char szLog[1024];
+	sprintf(szLog, "[MonColl] map[%04d] mon[%5d] kind[%8d] size[%3d] pos(%7.1f,%7.1f,%7.1f) dir(%5.2f,%5.2f,%5.2f) "
+		"result[%s] dist[%7.1f] nrm(%5.2f,%5.2f,%5.2f) obj[%8d] objs[%d tested / %d total]\r\n"
+		, m_pNPCMapProject->m_nMapIndex
+		, i_pMon->MonsterIndex
+		, i_pMon->MonsterInfoPtr->MonsterUnitKind
+		, (int)i_pMon->MonsterInfoPtr->Size
+		, i_pMon->m_BeforePosition.x, i_pMon->m_BeforePosition.y, i_pMon->m_BeforePosition.z
+		, i_pUnitVec3Travel->x, i_pUnitVec3Travel->y, i_pUnitVec3Travel->z
+		, i_szResult
+		, i_pHit->fDist
+		, i_pHit->vNormal.x, i_pHit->vNormal.y, i_pHit->vNormal.z
+		, i_pHit->dwObjType
+		, i_pHit->nObjectsTested
+		, i_pHit->nObjectsTotal);
+
+	g_pNPCGlobal->WriteSystemLog(szLog);
 }
 
 
@@ -5864,7 +5903,6 @@ int CNPCMapChannel::NPCGetCreatablePosition(BYTE nMonsterForm, int nMonsterSize
 			continue;
 		}
 		fHeight = m_pNPCMapProject->GetMapHeightIncludeWater(&tmpVector3);
-		
 		switch(nMonsterForm)
 		{
 		case FORM_FLYING_RIGHT:

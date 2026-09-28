@@ -57,8 +57,13 @@ void SFrame::SetTime(float fGlobalTime)
 	BOOL bAnimate = false;
 	float fTime;
 
-	if (m_pMatrixKeys)
+	if (m_pMatrixKeys && m_cMatrixKeys > 0)
 	{
+		// dwp2 and dwp3 are only assigned if the loop below breaks, and it does not
+		// break when no key time compares greater than fTime - which is what happens
+		// the moment fTime is a NaN, since every comparison against a NaN is false.
+		dwp2 = dwp3 = 0;
+
 		fTime = (float)fmod(fGlobalTime, m_pMatrixKeys[m_cMatrixKeys - 1].dwTime);
 
 		for (iKey = 0; iKey < m_cMatrixKeys; iKey++)
@@ -102,7 +107,7 @@ void SFrame::SetTime(float fGlobalTime)
 	{
 		D3DXMatrixIdentity(&matResult);
 
-		if (m_pScaleKeys)
+		if (m_pScaleKeys && m_cScaleKeys > 0)
 		{
 			dwp2 = dwp3 = 0;
 
@@ -148,7 +153,7 @@ void SFrame::SetTime(float fGlobalTime)
 		}
 
 		//check rot keys
-		if (m_pRotateKeys)
+		if (m_pRotateKeys && m_cRotateKeys > 0)
 		{
 			int i1 = 0;
 			int i2 = 0;
@@ -181,7 +186,7 @@ void SFrame::SetTime(float fGlobalTime)
 			bAnimate = true;
 		}
 
-		if (m_pPositionKeys)
+		if (m_pPositionKeys && m_cPositionKeys > 0)
 		{
 			dwp2 = dwp3 = 0;
 
@@ -273,6 +278,8 @@ CSkinnedMesh::CSkinnedMesh()
 	m_pOrderTexture = nullptr;
 	m_fRadius = 0.0f;
 	m_vCenter = D3DXVECTOR3(0, 0, 0);
+	m_pszLoadStage = "none";
+	m_bLoggedDegenerateNormal = FALSE;
 }
 
 CSkinnedMesh::CSkinnedMesh(bool bProgressiveMesh)
@@ -307,6 +314,8 @@ CSkinnedMesh::CSkinnedMesh(bool bProgressiveMesh)
 	m_pOrderTexture = nullptr;
 	m_fRadius = 0.0f;
 	m_vCenter = D3DXVECTOR3(0, 0, 0);
+	m_pszLoadStage = "none";
+	m_bLoggedDegenerateNormal = FALSE;
 }
 
 CSkinnedMesh::~CSkinnedMesh()
@@ -449,33 +458,15 @@ COLLISION_RESULT CSkinnedMesh::CheckCollDistDetail(SMeshContainer* pmcMesh, cons
 	//	FLOG( "CSkinnedMesh::CheckCollDistDetail(SMeshContainer *pmcMesh,D3DXMATRIX mat)" );
 	COLLISION_RESULT collResult;
 	//	collResult.fDist = DEFAULT_COLLISION_DISTANCE;
-	if (pmcMesh->m_pSkinMesh)
+	// This used to build m_pBoneMatrices here and then not use them - the
+	// UpdateSkinnedMesh() call that wanted them is commented out, and the ray
+	// is cast against pMesh either way.  It also indexed m_pBoneMatrix and
+	// m_pBoneMatrices without checking either was allocated, which is a fault
+	// waiting to happen on a mesh whose bones did not resolve.  The identity
+	// world a software-skinned mesh needs is handled where matWorld is chosen.
+	if (!pmcMesh->pMesh)
 	{
-		if (m_method == SOFTWARE)
-		{
-			D3DXMATRIX Identity;
-			DWORD cBones = pmcMesh->m_pSkinMeshInfo->GetNumBones();
-			// set up bone transforms
-			for (DWORD iBone = 0; iBone < cBones; ++iBone)
-			{
-				D3DXMatrixMultiply
-				(
-					&m_pBoneMatrices[iBone], // output
-					&pmcMesh->m_pBoneOffsetMat[iBone],
-					pmcMesh->m_pBoneMatrix[iBone]
-				);
-			}
-			// set world transform
-			D3DXMatrixIdentity(&Identity);
-			m_pd3dDevice->SetTransform(D3DTS_WORLD, &Identity);
-			// generate skinned mesh
-			if (!pmcMesh->pMesh)
-			{
-				//				collResult.fDist = DEFAULT_COLLISION_DISTANCE;
-				return collResult;
-			}
-			//            pmcMesh->m_pSkinMesh->UpdateSkinnedMesh(m_pBoneMatrices, NULL, pmcMesh->pMesh);
-		}
+		return collResult;
 	}
 
 	BOOL bHit, bIntersections;
@@ -486,22 +477,27 @@ COLLISION_RESULT CSkinnedMesh::CheckCollDistDetail(SMeshContainer* pmcMesh, cons
 	D3DXVECTOR3 vPickRayDir, vPickRayOrig;
 	D3DXMATRIX m, matWorld;
 
-	//D3DXMatrixInverse( &m, NULL, &matThis );
-//matWorld = matThis;
-//m = mat*m;
-
-
-//	g_pD3dDev->GetTransform( D3DTS_PROJECTION, &matProj );
-// Get the inverse view matrix
-	m_pd3dDevice->GetTransform(D3DTS_WORLD, &matWorld);
-	m = matWorld * mat;
-	D3DXMatrixInverse(&m, nullptr, &m);
+	// The 2006 composition, restored. matThis is the frame's matCombined - the
+	// mesh's placement in the world, with the object matrix that SetWorldMatrix()
+	// supplied already folded in by UpdateFrames().
+	D3DXMatrixInverse(&m, nullptr, &matThis);
+	matWorld = matThis;
+	m = mat * m;
 	vPickRayDir.x = m._31;
 	vPickRayDir.y = m._32;
 	vPickRayDir.z = m._33;
 	vPickRayOrig.x = m._41;
 	vPickRayOrig.y = m._42;
 	vPickRayOrig.z = m._43;
+
+	// D3DXIntersect() tests the ray against every triangle in the mesh, and the
+	// cave shells here run to thousands of them.
+	if (pmcMesh->m_vecMinXYZ != pmcMesh->m_vecMaxXYZ
+		&& !D3DXBoxBoundProbe(&pmcMesh->m_vecMinXYZ, &pmcMesh->m_vecMaxXYZ,
+							  &vPickRayOrig, &vPickRayDir))
+	{
+		return collResult;
+	}
 
 	D3DXIntersect(pmcMesh->pMesh, &vPickRayOrig, &vPickRayDir, &bHit, &dwFace, &fBary1, &fBary2, &fDist, nullptr, nullptr);
 
@@ -520,56 +516,74 @@ COLLISION_RESULT CSkinnedMesh::CheckCollDistDetail(SMeshContainer* pmcMesh, cons
 
 	if (bIntersections)
 	{
-		WORD* pIndices;
-		D3DVERTEX* pVertices;
+		// The vertex buffer was being indexed as an array of D3DVERTEX, a fixed
+		// XYZ|NORMAL|TEX1 layout 32 bytes wide.
+		const DWORD dwStride  = pmcMesh->pMesh->GetNumBytesPerVertex();
+		const BOOL  b32BitIdx = (0 != (pmcMesh->pMesh->GetOptions() & D3DXMESH_32BIT));
 
-		D3DVERTEX vThisTri[3];
-		WORD* iThisTri;
+		PBYTE  pVertices = nullptr;
+		LPVOID pIndices  = nullptr;
 
-		//			LPDIRECT3DVERTEXBUFFER9 pVB;
-		//			LPDIRECT3DINDEXBUFFER9  pIB;	
-		//			pmcMesh->pMesh->GetVertexBuffer(&pVB);
-		//			pmcMesh->pMesh->GetIndexBuffer( &pIB );
-		//			pIB->Lock( 0,0,(void**)&pIndices, 0 );
-		//			pVB->Lock( 0,0,(void**)&pVertices, 0 );
+		D3DXVECTOR3 vThisTri[3];
+		BOOL bGotTriangle = FALSE;
 
-		pmcMesh->pMesh->LockVertexBuffer(D3DLOCK_READONLY, (LPVOID*)&pVertices);
-		pmcMesh->pMesh->LockIndexBuffer(D3DLOCK_READONLY, (LPVOID*)&pIndices);
+		if (0 < dwStride
+			&& SUCCEEDED(pmcMesh->pMesh->LockVertexBuffer(D3DLOCK_READONLY, (LPVOID*)&pVertices)))
+		{
+			if (SUCCEEDED(pmcMesh->pMesh->LockIndexBuffer(D3DLOCK_READONLY, &pIndices)))
+			{
+				const DWORD dwBase = 3 * m_Intersection.dwFace;
 
-		iThisTri = &pIndices[3 * m_Intersection.dwFace];
-		// get vertices hit
-		vThisTri[0] = pVertices[iThisTri[0]];
-		vThisTri[1] = pVertices[iThisTri[1]];
-		vThisTri[2] = pVertices[iThisTri[2]];
+				for (int iCorner = 0; iCorner < 3; iCorner++)
+				{
+					const DWORD dwIndex = b32BitIdx
+						? LPDWORD(pIndices)[dwBase + iCorner]
+						: LPWORD(pIndices)[dwBase + iCorner];
 
-		pmcMesh->pMesh->UnlockVertexBuffer();
-		pmcMesh->pMesh->UnlockIndexBuffer();
-		//			pVB->Unlock();
-		//			pIB->Unlock();
+					vThisTri[iCorner] = *LPD3DXVECTOR3(pVertices + dwIndex * dwStride);
+				}
 
-		//			pVB->Release();
-		//			pIB->Release();	
+				bGotTriangle = TRUE;
+				pmcMesh->pMesh->UnlockIndexBuffer();
+			}
+			pmcMesh->pMesh->UnlockVertexBuffer();
+		}
 
-		D3DXVec3TransformCoord(&vThisTri[0].p, &vThisTri[0].p, &matWorld);
-		D3DXVec3TransformCoord(&vThisTri[1].p, &vThisTri[1].p, &matWorld);
-		D3DXVec3TransformCoord(&vThisTri[2].p, &vThisTri[2].p, &matWorld);
-		//			D3DXVec3TransformNormal(&vThisTri[0].n, &vThisTri[0].n, &matWorld);
-		//			D3DXVec3TransformNormal(&vThisTri[1].n, &vThisTri[1].n, &matWorld);
-		//			D3DXVec3TransformNormal(&vThisTri[2].n, &vThisTri[2].n, &matWorld);
+		if (bGotTriangle)
+		{
+			D3DXVec3TransformCoord(&vThisTri[0], &vThisTri[0], &matWorld);
+			D3DXVec3TransformCoord(&vThisTri[1], &vThisTri[1], &matWorld);
+			D3DXVec3TransformCoord(&vThisTri[2], &vThisTri[2], &matWorld);
 
-		// 법선을 구하자.
+			D3DXVECTOR3 vTempNormal, vNormalVector;
+			D3DXVECTOR3 vCross1 = vThisTri[0] - vThisTri[1];
+			D3DXVECTOR3 vCross2 = vThisTri[1] - vThisTri[2];
+			D3DXVec3Cross(&vTempNormal, &vCross1, &vCross2);
 
-		D3DXVECTOR3 vTempNormal, vNormalVector;
-		D3DXVECTOR3 vCross1, vCross2;
-		vCross1 = vThisTri[0].p - vThisTri[1].p;
-		vCross2 = vThisTri[1].p - vThisTri[2].p;
-		D3DXVec3Cross(&vTempNormal, &vCross1, &vCross2);
-		D3DXVec3Normalize(&vNormalVector, &vTempNormal);
+			if (0.0f < D3DXVec3LengthSq(&vTempNormal))
+			{
+				D3DXVec3Normalize(&vNormalVector, &vTempNormal);
+				collResult.vNormalVector = vNormalVector;
+			}
+			else if (FALSE == m_bLoggedDegenerateNormal)
+			{
+				// The normal came out zero, so the caller gets no surface to test an
+				// approach against.
+				m_bLoggedDegenerateNormal = TRUE;
 
-		//			vNormalVector = vThisTri[0].n + vThisTri[1].n + vThisTri[2].n;
-		//			D3DXVec3Normalize(&vNormalVector,&vNormalVector);
-
-		collResult.vNormalVector = vNormalVector;
+				char szDegen[512];
+				sprintf(szDegen, "[Notify] degenerate face normal: stride[%lu] idx32[%d] face[%lu] faces[%lu] verts[%lu]"
+					" p0(%.2f,%.2f,%.2f) p1(%.2f,%.2f,%.2f) p2(%.2f,%.2f,%.2f)\r\n"
+					, (unsigned long)dwStride, b32BitIdx ? 1 : 0
+					, (unsigned long)m_Intersection.dwFace
+					, (unsigned long)pmcMesh->pMesh->GetNumFaces()
+					, (unsigned long)pmcMesh->pMesh->GetNumVertices()
+					, vThisTri[0].x, vThisTri[0].y, vThisTri[0].z
+					, vThisTri[1].x, vThisTri[1].y, vThisTri[1].z
+					, vThisTri[2].x, vThisTri[2].y, vThisTri[2].z);
+				g_pNPCGlobal->WriteSystemLog(szDegen);
+			}
+		}
 
 		collResult.fDist = fDist;
 
@@ -583,6 +597,7 @@ COLLISION_RESULT CSkinnedMesh::CheckCollDistDetail(SMeshContainer* pmcMesh, cons
 HRESULT CSkinnedMesh::LoadMeshHierarchyFromMem(CGameData* pGameData, const D3DXVECTOR3& vObjScale)	// 2012-05-23 by isshin 맵툴 개선 오브젝트 스케일 적용
 {
 	m_pGameData = pGameData;
+	m_pszLoadStage = "D3DXFileCreate";
 
 	auto pdeMesh = new SDrawElement();
 
@@ -594,7 +609,7 @@ HRESULT CSkinnedMesh::LoadMeshHierarchyFromMem(CGameData* pGameData, const D3DXV
 
 	// Register templates for d3drm.
 
-	if (SUCCEEDED(hr)) hr = pxofapi->RegisterTemplates(LPVOID(D3DRM_XTEMPLATES), D3DRM_XTEMPLATE_BYTES);
+	if (SUCCEEDED(hr)) { m_pszLoadStage = "RegisterTemplates"; hr = pxofapi->RegisterTemplates(LPVOID(D3DRM_XTEMPLATES), D3DRM_XTEMPLATE_BYTES); }
 
 	if (SUCCEEDED(hr)) hr = pxofapi->RegisterTemplates(LPVOID(szTemplates), strlen(szTemplates));
 
@@ -608,7 +623,10 @@ HRESULT CSkinnedMesh::LoadMeshHierarchyFromMem(CGameData* pGameData, const D3DXV
 
 		// Create enum object.
 
-		hr = pxofapi->CreateEnumObject(&Memory, DXFILELOAD_FROMMEMORY, &pxofenum);
+		// DXFILELOAD_FROMMEMORY belongs to the legacy IDirectXFile API in dxfile.h,
+		// where it is 0x02.
+		m_pszLoadStage = "CreateEnumObject";
+		hr = pxofapi->CreateEnumObject(&Memory, D3DXF_FILELOAD_FROMMEMORY, &pxofenum);
 	}
 
 	if (SUCCEEDED(hr))
@@ -626,7 +644,7 @@ HRESULT CSkinnedMesh::LoadMeshHierarchyFromMem(CGameData* pGameData, const D3DXV
 
 			hr = pxofenum->GetChild(child, &pxofobjCur);
 
-			if (SUCCEEDED(hr)) hr = LoadFrames(pxofobjCur, pdeMesh, 0, m_dwFVF, m_pd3dDevice, pdeMesh->pframeRoot);
+			if (SUCCEEDED(hr)) { m_pszLoadStage = "LoadFrames"; hr = LoadFrames(pxofobjCur, pdeMesh, 0, m_dwFVF, m_pd3dDevice, pdeMesh->pframeRoot); }
 
 			GXRELEASE(pxofobjCur);
 		}
@@ -636,13 +654,24 @@ HRESULT CSkinnedMesh::LoadMeshHierarchyFromMem(CGameData* pGameData, const D3DXV
 	GXRELEASE(pxofenum);
 	GXRELEASE(pxofapi);
 
-	if (SUCCEEDED(hr)) hr = FindBones(pdeMesh->pframeRoot, pdeMesh);
+	if (SUCCEEDED(hr)) { m_pszLoadStage = "FindBones"; hr = FindBones(pdeMesh->pframeRoot, pdeMesh); }
 
 	if (SUCCEEDED(hr))
 	{
-		hr = CalculateBoundingSphere(pdeMesh, vObjScale);	// 2012-05-23 by isshin 맵툴 개선 오브젝트 스케일 적용
-		m_fRadius = pdeMesh->fRadius;
-		m_vCenter = pdeMesh->vCenter;
+		// A bounding sphere we could not work out is no reason to throw the geometry
+		// away - it used to fail the load outright, which left the object with no
+		// collision at all.
+		m_pszLoadStage = "CalculateBoundingSphere";
+		if (SUCCEEDED(CalculateBoundingSphere(pdeMesh, vObjScale)))
+		{
+			m_fRadius = pdeMesh->fRadius;
+			m_vCenter = pdeMesh->vCenter;
+		}
+		else
+		{
+			m_fRadius = 0.0f;
+			m_vCenter = D3DXVECTOR3(0, 0, 0);
+		}
 	}
 
 	if (SUCCEEDED(hr))
@@ -679,6 +708,7 @@ HRESULT CSkinnedMesh::LoadMeshHierarchyFromMem(CGameData* pGameData, const D3DXV
 		DeleteSelectedMesh();
 
 		// link into the draw list
+		m_pszLoadStage = "ok";
 		pdeMesh->pdeNext = m_pdeHead;
 		m_pdeHead = pdeMesh;
 
@@ -1808,13 +1838,22 @@ HRESULT CSkinnedMesh::FindBones(SFrame* pframeCur, SDrawElement* pde)
 	pmcMesh = pframeCur->pmcMesh;
 	while (pmcMesh != NULL)
 	{
-		if (pmcMesh->m_pSkinMesh)
+		// m_pBoneNamesBuf was filled by the old D3DXLoadSkinMeshFromXof call that
+		// this loader stopped using - it is left null now, so reading it faulted the
+		// moment a skinned object mesh actually loaded.
+		if (pmcMesh->m_pSkinMesh
+			&& pmcMesh->m_pSkinMeshInfo
+			&& pmcMesh->m_pBoneMatrix)
 		{
-			char** pBoneName = static_cast<char**>(pmcMesh->m_pBoneNamesBuf->GetBufferPointer());
 			for (DWORD i = 0; i < pmcMesh->m_pSkinMeshInfo->GetNumBones(); ++i)
 			{
-				SFrame* pFrame = pde->FindFrame(pBoneName[i]);
-				pmcMesh->m_pBoneMatrix[i] = &(pFrame->matCombined);
+				LPCSTR szBoneName = pmcMesh->m_pSkinMeshInfo->GetBoneName(i);
+				SFrame* pFrame = szBoneName ? pde->FindFrame(szBoneName) : nullptr;
+
+				// A bone with no frame is a broken mesh, not a reason to take the
+				// server down - m_pBoneMatrix comes from an uninitialised new[],
+				// so every slot has to be written.
+				pmcMesh->m_pBoneMatrix[i] = pFrame ? &(pFrame->matCombined) : nullptr;
 			}
 		}
 		pmcMesh = pmcMesh->pmcNext;
@@ -2339,6 +2378,12 @@ HRESULT CalculateRadius(SFrame* pframe, D3DXMATRIX* pmatCur, D3DXVECTOR3* pvCent
 
 		hr = pmcCur->pMesh->LockVertexBuffer(0, &pbPoints);
 		if (FAILED(hr)) goto e_Exit;
+
+		// Same pass, same lock: the box CheckCollDistDetail() rejects against.
+		pmcCur->m_vecMinXYZ = D3DXVECTOR3(0, 0, 0);
+		pmcCur->m_vecMaxXYZ = D3DXVECTOR3(0, 0, 0);
+		D3DXComputeBoundingBox(reinterpret_cast<D3DXVECTOR3*>(pbPoints),
+			cVertices, fvfsize, &pmcCur->m_vecMinXYZ, &pmcCur->m_vecMaxXYZ);
 
 		for (iPoint = 0, pbCur = PBYTE(pbPoints); iPoint < cVertices; iPoint++, pbCur += fvfsize)
 		{
