@@ -77,10 +77,12 @@ public:
 	int			ProcessRotationUnitWnd(UINT uMsg, WPARAM wParam, LPARAM lParam);
 	int			ProcessRotationUnit(POINT pt, UINT uMsg);
 
-	void		MirrorTurnLeft(){m_fRotationX = m_fRotationX+0.05f;}
-	void		MirrorTurnRight(){m_fRotationX = m_fRotationX-0.05f;}
-	void		MirrorTurnUp(){m_fRotationZ = m_fRotationZ+0.05f;}
-	void		MirrorTurnDown(){m_fRotationZ = m_fRotationZ-0.05f;}
+	// out of line, the step is scaled by the frame time : see GetMirrorTurnStep()
+	float		GetMirrorTurnStep();
+	void		MirrorTurnLeft();
+	void		MirrorTurnRight();
+	void		MirrorTurnUp();
+	void		MirrorTurnDown();
 	void		MirrorTurnOrig(){m_fRotationX = SHUTTLE_ROTATION_DEFAULT_X; m_fRotationZ = SHUTTLE_ROTATION_DEFAULT_Z;}
 
 	BOOL		IsRobotArmor();	// 2013-07-08 by bhsohn 아이템 정보보기 기능 상대방 로봇 아머 무기 나오는 버그 수정

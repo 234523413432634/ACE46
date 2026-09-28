@@ -591,16 +591,16 @@ HRESULT CINFInvenItem::InvalidateDeviceObjects()
 
 	return S_OK;
 }
-void CINFInvenItem::Render()
+///////////////////////////////////////////////////////////////////////////////
+/// \fn CINFInvenItem::RenderBk() \brief The window background of the
+/// inventory.
+///////////////////////////////////////////////////////////////////////////////
+void CINFInvenItem::RenderBk()
 {
 	if(!IsShowWnd())
 	{
 		return;
 	}
-	CINFInvenExtend* pParent = (CINFInvenExtend*)m_pParent;
-	
-	int nWindowPosX = m_ptBkPos.x;
-	int nWindowPosY = m_ptBkPos.y; 
 #ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
 	{
 		if(!m_bTradeItemCenterState)								 // 2013-11-29 by ssjung 거래소 구현
@@ -619,6 +619,18 @@ void CINFInvenItem::Render()
 		m_pInvenBase->Render();
 	}
 #endif
+}
+
+void CINFInvenItem::Render()
+{
+	if(!IsShowWnd())
+	{
+		return;
+	}
+	CINFInvenExtend* pParent = (CINFInvenExtend*)m_pParent;
+	
+	int nWindowPosX = m_ptBkPos.x;
+	int nWindowPosY = m_ptBkPos.y; 
 	m_pINFInvenScrollBar->Render();
 
 	RenderInvenItem();

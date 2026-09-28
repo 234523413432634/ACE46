@@ -318,6 +318,55 @@ HRESULT CINFInvenEquip::InvalidateDeviceObjects()
 	m_pFontSPIWPToolTip->InvalidateDeviceObjects();
 	return S_OK;
 }
+///////////////////////////////////////////////////////////////////////////////
+/// \fn CINFInvenEquip::RenderShipPreview() \brief The 3D ship of the equip
+/// window.
+///////////////////////////////////////////////////////////////////////////////
+void CINFInvenEquip::RenderShipPreview()
+{
+	if(!IsShowWnd())
+	{
+		return;
+	}
+
+	POINT ptPos;
+
+	ptPos.x = m_ptBkPos.x + EXTEND_INVEN_BACK_POS_X;
+	ptPos.y = m_ptBkPos.y + EXTEND_INVEN_BACK_POS_Y;
+
+	// The preview and the weapon effects hung on it change device state that was
+	// never put back : D3DRS_ALPHABLENDENABLE above all, which left everything
+	// drawn afterwards blended against whatever source and destination factors
+	// the effect had asked for.
+	DWORD dwOldAlphaBlend, dwOldSrcBlend, dwOldDestBlend, dwOldZEnable;
+	DWORD dwOldZWrite, dwOldAlphaTest, dwOldLighting, dwOldFog, dwOldCull;
+	g_pD3dDev->GetRenderState( D3DRS_ALPHABLENDENABLE, &dwOldAlphaBlend );
+	g_pD3dDev->GetRenderState( D3DRS_SRCBLEND,         &dwOldSrcBlend );
+	g_pD3dDev->GetRenderState( D3DRS_DESTBLEND,        &dwOldDestBlend );
+	g_pD3dDev->GetRenderState( D3DRS_ZENABLE,          &dwOldZEnable );
+	g_pD3dDev->GetRenderState( D3DRS_ZWRITEENABLE,     &dwOldZWrite );
+	g_pD3dDev->GetRenderState( D3DRS_ALPHATESTENABLE,  &dwOldAlphaTest );
+	g_pD3dDev->GetRenderState( D3DRS_LIGHTING,         &dwOldLighting );
+	g_pD3dDev->GetRenderState( D3DRS_FOGENABLE,        &dwOldFog );
+	g_pD3dDev->GetRenderState( D3DRS_CULLMODE,         &dwOldCull );
+
+	g_pD3dDev->SetRenderState( D3DRS_ZENABLE, TRUE );
+	g_pD3dDev->SetRenderState( D3DRS_LIGHTING, TRUE );
+	g_pD3dDev->SetRenderState( D3DRS_CULLMODE, D3DCULL_CCW );
+
+	RenderMirror(&ptPos);
+
+	g_pD3dDev->SetRenderState( D3DRS_ALPHABLENDENABLE, dwOldAlphaBlend );
+	g_pD3dDev->SetRenderState( D3DRS_SRCBLEND,         dwOldSrcBlend );
+	g_pD3dDev->SetRenderState( D3DRS_DESTBLEND,        dwOldDestBlend );
+	g_pD3dDev->SetRenderState( D3DRS_ZENABLE,          dwOldZEnable );
+	g_pD3dDev->SetRenderState( D3DRS_ZWRITEENABLE,     dwOldZWrite );
+	g_pD3dDev->SetRenderState( D3DRS_ALPHATESTENABLE,  dwOldAlphaTest );
+	g_pD3dDev->SetRenderState( D3DRS_LIGHTING,         dwOldLighting );
+	g_pD3dDev->SetRenderState( D3DRS_FOGENABLE,        dwOldFog );
+	g_pD3dDev->SetRenderState( D3DRS_CULLMODE,         dwOldCull );
+}
+
 void CINFInvenEquip::Render()
 {
 	if(!IsShowWnd())
@@ -332,22 +381,6 @@ void CINFInvenEquip::Render()
 	int nPosX, nPosY;
 	nPosX = nPosY = 0;
 
-	{
-		POINT ptPos;
-		SIZE szSize;
-
-		ptPos.x = m_ptBkPos.x + EXTEND_INVEN_BACK_POS_X;
-		ptPos.y = m_ptBkPos.y + EXTEND_INVEN_BACK_POS_Y;
-
-		szSize.cx = EXTEND_INVEN_BACK_W;
-		szSize.cy = EXTEND_INVEN_BACK_H;
-
-		g_pD3dDev->SetRenderState( D3DRS_ZENABLE, TRUE );
-		g_pD3dDev->SetRenderState( D3DRS_LIGHTING, TRUE );
-		g_pD3dDev->SetRenderState( D3DRS_CULLMODE, D3DCULL_CCW );								  
-	
-		RenderMirror(&ptPos);
-	}
 	{
 		if(m_nButtonState == ROTATION_NONE || m_nRotationState == ROTATION_STATE_N)
 		{
@@ -1095,25 +1128,21 @@ void CINFInvenEquip::RenderMirror(POINT *pMirrorPos/*=NULL*/)
 		D3DXMatrixIdentity(&pMatPresProj);
 		D3DXMatrixIdentity(&pMatrix);
 		
-		D3DXMATRIX pTemp, pMatRotX, pMatRotZ, pMatScaling;
+		D3DXMATRIX pTemp, pMatRotX, pMatRotZ, pMatScaling, pMatAspect;
 		D3DXMatrixIdentity(&pTemp);
 		D3DXMatrixIdentity(&pMatRotX);
 		D3DXMatrixIdentity(&pMatRotZ);
 		D3DXMatrixIdentity(&pMatScaling);
+		D3DXMatrixIdentity(&pMatAspect);
 		
 		g_pD3dDev->GetTransform( D3DTS_VIEW,	   &pMatOldView );
 		g_pD3dDev->GetTransform( D3DTS_PROJECTION, &pMatOldProj );	
 		
-		float fUnitScaling;
-
-		if (g_pD3dApp->GetBackBufferDesc().Width < 1600)
-		{
-			fUnitScaling = UNIT_SCALE;
-		}
-		else
-		{
-			fUnitScaling = UNIT_SCALE * 1600 / g_pD3dApp->GetBackBufferDesc().Width;
-		}
+		// View and projection are identity here, so the world matrix writes straight
+		// into normalized device coordinates : a fixed scale covers a fixed part of
+		// the screen and grows in pixels with the resolution, while the window it
+		// has to sit in is a fixed number of pixels wide.
+		float fUnitScaling = UNIT_SCALE * UNIT_SCALE_BASE_WIDTH / (float)g_pD3dApp->GetBackBufferDesc().Width;
 		float fEqPosX = ((float)(*pMirrorPos).x / (float)g_pD3dApp->GetBackBufferDesc().Width) * 2;
 
 #ifdef C_EPSODE4_UI_CHANGE_JSKIM					        // 2011. 10. 10 by jskim UI시스템 변경
@@ -1138,14 +1167,14 @@ void CINFInvenEquip::RenderMirror(POINT *pMirrorPos/*=NULL*/)
 			}
 		}
 
-		// 2011. 01. 18 by jhahn 장비창 기어 눌려보이는 버그 수정
-//		float tempscal = fUnitScaling + ( fUnitScaling * (float)g_pD3dApp->GetBackBufferDesc().Height / (float)g_pD3dApp->GetBackBufferDesc().Width );
+		// A device coordinate is as wide as the screen and as tall as it, so the
+		// same number covers more pixels across than down and the ship comes out
+		// squashed.
+		float fAspect = (float)g_pD3dApp->GetBackBufferDesc().Width / (float)g_pD3dApp->GetBackBufferDesc().Height;
 
-		float tempscal =   (float)g_pD3dApp->GetBackBufferDesc().Width / (float)g_pD3dApp->GetBackBufferDesc().Height ; // 2012-09-20 by jhahn 장비창 기어 찌그러지는 버그 수정
-//		D3DXMatrixScaling(&pMatScaling, fUnitScaling, tempscal, fUnitScaling);
-		D3DXMatrixScaling(&pMatScaling, fUnitScaling, fUnitScaling * tempscal, fUnitScaling);		
-		// end  2011. 01. 18 by jhahn 장비창 기어 눌려보이는 버그 수정
-		
+		D3DXMatrixScaling(&pMatScaling, fUnitScaling, fUnitScaling, fUnitScaling);
+		D3DXMatrixScaling(&pMatAspect, 1.0f, fAspect, 1.0f);
+
 		D3DXMatrixTranslation(&pTemp, -1.0f + fEqPosX + fEqCenterX, 1.0f - fEqPosY - fEqCenterY, 0.5f);
 		
 		float fRotationX = g_pShuttleChild->GetRotationX();
@@ -1155,7 +1184,7 @@ void CINFInvenEquip::RenderMirror(POINT *pMirrorPos/*=NULL*/)
 		D3DXMatrixRotationY(&pMatRotZ, fRotationZ);
 		// 2010. 03. 18 by jskim 몬스터변신 카드
 		//pMatrix = pMatRotZ*pMatRotX*pTemp*pMatScaling;
-		pMatrix = pMatScaling*pMatRotX*pMatRotZ*pTemp;
+		pMatrix = pMatScaling*pMatRotX*pMatRotZ*pMatAspect*pTemp;
 		//end 2010. 03. 18 by jskim 몬스터변신 카드
 		// 2006-01-16 by ispark, 무기
 		m_pMatInvenWeaponSetPosition[0] = m_pMatInvenWeaponOrgPosition[0]*pMatrix;

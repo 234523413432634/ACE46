@@ -16290,6 +16290,43 @@ BOOL CShuttleChild::WarpSkipInOutAirPort()
 /// \param		
 /// \return		
 ///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+/// \fn			CShuttleChild::GetMirrorTurnStep()
+/// \brief		How far the inventory preview turns on this frame.
+///				The turn buttons are held down and add their step on every frame
+///				they are rendered, so the ship used to spin faster the higher the
+///				frame rate was : at 1000 fps a single click was most of a turn.
+///				The step is the one a 60 fps frame took, taken as many times over
+///				as the current frame stands for.
+///
+/// \param		
+/// \return		float : radian to turn by
+///////////////////////////////////////////////////////////////////////////////
+float CShuttleChild::GetMirrorTurnStep()
+{
+	return SHUTTLE_ROTATION_STEP * g_pD3dApp->GetElapsedTime() * SHUTTLE_ROTATION_BASE_FPS;
+}
+
+void CShuttleChild::MirrorTurnLeft()
+{
+	m_fRotationX = m_fRotationX + GetMirrorTurnStep();
+}
+
+void CShuttleChild::MirrorTurnRight()
+{
+	m_fRotationX = m_fRotationX - GetMirrorTurnStep();
+}
+
+void CShuttleChild::MirrorTurnUp()
+{
+	m_fRotationZ = m_fRotationZ + GetMirrorTurnStep();
+}
+
+void CShuttleChild::MirrorTurnDown()
+{
+	m_fRotationZ = m_fRotationZ - GetMirrorTurnStep();
+}
+
 void CShuttleChild::InitCharacterToShuttleData()
 {
 	m_pTarget = NULL;

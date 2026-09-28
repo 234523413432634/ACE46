@@ -496,6 +496,7 @@ void CINFInvenExtend::Render()
 			{
 				if(m_pINFInvenItem && m_pINFInvenItem->IsShowWnd())
 				{
+					m_pINFInvenItem->RenderBk();
 					m_pINFInvenItem->Render();
 				}	
 			}
@@ -504,6 +505,7 @@ void CINFInvenExtend::Render()
 			{
 				if(m_pINFInvenEquip && m_pINFInvenEquip->IsShowWnd())
 				{
+					m_pINFInvenEquip->RenderShipPreview();
 					m_pINFInvenEquip->Render();
 				}
 			}
@@ -514,6 +516,11 @@ void CINFInvenExtend::Render()
 	// end 2008-08-22 by bhsohn EP3 인벤토리 처리
 	if(m_pINFInvenItem && m_pINFInvenItem->IsShowWnd())
 	{
+		// The ship of the equip window is a mesh and a long one reaches past the
+		// frame it is drawn in, so it goes on right after the window background and
+		// the item icons are drawn over it instead of the other way around.
+		m_pINFInvenItem->RenderBk();
+		m_pINFInvenEquip->RenderShipPreview();
 		m_pINFInvenItem->Render();
 		m_pINFInvenEquip->Render();
 	}

@@ -71,6 +71,7 @@
 #define	EXTEND_POS_PET_Y						41
 
 #define UNIT_SCALE								0.011f
+#define UNIT_SCALE_BASE_WIDTH					1600.0f	// back buffer width UNIT_SCALE was sized for
 
 // 기체 위치
 #define ENEMY_EQUIP_SHUTTLE_POS_X				47
@@ -353,12 +354,38 @@ void CINFEnemyItemInfo::Render()
 
 	m_pCloseBtn->Render();
 		
+	// The preview and the weapon effects hung on it change device state that was
+	// never put back : D3DRS_ALPHABLENDENABLE above all, which left everything
+	// drawn afterwards blended against whatever source and destination factors
+	// the effect had asked for.
+	DWORD dwOldAlphaBlend, dwOldSrcBlend, dwOldDestBlend, dwOldZEnable;
+	DWORD dwOldZWrite, dwOldAlphaTest, dwOldLighting, dwOldFog, dwOldCull;
+	g_pD3dDev->GetRenderState( D3DRS_ALPHABLENDENABLE, &dwOldAlphaBlend );
+	g_pD3dDev->GetRenderState( D3DRS_SRCBLEND,         &dwOldSrcBlend );
+	g_pD3dDev->GetRenderState( D3DRS_DESTBLEND,        &dwOldDestBlend );
+	g_pD3dDev->GetRenderState( D3DRS_ZENABLE,          &dwOldZEnable );
+	g_pD3dDev->GetRenderState( D3DRS_ZWRITEENABLE,     &dwOldZWrite );
+	g_pD3dDev->GetRenderState( D3DRS_ALPHATESTENABLE,  &dwOldAlphaTest );
+	g_pD3dDev->GetRenderState( D3DRS_LIGHTING,         &dwOldLighting );
+	g_pD3dDev->GetRenderState( D3DRS_FOGENABLE,        &dwOldFog );
+	g_pD3dDev->GetRenderState( D3DRS_CULLMODE,         &dwOldCull );
+
 	g_pD3dDev->SetRenderState( D3DRS_ZENABLE, TRUE );
 	g_pD3dDev->SetRenderState( D3DRS_LIGHTING, TRUE );
 	g_pD3dDev->SetRenderState( D3DRS_CULLMODE, D3DCULL_CCW );
 
 	SetEnemyEquipItemInfo();
 	RenderMirror(&ptMirrorPos);
+
+	g_pD3dDev->SetRenderState( D3DRS_ALPHABLENDENABLE, dwOldAlphaBlend );
+	g_pD3dDev->SetRenderState( D3DRS_SRCBLEND,         dwOldSrcBlend );
+	g_pD3dDev->SetRenderState( D3DRS_DESTBLEND,        dwOldDestBlend );
+	g_pD3dDev->SetRenderState( D3DRS_ZENABLE,          dwOldZEnable );
+	g_pD3dDev->SetRenderState( D3DRS_ZWRITEENABLE,     dwOldZWrite );
+	g_pD3dDev->SetRenderState( D3DRS_ALPHATESTENABLE,  dwOldAlphaTest );
+	g_pD3dDev->SetRenderState( D3DRS_LIGHTING,         dwOldLighting );
+	g_pD3dDev->SetRenderState( D3DRS_FOGENABLE,        dwOldFog );
+	g_pD3dDev->SetRenderState( D3DRS_CULLMODE,         dwOldCull );
 	{		
 		if(m_nButtonState == ROTATION_NONE || m_nRotationState == ROTATION_STATE_N)
 		{
@@ -394,6 +421,35 @@ void CINFEnemyItemInfo::Tick()
 	if(m_bTurnRight)	MirrorTurnDown();
 	if(m_bTurnUp)		MirrorTurnLeft();
 	if(m_bTurnDown)		MirrorTurnRight();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// \fn CINFEnemyItemInfo::GetMirrorTurnStep() \brief How far the preview turns
+/// on this frame.
+///////////////////////////////////////////////////////////////////////////////
+float CINFEnemyItemInfo::GetMirrorTurnStep()
+{
+	return SHUTTLE_ROTATION_STEP * g_pD3dApp->GetElapsedTime() * SHUTTLE_ROTATION_BASE_FPS;
+}
+
+void CINFEnemyItemInfo::MirrorTurnLeft()
+{
+	m_fRotationX = m_fRotationX + GetMirrorTurnStep();
+}
+
+void CINFEnemyItemInfo::MirrorTurnRight()
+{
+	m_fRotationX = m_fRotationX - GetMirrorTurnStep();
+}
+
+void CINFEnemyItemInfo::MirrorTurnUp()
+{
+	m_fRotationZ = m_fRotationZ + GetMirrorTurnStep();
+}
+
+void CINFEnemyItemInfo::MirrorTurnDown()
+{
+	m_fRotationZ = m_fRotationZ - GetMirrorTurnStep();
 }
 
 void CINFEnemyItemInfo::ShowEnemyItemInfo()
@@ -1201,22 +1257,31 @@ void CINFEnemyItemInfo::RenderMirror(POINT *pMirrorPos)
 		D3DXMatrixIdentity(&pMatPresProj);
 		D3DXMatrixIdentity(&pMatrix);
 		
-		D3DXMATRIX pTemp, pMatRotX, pMatRotZ, pMatScaling;
+		D3DXMATRIX pTemp, pMatRotX, pMatRotZ, pMatScaling, pMatAspect;
 		D3DXMatrixIdentity(&pTemp);
 		D3DXMatrixIdentity(&pMatRotX);
 		D3DXMatrixIdentity(&pMatRotZ);
 		D3DXMatrixIdentity(&pMatScaling);
+		D3DXMatrixIdentity(&pMatAspect);
 		
 		g_pD3dDev->GetTransform( D3DTS_VIEW,	   &pMatOldView );
 		g_pD3dDev->GetTransform( D3DTS_PROJECTION, &pMatOldProj );	
 		
-		float fUnitScaling	= UNIT_SCALE;
+		// View and projection are identity here, so the world matrix writes straight
+		// into normalized device coordinates.
+		float fUnitScaling	= UNIT_SCALE * UNIT_SCALE_BASE_WIDTH / (float)g_pD3dApp->GetBackBufferDesc().Width;
+
 		float fEqPosX		= ((float)(*pMirrorPos).x / (float)g_pD3dApp->GetBackBufferDesc().Width) * 2;	
 		float fEqCenterX	= ((float)EXTEND_INVEN_BACK_W / (float)g_pD3dApp->GetBackBufferDesc().Width); 
 		float fEqPosY		= ((float)(*pMirrorPos).y / (float)g_pD3dApp->GetBackBufferDesc().Height) * 2;
 		float fEqCenterY	= ((float)EXTEND_INVEN_BACK_H / (float)g_pD3dApp->GetBackBufferDesc().Height);
-		float tempscal = fUnitScaling + ( fUnitScaling * (float)g_pD3dApp->GetBackBufferDesc().Height / (float)g_pD3dApp->GetBackBufferDesc().Width );
-		D3DXMatrixScaling(&pMatScaling, fUnitScaling, tempscal, fUnitScaling);		
+		// A device coordinate is as wide as the screen and as tall as it, so the
+		// same number covers more pixels across than down and the ship comes out
+		// squashed.
+		float fAspect = (float)g_pD3dApp->GetBackBufferDesc().Width / (float)g_pD3dApp->GetBackBufferDesc().Height;
+
+		D3DXMatrixScaling(&pMatScaling, fUnitScaling, fUnitScaling, fUnitScaling);
+		D3DXMatrixScaling(&pMatAspect, 1.0f, fAspect, 1.0f);
 		D3DXMatrixTranslation(&pTemp, -1.0f + fEqPosX + fEqCenterX, 1.0f - fEqPosY - fEqCenterY, 0.5f);
 		
 		float fRotationX = m_fRotationX;
@@ -1225,7 +1290,7 @@ void CINFEnemyItemInfo::RenderMirror(POINT *pMirrorPos)
 		D3DXMatrixRotationX(&pMatRotX, fRotationX);
 		D3DXMatrixRotationY(&pMatRotZ, fRotationZ);
 		
-		pMatrix = pMatScaling*pMatRotX*pMatRotZ*pTemp;
+		pMatrix = pMatScaling*pMatRotX*pMatRotZ*pMatAspect*pTemp;
 	
 		//무기
 		m_pMatInvenWeaponSetPosition[0] = m_pMatInvenWeaponOrgPosition[0]*pMatrix;

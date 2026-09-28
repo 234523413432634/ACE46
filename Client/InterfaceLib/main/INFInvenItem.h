@@ -30,6 +30,7 @@ public:
 	HRESULT InvalidateDeviceObjects();
 	
 	void Render();
+	void RenderBk();			// window background, drawn on its own so the ship preview can go over it
 	void Tick();
 
 	BOOL IsShowWnd();

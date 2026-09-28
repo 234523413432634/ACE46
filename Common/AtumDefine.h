@@ -1044,6 +1044,10 @@ typedef enum
 #define DOUBLEKEY_TIME			0.24f		// 더블키 체크용 시간
 #define SHUTTLE_ROTATION_DEFAULT_X		-0.65f	// 인벤토리 셔틀의 기본 방향
 #define SHUTTLE_ROTATION_DEFAULT_Z		-0.55f	// 인벤토리 셔틀의 기본 방향
+// The inventory turn buttons add their step once per rendered frame, which
+// spun the ship faster the higher the frame rate was.
+#define SHUTTLE_ROTATION_STEP			0.05f	// radian per 60 fps frame
+#define SHUTTLE_ROTATION_BASE_FPS		60.0f
 
 #define ENEMY_WEAPON_INDEX_DUMMY		10	// 2012-06-25 by isshin 아템미리보기 - 자신의 웨폰 인덱스와 구분 짓기 위한 더미값
 

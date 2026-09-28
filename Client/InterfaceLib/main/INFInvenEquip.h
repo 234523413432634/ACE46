@@ -17,6 +17,8 @@
 
 #define		MAX_WEIGHT		11
 #define     UNIT_SCALE		0.011f
+// UNIT_SCALE is the size the preview had on a back buffer this wide.
+#define     UNIT_SCALE_BASE_WIDTH	1600.0f
 
 class CINFInvenEquip  : public CINFBase  
 {
@@ -30,6 +32,7 @@ public:
 	HRESULT InvalidateDeviceObjects();
 	
 	void Render();
+	void RenderShipPreview();	// the 3D ship, drawn on its own so it can go under the item icons
 	void Tick();
 
 	int WndProc(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL bShowInven);

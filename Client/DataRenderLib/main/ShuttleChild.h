@@ -317,10 +317,12 @@ public:
 	BOOL WarpSkipInOutAirPort();
 	void SetRenderInven(BOOL bFlag){m_bRenderInven = bFlag;}
 	void InitCharacterToShuttleData();
-	void MirrorTurnLeft(){m_fRotationX = m_fRotationX+0.05f;}
-	void MirrorTurnRight(){m_fRotationX = m_fRotationX-0.05f;}
-	void MirrorTurnUp(){m_fRotationZ = m_fRotationZ+0.05f;}
-	void MirrorTurnDown(){m_fRotationZ = m_fRotationZ-0.05f;}
+	// out of line, the step is scaled by the frame time : see GetMirrorTurnStep()
+	float GetMirrorTurnStep();
+	void MirrorTurnLeft();
+	void MirrorTurnRight();
+	void MirrorTurnUp();
+	void MirrorTurnDown();
 	void MirrorTurnOrig(){m_fRotationX = SHUTTLE_ROTATION_DEFAULT_X; m_fRotationZ = SHUTTLE_ROTATION_DEFAULT_Z;}
 	BOOL GetRenderInvenFlag(){ return m_bRenderInven;}
 
