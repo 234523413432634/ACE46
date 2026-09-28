@@ -16,6 +16,11 @@
 #include "sha256.h"		// 2009-05-29 by cmkwon, Hash알고리즘 추가(SHA256) - 
 
 //#include "DXUtil.h"
+// A DataHeader record on disk stops right before the m_pData member, which is
+// only ever filled in at runtime.  Subtracting sizeof(char*) keeps the record
+// length identical (24 bytes) on Win32 and x64.
+#define SIZE_DATAHEADER_ON_DISK	(sizeof(DataHeader) - sizeof(char*))
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -180,7 +185,7 @@ DataHeader* CGameData::FindFromFile(char* strName)
 	{
 		memset(pDataHeader, 0x00, sizeof(DataHeader) );
 		_lseek( ReadFile, readPointer, SEEK_SET );
-		read( ReadFile, (char*)pDataHeader,sizeof(DataHeader)-4);// 4: data pointer
+		read( ReadFile, (char*)pDataHeader,SIZE_DATAHEADER_ON_DISK);// trailing m_pData pointer is not stored
 		if(strcmp(pDataHeader->m_FileName, strName ) == 0)
 		{
 			pDataHeader->m_pData = new char[pDataHeader->m_DataSize+1];
@@ -189,7 +194,7 @@ DataHeader* CGameData::FindFromFile(char* strName)
 			close( ReadFile );
 			return pDataHeader;
 		}
-		readPointer += sizeof(DataHeader)-4 + pDataHeader->m_DataSize;// 4: data pointer
+		readPointer += SIZE_DATAHEADER_ON_DISK + pDataHeader->m_DataSize;// trailing m_pData pointer is not stored
 	}
 	close( ReadFile );
 //	delete pDataHeader;
@@ -265,8 +270,8 @@ BOOL CGameData::make_parse_file_ext()
 	{
 		DataHeader* pHeader = NULL;
 		pHeader = new DataHeader;
-		memcpy((void*) pHeader, &pTemp[readPointer], sizeof(DataHeader)-4);
-		readPointer += sizeof(DataHeader)-4;
+		memcpy((void*) pHeader, &pTemp[readPointer], SIZE_DATAHEADER_ON_DISK);
+		readPointer += SIZE_DATAHEADER_ON_DISK;
 		pHeader->m_pData = new char[pHeader->m_DataSize+1];
 		memset(pHeader->m_pData, 0x00, pHeader->m_DataSize+1);			// 2006-04-03 by ispark
 		memcpy((void*) pHeader->m_pData, &pTemp[readPointer], pHeader->m_DataSize );

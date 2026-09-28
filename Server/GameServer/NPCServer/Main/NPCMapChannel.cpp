@@ -8727,13 +8727,13 @@ BOOL CNPCMapChannel::GetUnitObject(ClientIndex_t i_unitIdx, CLIENT_INFO **o_ppCl
 	if(IS_CHARACTER_CLIENT_INDEX(i_unitIdx))
 	{
 		*o_ppCliInfo = this->GetClientInfo(i_unitIdx, &m_MapChannelIndex);
-		return (BOOL)(*o_ppCliInfo);		// 2010-05-24 by cmkwon, 인피2차 이후 NPC 서버 죽는 버그 수정 - 
+		return (NULL != *o_ppCliInfo);		// 2010-05-24 by cmkwon, 인피2차 이후 NPC 서버 죽는 버그 수정 - 
 	}
 	
 	if(IS_MONSTER_CLIENT_INDEX(i_unitIdx))
 	{
 		*o_ppNPCMon = this->GetNPCMonster(i_unitIdx);
-		return (BOOL)(*o_ppNPCMon);			// 2010-05-24 by cmkwon, 인피2차 이후 NPC 서버 죽는 버그 수정 - 
+		return (NULL != *o_ppNPCMon);			// 2010-05-24 by cmkwon, 인피2차 이후 NPC 서버 죽는 버그 수정 - 
 	}
 
 	return FALSE;

@@ -963,7 +963,7 @@ BOOL CSCUserAdminDlg::InsertItemToDB(const char *i_szCharacterName, int i_nItemN
 	else
 	{
 
-	SQLINTEGER cb1 = SQL_NTS;
+	SQLLEN cb1 = SQL_NTS;
 // 2009-01-29 by cmkwon, 문자열 쿼리 검색시 필요없는 LIKE 사용을 제거 - 아래와 같이 수정
 // 	char spbuf[SIZE_MAX_SQL_PATTERN_BUFFER];	
 // 	SQLBindParameter(m_pODBCStmt->m_hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SQL_PATTERN_BUFFER, 0, GetSqlPattern((LPCSTR)m_szCurrentCharacterName, spbuf), 0, &cb1);
@@ -1051,7 +1051,7 @@ BOOL CSCUserAdminDlg::GetAccountBlockState(const char *i_szAccountName)
 //
 //	BOOL bRet = m_pODBCStmt->ExecuteQuery(szQuery);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0, (char*)i_szAccountName, 0,		&arrCB2[1]);
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0031));
 	if (!bRet)
@@ -1243,7 +1243,7 @@ BOOL CSCUserAdminDlg::FindItemByItemNum(int i_nItemNum)
 	///////////////////////////////////////////////////////////////////////////////
 	// 2008-08-27 by cmkwon, 날쿼리를 Procedure로 수정 - 
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_CHARACTER_NAME, 0, (LPSTR)(LPCSTR)m_szCurrentCharacterName, 0,	&arrCB2[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &(i_nItemNum), 0,													&arrCB2[2]);
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0032));
@@ -1322,7 +1322,7 @@ void CSCUserAdminDlg::OnCmgDeleteItem()
 // 	szQuery.Format(QUERY_080702_0033, itemToMod.UniqueNumber);		// 2008-07-02 by cmkwon, MySQL 지원 구현 - 
 // 	BOOL bRet = m_pODBCStmt->ExecuteQuery((LPCSTR)szQuery);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	BOOL bRet;
 
 	CString tmpItemNum, tmpPartnerNum;					
@@ -1342,7 +1342,7 @@ void CSCUserAdminDlg::OnCmgDeleteItem()
 	tmpPartnerNum.Format(_T("%d"), ITEM_NUM_PARTNER);
 	if(strstr(tmpItemNum, tmpPartnerNum))						// 2012-03-15 by jhseol, 파트너 - 아이템이 파트너 류에만 반응
 	{
-		SQLINTEGER arrCB2 = SQL_NTS;
+		SQLLEN arrCB2 = SQL_NTS;
 		SQLBindParameter ( m_pODBCStmt->m_hstmt , 1 , SQL_PARAM_INPUT , SQL_C_UBIGINT , SQL_BIGINT , 0 , 0 , &itemToMod.UniqueNumber , 0 , NULL );
 		/************************************************************
 		-------------------------------------------------------------
@@ -1370,7 +1370,7 @@ void CSCUserAdminDlg::OnCmgDeleteItem()
 		}
 		PARTNER_INFO tTempPartnerInfo;
 		MEMSET_ZERO(&tTempPartnerInfo, sizeof(PARTNER_INFO));
-		SQLINTEGER cb[25];
+		SQLLEN cb[25];
 		int iIndex = 0, iArrIndex = 0;;
 		SQLBindCol(m_pODBCStmt->m_hstmt, iIndex+1, SQL_C_SBIGINT,	&tTempPartnerInfo.ItemUID,				0, &cb[iIndex]);	iIndex++;
 		SQLBindCol(m_pODBCStmt->m_hstmt, iIndex+1, SQL_C_ULONG,		&tTempPartnerInfo.PartnerIndex,			0, &cb[iIndex]);	iIndex++;
@@ -1612,7 +1612,7 @@ void CSCUserAdminDlg::OnCmgDeleteItem_extend()
 				}			
 				
 				SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-				SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+				SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 				BOOL bRet;
 				
 				CString tmpItemNum, tmpPartnerNum;					
@@ -1632,7 +1632,7 @@ void CSCUserAdminDlg::OnCmgDeleteItem_extend()
 				tmpPartnerNum.Format(_T("%d"), ITEM_NUM_PARTNER);
 				if(strstr(tmpItemNum, tmpPartnerNum))						// 2012-03-15 by jhseol, 파트너 - 아이템이 파트너 류에만 반응
 				{
-					SQLINTEGER arrCB2 = SQL_NTS;
+					SQLLEN arrCB2 = SQL_NTS;
 					SQLBindParameter ( m_pODBCStmt->m_hstmt , 1 , SQL_PARAM_INPUT , SQL_C_UBIGINT , SQL_BIGINT , 0 , 0 , &itemToMod.UniqueNumber , 0 , NULL );
 					RETCODE bRet = SQLExecDirect(m_pODBCStmt->m_hstmt, PROCEDURE_100615_0573, SQL_NTS);
 					if ( bRet != SQL_SUCCESS && bRet != SQL_SUCCESS_WITH_INFO )
@@ -1642,7 +1642,7 @@ void CSCUserAdminDlg::OnCmgDeleteItem_extend()
 					}
 					PARTNER_INFO tTempPartnerInfo;
 					MEMSET_ZERO(&tTempPartnerInfo, sizeof(PARTNER_INFO));
-					SQLINTEGER cb[25];
+					SQLLEN cb[25];
 					int iIndex = 0, iArrIndex = 0;;
 					SQLBindCol(m_pODBCStmt->m_hstmt, iIndex+1, SQL_C_SBIGINT,	&tTempPartnerInfo.ItemUID,				0, &cb[iIndex]);	iIndex++;
 					SQLBindCol(m_pODBCStmt->m_hstmt, iIndex+1, SQL_C_ULONG,		&tTempPartnerInfo.PartnerIndex,			0, &cb[iIndex]);	iIndex++;
@@ -1837,7 +1837,7 @@ void CSCUserAdminDlg::OnCmgModifyItem()
 //		dlg.m_nItemSuffixCodeNum, itemToMod.UniqueNumber);
 //	BOOL bRet = m_pODBCStmt->ExecuteQuery((LPCSTR)szQuery);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_UBIGINT, SQL_BIGINT, 0, 0, &(itemToMod.UniqueNumber), 0,		&arrCB2[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &(dlg.m_nItemCount), 0,				&arrCB2[2]);
 	SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &(dlg.m_nArmorColorItemNum), 0,		&arrCB2[3]);
@@ -2106,7 +2106,7 @@ void CSCUserAdminDlg::GetAccountInfo(const char *i_szName, enumGetAccountQueryTy
 		return;
 	}
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0, tmAccName, 0,		&arrCB2[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &(tmAccUID), 0,							&arrCB2[2]);
 	SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_CHARACTER_NAME, 0, tmCharacName, 0,	&arrCB2[3]);
@@ -2123,7 +2123,7 @@ void CSCUserAdminDlg::GetAccountInfo(const char *i_szName, enumGetAccountQueryTy
 	char	szAccountName[SIZE_MAX_SQL_PATTERN_BUFFER];
 	UID32_t	uidAccountUID	= 0;
 	char	szCharacterName[SIZE_MAX_CHARACTER_NAME];
-	SQLINTEGER cb1, cb2, cb3;
+	SQLLEN cb1, cb2, cb3;
 	SQLBindCol(m_pODBCStmt->m_hstmt, 1, SQL_C_CHAR, szAccountName, SIZE_MAX_ACCOUNT_NAME, &cb1);
 	SQLBindCol(m_pODBCStmt->m_hstmt, 2, SQL_C_LONG, &uidAccountUID, 0, &cb2);
 	SQLBindCol(m_pODBCStmt->m_hstmt, 3, SQL_C_CHAR, szCharacterName, SIZE_MAX_CHARACTER_NAME, &cb3);
@@ -2230,7 +2230,7 @@ void CSCUserAdminDlg::GetCharacterInfo(const char *i_szCharacterName)
 	// 2007-07-30 by cmkwon, SCAdminTool에서 여단명 변경 기능 추가 - 캐릭터 검색시 여단명 재설정함
 	CHARACTER_DB_EX retCharacterDBEX;
 	memset(&m_CurrentCharacter, 0x00, sizeof(CHARACTER));
-	SQLINTEGER pcb1;
+	SQLLEN pcb1;
 
 	/**********************************************************************
 	--!!!!
@@ -2277,7 +2277,7 @@ void CSCUserAdminDlg::GetCharacterInfo(const char *i_szCharacterName)
 		return;
 	}
 
-	SQLINTEGER	cb[CB_COUNT_CHARACTER] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN	cb[CB_COUNT_CHARACTER] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 											,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 											,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 											,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
@@ -2406,7 +2406,7 @@ BOOL CSCUserAdminDlg::GetInfluenceLeaderCharacterInfo(BYTE i_byInflType)
 	MEMSET_ZERO(&m_InflSub2LeaderCharacter, sizeof(CHARACTER));
 
 	CString szSQLQuery;
-	SQLINTEGER	cb1 = SQL_NTS, cb2 = SQL_NTS;
+	SQLLEN	cb1 = SQL_NTS, cb2 = SQL_NTS;
 	UID32_t		leaderCharUID		= 0;
 	UID32_t		Sub1LeaderCharUID	= 0;
 	UID32_t		Sub2LeaderCharUID	= 0;
@@ -2421,7 +2421,7 @@ BOOL CSCUserAdminDlg::GetInfluenceLeaderCharacterInfo(BYTE i_byInflType)
 //	szSQLQuery.Format(QUERY_080702_0042, i_byInflType);	// 2008-07-02 by cmkwon, MySQL 지원 구현 - 
 //	BOOL bRet = m_pODBCStmt->ExecuteQuery((LPCSTR)szSQLQuery);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &(i_byInflType), 0,		&arrCB2[1]);
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0042));
 	if (!bRet)
@@ -2531,7 +2531,7 @@ void CSCUserAdminDlg::GetItemInfo(const char *i_szCharacterName)
 	BYTE byItemStorage1 = ITEM_IN_CHARACTER;
 	BYTE byItemStorage2 = ITEM_IN_STORE;
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_CHARACTER_NAME, 0, (LPSTR)i_szCharacterName, 0,	&arrCB2[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &(byItemStorage1), 0,							&arrCB2[2]);
 	SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &(byItemStorage2), 0,							&arrCB2[3]);
@@ -2547,7 +2547,7 @@ void CSCUserAdminDlg::GetItemInfo(const char *i_szCharacterName)
 	ITEM_GENERAL_READABLE StoreItemR;
 	// 2009-08-26 by cmkwon, SQLINTEGER cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8, cb9, cb10, cb11;
 	// 2009-11-18 by cmkwon, AdminTool에서 시간제한 아이템의 경과된 정보 보기 추가 - 
-	SQLINTEGER arrCB[14] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[14] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindCol(m_pODBCStmt->m_hstmt, 1, SQL_C_SBIGINT, &StoreItemR.UniqueNumber, 0,				&arrCB[1]);
 	SQLBindCol(m_pODBCStmt->m_hstmt, 2, SQL_C_ULONG, &StoreItemR.ItemNum, 0,					&arrCB[2]);
 	SQLBindCol(m_pODBCStmt->m_hstmt, 3, SQL_C_LONG, &StoreItemR.PrefixCodeNum, 0,				&arrCB[3]);
@@ -2614,7 +2614,7 @@ void CSCUserAdminDlg::GetItemInfo(const char *i_szCharacterName)
 // 			SQLFetch(m_pODBCStmt->m_hstmt);
 // 		}
 		SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-		SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+		SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 		SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_UBIGINT, SQL_BIGINT, 0, 0, &(vectItemRList[i].UniqueNumber), 0,		&arrCB2[1]);			
 		BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0046));
 		if(FALSE == bRet)
@@ -3423,7 +3423,7 @@ void CSCUserAdminDlg::OnButtonEditCharacter()
 // 			return;
 // 		}
 		SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-		SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+		SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 		SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_CHARACTER_NAME, 0, (LPSTR)(LPCSTR)dlg.m_CharacterName, 0,			&arrCB2[1]);
 		BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0047));
 		if(FALSE == bRet)
@@ -3535,7 +3535,7 @@ void CSCUserAdminDlg::OnButtonEditCharacter()
 	///////////////////////////////////////////////////////////////////////////////
 	// 2008-08-27 by cmkwon, 날쿼리를 Procedure로 수정 - 
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[35] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN arrCB2[35] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 								,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 								,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 								,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
@@ -4045,7 +4045,7 @@ BOOL CSCUserAdminDlg::DBQ_LoadEnchantList(vectINT *o_pVecEnchantItemNumList, UID
 	CALL atum_GetEnchantBYItemUID
 	**************************************************************************/
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_UBIGINT, SQL_BIGINT, 0, 0, &i_ItemUID, 0, &arrCB[1]);
 	SQLRETURN ret = SQLExecDirect(hstmt, PROCEDURE_080822_0075, SQL_NTS);
 	if (ret!=SQL_SUCCESS && ret!=SQL_SUCCESS_WITH_INFO)

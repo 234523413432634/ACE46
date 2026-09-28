@@ -332,7 +332,7 @@ BOOL CCharacterInfoDlg::StoreInflLeader(BYTE i_byInflTy, UID32_t i_LeaderCharUID
 //	szQuery.Format(QUERY_080702_0004, i_LeaderCharUID, i_byInflTy);
 //	BOOL bRet = m_pODBCStmt3->ExecuteQuery(szQuery);
 	SQLHSTMT hstmt = m_pODBCStmt3->GetSTMTHandle();
-	SQLINTEGER arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &i_byInflTy, 0,			&arrCB2[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &i_LeaderCharUID, 0,		&arrCB2[2]);
 	BOOL bRet = m_pODBCStmt3->ExecuteQuery((char*)(PROCEDURE_080827_0004));
@@ -444,7 +444,7 @@ BOOL CCharacterInfoDlg::StoreInflSubLeader(BYTE i_byInflTy, UID32_t i_SubLeaderC
 //	szQuery.Format(QUERY_080702_0005, i_SubLeaderCharUID, i_byInflTy);
 //	BOOL bRet = m_pODBCStmt3->ExecuteQuery(szQuery);
 	SQLHSTMT hstmt = m_pODBCStmt3->GetSTMTHandle();
-	SQLINTEGER arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &i_byInflTy, 0,			&arrCB2[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &i_SubLeaderCharUID, 0,		&arrCB2[2]);
 	BOOL bRet = m_pODBCStmt3->ExecuteQuery((char*)(PROCEDURE_080827_0005));
@@ -480,7 +480,7 @@ BOOL CCharacterInfoDlg::StoreInflSub2Leader(BYTE i_byInflTy, UID32_t i_Sub2Leade
 //	szQuery.Format(QUERY_080702_0006, i_Sub2LeaderCharUID, i_byInflTy);
 //	BOOL bRet = m_pODBCStmt3->ExecuteQuery(szQuery);
 	SQLHSTMT hstmt = m_pODBCStmt3->GetSTMTHandle();
-	SQLINTEGER arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &i_byInflTy, 0,			&arrCB2[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &i_Sub2LeaderCharUID, 0,	&arrCB2[2]);
 	BOOL bRet = m_pODBCStmt3->ExecuteQuery((char*)(PROCEDURE_080827_0006));
@@ -875,7 +875,7 @@ BOOL CCharacterInfoDlg::DBQ_CheckEnableChangeInfluence(void)
 {
 	CString szQuery;
 	SQLHSTMT hstmt = m_pODBCStmt3->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &m_AccountUID, 0,	&arrCB2[1]);
 	BOOL bRet = m_pODBCStmt3->ExecuteQuery(PROCEDURE_090401_0347);
 	if (!bRet)

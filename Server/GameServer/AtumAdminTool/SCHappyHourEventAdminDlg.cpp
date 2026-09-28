@@ -345,7 +345,7 @@ void CSCHappyHourEventAdminDlg::GetHappyHourEventDetailInfo()
 	}
 
 	CString starttime;
-	SQLINTEGER arrCB[23] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN arrCB[23] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 							SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 							SQL_NTS,SQL_NTS,SQL_NTS};			// 2008-03-13 by dhjin, Level별 해피아워 이벤트 구현 - MinLevel, MaxLevel 추가
 																// 2013-08-12 by bckim, 신규해피아워
@@ -759,7 +759,7 @@ void CSCHappyHourEventAdminDlg::OnConmenuSelectedInsert()
 	char tmStartTime[SIZE_MAX_SQL_DATETIME_STRING];		dlg.m_happyEv.atimeStartTime2.GetSQLDateTimeString(tmStartTime, SIZE_MAX_SQL_DATETIME_STRING);
 	char tmEndTime[SIZE_MAX_SQL_DATETIME_STRING];		dlg.m_happyEv.atimeEndTime2.GetSQLDateTimeString(tmEndTime, SIZE_MAX_SQL_DATETIME_STRING);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[22] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN arrCB2[22] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 							SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 								SQL_NTS,SQL_NTS};		// 2013-08-12 by bckim, 신규해피아워
 
@@ -856,7 +856,7 @@ void CSCHappyHourEventAdminDlg::OnConmenuSelectedUpdate()
 	char tmStartTime[SIZE_MAX_SQL_DATETIME_STRING];		dlg.m_happyEv.atimeStartTime2.GetSQLDateTimeString(tmStartTime, SIZE_MAX_SQL_DATETIME_STRING);
 	char tmEndTime[SIZE_MAX_SQL_DATETIME_STRING];		dlg.m_happyEv.atimeEndTime2.GetSQLDateTimeString(tmEndTime, SIZE_MAX_SQL_DATETIME_STRING);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[23] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN arrCB2[23] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 							SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 							SQL_NTS,SQL_NTS,SQL_NTS};	// 2013-08-12 by bckim, 신규해피아워
 
@@ -1331,7 +1331,7 @@ BOOL CSCHappyHourEventAdminDlg::UpdateHappyHourEventPeriod(BYTE i_byInflTy, ATUM
 	char tmStartTime[SIZE_MAX_SQL_DATETIME_STRING];		i_pATStart->GetSQLDateTimeString(tmStartTime, SIZE_MAX_SQL_DATETIME_STRING);
 	char tmEndTime[SIZE_MAX_SQL_DATETIME_STRING];		i_pATEnd->GetSQLDateTimeString(tmEndTime, SIZE_MAX_SQL_DATETIME_STRING);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &(nDayOfWeek), 0,							&arrCB2[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &(i_byInflTy), 0,						&arrCB2[2]);
 	SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SQL_DATETIME_STRING, 0, tmStartTime, 0,	&arrCB2[3]);

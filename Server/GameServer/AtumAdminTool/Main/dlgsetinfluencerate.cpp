@@ -398,7 +398,7 @@ BOOL CDlgSetInfluenceRate::DB_LoadInfluenceRateList(mtvectSINFL_USER_COUNT *o_pv
 	CALL dbo.atum_Rearrange_InfluenceRate
 
 	************************************************************************/
-	SQLINTEGER	arrCB[8] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[8] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS};
 	int nPeriodDay = (-1)*PERIOD_OF_DAY_FOR_VALID_INFLUENCE;
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &nPeriodDay, 0,	&arrCB[1]);
 	
@@ -500,7 +500,7 @@ BOOL CDlgSetInfluenceRate::DB_UpdateInfluenceRateList(BOOL i_bSetForAll, mtvectS
 			return FALSE;
 		}
 
-		SQLINTEGER	arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+		SQLLEN	arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 		SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &pUserCnt->StartLevel, 0,	&arrCB[1]);
 		SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &pUserCnt->EndLevel, 0,		&arrCB[2]);
 		SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pUserCnt->AllowablePercent, 0,	&arrCB[3]);
@@ -522,7 +522,7 @@ BOOL CDlgSetInfluenceRate::DB_UpdateInfluenceRateList(BOOL i_bSetForAll, mtvectS
 		--------------------------------------------------------------------------------
 		CALL dbo.atum_Delete_InfluenceRate
 		************************************************************************/
-		SQLINTEGER	arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+		SQLLEN	arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 		BYTE byStartLv	= 0;
 		BYTE byEndLv	= 0;
 		SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &byStartLv, 0,	&arrCB[1]);

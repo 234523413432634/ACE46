@@ -121,7 +121,7 @@ BOOL CWRankingManagement::DBQ_LoadSelfServiceInfo(SWRK_SERVICE_INFO *o_pServiceI
 		return FALSE;
 	}
 
-	SQLINTEGER cb[5]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN cb[5]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindCol(hstmt, 1, SQL_C_LONG, &o_pServiceInfo->ServiceUID, 0,										&cb[1]);
 	SQLBindCol(hstmt, 2, SQL_C_CHAR, o_pServiceInfo->ServiceName, SIZE_MAX_SERVICE_NAME,					&cb[2]);
 	SQLBindCol(hstmt, 3, SQL_C_BINARY, o_pServiceInfo->ServiceSymbolIamge, SIZE_MAX_SERVICE_SYMBOL_IMAGE,	&cb[3]);
@@ -155,7 +155,7 @@ BOOL CWRankingManagement::DBQ_UpdateSelfServiceInfo(SWRK_SERVICE_INFO *i_pServic
 		SQLHSTMT hstmt = pWRServDB->GetSTMTHandle();	
 		///////////////////////////////////////////////////////////////////////////////	
 		// 2009-02-19 by cmkwon, 1. 월드랭킹DB 서버에 업데이트
-		SQLINTEGER cb[5]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+		SQLLEN cb[5]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 		SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pServiceInfo->ServiceUID, 0,										&cb[1]);
 		SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SERVICE_NAME, 0, i_pServiceInfo->ServiceName, 0,					&cb[2]);
 		cb[3] = SIZE_MAX_SERVICE_SYMBOL_IMAGE;
@@ -174,7 +174,7 @@ BOOL CWRankingManagement::DBQ_UpdateSelfServiceInfo(SWRK_SERVICE_INFO *i_pServic
 	{
 		CODBCStatement *pLocalDB = &m_odbcStmtLocal;
 		SQLHSTMT hstmt = pLocalDB->GetSTMTHandle();
-		SQLINTEGER cb[5]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+		SQLLEN cb[5]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 		SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pServiceInfo->ServiceUID, 0,										&cb[1]);
 		SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SERVICE_NAME, 0, i_pServiceInfo->ServiceName, 0,					&cb[2]);
 		cb[3] = SIZE_MAX_SERVICE_SYMBOL_IMAGE;
@@ -209,7 +209,7 @@ BOOL CWRankingManagement::DBQ_DeleteSelfServiceInfo(SWRK_SERVICE_INFO *i_pServic
 		SQLHSTMT hstmt = pWRServDB->GetSTMTHandle();	
 		///////////////////////////////////////////////////////////////////////////////	
 		// 2009-02-19 by cmkwon, 1. 월드랭킹DB 서버에 업데이트
-		SQLINTEGER cb[4]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+		SQLLEN cb[4]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 		SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pServiceInfo->ServiceUID, 0,										&cb[1]);
 		BOOL bRet = pWRServDB->ExecuteQuery(PROCEDURE_090219_0315);
 		if (FALSE == bRet)
@@ -276,7 +276,7 @@ BOOL CWRankingManagement::DBQ_LoadServerGroupInfo(SWRK_SERVER_GROUP *o_pServerGr
 		pLocalDB->FreeStatement();
 		return FALSE;
 	}
-	SQLINTEGER cb[3]={SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN cb[3]={SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindCol(hstmt, 1, SQL_C_LONG, &o_pServerGroupInfo->ServerGroupID, 0,									&cb[1]);
 	SQLBindCol(hstmt, 2, SQL_C_CHAR, o_pServerGroupInfo->ServerGroupNameforRK, SIZE_MAX_SERVER_NAME,		&cb[2]);
 	SQLRETURN ret = SQLFetch(hstmt);
@@ -305,7 +305,7 @@ BOOL CWRankingManagement::DBQ_UpdateServerGroupInfo(SWRK_SERVER_GROUP *i_pServer
 	CODBCStatement *pLocalDB = &m_odbcStmtLocal;
 	SQLHSTMT hstmt = pLocalDB->GetSTMTHandle();
 
-	SQLINTEGER cb[3]={SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN cb[3]={SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pServerGroupInfo->ServerGroupID, 0,								&cb[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SERVER_NAME, 0, i_pServerGroupInfo->ServerGroupNameforRK, 0,		&cb[2]);
 	BOOL bRet = pLocalDB->ExecuteQuery(PROCEDURE_090219_0318);
@@ -338,7 +338,7 @@ BOOL CWRankingManagement::DBQ_DeleteServerGroupInfo(SWRK_SERVER_GROUP *i_pServer
 		// 2010-01-14 by cmkwon, 월드랭킹시스템 버그 수정(서비스삭제,서버그룹삭제) - 
 		CODBCStatement *pWRServDB = &m_odbcStmtWRServer;	
 		SQLHSTMT hstmt = pWRServDB->GetSTMTHandle();	
-		SQLINTEGER cb[3]={SQL_NTS,SQL_NTS,SQL_NTS};
+		SQLLEN cb[3]={SQL_NTS,SQL_NTS,SQL_NTS};
 		SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_nServiceUID, 0,						&cb[1]);
 		SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pServerGroupInfo->ServerGroupID, 0,	&cb[2]);
 		BOOL bRet = pWRServDB->ExecuteQuery(PROCEDURE_100114_0410);
@@ -359,7 +359,7 @@ BOOL CWRankingManagement::DBQ_DeleteServerGroupInfo(SWRK_SERVER_GROUP *i_pServer
 		// 2010-01-14 by cmkwon, 월드랭킹시스템 버그 수정(서비스삭제,서버그룹삭제) - 
 		if(0 < i_nServiceUID)
 		{
-			SQLINTEGER cb[3]={SQL_NTS,SQL_NTS,SQL_NTS};
+			SQLLEN cb[3]={SQL_NTS,SQL_NTS,SQL_NTS};
 			SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_nServiceUID, 0,						&cb[1]);
 			SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pServerGroupInfo->ServerGroupID, 0,	&cb[2]);
 			BOOL bRet = pLocalDB->ExecuteQuery(PROCEDURE_100114_0411);
@@ -403,7 +403,7 @@ BOOL CWRankingManagement::DBQ_UpdateAllServiceList(void)
 		SQLHSTMT hstmt = pWRServDB->GetSTMTHandle();	
 		///////////////////////////////////////////////////////////////////////////////	
 		// 2009-02-19 by cmkwon, 1. 월드랭킹DB 서버에서 서비스 리스트를 가져온다
-		SQLINTEGER cb[5]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+		SQLLEN cb[5]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 		BOOL bRet = pWRServDB->ExecuteQuery(PROCEDURE_090219_0320);
 		if (FALSE == bRet)
 		{
@@ -451,7 +451,7 @@ BOOL CWRankingManagement::DBQ_UpdateAllServiceList(void)
 		{
 			SWRK_SERVICE_INFO *pService = &*itr;
 			
-			SQLINTEGER cb[5]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+			SQLLEN cb[5]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 			SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pService->ServiceUID, 0,										&cb[1]);
 			SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SERVICE_NAME, 0, pService->ServiceName, 0,					&cb[2]);
 			cb[3] = SIZE_MAX_SERVICE_SYMBOL_IMAGE;

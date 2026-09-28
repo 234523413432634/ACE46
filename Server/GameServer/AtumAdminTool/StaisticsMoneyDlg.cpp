@@ -220,7 +220,7 @@ void CStaisticsMoneyDlg::OnButtonSearch()
 	EndTime.hour		= m_OleTimeEnd.GetHour();
 	EndTime.minute		= m_OleTimeEnd.GetMinute();
 	EndTime.second		= m_OleTimeEnd.GetSecond();
-	SQLINTEGER arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(m_pODBCStmt->m_hstmt, 1, SQL_PARAM_INPUT, SQL_C_TYPE_TIMESTAMP, SQL_TYPE_TIMESTAMP, 23, 0, &StartTime, 0,			&arrCB2[1]);
 	SQLBindParameter(m_pODBCStmt->m_hstmt, 2, SQL_PARAM_INPUT, SQL_C_TYPE_TIMESTAMP, SQL_TYPE_TIMESTAMP, 23, 0, &EndTime, 0,			&arrCB2[2]);
 	// end 2012-02-27 by jhseol, 화폐통계툴 DB 파라미터 설정
@@ -256,7 +256,7 @@ void CStaisticsMoneyDlg::OnButtonSearch()
 	int DBBind_Function;
 	SQL_TIMESTAMP_STRUCT DBBind_Time;
 	INT64 DBBind_SPI = 0, DBBind_WP = 0, DBBind_SOrb = 0, DBBind_QOrb = 0, DBBind_COrb = 0, DBBind_GOrb = 0, DBBind_UOrb = 0;
-	SQLINTEGER cb[9];
+	SQLLEN cb[9];
 	SQLBindCol(m_pODBCStmt->m_hstmt, 1, SQL_C_ULONG,		&DBBind_Function,	1,	&cb[0]);
 	SQLBindCol(m_pODBCStmt->m_hstmt, 2, SQL_C_TIMESTAMP,	&DBBind_Time,		0,	&cb[1]);
 	SQLBindCol(m_pODBCStmt->m_hstmt, 3, SQL_C_SBIGINT,		&DBBind_SPI,		0,	&cb[2]);

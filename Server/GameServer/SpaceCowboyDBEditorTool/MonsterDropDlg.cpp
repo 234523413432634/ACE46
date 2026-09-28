@@ -281,7 +281,7 @@ void CMonsterDropDlg::GetCurrentList(int type, int uniquenumber)
 		szSQLQuery.Format(QUERY_080702_0116, uniquenumber);
 	}
 
-	SQLINTEGER cb1, cb2, cb3, cb4, cb5, cb6, cb7;
+	SQLLEN cb1, cb2, cb3, cb4, cb5, cb6, cb7;
 
 	_TI_MONSTERITEM		st_MonsterItem;
 	

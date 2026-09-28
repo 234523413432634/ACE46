@@ -506,7 +506,7 @@ BOOL CCashShopManagementDlg::DBQueryLoadCashItem(vectSAT_SHOP_ITEM *o_pVectItemL
 		AfxMessageBox("DBQueryLoadCashItem error !!");
 		return FALSE;
 	}	
-	SQLINTEGER arrCB[6]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[6]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SAT_SHOP_ITEM tmShopItem;
 	SQLBindCol(hstmt,  1, SQL_C_LONG, &tmShopItem.ItemNum, 0,					&arrCB[1]);
 	SQLBindCol(hstmt,  2, SQL_C_CHAR, &tmShopItem.ItemName, SIZE_MAX_ITEM_NAME,	&arrCB[2]);
@@ -569,7 +569,7 @@ BOOL CCashShopManagementDlg::DBQueryUpdateCashItem(vectSAT_SHOP_ITEM *i_pVectIte
 	{
 		SAT_SHOP_ITEM *pShopItem = &*itr;
 		
-		SQLINTEGER arrCB[4]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+		SQLLEN arrCB[4]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 		SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pShopItem->ItemNum, 0,			&arrCB[1]);
 		SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_TINYINT, SQL_TINYINT, 0, 0, &pShopItem->CashShopBit, 0,	&arrCB[2]);
 		SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pShopItem->RemainCountForLimitedEdition, 0,	&arrCB[3]);		// 2010-01-26 by cmkwon, 캐쉬 아이템 한정판매 시스템 구현 - 

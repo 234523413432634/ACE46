@@ -237,7 +237,7 @@ BOOL CMonsterDBAccess::GetAllMonsters(ez_map<int, MONSTER_INFO> &mapMonster, ez_
 {
 	MONSTER_INFO retMonsterInfo;
 	RETCODE ret;
-	SQLINTEGER cb[CB_COUNT_MONSTER];
+	SQLLEN cb[CB_COUNT_MONSTER];
 
 	// start 2011-03-21 by hskim, 인피니티 3차 - 몬스터 멀티 타겟팅 기능 추가
 	MONSTER_MULTI_TARGET retMonsterTarget;
@@ -345,7 +345,7 @@ BOOL CMonsterDBAccess::GetAllMonsters(ez_map<int, MONSTER_INFO> &mapMonster, ez_
 	
 		for(i = 0; i < ARRAY_SIZE_MONSTER_ITEM-1; i++)
 		{
-			nTmItemNum								= (INT)(retMonsterInfo.ItemInfo[i].pItemInfo);
+			nTmItemNum								= (INT)(retMonsterInfo.ItemInfo[i].pItemInfo.GetRaw32());
 			retMonsterInfo.ItemInfo[i].pItemInfo	= NULL;			// ItemNum을 가져오고 NULL로 할당한다.
 			if(nTmItemNum)
 			{
@@ -448,7 +448,7 @@ BOOL CMonsterDBAccess::GetAllMonsters(ez_map<int, MONSTER_INFO> &mapMonster, ez_
 		}
 
 		// 5. 컨트롤 스킬 아이템 할당
-		nTmItemNum = (INT)retMonsterInfo.ItemInfo[ARRAY_INDEX_MONSTER_SKILL_ITEM].pItemInfo;
+		nTmItemNum = (INT)retMonsterInfo.ItemInfo[ARRAY_INDEX_MONSTER_SKILL_ITEM].pItemInfo.GetRaw32();
 		if(nTmItemNum)
 		{
 			retMonsterInfo.ItemInfo[ARRAY_INDEX_MONSTER_SKILL_ITEM].pItemInfo = pMapItemInfo->findEZ(nTmItemNum);

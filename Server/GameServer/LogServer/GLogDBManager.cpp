@@ -439,7 +439,7 @@ void CGLogDBManager::QP_FL_GLOG_TB_CONNECT_USER(DB_QUERY q, SQLHSTMT hstmt)
 	**************************************************************************/
 
 	RETCODE ret;
-	SQLINTEGER arrCB[3] = { SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[3] = { SQL_NTS, SQL_NTS, SQL_NTS };
 
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0,pRMsg->szAccountName, 0, &arrCB[0]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_GAME_PUBLISHER_NAME, 0, g_pLogGlobal->GetGamePublisherName(), 0, &arrCB[1]);
@@ -709,7 +709,7 @@ void CGLogDBManager::QP_FL_GLOG_TB_USER_LocalUserConnectInfo_DelCountInc(DB_QUER
 	QPARAM_GLOG_USER_INFO_COUNT_INC	*pRMsg = (QPARAM_GLOG_USER_INFO_COUNT_INC*)q.pQueryParam;
 
 	RETCODE ret;
-	SQLINTEGER arrCB[2] = { SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[2] = { SQL_NTS, SQL_NTS };
 
 	/*[Stored Query Definition]************************************************
 	CREATE PROCEDURE [dbo].[GLog_TB_USER_LocalUserConnectInfo_DelCount_Inc]
@@ -753,7 +753,7 @@ void CGLogDBManager::QP_FL_GLOG_TB_USER_LocalUserConnectInfo_NewCountInc(DB_QUER
 	QPARAM_GLOG_CONNECT_USER_ACCOUNT_NAME	*pRMsg = (QPARAM_GLOG_CONNECT_USER_ACCOUNT_NAME*)q.pQueryParam;
 
 	RETCODE ret;
-	SQLINTEGER arrCB[2] = { SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[2] = { SQL_NTS, SQL_NTS };
 
 	/*[Stored Query Definition]************************************************
 	CREATE PROCEDURE [dbo].[GLog_TB_USER_LocalUserConnectInfo_NewCount_Inc]
@@ -806,7 +806,7 @@ void CGLogDBManager::QP_FL_GLOG_TB_USER_LocalUserConnectInfo_NewCountInc(DB_QUER
 void CGLogDBManager::QP_PL_LOG_ACCOUNTCONNECT(DB_QUERY q, SQLHSTMT hstmt)
 {
 	MSG_FL_LOG_ACCOUNTCONNECT *pRMsg = (MSG_FL_LOG_ACCOUNTCONNECT*)q.pQueryParam;
-	SQLINTEGER arrCB[4] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[4] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 	
 	if(NULL == pRMsg)
 	{
@@ -863,7 +863,7 @@ void CGLogDBManager::QP_PL_LOG_ACCOUNTCONNECT(DB_QUERY q, SQLHSTMT hstmt)
 void CGLogDBManager::QP_FL_LOG_CHARDATA(DB_QUERY q, SQLHSTMT hstmt)
 {
 	MSG_FL_LOG_CHARDATA *pRMsg = (MSG_FL_LOG_CHARDATA*)q.pQueryParam;
-	SQLINTEGER arrCB[9] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[9] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 
 	if(NULL == pRMsg)
 	{
@@ -943,7 +943,7 @@ void CGLogDBManager::QP_FL_LOG_CHARDATA(DB_QUERY q, SQLHSTMT hstmt)
 void CGLogDBManager::QP_FL_LOG_ITEM(DB_QUERY q, SQLHSTMT hstmt)
 {
 	MSG_FL_LOG_ITEM *pRMsg = (MSG_FL_LOG_ITEM*)q.pQueryParam;
-	SQLINTEGER arrCB[7] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[7] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 
 	if(NULL == pRMsg)
 	{
@@ -1010,7 +1010,7 @@ void CGLogDBManager::QP_FL_LOG_ITEM(DB_QUERY q, SQLHSTMT hstmt)
 void CGLogDBManager::QP_FL_LOG_ITEMSTATE(DB_QUERY q, SQLHSTMT hstmt)
 {
 	MSG_FL_LOG_ITEMSTATE *pRMsg = (MSG_FL_LOG_ITEMSTATE*)q.pQueryParam;
-	SQLINTEGER arrCB[6] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[6] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 	
 	if(NULL == pRMsg)
 	{
@@ -1074,7 +1074,7 @@ void CGLogDBManager::QP_FL_LOG_ITEMSTATE(DB_QUERY q, SQLHSTMT hstmt)
 void CGLogDBManager::QP_PL_LOG_SERVER(DB_QUERY q, SQLHSTMT hstmt)
 {
 	MSG_FL_LOG_SERVER *pRMsg = (MSG_FL_LOG_SERVER*)q.pQueryParam;
-	SQLINTEGER arrCB[2] = { SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[2] = { SQL_NTS, SQL_NTS };
 	
 	if(NULL == pRMsg)
 	{
@@ -1150,7 +1150,7 @@ void CGLogDBManager::QP_FL_LOG_BUGTRAP_ACCEPT(DB_QUERY q, SQLHSTMT hstmt)
 	memset(tempIP, 0x00, SIZE_MAX_IPADDRESS);
 	sprintf(tempIP, "%d.%d.%d.%d",  pRMsg->IPAddress[0],  pRMsg->IPAddress[1],  pRMsg->IPAddress[2],  pRMsg->IPAddress[3]);
 
-	SQLINTEGER arrCB[20] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,		SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
+	SQLLEN arrCB[20] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,		SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
 								,SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,		SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 
 	INT nServerGroupID	= g_pLogGlobal->GetMGameServerID();

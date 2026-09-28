@@ -609,7 +609,7 @@ BOOL CMarketTabReturnAuction::DBQueryLoadReturnAuctionData(vect_MARKET_RETURN_AU
 		SQLBindParameter(hstmt,row++,SQL_PARAM_INPUT, SQL_C_TINYINT, SQL_TINYINT, 0, 0, &temp_influenceType, 0, NULL);
 		SQLBindParameter(hstmt,row++,SQL_PARAM_INPUT, SQL_C_TINYINT, SQL_TINYINT, 0, 0, &temp_status, 0, NULL);
 
-		SQLINTEGER cb1 = SQL_NTS;
+		SQLLEN cb1 = SQL_NTS;
 		SQLBindParameter(hstmt,row++, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_CHARACTER_NAME+1, 0, LPSTR(LPCTSTR( m_bCheckCharacterName?(m_szCharacterName):(""))), 0, &cb1);
 		SQLBindParameter(hstmt,row++,SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0,	&temp_CharacterUID, 0, NULL);
 		SQLBindParameter(hstmt,row++,SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0,	&temp_ItemUID, 0, NULL);
@@ -624,7 +624,7 @@ BOOL CMarketTabReturnAuction::DBQueryLoadReturnAuctionData(vect_MARKET_RETURN_AU
 		}	
 	}
 
-	SQLINTEGER arrCB[18]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN arrCB[18]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS};
 
 	MARKET_RETURN_AUCTION_INFO_LOG_DATA tmMarketInfoLogData;

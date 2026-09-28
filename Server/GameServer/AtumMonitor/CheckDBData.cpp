@@ -41,7 +41,7 @@ int CCheckDBData::LoadScanOldCashitemDBData(CODBCStatement *i_pODBCStmt) // ¡∂¿Œ
 	cashItemCheckData	tmcheckData;
 	MEMSET_ZERO(&tmcheckData, sizeof(cashItemCheckData));
 	
-	SQLINTEGER	arrCB[6] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[6] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	/*
 	int UniqueNumber;
 	int	Price;

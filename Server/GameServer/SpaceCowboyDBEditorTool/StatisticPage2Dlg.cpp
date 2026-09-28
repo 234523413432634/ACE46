@@ -119,7 +119,7 @@ void CStatisticPage2Dlg::ViewTotalAccumAccount()
 		return;
 	}
 
-	SQLINTEGER cb1;
+	SQLLEN cb1;
 
 	int tempSelectData;
 	SQLBindCol(m_pODBCStmt->m_hstmt, 1, SQL_C_ULONG, &tempSelectData, 0, &cb1);
@@ -166,7 +166,7 @@ void CStatisticPage2Dlg::ViewCurrentAccount()
 		return;
 	}
 
-	SQLINTEGER cb1;
+	SQLLEN cb1;
 
 	int tempSelectData;
 	SQLBindCol(m_pODBCStmt->m_hstmt, 1, SQL_C_ULONG, &tempSelectData, 0, &cb1);
@@ -214,7 +214,7 @@ void CStatisticPage2Dlg::ViewUnregAccount()
 		return;
 	}
 
-	SQLINTEGER cb1;
+	SQLLEN cb1;
 
 	int tempSelectData;
 	SQLBindCol(m_pODBCStmt->m_hstmt, 1, SQL_C_ULONG, &tempSelectData, 0, &cb1);
@@ -259,7 +259,7 @@ void CStatisticPage2Dlg::ViewExpectAccount()
 		return;
 	}
 
-	SQLINTEGER cb1;
+	SQLLEN cb1;
 
 	int tempSelectData;
 	SQLBindCol(m_pODBCStmt->m_hstmt, 1, SQL_C_ULONG, &tempSelectData, 0, &cb1);

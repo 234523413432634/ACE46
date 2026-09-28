@@ -688,7 +688,7 @@ void CEngineItemDlg::GetCurrentItemList()
 	//	, ITEMKIND_SUPPORT);
 	szSQLQuery.Format(QUERY_080702_0091, ITEMKIND_SUPPORT);
 
-	SQLINTEGER cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8, cb9, cb10, cb11, cb12, cb13, cb14, cb15, cb16, cb17, cb18, cb19, cb20, cb21, cb22, cb23, cb24, cb25, cb26, cb27, cb28;
+	SQLLEN cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8, cb9, cb10, cb11, cb12, cb13, cb14, cb15, cb16, cb17, cb18, cb19, cb20, cb21, cb22, cb23, cb24, cb25, cb26, cb27, cb28;
 
 	_TI_ITEM		st_EngineItem;
 	memset(&st_EngineItem, 0, sizeof(st_EngineItem));

@@ -408,7 +408,7 @@ void CSCStrategyPointAdminDlg::DBLoadStrategyPointSummonTimeInfo()
 		return;
 	}
 
-	SQLINTEGER	arrCB[5] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};  // 2008-04-08 by dhjin, 소환 가능 시간 설정 - 
+	SQLLEN	arrCB[5] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};  // 2008-04-08 by dhjin, 소환 가능 시간 설정 - 
 	SSTRATEGYPOINT_SUMMONTIME_INFO	tmStrategyPointSummonTimeInfo;
 	MEMSET_ZERO(&tmStrategyPointSummonTimeInfo, sizeof(SSTRATEGYPOINT_SUMMONTIME_INFO));
 	m_vectSStrategyPointSummonTimeInfo.clear();
@@ -457,7 +457,7 @@ void CSCStrategyPointAdminDlg::DBLoadStrategyPointSummonRangeInfo()
 		return;
 	}
 
-	SQLINTEGER	arrCB[9] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[9] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	MEMSET_ZERO(&m_SStrategyPointSummonRange, sizeof(SSTRATEGYPOINT_SUMMON_RANGE));
 
 	SQLBindCol(m_pODBCStmt->m_hstmt, 1, SQL_C_ULONG, &m_SStrategyPointSummonRange.NewSummonRange, 0, &arrCB[1]);
@@ -622,7 +622,7 @@ void CSCStrategyPointAdminDlg::DBLoadStrategyPointNotSummonTime()
 		return;
 	}
 
-	SQLINTEGER	arrCB[5] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};	// 2008-04-04 by dhjin, 소환 가능 시간 설정 - 
+	SQLLEN	arrCB[5] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};	// 2008-04-04 by dhjin, 소환 가능 시간 설정 - 
 	SSTRATEGYPOINT_NOT_SUMMON_TIME	tmStrategyPointNotSummonTime;
 	MEMSET_ZERO(&tmStrategyPointNotSummonTime, sizeof(SSTRATEGYPOINT_NOT_SUMMON_TIME));
 	m_vectSStrategyPointNotSummonTime.clear();

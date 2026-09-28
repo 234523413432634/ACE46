@@ -354,7 +354,7 @@ BOOL CLogTabConnection::GetLogAndInsertToGrid(BYTE T1_LogType, LPCSTR szTableNam
 
 	CONNECTION_LOG_INFO ConnLog;
 
-	SQLINTEGER cb1, cb2, cb3, cb4, cb5;
+	SQLLEN cb1, cb2, cb3, cb4, cb5;
 	char AccountName[SIZE_MAX_ACCOUNT_NAME];
 	SQL_TIMESTAMP_STRUCT sqlTime;
 	char LogTypeString[30];
@@ -364,7 +364,7 @@ BOOL CLogTabConnection::GetLogAndInsertToGrid(BYTE T1_LogType, LPCSTR szTableNam
 // 2008-08-27 by cmkwon, 날쿼리를 Procedure로 수정 - 
 //	if (!m_pODBCStmt->ExecuteQuery(szQuery))
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_TABLE_NAME, 0, (LPSTR)(LPCSTR)szTableName, 0,		&arrCB2[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SZQUERY, 0, (LPSTR)(LPCSTR)szQuery, 0,			&arrCB2[2]);
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0010));

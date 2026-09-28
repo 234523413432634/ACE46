@@ -243,7 +243,7 @@ void CStatisticPage9Dlg::ViewConnectionUser()
 	}
 
 	int		arrnUserCnts[INFLUENCE_TYPE_COUNT] = {0,0,0,0};
-	SQLINTEGER arrCB[3] = {SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN arrCB[3] = {SQL_NTS, SQL_NTS, SQL_NTS};
 	BYTE	byInflMask;
 	int		nUserCnts;
 	SQLBindCol(m_pODBCStmt->m_hstmt, 1, SQL_C_UTINYINT, &byInflMask, 0,	&arrCB[1]);
@@ -515,7 +515,7 @@ void CStatisticPage9Dlg::ViewConnectionUserEachDay(void)
 	}
 
 	vectSDATE_USER_COUNT	vectDateUserCntList;
-	SQLINTEGER arrCB[4] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN arrCB[4] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	char	tmDate[SIZE_MAX_SQL_DATETIME_STRING];	
 	BYTE	byInflMask;
 	int		nUserCnts;

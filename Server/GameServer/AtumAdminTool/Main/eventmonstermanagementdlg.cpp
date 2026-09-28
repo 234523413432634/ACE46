@@ -387,7 +387,7 @@ BOOL CEventMonsterManagementDlg::DBQueryInsertEventMonster(SEVENT_MONSTER *i_pEv
 	i_pEvMon->StartDateTime.GetSQLDateTimeString(tmSDateTime, SIZE_MAX_SQL_DATETIME_STRING);
 	i_pEvMon->EndDateTime.GetSQLDateTimeString(tmEDateTime, SIZE_MAX_SQL_DATETIME_STRING);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[12] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN arrCB2[12] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 								SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &(i_pEvMon->ServerGroupID), 0,				&arrCB2[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SQL_DATETIME_STRING, 0, tmSDateTime, 0,	&arrCB2[2]);
@@ -444,7 +444,7 @@ BOOL CEventMonsterManagementDlg::DBQueryUpdateEventMonster(SEVENT_MONSTER *i_pEv
 	i_pEvMon->StartDateTime.GetSQLDateTimeString(tmSDateTime, SIZE_MAX_SQL_DATETIME_STRING);
 	i_pEvMon->EndDateTime.GetSQLDateTimeString(tmEDateTime, SIZE_MAX_SQL_DATETIME_STRING);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[13] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN arrCB2[13] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 								SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &(i_pEvMon->ServerGroupID), 0,				&arrCB2[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SQL_DATETIME_STRING, 0, tmSDateTime, 0,	&arrCB2[2]);
@@ -493,7 +493,7 @@ BOOL CEventMonsterManagementDlg::DBQueryDeleteEventMonster(INT i_evMonUID)
 //	szQuery.Format(QUERY_080702_0053, i_evMonUID);
 //	BOOL bRet = m_pODBCStmt->ExecuteQuery((LPCSTR)szQuery);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &(i_evMonUID), 0,			&arrCB2[1]);
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0053));
 	if (!bRet)

@@ -296,7 +296,7 @@ BOOL CIOCP::AddIoCompletionPort(CIOCPSocket* pIOCPSocket)
 {
 	if(m_hCompletionPort == NULL || pIOCPSocket->IsUsing() == FALSE || pIOCPSocket->GetSocket() == INVALID_SOCKET){ return FALSE;}
 
-	HANDLE hret = CreateIoCompletionPort((HANDLE)pIOCPSocket->GetSocket(), m_hCompletionPort, (DWORD)pIOCPSocket, 0);
+	HANDLE hret = CreateIoCompletionPort((HANDLE)pIOCPSocket->GetSocket(), m_hCompletionPort, (ULONG_PTR)pIOCPSocket, 0);
 	if(NULL == hret )
 	{
 		pIOCPSocket->Close(0x10005);
@@ -1070,7 +1070,7 @@ BOOL CIOCP::Listen(void)
 			pIOCPSock->SetOption(SOL_SOCKET, SO_LINGER, (char*)&li, sizeof(li));
 			//*/
 
-			HANDLE hret = CreateIoCompletionPort((HANDLE)soc, m_hCompletionPort, (DWORD)pIOCPSock, 0);
+			HANDLE hret = CreateIoCompletionPort((HANDLE)soc, m_hCompletionPort, (ULONG_PTR)pIOCPSock, 0);
 			if(NULL == hret )
 			{
 				pIOCPSock->Close(0x10006);
@@ -1164,7 +1164,7 @@ DWORD CIOCP::Worker(void)
 		pOverlapped	= NULL;
 		dwRead		= 0;
 		pIOCPSocket	= NULL;
-		bRet = GetQueuedCompletionStatus(m_hCompletionPort, &dwRead, (DWORD*)&pIOCPSocket, (LPOVERLAPPED*)&pOverlapped, INFINITE);
+		bRet = GetQueuedCompletionStatus(m_hCompletionPort, &dwRead, (PULONG_PTR)&pIOCPSocket, (LPOVERLAPPED*)&pOverlapped, INFINITE);
 		pstInfo->dwLastUseStartTick = timeGetTime();
 		pstInfo->bThreadUseFlag = TRUE;
 		if(FALSE == bRet)

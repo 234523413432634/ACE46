@@ -193,7 +193,7 @@ void CStatisticPage8Dlg::ViewDailyMission(void)
 		MessageBox("Error");
 		return;
 	}
-	SQLINTEGER cb1, cb2;
+	SQLLEN cb1, cb2;
 
 	char tempDate[20];
 	memset(tempDate, 0, sizeof(tempDate));
@@ -361,7 +361,7 @@ void CStatisticPage8Dlg::ViewSpecCompleteMission(int i_nQuestIndex)
 		return;
 	}
 
-	SQLINTEGER arrCB[7]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[7]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
 	char szAccName[SIZE_MAX_ACCOUNT_NAME];
 	char szCharName[SIZE_MAX_CHARACTER_NAME];
 	char szUnitkind[10];
@@ -545,7 +545,7 @@ void CStatisticPage8Dlg::ViewSpecProgressMission(int i_nQuestIndex)
 		return;
 	}
 
-	SQLINTEGER arrCB[7]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[7]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
 	char szAccName[SIZE_MAX_ACCOUNT_NAME];
 	char szCharName[SIZE_MAX_CHARACTER_NAME];
 	char szUnitkind[10];

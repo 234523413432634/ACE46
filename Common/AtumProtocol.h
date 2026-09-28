@@ -6125,7 +6125,7 @@ struct SATTACK_PARAMETER
 {
 	UID16_t			WeaponIndex;					// 탄두 고유번호 - 2형 무기만 처리됨
 	DWORD			dwShotTick;						// 2007-06-08 by cmkwon, 발사 Tick
-	ITEM			*pWeaponItemInfo;				// 공격 무기 아이템 정보
+	CAtumPtr32<ITEM>	pWeaponItemInfo;				// 공격 무기 아이템 정보
 	float			fAttackProbability;				// 공격 확률
 	float			fPierceAttackProbability;		// 공격 피어스율
 	float			fAttack;						// 공격력

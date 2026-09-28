@@ -149,7 +149,7 @@ BOOL CGuildWarMananger::CheckGuildCommander(UID32_t i_CharacterUniqueNumber, UID
 //	sprintf(szQuery, QUERY_080702_0077, i_CharacterUniqueNumber);
 //	if (!m_ODBCStmt1.ExecuteQuery(szQuery))
 	SQLHSTMT hstmt = m_ODBCStmt1.GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &(i_CharacterUniqueNumber), 0,			&arrCB2[1]);
 	bRet = m_ODBCStmt1.ExecuteQuery((char*)(PROCEDURE_080827_0077));
 	if(FALSE == bRet)
@@ -194,7 +194,7 @@ BOOL CGuildWarMananger::CheckGuildCommanderAndGetMemberCapacity(UID32_t i_Charac
 //	sprintf(szQuery, QUERY_080702_0078, i_CharacterUniqueNumber);
 //	if (FALSE == m_ODBCStmt1.ExecuteQuery(szQuery))
 	SQLHSTMT hstmt = m_ODBCStmt1.GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &(i_CharacterUniqueNumber), 0,			&arrCB2[1]);
 	bRet = m_ODBCStmt1.ExecuteQuery((char*)(PROCEDURE_080827_0078));
 	if(FALSE == bRet)
@@ -235,7 +235,7 @@ BOOL CGuildWarMananger::MakeGuildForGuildWar(SGuildForGuildWar *o_pGuildForGuild
 //		sprintf(szQuery, QUERY_080702_0079, i_uidGuildUID);
 //		if (!m_ODBCStmt1.ExecuteQuery(szQuery))
 		SQLHSTMT hstmt = m_ODBCStmt1.GetSTMTHandle();
-		SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+		SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 		SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &(i_uidGuildUID), 0,			&arrCB2[1]);
 		BOOL bRet = m_ODBCStmt1.ExecuteQuery((char*)(PROCEDURE_080827_0079));
 		if(FALSE == bRet)
@@ -411,7 +411,7 @@ UID32_t CGuildWarMananger::GetGuildCommanderUID(UID32_t i_nGuildUID)
 //	sprintf(szQuery,QUERY_080702_0081, i_nGuildUID);
 //	if (FALSE == m_ODBCStmt1.ExecuteQuery(szQuery))
 	SQLHSTMT hstmt = m_ODBCStmt1.GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &(i_nGuildUID), 0,			&arrCB2[1]);
 	BOOL bRet = m_ODBCStmt1.ExecuteQuery((char*)(PROCEDURE_080827_0081));
 	if(FALSE == bRet)
@@ -458,7 +458,7 @@ UID32_t CGuildWarMananger::GetLeaderGuildUID(UID32_t i_LeaderUniqueNumber)
 //	sprintf(szQuery, QUERY_080702_0082, i_LeaderUniqueNumber);
 //	if (FALSE == m_ODBCStmt1.ExecuteQuery(szQuery))
 	SQLHSTMT hstmt = m_ODBCStmt1.GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &(i_LeaderUniqueNumber), 0,			&arrCB2[1]);
 	BOOL bRet = m_ODBCStmt1.ExecuteQuery((char*)(PROCEDURE_080827_0082));
 	if(FALSE == bRet)
@@ -504,7 +504,7 @@ BOOL CGuildWarMananger::CheckGuildStateDisMemberReady(UID32_t i_nGuildUID)
 //	sprintf(szQuery, QUERY_080702_0083, i_nGuildUID);
 //	if (FALSE == m_ODBCStmt1.ExecuteQuery(szQuery))
 	SQLHSTMT hstmt = m_ODBCStmt1.GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &(i_nGuildUID), 0,			&arrCB2[1]);
 	BOOL bRet = m_ODBCStmt1.ExecuteQuery((char*)(PROCEDURE_080827_0083));
 	if(FALSE == bRet)
@@ -557,7 +557,7 @@ void CGuildWarMananger::GetGuildCommanderName(UID32_t i_nGuildCommanderUID, char
 //	sprintf(szQuery, QUERY_080702_0084, i_nGuildCommanderUID);
 //	if (FALSE == m_ODBCStmt1.ExecuteQuery(szQuery))
 	SQLHSTMT hstmt = m_ODBCStmt1.GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &(i_nGuildCommanderUID), 0,			&arrCB2[1]);
 	BOOL bRet = m_ODBCStmt1.ExecuteQuery((char*)(PROCEDURE_080827_0084));
 	if(FALSE == bRet)

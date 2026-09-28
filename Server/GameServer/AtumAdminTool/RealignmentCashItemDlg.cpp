@@ -260,7 +260,7 @@ BOOL CRealignmentCashItemDlg::DBQueryLoadCashRealignItem(vectSAT_SHOP_REALIGN_IT
 		AfxMessageBox("DBQueryLoadCashItem error !!");
 		return FALSE;
 	}	
-	SQLINTEGER arrCB[6]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[6]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SAT_SHOP_REALIGN_ITEM tmShopItem;
 	SQLBindCol(hstmt,  1, SQL_C_LONG, &tmShopItem.ItemNum, 0,					&arrCB[1]);
 	SQLBindCol(hstmt,  2, SQL_C_CHAR, &tmShopItem.ItemName, SIZE_MAX_ITEM_NAME,	&arrCB[2]);
@@ -300,7 +300,7 @@ BOOL CRealignmentCashItemDlg::DBQueryUpdateCashRealignItem(vectSAT_SHOP_REALIGN_
 	{
 		SAT_SHOP_REALIGN_ITEM *pShopItem = &*itr;
 		
-		SQLINTEGER arrCB[4]={SQL_NTS,SQL_NTS};
+		SQLLEN arrCB[4]={SQL_NTS,SQL_NTS};
 		SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pShopItem->ItemNum, 0,			&arrCB[1]);
 		SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_LONG, SQL_TINYINT, 0, 0, &pShopItem->RealignmentIndex, 0,	&arrCB[2]);
 		BOOL bRet = m_odbcStmt2.ExecuteQuery(PROCEDURE_130204_0002);

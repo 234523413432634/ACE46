@@ -853,7 +853,7 @@ USHORT CGlobalGameServer::AuthAdminToolUser(const char *i_pUID, const char *i_pP
 //
 //	BOOL bRet = ODBCStmt.ExecuteQuery(szSQLQuery);
 	SQLHSTMT hstmt = ODBCStmt.GetSTMTHandle();
-	SQLINTEGER arrCB2[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0, (LPSTR)i_pUID, 0,					&arrCB2[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_PASSWORD_MD5_STRING, 0, (LPSTR)i_pPWD, 0,				&arrCB2[2]);
 	SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_PASSWORD_MD5_STRING, 0, (LPSTR)szEncodedString, 0,	&arrCB2[3]);
@@ -865,7 +865,7 @@ USHORT CGlobalGameServer::AuthAdminToolUser(const char *i_pUID, const char *i_pP
 		return usRetRace;
 	}
 
-	SQLINTEGER arrCB = SQL_NTS;
+	SQLLEN arrCB = SQL_NTS;
 	SQLBindCol(ODBCStmt.m_hstmt, 1, SQL_C_SHORT, &usRetRace, 0,		&arrCB);	
 	while ( (bRet = SQLFetch(ODBCStmt.m_hstmt)) != SQL_NO_DATA)
 	{

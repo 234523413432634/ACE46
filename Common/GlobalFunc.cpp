@@ -6,6 +6,10 @@
 
 #include "GlobalFunc.h"
 
+#if defined(_M_X64)
+#include <xmmintrin.h>
+#endif
+
 ///////////////////////////////////////////////////////////////////////////////
 // 2008-06-26 by cmkwon, float -> int 형변환 함수 추가 - 
 //! INTORFLOAT union for easy access to bits of a float.
@@ -62,7 +66,10 @@ inline int f2i(float f)
 ///////////////////////////////////////////////////////////////////////////////
 inline int fastf2i_round(float f)
 {
-#ifdef _WIN32
+#if defined(_M_X64)
+	// x64 has no x87 inline assembler.
+	return _mm_cvtss_si32(_mm_set_ss(f));
+#elif defined(_WIN32)
 	int i;
 	__asm
 	{
@@ -91,9 +98,11 @@ inline int fastf2i_round(float f)
 ///////////////////////////////////////////////////////////////////////////////
 inline int fastf2i(float fValue)
 {
-#ifdef _WIN32
 	static const float round_to_nearest = -0.499999f;
-
+#if defined(_M_X64)
+	// see fastf2i_round(): CVTSS2SI rounds to nearest-even like fistp does
+	return _mm_cvtss_si32(_mm_set_ss(fValue + round_to_nearest));
+#elif defined(_WIN32)
     int iValue;
     __asm 
 	{
@@ -122,7 +131,11 @@ inline int fastf2i(float fValue)
 ///////////////////////////////////////////////////////////////////////////////
 inline int Float2Int( float a )
 {
-#ifdef _WIN32
+#if defined(_M_X64)
+	// The assembler below forces the FPU rounding control to 0b11 (truncate
+	// toward zero) around a single fistp, which is what a C cast already does.
+	return (int)a;
+#elif defined(_WIN32)
 	int CtrlwdHolder;
 	int CtrlwdSetter;
 	int RetVal;

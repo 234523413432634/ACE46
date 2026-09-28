@@ -197,7 +197,7 @@ BOOL CStatisticPage100Dlg::GetUserStayTimeData(BOOL i_bPCBangUser)
 // 2008-08-27 by cmkwon, 날쿼리를 Procedure로 수정 - 
 //	BOOL bRet = m_pODBCStmt->ExecuteQuery((LPCSTR)szSQLQuery);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SZQUERY, 0, (LPSTR)(LPCSTR)szSQLQuery, 0,			&arrCB2[1]);
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0122));
 	m_pODBCStmt->FreeStatement();		// clean up
@@ -253,7 +253,7 @@ BOOL CStatisticPage100Dlg::GetUserStayTimeData(BOOL i_bPCBangUser)
 		return FALSE;
 	}
 
-	SQLINTEGER arrCB[9]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[9]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLCHAR  byAccountName[256]=" ,";
 	SQLCHAR	 byCharacterName[256]=" ,";	
 	SQLCHAR  byStartTime[30]=" ,";

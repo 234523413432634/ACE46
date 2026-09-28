@@ -179,7 +179,7 @@ BOOL CStatisticPage101Dlg::GetPCBangPlayData()
 // 2008-08-27 by cmkwon, 날쿼리를 Procedure로 수정 - 
 //		bRet = m_pODBCStmt2->ExecuteQuery((LPCSTR)szSQLQuery);
 		SQLHSTMT hstmt = m_pODBCStmt2->GetSTMTHandle();
-		SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+		SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 		SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SZQUERY, 0, (LPSTR)(LPCSTR)szSQLQuery, 0,			&arrCB2[1]);
 		bRet = m_pODBCStmt2->ExecuteQuery((char*)(PROCEDURE_080827_0122));
 		m_pODBCStmt2->FreeStatement();			// clean up
@@ -210,7 +210,7 @@ BOOL CStatisticPage101Dlg::GetPCBangPlayData()
 		}
 		
 		// 2007-01-23 by dhjin, 각 PC방에서 총 플레이한 시간을 가져온다
-		SQLINTEGER arrCB[10]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+		SQLLEN arrCB[10]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 		UID32_t  byPCBangUID				= 0;
 		SQLCHAR	 byPCBangName[50]			= " ,";	
 		INT		 byTotalPCBangPlayTime		= 0;
@@ -488,7 +488,7 @@ BOOL CStatisticPage101Dlg::GetPCBangPlayTimeDailyData()
 // 2008-08-27 by cmkwon, 날쿼리를 Procedure로 수정 - 
 //		bRet = m_pODBCStmt2->ExecuteQuery((LPCSTR)szSQLQuery);
 		SQLHSTMT hstmt = m_pODBCStmt2->GetSTMTHandle();
-		SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+		SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 		SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SZQUERY, 0, (LPSTR)(LPCSTR)szSQLQuery, 0,			&arrCB2[1]);
 		bRet = m_pODBCStmt2->ExecuteQuery((char*)(PROCEDURE_080827_0122));
 
@@ -523,7 +523,7 @@ BOOL CStatisticPage101Dlg::GetPCBangPlayTimeDailyData()
 			return FALSE;
 		}
 		
-		SQLINTEGER arrCB[4]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+		SQLLEN arrCB[4]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 		SQL_TIMESTAMP_STRUCT		tmSqlTime;
 		MEMSET_ZERO(&tmSqlTime, sizeof(tmSqlTime));
 		UID32_t  byPCBangUID				= 0;

@@ -178,7 +178,7 @@ void CStatisticPage102Dlg::ViewWarPointRanking(int i_nWarPointRankCount)
 // 	BOOL bRet = m_pODBCStmt->ExecuteQuery((LPCSTR)szSQLQuery);
 	USHORT tmExRace = RACE_DELETED_CHARACTER;
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &(i_nWarPointRankCount), 0,						&arrCB2[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_USHORT, SQL_SMALLINT, 0, 0, &(tmExRace), 0,								&arrCB2[2]);
 	SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_TABLE_NAME, 0, (LPSTR)(LPCSTR)OrderByTemp, 0,	&arrCB2[3]);
@@ -191,7 +191,7 @@ void CStatisticPage102Dlg::ViewWarPointRanking(int i_nWarPointRankCount)
 		return;
 	}
 
-	SQLINTEGER arrCB[11]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[11]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	char szAccName[SIZE_MAX_ACCOUNT_NAME];
 	char szCharName[SIZE_MAX_CHARACTER_NAME];
 	char szUnitkind[10];

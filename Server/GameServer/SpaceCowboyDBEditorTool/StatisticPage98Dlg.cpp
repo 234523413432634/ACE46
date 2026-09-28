@@ -173,7 +173,7 @@ void CStatisticPage98Dlg::ViewGuildFameRanking(int i_nRankCount)
 		return;
 	}
 
-	SQLINTEGER arrCB[10]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[10]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	char szGuildName[SIZE_MAX_GUILD_NAME];
 	int	 nGuildUID = 0;
 	int nTotalFamePoint = 0;

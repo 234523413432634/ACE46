@@ -136,7 +136,7 @@ void CSCItemEventDlg::GetItemEventInfo()
 	call dbo.atum_PROCEDURE_080827_0029
 	-------------------------------------------------------------------------------*/
 
-	SQLINTEGER arrCB[26] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN arrCB[26] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 		,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 		,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};				// 2013-09-30 by bckim, 특정시간 아이템지급		// 인자추가 
 
@@ -571,7 +571,7 @@ BOOL CSCItemEventDlg::CheckEnbaleInsertCouponEvent(int i_nItemEvTy, int i_nExclu
 	int nItemEvTy1 = ITEM_EVENT_TYPE_COUPON_ONLYONE;
 	int nItemEvTy2 = ITEM_EVENT_TYPE_COUPON_ONEDAY;
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &(i_nExcludeItemEventUID), 0,		&arrCB2[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &(nItemEvTy1), 0,					&arrCB2[2]);
 	SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &(nItemEvTy2), 0,					&arrCB2[3]);
@@ -583,7 +583,7 @@ BOOL CSCItemEventDlg::CheckEnbaleInsertCouponEvent(int i_nItemEvTy, int i_nExclu
 	}
 
 	int nCouponItemEventUID = 0;
-	SQLINTEGER arrCB[2]		= {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[2]		= {SQL_NTS,SQL_NTS};
 	SQLBindCol(m_pODBCStmt->m_hstmt, 1, SQL_C_ULONG, &nCouponItemEventUID, 0,					&arrCB[1]);
 	while ( (bRet = SQLFetch(m_pODBCStmt->m_hstmt)) != SQL_NO_DATA){};
 	m_pODBCStmt->FreeStatement();	// cleanup
@@ -749,7 +749,7 @@ void CSCItemEventDlg::OnConmenuSelectedInsert()
 
 	// 2013-03-29 by jhseol, 아이템 이벤트 - 서브타입 추가구조로 변경
 #ifdef S_ITEM_EVENT_SUB_TYPE_JHSEOL
-	SQLINTEGER arrCB[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[2] = {SQL_NTS,SQL_NTS};
 	SQLBindCol(m_pODBCStmt->m_hstmt, 1, SQL_C_ULONG, &dlg.m_ItemEv.ItemEventUID, 0,	&arrCB[1]);
 	SQLSMALLINT    nColCnts          = 0;
 	while(TRUE)
@@ -1042,7 +1042,7 @@ void CSCItemEventDlg::OnLuckyMachineInitButton()
 			WHERE ServerGroupID = @i_ServerGroupID
 		GO
 		************************************************************************/
-		SQLINTEGER	arrCB[2] = {SQL_NTS, SQL_NTS};
+		SQLLEN	arrCB[2] = {SQL_NTS, SQL_NTS};
 		SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &ServerGroupID, 0,	&arrCB[1]);
 		RETCODE	ret = SQLExecDirect(hstmt, PROCEDURE_081201_0279, SQL_NTS);
 		if(SQL_SUCCESS != ret && SQL_SUCCESS_WITH_INFO != ret && SQL_NO_DATA != ret)

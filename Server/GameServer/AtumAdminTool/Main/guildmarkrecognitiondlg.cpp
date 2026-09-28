@@ -324,7 +324,7 @@ BOOL CGuildMarkRecognitionDlg::GetGuildMarkList(void)
 //	BOOL bRet = m_pODBCStmt4->ExecuteQuery((LPCSTR)szSQLQuery);
 	BYTE byGuildMarkState = GUILD_MARK_STATE_WAITING_PERMISSION;
 	SQLHSTMT hstmt = m_pODBCStmt4->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &(byGuildMarkState), 0,				&arrCB2[1]);
 	BOOL bRet = m_pODBCStmt4->ExecuteQuery((char*)(PROCEDURE_080827_0054));
 	if (!bRet)
@@ -333,7 +333,7 @@ BOOL CGuildMarkRecognitionDlg::GetGuildMarkList(void)
 		return FALSE;
 	}
 
-	SQLINTEGER	cb[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	cb[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SGUILD_MARK_M1		tmGUILD;			MEMSET_ZERO(&tmGUILD, sizeof(tmGUILD));
 
 	SQLBindCol(m_pODBCStmt4->m_hstmt, 1, SQL_C_ULONG, &tmGUILD.GuildUID1, 0,						&cb[1]);
@@ -381,7 +381,7 @@ int CGuildMarkRecognitionDlg::UpdateGuildMarkState(vectSGUILD_MARK_M1 *i_pvectGu
 //		szSQLQuery.Format(QUERY_080702_0055, pGuildMark->GuildMarkState1, pGuildMark->GuildUID1);
 //		BOOL bRet = m_pODBCStmt4->ExecuteQuery((LPCSTR)szSQLQuery);
 		SQLHSTMT hstmt = m_pODBCStmt4->GetSTMTHandle();
-		SQLINTEGER arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+		SQLLEN arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 		SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &(pGuildMark->GuildUID1), 0,				&arrCB2[1]);
 		SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &(pGuildMark->GuildMarkState1), 0,		&arrCB2[2]);
 		BOOL bRet = m_pODBCStmt4->ExecuteQuery((char*)(PROCEDURE_080827_0055));

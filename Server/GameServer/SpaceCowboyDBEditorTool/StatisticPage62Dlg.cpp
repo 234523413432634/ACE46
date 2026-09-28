@@ -254,7 +254,7 @@ void CStatisticPage62Dlg::ViewRareItemRanking(int i_nPrefix, int i_nSuffix)
 // 2008-08-27 by cmkwon, 날쿼리를 Procedure로 수정 - 
 //	BOOL bRet = m_pODBCStmt->ExecuteQuery((LPCSTR)szSQLQuery);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SZQUERY, 0, (LPSTR)(LPCSTR)szSQLQuery, 0,			&arrCB2[1]);
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0122));
 	if (!bRet)
@@ -265,7 +265,7 @@ void CStatisticPage62Dlg::ViewRareItemRanking(int i_nPrefix, int i_nSuffix)
 		return;
 	}
 
-	SQLINTEGER arrCB[10]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[10]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	char szAccName[SIZE_MAX_ACCOUNT_NAME];
 	char szCharName[SIZE_MAX_CHARACTER_NAME];
 	char szUnitkind[10];
@@ -405,7 +405,7 @@ void CStatisticPage62Dlg::ViewRareItemTotalCount(int i_nPrefix, int i_nSuffix)
 // 2008-08-27 by cmkwon, 날쿼리를 Procedure로 수정 - 
 //	BOOL bRet = m_pODBCStmt->ExecuteQuery((LPCSTR)szSQLQuery);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SZQUERY, 0, (LPSTR)(LPCSTR)szSQLQuery, 0,			&arrCB2[1]);
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0122));
 	if (!bRet)

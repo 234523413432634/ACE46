@@ -291,7 +291,7 @@ void CStatisticPage61Dlg::ViewCountableItemOwnerList(INT i_ItemNum)
 // 2008-08-27 by cmkwon, 날쿼리를 Procedure로 수정 - 
 //	BOOL bRet = m_pODBCStmt->ExecuteQuery((LPCSTR)szSQLQuery);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SZQUERY, 0, (LPSTR)(LPCSTR)szSQLQuery, 0,			&arrCB2[1]);
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0122));
 	m_pODBCStmt->FreeStatement();
@@ -338,7 +338,7 @@ void CStatisticPage61Dlg::ViewCountableItemOwnerList(INT i_ItemNum)
 		return;
 	}
 
-	SQLINTEGER arrCB[7]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[7]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
 	char szAccName[SIZE_MAX_ACCOUNT_NAME];
 	char szCharName[SIZE_MAX_CHARACTER_NAME];
 	char szUnitkind[10];
@@ -458,7 +458,7 @@ void CStatisticPage61Dlg::ViewNonCountableItemOwnerList(INT i_ItemNum)
 // 2008-08-27 by cmkwon, 날쿼리를 Procedure로 수정 - 
 //	BOOL bRet = m_pODBCStmt->ExecuteQuery((LPCSTR)szSQLQuery);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SZQUERY, 0, (LPSTR)(LPCSTR)szSQLQuery, 0,			&arrCB2[1]);
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0122));
 	m_pODBCStmt->FreeStatement();
@@ -506,7 +506,7 @@ void CStatisticPage61Dlg::ViewNonCountableItemOwnerList(INT i_ItemNum)
 		return;
 	}
 
-	SQLINTEGER arrCB[7]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[7]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
 	char szAccName[SIZE_MAX_ACCOUNT_NAME];
 	char szCharName[SIZE_MAX_CHARACTER_NAME];
 	char szUnitkind[10];
@@ -598,7 +598,7 @@ void CStatisticPage61Dlg::ViewCountableItemTotalCount(INT i_ItemNum)
 // 		return;
 // 	}
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &(i_ItemNum), 0,			&arrCB2[1]);
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0187));
 	if(FALSE == bRet)
@@ -652,7 +652,7 @@ void CStatisticPage61Dlg::ViewNonCountableItemTotalCount(INT i_ItemNum)
 // 		return;
 // 	}
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &(i_ItemNum), 0,			&arrCB2[1]);
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0187));
 	if(FALSE == bRet)

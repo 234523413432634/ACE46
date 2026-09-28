@@ -24303,7 +24303,7 @@ int CFieldIOCPSocket::CashItem_Wikigames_DirectConnect(SWIKIBILL_REQ_DATA *i_pRe
 	}
 
 	SQLHSTMT hstmt = odbcStmt.GetSTMTHandle();
-	SQLINTEGER arrCB[15] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN arrCB[15] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 							,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLRETURN ret = 0;
 	int nRetVal = 1;	// Error 상태로 초기화 한다.
@@ -24814,7 +24814,7 @@ BOOL CFieldIOCPSocket::CashItem_VTC_DirectConnect(SVTCBILL_REQ_DATA *i_pReqData,
 	}
 
 	SQLHSTMT hstmt = odbcStmt.GetSTMTHandle();
-	SQLINTEGER arrCB[9] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[9] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	// 명령종류(1:잔액조회, 2:아이템구매)
 	switch (i_pReqData->nCommand)
 	{
@@ -24986,7 +24986,7 @@ Err_t CFieldIOCPSocket::CashItemMoneyPay_Lin(INT *o_pTotalMoney, INT *o_pMCash, 
 	SQLRETURN paramret = 0;
 	int	returnCode = 0;
 
-	SQLINTEGER arrCB[8] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS}; 
+	SQLLEN arrCB[8] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS}; 
 	CHAR userID[ID_MAX_STR_LEN];
 	MEMSET_ZERO(userID,sizeof(ID_MAX_STR_LEN));
 	memcpy(userID,this->m_character.AccountName,strlen(this->m_character.AccountName)+1);
@@ -25431,7 +25431,7 @@ BOOL CFieldIOCPSocket::CashItem_Masang_DirectConnect(SMasangBILL_REQ_DATA *i_pRe
 	}
 
 	SQLHSTMT hstmt = odbcStmt.GetSTMTHandle();
-	SQLINTEGER arrCB[15] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN arrCB[15] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 							,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLRETURN ret = 0;
 
@@ -25812,7 +25812,7 @@ int CFieldIOCPSocket::BillingReqExecuteDirectConnect(SBILLING_REQ_DATA *i_pReqDa
 	}
 
 	SQLHSTMT hstmt = odbcStmt.GetSTMTHandle();
-	SQLINTEGER arrCB[15] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN arrCB[15] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 							,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	int nRetVal = 0;
 	int nRetIDX = 0;
@@ -26998,7 +26998,7 @@ void CFieldIOCPSocket::GetWebAccountNum(char* i_szAccountName, UID32_t* o_WebAcc
 	}
 	
 	SQLHSTMT hstmt = odbcStmt.GetSTMTHandle();
-	SQLINTEGER arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLRETURN ret = 0;
 	
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0, i_szAccountName, 0,	&arrCB[1]);

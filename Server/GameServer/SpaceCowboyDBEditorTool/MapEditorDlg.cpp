@@ -505,7 +505,7 @@ void CMapEditorDlg::GetCurrentList()
 	//szSQLQuery.Format("select MapIndex, RenderMapIndex, MapName, MapInfluenceType, CityMapIndex, CityWarQuestIndex, CityWarQuestNPCIndex, CityWarQuestMonsterUID, MaxUserCount, MaxGroundHeight, MinGroundHeight, WaterHeight, UserVisibleDistance, MonsterVisibleDistance, QuestIndexForWarp, FrontPositionDistance, AutoRecoveryFlag, DefaultMapIndex, CityWarpTargetPositionX, CityWarpTargetPositionY, CityWarpTargetPositionZ, ClientMaxAltitudeHeight, DayFogColor, NightFogColor, DayFogStartDistance, DayFogEndDistance, NightFogStartDistance, NightFogEndDistance, DaySunDirectionX, DaySunDirectionY, DaySunDirectionZ, NightSunDirectionX, NightSunDirectionY, NightSunDirectionZ, WaterType, PKZoneFlag, TileRenderingFlag, SkyRenderingFlag, SunRenderingFlag, FogRenderingFlag from ti_mapinfo");
 	szSQLQuery.Format(QUERY_080702_0096);
 
-	SQLINTEGER		arrCB[41] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN		arrCB[41] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 								,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 								,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 								,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS

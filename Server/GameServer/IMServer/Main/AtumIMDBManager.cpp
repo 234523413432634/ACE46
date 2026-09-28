@@ -81,8 +81,8 @@ void CAtumIMDBManager::QP_AuthChatLogin(DB_QUERY q, SQLHSTMT hstmt)
 	MSG_IC_CONNECT_LOGIN	*pRMsg = (MSG_IC_CONNECT_LOGIN*)q.pQueryParam;
 
 	RETCODE ret;
-	SDWORD pcbNTS1 = SQL_NTS, pcbNTS2 = SQL_NTS;
-	SDWORD q1cb1 = SQL_NTS;
+	SQLLEN pcbNTS1 = SQL_NTS, pcbNTS2 = SQL_NTS;
+	SQLLEN q1cb1 = SQL_NTS;
 
 	/**********************************************************************
 	-- !!!!
@@ -179,7 +179,7 @@ void CAtumIMDBManager::QP_AuthChatLogin(DB_QUERY q, SQLHSTMT hstmt)
 		CHARACTER retCharacter;
 		CHARACTER_DB_EX retCharacterDBEX;
 		memset(&retCharacter, 0x00, sizeof(CHARACTER));
-		SQLINTEGER pcb1, pcb2;
+		SQLLEN pcb1, pcb2;
 
 		/**********************************************************************
 		--!!!!
@@ -237,7 +237,7 @@ void CAtumIMDBManager::QP_AuthChatLogin(DB_QUERY q, SQLHSTMT hstmt)
 			return;
 		}
 
-		SQLINTEGER	cb[CB_COUNT_CHARACTER] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+		SQLLEN	cb[CB_COUNT_CHARACTER] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 												,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 												,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 												,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
@@ -367,7 +367,7 @@ void CAtumIMDBManager::QP_GuildCreate(DB_QUERY q, SQLHSTMT hstmt)
 	}
 
 	RETCODE ret;
-	SDWORD pcb1;
+	SQLLEN pcb1;
 
 	///////////////////////////////////////////////////////////////////////////
 	// 길드 이름 검색
@@ -599,7 +599,7 @@ void CAtumIMDBManager::QP_GuildCreate(DB_QUERY q, SQLHSTMT hstmt)
 			WHERE C.UniqueNumber = @GuildMasterUID	
 	GO
 	**************************************************************************/
-	SQLINTEGER arrCB[1] = {SQL_NTS};
+	SQLLEN arrCB[1] = {SQL_NTS};
 	SQL_TIMESTAMP_STRUCT	GuildMemberShipExpireTime; memset(&GuildMemberShipExpireTime, 0x00, sizeof(SQL_TIMESTAMP_STRUCT));
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &pNewGuild->m_CommanderUniqueNumber, 0, NULL);
 	ret = SQLExecDirect(hstmt, PROCEDURE_080822_0211, SQL_NTS);
@@ -773,7 +773,7 @@ void CAtumIMDBManager::QP_GuildAddMember(DB_QUERY q, SQLHSTMT hstmt)
 	}
 
 	RETCODE ret;
-	SDWORD pcb1;
+	SQLLEN pcb1;
 
 	/*[Stored Query Definition]************************************************
 	CREATE PROCEDURE atum_InsertGuildMember
@@ -906,7 +906,7 @@ void CAtumIMDBManager::QP_GuildAddOffMember(DB_QUERY q, SQLHSTMT hstmt)
 	}
 
 	RETCODE ret;
-	SDWORD pcb1;
+	SQLLEN pcb1;
 
 	/*[Stored Query Definition]************************************************
 	CREATE PROCEDURE atum_InsertGuildMember
@@ -1022,7 +1022,7 @@ void CAtumIMDBManager::QP_GuildLeaveMember(DB_QUERY q, SQLHSTMT hstmt)
 	UID32_t	GuildUniqueNumber = (UID32_t)q.nGeneralParam2;
 
 	RETCODE ret;
-	SDWORD pcb1;
+	SQLLEN pcb1;
 
 	/*[Stored Query Definition]************************************************
 	CREATE PROCEDURE atum_DeleteGuildMember
@@ -1385,7 +1385,7 @@ void CAtumIMDBManager::QP_GuildChangeGuildName(DB_QUERY q, SQLHSTMT hstmt)
 	GO
 	**************************************************************************/
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &pChangeGuildName->GuildUniqueNumber, 0, NULL);
-	SQLINTEGER pcb1 = SQL_NTS;
+	SQLLEN pcb1 = SQL_NTS;
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_GUILD_NAME, 0, pChangeGuildName->NewGuildName, 0, &pcb1);
 
 	ret = SQLExecDirect(hstmt, PROCEDURE_080822_0223, SQL_NTS);
@@ -1575,7 +1575,7 @@ void CAtumIMDBManager::QP_GuildSetGuildMark(DB_QUERY q, SQLHSTMT hstmt)
 	// 2008-07-24 by cmkwon, MySQL 포팅 관련(OUTPUT 제거) - 
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &GuildUniqueNumber, 0, NULL);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pGuildMark->nGuildMarkSize, 0, NULL);
-	SQLINTEGER pcb = SIZE_MAX_GUILD_MARK_IMAGE;
+	SQLLEN pcb = SIZE_MAX_GUILD_MARK_IMAGE;
 	SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_BINARY, SQL_BINARY, SIZE_MAX_GUILD_MARK_IMAGE, 0, pGuildMark->GuildMarkImage, 0, &pcb);
 	SQLBindParameter(hstmt, 4, SQL_PARAM_INPUT, SQL_C_TINYINT, SQL_TINYINT, 0, 0, &pGuildMark->byGuildMarkState, 0, NULL);
 
@@ -1906,7 +1906,7 @@ void CAtumIMDBManager::QP_GuildLoadGuild(DB_QUERY q, SQLHSTMT hstmt)
 	///////////////////////////////////////////////////////////////////////////////
 	// 1. 길드 로딩
 	CGuild tmGuild;
-	SQLINTEGER arrCB[19] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN arrCB[19] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 							,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 							,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 							,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS								// 2008-05-20 by dhjin, EP3 - 여단 수정 사항
@@ -2165,7 +2165,7 @@ void CAtumIMDBManager::QP_GuildLoadGuild(DB_QUERY q, SQLHSTMT hstmt)
 		return;
 	}	
 
-	SQLINTEGER cb1, cb2;
+	SQLLEN cb1, cb2;
 	SGUILD_INTRODUCTION	GuildIntroduction;
 	MEMSET_ZERO(&GuildIntroduction, sizeof(SGUILD_INTRODUCTION));
 	SQL_TIMESTAMP_STRUCT	RegDate; memset(&RegDate, 0x00, sizeof(SQL_TIMESTAMP_STRUCT));
@@ -2302,7 +2302,7 @@ void CAtumIMDBManager::QP_GuildAddGuildFame(DB_QUERY q, SQLHSTMT hstmt)
 	GO
 	**************************************************************************/
 
-	SQLINTEGER arrCB[4]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[4]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &uidGuildUID, 0,			&arrCB[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &nTotalFameAddition, 0,		&arrCB[2]);
 	SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &nMonthlyFameAddition, 0,	&arrCB[3]);
@@ -2398,7 +2398,7 @@ void CAtumIMDBManager::QP_GuildUpdateCommander(DB_QUERY q, SQLHSTMT hstmt)
 	UID32_t	NewCommander	= (UID32_t)q.pGeneralParam;
 	
 	BYTE ErrCheck = 0;	
-	SQLINTEGER arrCB[5]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[5]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 // 2008-08-22 by cmkwon, MySQL 관련 소스 통합 - 아래와 같이 수정 함
 //	SQLBindParameter(hstmt, 1, SQL_PARAM_OUTPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &ErrCheck, 0, &arrCB[1]);
 //	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &pIISock->m_character.GuildUniqueNumber, 0,			&arrCB[2]);
@@ -2558,7 +2558,7 @@ void CAtumIMDBManager::QP_GuildNotice(DB_QUERY q, SQLHSTMT hstmt)
 		return;
 	}
 
-	SQLINTEGER arrCB[3]={SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[3]={SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &pIISock->m_character.GuildUniqueNumber, 0,			&arrCB[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_NOTICE, 0, pGuildNotice->Notice, 0,				&arrCB[2]);
 	RETCODE ret = SQLExecDirect(hstmt, PROCEDURE_080822_0236, SQL_NTS);
@@ -2622,7 +2622,7 @@ void CAtumIMDBManager::QP_GuildGetApplicant(DB_QUERY q, SQLHSTMT hstmt)
 		return;
 	}
 
-	SQLINTEGER arrCB[2]={SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[2]={SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &pIISock->m_character.GuildUniqueNumber, 0,			&arrCB[1]);
 	RETCODE ret = SQLExecDirect(hstmt, PROCEDURE_080822_0237, SQL_NTS);
 	if ( ret!=SQL_SUCCESS && ret!=SQL_SUCCESS_WITH_INFO )
@@ -2632,7 +2632,7 @@ void CAtumIMDBManager::QP_GuildGetApplicant(DB_QUERY q, SQLHSTMT hstmt)
 		return;
 	}	
 
-	SQLINTEGER cb1, cb2, cb3, cb4;
+	SQLLEN cb1, cb2, cb3, cb4;
 	
 	SGUILD_APPLICANT_INFO	tmpGuildApplicantInfo;
 	MEMSET_ZERO(&tmpGuildApplicantInfo, sizeof(SGUILD_APPLICANT_INFO));
@@ -2718,7 +2718,7 @@ void CAtumIMDBManager::QP_GuildGetIntroduction(DB_QUERY q, SQLHSTMT hstmt)
 		return;
 	}
 
-	SQLINTEGER arrCB[2]={SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[2]={SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &pIISock->m_character.GuildUniqueNumber, 0,			&arrCB[1]);
 	RETCODE ret = SQLExecDirect(hstmt, PROCEDURE_080822_0232, SQL_NTS);
 	if ( ret!=SQL_SUCCESS && ret!=SQL_SUCCESS_WITH_INFO )
@@ -2728,7 +2728,7 @@ void CAtumIMDBManager::QP_GuildGetIntroduction(DB_QUERY q, SQLHSTMT hstmt)
 		return;
 	}	
 
-	SQLINTEGER cb1, cb2;
+	SQLLEN cb1, cb2;
 	SGUILD_INTRODUCTION	GuildIntroduction;
 	MEMSET_ZERO(&GuildIntroduction, sizeof(SGUILD_INTRODUCTION));
 	SQL_TIMESTAMP_STRUCT	RegDate; memset(&RegDate, 0x00, sizeof(SQL_TIMESTAMP_STRUCT));
@@ -2782,7 +2782,7 @@ void CAtumIMDBManager::QP_GuildDeleteIntroduction(DB_QUERY q, SQLHSTMT hstmt)
 	GO
 	**************************************************************************/
 	UID32_t	GuildUID				= (UID32_t)q.pGeneralParam;
-	SQLINTEGER arrCB[2]={SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[2]={SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &GuildUID, 0,			&arrCB[1]);
 	RETCODE ret = SQLExecDirect(hstmt, PROCEDURE_080822_0239, SQL_NTS);
 	if ( ret!=SQL_SUCCESS && ret!=SQL_SUCCESS_WITH_INFO && ret!=SQL_NO_DATA)
@@ -2829,7 +2829,7 @@ void CAtumIMDBManager::QP_GetSelfIntroduction(DB_QUERY q, SQLHSTMT hstmt)
 	{
 		return;
 	}
-	SQLINTEGER arrCB[2]={SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[2]={SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &CharacterUID, 0,			&arrCB[1]);
 	RETCODE ret = SQLExecDirect(hstmt, PROCEDURE_080822_0240, SQL_NTS);
 	if ( ret!=SQL_SUCCESS && ret!=SQL_SUCCESS_WITH_INFO )
@@ -2839,7 +2839,7 @@ void CAtumIMDBManager::QP_GetSelfIntroduction(DB_QUERY q, SQLHSTMT hstmt)
 		return;
 	}
 
-	SQLINTEGER cb1, cb2;
+	SQLLEN cb1, cb2;
 	INIT_MSG_WITH_BUFFER(MSG_IC_GUILD_GET_SELF_INTRODUCTION_OK, T_IC_GUILD_GET_SELF_INTRODUCTION_OK, msg, SendBuf);
 	SQLBindCol(hstmt,  1, SQL_C_CHAR, msg->GuildName, SIZE_MAX_GUILD_NAME, &cb1);
 	SQLBindCol(hstmt,  2, SQL_C_CHAR, msg->SelfIntroduction, SIZE_MAX_NOTICE, &cb2);
@@ -2923,7 +2923,7 @@ void CAtumIMDBManager::QP_GuildSearchIntroduction(DB_QUERY q, SQLHSTMT hstmt)
 		return;
 	}
 	
-	SQLINTEGER cb1, cb2, cb3, cb4, cb5;
+	SQLLEN cb1, cb2, cb3, cb4, cb5;
 	SGUILD_SEARCH_INTRODUCTION	AllGuildIntroduction;
 	MEMSET_ZERO(&AllGuildIntroduction, sizeof(SGUILD_SEARCH_INTRODUCTION));
 	vectSGUILD_SEARCH_INTRODUCTION	vectAllGuildIntroduction;
@@ -3309,7 +3309,7 @@ void CAtumIMDBManager::QP_InsertNotifyMsg(DB_QUERY q, SQLHSTMT hstmt)
 	************************************************************************/
 
 	// 2007-12-20 by cmkwon, 통지시스템 버그 수정 - 추가된 NotifyMsgUID 를 리턴 받아서 클라이언트로 전송한다.
-	SQLINTEGER	arrCB[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
 // 2008-08-22 by cmkwon, MySQL 관련 소스 통합 - 빠진 부분 처리
 // 	SQLBindParameter(hstmt, 1, SQL_PARAM_OUTPUT, SQL_C_UBIGINT, SQL_BIGINT, 0, 0, &pQPMsg->NotifyMsgUID, 0,									&arrCB[1]);
 // 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &pQPMsg->CharacterUID, 0,									&arrCB[2]);
@@ -3393,7 +3393,7 @@ void CAtumIMDBManager::QP_FriendInsertFriend(DB_QUERY q, SQLHSTMT hstmt)
 	}
 	
 	SQLRETURN ret;		
-	SQLINTEGER arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};		// 2006-11-14 by cmkwon
+	SQLLEN arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};		// 2006-11-14 by cmkwon
 //	char spbuf[2][SIZE_MAX_SQL_PATTERN_BUFFER];
 
 	///////////////////////////////////////////////////////////////////////////
@@ -3639,7 +3639,7 @@ void CAtumIMDBManager::QP_FriendDeleteFriend(DB_QUERY q, SQLHSTMT hstmt)
 // 	cb2 = SQL_NTS;
 // 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SQL_PATTERN_BUFFER
 // 		, 0, GetSqlPattern(pDBFriendInfo->FriendName, spbuf[1]), 0, &cb2);
-	SQLINTEGER cb1, cb2;
+	SQLLEN cb1, cb2;
 	cb1 = cb2 = SQL_NTS;
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_CHARACTER_NAME, 0, pDBFriendInfo->CharacterName, 0, &cb1);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_CHARACTER_NAME, 0, pDBFriendInfo->FriendName, 0, &cb2);
@@ -3763,7 +3763,7 @@ void CAtumIMDBManager::QP_FriendLoadFriends(DB_QUERY q, SQLHSTMT hstmt)
 //	SQLINTEGER pcb = SQL_NTS;
 //	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SQL_PATTERN_BUFFER
 //		, 0, GetSqlPattern(pDBFriendInfo->CharacterName, spbuf), 0, &pcb);
-	SQLINTEGER pcb = SQL_NTS;
+	SQLLEN pcb = SQL_NTS;
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_CHARACTER_NAME, 0, pDBFriendInfo->CharacterName, 0, &pcb);
 
 	ret = SQLExecDirect(hstmt, PROCEDURE_080822_0246, SQL_NTS);
@@ -3776,7 +3776,7 @@ void CAtumIMDBManager::QP_FriendLoadFriends(DB_QUERY q, SQLHSTMT hstmt)
 	}
 
 	// bind columns
-	SQLINTEGER cb1, cb2, cb3, cb4;		// 2008-04-11 by dhjin, EP3 거부목록 -
+	SQLLEN cb1, cb2, cb3, cb4;		// 2008-04-11 by dhjin, EP3 거부목록 -
 	DB_FRIEND_INFO	tmpFriendInfo;
 	SQL_TIMESTAMP_STRUCT	RegDate; memset(&RegDate, 0x00, sizeof(SQL_TIMESTAMP_STRUCT));	// 2008-04-11 by dhjin, EP3 거부목록 -
 
@@ -3908,7 +3908,7 @@ void CAtumIMDBManager::QP_ReloadAdminAutoNotice(DB_QUERY q, SQLHSTMT hstmt)
 		return;
 	}
 
-	SQLINTEGER arrCB[5]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[5]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindCol(hstmt,  1, SQL_C_LONG, &tmANoticeInfo.UsingFlag, 0,								&arrCB[1]);
 	SQLBindCol(hstmt,  2, SQL_C_LONG, &tmANoticeInfo.LoopSec, 0,								&arrCB[2]);
 	SQLBindCol(hstmt,  3, SQL_C_LONG, &tmANoticeInfo.IntervalSec, 0,							&arrCB[3]);

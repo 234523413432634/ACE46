@@ -556,7 +556,7 @@ BOOL CCityWar::QP_LoadingOccupyInfo(SCITY_OCCUPY_INFO *o_pOccupyInfo)
 			FROM td_OccupyInfo WHERE MapIndex = @i_MapIndex AND MGameServerID = @i_MGameServerID
 	GO
 	**************************************************************************/
-	SQLINTEGER arrCB[10] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN arrCB[10] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 							,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};	
 	int nMServerID = g_pFieldGlobal->GetMGameServerID();
 	SQLBindParameter(ms_pODBCStmt2->m_hstmt, 1, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_INTEGER, 0, 0, &MapIndex, 0,		&arrCB[1]);
@@ -609,7 +609,7 @@ BOOL CCityWar::QP_CheckGuildAndGuildMaster(UID32_t i_GuildUID, UID32_t i_GuildMa
 		ELSE					SELECT 1;	
 	GO	
 	**************************************************************************/
-	SQLINTEGER		arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN		arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	BOOL bValid = FALSE;
 
 // 2008-07-24 by cmkwon, MySQL 포팅 관련(OUTPUT 제거) - 
@@ -687,7 +687,7 @@ BOOL CCityWar::QP_LoaingCityWarGuildList(void)
 				AND g.GuildCommanderUniqueNumber = q.CharacterUniqueNumber
 	GO
 	**************************************************************************/
-	SQLINTEGER arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	int nMServerID = g_pFieldGlobal->GetMGameServerID();
 	SQLBindParameter(ms_pODBCStmt2->m_hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &CityWarQuestIndex, 0,	&arrCB[1]);
 	SQLBindParameter(ms_pODBCStmt2->m_hstmt, 2, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &nMServerID, 0,			&arrCB[2]);
@@ -761,7 +761,7 @@ BOOL CCityWar::QP_StoreOccupyInfo(void)
 			END	
 	GO	
 	**************************************************************************/
-	SQLINTEGER					arrCB[12] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN					arrCB[12] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 											,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	int nServerID = g_pFieldGlobal->GetMGameServerID();
 	SQLBindParameter(ms_pODBCStmt2->m_hstmt, 1, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_INTEGER, 0, 0, &MapIndex, 0,									&arrCB[1]);
@@ -809,7 +809,7 @@ BOOL CCityWar::QP_StoreTexPercent(void)
 			END	
 	GO
 	**************************************************************************/
-	SQLINTEGER					arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN					arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	int nServerID = g_pFieldGlobal->GetMGameServerID();
 	SQLBindParameter(ms_pODBCStmt2->m_hstmt, 1, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_INTEGER, 0, 0, &MapIndex, 0,				&arrCB[1]);
 	SQLBindParameter(ms_pODBCStmt2->m_hstmt, 2, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &nServerID, 0,				&arrCB[2]);
@@ -843,7 +843,7 @@ BOOL CCityWar::QP_StoreWarTime(void)
 			END	
 	GO
 	**************************************************************************/
-	SQLINTEGER					arrCB[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN					arrCB[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	int nServerID = g_pFieldGlobal->GetMGameServerID();
 	SQLBindParameter(ms_pODBCStmt2->m_hstmt, 1, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_INTEGER, 0, 0, &MapIndex, 0,									&arrCB[1]);
 	SQLBindParameter(ms_pODBCStmt2->m_hstmt, 2, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &nServerID, 0,									&arrCB[2]);
@@ -881,7 +881,7 @@ BOOL CCityWar::QP_StoreSumOfTex(void)
 			END	
 	GO
 	**************************************************************************/
-	SQLINTEGER					arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN					arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	int nServerID = g_pFieldGlobal->GetMGameServerID();
 	SQLBindParameter(ms_pODBCStmt2->m_hstmt, 1, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_INTEGER, 0, 0, &MapIndex, 0,									&arrCB[1]);
 	SQLBindParameter(ms_pODBCStmt2->m_hstmt, 2, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &nServerID, 0,									&arrCB[2]);
@@ -914,7 +914,7 @@ BOOL CCityWar::QP_StoreBriefing(void)
 			END	
 	GO
 	**************************************************************************/
-	SQLINTEGER					arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN					arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	int nServerID = g_pFieldGlobal->GetMGameServerID();
 	SQLBindParameter(ms_pODBCStmt2->m_hstmt, 1, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_INTEGER, 0, 0, &MapIndex, 0,									&arrCB[1]);
 	SQLBindParameter(ms_pODBCStmt2->m_hstmt, 2, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &nServerID, 0,									&arrCB[2]);

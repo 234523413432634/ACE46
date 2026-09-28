@@ -344,14 +344,14 @@ BOOL CLogTabGuildItem::GetLogAndInsertToGrid(BYTE T1_LogType, LPCSTR szTableName
 	RETCODE	ret;
 	LOG_GUILDSTORE_ITEM_INFO GuilditemInfo;
 
-	SQLINTEGER		arrCB[16] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,
+	SQLLEN		arrCB[16] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,
 								SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	SQL_TIMESTAMP_STRUCT tmpTimeStamp;
 	
 // 2008-08-27 by cmkwon, 날쿼리를 Procedure로 수정 - 
 //	BOOL bRet = m_pODBCStmt->ExecuteQuery(szQuery);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_TABLE_NAME, 0, (LPSTR)(LPCSTR)szTableName, 0,		&arrCB2[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SZQUERY, 0, (LPSTR)(LPCSTR)szQuery, 0,			&arrCB2[2]);	
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0010));

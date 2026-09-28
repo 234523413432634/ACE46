@@ -173,7 +173,7 @@ void CStatisticPage99Dlg::ViewIndividualFameRanking(int i_nRankCount)
 		return;
 	}
 
-	SQLINTEGER arrCB[9]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[9]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	char szAccName[SIZE_MAX_ACCOUNT_NAME];
 	char szCharName[SIZE_MAX_CHARACTER_NAME];
 	char szUnitkind[10];

@@ -465,7 +465,7 @@ void CMonsterDlg::GetCurrentList()
 	//szSQLQuery.Format("select UniqueNumber, MonsterName, Level, Experience, HP, Race, Speed, MonsterItem01, MonsterItem02, MonsterItem03, MonsterItem04, MonsterItem05, SizeForServer, SizeForClient, MonsterForm, AttackPattern, MovePattern, Belligerence, Defense, DefenceProbability, AlphaBlending, AttackObject, AttackRange, HPRecoveryTime, HPRecoveryValue, ScaleValue, TextureIndex, SourceIndex, QuickTurnAngle, QuickSpeed, QuickTurnTerm, MPOption, MPOptionParam1, MPOptionParam2, Range, TurnAngle  from ti_monster");
 	szSQLQuery.Format(QUERY_080702_0111);
 
-	SQLINTEGER cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8, cb9, cb10, cb11, cb12, cb13, cb14, cb15, cb16, cb17, cb18, cb19, cb20, cb21, cb22, cb23, cb24, cb25, cb26, cb27, cb28, cb29, cb30, cb31, cb32, cb33, cb34, cb35, cb36;
+	SQLLEN cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8, cb9, cb10, cb11, cb12, cb13, cb14, cb15, cb16, cb17, cb18, cb19, cb20, cb21, cb22, cb23, cb24, cb25, cb26, cb27, cb28, cb29, cb30, cb31, cb32, cb33, cb34, cb35, cb36;
 
 	_TI_MONSTER		st_Monster;
 	

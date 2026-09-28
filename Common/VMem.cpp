@@ -4,6 +4,7 @@
 
 #include "stdafx.h"
 #include "VMem.h"
+#include "LowMemory.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -69,7 +70,14 @@ BOOL CVMem::AllocVMem(DWORD dwTypeSize, DWORD dwPoolCount)
 		dwCommitVMSize = ((dwCommitVMSize/dwPAGESIZE) + 1) * dwPAGESIZE;		
 	}
 		
+#if defined(_M_X64)
+	// The object types pooled here (ITEM_GENERAL, ITEM_SKILL, EVENTINFO,
+	// DROPMINE, FIELD_DUMMY, ...) have their addresses handed to the client as 32
+	// bit values, so the pool has to live below 4 GB - see LowMemory.h.
+	pVMem = (char*)AtumLowReserveVirtual(dwCommitVMSize);
+#else
 	pVMem = (char*)VirtualAlloc(NULL, dwCommitVMSize, MEM_RESERVE|MEM_TOP_DOWN, PAGE_READWRITE);
+#endif
 	if(NULL == pVMem)
 	{	
 		UnlockVMem();
@@ -91,7 +99,7 @@ BOOL CVMem::AllocVMem(DWORD dwTypeSize, DWORD dwPoolCount)
 	m_vectorVMemPtr.push_back(pVMem);
 	
 	char	szError[256];
-	sprintf(szError, "CVMem::AllocVMem VirtualAlloc() success, TypeSize[%5d] PoolCnt[%5d] CommitSize[%8d] vectorSize[%d] Address Range(0x%X ~ 0x%X)\r\n"
+	sprintf(szError, "CVMem::AllocVMem VirtualAlloc() success, TypeSize[%5d] PoolCnt[%5d] CommitSize[%8d] vectorSize[%d] Address Range(%p ~ %p)\r\n"
 		, dwTypeSize, dwCalcPoolCnt, dwCommitVMSize, m_vectorVMemPtr.size()
 		, pVMem, (char*)pVMem + dwCommitVMSize);
 //	g_pGlobal->WriteSystemLog(szError);

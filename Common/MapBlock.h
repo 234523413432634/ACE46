@@ -4,6 +4,7 @@
 //#include "stdafx.h"
 //#include "IOCP.h"
 #include "VMemPool.h"
+#include "LowMemory.h"
 
 /******************************************************************************
 	ATUM Map 관리용 모듈
@@ -199,6 +200,10 @@ class CMapChannel;
 class CMapBlock
 {
 public:
+	// CMapBlock addresses are carried in MEX_TIMER_EVENT::nGeneralParam1 for the
+	// mine timers, so blocks have to stay 32 bit addressable.
+	ATUM_LOW_MEMORY_OBJECT()
+
 	CMapBlock();
 	virtual ~CMapBlock();
 

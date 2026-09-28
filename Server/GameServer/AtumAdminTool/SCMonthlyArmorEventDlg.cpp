@@ -216,7 +216,7 @@ BOOL SCMonthlyArmorEventDlg::InsertDBMonthlyEvent(MONTHLY_ARMOR_EVNET_INFO* tmpI
 	char szEventEndDate[SIZE_MAX_SQL_DATETIME_STRING];
 
 	SQLHSTMT hstmt = m_odbcStmt2.GetSTMTHandle();
-	SQLINTEGER arrCB2[8] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};	// 2013-09-06 by jhseol, 이달의 아머 이벤트 적용 기간 변경
+	SQLLEN arrCB2[8] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};	// 2013-09-06 by jhseol, 이달의 아머 이벤트 적용 기간 변경
 
  	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &(tmpInsertEvent->nEventUID),				0,&arrCB2[1]);
 	tmpInsertEvent->atStartDate.GetSQLDateTimeString(szEventStartDate,SIZE_MAX_SQL_DATETIME_STRING);
@@ -236,7 +236,7 @@ BOOL SCMonthlyArmorEventDlg::InsertDBMonthlyEvent(MONTHLY_ARMOR_EVNET_INFO* tmpI
 	}
 
 	int nMonthlyEventUID = 0;
-	SQLINTEGER arrCB[2]		= {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[2]		= {SQL_NTS,SQL_NTS};
 	SQLBindCol(m_odbcStmt2.m_hstmt, 1, SQL_C_ULONG, &nMonthlyEventUID, 0,&arrCB[1]);
 
 	bRet = SQLFetch(m_odbcStmt2.m_hstmt);
@@ -340,7 +340,7 @@ void SCMonthlyArmorEventDlg::OnButtonDelete()  // Delete !!
 BOOL SCMonthlyArmorEventDlg::DeleteDBMonthlyEvent(INT EventUID)
 {
 	SQLHSTMT hstmt = m_odbcStmt2.GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &EventUID,				0,&arrCB2[1]);
 	
@@ -767,7 +767,7 @@ BOOL SCMonthlyArmorEventDlg::DBQueryGetMonthlyEventInfo(vectMONTHLY_ARMOR_EVENT_
 		return FALSE;
 	}	
 
-	SQLINTEGER arrCB[10]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};	// 2013-09-06 by jhseol, 이달의 아머 이벤트 적용 기간 변경
+	SQLLEN arrCB[10]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};	// 2013-09-06 by jhseol, 이달의 아머 이벤트 적용 기간 변경
 	MONTHLY_ARMOR_EVENT tmEventInfo;
 	
 	SQL_TIMESTAMP_STRUCT tmpStartTime;
@@ -817,7 +817,7 @@ BOOL SCMonthlyArmorEventDlg::DBQueryGetMonthlyArmorInfo(vectMONTHLY_ARMOR_INFO *
 {
 	SQLHSTMT hstmt = m_odbcStmt2.GetSTMTHandle();
 
-	SQLINTEGER cb[3]={SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN cb[3]={SQL_NTS,SQL_NTS,SQL_NTS};
 	
 	cb[1] = SQL_NTS;
 	cb[2] = SQL_NTS;
@@ -835,7 +835,7 @@ BOOL SCMonthlyArmorEventDlg::DBQueryGetMonthlyArmorInfo(vectMONTHLY_ARMOR_INFO *
 		return FALSE;
 	}	
 	
-	SQLINTEGER arrCB[6]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[6]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	MONTHLY_ARMOR_INFO tmpArmorInfo;
 	
 	SQLBindCol(hstmt,  1, SQL_C_TINYINT,	&tmpArmorInfo.SkillLevel,					0,&arrCB[1]);
@@ -877,7 +877,7 @@ BOOL SCMonthlyArmorEventDlg::DBQueryGetMonthlyOptionInfo(vectMONTHLY_OPTION_INFO
 {
 	SQLHSTMT hstmt = m_odbcStmt2.GetSTMTHandle();
 
-	SQLINTEGER cb[4]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};	// 2014-12-29 by shchoi 이달의 구 아머
+	SQLLEN cb[4]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};	// 2014-12-29 by shchoi 이달의 구 아머
 	
 	cb[1] = SQL_NTS;
 
@@ -904,7 +904,7 @@ BOOL SCMonthlyArmorEventDlg::DBQueryGetMonthlyOptionInfo(vectMONTHLY_OPTION_INFO
 		return FALSE;
 	}	
 	
-	SQLINTEGER arrCB[4]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[4]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	MONTHLY_OPTION_INFO tmpOptionInfo;
 	
 	SQLBindCol(hstmt,  1, SQL_C_LONG,		&tmpOptionInfo.ItemNum,						0,&arrCB[1]);

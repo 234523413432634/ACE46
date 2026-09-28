@@ -239,7 +239,7 @@ BOOL CAdminAutoNoticeDlg::DBQueryLoadAdminNoticeInfo(SANoticeInfo *o_pNoticeInfo
 		AfxMessageBox("DBQueryLoadAdminNoticeInfo error !!");
 		return FALSE;
 	}
-	SQLINTEGER arrCB[5]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[5]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindCol(hstmt,  1, SQL_C_LONG, &o_pNoticeInfo->UsingFlag, 0,								&arrCB[1]);
 	SQLBindCol(hstmt,  2, SQL_C_LONG, &o_pNoticeInfo->LoopSec, 0,								&arrCB[2]);
 	SQLBindCol(hstmt,  3, SQL_C_LONG, &o_pNoticeInfo->IntervalSec, 0,							&arrCB[3]);
@@ -265,7 +265,7 @@ BOOL CAdminAutoNoticeDlg::DBQueryUpdateAdminNoticeInfo(SANoticeInfo *i_pNoticeIn
 {
 	SQLHSTMT hstmt = m_odbcStmt1.GetSTMTHandle();
 
-	SQLINTEGER arrCB[5]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[5]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pNoticeInfo->UsingFlag, 0,	&arrCB[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pNoticeInfo->LoopSec, 0,		&arrCB[2]);
 	SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pNoticeInfo->IntervalSec, 0,	&arrCB[3]);
@@ -300,7 +300,7 @@ BOOL CAdminAutoNoticeDlg::DBQueryLoadNoticeStringList(vectSANoticeString *o_pvec
 		AfxMessageBox("DBQueryLoadNoticeStringList error !!");
 		return FALSE;
 	}	
-	SQLINTEGER arrCB[3]={SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[3]={SQL_NTS,SQL_NTS,SQL_NTS};
 	SANoticeString tmNoticeStr;
 	SQLBindCol(hstmt,  1, SQL_C_LONG, &tmNoticeStr.NoticeStringIndex, 0,								&arrCB[1]);
 	SQLBindCol(hstmt,  2, SQL_C_CHAR, &tmNoticeStr.NoticeString, SIZE_MAX_ADMIN_NOTICE_STRING,			&arrCB[2]);
@@ -340,7 +340,7 @@ BOOL CAdminAutoNoticeDlg::DBQueryUpdateNoticeStringList(vectSANoticeString *o_pv
 	{
 		SANoticeString *pNoticeStr = &*itr;
 
-		SQLINTEGER arrCB[4]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+		SQLLEN arrCB[4]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 		SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &bDeleteOldList, 0,						&arrCB[1]);
 		SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pNoticeStr->NoticeStringIndex, 0,		&arrCB[2]);
 		SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ADMIN_NOTICE_STRING, 0, &pNoticeStr->NoticeString, 0, &arrCB[3]);

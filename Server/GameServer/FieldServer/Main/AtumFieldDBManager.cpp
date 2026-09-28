@@ -441,7 +441,7 @@ BOOL CAtumFieldDBManager::GetAttachedItems(CHARACTER_RENDER_INFO *io_pRenderInfo
 	// 2006-01-23 by cmkwon, 초기화
 	MEMSET_ZERO(io_pRenderInfo, sizeof(CHARACTER_RENDER_INFO));
 
-	SQLINTEGER cb1, cb2, cb3, cb4;
+	SQLLEN cb1, cb2, cb3, cb4;
 	int	OutItemWindIdx = 0;
 	int OutItemNum = 0;
 	int OutColorCode	= 0;
@@ -548,7 +548,7 @@ BOOL CAtumFieldDBManager::LoadInfluenceWarData(BYTE *o_pOwnerInflOfConflictArea,
 	*o_pOwnerInflOfConflictArea		= INFLUENCE_TYPE_UNKNOWN;		// 2006-07-12 by cmkwon
 
 	RETCODE					ret;
-	SQLINTEGER				arrCB[14] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};	// 2013-05-09 by hskim, 세력 포인트 개선 - // 2008-04-10 by dhjin, 모선전 정보 표시 기획안 - 
+	SQLLEN				arrCB[14] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};	// 2013-05-09 by hskim, 세력 포인트 개선 - // 2008-04-10 by dhjin, 모선전 정보 표시 기획안 - 
 	SINFLUENCE_WAR_DATA		tmWarData;
 	UID32_t					VCNLeaderCharUID	= 0;
 	UID32_t					ANILeaderCharUID	= 0;
@@ -691,7 +691,7 @@ BOOL CAtumFieldDBManager::InsertInfluenceWarData(CODBCStatement *i_pODBCStmt, SI
 //		, i_pSINFLUENCE_WAR_DATA->ContributionPoint);
 //	BOOL bRet = i_pODBCStmt->ExecuteQuery(szQuery);
 	SQLHSTMT hstmt = i_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &(i_pSINFLUENCE_WAR_DATA->InfluenceType), 0,		&arrCB2[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &(i_pSINFLUENCE_WAR_DATA->MGameServerID), 0,			&arrCB2[2]);
 	SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &(i_pSINFLUENCE_WAR_DATA->WartimeStage), 0,		&arrCB2[3]);
@@ -778,7 +778,7 @@ BOOL CAtumFieldDBManager::LoadDeclarationOfWarInfo(CODBCStatement *i_pODBCStmt, 
 		return FALSE;
 	}
 	
-	SQLINTEGER	arrCB[13] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN	arrCB[13] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 							, SQL_NTS,SQL_NTS,SQL_NTS};
 
 	SDECLARATION_OF_WAR	tmDeclarationOfWar;
@@ -842,7 +842,7 @@ BOOL CAtumFieldDBManager::LoadDeclarationOfWarInfo(CODBCStatement *i_pODBCStmt, 
 		return FALSE;
 	}
 	
-	SQLINTEGER	arrCB2[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB2[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 
 	SDECLARATION_OF_WAR_FORBID_TIME	tmDeclarationOfWarForbidTime;
 	MEMSET_ZERO(&tmDeclarationOfWarForbidTime, sizeof(SDECLARATION_OF_WAR_FORBID_TIME));
@@ -910,7 +910,7 @@ BOOL CAtumFieldDBManager::DBLoadArenaInfo(CODBCStatement *i_pODBCStmt, CArenaMan
 		return FALSE;
 	}
 	
-	SQLINTEGER	arrCB[7] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[7] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 
 	SDBARENA_INFO	tmDBArenaInfo;
 	MEMSET_ZERO(&tmDBArenaInfo, sizeof(SDBARENA_INFO));
@@ -973,7 +973,7 @@ BOOL CAtumFieldDBManager::DBLoadArenaMapInfo(CODBCStatement *i_pODBCStmt, CArena
 	}
 	
 	// 2012-09-14 by jhseol, 아레나 추가개발 part3 - 아레나 지급 아이템 추가 (아레나 전용 탄약 재충전 카드)
-	SQLINTEGER	arrCB[14] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
+	SQLLEN	arrCB[14] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
 							, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	// end 2012-09-14 by jhseol, 아레나 추가개발 part3 - 아레나 지급 아이템 추가 (아레나 전용 탄약 재충전 카드)
 
@@ -1055,7 +1055,7 @@ BOOL CAtumFieldDBManager::DBLoadTutorialInfo(CODBCStatement *i_pODBCStmt, vectST
 
 	STUTORIAL_INFO		tmTutorial;
 	MEMSET_ZERO(&tmTutorial, sizeof(STUTORIAL_INFO));
-	SQLINTEGER	arrCB[8] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[8] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	SQLBindCol(i_pODBCStmt->m_hstmt, 1, SQL_C_LONG, &tmTutorial.TutorialUID, 0, &arrCB[1]);
 	SQLBindCol(i_pODBCStmt->m_hstmt, 2, SQL_C_LONG, &tmTutorial.TutorialPayItem1, 0, &arrCB[2]);
 	SQLBindCol(i_pODBCStmt->m_hstmt, 3, SQL_C_LONG, &tmTutorial.TutorialPayItemCount1, 0, &arrCB[3]);
@@ -1086,7 +1086,7 @@ BOOL CAtumFieldDBManager::DBLoadInitializedGuildList(CODBCStatement *i_pODBCStmt
 
 	MSG_FL_LOG_ITEM_INITIALIZED_GUILD_STORE		tmInitializedGuildList;
 	MEMSET_ZERO(&tmInitializedGuildList, sizeof(MSG_FL_LOG_ITEM_INITIALIZED_GUILD_STORE));
-	SQLINTEGER	arrCB[11] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[11] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	SQLBindCol(i_pODBCStmt->m_hstmt, 1, SQL_C_LONG, &tmInitializedGuildList.AccountUniqueNumber, 0, &arrCB[1]);
 	SQLBindCol(i_pODBCStmt->m_hstmt, 2, SQL_C_CHAR, &tmInitializedGuildList.AccountName,SIZE_MAX_ACCOUNT_NAME, &arrCB[2]);
  	SQLBindCol(i_pODBCStmt->m_hstmt, 3, SQL_C_LONG, &tmInitializedGuildList.CharacterUniqueNumber, 0, &arrCB[3]);
@@ -1190,7 +1190,7 @@ BOOL CAtumFieldDBManager::DBLoadOutPostInfo(CODBCStatement *i_pODBCStmt, COutPos
 	vectSOutPostInfo	tmVectDBOutPostInfo;
 	tmVectDBOutPostInfo.clear();
 
-	SQLINTEGER	arrCB[9] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[9] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	SQLBindCol(i_pODBCStmt->m_hstmt, 1, SQL_C_ULONG, &tmOutPostInfo.OutPostMapIndex, 0, &arrCB[1]);
 	SQLBindCol(i_pODBCStmt->m_hstmt, 2, SQL_C_ULONG, &tmOutPostInfo.OutPostCityMapIndex, 0, &arrCB[2]);
 	SQLBindCol(i_pODBCStmt->m_hstmt, 3, SQL_C_TIMESTAMP, &GetTime, 0, &arrCB[3]);
@@ -1246,7 +1246,7 @@ BOOL CAtumFieldDBManager::DBLoadOutPostNextWarTimeInfo(CODBCStatement *i_pODBCSt
 	vectATUM_DATE_TIME	tmVectDBOutPostNextWarTimeInfo;
 	tmVectDBOutPostNextWarTimeInfo.clear();
 
-	SQLINTEGER	arrCB[2] = {SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[2] = {SQL_NTS, SQL_NTS};
 	SQLBindCol(i_pODBCStmt->m_hstmt, 1, SQL_C_TIMESTAMP, &OutPostWarStartTime, 0, &arrCB[1]);
 
 	while ( (ret = SQLFetch(i_pODBCStmt->m_hstmt)) != SQL_NO_DATA)
@@ -1294,7 +1294,7 @@ BOOL CAtumFieldDBManager::DBLoadCityLeaderInfo(CODBCStatement *i_pODBCStmt, CCit
 	vectSCityLeaderInfo		tmVectDBCityLeaderInfo;
 	tmVectDBCityLeaderInfo.clear();
 
-	SQLINTEGER	arrCB[8] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,    SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[8] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,    SQL_NTS, SQL_NTS, SQL_NTS};
 	SQLBindCol(i_pODBCStmt->m_hstmt, 1, SQL_C_ULONG, &tmCityLeaderInfo.MapIndex, 0, &arrCB[1]);
 	SQLBindCol(i_pODBCStmt->m_hstmt, 2, SQL_C_UTINYINT, &tmCityLeaderInfo.Influence, 0, &arrCB[2]);
 	SQLBindCol(i_pODBCStmt->m_hstmt, 3, SQL_C_ULONG, &tmCityLeaderInfo.CharacterUID, 0, &arrCB[3]);
@@ -1349,7 +1349,7 @@ BOOL CAtumFieldDBManager::DBLoadLuckyMachine(CODBCStatement *i_pODBCStmt, vectSL
 	MEMSET_ZERO(&tmLuckyMachine, sizeof(SLUCKY_MACHINE));
 
 	// 2009-03-03 by dhjin, 럭키머신 수정안
-	SQLINTEGER	arrCB[8] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};	
+	SQLLEN	arrCB[8] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};	
 	SQLBindCol(i_pODBCStmt->m_hstmt, 1, SQL_C_ULONG, &tmLuckyMachine.BuildingIndex, 0, &arrCB[1]);
 	SQLBindCol(i_pODBCStmt->m_hstmt, 2, SQL_C_UTINYINT, &tmLuckyMachine.MachineKind, 0, &arrCB[2]);	
 	SQLBindCol(i_pODBCStmt->m_hstmt, 3, SQL_C_ULONG, &tmLuckyMachine.MachineNum, 0, &arrCB[3]);
@@ -1397,7 +1397,7 @@ BOOL CAtumFieldDBManager::DBLoadActionByLevel(CODBCStatement *i_pODBCStmt, vectS
 	SACTION_BY_LEVEL_DB		tmActionByLevel;
 	MEMSET_ZERO(&tmActionByLevel, sizeof(SACTION_BY_LEVEL_DB));
 
-	SQLINTEGER	arrCB[3] = {SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[3] = {SQL_NTS, SQL_NTS, SQL_NTS};
 	SQLBindCol(i_pODBCStmt->m_hstmt, 1, SQL_C_UTINYINT, &tmActionByLevel.Level, 0, &arrCB[1]);
 	SQLBindCol(i_pODBCStmt->m_hstmt, 2, SQL_C_ULONG, &tmActionByLevel.PollPoint, 0, &arrCB[2]);
 
@@ -1446,7 +1446,7 @@ BOOL CAtumFieldDBManager::DBLoadPollDate(CODBCStatement *i_pODBCStmt, CInflWarMa
 	SQL_TIMESTAMP_STRUCT	tmVoteEndDate;
 	SQL_TIMESTAMP_STRUCT	tmElection;
 
-	SQLINTEGER	arrCB[6] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,    SQL_NTS};
+	SQLLEN	arrCB[6] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,    SQL_NTS};
 	SQLBindCol(i_pODBCStmt->m_hstmt, 1, SQL_C_TIMESTAMP, &tmApplicationStartDate, 0, &arrCB[1]);
 	SQLBindCol(i_pODBCStmt->m_hstmt, 2, SQL_C_TIMESTAMP, &tmApplicationEndDate, 0, &arrCB[2]);
 	SQLBindCol(i_pODBCStmt->m_hstmt, 3, SQL_C_TIMESTAMP, &tmVoteStartDate, 0, &arrCB[3]);
@@ -1506,7 +1506,7 @@ BOOL CAtumFieldDBManager::DBLoadDBServerGroup(CODBCStatement *i_pODBCStmt, SDBSE
 		return FALSE;
 	}
 		
-	SQLINTEGER	arrCB[4] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[4] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	SQLBindCol(i_pODBCStmt->m_hstmt, 1, SQL_C_CHAR, io_pDBServerGroup->ServerGroupName, 0,						&arrCB[1]);
 	SQLBindCol(i_pODBCStmt->m_hstmt, 2, SQL_C_LONG, &io_pDBServerGroup->LimitUserCount, 0,						&arrCB[2]);
 	SQLBindCol(i_pODBCStmt->m_hstmt, 3, SQL_C_LONG, &io_pDBServerGroup->LockCreateCharacterForNewAccount, 0,	&arrCB[3]);
@@ -1559,7 +1559,7 @@ BOOL CAtumFieldDBManager::DBUpdateDBServerGroup(CODBCStatement *i_pODBCStmt, SDB
 			
 	GO
 	************************************************************************/
-	SQLINTEGER	arrCB[5] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[5] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	SQLBindParameter(i_pODBCStmt->m_hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pDBServerGroup->ServerGroupID, 0,						&arrCB[1]);
 	SQLBindParameter(i_pODBCStmt->m_hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_INTEGER, SIZE_MAX_SERVER_NAME, 0, i_pDBServerGroup->ServerGroupName, 0,	&arrCB[2]);
 	SQLBindParameter(i_pODBCStmt->m_hstmt, 3, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pDBServerGroup->LimitUserCount, 0,						&arrCB[3]);
@@ -1605,7 +1605,7 @@ BOOL CAtumFieldDBManager::DBLoadCinemaInfo(CODBCStatement *i_pODBCStmt, vectorCi
 	CINEMAINFO		tmCinemaInfo;
 	MEMSET_ZERO(&tmCinemaInfo, sizeof(CINEMAINFO));
 
-	SQLINTEGER	arrCB[28] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,	SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
+	SQLLEN	arrCB[28] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,	SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
 							, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,	SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
 							, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,  SQL_NTS, SQL_NTS, SQL_NTS };	// 2010-03-29 by cmkwon, 인피2차 시네마에 효과음 파일 설정 추가 - // 2010-03-31 by dhjin, 인피니티(기지방어) - // 2011-03-09 by hskim, 인피니티 3차 - 시네마 퀘스트 인덱스 설정 추가 - // 2011-04-28 by hskim, 인피니티 3차 - 시네마 관련 기능 추가
 	SQLBindCol(i_pODBCStmt->m_hstmt, 1, SQL_C_ULONG, &tmCinemaInfo.CinemaNum,			0, &arrCB[1]);
@@ -1680,7 +1680,7 @@ BOOL CAtumFieldDBManager::DBLoadRevisionInfo(CODBCStatement *i_pODBCStmt, vector
 	REVISIONINFO		tmRevisionInfo;
 	MEMSET_ZERO(&tmRevisionInfo, sizeof(REVISIONINFO));
 
-	SQLINTEGER	arrCB[8] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,	 SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[8] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,	 SQL_NTS, SQL_NTS, SQL_NTS};
 	SQLBindCol(i_pODBCStmt->m_hstmt, 1, SQL_C_ULONG, &tmRevisionInfo.RevisionNum,				0, &arrCB[1]);
 	SQLBindCol(i_pODBCStmt->m_hstmt, 2, SQL_C_ULONG, &tmRevisionInfo.UnitKind,					0, &arrCB[2]);
 	SQLBindCol(i_pODBCStmt->m_hstmt, 3, SQL_C_UTINYINT, &tmRevisionInfo.RevisionLevel,			0, &arrCB[3]);
@@ -1726,7 +1726,7 @@ BOOL CAtumFieldDBManager::DBLoadInfinityMonsterInfo(CODBCStatement *i_pODBCStmt,
 	INFINITY_MONSTERINFO		tmInfinityMonsterInfo;
 	MEMSET_ZERO(&tmInfinityMonsterInfo, sizeof(INFINITY_MONSTERINFO));
 
-	SQLINTEGER	arrCB[6] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,	 SQL_NTS};
+	SQLLEN	arrCB[6] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,	 SQL_NTS};
 	SQLBindCol(i_pODBCStmt->m_hstmt, 1, SQL_C_ULONG, &tmInfinityMonsterInfo.InfinityMonsterUID,			0, &arrCB[1]);
 	SQLBindCol(i_pODBCStmt->m_hstmt, 2, SQL_C_ULONG, &tmInfinityMonsterInfo.InfinityMonsterIdx,			0, &arrCB[2]);
 	SQLBindCol(i_pODBCStmt->m_hstmt, 3, SQL_C_ULONG, &tmInfinityMonsterInfo.MonsterIdx,					0, &arrCB[3]);
@@ -1942,7 +1942,7 @@ BOOL CAtumFieldDBManager::DQP_UpdatePCBangList(DB_QUERY *i_qQuery, CODBCStatemen
 	CPCBangIPManager		tmPCBangIPManager;
 	INT						tmPCBangUIDCount	= 0;
 
-	SQLINTEGER cb[4]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN cb[4]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindCol(i_pODBC->GetSTMTHandle(), 1, SQL_C_ULONG, &TempPCBang_Info.PCBangUID, 0,				&cb[1]);
 	SQLBindCol(i_pODBC->GetSTMTHandle(), 2, SQL_C_CHAR, TempPCBang_Info.ST_IP, SIZE_MAX_IPADDRESS,		&cb[2]);
 	SQLBindCol(i_pODBC->GetSTMTHandle(), 3, SQL_C_CHAR, TempPCBang_Info.ED_IP, 4,					&cb[3]);	
@@ -2091,7 +2091,7 @@ BOOL CAtumFieldDBManager::DQP_ReloadWRKServiceList(DB_QUERY *i_qQuery, CODBCStat
 	char selfServiceName[SIZE_MAX_SERVICE_NAME];	MEMSET_ZERO(selfServiceName, SIZE_MAX_SERVICE_NAME);
 	char selfServGroupName[SIZE_MAX_SERVER_NAME];	MEMSET_ZERO(selfServGroupName, SIZE_MAX_SERVER_NAME);
 
-	SQLINTEGER cb[5]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN cb[5]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindCol(hstmt, 1, SQL_C_LONG, &selfServiceUID, 0,						&cb[1]);
 	SQLBindCol(hstmt, 2, SQL_C_CHAR, selfServiceName, SIZE_MAX_SERVICE_NAME,	&cb[2]);
 	SQLBindCol(hstmt, 3, SQL_C_CHAR, selfServGroupName, SIZE_MAX_SERVER_NAME,	&cb[3]);	
@@ -2385,7 +2385,7 @@ BOOL CAtumFieldDBManager::DQP_LoadInfluenceRate(DB_QUERY *i_qQuery, CODBCStateme
 	CALL dbo.atum_Rearrange_InfluenceRate
 
 	************************************************************************/
-	SQLINTEGER	arrCB[8] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[8] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS};
 	int nPeriodDay = (-1)*PERIOD_OF_DAY_FOR_VALID_INFLUENCE;
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &nPeriodDay, 0,	&arrCB[1]);
 	
@@ -2476,7 +2476,7 @@ BOOL CAtumFieldDBManager::DBLoad_TenderList(CODBCStatement *i_pODBCStmt, vectorT
 		return FALSE;
 	}
 	
-	SQLINTEGER		arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN		arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 	TENDER_INFO		tmTenderInfo;
 	MEMSET_ZERO(&tmTenderInfo, sizeof(TENDER_INFO));
 
@@ -2505,7 +2505,7 @@ void CAtumFieldDBManager::QP_CreateCharacter(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	CHARACTER* pMsg = (CHARACTER*)q.pQueryParam;
 
 	RETCODE ret;
-	SDWORD pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 
 	// 이미 존재하는지 확인!
 	UID32_t	characUniqueNumber;
@@ -2710,7 +2710,7 @@ void CAtumFieldDBManager::QP_DeleteCharacter(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	MSG_FC_CHARACTER_DELETE *pMsg = (MSG_FC_CHARACTER_DELETE*)q.pQueryParam;
 
 	RETCODE ret;
-	SDWORD pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 
 	//////////////////////////////////////////////////////////////////////////
 	// 2007-02-21 by dhjin, 캐릭터 복구 정책으로 수정으로 아이템 삭제는 주석 처리함, dbo.atum_DeleteCharacter()프로시저에서 처리 수정 
@@ -2850,7 +2850,7 @@ void CAtumFieldDBManager::QP_GetAccountUniqueNumber(FIELD_DB_QUERY q, SQLHSTMT h
 	MSG_FC_CHARACTER_GET_ACCOUNTUNIQUENUMBER *pMsg = (MSG_FC_CHARACTER_GET_ACCOUNTUNIQUENUMBER*)q.pQueryParam;
 
 	RETCODE	ret;
-	SDWORD	pcbNTS = SQL_NTS;
+	SQLLEN	pcbNTS = SQL_NTS;
 	UID32_t	AccountUniqueNumber = INVALID_UNIQUE_NUMBER;
 
 // 2009-01-29 by cmkwon, 문자열 쿼리 검색시 필요없는 LIKE 사용을 제거 - 아래와 같이 수정함.
@@ -2962,7 +2962,7 @@ void CAtumFieldDBManager::QP_GetCharacterInfoByName(FIELD_DB_QUERY q, SQLHSTMT h
 		return;
 	}
 
-	SQLINTEGER	cb[CB_COUNT_CHARACTER] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN	cb[CB_COUNT_CHARACTER] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 											,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 											,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 											,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
@@ -3155,7 +3155,7 @@ void CAtumFieldDBManager::QP_GetAllCharacterInfoByID(FIELD_DB_QUERY q, SQLHSTMT 
 #if defined(_ATUM_LOAD_TEST)
 		if(0 == strnicmp(pRMsg->AccountName, ATUM_LOAD_TEST_PREFIX_ACCOUNT_NAME, ATUM_LOAD_TEST_PREFIX_ACCOUNT_NAME_SIZE))
 		{
-			SQLINTEGER	pcbNTS = SQL_NTS;
+			SQLLEN	pcbNTS = SQL_NTS;
 			SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0, pRMsg->AccountName , 0, &pcbNTS);
 			SQLRETURN ret = SQLExecDirect(hstmt, PROCEDURE_090707_0396, SQL_NTS);
 			if ( ret!=SQL_SUCCESS && ret!=SQL_SUCCESS_WITH_INFO && ret!=SQL_NO_DATA)
@@ -3190,7 +3190,7 @@ void CAtumFieldDBManager::QP_GetAllCharacterInfoByID(FIELD_DB_QUERY q, SQLHSTMT 
 	ShutdownUserData ShutDownData;
 	currentDate.SetCurrentDateTime();	// 현재 시간을 가져옴
 	
-	SQLINTEGER	pcbNTS = SQL_NTS;
+	SQLLEN	pcbNTS = SQL_NTS;
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0, pRMsg->AccountName , 0, &pcbNTS);
 	SQLRETURN ret1 = SQLExecDirect(hstmt, PROCEDURE_090707_0396, SQL_NTS);
 	if ( ret1!=SQL_SUCCESS && ret1!=SQL_SUCCESS_WITH_INFO && ret1!=SQL_NO_DATA)
@@ -3269,7 +3269,7 @@ void CAtumFieldDBManager::QP_GetAllCharacterInfoByID(FIELD_DB_QUERY q, SQLHSTMT 
 		return;
 	}
 
-	SQLINTEGER	cb[CB_COUNT_CHARACTER] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN	cb[CB_COUNT_CHARACTER] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 											,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 											,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 											,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
@@ -3502,7 +3502,7 @@ void CAtumFieldDBManager::QP_GetAllCharacterInfoByID(FIELD_DB_QUERY q, SQLHSTMT 
 #ifdef SC_CHANNELING_JHSEOL_BCKIM_SSJUNG	// - 한국 유저 추가정보 로드 및 저장
 	if ( TRUE == g_pFieldGlobal->IsExternalUserInfo() )
 	{
-		SQLINTEGER arrCBExt[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+		SQLLEN arrCBExt[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 		SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &pRMsg->AccountUniqueNumber, 0, &arrCBExt[1]);
 		ret = SQLExecDirect(hstmt, (UCHAR*)"{call dbo.atum_GetAccountExtInfo(?)}", SQL_NTS);
 		if ( ret!=SQL_SUCCESS && ret!=SQL_SUCCESS_WITH_INFO && ret != SQL_NO_DATA)
@@ -3613,7 +3613,7 @@ void CAtumFieldDBManager::QP_SaveCharacterCriticalData(FIELD_DB_QUERY q, SQLHSTM
 
 	GO
 	**************************************************************************/
-	SQLINTEGER arrCB[28] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN arrCB[28] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 							,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 							,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};		// 2008-06-23 by dhjin, EP3 유저정보옵션 -
 	char tmpTimeBuf[SIZE_MAX_SQL_DATETIME_STRING];													// 2006-11-15 by cmkwon
@@ -4325,7 +4325,7 @@ void CAtumFieldDBManager::QP_LoadOneItem(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 // start 2011-08-25 by shcho, 횟수별 아이템 지급기능 구현
 void CAtumFieldDBManager::QP_InsertLoginItemEvent(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 {
-	SQLINTEGER cb[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN cb[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	QPARAM_CHECK_LOGINEVENTITEM *pParam = (QPARAM_CHECK_LOGINEVENTITEM*)q.pQueryParam;
 
 	SQLRETURN ret = 0;
@@ -4360,7 +4360,7 @@ void CAtumFieldDBManager::QP_InsertLoginItemEvent(FIELD_DB_QUERY q, SQLHSTMT hst
 ///////////////////////////////////////////////////////////////////////////////
 void CAtumFieldDBManager::QP_CheckEventItem(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 {// QT_CheckEventItem
-	SQLINTEGER cb1 = SQL_NTS;
+	SQLLEN cb1 = SQL_NTS;
 	QPARAM_CHECK_EVENTITEM *pParam = (QPARAM_CHECK_EVENTITEM*)q.pQueryParam;
 
 	// 2013-04-22 by jhseol, 아이템 이벤트 - 서브타입 추가구조 시스템 보안
@@ -4704,7 +4704,7 @@ void CAtumFieldDBManager::QP_CheckCouponEvent(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	GO	
 	******************************************************************/
 	int nRetErrCode			= ERR_NO_ERROR;
-	SQLINTEGER arrCB[5]		= {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[5]		= {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 // 2008-07-24 by cmkwon, MySQL 포팅 관련(OUTPUT 제거) -
 // 	SQLBindParameter(hstmt, 1, SQL_PARAM_OUTPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &nRetErrCode, 0,								&arrCB[1]);
 // 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_COUPON_NUMBER, 0, pParam->CouponNumber, 0,	&arrCB[2]);
@@ -4872,8 +4872,8 @@ void CAtumFieldDBManager::QP_GetGuildStoreItem(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 
 	ITEM_GENERAL	ItemGeneral(NULL);		// 스킬 이외의 아이템용
 	RETCODE			ret;
-	SQLINTEGER		pcbNTS = SQL_NTS;
-	SQLINTEGER		arrCB[19] = {	SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,	SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN		pcbNTS = SQL_NTS;
+	SQLLEN		arrCB[19] = {	SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,	SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 									SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,	SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS	};		// 2012-03-08 by hskim, 서버 죽는 문제 수정
 	SQL_TIMESTAMP_STRUCT tmpTimeStamp;
 
@@ -5334,7 +5334,7 @@ void CAtumFieldDBManager::QP_InsertGuildStoreItem(FIELD_DB_QUERY q, SQLHSTMT hst
 	CFieldIOCPSocket	*pFieldIOCPSocket	= q.pFieldIOCPSocket;
 	
 	RETCODE ret;
-	SDWORD pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 
 	/*[Stored Query Definition]************************************************
 	-- !!!!
@@ -5648,7 +5648,7 @@ void CAtumFieldDBManager::QP_Insert2WarpableUserList(FIELD_DB_QUERY q, SQLHSTMT 
 		WHERE CharacterName = @i_CharacterName AND 0 = Race & 0x4000 AND 0 <> InfluenceType & @i_CharInflMask
 	GO
 	**************************************************************************/
-	SQLINTEGER		arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN		arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_CHARACTER_NAME, 0, pQParam->CharacterName0, 0,	&arrCB[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_TINYINT, SQL_TINYINT, 0, 0, &pQParam->byInfluenceType0, 0,					&arrCB[2]);
 	
@@ -5819,7 +5819,7 @@ void CAtumFieldDBManager::QP_DeleteWarpableUser(FIELD_DB_QUERY q, SQLHSTMT hstmt
 		WHERE MapIndex = @i_MapIndex AND CharacterUID = @i_CharUID
 	GO
 	**************************************************************************/
-	SQLINTEGER		arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN		arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pQParam->MapIndex, 0,		&arrCB[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &pQParam->CharacterUID0, 0,	&arrCB[2]);
 	
@@ -5869,7 +5869,7 @@ void CAtumFieldDBManager::QP_UPDATE_ConnectingServerGroupID(FIELD_DB_QUERY q, SQ
 		WHERE AccountUniqueNumber = @i_AccUID
 	GO
 	**************************************************************************/
-	SQLINTEGER		arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN		arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &pQParam->AccountUID, 0,		&arrCB[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pQParam->ServerGroupID, 0,		&arrCB[2]);
 	
@@ -5910,7 +5910,7 @@ void CAtumFieldDBManager::QP_GiveStoreItem(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	}
 
 	RETCODE ret;
-	SDWORD pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 
 	/*[Stored Query Definition]************************************************
 	-- !!!!
@@ -6112,7 +6112,7 @@ void CAtumFieldDBManager::QP_GetLetter(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	vectLetterInfo.clear();
 	SQL_TIMESTAMP_STRUCT SendDate;
 
-	SQLINTEGER		arrCB[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
+	SQLLEN		arrCB[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
 
 	SQLBindCol(hstmt, 1, SQL_C_SBIGINT,		&SLetterInfo.LetterUID,			0,							&arrCB[1]);
 	SQLBindCol(hstmt, 2, SQL_C_CHAR,		SLetterInfo.SendCharacterName,	SIZE_MAX_CHARACTER_NAME,	&arrCB[2]);
@@ -6548,7 +6548,7 @@ void CAtumFieldDBManager::QP_GetAllLetter(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	vectAllLetterInfo.clear();
 	SQL_TIMESTAMP_STRUCT SendDate;
 
-	SQLINTEGER		arrCB[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
+	SQLLEN		arrCB[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
 
 	SQLBindCol(hstmt, 1, SQL_C_SBIGINT,		&SLetterInfo.LetterUID,			0,							&arrCB[1]);
 	SQLBindCol(hstmt, 2, SQL_C_CHAR,		SLetterInfo.SendCharacterName,	SIZE_MAX_CHARACTER_NAME,	&arrCB[2]);
@@ -6975,7 +6975,7 @@ void CAtumFieldDBManager::QP_GetLogGuildStoreItem(FIELD_DB_QUERY q, SQLHSTMT hst
 		return;
 	}
 
-	SQLINTEGER		arrCB[9] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN		arrCB[9] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQL_TIMESTAMP_STRUCT tmpTimeStamp;
 	
 	MSG_FC_STORE_LOG_GUILD_ITEM_OK TempLogMsg;
@@ -7119,7 +7119,7 @@ void CAtumFieldDBManager::QP_NewGetStoreItem(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	SQL_TIMESTAMP_STRUCT tmCreatedTimeStamp;
 
 	// 2009-09-09 ~ 2010 by dhjin, 인피니티 - Main서버 아이템 UID 추가
-	SQLINTEGER		arrCB[19] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN		arrCB[19] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 								SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 
 	if(SQL_NO_DATA != ret)
@@ -7754,7 +7754,7 @@ void CAtumFieldDBManager::QP_NewGetStoreItem(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	/////////
 	// 수정
 
-	SQLINTEGER	arrCB1[25] = 
+	SQLLEN	arrCB1[25] = 
 	{
 		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
@@ -8132,7 +8132,7 @@ void CAtumFieldDBManager::QP_ReloadAllEnchant(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	///////////////////////////////////////////////////////////////////////////
 	SQLRETURN	ret;
 	ENCHANT		tmpEnchant;
-	SQLINTEGER	cb1, cb2, cb3;
+	SQLLEN	cb1, cb2, cb3;
 
 	CFieldIOCPSocket *pFieldIOCPSocket = q.pFieldIOCPSocket;
 	if(FALSE == pFieldIOCPSocket->IsValidCharacter(FALSE))
@@ -8213,7 +8213,7 @@ void CAtumFieldDBManager::QP_DeleteStoreItem(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	CFieldIOCPSocket *pFieldIOCPSocket = q.pFieldIOCPSocket;
 
 	RETCODE ret;
-	SDWORD pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 
 	/*[Stored Query Definition]************************************************
 	CREATE PROCEDURE atum_DeleteStoreItem
@@ -8252,7 +8252,7 @@ void CAtumFieldDBManager::QP_InsertStoreItem(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	BYTE				ItemInsertionType = (BYTE)q.nGeneralParam1;
 
 	RETCODE ret;
-	SDWORD pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 
 	/*[Stored Query Definition]************************************************
 	-- !!!!
@@ -8415,7 +8415,7 @@ void CAtumFieldDBManager::QP_InsertStoreItem(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 
 		///////////////////////////////////////////////////////////////////////////////////////
 		// start 2011-08-17 by hskim, 파트너 시스템 2차 - 자료 구조 결정
-		SQLINTEGER	arrCB[25] = 
+		SQLLEN	arrCB[25] = 
 		{
 			SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 			SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
@@ -8851,7 +8851,7 @@ void CAtumFieldDBManager::QP_InsertStoreItemSkill(FIELD_DB_QUERY q, SQLHSTMT hst
 	BYTE				ItemInsertionType = (BYTE)q.nGeneralParam1;
 
 	RETCODE ret;
-	SDWORD pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 
 	/*[Stored Query Definition]************************************************
 	--!!!!
@@ -9041,7 +9041,7 @@ void CAtumFieldDBManager::QP_UpdateStoreItemSkillUseTime(FIELD_DB_QUERY q, SQLHS
 	CFieldIOCPSocket	*pFieldIOCPSocket = q.pFieldIOCPSocket;
 
 	RETCODE ret;
-	SDWORD pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 
 	char UseTime[SIZE_MAX_SQL_DATETIME_STRING];
 	pSkillUseTime->UseTime.GetSQLDateTimeString(UseTime, SIZE_MAX_SQL_DATETIME_STRING);
@@ -9082,7 +9082,7 @@ void CAtumFieldDBManager::QP_UpdateItemCount(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	QPARAM_UPDATEITEMCOUNT *pRMsg = (QPARAM_UPDATEITEMCOUNT*)q.pQueryParam;
 
 	RETCODE ret;
-	SDWORD pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 
 	/*[Stored Query Definition]************************************************
 	CREATE PROCEDURE atum_UpdateItemCount
@@ -9148,7 +9148,7 @@ void CAtumFieldDBManager::QP_UpdateItemNum(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	QPARAM_UPDATEITEMNUM *pRMsg = (QPARAM_UPDATEITEMNUM*)q.pQueryParam;
 
 	RETCODE ret;
-	SDWORD pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 
 	/*[Stored Query Definition]************************************************
 	CREATE PROCEDURE atum_UpdateItemNum
@@ -9192,7 +9192,7 @@ void CAtumFieldDBManager::QP_UpdateEndurance(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	QPARAM_UPDATE_ENDURANCE *pParamEndurance = (QPARAM_UPDATE_ENDURANCE*)q.pQueryParam;
 
 	RETCODE ret;
-	SDWORD pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 
 	/*[Stored Query Definition]************************************************
 	CREATE PROCEDURE atum_UpdateEndurance
@@ -9252,7 +9252,7 @@ void CAtumFieldDBManager::QP_StoreUpdateColorCode(FIELD_DB_QUERY q, SQLHSTMT hst
 	QPARAM_STORE_UPDATE_COLORCODE *pUpdateColorCode = (QPARAM_STORE_UPDATE_COLORCODE*)q.pQueryParam;
 
 	RETCODE ret;
-	SDWORD pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 
 	/*[Stored Query Definition]************************************************
 	--!!!!
@@ -9374,7 +9374,7 @@ void CAtumFieldDBManager::QP_UpdateItemUsingTimeStamp(FIELD_DB_QUERY q, SQLHSTMT
 	QPARAM_UPDATE_ITEM_USINGTIMESTAMP *pItemUsingTimeStamp = (QPARAM_UPDATE_ITEM_USINGTIMESTAMP*)q.pQueryParam;
 
 	RETCODE ret;
-	SDWORD pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 
 	/*[Stored Query Definition]************************************************
 	--!!!!
@@ -9421,7 +9421,7 @@ void CAtumFieldDBManager::QP_UpdateItemRareFix(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	QPARAM_UPDATE_ITEM_RARE_FIX *pParamUpdateRareFix = (QPARAM_UPDATE_ITEM_RARE_FIX*)q.pQueryParam;
 
 	RETCODE ret;
-	SDWORD pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 
 	/*[Stored Query Definition]************************************************
 	CREATE PROCEDURE atum_UpdateItemRareFix
@@ -9466,7 +9466,7 @@ void CAtumFieldDBManager::QP_InsertDefaultItems(FIELD_DB_QUERY q, SQLHSTMT hstmt
 	QPARAM_INSERTDEFAULTITEMS *pRMsg = (QPARAM_INSERTDEFAULTITEMS*)q.pQueryParam;
 
 	RETCODE ret;
-	SQLINTEGER cb1 = 0;
+	SQLLEN cb1 = 0;
 
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0,
 					&pRMsg->CharacterUniqueNumber, 0, NULL);
@@ -9513,7 +9513,7 @@ void CAtumFieldDBManager::QP_UpdateWindowItemList(FIELD_DB_QUERY q, SQLHSTMT hst
 		else
 		{
 			RETCODE ret;
-			SQLINTEGER cb1 = NULL, cb2 = NULL, cb3 = NULL;
+			SQLLEN cb1 = NULL, cb2 = NULL, cb3 = NULL;
 
 			// SKILL 이외의 item인 경우
 			SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_SBIGINT, SQL_BIGINT, 0, 0,
@@ -9656,7 +9656,7 @@ void CAtumFieldDBManager::QP_InsertEnchant(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	CFieldIOCPSocket *pFieldIOCPSocket = q.pFieldIOCPSocket;
 
 	RETCODE ret;
-	SDWORD pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 
 	/*[Stored Query Definition]************************************************
 	CREATE PROCEDURE atum_InsertEnchant
@@ -9914,7 +9914,7 @@ void CAtumFieldDBManager::GetAllQuest(CFieldIOCPSocket *pIOCPSocket, SQLHSTMT hs
 	CFieldCharacterQuest				tmFCharQuest;
 	CharacterQuest						retQuest;
 	RETCODE								ret;
-	SQLINTEGER							arrCB[6]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS};
+	SQLLEN							arrCB[6]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS};
 	SQL_TIMESTAMP_STRUCT				QuestStartTime;
 	/*[Stored Query Definition]************************************************
 	CREATE PROCEDURE atum_GetAllQuest
@@ -10079,7 +10079,7 @@ void CAtumFieldDBManager::QP_InsertQuest(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	}
 
 	RETCODE ret;
-	SDWORD pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 
 	/*[Stored Query Definition]************************************************
 	--!!!!
@@ -11284,7 +11284,7 @@ void CAtumFieldDBManager::QP_LoadHappyHourEvent(FIELD_DB_QUERY q, SQLHSTMT hstmt
 	mtvectHAPPY_HOUR_EVENT	vectHappyEventList;
 	SHAPPY_HOUR_EVENT		tmHappyEvent;
 	SQL_TIMESTAMP_STRUCT	arrSqlTime[2];
-	SQLINTEGER arrCB[23]	= {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS 
+	SQLLEN arrCB[23]	= {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS 
 								,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 								,SQL_NTS,SQL_NTS,SQL_NTS};		// 2008-03-13 by dhjin, Level별 해피아워 이벤트 구현 - // 2007-10-30 by cmkwon, 세력별 해피아워 이벤트 구현 - 필드 추가함, // 2007-06-26 by dhjin, 워포인트 이벤트 관련 추가
 																// 2013-08-12 by bckim, 신규해피아워
@@ -12050,7 +12050,7 @@ void CAtumFieldDBManager::QP_LoadItemEvent(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 // 	SQLINTEGER cb[18]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 // 						,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS};
 
-	SQLINTEGER cb[26]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN cb[26]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 						,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 						,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};		// 2013-09-30 by bckim, 특정시간 아이템지급 
 
@@ -12396,7 +12396,7 @@ void CAtumFieldDBManager::QP_Get_QuickSlot(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 		return;
 	}
 	
-	SQLINTEGER cb[14]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN cb[14]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 						,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};		// 2008-06-19 by dhjin, EP3 - 8 -> 10으로 수정 
 	SQUICKSLOT_INFO		QuickSlot0;
 	int					AccountUID0		= 0;
@@ -12711,7 +12711,7 @@ void CAtumFieldDBManager::QP_LoadStrategyPointSummonInfo(FIELD_DB_QUERY q, SQLHS
 	}
  
 	
-	SQLINTEGER	arrCB[5] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};		// 2008-04-08 by dhjin, 소환 가능 시간 설정 - 
+	SQLLEN	arrCB[5] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};		// 2008-04-08 by dhjin, 소환 가능 시간 설정 - 
 	SSTRATEGYPOINT_SUMMONTIME_INFO	tmStrategyPointSummonTimeInfo;
 	vectSSTRATEGYPOINT_SUMMONTIME_INFO	tmvectStrategyPointSummonTimeInfo;
 	MEMSET_ZERO(&tmStrategyPointSummonTimeInfo, sizeof(SSTRATEGYPOINT_SUMMONTIME_INFO));
@@ -12878,7 +12878,7 @@ void CAtumFieldDBManager::QP_LoadStrategyPointSummonRange(FIELD_DB_QUERY q, SQLH
 		SQLFreeStmt(hstmt, SQL_CLOSE);
 		return;
 	}
-	SQLINTEGER	arrCB[6] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[6] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	SSTRATEGYPOINT_SUMMON_RANGE		tmSStrategyPointSummonRange;
 	MEMSET_ZERO(&tmSStrategyPointSummonRange, sizeof(SSTRATEGYPOINT_SUMMON_RANGE));
 
@@ -12924,7 +12924,7 @@ void CAtumFieldDBManager::QP_LoadStrategyPointNotSummonTime(FIELD_DB_QUERY q, SQ
 		return;
 	}
 	
-	SQLINTEGER	arrCB[5] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};	// 2008-04-04 by dhjin, 소환 가능 시간 설정 - 
+	SQLLEN	arrCB[5] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};	// 2008-04-04 by dhjin, 소환 가능 시간 설정 - 
 	SSTRATEGYPOINT_NOT_SUMMON_TIME		tmSStrategyPointNotSummonTime;
 	vectSSTRATEGYPOINT_NOT_SUMMON_TIME	tmvectSStrategyPointNotSummonTime;
 	MEMSET_ZERO(&tmSStrategyPointNotSummonTime, sizeof(SSTRATEGYPOINT_NOT_SUMMON_TIME));
@@ -13214,7 +13214,7 @@ void CAtumFieldDBManager::QP_LoadTutorialComplete(FIELD_DB_QUERY q, SQLHSTMT hst
 		return;
 	}
 
-	SQLINTEGER	arrCB[2] = {SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[2] = {SQL_NTS, SQL_NTS};
 	vectTutorial		tmvectSTutorialCompleteInfo;
 	tmvectSTutorialCompleteInfo.clear();
 	INT			TutorialCompleteNum;
@@ -13808,7 +13808,7 @@ void CAtumFieldDBManager::QP_UpdateSecondaryPassword(FIELD_DB_QUERY q, SQLHSTMT 
 		return;
 	}
 	
-	SQLINTEGER	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &pQPMsg->AccountUID, 0,									&arrCB[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_PASSWORD_MD5_STRING, 0, pQPMsg->NewSecPassword, 0,	&arrCB[2]);
@@ -13867,7 +13867,7 @@ void CAtumFieldDBManager::QP_LoadVoterList(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 		return;
 	}
 	
-	SQLINTEGER	arrCB[4] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[4] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 
 	SVOTER_LIST			tmVoterList;
 	MEMSET_ZERO(&tmVoterList, sizeof(SVOTER_LIST));
@@ -13921,7 +13921,7 @@ void CAtumFieldDBManager::QP_LoadLeaderCandidate(FIELD_DB_QUERY q, SQLHSTMT hstm
 		return;
 	}
 	
-	SQLINTEGER	arrCB[11] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,	SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
+	SQLLEN	arrCB[11] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,	SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
 							, SQL_NTS};
 
 	SLEADER_CANDIDATE			tmSLEADER_CANDIDATE;
@@ -14004,7 +14004,7 @@ void CAtumFieldDBManager::QP_SelectLeaderCandidateInfoByRealTimeVariable(FIELD_D
 	CHAR	tmGuildMarkImage[SIZE_MAX_GUILD_MARK_IMAGE];
 	INIT_MSG_WITH_BUFFER(MSG_FC_CITY_POLL_REQUEST_LEADER_CANDIDATE_INFO_OK, T_FC_CITY_POLL_REQUEST_LEADER_CANDIDATE_INFO_OK, pSendMsg, SendBuf);
 	INIT_MSG_WITH_BUFFER(MSG_FC_CITY_POLL_REQUEST_LEADER_CANDIDATE_INFO_OK_GUILDMARK, T_FC_CITY_POLL_REQUEST_LEADER_CANDIDATE_INFO_OK_GUILDMARK, pSendMsg2, SendBuf2);
-	SQLINTEGER	arrCB[6] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,  SQL_NTS};
+	SQLLEN	arrCB[6] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,  SQL_NTS};
 	SQLBindCol(hstmt, 1, SQL_C_TINYINT, &pSendMsg->Level, 0, &arrCB[1]);
 	SQLBindCol(hstmt, 2, SQL_C_TINYINT, &pSendMsg->PilotFace, 0, &arrCB[2]);
 	SQLBindCol(hstmt, 3, SQL_C_ULONG, &pSendMsg->GuildFame, 0, &arrCB[3]);
@@ -14125,7 +14125,7 @@ void CAtumFieldDBManager::QP_InsertLeaderCandidate(FIELD_DB_QUERY q, SQLHSTMT hs
 	
 	INT RetCode = 0;
 	INT	NewLeaderCandidateNum = 0;
-	SQLINTEGER	arrCB[12] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};	
+	SQLLEN	arrCB[12] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};	
 // 2008-07-24 by cmkwon, MySQL 포팅 관련(OUTPUT 제거) -
 // 	SQLBindParameter(hstmt, 1, SQL_PARAM_OUTPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &RetCode, 0, &arrCB[1]);
 // 	SQLBindParameter(hstmt, 2, SQL_PARAM_OUTPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &NewLeaderCandidateNum, 0, &arrCB[2]);
@@ -14407,7 +14407,7 @@ void CAtumFieldDBManager::QP_CheckGiveTarget(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	GO
 	************************************************************************/
 
-	SQLINTEGER	arrCB[11] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN	arrCB[11] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 								,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_CHARACTER_NAME, 0, pQPMsg->GiveTargetCharName, 0, &arrCB[1]);
 	RETCODE ret = SQLExecDirect(hstmt, PROCEDURE_080822_0167, SQL_NTS);
@@ -14501,7 +14501,7 @@ void CAtumFieldDBManager::QP_UpdatePilotFace(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	GO
 	************************************************************************/
 
-	SQLINTEGER	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &CharUID, 0,	&arrCB[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_TINYINT, SQL_TINYINT, 0, 0, &PilotFace, 0,	&arrCB[2]);
 	RETCODE ret = SQLExecDirect(hstmt, PROCEDURE_080822_0168, SQL_NTS);
@@ -14557,7 +14557,7 @@ void CAtumFieldDBManager::QP_InsertNotifyMsg(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	************************************************************************/
 
 	// 2007-12-20 by cmkwon, 통지시스템 버그 수정 - 추가된 NotifyMsgUID 를 리턴 받아서 클라이언트로 전송한다.
-	SQLINTEGER	arrCB[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
 
 // 2008-07-24 by cmkwon, MySQL 포팅 관련(OUTPUT 제거) -
 // 	SQLBindParameter(hstmt, 1, SQL_PARAM_OUTPUT, SQL_C_UBIGINT, SQL_BIGINT, 0, 0, &pQPMsg->NotifyMsgUID, 0,									&arrCB[1]);
@@ -14679,7 +14679,7 @@ void CAtumFieldDBManager::QP_GetNotifyMsg(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	GO
 	************************************************************************/
 
-	SQLINTEGER	arrCB[8] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[8] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &CharUID, 0,	&arrCB[1]);
 	RETCODE ret = SQLExecDirect(hstmt, PROCEDURE_080822_0170, SQL_NTS);
 	if ( ret!=SQL_SUCCESS && ret!=SQL_SUCCESS_WITH_INFO && ret != SQL_NO_DATA)
@@ -14749,7 +14749,7 @@ void CAtumFieldDBManager::QP_DeleteNotifyMsg(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	GO
 	************************************************************************/
 
-	SQLINTEGER	arrCB[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_UBIGINT, SQL_BIGINT, 0, 0, &NotifyMsgUID, 0,	&arrCB[1]);
 	RETCODE ret = SQLExecDirect(hstmt, PROCEDURE_080822_0171, SQL_NTS);
 	if ( ret!=SQL_SUCCESS && ret!=SQL_SUCCESS_WITH_INFO && ret != SQL_NO_DATA)
@@ -14799,7 +14799,7 @@ void CAtumFieldDBManager::QP_GetGuildMark(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 
 	CHAR	tmGuildMarkImage[SIZE_MAX_GUILD_MARK_IMAGE];
 	INIT_MSG_WITH_BUFFER(MSG_FC_INFO_GET_GUILDMARK_OK, T_FC_INFO_GET_GUILDMARK_OK, pSendMsg, SendBuf);
-	SQLINTEGER	arrCB[4] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[4] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	
 	SQLBindCol(hstmt, 1, SQL_C_ULONG, &pSendMsg->GuildMarkVersion, 0, &arrCB[1]);
 	SQLBindCol(hstmt, 2, SQL_C_ULONG, &pSendMsg->GuildMarkSize, 0, &arrCB[2]);
@@ -14895,7 +14895,7 @@ void CAtumFieldDBManager::QP_ArenaUpdateCharacterInfo(FIELD_DB_QUERY q, SQLHSTMT
 	}
 
 	UID32_t	ArenaCharacterUID = 0;
-	SQLINTEGER	arrCB[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};	
+	SQLLEN	arrCB[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};	
 // 2008-07-24 by cmkwon, MySQL 포팅 관련(OUTPUT 제거) -
 // 	SQLBindParameter(hstmt, 1,SQL_PARAM_OUTPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &ArenaCharacterUID, 0, &arrCB[1]);
 // 	SQLBindParameter(hstmt, 2,SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_CHARACTER_NAME, 0, pQParam->NewArenaCharacterName, 0, &arrCB[2]);
@@ -15199,7 +15199,7 @@ void CAtumFieldDBManager::QP_ArenaGetCharacter(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 		return;
 	}
 
-	SQLINTEGER	cb[CB_COUNT_CHARACTER] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN	cb[CB_COUNT_CHARACTER] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 											,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 											,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 											,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
@@ -15389,7 +15389,7 @@ void CAtumFieldDBManager::QP_ArenaCopyDBInfo(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	///////////////////////////////////////////////////////////////////////////////
 	// 2008-07-24 by cmkwon, MySQL 포팅 관련(OUTPUT 제거) -
  	INT	ErrCheck = 0;
- 	SQLINTEGER	arrCB[6] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+ 	SQLLEN	arrCB[6] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	// 2012-06-08 by jhseol, 아레나 추가개발part2 - 케릭터 : 타입 복사
 	INT PLAYTYPE	= ARENA_PLAY_TYPE_NO;
 #ifdef SC_ARENA_EX_1ST_JHSEOL_MSPARK
@@ -15648,7 +15648,7 @@ void CAtumFieldDBManager::QP_GetLogMSWarInfo(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 		return;
 	}
 	
-	SQLINTEGER	cb[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS};
+	SQLLEN	cb[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS};
 
 	SQL_TIMESTAMP_STRUCT	MSWarStartTimeStamp;	MEMSET_ZERO(&MSWarStartTimeStamp, sizeof(MSWarStartTimeStamp));
 	SQL_TIMESTAMP_STRUCT	MSWarEndTimeStamp;		MEMSET_ZERO(&MSWarEndTimeStamp, sizeof(MSWarEndTimeStamp));
@@ -15725,7 +15725,7 @@ void CAtumFieldDBManager::QP_GetLogSPWarInfo(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 		return;
 	}
 
-	SQLINTEGER	cb[6] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS};
+	SQLLEN	cb[6] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS};
 
 	SQL_TIMESTAMP_STRUCT	SPWarStartTimeStamp;	MEMSET_ZERO(&SPWarStartTimeStamp, sizeof(SPWarStartTimeStamp));
 	SQL_TIMESTAMP_STRUCT	SPWarEndTimeStamp;		MEMSET_ZERO(&SPWarEndTimeStamp, sizeof(SPWarEndTimeStamp));
@@ -15949,7 +15949,7 @@ void CAtumFieldDBManager::QP_UpdateDBServerGroup(FIELD_DB_QUERY q, SQLHSTMT hstm
 			
 	GO
 	************************************************************************/
-	SQLINTEGER	arrCB[5] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[5] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pQPMsg->ServerGroupID, 0,						&arrCB[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SERVER_NAME, 0, pQPMsg->ServerGroupName, 0,	&arrCB[2]);
 	SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pQPMsg->LimitUserCount, 0,						&arrCB[3]);
@@ -16003,7 +16003,7 @@ void CAtumFieldDBManager::QP_CheckConnectableAccount(FIELD_DB_QUERY q, SQLHSTMT 
 		WHERE AccountName = @i_AccName
 	GO
 	************************************************************************/
-	SQLINTEGER	arrCB[2] = {SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[2] = {SQL_NTS, SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0, pQPMsg->AccountName, 0,	&arrCB[1]);
 	RETCODE	ret = SQLExecDirect(hstmt, PROCEDURE_080822_0181, SQL_NTS);
 	if(SQL_SUCCESS != ret && SQL_SUCCESS_WITH_INFO != ret && SQL_NO_DATA != ret)
@@ -16071,7 +16071,7 @@ void CAtumFieldDBManager::QP_GetUserInfo(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 		WHERE UniqueNumber = @i_CharacterUID
 	GO
 	************************************************************************/
-	SQLINTEGER	arrCB[13] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[13] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &TargetCharacterUID, 0,	&arrCB[1]);
 	RETCODE	ret = SQLExecDirect(hstmt, PROCEDURE_080822_0182, SQL_NTS);
 	if(SQL_SUCCESS != ret && SQL_SUCCESS_WITH_INFO != ret && SQL_NO_DATA != ret)
@@ -16291,7 +16291,7 @@ void CAtumFieldDBManager::QP_UpdateLuckyItemDropCount(FIELD_DB_QUERY q, SQLHSTMT
 	GO
 	************************************************************************/
 	int ServerID = g_pGlobalGameServer->GetMGameServerID();
-	SQLINTEGER	arrCB[5] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[5] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pQPMsg->MysteryItemDropNum, 0,	&arrCB[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pQPMsg->DropItemNum, 0,	&arrCB[2]);
 	SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &ServerID, 0,	&arrCB[3]);
@@ -16336,7 +16336,7 @@ void CAtumFieldDBManager::QP_UpdateLuckyItemStarttime(FIELD_DB_QUERY q, SQLHSTMT
 		WHERE MysteryItemDropNum = @i_MysteryItemDropNum
 	GO
 	************************************************************************/
-	SQLINTEGER	arrCB[3] = {SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[3] = {SQL_NTS, SQL_NTS, SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pQPMsg->MysteryItemDropNum, 0,	&arrCB[1]);
 	char tmpTimeString[SIZE_MAX_SQL_DATETIME_STRING];
 	pQPMsg->StartTime.GetSQLDateTimeString(tmpTimeString, SIZE_MAX_SQL_DATETIME_STRING);
@@ -16365,7 +16365,7 @@ void CAtumFieldDBManager::QP_UpdateLuckyItemStarttime(FIELD_DB_QUERY q, SQLHSTMT
 		WHERE MysteryItemDropNum = @i_MysteryItemDropNum
 	GO
 	**************************************************************************/
-	SQLINTEGER	arrCBReset[2] = {SQL_NTS, SQL_NTS};
+	SQLLEN	arrCBReset[2] = {SQL_NTS, SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pQPMsg->MysteryItemDropNum, 0,	&arrCBReset[1]);
 	ret = SQLExecDirect(hstmt, PROCEDURE_081125_0275, SQL_NTS);
 	if(SQL_SUCCESS != ret && SQL_SUCCESS_WITH_INFO != ret && SQL_NO_DATA != ret)
@@ -16411,7 +16411,7 @@ void CAtumFieldDBManager::QP_UpdateStartDeclarationOfWar(FIELD_DB_QUERY q, SQLHS
 		WHERE Influence = @i_Influence AND MSWarStep = @i_MSWarStep
 	GO
 	************************************************************************/
-	SQLINTEGER	arrCB[6] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[6] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &pQPMsg->Influence, 0,	&arrCB[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &pQPMsg->MSWarStep, 0,	&arrCB[2]);
 	SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pQPMsg->NCP, 0,	&arrCB[3]);
@@ -16452,7 +16452,7 @@ void CAtumFieldDBManager::QP_UpdateEndDeclarationOfWar(FIELD_DB_QUERY q, SQLHSTM
 		WHERE Influence = @i_Influence AND MSWarStep = @i_MSWarStep
 	GO
 	************************************************************************/
-	SQLINTEGER	arrCB[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &pQPMsg->Influence, 0,	&arrCB[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &pQPMsg->MSWarStep, 0,	&arrCB[2]);
 	char tmpTimeString[SIZE_MAX_SQL_DATETIME_STRING];
@@ -16503,7 +16503,7 @@ void CAtumFieldDBManager::QP_UpdateMSWarStartTime(FIELD_DB_QUERY q, SQLHSTMT hst
 		WHERE Influence = @i_Influence AND MSWarStep = @i_MSWarStep
 	GO
 	************************************************************************/
-	SQLINTEGER	arrCB[6] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[6] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &pQPMsg->Influence, 0,	&arrCB[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &pQPMsg->MSWarStep, 0,	&arrCB[2]);
 	char tmpTimeString[SIZE_MAX_SQL_DATETIME_STRING];
@@ -16544,7 +16544,7 @@ void CAtumFieldDBManager::QP_UpdateNickName(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 		return;
 	}
 
-	SQLINTEGER	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &pQPMsg->CharacUID, 0,						&arrCB[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_CHARACTER_NAME, 0, pQPMsg->NickName, 0,	&arrCB[2]);
 	RETCODE	ret = SQLExecDirect(hstmt, PROCEDURE_090219_0311, SQL_NTS);
@@ -16621,7 +16621,7 @@ void CAtumFieldDBManager::QP_GetSelfRanking(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	INIT_MSG_WITH_BUFFER(MSG_FC_INFO_WRK_GET_SELF_RANKING_OK, T_FC_INFO_WRK_GET_SELF_RANKING_OK, pSMsg, SendBuf);
 	pSMsg->CharacUID		= q.nGeneralParam1;
 
-	SQLINTEGER	cb = SQL_NTS;
+	SQLLEN	cb = SQL_NTS;
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &pSMsg->CharacUID, 0,						&cb);
 	RETCODE	ret = SQLExecDirect(hstmt, PROCEDURE_090219_0338, SQL_NTS);
 	if(SQL_SUCCESS != ret && SQL_SUCCESS_WITH_INFO != ret && SQL_NO_DATA != ret)
@@ -16860,7 +16860,7 @@ void CAtumFieldDBManager::QP_LoadInfinityImpute(FIELD_DB_QUERY q, SQLHSTMT hstmt
 		return;
 	}
 	
-	SQLINTEGER	cb[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	cb[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 	INFINITY_IMPUTE		tmInfinityImpute;
 	vectINFINITY_IMPUTE	tmImputeList;		// 2010-04-05 by cmkwon, 인피 재입장 카드 관련 시스템 수정 - 
 	MEMSET_ZERO(&tmInfinityImpute, sizeof(INFINITY_IMPUTE));
@@ -17039,7 +17039,7 @@ void CAtumFieldDBManager::QP_ArenaCopyInfinityDBInfo(FIELD_DB_QUERY q, SQLHSTMT 
 	///////////////////////////////////////////////////////////////////////////////
 	// 2008-07-24 by cmkwon, MySQL 포팅 관련(OUTPUT 제거) -
  	INT	ErrCheck = 0;
- 	SQLINTEGER	arrCB[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+ 	SQLLEN	arrCB[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1,SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &pQParam->ArenaCharacterUID, 0, &arrCB[1]);
 	SQLBindParameter(hstmt, 2,SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &pQParam->CharacterUID, 0, &arrCB[2]);
 	SQLBindParameter(hstmt, 3,SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &pQParam->AccountUID, 0, &arrCB[3]);
@@ -17942,7 +17942,7 @@ void CAtumFieldDBManager::QP_CashLoadPremiumCard(FIELD_DB_QUERY q, SQLHSTMT hstm
 	SCASH_PREMEIUM_CARD_INFO	tmCardInfo;
 	tmCardInfo.ResetCASH_PREMEIUM_CARD_INFO();
 
-	SQLINTEGER	cb[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS};
+	SQLLEN	cb[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS};
 	///////////////////////////////////////////////////////////////////////////////
 	// 유료화 프리미엄 카드 로딩
 	/********************************************************************************
@@ -18043,7 +18043,7 @@ void CAtumFieldDBManager::QP_LoadInfinityShopInfo(FIELD_DB_QUERY q, SQLHSTMT hst
 		return;
 	}
 	
-	SQLINTEGER	cb[14] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	cb[14] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	INFINITY_SHOP_INFO		tmInfinityShopInfo;
 	MEMSET_ZERO(&tmInfinityShopInfo, sizeof(INFINITY_SHOP_INFO));
 
@@ -18074,7 +18074,7 @@ void CAtumFieldDBManager::QP_UpdateItemCoolingTimeStamp(FIELD_DB_QUERY q, SQLHST
 	QPARAM_UPDATE_ITEM_COOLINGTIMESTAMP *pItemCoolingTimeStamp = (QPARAM_UPDATE_ITEM_COOLINGTIMESTAMP*)q.pQueryParam;
 
 	RETCODE ret;
-	SDWORD pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 
 	/*[Stored Query Definition]************************************************
 	--!!!!
@@ -18135,7 +18135,7 @@ void CAtumFieldDBManager::QP_InfinityUpdateUserMapInfo(FIELD_DB_QUERY q, SQLHSTM
 	--------------------------------------------------------------------------------
 	CALL dbo.atum_InfinityUpdateUserMapInfo
 	**************************************************************************/
-	SQLINTEGER	arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &pQParam->CharacterUID, 0,			&arrCB[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_SMALLINT, 0, 0, &pQParam->InfinityMapIndex, 0,		&arrCB[2]);
 	SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_SMALLINT, 0, 0, &pQParam->InfinityChannelIndex, 0, &arrCB[3]);
@@ -18184,7 +18184,7 @@ BOOL CAtumFieldDBManager::DBLoadInfinityDifficultInfo(CODBCStatement *i_pODBCStm
 	INFINITY_DIFFICULTY_BONUS_INFO	tmListInfo;
 	MEMSET_ZERO(&tmListInfo, sizeof(INFINITY_DIFFICULTY_BONUS_INFO));
 
-	SQLINTEGER	arrCB[4] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[4] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	SQLBindCol(i_pODBCStmt->m_hstmt, 1, SQL_C_LONG, &tmListInfo.iIncreaseStep,			0, &arrCB[0]);
 	SQLBindCol(i_pODBCStmt->m_hstmt, 2, SQL_C_LONG, &tmListInfo.iExp,					0, &arrCB[1]);
 	SQLBindCol(i_pODBCStmt->m_hstmt, 3, SQL_C_LONG, &tmListInfo.iDrop_Item_Persent,		0, &arrCB[2]);
@@ -18214,7 +18214,7 @@ BOOL CAtumFieldDBManager::DBLoadInfinityDifficultMonsterInfo(CODBCStatement *i_p
 	INFINITY_DIFFICULTY_MONSTER_SETTING_INFO	tmListInfo;
 	MEMSET_ZERO(&tmListInfo, sizeof(INFINITY_DIFFICULTY_MONSTER_SETTING_INFO));
 	
-	SQLINTEGER	arrCB[6] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[6] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	SQLBindCol(i_pODBCStmt->m_hstmt, 1, SQL_C_LONG, &tmListInfo.iIncreaseStep,			0, &arrCB[0]);
 	SQLBindCol(i_pODBCStmt->m_hstmt, 2, SQL_C_LONG, &tmListInfo.iMonsterHP,				0, &arrCB[1]);
 	SQLBindCol(i_pODBCStmt->m_hstmt, 3, SQL_C_LONG, &tmListInfo.iMonsterDefense,		0, &arrCB[2]);
@@ -18250,7 +18250,7 @@ void CAtumFieldDBManager::QP_LoadBurningMap(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 		return;
 	}
 	
-	SQLINTEGER	cb[6] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,  SQL_NTS};
+	SQLLEN	cb[6] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,  SQL_NTS};
 	BURNING_MAP_INFO		tmBurningMapInfo;
 	MEMSET_ZERO(&tmBurningMapInfo, sizeof(BURNING_MAP_INFO));
 	
@@ -18304,7 +18304,7 @@ void CAtumFieldDBManager::QP_Log_UserGetTenderItem(FIELD_DB_QUERY q, SQLHSTMT hs
 	**************************************************************************/
 	// 체크 - 에러 떨어짐
 	RETCODE tret = 0;
-	SQLINTEGER	arrCB[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	tret = SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER,		0, 0, &pFieldIOCPSocket->m_character.AccountUniqueNumber, 0, &arrCB[1]);
 	tret = SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0,  &pFieldIOCPSocket->m_character.AccountName, 0, &arrCB[2]);
 	tret = SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER,		0, 0, &pFieldIOCPSocket->m_character.CharacterUniqueNumber, 0, &arrCB[3]);
@@ -18849,7 +18849,7 @@ void CAtumFieldDBManager::OP_StoreGetItemOne(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	}
 
 	SQL_TIMESTAMP_STRUCT tmCreatedTimeStamp;
-	SQLINTEGER		arrCB[19] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN		arrCB[19] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 								SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 
 	if( SQL_NO_DATA != ret )
@@ -19028,7 +19028,7 @@ void CAtumFieldDBManager::QP_GetEnchantCount(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 		return;
 	}
 
-	SQLINTEGER cb = SQL_NTS;
+	SQLLEN cb = SQL_NTS;
 
 	/********************************************************************************
 	CREATE PROC [dbo].[atum_GetEnchantCountByItemUID]
@@ -19087,7 +19087,7 @@ void CAtumFieldDBManager::QP_GetAddExpRestExperienceCount(FIELD_DB_QUERY q, SQLH
 		return ;
 	}
 
-	SQLINTEGER cb = SQL_NTS;
+	SQLLEN cb = SQL_NTS;
 
 	/************************************************************************
 	--------------------------------------------------------------------------------
@@ -19133,7 +19133,7 @@ void CAtumFieldDBManager::QP_SetAddExpRestExperienceCount(FIELD_DB_QUERY q, SQLH
 	QPARAM_ADDEXP_REST_EXPERIENCE_COUNT *pQParam = (QPARAM_ADDEXP_REST_EXPERIENCE_COUNT*)q.pQueryParam;
 	CFieldIOCPSocket *pFieldIOCPSocket	= q.pFieldIOCPSocket;
 
-	SQLINTEGER cb = SQL_NTS;
+	SQLLEN cb = SQL_NTS;
 
 	if( TRUE == g_pFieldGlobal->IsArenaServer() )		// 아레나에서는 사용 안함
 	{
@@ -19206,7 +19206,7 @@ void CAtumFieldDBManager::QP_GetFixedTerm(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	}
 
 	RETCODE ret;
-	SDWORD pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 
 	/*[Stored Query Definition]************************************************
 	--------------------------------------------------------------------------------
@@ -19242,7 +19242,7 @@ void CAtumFieldDBManager::QP_GetFixedTerm(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 		return;
 	}
 
-	SQLINTEGER	arrCB[4] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[4] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	SQL_TIMESTAMP_STRUCT StartDate; memset(&StartDate, 0x00, sizeof(SQL_TIMESTAMP_STRUCT));
 	SQL_TIMESTAMP_STRUCT EndDate; memset(&EndDate, 0x00, sizeof(SQL_TIMESTAMP_STRUCT));
 	
@@ -19276,7 +19276,7 @@ void CAtumFieldDBManager::QP_InsertFixedTerm(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 		return;
 	}
 
-	SQLINTEGER cb = SQL_NTS;
+	SQLLEN cb = SQL_NTS;
 
 	/************************************************************************
 	--------------------------------------------------------------------------------
@@ -19348,7 +19348,7 @@ void CAtumFieldDBManager::QP_GetShapeStatLevel(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	GO
 	************************************************************************/
 
-	SQLINTEGER cb = SQL_NTS;
+	SQLLEN cb = SQL_NTS;
 
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_UBIGINT, SQL_BIGINT, 0, 0, &pQParam->ItemUID, 0, NULL);
 
@@ -19367,7 +19367,7 @@ void CAtumFieldDBManager::QP_GetShapeStatLevel(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 		return;
 	}
 	
-	SQLINTEGER	arrCB[5] = {SQL_NTS, SQL_NTS, SQL_NTS,SQL_NTS, SQL_NTS};				
+	SQLLEN	arrCB[5] = {SQL_NTS, SQL_NTS, SQL_NTS,SQL_NTS, SQL_NTS};				
 	SQLBindCol(hstmt, 1, SQL_C_UTINYINT,&pQParam->ItemKind,			0, &arrCB[1]);
 	SQLBindCol(hstmt, 2, SQL_C_UBIGINT, &pQParam->ItemUID,			0, &arrCB[2]);
 	SQLBindCol(hstmt, 3, SQL_C_ULONG,	&pQParam->nStatShapeItemNum,0, &arrCB[3]);
@@ -19454,7 +19454,7 @@ void CAtumFieldDBManager::QP_DeleteFixedTerm(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 		return;
 	}
 
-	SQLINTEGER cb = SQL_NTS;
+	SQLLEN cb = SQL_NTS;
 
 	/************************************************************************
 	--------------------------------------------------------------------------------
@@ -19491,7 +19491,7 @@ void CAtumFieldDBManager::QP_ArenaCharacterReset(FIELD_DB_QUERY q, SQLHSTMT hstm
 {
 	QPARAM_ARENA_CHARACTER_RESET *pQParam = (QPARAM_ARENA_CHARACTER_RESET*)q.pQueryParam;
 
-	SQLINTEGER arrCB[6] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN arrCB[6] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	INT PLAYTYPE	= ARENA_PLAY_TYPE_NO;
 	char SourceCharacterType[SIZE_MAX_CHARACTER_NAME] = {""};
 	SQLBindParameter(hstmt, 1,SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &pQParam->ArenaCharacterUID, 0, &arrCB[1]);
@@ -19549,7 +19549,7 @@ void CAtumFieldDBManager::m_functionLoadRenewalStrategyPointSummonTimeByDB(SQLHS
 		return;
 	}
 
-	SQLINTEGER	arrCB[6] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[6] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	SRENEWAL_STRATEGYPOINT_SUMMON_TIME	tmStrategyPointNotSummonTime;
 	vectSRENEWAL_STRATEGYPOINT_SUMMON_TIME	tmvectStrategyPointNotSummonTime;
 	MEMSET_ZERO(&tmStrategyPointNotSummonTime, sizeof(SRENEWAL_STRATEGYPOINT_SUMMON_TIME));
@@ -19610,7 +19610,7 @@ void CAtumFieldDBManager::m_functionLoadRenewalStrategyPointSummonMapInfoByDB(SQ
 		return;
 	}
 
-	SQLINTEGER	arrCB[4] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[4] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	SSTRATEGYPOINT_MAP_INFLUENCESTRATEGYPOINT_INFO	tmStrategyPointMapInfluenceInfo;
 	vectSSTRATEGYPOINT_MAP_INFLUENCESTRATEGYPOINT_INFO	tmvectStrategyPointMapInfluenceInfo;
 	MEMSET_ZERO(&tmStrategyPointMapInfluenceInfo, sizeof(SSTRATEGYPOINT_MAP_INFLUENCESTRATEGYPOINT_INFO));
@@ -19652,7 +19652,7 @@ void CAtumFieldDBManager::m_functionLoadRenewalStrategyPointSummonSettingInfoByD
 		return;
 	}
  
-	SQLINTEGER	arrCB[5] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[5] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	SSTRATEGYPOINT_SUMMONTIME_INFO	tmStrategyPointSummonTimeInfo;
 	vectSSTRATEGYPOINT_SUMMONTIME_INFO	tmvectStrategyPointSummonTimeInfo;
 	MEMSET_ZERO(&tmStrategyPointSummonTimeInfo, sizeof(SSTRATEGYPOINT_SUMMONTIME_INFO));
@@ -19710,7 +19710,7 @@ void CAtumFieldDBManager::QP_UpdateStrategyPointSummonInfo(FIELD_DB_QUERY q, SQL
 		END
 	GO
 	**************************************************************************/
-	SQLINTEGER arrCB[5] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN arrCB[5] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	char tmpSummonTimeBuf[SIZE_MAX_SQL_DATETIME_STRING];
 	pQParam->SummonTime.GetSQLDateTimeString(tmpSummonTimeBuf, SIZE_MAX_SQL_DATETIME_STRING);
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_SMALLINT,	0, 0, &pQParam->MapIndex, 0, &arrCB[1]);
@@ -19788,7 +19788,7 @@ BOOL CAtumFieldDBManager::m_functionArenaCharacterLoad(CFieldIOCPSocket *i_pFISo
 		return FALSE;
 	}
 
-	SQLINTEGER	cb[CB_COUNT_CHARACTER] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN	cb[CB_COUNT_CHARACTER] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 											,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 											,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 											,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
@@ -19840,7 +19840,7 @@ void CAtumFieldDBManager::QP_InsertStoreItemFromXMLRPC(FIELD_DB_QUERY q, SQLHSTM
 
 	QPARAM_INSERT_STOREITEM_FROM_XMLRPC *pQParam = (QPARAM_INSERT_STOREITEM_FROM_XMLRPC *)q.pQueryParam;
 
-	SQLINTEGER arrCB[9] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[9] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 
 	/********************************************************************************
 	ALTER PROCEDURE [dbo].[atum_insertStoreItem_FromXMLRPC]
@@ -19923,7 +19923,7 @@ void CAtumFieldDBManager::QP_DeleteStoreItemFromXMLRPC(FIELD_DB_QUERY q, SQLHSTM
 
 	QPARAM_DELETE_STOREITEM_FROM_XMLRPC *pQParam = (QPARAM_DELETE_STOREITEM_FROM_XMLRPC *)q.pQueryParam;
 
-	SQLINTEGER arrCB[5] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[5] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 
 	/********************************************************************************
 	ALTER PROCEDURE [dbo].[atum_DeleteItem_FromXMLRPC]
@@ -20016,7 +20016,7 @@ void CAtumFieldDBManager::QP_GetCharacterInfoFromXMLRPC(FIELD_DB_QUERY q, SQLHST
 
 	QPARAM_GET_CHARACTERINFO_FROM_XMLRPC *pQParam = (QPARAM_GET_CHARACTERINFO_FROM_XMLRPC *)q.pQueryParam;
 
-	SQLINTEGER arrCB[6] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[6] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 
 	/********************************************************************************
 	CREATE PROCEDURE [dbo].[atum_GetCharacterInfo_FromXMLRPC]
@@ -20092,7 +20092,7 @@ void CAtumFieldDBManager::QP_LoadCashBuyDate(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 		return;
 	}
 
-	SQLINTEGER arrCB[2] = { SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[2] = { SQL_NTS, SQL_NTS };
 
 	/********************************************************************************
 	CREATE PROCEDURE dbo.atum_GetCashBuyDateByAccountUID
@@ -20226,7 +20226,7 @@ void CAtumFieldDBManager::QP_LoadCashBuyDate(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 
 void CAtumFieldDBManager::QP_InsertCashBuyDate(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 {
-	SQLINTEGER arrCB[4] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[4] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 
 	CFieldIOCPSocket *pFISock	= q.pFieldIOCPSocket;
 	if (NULL == pFISock)
@@ -20285,7 +20285,7 @@ void CAtumFieldDBManager::QP_InsertCashBuyDate(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 // 2014-04-21 by jekim, 웹 캐시 상점 보완 - 첫구매
 void CAtumFieldDBManager::QP_InsertFirstPurchaseFromXMLRPC(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 {
-	SQLINTEGER arrCB[2] = { SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[2] = { SQL_NTS, SQL_NTS };
 	UID32_t CharacterUID = (UID32_t)q.nGeneralParam1;
 
 	/********************************************************************************
@@ -20324,7 +20324,7 @@ void CAtumFieldDBManager::QP_GetFirstPurchaseFromXMLRPC(FIELD_DB_QUERY q, SQLHST
 		return;
 	}
 
-	SQLINTEGER arrCB[2] = { SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[2] = { SQL_NTS, SQL_NTS };
 
 
 	/********************************************************************************
@@ -20412,7 +20412,7 @@ void CAtumFieldDBManager::QP_LoadMonthlyArmorEvent(FIELD_DB_QUERY q, SQLHSTMT hs
 		return;
 	}
 
-	SQLINTEGER cb[7]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS	,SQL_NTS,SQL_NTS};		// 2013-09-06 by jhseol, 이달의 아머 이벤트 적용 기간 변경
+	SQLLEN cb[7]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS	,SQL_NTS,SQL_NTS};		// 2013-09-06 by jhseol, 이달의 아머 이벤트 적용 기간 변경
 
 	vectMONTHLY_ARMOR_EVNET_INFO	MonthlyArmorEventList;
 	MonthlyArmorEventList.clear();
@@ -20498,7 +20498,7 @@ void CAtumFieldDBManager::QP_GetTemporarySystemInfomation(FIELD_DB_QUERY q, SQLH
 		return;
 	}
 
-	SQLINTEGER	arrCB[7] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN	arrCB[7] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 	SQL_TIMESTAMP_STRUCT Date;
 	MEMSET_ZERO(&Date, sizeof(SQL_TIMESTAMP_STRUCT));
 	
@@ -20539,7 +20539,7 @@ void CAtumFieldDBManager::QP_GetStoreExtension(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 	}
 
 	RETCODE ret;
-	SDWORD pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 
 	/*[Stored Query Definition]************************************************
 	--------------------------------------------------------------------------------
@@ -20573,7 +20573,7 @@ void CAtumFieldDBManager::QP_GetStoreExtension(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 		return;
 	}
 
-	SQLINTEGER	arrCB[2] = {SQL_NTS, SQL_NTS };
+	SQLLEN	arrCB[2] = {SQL_NTS, SQL_NTS };
 	SQLBindCol(hstmt, 1, SQL_C_UBIGINT, &pQParam->Gesture, 0, &arrCB[1]);
 	
 	if( (ret = SQLFetch(hstmt)) == SQL_NO_DATA )
@@ -20673,7 +20673,7 @@ void CAtumFieldDBManager::QP_CollectionArmorListLoad(FIELD_DB_QUERY q, SQLHSTMT 
 		return;
 	}
 
-	SQLINTEGER		arrCB[10] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN		arrCB[10] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 
 	if( SQL_NO_DATA != ret )
 	{
@@ -20795,7 +20795,7 @@ void CAtumFieldDBManager::QP_AccountInflChange(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 		return;
 	}
 
-	SQLINTEGER		arrCB[8] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN		arrCB[8] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG,		SQL_INTEGER, 0, 0, &UserAccountUID, 0, NULL);
 	SQLRETURN	ret = SQLExecDirect(hstmt, PROCEDURE_130726_0003, SQL_NTS);
 	SQLBindCol(hstmt, 1, SQL_C_CHAR, UserAccountName, SIZE_MAX_ACCOUNT_NAME,		&arrCB[7]);
@@ -21053,7 +21053,7 @@ void CAtumFieldDBManager::QP_AccountInflChange(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 				{// 요구 레벨 미만이면 추가 필요 업다
 					continue;
 				}
-				SDWORD pcbNTS = SQL_NTS;
+				SQLLEN pcbNTS = SQL_NTS;
 				CharacterQuest pQInsertQuest;
 				pQInsertQuest.CharacterUniqueNumber	= itr->CUID;
 				pQInsertQuest.QuestIndex				= pQuestNew->QuestIndex;
@@ -21114,7 +21114,7 @@ void CAtumFieldDBManager::QP_AccountInflChange(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 						continue;
 					}
 					
-					SDWORD pcbNTS = SQL_NTS;
+					SQLLEN pcbNTS = SQL_NTS;
 					CharacterQuest pQInsertQuest;
 					pQInsertQuest.CharacterUniqueNumber	= itr->CUID;
 					pQInsertQuest.QuestIndex				= pQuestNew->QuestIndex;
@@ -21239,7 +21239,7 @@ void CAtumFieldDBManager::QP_LoadSPWarInfoResult(FIELD_DB_QUERY q, SQLHSTMT hstm
 	BYTE logType = T1_FL_LOG_SP_WAR;
 	BYTE BCU_SPLevel = 0;
 	BYTE ANI_SPLevel = 0;
-	SQLINTEGER		arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN		arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLRETURN ret = SQL_ERROR;
 
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &logType, 0, NULL);
@@ -21288,7 +21288,7 @@ BOOL CAtumFieldDBManager::DBLoadMarketList(CODBCStatement *i_pODBCStmt, CMarketD
 	MARKET_INFO tmMarketData;
 	MEMSET_ZERO(&tmMarketData, sizeof(MARKET_INFO));
 	
-	SQLINTEGER	arrCB[21] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN	arrCB[21] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 	 SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 
 	SQLBindCol(i_pODBCStmt->m_hstmt, 1, SQL_C_SBIGINT, &tmMarketData.MarketUID				, 0,&arrCB[1]);
@@ -21335,7 +21335,7 @@ BOOL CAtumFieldDBManager::DBLoadMarketList(CODBCStatement *i_pODBCStmt, CMarketD
 		if( (*itr)->EnchantCount )		// 인챈트 카운트가 있으면 삽입 .
 		{			
 			UID64_t			tmItemUID = (*itr)->ItemUID; 
-			SQLINTEGER	arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+			SQLLEN	arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 
 			MARKET_ENCHANT_INFO tmenchant;
 			MEMSET_ZERO(&tmenchant,sizeof(MARKET_ENCHANT_INFO));
@@ -21379,7 +21379,7 @@ BOOL CAtumFieldDBManager::DBLoadMarketList(CODBCStatement *i_pODBCStmt, CMarketD
 #include "AceOnlineSQL.h"
 void CAtumFieldDBManager::QP_Market_ItemRegistration(FIELD_DB_QUERY q, SQLHSTMT hstmt)		// 등록			
 {
-	SQLINTEGER	arrCB[21] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN	arrCB[21] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 								SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 								SQL_NTS};
 
@@ -21417,7 +21417,7 @@ void CAtumFieldDBManager::QP_Market_ItemRegistration(FIELD_DB_QUERY q, SQLHSTMT 
 	SQLBindParameter(hstmt,2,SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &(pFieldIOCPSocket->m_character.AccountUniqueNumber), 0, NULL);	// 계정 UID
 	SQLBindParameter(hstmt,3,SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &(pFieldIOCPSocket->m_character.CharacterUniqueNumber), 0, NULL);	// 케릭터 UID
 	SQLBindParameter(hstmt,4,SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &MarketKind, 0, NULL);									// 마켓용 아이템 카인드 
-	SQLINTEGER cb1 = SQL_NTS;
+	SQLLEN cb1 = SQL_NTS;
 	SQLBindParameter(hstmt,5, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, MARKET_ITEM_FULL_NAME, 0, tmpSellRequest->Name, 0, &cb1);					// 아이템 이름 
 	SQLBindParameter(hstmt,6,SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &(tmpItemGeneral->ItemNum), 0, NULL);						// 아이템 넘버 
 	SQLBindParameter(hstmt,7,SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &tmpSellRequest->Count, 0, NULL);									// 수량 
@@ -21579,7 +21579,7 @@ void CAtumFieldDBManager::QP_Market_ItemRegistration(FIELD_DB_QUERY q, SQLHSTMT 
 
 void CAtumFieldDBManager::QP_Market_Buying(FIELD_DB_QUERY q,SQLHSTMT hstmt)	// 구매
 {
-	SQLINTEGER	arrCB[20] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN	arrCB[20] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 								SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 
 	CFieldIOCPSocket *pFieldIOCPSocket	= q.pFieldIOCPSocket;
@@ -21681,7 +21681,7 @@ void CAtumFieldDBManager::QP_Market_Buying(FIELD_DB_QUERY q,SQLHSTMT hstmt)	// �
 				g_pFieldGlobal->WriteSystemLogEX(TRUE, "################ 구매   : 인챈트 정보가 있는 아이템 ################(%s)(%d)\r\n",tmpMarketInfo->ItemName,tmpMarketInfo->ItemUID);
 
 				mt_auto_lock mtE(&pFieldIOCPSocket->m_mapEnchant);
-				SQLINTEGER	arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+				SQLLEN	arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 				SQLBindParameter(hstmt,1,SQL_PARAM_INPUT, SQL_C_SBIGINT	,SQL_BIGINT, 0, 0, &tmpMarketInfo->ItemUID, 0, NULL);		// 아이템 UID 
 				
 				SQLRETURN ret = SQL_ERROR;
@@ -21779,7 +21779,7 @@ void CAtumFieldDBManager::QP_Market_Buying(FIELD_DB_QUERY q,SQLHSTMT hstmt)	// �
 void CAtumFieldDBManager::QP_Market_GetTradeItem(FIELD_DB_QUERY q,SQLHSTMT hstmt) // 회수 
 {
 
-	SQLINTEGER	arrCB[20] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN	arrCB[20] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 								SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	
 	CFieldIOCPSocket *pFieldIOCPSocket	= q.pFieldIOCPSocket;
@@ -21914,7 +21914,7 @@ void CAtumFieldDBManager::QP_Market_GetTradeItem(FIELD_DB_QUERY q,SQLHSTMT hstmt
 				if( pMarketInfo->EnchantCount)	
 				{	// 인챈트 정보 전송 
 					mt_auto_lock mtE(&pFieldIOCPSocket->m_mapEnchant);
-					SQLINTEGER	arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+					SQLLEN	arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 					SQLBindParameter(hstmt,1,SQL_PARAM_INPUT, SQL_C_SBIGINT	,SQL_BIGINT, 0, 0, &pMarketInfo->ItemUID, 0, NULL);		// 아이템 UID 
 					
 					SQLRETURN ret = SQL_ERROR;
@@ -22061,7 +22061,7 @@ void CAtumFieldDBManager::QP_Market_GetSaleList(FIELD_DB_QUERY q,SQLHSTMT hstmt)
 	MARKET_INFO tmMarketData;
 	MEMSET_ZERO(&tmMarketData, sizeof(MARKET_INFO));
 	
-	SQLINTEGER	arrCB[20] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN	arrCB[20] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	
 	SQLBindCol(hstmt, 1, SQL_C_SBIGINT, &tmMarketData.MarketUID				, 0,&arrCB[1]);
@@ -22114,7 +22114,7 @@ void CAtumFieldDBManager::QP_Market_GetSaleList(FIELD_DB_QUERY q,SQLHSTMT hstmt)
 				return ;
 			}
 			
-			SQLINTEGER	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+			SQLLEN	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 			MEMSET_ZERO(arrCB, sizeof(arrCB[0])*3);
 			SQLBindCol(hstmt, 1, SQL_C_LONG, &tmenchant.ItemNum	, 0,&arrCB[1]);
 			SQLBindCol(hstmt, 2, SQL_C_UTINYINT, &tmenchant.Count	, 0,&arrCB[2]);
@@ -22175,7 +22175,7 @@ void CAtumFieldDBManager::QP_Market_GetSaleList(FIELD_DB_QUERY q,SQLHSTMT hstmt)
 // 2013-12-16 by jhseol, 역전의 기회 버프 리뉴얼
 void CAtumFieldDBManager::QP_GetTurnAroundBuffApplyInfo(FIELD_DB_QUERY q,SQLHSTMT hstmt)
 {
-	SQLINTEGER	arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS}; // 2014-03-25 by jekim, 승리의 환호
+	SQLLEN	arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS}; // 2014-03-25 by jekim, 승리의 환호
 
 	RETCODE ret = SQLExecDirect(hstmt, PROCEDURE_131216_0001, SQL_NTS);
 	if ( ret!=SQL_SUCCESS && ret!=SQL_SUCCESS_WITH_INFO )
@@ -22210,7 +22210,7 @@ void CAtumFieldDBManager::QP_GetTurnAroundBuffApplyInfo(FIELD_DB_QUERY q,SQLHSTM
 
 void CAtumFieldDBManager::QP_UpdateTurnAroundBuffApplyInfo(FIELD_DB_QUERY q,SQLHSTMT hstmt)
 {
-	SQLINTEGER	arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS}; // 2014-03-25 by jekim, 승리의 환호
+	SQLLEN	arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS}; // 2014-03-25 by jekim, 승리의 환호
 
 	char tmpTimeBuf[SIZE_MAX_SQL_DATETIME_STRING];
 	m_pFieldIOCP8->m_InflWarManager.m_atBeforeTurnAroundBuffApplyTime.GetSQLDateTimeString(tmpTimeBuf, SIZE_MAX_SQL_DATETIME_STRING);
@@ -22231,7 +22231,7 @@ void CAtumFieldDBManager::QP_UpdateTurnAroundBuffApplyInfo(FIELD_DB_QUERY q,SQLH
 
 void CAtumFieldDBManager::QP_PvpBuffUpdate(FIELD_DB_QUERY q,SQLHSTMT hstmt)
 {
-	SQLINTEGER	arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS};
 	
 	RETCODE ret = SQLExecDirect(hstmt, PROCEDURE_140326_0001, SQL_NTS);
 	if ( ret!=SQL_SUCCESS && ret!=SQL_SUCCESS_WITH_INFO )
@@ -22285,7 +22285,7 @@ void CAtumFieldDBManager::QP_DestroyAuction_AddItem(FIELD_DB_QUERY q, SQLHSTMT h
 	CFieldIOCPSocket *pFieldIOCPSocket = q.pFieldIOCPSocket;
 
 	RETCODE ret;
-	SDWORD pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 	INT InitPrice = DESTROY_AUCTION_INIT_PRICE;
 
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0,		&ptmInsertItem->AccountUniqueNumber, 0, NULL);
@@ -22362,7 +22362,7 @@ BOOL CAtumFieldDBManager::DBLoadDestroyAuctionList(CODBCStatement *i_pODBCStmt, 
 	
 	//i_pODBCStmt->FreeStatement();
 	
-	SQLINTEGER	arrCB[20] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN	arrCB[20] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	
 	DESTROY_AUCTION_INFO tmAuctionData;
@@ -22407,7 +22407,7 @@ BOOL CAtumFieldDBManager::DBLoadDestroyAuctionList(CODBCStatement *i_pODBCStmt, 
 		if( (*itr)->EnchantCount )		// 인챈트 카운트가 있으면 삽입 .
 		{			
 			UID64_t			tmItemUID = (*itr)->ItemUID; 
-			SQLINTEGER	arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+			SQLLEN	arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 			
 			MARKET_ENCHANT_INFO tmenchant;
 			MEMSET_ZERO(&tmenchant,sizeof(MARKET_ENCHANT_INFO));
@@ -22492,7 +22492,7 @@ void CAtumFieldDBManager::QP_DestroyAuction_UpdateBiddingInfo(FIELD_DB_QUERY q, 
 	// 이전 입찰정보 수집 로그 수집용,정보 확인용 
 	// 만약 에러상황이 생기면 재입찰해야 하나 ? ( 입찰카드 복구? ) 
 	
-	SQLINTEGER	arrCB[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	
 	UID32_t tmBeforeBiddingCharUID = 0;
 	UID32_t tmItemUID = 0;
@@ -22566,7 +22566,7 @@ void CAtumFieldDBManager::QP_DestroyAuction_GetAuctionItem(FIELD_DB_QUERY q, SQL
 	
 	// 전체정보를 받아와야함. 
 
-	SQLINTEGER	arrCB[20] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,	SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN	arrCB[20] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,	SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,	SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	
 	DESTROY_AUCTION_INFO tmInputAuctionItem;
@@ -22665,7 +22665,7 @@ void CAtumFieldDBManager::QP_DestroyAuction_GetAuctionItem(FIELD_DB_QUERY q, SQL
 			// 인챈드 정보수집 및 전송 
 			ENCHANT tmpEnchant;
 			memset(&tmpEnchant, 0x00, sizeof(ENCHANT));
-			SQLINTEGER	arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+			SQLLEN	arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 			SQLBindCol(hstmt, 1, SQL_C_ULONG, &tmpEnchant.EnchantItemNum, 0,			&arrCB2[1]);
 			SQLBindCol(hstmt, 2, SQL_C_SBIGINT, &tmpEnchant.SequenceNumber_DB, 0,		&arrCB2[2]);	
 			
@@ -22743,7 +22743,7 @@ void CAtumFieldDBManager::QP_DestroyAuction_GetBiddingInfo(FIELD_DB_QUERY q, SQL
 		return;
 	}
 
-	SQLINTEGER	arrCB[20] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN	arrCB[20] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 
 
@@ -22803,7 +22803,7 @@ void CAtumFieldDBManager::QP_DestroyAuction_GetBiddingInfo(FIELD_DB_QUERY q, SQL
 				return ;
 			}
 			
-			SQLINTEGER	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+			SQLLEN	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 			MEMSET_ZERO(arrCB, sizeof(arrCB[0])*3);
 			SQLBindCol(hstmt, 1, SQL_C_LONG, &tmenchant.ItemNum	, 0,&arrCB[1]);
 			SQLBindCol(hstmt, 2, SQL_C_UTINYINT, &tmenchant.Count	, 0,&arrCB[2]);
@@ -22962,7 +22962,7 @@ BOOL CAtumFieldDBManager::DBInsertDestroyAuctionListUp(CODBCStatement *i_pODBCSt
 // 2014-06-10 by bckim, 세력변경 아이템
 void CAtumFieldDBManager::QP_GetNumberOfChangeInflCount(FIELD_DB_QUERY q, SQLHSTMT hstmt)
 {
-	SQLINTEGER	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 	CFieldIOCPSocket *pFieldIOCPSocket	= q.pFieldIOCPSocket;
 
 	if( NULL == pFieldIOCPSocket || FALSE == pFieldIOCPSocket->IsValidCharacter(FALSE) )

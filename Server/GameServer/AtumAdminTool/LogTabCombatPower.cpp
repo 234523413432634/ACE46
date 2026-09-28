@@ -223,7 +223,7 @@ void CLogTabCombatPower::OnButtonOk()
 
 	this->InitGrid();
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER CB = SQL_NTS;
+	SQLLEN CB = SQL_NTS;
 	SQLBindParameter(hstmt, 1, SQL_PARAM_OUTPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &nReturn, 0,NULL);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_TYPE_TIMESTAMP, SQL_TYPE_TIMESTAMP, 23, 0, &start, 0, NULL);
 	SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_TYPE_TIMESTAMP, SQL_TYPE_TIMESTAMP, 23, 0, &end, 0, NULL);
@@ -234,7 +234,7 @@ void CLogTabCombatPower::OnButtonOk()
 		AfxMessageBox("Failed to ExecuteQuery");
 		return;
 	}
-	SQLINTEGER arrCB[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	CCombatPower cp;
 	MEMSET_ZERO(&cp, sizeof(cp));
 	SQLBindCol(hstmt, 1, SQL_C_DATE, &cp.date, 0, &arrCB[1]);

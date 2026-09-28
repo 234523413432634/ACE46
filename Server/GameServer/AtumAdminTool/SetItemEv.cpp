@@ -933,7 +933,7 @@ BOOL CSetItemEv::FindItem(int i_nItemNum)		// 2013-03-29 by jhseol, 아이템 이벤�
 //	
 //	BOOL bRet = m_pODBCStmt->ExecuteQuery((LPCSTR)szSQLQuery);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	// 2013-03-29 by jhseol, 아이템 이벤트 - 특정아이템 보유시 선물 지급
 	if ( 0 == i_nItemNum )
 	{

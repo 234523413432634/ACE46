@@ -118,7 +118,7 @@ void CLeaderElection::GetPollDateByDB()
 	SQL_TIMESTAMP_STRUCT	tmVoteEndDate;
 	SQL_TIMESTAMP_STRUCT	tmElection;
 
-	SQLINTEGER	arrCB[6] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,    SQL_NTS};
+	SQLLEN	arrCB[6] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,    SQL_NTS};
 	SQLBindCol(m_pODBCStmtLeaderElection->m_hstmt, 1, SQL_C_TIMESTAMP, &tmApplicationStartDate, 0, &arrCB[1]);
 	SQLBindCol(m_pODBCStmtLeaderElection->m_hstmt, 2, SQL_C_TIMESTAMP, &tmApplicationEndDate, 0, &arrCB[2]);
 	SQLBindCol(m_pODBCStmtLeaderElection->m_hstmt, 3, SQL_C_TIMESTAMP, &tmVoteStartDate, 0, &arrCB[3]);
@@ -334,7 +334,7 @@ void CLeaderElection::OnBtnResult()
 		return;
 	}
 	
-	SQLINTEGER	arrCB[11] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,	SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
+	SQLLEN	arrCB[11] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,	SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
 							, SQL_NTS};
 
 	SLEADER_CANDIDATE			tmSLEADER_CANDIDATE;

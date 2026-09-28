@@ -168,7 +168,7 @@ void CStatisticPage1Dlg::ViewDailyAccount()
 // 	szSQLQuery.Format(QUERY_080702_0135, szStartDate, szEndDate);
 // 	BOOL bRet = m_pODBCStmt->ExecuteQuery((LPCSTR)szSQLQuery);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SQL_DATETIME_STRING, 0, (LPSTR)(LPCSTR)szStartDate, 0,	&arrCB2[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SQL_DATETIME_STRING, 0, (LPSTR)(LPCSTR)szEndDate, 0,		&arrCB2[2]);
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0135));
@@ -180,7 +180,7 @@ void CStatisticPage1Dlg::ViewDailyAccount()
 		return;
 	}
 
-	SQLINTEGER cb1, cb2;
+	SQLLEN cb1, cb2;
 
 	char tempDate[20];
 	memset(tempDate, 0, sizeof(tempDate));
@@ -358,7 +358,7 @@ void CStatisticPage1Dlg::ViewUnRegAccount()
 // 	BOOL bRet = m_pODBCStmt->ExecuteQuery((LPCSTR)szSQLQuery);
 	int tmTermDay = -14;	// 2주
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &(tmTermDay), 0,	&arrCB2[1]);
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0137));
 	if (!bRet)
@@ -369,7 +369,7 @@ void CStatisticPage1Dlg::ViewUnRegAccount()
 		return;
 	}
 
-	SQLINTEGER cb1;
+	SQLLEN cb1;
 
 	int tempSelectData;
 	SQLBindCol(m_pODBCStmt->m_hstmt, 1, SQL_C_ULONG, &tempSelectData, 0, &cb1);
@@ -459,7 +459,7 @@ void CStatisticPage1Dlg::ViewNewAccountAge()
 //	szSQLQuery.Format(QUERY_080702_0138, szNewAccountAge);
 //	BOOL bRet = m_pODBCStmt->ExecuteQuery((LPCSTR)szSQLQuery);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SQL_DATETIME_STRING, 0, (LPSTR)(LPCSTR)szNewAccountAge, 0,	&arrCB2[1]);
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0138));
 	if (!bRet)
@@ -470,7 +470,7 @@ void CStatisticPage1Dlg::ViewNewAccountAge()
 		return;
 	}
 
-	SQLINTEGER cb1, cb2;
+	SQLLEN cb1, cb2;
 
 	char tempDate[9];
 	memset(tempDate, 0, sizeof(tempDate));
@@ -575,7 +575,7 @@ void CStatisticPage1Dlg::ViewSameAccount()
 // 2008-08-27 by cmkwon, 날쿼리를 Procedure로 수정 - 
 //	BOOL bRet = m_pODBCStmt->ExecuteQuery((LPCSTR)szSQLQuery);	
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SZQUERY, 0, (LPSTR)(LPCSTR)szSQLQuery, 0,			&arrCB2[1]);
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0122));
 	m_pODBCStmt->FreeStatement();
@@ -621,7 +621,7 @@ void CStatisticPage1Dlg::ViewSameAccount()
 		return;
 	}
 
-	SQLINTEGER cb1, cb2;
+	SQLLEN cb1, cb2;
 
 	char tempDate[20];
 	memset(tempDate, 0, sizeof(tempDate));

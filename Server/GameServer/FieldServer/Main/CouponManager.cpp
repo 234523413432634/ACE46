@@ -60,7 +60,7 @@ BOOL CCouponManager::QP_LoadCouponByNumber(SCOUPON *o_pCoupon, char *i_szCouponN
 			WHERE CouponNumber = @i_CouponNumber
 	GO
 	**************************************************************************/
-	SQLINTEGER					arrCB[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN					arrCB[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 											,SQL_NTS,SQL_NTS};
 	SQLBindParameter(m_ODBCStmt3.m_hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_COUPON_NUMBER, 0, i_szCouponNumber, 0, &arrCB[1]);
 	BOOL bRet = m_ODBCStmt3.ExecuteQuery((char*)(PROCEDURE_080822_0194));
@@ -114,7 +114,7 @@ BOOL CCouponManager::QP_UseCoupon(INT i_CouponUID, char *i_szAccountName)
 	GO
 	**************************************************************************/
 
-	SQLINTEGER		arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN		arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	ATUM_DATE_TIME	atimeCur(TRUE);
 	char szCurTimeBuf[SIZE_MAX_SQL_DATETIME_STRING];
 	atimeCur.GetSQLDateTimeString(szCurTimeBuf, SIZE_MAX_SQL_DATETIME_STRING);	

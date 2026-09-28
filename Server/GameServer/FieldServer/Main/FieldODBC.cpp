@@ -69,7 +69,7 @@ Err_t CFieldODBC::ChangeCharacterName(UID32_t i_characterUID, char *i_szOriginNa
 		SELECT 1;
 	GO
 	**************************************************************************/
-	SQLINTEGER arrCB[5]	= {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[5]	= {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	BOOL bRetSuccess	= FALSE;
 
 // 2008-07-24 by cmkwon, MySQL 포팅 관련(OUTPUT 제거) -

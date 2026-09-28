@@ -609,7 +609,7 @@ BOOL CSCGuildAdminDlg::GetGuildInfo(const char *i_szGuildName, UID32_t i_guildUI
 
 	// 2008-05-27 by dhjin, EP3 여단 수정 사항 - 여단원 증가 캐쉬 아이템
 	UID32_t		GuildMemberCardCashPrice = 0;
-	SQLINTEGER	cb[16] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN	cb[16] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 							,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SGUILD		tmGUILD;					MEMSET_ZERO(&tmGUILD, sizeof(tmGUILD));
 	SQL_TIMESTAMP_STRUCT tmTimeStamp;		MEMSET_ZERO(&tmTimeStamp, sizeof(tmTimeStamp));
@@ -630,7 +630,7 @@ BOOL CSCGuildAdminDlg::GetGuildInfo(const char *i_szGuildName, UID32_t i_guildUI
 	}
 
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_GUILD_NAME, 0, sztmGuildName, 0,				&arrCB2[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &i_guildUID, 0,									&arrCB2[2]);
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0017));
@@ -703,7 +703,7 @@ BOOL CSCGuildAdminDlg::GetGuildMembersInfo(SGUILD *i_pGUILD)
 //	szSQLQuery.Format(QUERY_080702_0019, i_pGUILD->GuildUID);	// 2008-07-02 by cmkwon, MySQL 지원 구현 - 
 //	BOOL bRet = m_pODBCStmt->ExecuteQuery((LPCSTR)szSQLQuery);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG	, SQL_INTEGER, 0, 0, &i_pGUILD->GuildUID, 0,		&arrCB2[1]);	
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0019));
 	if (!bRet)
@@ -712,7 +712,7 @@ BOOL CSCGuildAdminDlg::GetGuildMembersInfo(SGUILD *i_pGUILD)
 		return FALSE;
 	}
 
-	SQLINTEGER	arrCB[10] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[10] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	char szAccName[SIZE_MAX_ACCOUNT_NAME];
 	char szCharName[SIZE_MAX_CHARACTER_NAME];
 	char szUnitkind[10];
@@ -815,7 +815,7 @@ BOOL CSCGuildAdminDlg::GetGuildItems(SGUILD *i_pGUILD)
 //	BOOL bRet = m_pODBCStmt->ExecuteQuery((LPCSTR)szSQLQuery);
 	BYTE byItemStorageType = ITEM_IN_GUILD_STORE;
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &(i_pGUILD->GuildUID), 0,		&arrCB2[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &(byItemStorageType), 0,		&arrCB2[2]);	
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0020));
@@ -826,7 +826,7 @@ BOOL CSCGuildAdminDlg::GetGuildItems(SGUILD *i_pGUILD)
 		return FALSE;
 	}
 
-	SQLINTEGER	arrCB[13] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN	arrCB[13] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 								, SQL_NTS,SQL_NTS,SQL_NTS};
 	ITEM_GENERAL_READABLE StoreItemR;
 	SQL_TIMESTAMP_STRUCT tmpCreatedTime;
@@ -883,7 +883,7 @@ BOOL CSCGuildAdminDlg::GetGuildItems(SGUILD *i_pGUILD)
 // 				SQLFetch(m_pODBCStmt->m_hstmt);
 // 			}
 			SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-			SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+			SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 			SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_UBIGINT, SQL_BIGINT, 0, 0, &(vectItemRList[i].UniqueNumber), 0,		&arrCB2[1]);			
 			BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0021));
 			if(FALSE == bRet)
@@ -1119,13 +1119,13 @@ BOOL CSCGuildAdminDlg::SearchGuildNameFromDB(char *i_szGuildName)
 // 2008-08-27 by cmkwon, 날쿼리를 Procedure로 수정 - 
 //	csQuery.Format(QUERY_080702_0022, i_szGuildName);		// 2008-07-02 by cmkwon, MySQL 지원 구현 - 
 
-	SQLINTEGER	arrCB[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[2] = {SQL_NTS,SQL_NTS};
 	UID32_t guildUID = 0;
 
 // 2008-08-27 by cmkwon, 날쿼리를 Procedure로 수정 - 
 //	BOOL bRet = m_pODBCStmt->ExecuteQuery((LPCSTR)csQuery);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_GUILD_NAME, 0, i_szGuildName, 0,		&arrCB2[1]);
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0022));
 	if (!bRet)
@@ -1168,7 +1168,7 @@ BOOL CSCGuildAdminDlg::UpdateGuild2DB(SGUILD *i_pGuild)
 //
 //	BOOL bRet = m_pODBCStmt->ExecuteQuery((LPCSTR)csQuery);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &(i_pGuild->GuildUID), 0,					&arrCB2[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_GUILD_NAME, 0, i_pGuild->GuildName, 0,	&arrCB2[2]);
 	SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &(i_pGuild->GuildMarkState), 0,			&arrCB2[3]);	

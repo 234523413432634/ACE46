@@ -210,7 +210,7 @@ void CDeletedCharacter::DBLoadDeletedCharacterData(void)
 	SQL_TIMESTAMP_STRUCT tmDeletedTime;							// 2008-03-03 by cmkwon, 삭제 상태의 캐릭터리스트 정보에 삭제 된 날짜 보여 주기 - 
 	MEMSET_ZERO(&tmDeletedTime, sizeof(SQL_TIMESTAMP_STRUCT));	// 2008-03-03 by cmkwon, 삭제 상태의 캐릭터리스트 정보에 삭제 된 날짜 보여 주기 - 
 
-	SQLINTEGER	arrCB[8] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[8] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindCol(m_pODBCStmt3->m_hstmt, 1, SQL_C_ULONG, &tmDeletedCharacterInfo.AccountUID, 0,						&arrCB[1]);
 	SQLBindCol(m_pODBCStmt3->m_hstmt, 2, SQL_C_CHAR, tmDeletedCharacterInfo.AccountName, SIZE_MAX_ACCOUNT_NAME,		&arrCB[2]);
 	SQLBindCol(m_pODBCStmt3->m_hstmt, 3, SQL_C_ULONG, &tmDeletedCharacterInfo.CharacterUID, 0,						&arrCB[3]);

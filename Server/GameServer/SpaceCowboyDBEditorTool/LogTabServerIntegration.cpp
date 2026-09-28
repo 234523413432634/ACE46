@@ -402,7 +402,7 @@ void CLogTabServerIntegration::OnButtonSearch()
 		return;
 	}
 
-	SQLINTEGER arrCB[10] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[10] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 
 	SERVERINTEGRATION_LOG_INFO tmServerIntegrationInfo;	
 	MEMSET_ZERO(&tmServerIntegrationInfo, sizeof(tmServerIntegrationInfo));

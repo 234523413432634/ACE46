@@ -165,7 +165,7 @@ BOOL CWPShopManagementDlg::DBQueryLoadWPShopList(vectWP_SHOP_ITEM *o_pVectWPShop
 		AfxMessageBox("DBQueryLoadWPShopList error !!");
 		return FALSE;
 	}	
-	SQLINTEGER arrCB[5]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[5]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	WP_SHOP_ITEM tmWPShopItem;
 	INT tempIsShow;
 	SQLBindCol(hstmt,  1, SQL_C_LONG, &tmWPShopItem.ItemNum, 0,							&arrCB[1]);	
@@ -279,7 +279,7 @@ BOOL CWPShopManagementDlg::DBQueryUpdateWPShopList(vectWP_SHOP_ITEM *i_pVectItem
 		WP_SHOP_ITEM *pShopItem = &*itr;		
 		if ( NULL != pShopItem && FALSE == pShopItem->IsShowItem) 
 		{
-			SQLINTEGER arrCB[2]={SQL_NTS,SQL_NTS};
+			SQLLEN arrCB[2]={SQL_NTS,SQL_NTS};
 			SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pShopItem->ItemNum, 0,	&arrCB[1]);		
 			BOOL bRet = m_odbcStmt2.ExecuteQuery(PROCEDURE_140714_0003);
 			if (!bRet)

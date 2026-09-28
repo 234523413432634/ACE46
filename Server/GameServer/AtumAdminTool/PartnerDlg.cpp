@@ -101,7 +101,7 @@ BOOL CPartnerDlg::OnInitDialog()
 		return FALSE;
 	}
 	
-	SQLINTEGER arrCB2 = SQL_NTS;
+	SQLLEN arrCB2 = SQL_NTS;
 	SQLBindParameter ( m_pODBCStmt->m_hstmt , 1 , SQL_PARAM_INPUT , SQL_C_UBIGINT , SQL_BIGINT , 0 , 0 , &m_nStoreUniqueNumber , 0 , NULL );
 	/************************************************************
 	-------------------------------------------------------------
@@ -129,7 +129,7 @@ BOOL CPartnerDlg::OnInitDialog()
 	}
 	
 
-	SQLINTEGER cb[25] = { 0, };
+	SQLLEN cb[25] = { 0, };
 
 	int iIndex = 0, iArrIndex = 0;;
 	SQLBindCol(m_pODBCStmt->m_hstmt, iIndex+1, SQL_C_SBIGINT,	&m_tPartnerInfo.ItemUID,				0,					&cb[iIndex]);	iIndex++;

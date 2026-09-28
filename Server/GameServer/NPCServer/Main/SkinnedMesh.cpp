@@ -1020,7 +1020,7 @@ HRESULT CSkinnedMesh::LoadFrames(LPD3DXFILEDATA pxofobjCur, SDrawElement* pde, D
 	GUID type;
 	SIZE_T cbSize;
 	SFrame* pframeCur;
-	DWORD cchName;
+	SIZE_T cchName;
 
 	// Get the type of the object
 	hr = pxofobjCur->GetType(&type);
@@ -1127,7 +1127,7 @@ HRESULT CSkinnedMesh::LoadMesh(LPD3DXFILEDATA pxofobjCur, DWORD options, DWORD f
 	SMeshContainer* pmcMesh = nullptr;
 	LPD3DXBUFFER pbufMaterials = nullptr;
 	LPD3DXBUFFER pbufAdjacency = nullptr;
-	DWORD cchName;
+	SIZE_T cchName;
 	UINT cFaces;
 	UINT iMaterial;
 	LPDIRECT3DDEVICE9 m_pDevice = m_pd3dDevice;
@@ -1842,12 +1842,12 @@ HRESULT CSkinnedMesh::LoadAnimation(LPD3DXFILEDATA pxofobjCur, SDrawElement* pde
 	LPD3DXFILEDATA pxofChild = nullptr;
 	//LPDIRECTXFILEDATAREFERENCE pxofobjChildRef = NULL;
 	GUID type;
-	DWORD dwSize;
+	SIZE_T dwSize;
 	LPCVOID pData;
 	DWORD dwKeyType;
 	DWORD cKeys;
 	DWORD iKey;
-	DWORD cchName;
+	SIZE_T cchName;
 	char* szFrameName;
 
 	pframeCur = new SFrame();
@@ -2090,7 +2090,7 @@ HRESULT CSkinnedMesh::LoadAnimationSet(LPD3DXFILEDATA pxofobjCur, SDrawElement* 
 	auto hr = S_OK;
 	//LPD3DXFILEDATA pxofobjChild = nullptr;
 	LPD3DXFILEDATA pxofChild = nullptr;
-	DWORD cchName;
+	SIZE_T cchName;
 
 	pframeCur = new SFrame();
 	if (!pframeCur)

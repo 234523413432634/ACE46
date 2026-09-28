@@ -278,7 +278,7 @@ BOOL CLogTabBlockAccount::GetLogAndInsertToGrid(BYTE T1_LogType, LPCSTR szTableN
 	m_pMainDlg->m_pMainDlg->ExchangeAccountDBName(&szQuery);			// 2013-04-30 by bckim. 海飘巢 款康砒包访 贸府	
 		 
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_TABLE_NAME, 0, (LPSTR)(LPCSTR)szTableName, 0,		&arrCB2[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SZQUERY, 0, (LPSTR)(LPCSTR)szQuery, 0,			&arrCB2[2]);	
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0050));
@@ -288,7 +288,7 @@ BOOL CLogTabBlockAccount::GetLogAndInsertToGrid(BYTE T1_LogType, LPCSTR szTableN
 		return FALSE;
 	}
 
-	SQLINTEGER arrCB[10] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[10] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	char LogTypeString[30];
 	SBLOCKED_ACCOUNT_INFO blockedAccInfo;
 	SQL_TIMESTAMP_STRUCT sqlLogTime, sqlStartTime, sqlEndTime;

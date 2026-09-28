@@ -160,7 +160,7 @@ Err_t CHttpManager::_DownLoadFileByHttp(void)
 		return ERR_CANNOT_CONNECT_INTERNET;
 	}
 
-	HINTERNET hHttpConnection = ::InternetConnect(hInternetSession, m_szServerName, m_nServerPort, NULL, NULL, INTERNET_SERVICE_HTTP, 0, (DWORD)this );
+	HINTERNET hHttpConnection = ::InternetConnect(hInternetSession, m_szServerName, m_nServerPort, NULL, NULL, INTERNET_SERVICE_HTTP, 0, (DWORD_PTR)this );
 	if(NULL == hHttpConnection)
 	{// 2007-01-05 by cmkwon, 서버 오류로 연결할 수 없습니다
 		::InternetCloseHandle(hInternetSession);
@@ -173,7 +173,7 @@ Err_t CHttpManager::_DownLoadFileByHttp(void)
 	ppszAcceptTypes[0]	= _T("*/*");
 	ppszAcceptTypes[1]	= NULL;
 	DWORD		dwFlag	= INTERNET_FLAG_RELOAD | INTERNET_FLAG_DONT_CACHE | INTERNET_FLAG_KEEP_CONNECTION;
-	HINTERNET hHttpFile	= ::HttpOpenRequest(hHttpConnection, NULL, m_szRemoteFileName, NULL, NULL, ppszAcceptTypes, dwFlag, (DWORD)this );
+	HINTERNET hHttpFile	= ::HttpOpenRequest(hHttpConnection, NULL, m_szRemoteFileName, NULL, NULL, ppszAcceptTypes, dwFlag, (DWORD_PTR)this );
 	if(NULL == hHttpFile)
 	{
 		::InternetCloseHandle(hHttpConnection);

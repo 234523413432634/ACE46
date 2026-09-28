@@ -208,7 +208,7 @@ void CStatisticPage7Dlg::ViewDailyPK()
 		MessageBox("Error");
 		return;
 	}
-	SQLINTEGER cb1, cb2;
+	SQLLEN cb1, cb2;
 
 	char tempDate[20];
 	memset(tempDate, 0, sizeof(tempDate));
@@ -362,7 +362,7 @@ void CStatisticPage7Dlg::ViewPKWinLog()
 		return;
 	}
 
-	SQLINTEGER cb1, cb2, cb3, cb4, cb5, cb6;
+	SQLLEN cb1, cb2, cb3, cb4, cb5, cb6;
 
 	char tempDate[20], tempDate2[20], tempDate3[20];
 	memset(tempDate, 0, sizeof(tempDate));
@@ -537,7 +537,7 @@ void CStatisticPage7Dlg::ViewPKLoseLog()
 		return;
 	}
 
-	SQLINTEGER cb1, cb2, cb3, cb4, cb5, cb6;
+	SQLLEN cb1, cb2, cb3, cb4, cb5, cb6;
 
 	char tempDate[20], tempDate2[20], tempDate3[20];
 	memset(tempDate, 0, sizeof(tempDate));
@@ -699,7 +699,7 @@ void CStatisticPage7Dlg::ViewCharacterPKCnt()
 		MessageBox("Error");
 		return;
 	}
-	SQLINTEGER cb1, cb2, cb3;
+	SQLLEN cb1, cb2, cb3;
 
 	char tempDate[20];
 	memset(tempDate, 0, sizeof(tempDate));

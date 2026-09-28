@@ -351,8 +351,8 @@ BOOL CAdminWindowDlg::PrintAllBackupAccounts()
 {
 //	char		SQLString[1024];
 	RETCODE	ret;
-	SQLINTEGER pcbNTS = SQL_NTS;
-	SQLINTEGER cb1, cb2, cb3; //, cb4, cb5, cb6, cb7, cb8, cb9, cb10,
+	SQLLEN pcbNTS = SQL_NTS;
+	SQLLEN cb1, cb2, cb3; //, cb4, cb5, cb6, cb7, cb8, cb9, cb10,
 //			cb11, cb12, cb13, cb14, cb15, cb16, cb17, cb18, cb19, cb20,
 //			cb21, cb22, cb23, cb24, cb25, cb26, cb27, cb28, cb29, cb30,
 //			cb31, cb32, cb33, cb34, cb35, cb36, cb37, cb38, cb39, cb40,
@@ -412,7 +412,7 @@ BOOL CAdminWindowDlg::ChangeUserPassword(CString szAccount, CString szPassword)
 	SQLHSTMT	hstmt = m_odbcStmt.GetSTMTHandle();
 
 //	RETCODE	ret;
-	SQLINTEGER pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 //	SQLINTEGER cb1, cb2, cb4, cb5, cb6, cb7, cb8, cb9, cb10,
 //			cb11, cb12, cb13, cb14, cb15, cb16, cb17, cb18, cb19, cb20,
 //			cb21, cb22, cb23, cb24, cb25, cb26, cb27, cb28, cb29, cb30,
@@ -498,7 +498,7 @@ BOOL CAdminWindowDlg::RecoverUserPassword(CString szAccount)
 	SQLHSTMT	hstmt = m_odbcStmt.GetSTMTHandle();
 
 //	RETCODE	ret;
-	SQLINTEGER pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 //	SQLINTEGER cb1, cb2, cb4, cb5, cb6, cb7, cb8, cb9, cb10,
 //			cb11, cb12, cb13, cb14, cb15, cb16, cb17, cb18, cb19, cb20,
 //			cb21, cb22, cb23, cb24, cb25, cb26, cb27, cb28, cb29, cb30,
@@ -579,7 +579,7 @@ BOOL CAdminWindowDlg::BlockAccount(CString szAccount)
 	SQLHSTMT	hstmt = m_odbcStmt.GetSTMTHandle();
 
 //	RETCODE	ret;
-	SQLINTEGER pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 
 	// 2008-07-02 by cmkwon, MySQL 지원 구현 - 
 	//sprintf(SQLString, "INSERT INTO BlockedAccounts VALUES(\'%s\')", szAccount);
@@ -617,7 +617,7 @@ BOOL CAdminWindowDlg::UnblockAccount(CString szAccount)
 	SQLHSTMT	hstmt = m_odbcStmt.GetSTMTHandle();
 
 //	RETCODE	ret;
-	SQLINTEGER pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 
 	// 2008-01-29 by cmkwon, T_A: 계정 블럭 관련 쿼리 수정
 	//sprintf(SQLString, "DELETE FROM td_BlockedAccounts WHERE AccountName like \'%s\'", szAccount);
@@ -658,7 +658,7 @@ BOOL CAdminWindowDlg::ListupBlockedAccount()
 	SQLHSTMT	hstmt = m_odbcStmt.GetSTMTHandle();
 
 	RETCODE	ret;
-	SQLINTEGER pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 
 	// 2008-07-02 by cmkwon, MySQL 지원 구현 - 
 	//sprintf(SQLString, "SELECT * FROM td_BlockedAccounts WITH (NOLOCK)");

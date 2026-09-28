@@ -314,7 +314,7 @@ BOOL CFieldMapProject::LoadBUILDINGNPC(CODBCStatement *i_pOdbcStmt, CLocalizatio
 	SQLHSTMT	hstmt = i_pOdbcStmt->m_hstmt;
 
 	RETCODE		ret;
-	SDWORD		arrCB[10];
+	SQLLEN		arrCB[10];
 	BUILDINGNPC	retBuildingNPC;
 
 	/*[Stored Query Definition]************************************************
@@ -413,7 +413,7 @@ BOOL CFieldMapProject::LoadCityTargetWarpMap(CODBCStatement *i_pOdbcStmt)
 	SQLHSTMT	hstmt = i_pOdbcStmt->m_hstmt;
 
 	RETCODE		ret;
-	SQLINTEGER	cb1, cb2, cb3, cb4, cb5, cb6;
+	SQLLEN	cb1, cb2, cb3, cb4, cb5, cb6;
 	UINT		MapIndex;
 	UINT		BuildingIndex;
 	UINT		WarpTargetMapIndex;
@@ -602,7 +602,7 @@ BOOL CFieldMapProject::LoadShopInfo(CODBCStatement *i_pOdbcStmt, CLocalization *
 //	SQLFreeStmt(hstmt, SQL_CLOSE);
 
 	RETCODE		ret;
-	SQLINTEGER	arrCB[10] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};	// 2009-01-28 by cmkwon, 캐쉬샾 수정(추천탭,신상품 추가) - 8로 수정	 // 2013-09-24 by bckim, 캐시샵 추천탭 정렬순서부여 보완
+	SQLLEN	arrCB[10] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};	// 2009-01-28 by cmkwon, 캐쉬샾 수정(추천탭,신상품 추가) - 8로 수정	 // 2013-09-24 by bckim, 캐시샵 추천탭 정렬순서부여 보완
 	UINT		BuildingIndex;
 	vector<int> vectBuildingIndexList;
 
@@ -819,7 +819,7 @@ BOOL CFieldMapProject::LoadWarpableUserList(CODBCStatement *i_pOdbcStmt)
 	SQLHSTMT	hstmt = i_pOdbcStmt->m_hstmt;
 
 	RETCODE		ret;
-	SQLINTEGER	arrCB[3]	= {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[3]	= {SQL_NTS,SQL_NTS,SQL_NTS};
 	INT			nMapIndex	= this->m_nMapIndex;
 	S_S1_CHARACTER_INFO		s1CharInfo;
 	MEMSET_ZERO(&s1CharInfo, sizeof(s1CharInfo));

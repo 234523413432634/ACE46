@@ -314,7 +314,7 @@ BOOL CNPCIOCP::OpenUDPPortForOtherServer(void)
 		g_pNPCGlobal->WriteSystemLog(szSystemLog);
 		DBGOUT(szSystemLog);
 
-		HANDLE hret = CreateIoCompletionPort((HANDLE)pIOCPSocket->GetSocket(), m_hCompletionPort, (DWORD)pIOCPSocket, 0);
+		HANDLE hret = CreateIoCompletionPort((HANDLE)pIOCPSocket->GetSocket(), m_hCompletionPort, (ULONG_PTR)pIOCPSocket, 0);
 		if(NULL == hret )
 		{
 			pIOCPSocket->Close(0x15000);
@@ -349,8 +349,8 @@ void CNPCIOCP::LoadItemInfo()
 	SQLHSTMT	hstmt = SQL_NULL_HSTMT;
 
 	RETCODE		ret;
-	SQLINTEGER pcbNTS = SQL_NTS;
-	SQLINTEGER cb[CB_COUNT_ITEM];
+	SQLLEN pcbNTS = SQL_NTS;
+	SQLLEN cb[CB_COUNT_ITEM];
 	ITEM		item;
 
 	ret = SQLAllocHandle(SQL_HANDLE_ENV, NULL, &henv);

@@ -292,10 +292,10 @@ BOOL CAtumDBLogWriter::InsertLog_User_Game_Start_End(
 	SQLBindParameter(i_pODBCStmt->m_hstmt, 4, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_SMALLINT, 0, 0, &i_pUserLogBase->CurrentPosition.x, 0, NULL);
 	SQLBindParameter(i_pODBCStmt->m_hstmt, 5, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_SMALLINT, 0, 0, &i_pUserLogBase->CurrentPosition.y, 0, NULL);
 	SQLBindParameter(i_pODBCStmt->m_hstmt, 6, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_SMALLINT, 0, 0, &i_pUserLogBase->CurrentPosition.z, 0, NULL);
-	SQLINTEGER cb1 = SQL_NTS;
+	SQLLEN cb1 = SQL_NTS;
 	SQLBindParameter(i_pODBCStmt->m_hstmt, 7, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_CHARACTER_NAME, 0, i_szCharacterName, 0, &cb1);
 	SQLBindParameter(i_pODBCStmt->m_hstmt, 8, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &i_nAccountUniqueNumber, 0, NULL);
-	SQLINTEGER cb2 = SQL_NTS;
+	SQLLEN cb2 = SQL_NTS;
 	SQLBindParameter(i_pODBCStmt->m_hstmt, 9, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0, i_szAccountName, 0, &cb2);
 	SQLBindParameter(i_pODBCStmt->m_hstmt, 10, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &i_nPlayTime, 0, NULL);
 	SQLBindParameter(i_pODBCStmt->m_hstmt, 11, SQL_PARAM_INPUT, SQL_C_SBIGINT, SQL_BIGINT, 0, 0, &I_nTotalPlayTime, 0, NULL);
@@ -609,7 +609,7 @@ BOOL CAtumDBLogWriter::InsertLog_Item_Enchant_Change_By_Admin(
 	SQLBindParameter(i_pODBCStmt->m_hstmt, 5, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_EnchantCardNumber, 0, NULL);
 	SQLBindParameter(i_pODBCStmt->m_hstmt, 6, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_ChangeEnchantCount, 0, NULL);
 	SQLBindParameter(i_pODBCStmt->m_hstmt, 7, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_ResultEnchantCount, 0, NULL);
-	SQLINTEGER pcb = SQL_NTS;
+	SQLLEN pcb = SQL_NTS;
 	SQLBindParameter(i_pODBCStmt->m_hstmt, 8, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_CHARACTER_NAME, 0, i_szCharacterName, 0, &pcb);
 
 	BOOL bRet = i_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_121121_0002), TRUE);
@@ -660,7 +660,7 @@ BOOL CAtumDBLogWriter::InsertLog_Item_Trade(
 	SQLBindParameter(i_pODBCStmt->m_hstmt, 5, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pItem4Log->ItemNum, 0, NULL);
 	SQLBindParameter(i_pODBCStmt->m_hstmt, 6, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pItem4Log->CurrentCount, 0, NULL);
 	SQLBindParameter(i_pODBCStmt->m_hstmt, 7, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_nChangeCount, 0, NULL);
-	SQLINTEGER pcb = SQL_NTS;
+	SQLLEN pcb = SQL_NTS;
 	SQLBindParameter(i_pODBCStmt->m_hstmt, 8, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_CHARACTER_NAME, 0, i_szCharacterName, 0, &pcb);
 	SQLBindParameter(i_pODBCStmt->m_hstmt, 9, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_nCharacterUniqueNumber, 0, NULL);
 
@@ -980,7 +980,7 @@ BOOL CAtumDBLogWriter::InserLog_Live_Deleted_Character(
 		VALUES (@i_LogType, GetDate(), @i_AccountUID, @i_AccountName, @i_CharacterUID, @i_CharacterName)
 	GO
 	**************************************************************************/
-	SQLINTEGER arrCB[6] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN arrCB[6] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	SQLBindParameter(i_pODBCStmt->m_hstmt, 1, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &i_nLogType, 0, &arrCB[1]);
 	SQLBindParameter(i_pODBCStmt->m_hstmt, 2, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pDeletedCharacterInfo->AccountUID, 0, &arrCB[2]);
 	SQLBindParameter(i_pODBCStmt->m_hstmt, 3, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0, i_pDeletedCharacterInfo->AccountName, 0, &arrCB[3]);

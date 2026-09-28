@@ -2386,7 +2386,7 @@ BOOL CFieldIOCP::OpenUDPPortForOtherServer(void)
 		g_pFieldGlobal->WriteSystemLog(szSystemLog);
 		DBGOUT(szSystemLog);
 
-		HANDLE hret = CreateIoCompletionPort((HANDLE)pIOCPSocket->GetSocket(), m_hCompletionPort, (DWORD)pIOCPSocket, 0);
+		HANDLE hret = CreateIoCompletionPort((HANDLE)pIOCPSocket->GetSocket(), m_hCompletionPort, (ULONG_PTR)pIOCPSocket, 0);
 		if(NULL == hret )
 		{
 			pIOCPSocket->Close(0x14000);
@@ -2465,7 +2465,7 @@ void CFieldIOCP::LoadItemInfo(CLocalization *i_pLocalization, BOOL bReload)
 	SQLHSTMT	hstmt = SQL_NULL_HSTMT;
 
 	RETCODE		ret;
-	SQLINTEGER	cb[CB_COUNT_ITEM];
+	SQLLEN	cb[CB_COUNT_ITEM];
 	ITEM		item;
 
 	ret = SQLAllocHandle(SQL_HANDLE_ENV, NULL, &henv);
@@ -3737,8 +3737,8 @@ void CFieldIOCP::LoadMonster2Item()
 	SQLHSTMT	hstmt = SQL_NULL_HSTMT;
 
 	RETCODE		ret;
-	SDWORD	cb1, cb2, cb3, cb4, cb5, cb6, cb7;
-	SQLINTEGER	cb8	= SQL_NTS;		// 2010-04-09 by cmkwon, 인피2차 추가 수정(단계별 보상 추가) - 
+	SQLLEN	cb1, cb2, cb3, cb4, cb5, cb6, cb7;
+	SQLLEN	cb8	= SQL_NTS;		// 2010-04-09 by cmkwon, 인피2차 추가 수정(단계별 보상 추가) - 
 	MONSTER2ITEM	m2i;
 
 	ret = SQLAllocHandle(SQL_HANDLE_ENV, NULL, &henv);

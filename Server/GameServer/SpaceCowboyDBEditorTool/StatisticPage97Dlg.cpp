@@ -230,7 +230,7 @@ void CStatisticPage97Dlg::ViewBossMonsterDead(BOOL i_bOnlyInfluenceMonster/*=FAL
 
 	vectTM_BOSS_MONSTER_LOG		vectBossMonsterLogList;
 	TM_BOSS_MONSTER_LOG			tmBossMonsterLog;
-	SQLINTEGER arrCB[17]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN arrCB[17]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 							SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
 
 	SQLBindCol(m_pODBCStmt->m_hstmt, 1, SQL_C_LONG, &tmBossMonsterLog.monsterUnitkind, 0,					&arrCB[1]);

@@ -35,7 +35,7 @@ int CAtumDBHelper::LoadItemInfo(CODBCStatement *i_pODBCStmt, ez_map<INT, ITEM> *
 	o_pMapItemInfo->clear();
 
 	RETCODE	ret;
-	SQLINTEGER cb[CB_COUNT_ITEM];
+	SQLLEN cb[CB_COUNT_ITEM];
 	ITEM itemInfo;
 
 // 2008-07-02 by cmkwon, MySQL 지원 구현 - 
@@ -114,7 +114,7 @@ int CAtumDBHelper::LoadEnchantInfo(CODBCStatement *i_pODBCStmt, ez_map<INT, ENCH
 
 	///////////////////////////////////////////////////////////////////////////////
 	// 2005-08-02 by cmkwon, 인챈트를 최대 9개에서 40개로 수정함
-	SQLINTEGER arrCB[44] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN arrCB[44] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 							,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 							,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 							,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
@@ -199,7 +199,7 @@ int CAtumDBHelper::LoadItemMixingInfo(CODBCStatement *i_pODBCStmt, vector<ITEM_M
 	o_pVectorItemMixingInfo->clear();
 
 	RETCODE	ret;
-	SQLINTEGER cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8, cb9, cb10, cb11, cb12, cb13;
+	SQLLEN cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8, cb9, cb10, cb11, cb12, cb13;
 	ITEM_MIXING_INFO retMixingInfo;
 
 // 2008-07-02 by cmkwon, MySQL 지원 구현 - 
@@ -258,7 +258,7 @@ int CAtumDBHelper::LoadItemMixingInfo(CODBCStatement *i_pODBCStmt, vector<ITEM_M
 	o_pVectorItemMixingInfo->clear();
 
 	RETCODE	ret;
-	SQLINTEGER cb1, cb2, cb3, cb4, cb5;		// 2013-05-06 by hskim, 아이템 미리 보기 (속성 값 추가)
+	SQLLEN cb1, cb2, cb3, cb4, cb5;		// 2013-05-06 by hskim, 아이템 미리 보기 (속성 값 추가)
 	ITEM_MIXING_INFO retMixingInfo;
 	ITEM_MIXING_INFO_TOOL retMixingInfoTool;
 	ITEM_MIXING_ELEMENT_TOOL retMixingElementTool;
@@ -395,7 +395,7 @@ int CAtumDBHelper::LoadRareItemInfo(CODBCStatement *i_pODBCStmt
 	o_pMapRareItemInfo->clear();
 
 	RETCODE	ret;
-	SQLINTEGER cb[CB_COUNT_RARE_ITEM_INFO] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN cb[CB_COUNT_RARE_ITEM_INFO] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 											,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 											,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 											,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
@@ -524,7 +524,7 @@ int CAtumDBHelper::LoadMapObjectInfo(CODBCStatement *i_pODBCStmt, ez_map<int, MA
 	o_mapMapObjectInfo->clear();
 
 	RETCODE			ret;
-	SQLINTEGER		cb1, cb2, cb3, cb4, cb5, cb6;
+	SQLLEN		cb1, cb2, cb3, cb4, cb5, cb6;
 	MAPOBJECTINFO	retMapObjectInfo;
 
 // 2008-07-02 by cmkwon, MySQL 지원 구현 - 
@@ -569,8 +569,8 @@ int CAtumDBHelper::LoadAllBUILDINGNPC(CODBCStatement *i_pODBCStmt, vector<BUILDI
 	o_pVectorBuildingNPC->clear();
 
 	RETCODE		ret;
-	SDWORD		arrCB[10];
-	SQLINTEGER	pcbNTS = SQL_NTS;
+	SQLLEN		arrCB[10];
+	SQLLEN	pcbNTS = SQL_NTS;
 	BUILDINGNPC	retBuildingNPC;
 
 // 2008-07-02 by cmkwon, MySQL 지원 구현 - 
@@ -624,7 +624,7 @@ int CAtumDBHelper::Load_MEX_MONSTER_INFO(CODBCStatement *i_pODBCStmt, vector<MEX
 	o_pVectorMexMonsterInfo->clear();
 
 	RETCODE			ret;
-	SQLINTEGER		cb[CB_COUNT_MONSTER];
+	SQLLEN		cb[CB_COUNT_MONSTER];
 	MONSTER_INFO	retMonsterInfo;
 
 // 2008-08-27 by cmkwon, 날쿼리를 Procedure로 수정 - 
@@ -700,7 +700,7 @@ int CAtumDBHelper::LoadHPActionByDB(CODBCStatement *i_pODBCStmt, ez_map<INT, vec
 	o_pMapHPAction->clear();
 	
 	RETCODE			ret;
-	SQLINTEGER		cb[15] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,	 SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
+	SQLLEN		cb[15] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,	 SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
 							 , SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	HPACTION		SDBHPAction;
 	MEMSET_ZERO(&SDBHPAction, sizeof(HPACTION));
@@ -798,7 +798,7 @@ BOOL CAtumDBHelper::DBLoadInfinityModeInfo(CODBCStatement *i_pODBCStmt, vectorIn
 	INFINITY_MODEINFO		tmInfinityModeInfo;
 	MEMSET_ZERO(&tmInfinityModeInfo, sizeof(INFINITY_MODEINFO));
 
-	SQLINTEGER	arrCB[16] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,		SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
+	SQLLEN	arrCB[16] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,		SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
 							 , SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,		SQL_NTS };	// 2011-06-14 by hskim, 인피니티 3차 - 패널티 기능 추가 (HP 및 시간 동시 지원을 위해) // 2009-09-09 ~ 2010 by dhjin, 인피니티 - 인피 사망시 패널티 추가
 	SQLBindCol(i_pODBCStmt->m_hstmt, 1, SQL_C_ULONG, &tmInfinityModeInfo.InfinityModeUID,			0, &arrCB[1]);
 	SQLBindCol(i_pODBCStmt->m_hstmt, 2, SQL_C_UTINYINT, &tmInfinityModeInfo.ModeTypeNum,			0, &arrCB[2]);
@@ -860,7 +860,7 @@ BOOL CAtumDBHelper::WRK_LoadSelfServiceInfor8ServerGroupInfo(CODBCStatement *i_p
 		return FALSE;
 	}
 	
-	SQLINTEGER cb[4]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN cb[4]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindCol(hstmt, 1, SQL_C_LONG, &o_pServiInfo->ServiceUID, 0,								&cb[1]);
 	SQLBindCol(hstmt, 2, SQL_C_CHAR, o_pServiInfo->ServiceName, SIZE_MAX_SERVICE_NAME,			&cb[2]);
 	SQLBindCol(hstmt, 3, SQL_C_CHAR, io_pServGroup->ServerGroupNameforRK, SIZE_MAX_SERVER_NAME,	&cb[3]);	
@@ -892,7 +892,7 @@ BOOL CAtumDBHelper::WRK_LevelArrangeRanking(CODBCStatement *i_pODBCStmt, SWRK_SE
 
 	///////////////////////////////////////////////////////////////////////////////	
 	// 2009-02-19 by cmkwon, 1. 기존 현재 서버군의 랭킹 리스트를 삭제한다.
-	SQLINTEGER cb[4]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN cb[4]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pServiInfo->ServiceUID, 0,	&cb[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pServGroup->ServerGroupID, 0, &cb[2]);
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090219_0301);
@@ -934,7 +934,7 @@ BOOL CAtumDBHelper::WRK_LevelLoadRanking(CODBCStatement *i_pODBCStmt, INT i_Serv
 	
 	///////////////////////////////////////////////////////////////////////////////	
 	// 2009-02-19 by cmkwon, 
-	SQLINTEGER cb[12] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
+	SQLLEN cb[12] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_ServiUID, 0,					&cb[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &i_byRankingScope, 0,		&cb[2]);
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090219_0303);
@@ -994,7 +994,7 @@ BOOL CAtumDBHelper::WRK_LevelInsertRanking(CODBCStatement *i_pODBCStmt, SWRK_SER
 	
 	///////////////////////////////////////////////////////////////////////////////	
 	// 2009-02-19 by cmkwon, 1. 기존 랭킹 삭제
-	SQLINTEGER cb[12]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
+	SQLLEN cb[12]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pServiInfo->ServiceUID, 0,	&cb[1]);
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090219_0331);
 	i_pODBCStmt->FreeStatement();
@@ -1051,7 +1051,7 @@ BOOL CAtumDBHelper::WRK_LevelUpdateRankingToWRankingServer(CODBCStatement *i_pOD
 	
 	///////////////////////////////////////////////////////////////////////////////	
 	// 2009-02-19 by cmkwon, 1. 기존 랭킹 삭제
-	SQLINTEGER cb[12]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
+	SQLLEN cb[12]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pServiInfo->ServiceUID, 0,	&cb[1]);
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090219_0322);
 	i_pODBCStmt->FreeStatement();
@@ -1120,7 +1120,7 @@ BOOL CAtumDBHelper::WRK_LevelLoadRankingToWorldRankingServer(CODBCStatement *i_p
 	SWRK_LEVEL_FOR_DB		tmRanker;
 	SQL_TIMESTAMP_STRUCT	sqlTime;
 	
-	SQLINTEGER cb[12] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
+	SQLLEN cb[12] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
 	SQLBindCol(hstmt, 1, SQL_C_LONG, &tmRanker.ServiceUID, 0,									&cb[1]);
 	SQLBindCol(hstmt, 2, SQL_C_UTINYINT, &tmRanker.RankingScope, 0,								&cb[2]);
 	SQLBindCol(hstmt, 3, SQL_C_LONG, &tmRanker.ServerGroupID, 0,								&cb[3]);	
@@ -1170,7 +1170,7 @@ BOOL CAtumDBHelper::WRK_FameArrangeRanking(CODBCStatement *i_pODBCStmt, SWRK_SER
 	
 	///////////////////////////////////////////////////////////////////////////////	
 	// 2009-02-19 by cmkwon, 1. 기존 현재 서버군의 랭킹 리스트를 삭제한다.
-	SQLINTEGER cb[4]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN cb[4]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pServiInfo->ServiceUID, 0,	&cb[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pServGroup->ServerGroupID, 0, &cb[2]);
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090219_0304);
@@ -1212,7 +1212,7 @@ BOOL CAtumDBHelper::WRK_FameLoadRanking(CODBCStatement *i_pODBCStmt, INT i_Servi
 	
 	///////////////////////////////////////////////////////////////////////////////	
 	// 2009-02-19 by cmkwon, 
-	SQLINTEGER cb[11] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS};
+	SQLLEN cb[11] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_ServiUID, 0,					&cb[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &i_byRankingScope, 0,		&cb[2]);
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090219_0306);
@@ -1267,7 +1267,7 @@ BOOL CAtumDBHelper::WRK_FameInsertRanking(CODBCStatement *i_pODBCStmt, SWRK_SERV
 	
 	///////////////////////////////////////////////////////////////////////////////	
 	// 2009-02-19 by cmkwon, 1. 기존 랭킹 삭제
-	SQLINTEGER cb[11]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS};
+	SQLLEN cb[11]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pServiInfo->ServiceUID, 0,	&cb[1]);
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090219_0332);
 	i_pODBCStmt->FreeStatement();
@@ -1320,7 +1320,7 @@ BOOL CAtumDBHelper::WRK_FameUpdateRankingToWRankingServer(CODBCStatement *i_pODB
 	
 	///////////////////////////////////////////////////////////////////////////////	
 	// 2009-02-19 by cmkwon, 1. 기존 랭킹 삭제
-	SQLINTEGER cb[11]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS};
+	SQLLEN cb[11]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pServiInfo->ServiceUID, 0,	&cb[1]);
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090219_0323);
 	i_pODBCStmt->FreeStatement();
@@ -1384,7 +1384,7 @@ BOOL CAtumDBHelper::WRK_FameLoadRankingToWorldRankingServer(CODBCStatement *i_pO
 	
 	SWRK_FAME_FOR_DB		tmRanker;
 	
-	SQLINTEGER cb[11] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS};
+	SQLLEN cb[11] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS};
 	SQLBindCol(hstmt, 1, SQL_C_LONG, &tmRanker.ServiceUID, 0,									&cb[1]);
 	SQLBindCol(hstmt, 2, SQL_C_UTINYINT, &tmRanker.RankingScope, 0,								&cb[2]);
 	SQLBindCol(hstmt, 3, SQL_C_LONG, &tmRanker.ServerGroupID, 0,								&cb[3]);	
@@ -1431,7 +1431,7 @@ BOOL CAtumDBHelper::WRK_PVPArrangeRanking(CODBCStatement *i_pODBCStmt, SWRK_SERV
 	
 	///////////////////////////////////////////////////////////////////////////////	
 	// 2009-02-19 by cmkwon, 1. 기존 현재 서버군의 랭킹 리스트를 삭제한다.
-	SQLINTEGER cb[4]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN cb[4]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pServiInfo->ServiceUID, 0,	&cb[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pServGroup->ServerGroupID, 0, &cb[2]);
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090219_0307);
@@ -1473,7 +1473,7 @@ BOOL CAtumDBHelper::WRK_PVPLoadRanking(CODBCStatement *i_pODBCStmt, INT i_ServiU
 	
 	///////////////////////////////////////////////////////////////////////////////	
 	// 2009-02-19 by cmkwon, 
-	SQLINTEGER cb[13] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN cb[13] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_ServiUID, 0,					&cb[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &i_byRankingScope, 0,		&cb[2]);
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090219_0309);
@@ -1531,7 +1531,7 @@ BOOL CAtumDBHelper::WRK_PVPInsertRanking(CODBCStatement *i_pODBCStmt, SWRK_SERVI
 	
 	///////////////////////////////////////////////////////////////////////////////	
 	// 2009-02-19 by cmkwon, 1. 기존 랭킹 삭제
-	SQLINTEGER cb[13]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN cb[13]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pServiInfo->ServiceUID, 0,	&cb[1]);
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090219_0333);
 	i_pODBCStmt->FreeStatement();
@@ -1586,7 +1586,7 @@ BOOL CAtumDBHelper::WRK_PVPUpdateRankingToWRankingServer(CODBCStatement *i_pODBC
 	
 	///////////////////////////////////////////////////////////////////////////////	
 	// 2009-02-19 by cmkwon, 1. 기존 랭킹 삭제
-	SQLINTEGER cb[13]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN cb[13]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pServiInfo->ServiceUID, 0,	&cb[1]);
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090219_0324);
 	i_pODBCStmt->FreeStatement();
@@ -1652,7 +1652,7 @@ BOOL CAtumDBHelper::WRK_PVPLoadRankingToWorldRankingServer(CODBCStatement *i_pOD
 	
 	SWRK_PVP_FOR_DB		tmRanker;
 	
-	SQLINTEGER cb[13] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN cb[13] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindCol(hstmt, 1, SQL_C_LONG, &tmRanker.ServiceUID, 0,									&cb[1]);
 	SQLBindCol(hstmt, 2, SQL_C_UTINYINT, &tmRanker.RankingScope, 0,								&cb[2]);
 	SQLBindCol(hstmt, 3, SQL_C_LONG, &tmRanker.ServerGroupID, 0,								&cb[3]);	
@@ -1694,7 +1694,7 @@ int CAtumDBHelper::LoadMapInfo(CODBCStatement *i_pODBCStmt, vectorMAP_INFO *o_ma
 	RETCODE			ret;
 
 	// 2008-06-20 by cmkwon, EP3 백맵 시스템 수정(맵당 백맵을 2개 설정 할 수 있다) - DB에서 가져오기 추가
-	SQLINTEGER		arrCB[54] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN		arrCB[54] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 								,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 								,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 								,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
@@ -1843,7 +1843,7 @@ int CAtumDBHelper::LoadMysteryItemDropInfo(mtmapINT2MYSTERY_ITEM_DROP*o_pmmapMys
 				ON D.MysteryItemDropNum = C.MysteryItemDropNum AND C.ServerGroupID = @i_ServerGroupID AND D.DropItemNum = C.DropItemNum 
 	GO
 	**************************************************************************/
-	SQLINTEGER	arrCBLoad[2] = {SQL_NTS};	// 2008-11-04 by dhjin, 럭키머신
+	SQLLEN	arrCBLoad[2] = {SQL_NTS};	// 2008-11-04 by dhjin, 럭키머신
 	SQLBindParameter(i_pODBCStmt->m_hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_nMGServerID, 0,	&arrCBLoad[1]);	// 2008-11-04 by dhjin, 럭키머신
 	nSQLRet = SQLExecDirect(i_pODBCStmt->GetSTMTHandle(), PROCEDURE_080822_0027, SQL_NTS);	// 2008-11-04 by dhjin, 럭키머신
 	if (nSQLRet !=SQL_SUCCESS && nSQLRet!=SQL_SUCCESS_WITH_INFO && nSQLRet != SQL_NO_DATA)
@@ -1856,7 +1856,7 @@ int CAtumDBHelper::LoadMysteryItemDropInfo(mtmapINT2MYSTERY_ITEM_DROP*o_pmmapMys
 		return 0;
 	}
 
-	SQLINTEGER		arrCB[15] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN		arrCB[15] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 								,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};	// 2008-11-04 by dhjin, 럭키머신
 	MYSTERY_ITEM_DROP	retMysteryDrop;
 	SQL_TIMESTAMP_STRUCT	StartDTime;							// 2008-11-04 by dhjin, 럭키머신
@@ -1944,7 +1944,7 @@ int CAtumDBHelper::LoadMysteryItemDropInfoByOmi(mmapINT2MYSTERY_ITEM_DROP *o_pmm
 		return 0;
 	}
 
-	SQLINTEGER		arrCB[12] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN		arrCB[12] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 								,SQL_NTS,SQL_NTS};			// 2008-12-30 by dhjin, 럭키머신 - 클라이언트 이펙트 처리 위해 수정
 	MYSTERY_ITEM_DROP	retMysteryDrop;
 	// Bind Columns
@@ -2021,7 +2021,7 @@ int CAtumDBHelper::LoadLuckyMachineOmi(CODBCStatement *i_pODBCStmt, vector<LUCKY
 		return 0;
 	}
 
-	SQLINTEGER		arrCB[9] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN		arrCB[9] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	LUCKY_MACHINE_OMI	retLuckyMachine;
 	// Bind Columns
 	SQLBindCol(i_pODBCStmt->m_hstmt, 1, SQL_C_LONG, &retLuckyMachine.order, 0,		&arrCB[1]);
@@ -2080,7 +2080,7 @@ int CAtumDBHelper::LoadInvokingWearItemDestParamNum(CODBCStatement *i_pODBCStmt,
 		return 0;
 	}
 
-	SQLINTEGER	cb[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	cb[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	INVOKING_WEAR_ITEM_DESTPARAM		tmInvokingWearItemDestParam;
 	MEMSET_ZERO(&tmInvokingWearItemDestParam, sizeof(INVOKING_WEAR_ITEM_DESTPARAM));
 	
@@ -2133,7 +2133,7 @@ int CAtumDBHelper::LoadInvokingWearItemDestParamNumByUse(CODBCStatement *i_pODBC
 		return 0;
 	}
 
-	SQLINTEGER	cb[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	cb[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	INVOKING_WEAR_ITEM_DESTPARAM		tmInvokingWearItemDestParamByUse;
 	MEMSET_ZERO(&tmInvokingWearItemDestParamByUse, sizeof(INVOKING_WEAR_ITEM_DESTPARAM));
 	
@@ -2169,7 +2169,7 @@ int CAtumDBHelper::LoadBurningMap(CODBCStatement *i_pODBCStmt, BurningMapInfoLis
 		return 0;
 	}
 	
-	SQLINTEGER	cb[6] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,  SQL_NTS};
+	SQLLEN	cb[6] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,  SQL_NTS};
 	BURNING_MAP_INFO		tmBurningMapInfo;
 	MEMSET_ZERO(&tmBurningMapInfo, sizeof(BURNING_MAP_INFO));
 	
@@ -2230,7 +2230,7 @@ int CAtumDBHelper::DBLoadPetBaseDataInfo( CODBCStatement *i_pODBCStmt , vectorPe
 	/////////
 	// 수정
 	int iCBCount = 0;
-	SQLINTEGER	arrCB[7] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,	SQL_NTS, SQL_NTS };
+	SQLLEN	arrCB[7] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,	SQL_NTS, SQL_NTS };
 
 	SQLBindCol(i_pODBCStmt->m_hstmt, (iCBCount + 1), SQL_C_LONG,	&tmPetData.BaseData.PetIndex,			0,					&arrCB[iCBCount]); iCBCount++;
 	SQLBindCol(i_pODBCStmt->m_hstmt, (iCBCount + 1), SQL_C_CHAR,	&tmPetData.BaseData.PetName,			SIZE_MAX_PET_NAME,	&arrCB[iCBCount]); iCBCount++;
@@ -2285,7 +2285,7 @@ int CAtumDBHelper::DBLoadPetLevelDataInfo(CODBCStatement *i_pODBCStmt , vectorPe
 // 		SQL_NTS, SQL_NTS
 // 	};
 	// 수정
-	SQLINTEGER	arrCB[9] = 
+	SQLLEN	arrCB[9] = 
 	{
 		SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, 
 		SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
@@ -2391,7 +2391,7 @@ int CAtumDBHelper::DBLoadOperatorDataInfo(CODBCStatement *i_pODBCStmt, vectorOpe
 	int rtn = 0;
 	RETCODE	ret;
 
-	SQLINTEGER	arrCB[6] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN	arrCB[6] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 
 	OperatorInfo tmOpData;
 	MEMSET_ZERO(&tmOpData, sizeof(tmOpData));
@@ -2436,7 +2436,7 @@ int CAtumDBHelper::DBLoadOperatorDataInfo(CODBCStatement *i_pODBCStmt, vectorOpe
 /////////////////////////////////////////////////////////////////////////////////////////////////
 int CAtumDBHelper::SaveOperatorData(CODBCStatement *i_pODBCStmt, vectorOperatorInfo* i_OperatorData, HWND hWnd )
 {
-	SQLINTEGER arrCB[6] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[6] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 	//Delete 
 	BOOL bRet = i_pODBCStmt->ExecuteQuery( PROCEDURE_100615_0579 , SQL_NTS ); //삭제(delete) 프로시저를 추가해야 한다.
 	i_pODBCStmt->FreeStatement();
@@ -2498,7 +2498,7 @@ int CAtumDBHelper::SaveOperatorData(CODBCStatement *i_pODBCStmt, vectorOperatorI
 ///////////////////////////////////////////////////////////////////////////////
 int CAtumDBHelper::SaveDissolutionItemData(CODBCStatement *i_pODBCStmt, vectorDissolutionItemInfo* i_DissolutionItemInfo, HWND hWnd)
 {
-	SQLINTEGER arrCB[13] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, 
+	SQLLEN arrCB[13] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, 
 							 SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, 
 							 SQL_NTS, SQL_NTS, SQL_NTS };
 	//Delete 
@@ -2571,7 +2571,7 @@ int CAtumDBHelper::DBLoadDissolutionItemDataInfo(CODBCStatement *i_pODBCStmt, vo
 	tDissolutionItemInfo tmDisItemData;
 	MEMSET_ZERO(&tmDisItemData, sizeof(tmDisItemData));
 
-	SQLINTEGER arrCB[13] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, 
+	SQLLEN arrCB[13] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, 
 							 SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, 
 							 SQL_NTS, SQL_NTS, SQL_NTS };
 
@@ -2661,7 +2661,7 @@ int CAtumDBHelper::DBLoadDissolutionItemDataInfo(CODBCStatement *i_pODBCStmt, vo
 ///////////////////////////////////////////////////////////////////////////////
 int CAtumDBHelper::SaveMonsterMultiTargetData(CODBCStatement *i_pODBCStmt, vectorMonsterMultiTarget* i_MonsterMultiTarget, HWND hWnd)
 {
-	SQLINTEGER arrCB[5] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[5] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 
 	//Delete 
 	BOOL bRet = i_pODBCStmt->ExecuteQuery( PROCEDURE_110317_0002 , SQL_NTS );
@@ -2725,7 +2725,7 @@ int CAtumDBHelper::DBLoadMonsterMultiTargetData(CODBCStatement *i_pODBCStmt, voi
 	MONSTER_MULTI_TARGET tmMonsterMultiTargetData;
 	MEMSET_ZERO(&tmMonsterMultiTargetData, sizeof(tmMonsterMultiTargetData));
 
-	SQLINTEGER arrCB[13] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[13] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 
 	if(ToolFlag == TRUE) // 툴에서 사용할 경우
 	{	
@@ -2778,7 +2778,7 @@ int CAtumDBHelper::DBLoadMonsterMultiTargetData(CODBCStatement *i_pODBCStmt, voi
 ///////////////////////////////////////////////////////////////////////////////
 int CAtumDBHelper::SaveWayPointData(CODBCStatement *i_pODBCStmt, vectorWayPoint *i_pWayPoint, HWND hWnd)
 {
-	SQLINTEGER arrCB[6] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[6] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 
 	//Delete 
 	BOOL bRet = i_pODBCStmt->ExecuteQuery( PROCEDURE_110529_0005 , SQL_NTS );
@@ -2843,7 +2843,7 @@ int CAtumDBHelper::DBLoadWayPointDataInfo(CODBCStatement *i_pODBCStmt, void *o_p
 	SWAY_POINT tmWayPoint;
 	MEMSET_ZERO(&tmWayPoint, sizeof(tmWayPoint));
 	
-	SQLINTEGER arrCB[6] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[6] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 
 	if(ToolFlag == TRUE) // 툴에서 사용할 경우
 	{
@@ -2899,7 +2899,7 @@ int CAtumDBHelper::DBLoadWayPointDataInfo(CODBCStatement *i_pODBCStmt, void *o_p
 ///////////////////////////////////////////////////////////////////////////////
 int CAtumDBHelper::SaveWayPointMoveData(CODBCStatement *i_pODBCStmt, vectorWayPointMove *i_pWayPointMove, HWND hWnd)
 {
-	SQLINTEGER arrCB[2] = { SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[2] = { SQL_NTS, SQL_NTS };
 
 	//Delete 
 	BOOL bRet = i_pODBCStmt->ExecuteQuery( PROCEDURE_110529_0002 , SQL_NTS );
@@ -2959,7 +2959,7 @@ int CAtumDBHelper::DBLoadWayPointMoveDataInfo(CODBCStatement *i_pODBCStmt, void 
 	SWAY_POINT_MOVE tmWayPointMove;
 	MEMSET_ZERO(&tmWayPointMove, sizeof(tmWayPointMove));
 
-	SQLINTEGER arrCB[2] = { SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[2] = { SQL_NTS, SQL_NTS };
 
 	if(ToolFlag == TRUE) // 툴에서 사용할 경우
 	{	
@@ -3012,7 +3012,7 @@ int CAtumDBHelper::DBLoadWayPointMoveDataInfo(CODBCStatement *i_pODBCStmt, void 
 ///////////////////////////////////////////////////////////////////////////////
 int CAtumDBHelper::SaveTriggerMapBuff(CODBCStatement *i_pODBCStmt, vectorTriggerMapBuff *i_pTriggerMapBuff, HWND hWnd)
 {
-	SQLINTEGER arrCB[2] = { SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[2] = { SQL_NTS, SQL_NTS };
 
 	//Delete 
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_111010_0002, SQL_NTS);
@@ -3073,7 +3073,7 @@ int CAtumDBHelper::DBLoadTriggerMapBuffInfo(CODBCStatement *i_pODBCStmt, void *i
 	STRIGGER_MAP_BUFF tmMapBuff;
 	MEMSET_ZERO(&tmMapBuff, sizeof(tmMapBuff));
 
-	SQLINTEGER arrCB[2] = { SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[2] = { SQL_NTS, SQL_NTS };
 
 	if(ToolFlag == TRUE) // 툴에서 사용할 경우
 	{
@@ -3129,7 +3129,7 @@ int CAtumDBHelper::DBLoadTriggerMapBuffInfo(CODBCStatement *i_pODBCStmt, void *i
 ///////////////////////////////////////////////////////////////////////////////
 int CAtumDBHelper::SaveTriggerMap(CODBCStatement *i_pODBCStmt, vectorTriggerMap *i_pTriggerMap, HWND hWnd)
 {
-	SQLINTEGER arrCB[4] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[4] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 
 	//Delete 
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_111028_0002, SQL_NTS);
@@ -3194,7 +3194,7 @@ int CAtumDBHelper::DBLoadTriggerMapInfo(CODBCStatement *i_pODBCStmt, void *i_pTr
 	STRIGGER_MAP tmTriggerMap;
 	MEMSET_ZERO(&tmTriggerMap, sizeof(tmTriggerMap));
 
-	SQLINTEGER arrCB[4] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[4] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 
 	if(ToolFlag == TRUE) // 툴에서 사용할 경우
 	{
@@ -3250,7 +3250,7 @@ int CAtumDBHelper::DBLoadTriggerMapInfo(CODBCStatement *i_pODBCStmt, void *i_pTr
 ///////////////////////////////////////////////////////////////////////////////
 int CAtumDBHelper::SaveTriggerFunctionCrystal(CODBCStatement *i_pODBCStmt, vectorTriggerFunctionCrystal *i_pTriggerFunctionCrystal, HWND hWnd)
 {
-	SQLINTEGER arrCB[4] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[4] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 
 	//Delete 
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_111028_0005, SQL_NTS);
@@ -3313,7 +3313,7 @@ int CAtumDBHelper::DBLoadTriggerFunctionCrystalInfo(CODBCStatement *i_pODBCStmt,
 	STRIGGER_FUNCTION_CRYSTAL tmTriggerFunctionCrystal;
 	MEMSET_ZERO(&tmTriggerFunctionCrystal, sizeof(tmTriggerFunctionCrystal));
 
-	SQLINTEGER arrCB[4] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[4] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 
 	if(ToolFlag == TRUE) // 툴에서 사용할 경우
 	{
@@ -3369,7 +3369,7 @@ int CAtumDBHelper::DBLoadTriggerFunctionCrystalInfo(CODBCStatement *i_pODBCStmt,
 ///////////////////////////////////////////////////////////////////////////////
 int CAtumDBHelper::SaveTriggerCrystalGroup(CODBCStatement *i_pODBCStmt, vectorTriggerCrystalGroup *i_pTriggerCrystalGroup, HWND hWnd)
 {
-	SQLINTEGER arrCB[3] = { SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[3] = { SQL_NTS, SQL_NTS, SQL_NTS };
 
 	//Delete 
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_111028_0008, SQL_NTS);
@@ -3431,7 +3431,7 @@ int CAtumDBHelper::DBLoadTriggerCrystalGroupInfo(CODBCStatement *i_pODBCStmt, vo
 	STRIGGER_CRYSTAL_GROUP tmTriggerCrystalGroup;
 	MEMSET_ZERO(&tmTriggerCrystalGroup, sizeof(tmTriggerCrystalGroup));
 
-	SQLINTEGER arrCB[3] = { SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[3] = { SQL_NTS, SQL_NTS, SQL_NTS };
 
 	if(ToolFlag == TRUE) // 툴에서 사용할 경우
 	{
@@ -3486,7 +3486,7 @@ int CAtumDBHelper::DBLoadTriggerCrystalGroupInfo(CODBCStatement *i_pODBCStmt, vo
 ///////////////////////////////////////////////////////////////////////////////
 int CAtumDBHelper::SaveTriggerCrystalDestroyGroup(CODBCStatement *i_pODBCStmt, vectorTriggerCrystalDestroyGroup *i_pTriggerCrystalDestroyGroup, HWND hWnd)
 {
-	SQLINTEGER arrCB[3] = { SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[3] = { SQL_NTS, SQL_NTS, SQL_NTS };
 
 	//Delete 
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_111028_0011, SQL_NTS);
@@ -3548,7 +3548,7 @@ int CAtumDBHelper::DBLoadTriggerCrystalDestroyGroupInfo(CODBCStatement *i_pODBCS
 	STRIGGER_CRYSTAL_DESTROY_GROUP tmTriggerCrystalDestroyGroup;
 	MEMSET_ZERO(&tmTriggerCrystalDestroyGroup, sizeof(tmTriggerCrystalDestroyGroup));
 
-	SQLINTEGER arrCB[3] = { SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[3] = { SQL_NTS, SQL_NTS, SQL_NTS };
 
 	if(ToolFlag == TRUE) // 툴에서 사용할 경우
 	{
@@ -3605,7 +3605,7 @@ int CAtumDBHelper::DBLoadTriggerCrystalDestroyGroupInfo(CODBCStatement *i_pODBCS
 ///////////////////////////////////////////////////////////////////////////////
 int CAtumDBHelper::SaveTriggerFunctionNGCInflWar(CODBCStatement *i_pODBCStmt, vectorTriggerFunctionNGCInflWar *i_pTriggerFunctionNGCInflWar, HWND hWnd)
 {
-	SQLINTEGER arrCB[8] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,		SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[8] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,		SQL_NTS, SQL_NTS, SQL_NTS };
 
 	//Delete 
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_111107_0002, SQL_NTS);
@@ -3674,7 +3674,7 @@ int CAtumDBHelper::DBLoadTriggerFunctionNGCInflWarInfo(CODBCStatement *i_pODBCSt
 	STRIGGER_FUNCTION_NGC_INFLWAR tmTriggerFunctionNGCInflWar;
 	MEMSET_ZERO(&tmTriggerFunctionNGCInflWar, sizeof(tmTriggerFunctionNGCInflWar));
 
-	SQLINTEGER arrCB[8] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,		SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[8] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,		SQL_NTS, SQL_NTS, SQL_NTS };
 
 	if(ToolFlag == TRUE) // 툴에서 사용할 경우
 	{
@@ -3743,7 +3743,7 @@ int CAtumDBHelper::DBLoadTriggerFunctionNGCInflWarInfo(CODBCStatement *i_pODBCSt
 ///////////////////////////////////////////////////////////////////////////////
 int CAtumDBHelper::SaveTriggerNGCInflWarMonsterGroup(CODBCStatement *i_pODBCStmt, vectorTriggerNGCInflWarMonsterGroup *i_pTriggerNGCInflWarMonsterGroup, HWND hWnd)
 {
-	SQLINTEGER arrCB[4] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[4] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 
 	//Delete 
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_111107_0005, SQL_NTS);
@@ -3808,7 +3808,7 @@ int CAtumDBHelper::DBLoadSystemEventInfo(CODBCStatement *i_pODBCStmt , ATUM_DATE
 
 	eSYSTEM_EVENT ParamID = SYSTEM_EVENT_OPENING_MOVIE;		// 0 <= 동영상 기준 시간
 
-	SQLINTEGER	arrCB = SQL_NTS;
+	SQLLEN	arrCB = SQL_NTS;
 
 	SQL_TIMESTAMP_STRUCT Datetime;
 	MEMSET_ZERO(&Datetime, sizeof(SQL_TIMESTAMP_STRUCT));
@@ -3853,7 +3853,7 @@ int CAtumDBHelper::DBLoadTriggerNGCInflWarMonsterGroupInfo(CODBCStatement *i_pOD
 	STRIGGER_NGC_INFLWAR_MONSTER_GROUP tmTriggerNGCInflWarMonsterGroup;
 	MEMSET_ZERO(&tmTriggerNGCInflWarMonsterGroup, sizeof(tmTriggerNGCInflWarMonsterGroup));
 
-	SQLINTEGER arrCB[4] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[4] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 
 	if(ToolFlag == TRUE) // 툴에서 사용할 경우
 	{
@@ -3932,7 +3932,7 @@ int CAtumDBHelper::SaveTriggerFunctionNGCOutPost(CODBCStatement *i_pODBCStmt, ve
 	}
 	//Insert
 	SendMessage(hWnd, WM_PROGRESSBAR_RANGE, 0, ((LPARAM)i_pTriggerFunctionNGCOutPost->size() - 1));
-	SQLINTEGER arrCB[8] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[8] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 	int nObjects = 0;
 	STRIGGER_FUNCTION_NGC_OUTPOST *pInfo;
 	vectorTriggerFunctionNGCOutPost::iterator itr = i_pTriggerFunctionNGCOutPost->begin();
@@ -4032,7 +4032,7 @@ int CAtumDBHelper::SaveTriggerOutPostBossKill(CODBCStatement *i_pODBCStmt, vecto
 
 	//Insert
 	SendMessage(hWnd, WM_PROGRESSBAR_RANGE, 0, ((LPARAM)i_pTriggerOutPostBossKillInfo->size() - 1));
-	SQLINTEGER arrCB[6] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[6] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 	int nObjects = 0;
 	STRIGGER_TRIGGER_OUTPOST_BOSS_KILL_INFO *pInfo;
 	vectorTriggerOutPostBossKillInfo::iterator itr = i_pTriggerOutPostBossKillInfo->begin();
@@ -4104,7 +4104,7 @@ int CAtumDBHelper::DBLoadTriggerFunctionNGCOutPostInfo(CODBCStatement *i_pODBCSt
 	STRIGGER_FUNCTION_NGC_OUTPOST tmTriggerFunctionNGCOutPost;
 	MEMSET_ZERO(&tmTriggerFunctionNGCOutPost, sizeof(tmTriggerFunctionNGCOutPost));
 	
-	SQLINTEGER arrCB[8] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[8] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 	
 	if(ToolFlag == TRUE) // 툴에서 사용할 경우
 	{
@@ -4181,7 +4181,7 @@ int CAtumDBHelper::DBLoadTriggerOutPostBossKillInfo(CODBCStatement *i_pODBCStmt,
 	STRIGGER_TRIGGER_OUTPOST_BOSS_KILL_INFO tmTriggerOutPostBossKill;
 	MEMSET_ZERO(&tmTriggerOutPostBossKill, sizeof(tmTriggerOutPostBossKill));
 	
-	SQLINTEGER arrCB[6] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[6] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 	
 	if(ToolFlag == TRUE) // 툴에서 사용할 경우
 	{
@@ -4272,7 +4272,7 @@ int CAtumDBHelper::SaveTriggerCrystalBuff(CODBCStatement *i_pODBCStmt, vectorTri
 	}
 	//Insert
 	SendMessage(hWnd, WM_PROGRESSBAR_RANGE, 0, ((LPARAM)i_pTriggerCrystalBuff->size() - 1));
-	SQLINTEGER arrCB[7] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[7] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 	int nObjects = 0;
 	STRIGGER_CRYSTAL_BUFF *pInfo;
 	vectorTriggerCrystalBuff::iterator itr = i_pTriggerCrystalBuff->begin();
@@ -4339,7 +4339,7 @@ int CAtumDBHelper::DBLoadTriggerCrystalBuffInfo(CODBCStatement *i_pODBCStmt, voi
 	STRIGGER_CRYSTAL_BUFF tmTriggerCrystalBuff;
 	MEMSET_ZERO(&tmTriggerCrystalBuff, sizeof(tmTriggerCrystalBuff));
 	
-	SQLINTEGER arrCB[6] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[6] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 	
 	if(ToolFlag == TRUE) // 툴에서 사용할 경우
 	{
@@ -4449,7 +4449,7 @@ void CAtumDBHelper::DBLoadTriggerNGCSPCreateTime(CODBCStatement *i_pODBCStmt, AT
 		return;
 	}
 
-	SQLINTEGER arrCB = SQL_NTS;
+	SQLLEN arrCB = SQL_NTS;
 	SQL_TIMESTAMP_STRUCT	tmCreateTime;
 	SQLBindCol(i_pODBCStmt->m_hstmt, 1, SQL_C_TIMESTAMP, &tmCreateTime, 0, &arrCB);
 
@@ -4514,7 +4514,7 @@ void CAtumDBHelper::DBInsertTriggerNGCSPCreateTime(CODBCStatement *i_pODBCStmt, 
 ///////////////////////////////////////////////////////////////////////////////
 int CAtumDBHelper::SaveOverlapItem(CODBCStatement *i_pODBCStmt, vectorOverlapItem *i_pOverlapItem, HWND hWnd)
 {
-	SQLINTEGER arrCB[4] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[4] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 
 	//Delete 
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_120313_0002, SQL_NTS);
@@ -4579,7 +4579,7 @@ int CAtumDBHelper::DBLoadOverlapItemInfo(CODBCStatement *i_pODBCStmt, void *i_pO
 	SOVERLAP_ITEM tmOverlapItem;
 	MEMSET_ZERO(&tmOverlapItem, sizeof(tmOverlapItem));
 
-	SQLINTEGER arrCB[4] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
+	SQLLEN arrCB[4] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 
 	if(ToolFlag == TRUE) // 툴에서 사용할 경우
 	{
@@ -4641,7 +4641,7 @@ int CAtumDBHelper::LoadPCBangInfo(CODBCStatement *i_pODBCStmt, vectorPCBANG_INFO
 	MEMSET_ZERO(&tempPCBangInfo,sizeof(PCBANG_INFO));
 
 	RETCODE			ret;
-	SQLINTEGER		arrCB[14] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN		arrCB[14] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 								SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};		// 2007-06-25 by dhjin, PC방 등급 관련 추가
 	
 	// Bind Columns
@@ -4809,7 +4809,7 @@ int CAtumDBHelper::LoadPCBangInfo(CODBCStatement *i_pODBCStmt, vectorPCBANG_INFO
 ///////////////////////////////////////////////////////////////////////////////
 int CAtumDBHelper::InsertPCBangInfo(CODBCStatement *i_pODBCStmt, vectorPCBANG_INFO *o_pPCbangInfo)
 {
-	SQLINTEGER		arrCB[14] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN		arrCB[14] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 								SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};		// 2007-06-25 by dhjin, PC방 등급 관련 추가
 
 // 2008-07-02 by cmkwon, MySQL 지원 구현 - 
@@ -4916,7 +4916,7 @@ BOOL CAtumDBHelper::LoadInfluenceLeader(UID32_t *o_pVCNLeader, UID32_t *o_pANILe
 	BYTE			nInflTy;
 	UID32_t			charUID;
 	RETCODE			ret;
-	SQLINTEGER		arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN		arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 
 //	char szQuery[1024];
 // 2008-07-02 by cmkwon, MySQL 지원 구현 - 
@@ -4927,7 +4927,7 @@ BOOL CAtumDBHelper::LoadInfluenceLeader(UID32_t *o_pVCNLeader, UID32_t *o_pANILe
 //	wsprintf(szQuery, QUERY_080702_0068, i_nMGServerID);
 //	BOOL bRet = i_pOdbcStmt->ExecuteQuery(szQuery);
 	SQLHSTMT hstmt = i_pOdbcStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &(i_nMGServerID), 0,			&arrCB2[1]);
 	BOOL bRet = i_pOdbcStmt->ExecuteQuery((char*)(PROCEDURE_080827_0068));
 	if (!bRet)
@@ -4974,7 +4974,7 @@ BOOL CAtumDBHelper::LoadInfluenceSub1Leader(UID32_t *o_pVCNSub1Leader, UID32_t *
 	BYTE			nInflTy;
 	UID32_t			charUID;
 	RETCODE			ret;
-	SQLINTEGER		arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN		arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 
 //	char szQuery[1024];
 // 2008-07-02 by cmkwon, MySQL 지원 구현 - 
@@ -4985,7 +4985,7 @@ BOOL CAtumDBHelper::LoadInfluenceSub1Leader(UID32_t *o_pVCNSub1Leader, UID32_t *
 //	wsprintf(szQuery, QUERY_080702_0069, i_nMGServerID);
 //	BOOL bRet = i_pOdbcStmt->ExecuteQuery(szQuery);
 	SQLHSTMT hstmt = i_pOdbcStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &(i_nMGServerID), 0,			&arrCB2[1]);
 	BOOL bRet = i_pOdbcStmt->ExecuteQuery((char*)(PROCEDURE_080827_0069));
 	if (!bRet)
@@ -5032,7 +5032,7 @@ BOOL CAtumDBHelper::LoadInfluenceSub2Leader(UID32_t *o_pVCNSub2Leader, UID32_t *
 	BYTE			nInflTy;
 	UID32_t			charUID;
 	RETCODE			ret;
-	SQLINTEGER		arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN		arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 
 //	char szQuery[1024];
 // 2008-07-02 by cmkwon, MySQL 지원 구현 - 
@@ -5043,7 +5043,7 @@ BOOL CAtumDBHelper::LoadInfluenceSub2Leader(UID32_t *o_pVCNSub2Leader, UID32_t *
 //	wsprintf(szQuery, QUERY_080702_0070, i_nMGServerID);
 //	BOOL bRet = i_pOdbcStmt->ExecuteQuery(szQuery);
 	SQLHSTMT hstmt = i_pOdbcStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &(i_nMGServerID), 0,			&arrCB2[1]);
 	BOOL bRet = i_pOdbcStmt->ExecuteQuery((char*)(PROCEDURE_080827_0070));
 	if (!bRet)
@@ -5090,7 +5090,7 @@ int CAtumDBHelper::LoadEachInflueceTypeCount(int *o_pNormalInfl, int *o_pVCNInfl
 	RETCODE			ret;
 	BYTE			byInflType;
 	int				nInflTypeCount;
-	SQLINTEGER		arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN		arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 // 2006-05-19 by cmkwon
 // 	BOOL bRet = i_pODBCStmt->ExecuteQuery("SELECT InfluenceType, COUNT(*) FROM td_character	GROUP BY InfluenceType");
 //	char szQuery[1024];
@@ -5103,7 +5103,7 @@ int CAtumDBHelper::LoadEachInflueceTypeCount(int *o_pNormalInfl, int *o_pVCNInfl
 //	BOOL bRet = i_pODBCStmt->ExecuteQuery(szQuery);
 	int nPeriodDay = (-1)*INFLWAR_APPLY_TAX_PERIOD_DAY;
 	SQLHSTMT hstmt = i_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &(nPeriodDay), 0,			&arrCB2[1]);
 	BOOL bRet = i_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0071));
 	if (!bRet)
@@ -5174,7 +5174,7 @@ int CAtumDBHelper::LoadEachInflueceTypeCount(int *o_pNormalInfl, int *o_pVCNInfl
 int CAtumDBHelper::LoadInfluenceWarInfo(CODBCStatement *i_pODBCStmt, vectDB_INFLUENCE_WAR_INFO *i_pvectDB_INFLUENCE_WAR_INFO)
 {
 	RETCODE					ret;
-	SQLINTEGER				arrCB[57] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN				arrCB[57] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 											,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 											,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 											,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
@@ -5275,7 +5275,7 @@ int CAtumDBHelper::LoadInfluenceWarInfo(CODBCStatement *i_pODBCStmt, vectDB_INFL
 BOOL CAtumDBHelper::LoadEventMonster(mtvectSEVENT_MONSTER *o_pEventMonsterList, CODBCStatement *i_pOdbcStmt, int i_nServerGroupID/*=0*/)
 {
 	RETCODE			ret;
-	SQLINTEGER		arrCB[13] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN		arrCB[13] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 								,SQL_NTS,SQL_NTS,SQL_NTS};
 	SEVENT_MONSTER			tmEventMonster;
 	SQL_TIMESTAMP_STRUCT	StartDTime;
@@ -5374,7 +5374,7 @@ BOOL CAtumDBHelper::LoadArenaMapList(vectMapIndexList *o_pArenaMapIndexList, COD
 	}
 	
 	// 2012-09-14 by jhseol, 아레나 추가개발 part3 - 아레나 지급 아이템 추가 (아레나 전용 탄약 재충전 카드)
-	SQLINTEGER	arrCB[14] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN	arrCB[14] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 								, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	// end 2012-09-14 by jhseol, 아레나 추가개발 part3 - 아레나 지급 아이템 추가 (아레나 전용 탄약 재충전 카드)
 
@@ -5434,7 +5434,7 @@ BOOL CAtumDBHelper::LoadArenaMapList(vectMapIndexList *o_pArenaMapIndexList, COD
 int CAtumDBHelper::SaveItem(CODBCStatement *i_pODBCStmt, vector<ITEM> *o_pItem, HWND hWnd)
 //end 2009. 10. 27 by jskim 진행률 확인
 {
-	SQLINTEGER	arrCB[80] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN	arrCB[80] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 							 SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 							 SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 							 SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
@@ -5594,7 +5594,7 @@ int CAtumDBHelper::SaveItem(CODBCStatement *i_pODBCStmt, vector<ITEM> *o_pItem, 
 int CAtumDBHelper::SaveItemInfo(CODBCStatement *i_pODBCStmt, vectItem_Info *o_pItemInfo, HWND hWnd)
 //end 2009. 10. 27 by jskim 진행률 확인
 {
-	SQLINTEGER	arrCB[9] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[9] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS};
 
 	//Delete ti_MonsterItem
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090709_0395 , SQL_NTS);
@@ -5658,7 +5658,7 @@ int CAtumDBHelper::SaveItemInfo(CODBCStatement *i_pODBCStmt, vectItem_Info *o_pI
 int CAtumDBHelper::SaveMonsterItem(CODBCStatement *i_pODBCStmt, vector<MONSTER2ITEM> *o_pMonsterItemInfo, HWND hWnd)
 //end 2009. 10. 27 by jskim 진행률 확인
 {
-	SQLINTEGER	arrCB[9] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[9] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 
 	//Delete ti_MonsterItem
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090709_0374 , SQL_NTS);
@@ -5723,7 +5723,7 @@ int CAtumDBHelper::SaveMonsterItem(CODBCStatement *i_pODBCStmt, vector<MONSTER2I
 int CAtumDBHelper::SaveRareItemInfo(CODBCStatement *i_pODBCStmt, vector<RARE_ITEM_INFO> *o_pRareItemInfo, HWND hWnd)
 //end 2009. 10. 27 by jskim 진행률 확인
 {
-	SQLINTEGER	arrCB[32] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN	arrCB[32] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 							 SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 							 SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 							 SQL_NTS,SQL_NTS};
@@ -5813,7 +5813,7 @@ int CAtumDBHelper::SaveRareItemInfo(CODBCStatement *i_pODBCStmt, vector<RARE_ITE
 int CAtumDBHelper::SaveShop(CODBCStatement *i_pODBCStmt, vectSHOP_INFO *o_pShopInfo, HWND hWnd)
 //end 2009. 10. 27 by jskim 진행률 확인
 {
-	SQLINTEGER	arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 
 	//Delete ti_Shop
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090709_0376, SQL_NTS);
@@ -5872,7 +5872,7 @@ int CAtumDBHelper::SaveShop(CODBCStatement *i_pODBCStmt, vectSHOP_INFO *o_pShopI
 int CAtumDBHelper::SaveCityTargetWarpMap(CODBCStatement *i_pODBCStmt, vectCITY_TARGET_WARPMAP *o_pTargetWarp, HWND hWnd)
 //end 2009. 10. 27 by jskim 진행률 확인
 {
-	SQLINTEGER	arrCB[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
 
 	//Delete ti_CityTargetWarpMap
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090709_0377, SQL_NTS);
@@ -5935,7 +5935,7 @@ int CAtumDBHelper::SaveCityTargetWarpMap(CODBCStatement *i_pODBCStmt, vectCITY_T
 int CAtumDBHelper::SaveItemMixingInfo(CODBCStatement *i_pODBCStmt, vector<ITEM_MIXING_INFO_TOOL> *o_pMapItemMixingInfo, HWND hWnd)		// 2012-02-20 by hskim, DB 정규화 - ItemMixingInfo
 //end 2009. 10. 27 by jskim 진행률 확인
 {
-	SQLINTEGER	arrCB[6] = { SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS };		// 2013-05-06 by hskim, 아이템 미리 보기 (속성 값 추가) - // 2012-02-20 by hskim, DB 정규화 - ItemMixingInfo
+	SQLLEN	arrCB[6] = { SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS };		// 2013-05-06 by hskim, 아이템 미리 보기 (속성 값 추가) - // 2012-02-20 by hskim, DB 정규화 - ItemMixingInfo
 
 	//Delete ti_ItemMixingInfo
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090709_0378, SQL_NTS);
@@ -5994,7 +5994,7 @@ int CAtumDBHelper::SaveItemMixingInfo(CODBCStatement *i_pODBCStmt, vector<ITEM_M
 ///////////////////////////////////////////////////////////////////////////////
 int CAtumDBHelper::SaveItemMixingElement(CODBCStatement *i_pODBCStmt, vector<ITEM_MIXING_ELEMENT_TOOL> *o_pMapItemMixingElement, HWND hWnd)
 {
-	SQLINTEGER	arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS };
+	SQLLEN	arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS };
 
 	//Delete ti_ItemMixingInfo
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_120220_0002, SQL_NTS);
@@ -6055,7 +6055,7 @@ int CAtumDBHelper::SaveItemMixingElement(CODBCStatement *i_pODBCStmt, vector<ITE
 int CAtumDBHelper::SaveEnchantInfo(CODBCStatement *i_pODBCStmt, vector<ENCHANT_INFO> *o_pEnchantInfo, HWND hWnd)
 //end 2009. 10. 27 by jskim 진행률 확인
 {
-	SQLINTEGER	arrCB[44] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN	arrCB[44] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 							 SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 							 SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 							 SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
@@ -6159,7 +6159,7 @@ int CAtumDBHelper::SaveEnchantInfo(CODBCStatement *i_pODBCStmt, vector<ENCHANT_I
 int CAtumDBHelper::SaveStrategyPointSummonMapIndex(CODBCStatement *i_pODBCStmt, vectSTRATEGYPOINT_SUMMON_MAPINDEX *o_pStrategyPoint, HWND hWnd)
 //end 2009. 10. 27 by jskim 진행률 확인
 {
-	SQLINTEGER	arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 
 	//Delete ti_StrategyPointSummonMapIndex
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090709_0380, SQL_NTS);
@@ -6218,7 +6218,7 @@ int CAtumDBHelper::SaveStrategyPointSummonMapIndex(CODBCStatement *i_pODBCStmt, 
 int CAtumDBHelper::SaveArenaInfo(CODBCStatement *i_pODBCStmt, vectorSDBARENA_INFO *o_pArenaInfo, HWND hWnd)
 //end 2009. 10. 27 by jskim 진행률 확인
 {
-	SQLINTEGER	arrCB[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
 
 	//Delete ti_ArenaInfo
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090709_0381, SQL_NTS);
@@ -6310,7 +6310,7 @@ int CAtumDBHelper::SaveArenaMapinfo(CODBCStatement *i_pODBCStmt, vectorSDBARENA_
 //end 2009. 10. 27 by jskim 진행률 확인
 {
 	// 2012-09-14 by jhseol, 아레나 추가개발 part3 - 아레나 지급 아이템 추가 (아레나 전용 탄약 재충전 카드)
-	SQLINTEGER	arrCB[14] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN	arrCB[14] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 							 SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	// end 2012-09-14 by jhseol, 아레나 추가개발 part3 - 아레나 지급 아이템 추가 (아레나 전용 탄약 재충전 카드)
 
@@ -6385,7 +6385,7 @@ int CAtumDBHelper::SaveArenaMapinfo(CODBCStatement *i_pODBCStmt, vectorSDBARENA_
 int CAtumDBHelper::SaveMysteryItemDrop(CODBCStatement *i_pODBCStmt, vectMYSTERY_ITEM_DROP *o_pMysteryItemDrop, HWND hWnd)
 //end 2009. 10. 27 by jskim 진행률 확인
 {
-	SQLINTEGER	arrCB[14] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN	arrCB[14] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 							 SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 
 	//Delete ti_MysteryItemDrop
@@ -6458,7 +6458,7 @@ int CAtumDBHelper::SaveMysteryItemDrop(CODBCStatement *i_pODBCStmt, vectMYSTERY_
 int CAtumDBHelper::SaveInfluenceWar(CODBCStatement *i_pODBCStmt, vectDB_INFLUENCE_WAR_INFO *o_pInfluenceWar, HWND hWnd)
 //end 2009. 10. 27 by jskim 진행률 확인
 {
-	SQLINTEGER	arrCB[57] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN	arrCB[57] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 							 SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 	     					 SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 							 SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
@@ -6576,7 +6576,7 @@ int CAtumDBHelper::SaveInfluenceWar(CODBCStatement *i_pODBCStmt, vectDB_INFLUENC
 int CAtumDBHelper::SaveOutPostNextWarTime(CODBCStatement *i_pODBCStmt, vectSOutPostInfo *o_pOutPostNextWarTime, HWND hWnd)
 //end 2009. 10. 27 by jskim 진행률 확인
 {
-	SQLINTEGER	arrCB[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[2] = {SQL_NTS,SQL_NTS};
 
 	//Delete ti_OutPostNextWarTime
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090709_0385, SQL_NTS);
@@ -6634,7 +6634,7 @@ int CAtumDBHelper::SaveOutPostNextWarTime(CODBCStatement *i_pODBCStmt, vectSOutP
 int CAtumDBHelper::SaveActionByLevel(CODBCStatement *i_pODBCStmt, vectSACTION_BY_LEVEL_DB *o_pActionByLevel, HWND hWnd)
 //end 2009. 10. 27 by jskim 진행률 확인
 {
-	SQLINTEGER	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 
 	//Delete ti_ActionByLevel
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090709_0386, SQL_NTS);
@@ -6692,7 +6692,7 @@ int CAtumDBHelper::SaveActionByLevel(CODBCStatement *i_pODBCStmt, vectSACTION_BY
 int CAtumDBHelper::SaveMapInfo(CODBCStatement *i_pODBCStmt, vectorMAP_INFO *o_pMapInfo, HWND hWnd)
 //end 2009. 10. 27 by jskim 진행률 확인
 {
-	SQLINTEGER		arrCB[54] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN		arrCB[54] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 								,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 								,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 								,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
@@ -6805,7 +6805,7 @@ int CAtumDBHelper::SaveMapInfo(CODBCStatement *i_pODBCStmt, vectorMAP_INFO *o_pM
 int CAtumDBHelper::SaveBuildingNPC(CODBCStatement *i_pODBCStmt, vector<BUILDINGNPC> *o_pBuildingNPC, HWND hWnd)
 //end 2009. 10. 27 by jskim 진행률 확인
 {
-	SQLINTEGER	arrCB[10] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[10] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 
 	//Delete ti_BuildingNPC
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090709_0388, SQL_NTS);
@@ -6870,7 +6870,7 @@ int CAtumDBHelper::SaveBuildingNPC(CODBCStatement *i_pODBCStmt, vector<BUILDINGN
 int CAtumDBHelper::SaveMonster(CODBCStatement *i_pODBCStmt, vectMONSTER_DATA *o_pMonster, HWND hWnd)
 //end 2009. 10. 27 by jskim 진행률 확인
 {
-	SQLINTEGER	arrCB[59] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN	arrCB[59] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 							 SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 							 SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 							 SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
@@ -7005,7 +7005,7 @@ int CAtumDBHelper::SaveMonster(CODBCStatement *i_pODBCStmt, vectMONSTER_DATA *o_
 int CAtumDBHelper::SaveTutorialInfo(CODBCStatement *i_pODBCStmt, vectSTutorialInfo *o_pTutorialInfo, HWND hWnd)
 //end 2009. 10. 27 by jskim 진행률 확인
 {
-	SQLINTEGER	arrCB[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
 
 	//Delete ti_TutorialInfo
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090709_0390, SQL_NTS);
@@ -7068,7 +7068,7 @@ int CAtumDBHelper::SaveTutorialInfo(CODBCStatement *i_pODBCStmt, vectSTutorialIn
 int CAtumDBHelper::SaveMapObject(CODBCStatement *i_pODBCStmt, vectMAPOBJECT *o_pMapItemInfo, HWND hWnd)
 //end 2009. 10. 27 by jskim 진행률 확인
 {
-	SQLINTEGER	arrCB[11] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN	arrCB[11] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 							 SQL_NTS};
 
 	//Delete ti_MapObject
@@ -7135,7 +7135,7 @@ int CAtumDBHelper::SaveMapObject(CODBCStatement *i_pODBCStmt, vectMAPOBJECT *o_p
 int CAtumDBHelper::SaveLuckyMachine(CODBCStatement *i_pODBCStmt, vectLUCKY_MACHINE *o_pLuckyMachine, HWND hWnd)
 //end 2009. 10. 27 by jskim 진행률 확인
 {
-	SQLINTEGER	arrCB[11] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN	arrCB[11] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 							 SQL_NTS};
 
 	//Delete ti_LuckyMachine
@@ -7202,7 +7202,7 @@ int CAtumDBHelper::SaveLuckyMachine(CODBCStatement *i_pODBCStmt, vectLUCKY_MACHI
 int CAtumDBHelper::SaveQuestMatching(CODBCStatement *i_pODBCStmt, vectSQUEST_MATCHING *o_pQuestMatching, HWND hWnd)
 //end 2009. 10. 27 by jskim 진행률 확인
 {
-	SQLINTEGER	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 
 	//Delete ti_QuestMatching
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090709_0393, SQL_NTS);
@@ -7260,7 +7260,7 @@ int CAtumDBHelper::SaveQuestMatching(CODBCStatement *i_pODBCStmt, vectSQUEST_MAT
 int CAtumDBHelper::SaveItemMatching(CODBCStatement *i_pODBCStmt, vectSITEM_MATCHING *o_pItemMatching, HWND hWnd)
 //end 2009. 10. 27 by jskim 진행률 확인
 {
-	SQLINTEGER	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 
 	//Delete ti_ItemMatching
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090709_0394, SQL_NTS);
@@ -7318,7 +7318,7 @@ int CAtumDBHelper::SaveItemMatching(CODBCStatement *i_pODBCStmt, vectSITEM_MATCH
 int CAtumDBHelper::SaveInfluenceRate(CODBCStatement *i_pODBCStmt, vectSTI_INFLUENCERATE *o_pInfluenceRate, HWND hWnd)
 //end 2009. 10. 27 by jskim 진행률 확인
 {
-	SQLINTEGER	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 
 	//Delete ti_InfluenceRate
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090922_0405, SQL_NTS);
@@ -7364,7 +7364,7 @@ int CAtumDBHelper::SaveInfluenceRate(CODBCStatement *i_pODBCStmt, vectSTI_INFLUE
 ////////////////////////////////////////////////////////////////////////////////
 // 2009-09-09 ~ 2010 by dhjin, 인피니티 - Excel -> DB 밀기
 int CAtumDBHelper::SaveHPAction(CODBCStatement *i_pODBCStmt, vectHPAction *i_pHPActionList, HWND hWnd) {
-	SQLINTEGER	arrCB[15] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[15] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	
 	//Delete ti_HPAction
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090909_0514, SQL_NTS);
@@ -7423,7 +7423,7 @@ int CAtumDBHelper::SaveCinema(CODBCStatement *i_pODBCStmt, vectorCinemaInfo *i_p
 	--------------------------------------------------------------------------------
 	CALL dbo.atum_import_ti_Cinema
 	************************************************************************/
-	SQLINTEGER	arrCB[28] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,	SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
+	SQLLEN	arrCB[28] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,	SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
 							, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,	SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
 							, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,	SQL_NTS, SQL_NTS, SQL_NTS };	// 2010-03-29 by cmkwon, 인피2차 시네마에 효과음 파일 설정 추가 - // 2010-03-31 by dhjin, 인피니티(기지방어) - // 2011-03-09 by hskim, 시네마 퀘스트 인덱스 설정 추가 - // 2011-04-28 by hskim, 인피니티 3차 - 시네마 관련 기능 추가
 	//Delete ti_Cinema
@@ -7489,7 +7489,7 @@ int CAtumDBHelper::SaveCinema(CODBCStatement *i_pODBCStmt, vectorCinemaInfo *i_p
 }
 
 int CAtumDBHelper::SaveRevision(CODBCStatement *i_pODBCStmt, vectorRevisionInfo *i_pRevisionInfoList, HWND hWnd) {
-	SQLINTEGER	arrCB[8] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[8] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS};
 	
 	//Delete ti_Revision
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090909_0520, SQL_NTS);
@@ -7532,7 +7532,7 @@ int CAtumDBHelper::SaveRevision(CODBCStatement *i_pODBCStmt, vectorRevisionInfo 
 }
 
 int CAtumDBHelper::SaveInfinityMonster(CODBCStatement *i_pODBCStmt, vectorInfinityMonsterInfo *i_pInfinityMonsterInfoList, HWND hWnd) {
-	SQLINTEGER	arrCB[6] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS};
+	SQLLEN	arrCB[6] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS};
 	
 	//Delete ti_InfinityMonster
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090909_0518, SQL_NTS);
@@ -7573,7 +7573,7 @@ int CAtumDBHelper::SaveInfinityMonster(CODBCStatement *i_pODBCStmt, vectorInfini
 }
 
 int CAtumDBHelper::SaveInfinityMode(CODBCStatement *i_pODBCStmt, vectorInfinityModeInfo *i_pInfinityModeInfoList, HWND hWnd) {
-	SQLINTEGER	arrCB[16] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,		SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
+	SQLLEN	arrCB[16] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,		SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
 							 , SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,		SQL_NTS };			// 2011-06-14 by hskim, 인피니티 3차 - 패널티 기능 추가 (HP 및 시간 동시 지원을 위해) // 2009-09-09 ~ 2010 by dhjin, 인피니티 - 인피 사망시 패널티 추가
 	
 	//Delete ti_InfinityMode
@@ -7625,7 +7625,7 @@ int CAtumDBHelper::SaveInfinityMode(CODBCStatement *i_pODBCStmt, vectorInfinityM
 }
 
 int CAtumDBHelper::SaveTender(CODBCStatement *i_pODBCStmt, vectorTenderInfo *i_pTenderInfoList, HWND hWnd) {
-	SQLINTEGER	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 	
 	//Delete ti_InfinityMonster
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090909_0525, SQL_NTS);
@@ -7664,7 +7664,7 @@ int CAtumDBHelper::SaveTender(CODBCStatement *i_pODBCStmt, vectorTenderInfo *i_p
 
 // 2009-09-09 ~ 2010 by dhjin, 인피니티 - 인피 상점
 int CAtumDBHelper::SaveInfinityShop(CODBCStatement *i_pODBCStmt, vectorInfinityShopInfo *i_pInfinityShopInfoList, HWND hWnd) {
-	SQLINTEGER	arrCB[14] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[14] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	
 	//Delete ti_InfinityShop
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_090909_0528, SQL_NTS);
@@ -7729,7 +7729,7 @@ BOOL CAtumDBHelper::LoadItemParamOverlap(CODBCStatement *i_pODBCStmt, vectSITEM_
 	SITEM_PARAM_OVERLAP	tmParamOverlap;
 	MEMSET_ZERO(&tmParamOverlap,sizeof(tmParamOverlap));
 
-	SQLINTEGER		arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN		arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 	
 	// Bind Columns
 	SQLBindCol(i_pODBCStmt->m_hstmt, 1, SQL_C_LONG, &tmParamOverlap.ItemNum, 0,				&arrCB[1]);
@@ -7776,7 +7776,7 @@ BOOL CAtumDBHelper::LoadItemParamOverlap(CODBCStatement *i_pODBCStmt, vectSITEM_
 ///////////////////////////////////////////////////////////////////////////////
 int CAtumDBHelper::SaveItemParamOverlap(CODBCStatement *i_pODBCStmt, vectSITEM_PARAM_OVERLAP *i_pItemParamOverlapList, HWND hWnd)
 {
-	SQLINTEGER	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 
 	// Delete All ti_ItemParamOverlap
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_100118_0542, SQL_NTS);
@@ -7830,7 +7830,7 @@ int CAtumDBHelper::SaveItemParamOverlap(CODBCStatement *i_pODBCStmt, vectSITEM_P
 /// \return		
 ///////////////////////////////////////////////////////////////////////////////
 int CAtumDBHelper::SaveInvokingWearItemDPNum(CODBCStatement *i_pODBCStmt, InvokingWearItemDestParamList *i_pInvokingItemDPList, HWND hWnd) {
-	SQLINTEGER	arrCB[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	
 	// Delete All ti_InvokingWearItemDPNum
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_100210_0550, SQL_NTS);
@@ -7886,7 +7886,7 @@ int CAtumDBHelper::SaveInvokingWearItemDPNum(CODBCStatement *i_pODBCStmt, Invoki
 /// \return		
 ///////////////////////////////////////////////////////////////////////////////
 int CAtumDBHelper::SaveInvokingWearItemDPNumByUse(CODBCStatement *i_pODBCStmt, InvokingWearItemDestParamList *i_pInvokingItemDPList, HWND hWnd) {
-	SQLINTEGER	arrCB[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	
 	// Delete All ti_InvokingWearItemDPNumByUse
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_100210_0553, SQL_NTS);
@@ -7944,7 +7944,7 @@ int CAtumDBHelper::SaveInvokingWearItemDPNumByUse(CODBCStatement *i_pODBCStmt, I
 ///////////////////////////////////////////////////////////////////////////////
 int CAtumDBHelper::SaveLevelAdjustmentList(CODBCStatement *i_pODBCStmt, vectorInfinity_DifficultyInfo_Monster  *i_Infinity_DifficultyInfo, HWND hWnd)
 {
-	SQLINTEGER arrCB[7]= {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[7]= {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	//Delete ti_LevelAdjustment 구현
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_100524_0563, SQL_NTS); //삭제(delete) 프로시저를 추가해야 한다.
 	i_pODBCStmt->FreeStatement();
@@ -8001,7 +8001,7 @@ int CAtumDBHelper::SaveLevelAdjustmentList(CODBCStatement *i_pODBCStmt, vectorIn
 ///////////////////////////////////////////////////////////////////////////////
 int CAtumDBHelper::SaveLevelAdjustmentRewardList(CODBCStatement *i_pODBCStmt, vectorInfinity_DifficultyInfo_Bonus  *i_Infinity_DifficultyInfo, HWND hWnd)
 {
-	SQLINTEGER arrCB[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	//Delete ti_LevelAdjustment 구현
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_100524_0565, SQL_NTS); //삭제(delete) 프로시저를 추가해야 한다.
 	i_pODBCStmt->FreeStatement();
@@ -8047,7 +8047,7 @@ int CAtumDBHelper::SaveLevelAdjustmentRewardList(CODBCStatement *i_pODBCStmt, ve
 // 2010-08-05 by dhjin, 버닝맵 - 
 int CAtumDBHelper::SaveBurningMapList(CODBCStatement *i_pODBCStmt, BurningMapInfoList  * i_pBurningMapList, HWND hWnd)
 {
-	SQLINTEGER arrCB[6] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,  SQL_NTS};
+	SQLLEN arrCB[6] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,  SQL_NTS};
 	//Delete ti_BurningMap 구현
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_100805_0567, SQL_NTS); //삭제(delete) 프로시저를 추가해야 한다.
 	i_pODBCStmt->FreeStatement();
@@ -8104,7 +8104,7 @@ int CAtumDBHelper::SaveBurningMapList(CODBCStatement *i_pODBCStmt, BurningMapInf
 
 int CAtumDBHelper::SavePetBaseData(CODBCStatement *i_pODBCStmt, vectorPetBaseData  *i_BaseData, HWND hWnd)
 {
-	SQLINTEGER arrCB[7] =  {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS };		// 2011-08-17 by hskim, 파트너 시스템 2차 - 자료 구조 결정
+	SQLLEN arrCB[7] =  {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS };		// 2011-08-17 by hskim, 파트너 시스템 2차 - 자료 구조 결정
 	//Delete
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_100615_0575, SQL_NTS); //삭제(delete) 프로시저를 추가해야 한다.
 	i_pODBCStmt->FreeStatement();
@@ -8184,7 +8184,7 @@ int CAtumDBHelper::SavePetBaseData(CODBCStatement *i_pODBCStmt, vectorPetBaseDat
 ///////////////////////////////////////////////////////////////////////////////
 int CAtumDBHelper::SavePetLevelData(CODBCStatement *i_pODBCStmt, vectorPetLevelData  *i_PetLevelData, HWND hWnd)
 {
-	SQLINTEGER arrCB[9] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};		// 2011-08-17 by hskim, 파트너 시스템 2차 - 자료 구조 결정
+	SQLLEN arrCB[9] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};		// 2011-08-17 by hskim, 파트너 시스템 2차 - 자료 구조 결정
 	//Delete 
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_100615_0576, SQL_NTS); //삭제(delete) 프로시저를 추가해야 한다.
 	i_pODBCStmt->FreeStatement();
@@ -8262,7 +8262,7 @@ int CAtumDBHelper::SavePetLevelData(CODBCStatement *i_pODBCStmt, vectorPetLevelD
 
 
 
-void CAtumDBHelper::BindColITEM(SQLHSTMT &hstmt, ITEM &item, SQLINTEGER *cb)
+void CAtumDBHelper::BindColITEM(SQLHSTMT &hstmt, ITEM &item, SQLLEN *cb)
 {
 	SQLBindCol(hstmt,  1, SQL_C_LONG    , &item.ItemNum					, 0, &cb[1]);
 	SQLBindCol(hstmt,  2, SQL_C_UTINYINT, &item.Kind					, 0, &cb[2]);
@@ -8346,7 +8346,7 @@ void CAtumDBHelper::BindColITEM(SQLHSTMT &hstmt, ITEM &item, SQLINTEGER *cb)
 	SQLBindCol(hstmt, 79, SQL_C_ULONG	, &item.InvokingDestParamIDByUse, 0, &cb[79]);	// 2009-09-09 ~ 2010-02-10 by dhjin, 인피니티 - 발동류장착아이템
 }
 
-void CAtumDBHelper::BindColCharacter(SQLHSTMT &hstmt, CHARACTER &character, CHARACTER_DB_EX &characterDBEX, SQLINTEGER *cb)
+void CAtumDBHelper::BindColCharacter(SQLHSTMT &hstmt, CHARACTER &character, CHARACTER_DB_EX &characterDBEX, SQLLEN *cb)
 {
 	SQLBindCol(hstmt, 1, SQL_C_ULONG, &character.CharacterUniqueNumber, 0,				&cb[1]);
 	SQLBindCol(hstmt, 2, SQL_C_CHAR, character.CharacterName, SIZE_MAX_CHARACTER_NAME,	&cb[2]);
@@ -8415,7 +8415,7 @@ void CAtumDBHelper::BindColCharacter(SQLHSTMT &hstmt, CHARACTER &character, CHAR
 	SQLBindCol(hstmt, 63, SQL_C_CHAR, &character.NickName, SIZE_MAX_CHARACTER_NAME,		&cb[63]);	// 2009-02-12 by cmkwon, EP3-3 월드랭킹시스템 구현 - 
 }
 
-void CAtumDBHelper::BindColMONSTER(SQLHSTMT &hstmt, MONSTER_INFO &monster, SQLINTEGER *cb)
+void CAtumDBHelper::BindColMONSTER(SQLHSTMT &hstmt, MONSTER_INFO &monster, SQLLEN *cb)
 {
 	SQLBindCol(hstmt, 1, SQL_C_LONG, &monster.MonsterUnitKind, 0, &cb[1]);
 	cb[2] = SQL_NTS;
@@ -8482,7 +8482,7 @@ void CAtumDBHelper::BindColMONSTER(SQLHSTMT &hstmt, MONSTER_INFO &monster, SQLIN
 }
 
 // start 2011-03-21 by hskim, 인피니티 3차 - 몬스터 멀티 타겟팅 기능 추가
-void CAtumDBHelper::BindColMonsterMultiTarget(SQLHSTMT &hstmt, MONSTER_MULTI_TARGET &target, SQLINTEGER *cb)
+void CAtumDBHelper::BindColMonsterMultiTarget(SQLHSTMT &hstmt, MONSTER_MULTI_TARGET &target, SQLLEN *cb)
 {
 	SQLBindCol(hstmt, 1, SQL_C_LONG,	&target.MonsterIndex,		0,	&cb[0]);
 	SQLBindCol(hstmt, 2, SQL_C_LONG,	&target.PointIndex,			0,	&cb[1]);
@@ -8494,7 +8494,7 @@ void CAtumDBHelper::BindColMonsterMultiTarget(SQLHSTMT &hstmt, MONSTER_MULTI_TAR
 
 
 // 2013-08-28 by bckim, 보스몬스터 보상강화
-void CAtumDBHelper::BindColBossMonsterRewardInfo(SQLHSTMT &hstmt, BOSS_MONSTER_REWARD_INFO &ret, SQLINTEGER *cb)
+void CAtumDBHelper::BindColBossMonsterRewardInfo(SQLHSTMT &hstmt, BOSS_MONSTER_REWARD_INFO &ret, SQLLEN *cb)
 {
 	SQLBindCol(hstmt, 1, SQL_C_LONG,	&ret.MonsterIndex,						0,	&cb[0]);
 	SQLBindCol(hstmt, 2, SQL_C_FLOAT,	&ret.BossMonsterReward.fMinDamege,		0,	&cb[1]);
@@ -8505,7 +8505,7 @@ void CAtumDBHelper::BindColBossMonsterRewardInfo(SQLHSTMT &hstmt, BOSS_MONSTER_R
 // End. 2013-08-28 by bckim, 보스몬스터 보상강화
 
 
-void CAtumDBHelper::BindColRareItemInfo(SQLHSTMT &hstmt, RARE_ITEM_INFO &rareItemInfo, SQLINTEGER *cb)
+void CAtumDBHelper::BindColRareItemInfo(SQLHSTMT &hstmt, RARE_ITEM_INFO &rareItemInfo, SQLLEN *cb)
 {
 	SQLBindCol(hstmt,  1, SQL_C_LONG   , &rareItemInfo.CodeNum, 0,					&cb[1]);
 	SQLBindCol(hstmt,  2, SQL_C_CHAR   , rareItemInfo.Name, SIZE_MAX_RARE_FIX_NAME,	&cb[2]);
@@ -8643,7 +8643,7 @@ void CAtumDBHelper::ProcessLoopMessage(HWND hWnd)
 int CAtumDBHelper::SaveMonsterGrade(CODBCStatement *i_pODBCStmt, MONSTER_GRADE_LIST *o_pMonsterGradeList, HWND hWnd)
 //end 2009. 10. 27 by jskim 진행률 확인
 {
-	SQLINTEGER	arrCB[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
 
 	//Delete ti_InfluenceWar
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_130814_0003, SQL_NTS);
@@ -8706,7 +8706,7 @@ int CAtumDBHelper::SaveMonsterGrade(CODBCStatement *i_pODBCStmt, MONSTER_GRADE_L
 int CAtumDBHelper::LoadMonsterGradeList(CODBCStatement *i_pODBCStmt, MONSTER_GRADE_LIST *i_pvectMONSTER_GRADE_LIST)
 {
 	RETCODE					ret;
-	SQLINTEGER				arrCB[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
+	SQLLEN				arrCB[7] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS};
 	MONSTER_GRADE_INFO		tmMONSTER_GRADE_INFO;
 	BOOL bRet = i_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_130814_0002));
 	if (!bRet)
@@ -8739,7 +8739,7 @@ int CAtumDBHelper::LoadMonsterGradeList(CODBCStatement *i_pODBCStmt, MONSTER_GRA
 // 2013-08-28 by bckim, 보스몬스터 보상강화
 int CAtumDBHelper::SaveBossReward(CODBCStatement *i_pODBCStmt, vectorBossMonsterReward *o_pBossRewardList, HWND hWnd)
 {
-	SQLINTEGER	arrCB[6] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[6] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	
 	BOOL bRet = i_pODBCStmt->ExecuteQuery(PROCEDURE_130828_0002, SQL_NTS);
 	i_pODBCStmt->FreeStatement();
@@ -8788,7 +8788,7 @@ BOOL CAtumDBHelper::GetChannelingServerInfo(CODBCStatement *i_pODBCStmt, vectCha
 {
 	SCHANNELING_SERVER_INFO tempChannelingInfo;
 	
-	SQLINTEGER arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindCol(i_pODBCStmt->m_hstmt, 1, SQL_C_ULONG, &tempChannelingInfo.nChannelingSeverUID, 0,		&arrCB[1]);
 	SQLBindCol(i_pODBCStmt->m_hstmt, 2, SQL_C_CHAR, &tempChannelingInfo.cChannelingServerToken, 2,		&arrCB[2]);
 	SQLBindCol(i_pODBCStmt->m_hstmt, 3, SQL_C_CHAR, &tempChannelingInfo.ChannelingServerName, 20,		&arrCB[3]);

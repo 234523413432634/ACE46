@@ -184,7 +184,7 @@ void CStatisticPage3Dlg::ViewDailyConnection()
 // 2008-08-27 by cmkwon, 날쿼리를 Procedure로 수정 - 
 //	BOOL bRet = m_pODBCStmt->ExecuteQuery((LPCSTR)szSQLQuery);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SZQUERY, 0, (LPSTR)(LPCSTR)szSQLQuery, 0,			&arrCB2[1]);
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0122));
 	m_pODBCStmt->FreeStatement();
@@ -263,7 +263,7 @@ void CStatisticPage3Dlg::ViewDailyConnection()
 		return;
 	}
 
-	SQLINTEGER cb1, cb2;
+	SQLLEN cb1, cb2;
 
 	char tempDate[20];
 	memset(tempDate, 0, sizeof(tempDate));
@@ -372,7 +372,7 @@ void CStatisticPage3Dlg::ViewByHourConnection()
 // 2008-08-27 by cmkwon, 날쿼리를 Procedure로 수정 - 
 //	BOOL bRet = m_pODBCStmt->ExecuteQuery((LPCSTR)szSQLQuery);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SZQUERY, 0, (LPSTR)(LPCSTR)szSQLQuery, 0,			&arrCB2[1]);
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0122));
 	m_pODBCStmt->FreeStatement();
@@ -438,7 +438,7 @@ void CStatisticPage3Dlg::ViewByHourConnection()
 	}
 
 
-	SQLINTEGER cb1, cb2, cb3, cb4;
+	SQLLEN cb1, cb2, cb3, cb4;
 
 	char tempDate[20];
 	memset(tempDate, 0, sizeof(tempDate));
@@ -559,7 +559,7 @@ void CStatisticPage3Dlg::ViewByDayConnection()
 // 2008-08-27 by cmkwon, 날쿼리를 Procedure로 수정 - 
 //	BOOL bRet = m_pODBCStmt->ExecuteQuery((LPCSTR)szSQLQuery);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SZQUERY, 0, (LPSTR)(LPCSTR)szSQLQuery, 0,			&arrCB2[1]);
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0122));
 	m_pODBCStmt->FreeStatement();
@@ -624,7 +624,7 @@ void CStatisticPage3Dlg::ViewByDayConnection()
 		return;
 	}
 
-	SQLINTEGER cb1, cb2, cb3, cb4;
+	SQLLEN cb1, cb2, cb3, cb4;
 
 	char tempDate[20];
 	memset(tempDate, 0, sizeof(tempDate));
@@ -746,7 +746,7 @@ void CStatisticPage3Dlg::ViewByDayHourConnection()
 // 2008-08-27 by cmkwon, 날쿼리를 Procedure로 수정 - 
 //	BOOL bRet = m_pODBCStmt->ExecuteQuery((LPCSTR)szSQLQuery);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SZQUERY, 0, (LPSTR)(LPCSTR)szSQLQuery, 0,			&arrCB2[1]);
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0122));
 	m_pODBCStmt->FreeStatement();
@@ -810,7 +810,7 @@ void CStatisticPage3Dlg::ViewByDayHourConnection()
 	}
 
 
-	SQLINTEGER cb1, cb2, cb3, cb4;
+	SQLLEN cb1, cb2, cb3, cb4;
 
 	char tempDate[20];
 	memset(tempDate, 0, sizeof(tempDate));

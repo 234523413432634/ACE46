@@ -110,7 +110,7 @@ BOOL CAccountInfoDlg::OnInitDialog()
 //
 //	BOOL bRet = m_pODBCStmt->ExecuteQuery(szQuery);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0, (LPSTR)(LPCSTR)m_szAccountName, 0, &arrCB2[1]);
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0001));
 	if (!bRet)
@@ -122,7 +122,7 @@ BOOL CAccountInfoDlg::OnInitDialog()
 	}
 
 	// 2007-09-13 by cmkwon, 베트남 2차패스워드 시스템 구현 - SCAdminTool 수정
-	SQLINTEGER arrCB[11] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN arrCB[11] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 							SQL_NTS};
 
 	char szAccountName[SIZE_MAX_ACCOUNT_NAME];
@@ -237,7 +237,7 @@ void CAccountInfoDlg::OnOk()
 //
 //	BOOL bRet = m_pODBCStmt->ExecuteQuery(szQuery);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0, (LPSTR)(LPCSTR)m_szAccountName, 0,			&arrCB2[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_USHORT, SQL_SMALLINT, 0, 0, &m_nAcountType, 0,											&arrCB2[2]);
 	SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_PASSWORD_MD5_STRING, 0, (LPSTR)(LPCSTR)m_szPassword, 0,		&arrCB2[3]);

@@ -133,8 +133,8 @@ BOOL CMapWorkspace::LoadAllObjectInfofromDB(void)
 	SQLHSTMT	hstmt = SQL_NULL_HSTMT;
 
 	RETCODE	ret;
-	SQLINTEGER pcbNTS = SQL_NTS;
-	SQLINTEGER cb1, cb2, cb3, cb4, cb5, cb6;
+	SQLLEN pcbNTS = SQL_NTS;
+	SQLLEN cb1, cb2, cb3, cb4, cb5, cb6;
 	MAPOBJECTINFO	retObjInfo;
 
 	ret = SQLAllocHandle(SQL_HANDLE_ENV, NULL, &henv);
@@ -227,7 +227,7 @@ BOOL CMapWorkspace::LoadAllObjectInfofromDB(void)
 	MEMSET_ZERO(&tmCinemaInfo, sizeof(CINEMAINFO));
 
 	// 2010-03-31 by dhjin, 인피니티(기지방어) - 
-	SQLINTEGER	arrCB[28] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,	SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
+	SQLLEN	arrCB[28] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,	SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
 							, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,	SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
 							, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,	SQL_NTS, SQL_NTS, SQL_NTS };	// 2010-03-31 by dhjin, 인피니티(기지방어) - // 2011-03-09 by hskim, 시네마 퀘스트 인덱스 설정 추가 - // 2011-04-28 by hskim, 인피니티 3차 - 시네마 관련 기능 추가
 	SQLBindCol(hstmt, 1, SQL_C_ULONG, &tmCinemaInfo.CinemaNum,			0, &arrCB[1]);

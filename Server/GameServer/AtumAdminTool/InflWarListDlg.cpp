@@ -192,7 +192,7 @@ void CInflWarListDlg::LoadInflWarData(void)
 		return;
 	}
 
-	SQLINTEGER arrCB[12] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS};		// 2013-05-09 by hskim, 세력 포인트 개선
+	SQLLEN arrCB[12] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS};		// 2013-05-09 by hskim, 세력 포인트 개선
 
 	SINFLUENCE_WAR_DATA		tmInflWarData;
 	char					szInflLeaderCharacterName[SIZE_MAX_CHARACTER_NAME];

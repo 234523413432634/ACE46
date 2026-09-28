@@ -14,6 +14,7 @@
 
 #include <stdio.h>
 #include "DebugAssert.h"
+#include "LowMemory.h"
 #include <string>
 #include <vector>
 #include <SQLTYPES.H>
@@ -2999,6 +3000,11 @@ struct MEX_ITEM_INFO;
 ///////////////////////////////////////////////////////////////////////////////
 struct ITEM
 {
+	// ItemNum doubles as an (ITEM_BASE*) for equipped items and ITEM addresses
+	// travel through MEX_TIMER_EVENT::nGeneralParamN, so instances have to stay
+	// 32 bit addressable - see LowMemory.h.
+	ATUM_LOW_MEMORY_OBJECT()
+
 	INT			ItemNum;						// 아이템 고유번호, 장착 아이템일 때 (ITEM_BASE*)
 	BYTE		Kind;							// 아이템 종류(기관포, 빔, 로켓, 스킬.....), ITEMKIND_XXX
 	char		ItemName[SIZE_MAX_ITEM_NAME];	// 아이템 이름
@@ -3066,13 +3072,13 @@ struct ITEM
 	FLOAT		BoosterAngle;					// 부스터시에 유닛의 회전각, 현재는 엔진에만 사용
 	INT			CameraPattern;					// 카메라 패턴
 	INT			SourceIndex;					// 2005-08-22 by cmkwon, 이펙트, 아이콘(빅/스몰) 리소스 데이타
-	vectINT *	pParamOverlapIdxList;			// 2010-01-18 by cmkwon, 아이템 사용시 Parameter 중복 체크 시스템 구현 - 
+	CAtumHandle32<vectINT>	pParamOverlapIdxList;			// 2010-01-18 by cmkwon, 아이템 사용시 Parameter 중복 체크 시스템 구현 - 
 	char		Description[SIZE_MAX_ITEM_DESCRIPTION];	// 아이템 설명
 	BYTE		EnchantCheckDestParam;			// 2009-09-09 ~ 2010-02-10 by dhjin, 인피니티 - 발동류장착아이템
 	InvokingDestParamID_t	InvokingDestParamID;	// 2009-09-09 ~ 2010-02-10 by dhjin, 인피니티 - 발동류장착아이템
 	InvokingDestParamID_t	InvokingDestParamIDByUse;// 2009-09-09 ~ 2010-02-10 by dhjin, 인피니티 - 발동류장착아이템	
-	InvokingWearItemDestParamList *	pInvokingDestParamList;			// 2009-09-09 ~ 2010-02-10 by dhjin, 인피니티 - 발동류장착아이템
-	InvokingWearItemDestParamList *	pInvokingDestParamByUseList;	// 2009-09-09 ~ 2010-02-10 by dhjin, 인피니티 - 발동류장착아이템	
+	CAtumHandle32<InvokingWearItemDestParamList>	pInvokingDestParamList;			// 2009-09-09 ~ 2010-02-10 by dhjin, 인피니티 - 발동류장착아이템
+	CAtumHandle32<InvokingWearItemDestParamList>	pInvokingDestParamByUseList;	// 2009-09-09 ~ 2010-02-10 by dhjin, 인피니티 - 발동류장착아이템	
 	BYTE		IsTenderDropItem;				// 2010-04-09 by cmkwon, 인피2차 추가 수정(단계별 보상 추가) - CFieldIOCP::SetTenderItemList#에서 설정됨
 
 	// operator overloading
@@ -3293,7 +3299,7 @@ struct MAP_AREA {
 
 typedef struct
 {
-	ITEM		*pItemInfo;
+	CAtumPtr32<ITEM>	pItemInfo;
 	DWORD		dwUsingPercent;
 	BYTE		byArrayIndex;
 	BYTE		byBodyConArrayIndex;		// 2006-12-15 by cmkwon, DB의 순서 - 이펙트 바디컨디션과 연관 있다
@@ -3833,7 +3839,7 @@ struct ITEM_BASE
 	BYTE		Kind;							// 아이템 종류(기관포, 빔, 로켓, 스킬.....)
 	UID64_t		UniqueNumber;					// 아이템 고유번호
 	INT			ItemNum;						// 아이템 번호
-	ITEM		*ItemInfo;						// ITEM에 대한 pointer
+	CAtumPtr32<ITEM>	ItemInfo;				// ITEM에 대한 pointer
 };
 
 // 일반 아이템(무기류, 방어류, ...)
@@ -7568,7 +7574,7 @@ struct tPET_CURRENTINFO
 
 	// 링크
 
-	ITEM			*pItemPetSocket[SIZE_MAX_PETSOCKET];
+	CAtumPtr32<ITEM>	pItemPetSocket[SIZE_MAX_PETSOCKET];
 
 #ifdef _ATUM_SERVER
 	tPET_CURRENTINFO ( tPET_CURRENTINFO *pPetCurInfo )

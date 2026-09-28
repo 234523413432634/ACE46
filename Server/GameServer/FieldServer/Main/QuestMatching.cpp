@@ -76,7 +76,7 @@ BOOL CQuestMatching::LoadQuestMatchingAndItemMatching(CODBCStatement *i_pODBCStm
 	}
 
 	SQUEST_MATCHING tmQuestMatching;
-	SQLINTEGER	arrCB[3] = {SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[3] = {SQL_NTS, SQL_NTS, SQL_NTS};
 	SQLBindCol(i_pODBCStmt->m_hstmt, 1, SQL_C_LONG, &tmQuestMatching.QuestIndexForBCU, 0,			&arrCB[1]);
 	SQLBindCol(i_pODBCStmt->m_hstmt, 2, SQL_C_LONG, &tmQuestMatching.QuestIndexForANI, 0,			&arrCB[2]);
 	while (TRUE)

@@ -197,7 +197,7 @@ void CRenewalStrategyPointAdminDlg::LoadStrategyPointMapInfluenceInfo()
 		return;
 	}
 	
-	SQLINTEGER	arrCB[4] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[4] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	SSTRATEGYPOINT_MAP_INFLUENCESTRATEGYPOINT_INFO	tmStrategyPointMapInfluenceInfo;
 	MEMSET_ZERO(&tmStrategyPointMapInfluenceInfo, sizeof(SSTRATEGYPOINT_MAP_INFLUENCESTRATEGYPOINT_INFO));
 	
@@ -252,7 +252,7 @@ void CRenewalStrategyPointAdminDlg::LoadStrategyPointSummonTimeInfo()
 		return;
 	}
 
-	SQLINTEGER	arrCB[6] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[6] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	SRENEWAL_STRATEGYPOINT_SUMMON_TIME	tmStrategyPointNotSummonTime;
 	MEMSET_ZERO(&tmStrategyPointNotSummonTime, sizeof(SRENEWAL_STRATEGYPOINT_SUMMON_TIME));
 	SQL_TIMESTAMP_STRUCT	tmSTime;
@@ -646,7 +646,7 @@ void CRenewalStrategyPointAdminDlg::ListLoad()
 		return;
 	}
 
-	SQLINTEGER	arrCB[5] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN	arrCB[5] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	SSTRATEGYPOINT_SUMMONTIME_INFO	tmStrategyPointSummonTimeInfo;
 	MEMSET_ZERO(&tmStrategyPointSummonTimeInfo, sizeof(SSTRATEGYPOINT_SUMMONTIME_INFO));
 	SQL_TIMESTAMP_STRUCT	tmTime;

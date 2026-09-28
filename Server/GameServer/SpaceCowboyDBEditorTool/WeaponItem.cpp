@@ -524,7 +524,7 @@ void CWeaponItem::GetCurrentItemList()
 // 		, ITEMKIND_AUTOMATIC, ITEMKIND_MINE);
 	szSQLQuery.Format(QUERY_080702_0230, ITEMKIND_AUTOMATIC, ITEMKIND_MINE);
 
-	SQLINTEGER cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8, cb9, cb10, cb11, cb12, cb13, cb14, cb15, cb16, cb17, cb18, cb19, cb20, cb21, cb22, cb23, cb24, cb25, cb26, cb27, cb28, cb29, cb30, cb31, cb32, cb33, cb34, cb35, cb36, cb37, cb38, cb39, cb40, cb41, cb42;
+	SQLLEN cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8, cb9, cb10, cb11, cb12, cb13, cb14, cb15, cb16, cb17, cb18, cb19, cb20, cb21, cb22, cb23, cb24, cb25, cb26, cb27, cb28, cb29, cb30, cb31, cb32, cb33, cb34, cb35, cb36, cb37, cb38, cb39, cb40, cb41, cb42;
 
 	_TI_ITEM		st_WeaponItem;
 	memset(&st_WeaponItem, 0, sizeof(st_WeaponItem));

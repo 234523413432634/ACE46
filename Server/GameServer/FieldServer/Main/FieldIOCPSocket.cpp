@@ -25512,7 +25512,7 @@ ProcessResult CFieldIOCPSocket::Process_FC_ITEM_USE_ENERGY(const char* pPacket, 
 
 			// 남은 시간은 m_nRemainedTimeOfGradualHPUP 을 사용함
 			m_TimerManager.m_nRemainedTimeOfGradualHPUP	= pItemEnergy->ItemInfo->ReAttacktime;
-			m_TimerManager.m_TEIDGradualHPUP			= m_TimerManager.StartTimerField(TE_TYPE_GRADUAL_HP_UP, TIMER_GRADUAL_UP_INTERVAL, (UINT)pItemEnergy->ItemInfo);
+			m_TimerManager.m_TEIDGradualHPUP			= m_TimerManager.StartTimerField(TE_TYPE_GRADUAL_HP_UP, TIMER_GRADUAL_UP_INTERVAL, pItemEnergy->ItemInfo.GetRaw32());
 		}
 		break;
 	case DES_GRADUAL_DP_UP:
@@ -25547,7 +25547,7 @@ ProcessResult CFieldIOCPSocket::Process_FC_ITEM_USE_ENERGY(const char* pPacket, 
 
 			// 남은 시간은 m_nRemainedTimeOfGradualDPUP 을 사용함
 			m_TimerManager.m_nRemainedTimeOfGradualDPUP		= pItemEnergy->ItemInfo->ReAttacktime;
-			m_TimerManager.StartTimerField(TE_TYPE_GRADUAL_DP_UP, TIMER_GRADUAL_UP_INTERVAL, (UINT)pItemEnergy->ItemInfo);
+			m_TimerManager.StartTimerField(TE_TYPE_GRADUAL_DP_UP, TIMER_GRADUAL_UP_INTERVAL, pItemEnergy->ItemInfo.GetRaw32());
 		}
 		break;
 	case DES_GRADUAL_EP_UP:
@@ -25567,7 +25567,7 @@ ProcessResult CFieldIOCPSocket::Process_FC_ITEM_USE_ENERGY(const char* pPacket, 
 
 			// 남은 시간은 m_nRemainedTimeOfGradualEPUP 을 사용함
 			m_TimerManager.m_nRemainedTimeOfGradualEPUP		= pItemEnergy->ItemInfo->ReAttacktime;
-			m_TimerManager.StartTimerField(TE_TYPE_GRADUAL_EP_UP, TIMER_GRADUAL_UP_INTERVAL, (UINT)pItemEnergy->ItemInfo);
+			m_TimerManager.StartTimerField(TE_TYPE_GRADUAL_EP_UP, TIMER_GRADUAL_UP_INTERVAL, pItemEnergy->ItemInfo.GetRaw32());
 		}
 		break;
 // 2008-08-27 by cmkwon, CurrentHP,CurrentDP 동시에 채우는 수리키트 구현 - 기존 소스 주석 처리

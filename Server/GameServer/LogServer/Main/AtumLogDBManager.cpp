@@ -115,7 +115,7 @@ void CAtumLogDBManager::QP_FL_LOG_LOGIN(DB_QUERY q, SQLHSTMT hstmt)
 {
 	MSG_FL_LOG_LOGIN *pRMsg = (MSG_FL_LOG_LOGIN*)q.pQueryParam;
 
-	SQLINTEGER cb2, cb4, cb5;
+	SQLLEN cb2, cb4, cb5;
 	/*[Stored Query Definition]************************************************
 	--!!!!
 	-- Name: atum_log_insert_connection
@@ -228,7 +228,7 @@ void CAtumLogDBManager::QP_FL_LOG_LOGOUT(DB_QUERY q, SQLHSTMT hstmt)
 {
 	MSG_FL_LOG_LOGOUT *pRMsg = (MSG_FL_LOG_LOGOUT*)q.pQueryParam;
 
-	SQLINTEGER cb2, cb4, cb5;
+	SQLLEN cb2, cb4, cb5;
 	/*[Stored Query Definition]************************************************
 	--!!!!
 	-- Name: atum_log_insert_connection
@@ -494,10 +494,10 @@ void CAtumLogDBManager::QP_FL_LOG_GAME_START(DB_QUERY q, SQLHSTMT hstmt)
 	SQLBindParameter(hstmt, 4, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_SMALLINT, 0, 0, &pRMsg->CurrentPosition.x, 0, NULL);
 	SQLBindParameter(hstmt, 5, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_SMALLINT, 0, 0, &pRMsg->CurrentPosition.y, 0, NULL);
 	SQLBindParameter(hstmt, 6, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_SMALLINT, 0, 0, &pRMsg->CurrentPosition.z, 0, NULL);
-	SQLINTEGER cb1 = SQL_NTS;
+	SQLLEN cb1 = SQL_NTS;
 	SQLBindParameter(hstmt, 7, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_CHARACTER_NAME, 0, pRMsg->CharacterName, 0, &cb1);
 	SQLBindParameter(hstmt, 8, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &pRMsg->AccountUniqueNumber, 0, NULL);
-	SQLINTEGER cb2 = SQL_NTS;
+	SQLLEN cb2 = SQL_NTS;
 	SQLBindParameter(hstmt, 9, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0, pRMsg->AccountName, 0, &cb2);
 	int nPlay = 0;
 	SQLBindParameter(hstmt, 10, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &nPlay, 0, NULL);
@@ -557,10 +557,10 @@ void CAtumLogDBManager::QP_FL_LOG_GAME_END(DB_QUERY q, SQLHSTMT hstmt)
 	SQLBindParameter(hstmt, 4, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_SMALLINT, 0, 0, &pRMsg->CurrentPosition.x, 0, NULL);
 	SQLBindParameter(hstmt, 5, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_SMALLINT, 0, 0, &pRMsg->CurrentPosition.y, 0, NULL);
 	SQLBindParameter(hstmt, 6, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_SMALLINT, 0, 0, &pRMsg->CurrentPosition.z, 0, NULL);
-	SQLINTEGER cb1 = SQL_NTS;
+	SQLLEN cb1 = SQL_NTS;
 	SQLBindParameter(hstmt, 7, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_CHARACTER_NAME, 0, pRMsg->CharacterName, 0, &cb1);
 	SQLBindParameter(hstmt, 8, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &pRMsg->AccountUniqueNumber, 0, NULL);
-	SQLINTEGER cb2 = SQL_NTS;
+	SQLLEN cb2 = SQL_NTS;
 	SQLBindParameter(hstmt, 9, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0, pRMsg->AccountName, 0, &cb2);
 	SQLBindParameter(hstmt, 10, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &pRMsg->PlayTime, 0, NULL);
 	SQLBindParameter(hstmt, 11, SQL_PARAM_INPUT, SQL_C_SBIGINT, SQL_BIGINT, 0, 0, &pRMsg->TotalPlayTime, 0, NULL);
@@ -892,10 +892,10 @@ void CAtumLogDBManager::QP_FL_LOG_CREATE_CHARACTER(DB_QUERY q, SQLHSTMT hstmt)
 	SQLBindParameter(hstmt, 4, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_SMALLINT, 0, 0, &pRMsg->CurrentPosition.x, 0, NULL);
 	SQLBindParameter(hstmt, 5, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_SMALLINT, 0, 0, &pRMsg->CurrentPosition.y, 0, NULL);
 	SQLBindParameter(hstmt, 6, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_SMALLINT, 0, 0, &pRMsg->CurrentPosition.z, 0, NULL);
-	SQLINTEGER cb1 = SQL_NTS;
+	SQLLEN cb1 = SQL_NTS;
 	SQLBindParameter(hstmt, 7, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_CHARACTER_NAME, 0, pRMsg->CharacterName, 0, &cb1);
 	SQLBindParameter(hstmt, 8, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &pRMsg->AccountUniqueNumber, 0, NULL);
-	SQLINTEGER cb2 = SQL_NTS;
+	SQLLEN cb2 = SQL_NTS;
 	SQLBindParameter(hstmt, 9, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0, pRMsg->AccountName, 0, &cb2);
 	// 2013-05-23 by bckim, 베트남 서버다운 에러메세지 관련 수정 - 사용하지 않는 무의미한 값
 // 	SQLBindParameter(hstmt, 10, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &pRMsg->UnitKind, 0, NULL);
@@ -964,10 +964,10 @@ void CAtumLogDBManager::QP_FL_LOG_DELETE_CHARACTER(DB_QUERY q, SQLHSTMT hstmt)
 	SQLBindParameter(hstmt, 4, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_SMALLINT, 0, 0, &pRMsg->CurrentPosition.x, 0, NULL);
 	SQLBindParameter(hstmt, 5, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_SMALLINT, 0, 0, &pRMsg->CurrentPosition.y, 0, NULL);
 	SQLBindParameter(hstmt, 6, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_SMALLINT, 0, 0, &pRMsg->CurrentPosition.z, 0, NULL);
-	SQLINTEGER cb1 = SQL_NTS;
+	SQLLEN cb1 = SQL_NTS;
 	SQLBindParameter(hstmt, 7, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_CHARACTER_NAME, 0, pRMsg->CharacterName, 0, &cb1);
 	SQLBindParameter(hstmt, 8, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &pRMsg->AccountUniqueNumber, 0, NULL);
-	SQLINTEGER cb2 = SQL_NTS;
+	SQLLEN cb2 = SQL_NTS;
 	SQLBindParameter(hstmt, 9, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0, pRMsg->AccountName, 0, &cb2);
 	// 2013-05-23 by bckim, 베트남 서버다운 에러메세지 관련 수정 - 사용하지 않는 무의미한 값
 // 	SQLBindParameter(hstmt, 10, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &pRMsg->UnitKind, 0, NULL);
@@ -1375,7 +1375,7 @@ void CAtumLogDBManager::QP_FL_LOG_ITEM_TRADE_SEND(DB_QUERY q, SQLHSTMT hstmt)
 	SQLBindParameter(hstmt, 5, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pRMsg->Item4Log.ItemNum, 0, NULL);
 	SQLBindParameter(hstmt, 6, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pRMsg->Item4Log.CurrentCount, 0, NULL);
 	SQLBindParameter(hstmt, 7, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pRMsg->ChangeCount, 0, NULL);
-	SQLINTEGER pcb = SQL_NTS;
+	SQLLEN pcb = SQL_NTS;
 	SQLBindParameter(hstmt, 8, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_CHARACTER_NAME, 0, pRMsg->PeerCharacterName, 0, &pcb);
 	SQLBindParameter(hstmt, 9, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pRMsg->PeerCharacterUniqueNumber, 0, NULL);
 
@@ -1419,7 +1419,7 @@ void CAtumLogDBManager::QP_FL_LOG_ITEM_TRADE_RECV(DB_QUERY q, SQLHSTMT hstmt)
 	SQLBindParameter(hstmt, 5, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pRMsg->Item4Log.ItemNum, 0, NULL);
 	SQLBindParameter(hstmt, 6, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pRMsg->Item4Log.CurrentCount, 0, NULL);
 	SQLBindParameter(hstmt, 7, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pRMsg->ChangeCount, 0, NULL);
-	SQLINTEGER pcb = SQL_NTS;
+	SQLLEN pcb = SQL_NTS;
 	SQLBindParameter(hstmt, 8, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_CHARACTER_NAME, 0, pRMsg->PeerCharacterName, 0, &pcb);
 	SQLBindParameter(hstmt, 9, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pRMsg->PeerCharacterUniqueNumber, 0, NULL);
 
@@ -1448,7 +1448,7 @@ void CAtumLogDBManager::QP_FL_LOG_ITEM_TRADE_RECV(DB_QUERY q, SQLHSTMT hstmt)
 void CAtumLogDBManager::QP_FL_LOG_GUILD_STORE(DB_QUERY q, SQLHSTMT hstmt)
 {
 	MSG_FL_LOG_GUILD_STORE *pRMsg = (MSG_FL_LOG_GUILD_STORE*)q.pQueryParam;
-	SQLINTEGER		arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN		arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 
 	/*[Stored Query Definition]************************************************
 	CREATE PROCEDURE atum_log_Insert_GuildStore
@@ -1889,7 +1889,7 @@ void CAtumLogDBManager::QP_FL_LOG_ITEM_USE_CHANGE_CHARACTER_NAME_ORIGIN(DB_QUERY
 	SQLBindParameter(hstmt, 6, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pRMsg->Item4Log.CurrentCount, 0, NULL);
 	int nChangeCount = 0;
 	SQLBindParameter(hstmt, 7, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &nChangeCount, 0, NULL);
-	SQLINTEGER pcb = SQL_NTS;
+	SQLLEN pcb = SQL_NTS;
 	SQLBindParameter(hstmt, 8, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_CHARACTER_NAME, 0, pRMsg->szOriginCharName, 0, &pcb);
 	SQLBindParameter(hstmt, 9, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pRMsg->CharacterUniqueNumber, 0, NULL);
 
@@ -2014,7 +2014,7 @@ void CAtumLogDBManager::QP_FL_LOG_MONSTER_BOSS(DB_QUERY q, SQLHSTMT hstmt)
 	}
 
 	BYTE logType = T1_FL_LOG_MONSTER_BOSS;
-	SQLINTEGER cb[19]; MEMSET_ZERO(cb, sizeof(SQLINTEGER)*19);
+	SQLLEN cb[19]; MEMSET_ZERO(cb, sizeof(SQLINTEGER)*19);
 	char tmpCreatedTimeBuf[SIZE_MAX_SQL_DATETIME_STRING];
 	char tmpDeadTimeBuf[SIZE_MAX_SQL_DATETIME_STRING];
 
@@ -2322,7 +2322,7 @@ void CAtumLogDBManager::QP_FL_LOG_ITEM_TRY_ENCHANT_INFO(DB_QUERY q, SQLHSTMT hst
 	SQLBindParameter(hstmt, 7, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pRMsg->TryEnchantInfo.SuffixCodeNum, 0, NULL);
 	SQLBindParameter(hstmt, 8, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pRMsg->TryEnchantInfo.EnchantCount, 0, NULL);
 
-	SQLINTEGER pcb = SQL_NTS;
+	SQLLEN pcb = SQL_NTS;
  	SQLBindParameter(hstmt, 9, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, 1024, 0, &pRMsg->szCardList, 0, &pcb);
 	
  	RETCODE ret = SQLExecDirect(hstmt, PROCEDURE_130702_0001, SQL_NTS);
@@ -2363,7 +2363,7 @@ void CAtumLogDBManager::QP_FL_LOG_BUGTRAP_ACCEPT(DB_QUERY q, SQLHSTMT hstmt)
 	memset(tempIP, 0x00, SIZE_MAX_IPADDRESS);
 	sprintf(tempIP, "%d.%d.%d.%d",  pRMsg->IPAddress[0],  pRMsg->IPAddress[1],  pRMsg->IPAddress[2],  pRMsg->IPAddress[3]);
 	
-	SQLINTEGER arrCB[20] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,		SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
+	SQLLEN arrCB[20] = { SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,		SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS
 								,SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS,		SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS };
 	
 	INT nServerGroupID	= g_pLogGlobal->GetMGameServerID();

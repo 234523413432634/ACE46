@@ -4564,7 +4564,7 @@ BOOL CFieldItemManager::CheckBuyLimitedEditionShopItem(INT *o_pRemainCount, INT 
 	CALL dbo.atum_check_Buy_LimitedEdtion_shopItem
 	**************************************************************************/
 	SQLHSTMT mDBstmt = mainDBOdbcStmt.GetSTMTHandle();
-	SQLINTEGER arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(mDBstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0,	&i_nItemNum, 0, &arrCB[1]);
 	
 	RETCODE ret = mainDBOdbcStmt.ExecuteQuery(PROCEDURE_100127_0545);

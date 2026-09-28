@@ -368,7 +368,7 @@ void CArmorCollectionEditDlg::LoadUserArmorCollectionList()
 		return;
 	}
 	
-	SQLINTEGER		arrCB[10] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN		arrCB[10] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	
 	if( SQL_NO_DATA != ret )
 	{

@@ -115,7 +115,7 @@ BOOL CPremiumInfoDlg::LoadPremiumInfoBYAccountUID(SPREMIUM_INFO *o_pPremiumInfo,
 //	szQuery.Format(QUERY_080702_0014, i_accUID);	// 2008-07-02 by cmkwon, MySQL 지원 구현 - 
 //	BOOL bRet = m_pODBCStmt->ExecuteQuery(szQuery);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[2] = {SQL_NTS,SQL_NTS};
+	SQLLEN arrCB2[2] = {SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &i_accUID, 0,		&arrCB2[1]);	
 	BOOL bRet = m_pODBCStmt->ExecuteQuery((char*)(PROCEDURE_080827_0014));
 	if (FALSE == bRet)
@@ -126,7 +126,7 @@ BOOL CPremiumInfoDlg::LoadPremiumInfoBYAccountUID(SPREMIUM_INFO *o_pPremiumInfo,
 	}
 
 	MEMSET_ZERO(o_pPremiumInfo, sizeof(SPREMIUM_INFO));
-	SQLINTEGER arrCB[6] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN arrCB[6] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	SQL_TIMESTAMP_STRUCT		arrSqlTime[3];
 	MEMSET_ZERO(arrSqlTime, sizeof(arrSqlTime[0])*3);
 	SQLBindCol(m_pODBCStmt->m_hstmt, 1, SQL_C_SBIGINT, &o_pPremiumInfo->u64PremiumUID, 0, &arrCB[1]);
@@ -274,7 +274,7 @@ void CPremiumInfoDlg::OnBtnInsert()
 //						, tmTimeBuf[0], tmTimeBuf[1], tmTimeBuf[2]);
 //	BOOL bRet = m_pODBCStmt->ExecuteQuery(szQuery);
 	SQLHSTMT hstmt = m_pODBCStmt->GetSTMTHandle();
-	SQLINTEGER arrCB2[6] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS};
+	SQLLEN arrCB2[6] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, 0, 0, &m_uidAccountUID, 0,						&arrCB2[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &tmPreInfo.nItemNum, 0,						&arrCB2[2]);	
 	SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SQL_DATETIME_STRING, 0, tmTimeBuf[0], 0,	&arrCB2[3]);

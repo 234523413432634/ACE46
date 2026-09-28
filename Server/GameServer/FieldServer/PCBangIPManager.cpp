@@ -177,7 +177,7 @@ BOOL CPCBangIPManager::IsPCBangIPCheck(char *i_szClientIP, UID32_t *o_PCBangUID)
 		MultiByteToWideChar(CODE_PAGE, 0, i_szClientIP, -1, wcClientIP, nIPSize);
 
 		SQLHSTMT hstmt = odbcStmt.GetSTMTHandle();
-		SQLINTEGER cb = SQL_NTS;
+		SQLLEN cb = SQL_NTS;
 		SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_WCHAR, SQL_WVARCHAR, nIPSize, 0, wcClientIP, 0,		&cb);
 		bRet = odbcStmt.ExecuteQuery(PROCEDURE_090720_0397);
 		if(FALSE == bRet)

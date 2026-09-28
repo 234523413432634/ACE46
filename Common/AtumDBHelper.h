@@ -167,12 +167,12 @@ public:
 	static BOOL WRK_PVPLoadRankingToWorldRankingServer(CODBCStatement *i_pODBCStmt, INT i_ExcludeServiUID, mtvectSWRK_PVP_FOR_DB *o_pvectRankerList);
 
 	// parameter binding
-	static void BindColITEM(SQLHSTMT &hstmt, ITEM &item, SQLINTEGER *cb);
-	static void BindColCharacter(SQLHSTMT &hstmt, CHARACTER &character, CHARACTER_DB_EX &characterDBEX, SQLINTEGER *cb);
-	static void BindColMONSTER(SQLHSTMT &hstmt, MONSTER_INFO &monster, SQLINTEGER *cb);
-	static void BindColMonsterMultiTarget(SQLHSTMT &hstmt, MONSTER_MULTI_TARGET &target, SQLINTEGER *cb);		// 2011-03-21 by hskim, 인피니티 3차 - 몬스터 멀티 타겟팅 기능 추가
-	static void BindColRareItemInfo(SQLHSTMT &hstmt, RARE_ITEM_INFO &rareItemInfo, SQLINTEGER *cb);
-	static void BindColBossMonsterRewardInfo(SQLHSTMT &hstmt, BOSS_MONSTER_REWARD_INFO &retBossMonsterReward, SQLINTEGER *cb);	// 2013-08-28 by bckim, 보스몬스터 보상강화
+	static void BindColITEM(SQLHSTMT &hstmt, ITEM &item, SQLLEN *cb);
+	static void BindColCharacter(SQLHSTMT &hstmt, CHARACTER &character, CHARACTER_DB_EX &characterDBEX, SQLLEN *cb);
+	static void BindColMONSTER(SQLHSTMT &hstmt, MONSTER_INFO &monster, SQLLEN *cb);
+	static void BindColMonsterMultiTarget(SQLHSTMT &hstmt, MONSTER_MULTI_TARGET &target, SQLLEN *cb);		// 2011-03-21 by hskim, 인피니티 3차 - 몬스터 멀티 타겟팅 기능 추가
+	static void BindColRareItemInfo(SQLHSTMT &hstmt, RARE_ITEM_INFO &rareItemInfo, SQLLEN *cb);
+	static void BindColBossMonsterRewardInfo(SQLHSTMT &hstmt, BOSS_MONSTER_REWARD_INFO &retBossMonsterReward, SQLLEN *cb);	// 2013-08-28 by bckim, 보스몬스터 보상강화
 
 	// process log messages
 	void ProcessLogMessages(SQLSMALLINT plm_handle_type, SQLHANDLE &plm_handle, const char *logstring, BOOL ConnInd);

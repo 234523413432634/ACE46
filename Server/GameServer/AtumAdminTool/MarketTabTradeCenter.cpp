@@ -481,7 +481,7 @@ BOOL CMarketTabTradeCenter::DBQueryLoadMarketData(vect_MARKET_INFO_LOG_DATA *o_p
  	SQLBindParameter(hstmt,row++,SQL_PARAM_INPUT, SQL_C_TYPE_TIMESTAMP, SQL_TYPE_TIMESTAMP, 23, 3, (SQLPOINTER)&tempStartDateTime, 0, NULL);							
  	SQLBindParameter(hstmt,row++,SQL_PARAM_INPUT, SQL_C_TYPE_TIMESTAMP, SQL_TYPE_TIMESTAMP, 23, 3, (SQLPOINTER)&tempEndDateTime, 0, NULL);
 	SQLBindParameter(hstmt,row++,SQL_PARAM_INPUT, SQL_C_TINYINT, SQL_TINYINT, 0, 0, &temp_influenceType, 0, NULL);
-	SQLINTEGER cb1 = SQL_NTS;
+	SQLLEN cb1 = SQL_NTS;
 	SQLBindParameter(hstmt,row++, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_CHARACTER_NAME+1, 0, LPSTR(LPCTSTR( m_bCheckCharacterName?(m_szCharacterName):(""))), 0, &cb1);
 	SQLBindParameter(hstmt,row++,SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0,	&temp_CharacterUID, 0, NULL);
 	SQLBindParameter(hstmt,row++,SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0,	&temp_ItemUID, 0, NULL);
@@ -501,7 +501,7 @@ BOOL CMarketTabTradeCenter::DBQueryLoadMarketData(vect_MARKET_INFO_LOG_DATA *o_p
 		return FALSE;
 	}	
 
-	SQLINTEGER arrCB[17]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
+	SQLLEN arrCB[17]={SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,
 		SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,		SQL_NTS, SQL_NTS};
 
 	MARKET_INFO_LOG_DATA tmMarketInfoLogData;

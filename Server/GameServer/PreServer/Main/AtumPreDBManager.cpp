@@ -257,7 +257,7 @@ void CAtumPreDBManager::QP_PRE_Login(DB_QUERY q, SQLHSTMT &hstmt, SQLHSTMT &hstm
 	GO
 	**************************************************************************/
 
-	SQLINTEGER arrCB[10] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};	// 2011-08-25 by shcho, 횟수별 아이템 지급기능 구현 - 날짜는 이전에 로그인한 날짜로딩을 위해 하나 추가
+	SQLLEN arrCB[10] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};	// 2011-08-25 by shcho, 횟수별 아이템 지급기능 구현 - 날짜는 이전에 로그인한 날짜로딩을 위해 하나 추가
 	SQLBindParameter(hstmt, 1,SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0, pRMsg->AccountName, 0, &arrCB[0]);
  	ret = SQLExecDirect(hstmt, PROCEDURE_080822_0265, SQL_NTS);
  	if (ret != SQL_SUCCESS && ret != SQL_SUCCESS_WITH_INFO && ret != SQL_NO_DATA)
@@ -339,7 +339,7 @@ void CAtumPreDBManager::QP_PRE_Login(DB_QUERY q, SQLHSTMT &hstmt, SQLHSTMT &hstm
 				SQLINTEGER tmpNum = 1;
 				SQLINTEGER tmpnum1= 0;
 				SQLINTEGER AccountUniqueNumber = accInfo.AccountUniqueNumber;
-				SQLINTEGER	arrcb1[3] = {SQL_NTS,SQL_NTS,SQL_NTS}; 
+				SQLLEN	arrcb1[3] = {SQL_NTS,SQL_NTS,SQL_NTS}; 
 
 				retEv = SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_ULONG,	 SQL_INTEGER, 0,							0,	&tmpNum,				0, &arrcb1[0]); // 현재는 디폴트로 사용함
 				retEv = SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_ULONG,	 SQL_INTEGER, 0,							0,	&AccountUniqueNumber,	0, &arrcb1[1]);
@@ -624,7 +624,7 @@ void CAtumPreDBManager::QP_BlockUser(DB_QUERY q, SQLHSTMT hstmt)
 	GO
 	**************************************************************************/
 
-	SQLINTEGER arrCB[8] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN arrCB[8] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0, pBlockedAccInfo->szBlockedAccountName, 0, &arrCB[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &pBlockedAccInfo->enBlockedType, 0, &arrCB[2]);
 	char tmpStartTimeBuf[SIZE_MAX_SQL_DATETIME_STRING];
@@ -700,7 +700,7 @@ void CAtumPreDBManager::QP_UnblockUser(DB_QUERY q, SQLHSTMT hstmt)
 	GO
 	**************************************************************************/
 
-	SQLINTEGER cb = SQL_NTS;
+	SQLLEN cb = SQL_NTS;
 	// 2008-01-30 by cmkwon, 계정 블럭 로그 남기기 구현 - 아래와 같이 수정
 	//SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0, szAccountName, 0, &cb);
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0, pBlockedAccInfo->szBlockedAccountName, 0, &cb);
@@ -877,7 +877,7 @@ void CAtumPreDBManager::QP_LogTotalUser(DB_QUERY q, SQLHSTMT hstmt)
 	MSG_DB_TOTAL_USER	*pRMsg = (MSG_DB_TOTAL_USER*)q.pQueryParam;
 
 	RETCODE ret;
-	SQLINTEGER arrCB[4] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};		// 2010-11 by dhjin, 아라리오 채널링 로그인.
+	SQLLEN arrCB[4] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};		// 2010-11 by dhjin, 아라리오 채널링 로그인.
 
 	/*[Stored Query Definition]************************************************
 	CREATE PROCEDURE atum_log_insert_total_user
@@ -921,7 +921,7 @@ void CAtumPreDBManager::QP_InsertGlogAccount(DB_QUERY q, SQLHSTMT hstmt)
 	QPARAM_GLOG_INSERT_ACCOUNT	*pRMsg = (QPARAM_GLOG_INSERT_ACCOUNT*)q.pQueryParam;
 	
 	RETCODE ret;
-	SQLINTEGER arrCB[4] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
+	SQLLEN arrCB[4] = {SQL_NTS, SQL_NTS, SQL_NTS, SQL_NTS};
 
 	/*[Stored Query Definition]************************************************
 	ALTER PROCEDURE dbo.atum_InsertGlogAccount
@@ -967,7 +967,7 @@ void CAtumPreDBManager::QP_InsertGlogAccount(DB_QUERY q, SQLHSTMT hstmt)
 BOOL CAtumPreDBManager::IsExistAccount(char *pAccountName, SQLHSTMT &hstmt)
 {
 	CAccountInfo AccountInfo;
-	SDWORD pcbNTS = SQL_NTS;
+	SQLLEN pcbNTS = SQL_NTS;
 
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0, pAccountName, 0, NULL);			
 
@@ -1061,7 +1061,7 @@ BOOL CAtumPreDBManager::LogInsertBlockUnblock(SQLHSTMT hstmt, SBLOCKED_ACCOUNT_I
 	GO
 	**************************************************************************/
 
-	SQLINTEGER arrCB[9] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[9] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	char tmpStartTimeBuf[SIZE_MAX_SQL_DATETIME_STRING];
 	char tmpEndTimeBuf[SIZE_MAX_SQL_DATETIME_STRING];
 	i_pBlockAccInfo->atimeStartTime.GetSQLDateTimeString(tmpStartTimeBuf, SIZE_MAX_SQL_DATETIME_STRING);
@@ -1209,7 +1209,7 @@ BOOL CAtumPreDBManager::ExternalAuthentication(CAccountInfo *o_pAccInfo, MSG_PC_
 													, i_pLogin->AccountName, i_pLogin->WebLoginAuthKey, i_pLogin->PrivateIP);
 
 //			char szQuery[1024];
-			SDWORD pcbNTS = SQL_NTS;
+			SQLLEN pcbNTS = SQL_NTS;
 
 			// 2008-07-02 by cmkwon, MySQL 지원 구현 - 
 			//wsprintf(szQuery, "SELECT AccountUniqueNumber, AccountType, Password FROM td_Account WITH (NOLOCK) \
@@ -1349,7 +1349,7 @@ BOOL CAtumPreDBManager::ExternalAuthentication(CAccountInfo *o_pAccInfo, MSG_PC_
 			FROM td_Account WHERE AccountName = @i_AccountName
 	GO
 	**************************************************************************/
-	SQLINTEGER arrCB[8] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[8] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS ,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0, i_pLogin->AccountName, 0,	&arrCB[1]);
 	SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &i_pLogin->MGameSEX, 0,						&arrCB[2]);
 	SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &i_pLogin->MGameYear, 0,							&arrCB[3]);
@@ -1448,7 +1448,7 @@ BOOL CAtumPreDBManager::ExternalAuthentication(CAccountInfo *o_pAccInfo, MSG_PC_
 				if ( TRUE == bRet )
 				{
 					SQLHSTMT ExtUserInfoDB_hstmt = ExtUserInfoDB_odbcStmt.GetSTMTHandle();
-					SQLINTEGER arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+					SQLLEN arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 					SQLRETURN ret = 0;
 					
 					SQLBindParameter(ExtUserInfoDB_hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0, i_pLogin->AccountName, 0,	&arrCB[1]);
@@ -1552,7 +1552,7 @@ BOOL CAtumPreDBManager::ExternalAuthentication(CAccountInfo *o_pAccInfo, MSG_PC_
 			END
 		GO
 		*/
-		SQLINTEGER arrCB2[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+		SQLLEN arrCB2[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 		SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &o_pAccInfo->AccountUniqueNumber, 0,							&arrCB2[1]);
 		SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &UserSerial, 0,							&arrCB2[2]);
 		SQLBindParameter(hstmt, 3, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, USER_CI_SIZE, 0, CertifyCode, 0,	&arrCB2[3]);
@@ -1721,7 +1721,7 @@ BOOL CAtumPreDBManager::ExecuteExtAuth_GalaNet(INT *o_pnExtAccountIDNum, char *i
 	GO	
 	**************************************************************************/
 	char *szExtAuthGameName  = EXT_AUTH_GAME_NAME; 
-	SQLINTEGER arrCB[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[5] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(hstmt_extAuth, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0, i_szAccName, 0,		NULL);
 	SQLBindParameter(hstmt_extAuth, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_PASSWORD_MD5_STRING, 0, i_szPwd, 0,	NULL);
 	SQLBindParameter(hstmt_extAuth, 3, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, 10, 0, szExtAuthGameName, 0,					NULL);
@@ -1907,7 +1907,7 @@ BOOL CAtumPreDBManager::ExecuteExtAuthChina(char *o_szJuminNumber, char *i_szAcc
 	GO
 	**************************************************************************/
 	int		nRetCode = 0;
-	SQLINTEGER arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	// 2007-07-05 by cmkwon, 중국 인증 오류 수정 - Output 인자를 결과 리턴으로 변경함
 	SQLBindParameter(hstmt_extAuth, 1,SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_ACCOUNT_NAME, 0, i_szAccName, 0		, &arrCB[1]);
 	SQLBindParameter(hstmt_extAuth, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_PASSWORD_MD5_STRING, 0, i_szPwd, 0	, &arrCB[2]);

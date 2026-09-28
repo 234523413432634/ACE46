@@ -105,7 +105,7 @@ void CDeclarationOfWar::GetDeclarationOfWarByDB()
 		return;
 	}
 	
-	SQLINTEGER	arrCB[13] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
+	SQLLEN	arrCB[13] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS, SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS
 							, SQL_NTS,SQL_NTS,SQL_NTS};
 
 	SDECLARATION_OF_WAR_FOR_ADMINTOOL	tmDeclarationOfWar;
@@ -169,7 +169,7 @@ void CDeclarationOfWar::GetDeclarationOfWarByDB()
 		return;
 	}
 	
-	SQLINTEGER	arrCB2[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB2[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 
 	MEMSET_ZERO(&m_SDeclarationOfWarForbidTime, sizeof(SDECLARATION_OF_WAR_FORBID_TIME));
 	SQL_TIMESTAMP_STRUCT	ForbidStartTime;
@@ -475,7 +475,7 @@ void CDeclarationOfWar::OnButtonStepStartUpdate()
 		END
 	GO
 	************************************************************************/
-	SQLINTEGER	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(m_pODBCStmtDeclarationOfWar->m_hstmt, 1, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &m_Step, 0,	&arrCB[1]);
 	ATUM_DATE_TIME	tmSetTime;
 	tmSetTime.SetDateTime(m_StepDateStart.GetYear(), m_StepDateStart.GetMonth(), m_StepDateStart.GetDay()
@@ -523,7 +523,7 @@ void CDeclarationOfWar::OnButtonStepSelect()
 		WHERE Influence = @i_Influence AND MSWarStep = @i_MSWarStep
 	GO
 	************************************************************************/
-	SQLINTEGER	arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(m_pODBCStmtDeclarationOfWar->m_hstmt, 1, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &m_Influence, 0,	&arrCB[1]);
 	SQLBindParameter(m_pODBCStmtDeclarationOfWar->m_hstmt, 2, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &m_Step, 0,	&arrCB[2]);
 	SQLBindParameter(m_pODBCStmtDeclarationOfWar->m_hstmt, 3, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &m_Select, 0,	&arrCB[3]);
@@ -592,7 +592,7 @@ void CDeclarationOfWar::OnButtonForbidUpdate()
 																	, ForbidEndTime = @i_ForbidEndTime
 	GO
 	************************************************************************/
-	SQLINTEGER	arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(m_pODBCStmtDeclarationOfWar->m_hstmt, 1, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &m_SDeclarationOfWarForbidTime.DayOfWeek, 0,	&arrCB[1]);
 	ATUM_DATE_TIME	tmStartTime;
 	tmStartTime.SetCurrentDateTime();
@@ -669,7 +669,7 @@ void CDeclarationOfWar::OnButtonMsStartUpdate()
 		WHERE Influence = @i_Influence AND MSWarStep = @i_MSWarStep AND MSWarStepStartTime <= @i_MSWarStartTime AND MSWarStepEndTime >= @i_MSWarStartTime
 	GO
 	************************************************************************/
-	SQLINTEGER	arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
+	SQLLEN	arrCB[4] = {SQL_NTS,SQL_NTS,SQL_NTS,SQL_NTS};
 	SQLBindParameter(m_pODBCStmtDeclarationOfWar->m_hstmt, 1, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &m_Influence, 0,	&arrCB[1]);
 	SQLBindParameter(m_pODBCStmtDeclarationOfWar->m_hstmt, 2, SQL_PARAM_INPUT, SQL_C_UTINYINT, SQL_TINYINT, 0, 0, &m_Step, 0,	&arrCB[2]);
 	ATUM_DATE_TIME	tmSetTime;

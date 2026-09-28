@@ -224,7 +224,7 @@ BOOL CWeaponItemDetail::OnInitDialog()
 	szSQLQuery.Format(QUERY_080702_0234
 		, ITEMKIND_BULLET);
 
-	SQLINTEGER cb1;
+	SQLLEN cb1;
 
 	int tempItemnum;
 	CString szItemnum;

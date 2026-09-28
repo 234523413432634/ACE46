@@ -92,7 +92,7 @@ void CStatisticPage5Dlg::OnButtonSt5Select()
 		return;
 	}
 
-	SQLINTEGER	cb1,cb2,cb3;
+	SQLLEN	cb1,cb2,cb3;
 	int			szItemNum;
 	int			szSellCount;
 	int			szSellCash;
@@ -147,7 +147,7 @@ void CStatisticPage5Dlg::OnButtonSt5Select()
 //		szSQLQuery.Format(QUERY_080702_0180, szStartDate,szEndDate);		
 //		bRet = m_pODBCStmt1->ExecuteQuery((LPCSTR)szSQLQuery);
 		SQLHSTMT hstmt = m_pODBCStmt1->GetSTMTHandle();
-		SQLINTEGER arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
+		SQLLEN arrCB2[3] = {SQL_NTS,SQL_NTS,SQL_NTS};
 		SQLBindParameter(hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SQL_DATETIME_STRING, 0, (LPSTR)(LPCSTR)szStartDate, 0,		&arrCB2[1]);
 		SQLBindParameter(hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, SIZE_MAX_SQL_DATETIME_STRING, 0, (LPSTR)(LPCSTR)szEndDate, 0,			&arrCB2[2]);
 		bRet = m_pODBCStmt1->ExecuteQuery((char*)(PROCEDURE_080827_0180));
