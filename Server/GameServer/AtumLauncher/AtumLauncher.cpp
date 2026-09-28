@@ -209,7 +209,7 @@ BOOL CAtumLauncherApp::InitInstance()
 #endif
 	// end 2008-12-17 by ckPark 러시아 런쳐
 */
-	dlg.m_ctlbWindowMode		= (dlg.m_nWindowModeReg == GAME_MODE_WINDOW) ? TRUE : FALSE;	// 2008-01-08 by cmkwon, 창 모드 버그 수정
+	dlg.SetGameModeCheckBoxes(dlg.m_nWindowModeReg);	// 2008-01-08 by cmkwon, 창 모드 버그 수정
 
 #if defined(SERVICE_TYPE_JAPANESE_SERVER_1)
 	if(dlg.m_strServerGroupName.IsEmpty()
@@ -439,7 +439,11 @@ void CAtumLauncherApp::WriteProfile()
 #endif
 		// end 2008-12-17 by ckPark 러시아 런쳐
 */
-		regDataExe2.IsWindowMode		= pDlg->m_ctlbWindowMode;			// 2008-01-03 by cmkwon, 윈도우모드 상태 저장하기 - 	
+		// IsWindowMode carries the whole window mode now rather than a flag, but in
+		// the file's own numbering, which is not GAME_MODE_* - see
+		// GameModeToStoredValue().
+		regDataExe2.IsWindowMode		= CAtumLauncherDlg::GameModeToStoredValue(
+												pDlg->GameModeFromCheckBoxes());			// 2008-01-03 by cmkwon, 윈도우모드 상태 저장하기 - 	
 
 
 
@@ -538,14 +542,8 @@ void CAtumLauncherApp::ReadProfile()
 
 		///////////////////////////////////////////////////////////////////////////////
 		// 2008-01-03 by cmkwon, 윈도우모드 상태 저장하기 - 
-		if(regDataExe2.IsWindowMode)
-		{
-			pDlg->m_nWindowModeReg = GAME_MODE_WINDOW;					// 2008-01-03 by cmkwon, 윈도우모드 상태 저장하기 - 
-		}
-		else
-		{
-			pDlg->m_nWindowModeReg = GAME_MODE_FULLSCREEN;					// 2007-05-09 by cmkwon, 항상 FullScreenMode
-		}
+		pDlg->m_nWindowModeReg = CAtumLauncherDlg::GameModeFromStoredValue(		// 2008-01-03 by cmkwon, 윈도우모드 상태 저장하기 - 
+										regDataExe2.IsWindowMode);				// 2007-05-09 by cmkwon, 항상 FullScreenMode
 
 // 2008-04-23 by cmkwon, PreServer 주소를 IP와 도메인 둘다 지원 - 아래와 같이 수정
 // 		char szTemp[16];

@@ -147,6 +147,7 @@ CAtumLauncherDlg::CAtumLauncherDlg(CWnd* pParent /*=NULL*/)
 	m_staticNumFileCtrl = _T("");
 	m_nWindowDegree = 0;
 	m_ctlbWindowMode = FALSE;
+	m_ctlbBorderlessMode = FALSE;
 	//}}AFX_DATA_INIT
 	// Note that LoadIcon does not require a subsequent DestroyIcon in Win32
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
@@ -246,6 +247,7 @@ void CAtumLauncherDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_DOWNLOAD_FILENUM, m_staticNumFileCtrl);
 	DDX_CBIndex(pDX, IDC_COMBO_WINDOW_DEGREE_LAUNCHER, m_nWindowDegree);
 	DDX_Check(pDX, IDC_CHECK_WINDOWS_MODE, m_ctlbWindowMode);
+	DDX_Check(pDX, IDC_CHECK_BORDERLESS_MODE, m_ctlbBorderlessMode);
 	DDX_Control(pDX, IDGO, m_KbcGO);
 	DDX_Control(pDX, IDJOIN, m_kbcBtnJoin);
 	DDX_Control(pDX, IDC_BTN_HOMEPAGE, m_bmpBtnHomepage);
@@ -278,6 +280,7 @@ BEGIN_MESSAGE_MAP(CAtumLauncherDlg, CDialog)
 	ON_BN_CLICKED(IDC_BTN_HOMEPAGE, OnBtnHomepage)
 	ON_BN_CLICKED(IDGO, OnOk)
 	ON_BN_CLICKED(IDC_CHECK_WINDOWS_MODE, OnCheckWindowsMode)
+	ON_BN_CLICKED(IDC_CHECK_BORDERLESS_MODE, OnCheckBorderlessMode)
 	//}}AFX_MSG_MAP
 	ON_MESSAGE(WM_PACKET_NOTIFY, OnSocketNotify)
 	ON_MESSAGE(WM_ASYNC_EVENT, OnAsyncSocketMessage)
@@ -414,6 +417,13 @@ BOOL CAtumLauncherDlg::ReadNoticeFile()
 
 #define EXE2_BG_WINDOWSMODE_CHECKBOX_WIDTH		13		// 2007-12-27 by cmkwon, 윈도우즈 모드 기능 추가 - Windows Mode Check Box Width
 #define EXE2_BG_WINDOWSMODE_CHECKBOX_HEIGHT		13		// 2007-12-27 by cmkwon, 윈도우즈 모드 기능 추가 - Windows Mode Check Box Height
+
+// Borderless Mode Check Box - box and its own caption, so wider than the one
+// above, whose label comes from the background bitmap.
+#define EXE2_BG_BORDERLESSMODE_CHECKBOX_WIDTH		115
+#define EXE2_BG_BORDERLESSMODE_CHECKBOX_HEIGHT		15		// room for the caption
+#define EXE2_BG_BORDERLESSMODE_CHECKBOX_GAP			12		// clear of "Window Mode"
+#define EXE2_BG_BORDERLESSMODE_CHECKBOX_OFFSET_Y	-1		// centre the taller box
 
 #define EXE2_BG_SERVERLIST_BOX_POS_X			570		// ServerList Box 위치 X
 #define EXE2_BG_SERVERLIST_BOX_POS_Y			130		// ServerList Box 위치 Y
@@ -576,11 +586,11 @@ BOOL CAtumLauncherDlg::OnInitDialog()
 		m_ctrlComboWindowDegree.SetTextColor(RGB(18, 236, 218));
 		m_ctrlComboWindowDegree.SetBackColor(RGB(0, 0, 0));
 #else
-		this->InsertWindowDegreeList(pComboBox, m_ctlbWindowMode);
+		this->InsertWindowDegreeList(pComboBox, this->IsWindowedGameMode());
 #endif
 		// end 2008-12-17 by ckPark 러시아 런쳐
 */
-		this->InsertWindowDegreeList(pComboBox, m_ctlbWindowMode);
+		this->InsertWindowDegreeList(pComboBox, this->IsWindowedGameMode());
 
 
 
@@ -695,7 +705,16 @@ BOOL CAtumLauncherDlg::OnInitDialog()
 	// 2007-12-27 by cmkwon, 윈도우즈 모드 기능 추가 - Windows Mode Check Box 위치 크기 설정
 	GetDlgItem(IDC_CHECK_WINDOWS_MODE)->MoveWindow(EXE2_BG_WINDOWSMODE_CHECKBOX_POS_X, EXE2_BG_WINDOWSMODE_CHECKBOX_POS_Y, EXE2_BG_WINDOWSMODE_CHECKBOX_WIDTH, EXE2_BG_WINDOWSMODE_CHECKBOX_HEIGHT);
 
-	
+	// Borderless sits immediately to the left of it and carries its own label:
+	// "Window Mode" is painted into the background artwork and there is no room
+	// there for a second caption.
+	GetDlgItem(IDC_CHECK_BORDERLESS_MODE)->MoveWindow(
+		EXE2_BG_WINDOWSMODE_CHECKBOX_POS_X - EXE2_BG_BORDERLESSMODE_CHECKBOX_WIDTH
+											- EXE2_BG_BORDERLESSMODE_CHECKBOX_GAP,
+		EXE2_BG_WINDOWSMODE_CHECKBOX_POS_Y + EXE2_BG_BORDERLESSMODE_CHECKBOX_OFFSET_Y,
+		EXE2_BG_BORDERLESSMODE_CHECKBOX_WIDTH, EXE2_BG_BORDERLESSMODE_CHECKBOX_HEIGHT);
+
+
 
 	
 /*	/// 2012-05-10 by jhseol, 러시아 - EP4 올라오면서 사용 안함. 주석처리
@@ -2536,14 +2555,8 @@ void CAtumLauncherDlg::OnOk()
 		// end 2008-12-17 by ckPark 러시아 런쳐
 */
 
-		if(FALSE == this->IsDlgButtonChecked(IDC_CHECK_WINDOWS_MODE))
-		{
-			m_nWindowModeReg		= GAME_MODE_FULLSCREEN;
-		}
-		else
-		{
-			m_nWindowModeReg		= GAME_MODE_WINDOW;
-		}
+		UpdateData();
+		m_nWindowModeReg		= this->GameModeFromCheckBoxes();
 
 		SendLogin(LOGIN_TYPE_DIRECT);
 // 2007-03-06 by cmkwon, 엠게임 소스 제거로 필요 없음
@@ -3950,8 +3963,17 @@ HBRUSH CAtumLauncherDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 			{
 				pDC->SetBkMode(TRANSPARENT);
 				pDC->SetBkColor(RGB(0, 0, 0));
-				pDC->SetTextColor(RGB(255, 255, 255));		
+				pDC->SetTextColor(RGB(255, 255, 255));
 				return m_StaticBrushGray;
+			}
+			else if(NULL != GetDlgItem(IDC_CHECK_BORDERLESS_MODE)
+					&& GetDlgItem(IDC_CHECK_BORDERLESS_MODE)->m_hWnd == pWnd->m_hWnd)
+			{	// A check box asks its parent for a static colour to draw its
+				// caption with. This one has to sit on the background artwork, so: no
+				// fill, and white to match the "Window Mode" label painted beside it.
+				pDC->SetBkMode(TRANSPARENT);
+				pDC->SetTextColor(RGB(255, 255, 255));
+				return (HBRUSH)GetStockObject(NULL_BRUSH);
 			}
 		}
 		break;
@@ -4683,10 +4705,103 @@ void CAtumLauncherDlg::OnBtnViewScreenKeyboard()
 	m_pScreenKeyboardDlg->ShowWindow(SW_SHOW);
 }
 
-void CAtumLauncherDlg::OnCheckWindowsMode() 
+///////////////////////////////////////////////////////////////////////////////
+/// \brief Which of the three window modes the two check boxes stand for.
+///
+/// Full screen, an ordinary window and a frameless one are three states, and
+/// two check boxes can express four - so ticking one clears the other, which
+/// is handled where they are clicked.
+///////////////////////////////////////////////////////////////////////////////
+int CAtumLauncherDlg::GameModeToStoredValue(int i_nGameMode)
+{
+	switch(i_nGameMode)
+	{
+	case GAME_MODE_WINDOW:		return 1;
+	case GAME_MODE_BORDERLESS:	return 2;
+	default:					return 0;		// full screen
+	}
+}
+
+int CAtumLauncherDlg::GameModeFromStoredValue(int i_nStoredValue)
+{
+	switch(i_nStoredValue)
+	{
+	case 1:		return GAME_MODE_WINDOW;
+	case 2:		return GAME_MODE_BORDERLESS;
+	default:	return GAME_MODE_FULLSCREEN;
+	}
+}
+
+int CAtumLauncherDlg::GameModeFromCheckBoxes()
+{
+	if(m_ctlbBorderlessMode)
+	{
+		return GAME_MODE_BORDERLESS;
+	}
+	if(m_ctlbWindowMode)
+	{
+		return GAME_MODE_WINDOW;
+	}
+	return GAME_MODE_FULLSCREEN;
+}
+
+void CAtumLauncherDlg::SetGameModeCheckBoxes(int i_nGameMode)
+{
+	m_ctlbWindowMode		= (GAME_MODE_WINDOW == i_nGameMode) ? TRUE : FALSE;
+	m_ctlbBorderlessMode	= (GAME_MODE_BORDERLESS == i_nGameMode) ? TRUE : FALSE;
+
+	if(::IsWindow(this->m_hWnd))
+	{	// Also called before the dialog exists, from CAtumLauncherApp; setting
+		// the members is enough then, DDX puts them on screen at OnInitDialog.
+		this->CheckDlgButton(IDC_CHECK_WINDOWS_MODE, m_ctlbWindowMode ? 1 : 0);
+		this->CheckDlgButton(IDC_CHECK_BORDERLESS_MODE, m_ctlbBorderlessMode ? 1 : 0);
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// \brief Rebuilds the resolution list for the mode now selected.
+///////////////////////////////////////////////////////////////////////////////
+void CAtumLauncherDlg::RefreshWindowDegreeListForGameMode()
+{
+	CComboBox *pComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_WINDOW_DEGREE_LAUNCHER);
+	if(NULL == pComboBox)
+	{
+		return;
+	}
+
+	CString csBeforeWDegree;
+	pComboBox->GetWindowText(csBeforeWDegree);
+
+	this->InsertWindowDegreeList(pComboBox, this->IsWindowedGameMode());
+
+	int nIdx = this->FindWindowDegreeComboBoxIndex(pComboBox, (LPSTR)(LPCSTR)csBeforeWDegree);
+	nIdx = max(0, nIdx);
+	pComboBox->SetCurSel(nIdx);
+}
+
+void CAtumLauncherDlg::OnCheckBorderlessMode()
+{
+	UpdateData();
+
+	if(m_ctlbBorderlessMode)
+	{	// the two are alternatives, not a pair
+		m_ctlbWindowMode = FALSE;
+		this->CheckDlgButton(IDC_CHECK_WINDOWS_MODE, 0);
+	}
+
+	this->RefreshWindowDegreeListForGameMode();
+}
+
+void CAtumLauncherDlg::OnCheckWindowsMode()
 {
 	// TODO: Add your control notification handler code here
 	UpdateData();
+
+	if(m_ctlbWindowMode)
+	{	// the two are alternatives, not a pair
+		m_ctlbBorderlessMode = FALSE;
+		this->CheckDlgButton(IDC_CHECK_BORDERLESS_MODE, 0);
+	}
 
 	CComboBox *pComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_WINDOW_DEGREE_LAUNCHER);
 	if(NULL == pComboBox)
@@ -4709,7 +4824,7 @@ void CAtumLauncherDlg::OnCheckWindowsMode()
 #endif
 	// end 2008-12-17 by ckPark 러시아 런쳐
 */
-	this->InsertWindowDegreeList(pComboBox, m_ctlbWindowMode);
+	this->InsertWindowDegreeList(pComboBox, this->IsWindowedGameMode());
 
 
 

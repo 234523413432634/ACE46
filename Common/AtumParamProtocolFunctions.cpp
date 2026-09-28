@@ -1363,11 +1363,8 @@ Err_t GReadVersionInfoFile(VersionInfo *o_pLauncherVerInfo, SREG_DATA_EXE_2 *o_p
 			char *token = strtok(NULL, seps);
 			if (token)
 			{
-				int nMode = atoi(token);
-				if(0 != nMode)
-				{
-					o_pRegDataExe2->IsWindowMode	= TRUE;
-				}
+				// Kept as written rather than folded to TRUE.
+				o_pRegDataExe2->IsWindowMode	= atoi(token);
 			}
 		}
 		else if (0 == stricmp(token, COMMON_STRMSG_REG_KEY_NAME_ACCOUNT_NAME))	// 2013-10-15 by bckim, 국가별 공용으로 쓰는 스트링 구분 STRMSG_REG_KEY_NAME_ACCOUNT_NAME->COMMON_STRMSG_REG_KEY_NAME_ACCOUNT_NAME

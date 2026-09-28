@@ -421,8 +421,22 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 		// END 2013-05-03 by bhsohn 핵쉴드 Dump 안나오는 현상 처리
 
 //end 2012-09-17 by jhahn	캐나다 핵쉴드 제거 버전
+
+	///////////////////////////////////////////////////////////////////////////
+	// Which kind of window to put the game in.
+	//
+	// The launcher passes one number here and always has.
+	///////////////////////////////////////////////////////////////////////////
+	pD3dApp.SetGameWindowMode(pD3dApp.m_IsFullMode);
+	if(pD3dApp.IsBorderless())
+	{	// Borderless is a window, so everything downstream that asks "is this
+		// full screen" has to be told no - which is what it was told when this
+		// was the only kind of window the client could make.
+		pD3dApp.m_IsFullMode = ATUM_WINDOW_MODE_WINDOWED;
+	}
+
 	// 2007-12-21 by dgwoo 창모드 지원
-	DbgOut("FullMode = %d\n",pD3dApp.m_IsFullMode);
+	DbgOut("FullMode = %d, WindowMode = %d\n", pD3dApp.m_IsFullMode, pD3dApp.GetGameWindowMode());
 	if( FAILED( pD3dApp.Create( hInstance ) ) )
 		return 0;
 // 2008-11-28 by bhsohn XignCode추가

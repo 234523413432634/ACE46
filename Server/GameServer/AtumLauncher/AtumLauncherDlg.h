@@ -30,8 +30,10 @@
 #define SERVER_SHARRINE		0x02
 #define SERVER_PHILON		0x03
 
-#define GAME_MODE_WINDOW		0
-#define GAME_MODE_FULLSCREEN	1
+// The three kinds of window the game can run in.
+#define GAME_MODE_WINDOW		0		// an ordinary window, with a frame
+#define GAME_MODE_FULLSCREEN	1		// Direct3D takes the display
+#define GAME_MODE_BORDERLESS	2		// a window with no frame
 
 #define TIMERID_CONNECT_PRESERVER		1
 #define TIMERID_ENABLE_CONTROL			2
@@ -126,6 +128,7 @@ public:
 	CString	m_staticNumFileCtrl;	
 	int		m_nWindowDegree;
 	BOOL	m_ctlbWindowMode;
+	BOOL	m_ctlbBorderlessMode;		// mutually exclusive with m_ctlbWindowMode
 	//}}AFX_DATA
 
 	// ClassWizard generated virtual function overrides
@@ -247,6 +250,20 @@ public:
 	// 2007-12-27 by cmkwon, 윈도우즈 모드 기능 추가 -
 	BOOL FindWindowResolutionByWindowDegree(int *o_pnCX, int *o_pnCY, int *o_pnDegree, char *i_szWindowDegreeName);
 	int InsertWindowDegreeList(CComboBox *i_pComboBox, BOOL i_bWindowsMode);
+
+	// The two check boxes and the GAME_MODE_* they stand for.
+	int  GameModeFromCheckBoxes();
+	void SetGameModeCheckBoxes(int i_nGameMode);
+	void RefreshWindowDegreeListForGameMode();
+
+	// The WindowMode line in VersionInfo.ver answers "is it a window", which is
+	// numbered the other way round from GAME_MODE_*: 0 there is full screen and 1
+	// is a window, where GAME_MODE_WINDOW is 0 and GAME_MODE_FULLSCREEN is 1.
+	static int GameModeToStoredValue(int i_nGameMode);
+	static int GameModeFromStoredValue(int i_nStoredValue);
+	// TRUE when the game will be in a window of some kind, which is what
+	// decides whether the resolution list is limited to what fits on screen.
+	BOOL IsWindowedGameMode()	{ return (GAME_MODE_FULLSCREEN != GameModeFromCheckBoxes()); }
 	int FindWindowDegreeComboBoxIndex(CComboBox *i_pComboBox, char *i_szWindowDegreeName);
 
 	// 2008-01-03 by cmkwon, 지원하는 해상도 리스트만 보여주기 - 
@@ -332,6 +349,7 @@ protected:
 	afx_msg void OnBtnViewScreenKeyboard();
 	afx_msg void OnBtnHomepage();
 	afx_msg void OnCheckWindowsMode();
+	afx_msg void OnCheckBorderlessMode();
 	//}}AFX_MSG
 	afx_msg LONG OnSocketNotify(WPARAM wParam, LPARAM lParam);
 	afx_msg LONG OnAsyncSocketMessage(WPARAM wParam, LPARAM lParam);

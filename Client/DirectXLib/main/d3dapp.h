@@ -10,7 +10,18 @@
 
 // basetsd.h defines INT_PTR (used below).  It is not included by default
 // under VC 5.0.  If you are using VC6 or later, it is included via Windows.h.
-#include <basetsd.h> 
+#include <basetsd.h>
+
+//-----------------------------------------------------------------------------
+// Which kind of window the game runs in.
+//
+// The launcher decides and passes the number on the command line, in the place
+// that used to mean "full screen or not" - it is GAME_MODE_* at that end, see
+// Server\GameServer\AtumLauncher\AtumLauncherDlg.h.
+//-----------------------------------------------------------------------------
+#define ATUM_WINDOW_MODE_WINDOWED		0
+#define ATUM_WINDOW_MODE_FULLSCREEN		1
+#define ATUM_WINDOW_MODE_BORDERLESS		2
 
 
 //-----------------------------------------------------------------------------
@@ -130,6 +141,12 @@ protected:
     DWORD             m_dwNumAdapters;
     DWORD             m_dwAdapter;
     BOOL              m_bWindowed;
+    // Which of ATUM_WINDOW_MODE_* the launcher asked for.  This is not the same
+    // question as m_bWindowed - that one says whether Direct3D takes the
+    // display, this one says what the window looks like - and it cannot be
+    // answered from m_bWindowed anyway, because the window is created before
+    // InitDeviceObjects() gets round to setting it.  See WinMain().
+    int               m_nGameWindowMode;
     BOOL              m_bActive;
     BOOL              m_bReady;
     BOOL              m_bHasFocus;
@@ -231,6 +248,11 @@ public:
 
  	int GetWidth() { return m_dwCreationWidth; }
 	int GetHeight() { return m_dwCreationHeight; }
+
+	// Has to be set before Create(), which is where the window is made.
+	void SetGameWindowMode(int i_nMode)	{ m_nGameWindowMode = i_nMode; }
+	int  GetGameWindowMode()			{ return m_nGameWindowMode; }
+	BOOL IsBorderless()					{ return (ATUM_WINDOW_MODE_BORDERLESS == m_nGameWindowMode); }
 	HDC GetHDC() { return m_hHangulDC; }
 
 	// 2005-01-07 by jschoi

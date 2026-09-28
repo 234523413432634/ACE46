@@ -120,6 +120,7 @@ CD3DApplication::CD3DApplication()
 	m_bClipCursorWhenFullscreen = TRUE;
 	m_bWindowed = FALSE;
 #endif
+	m_nGameWindowMode = ATUM_WINDOW_MODE_FULLSCREEN;		// WinMain() sets what the launcher asked for
 
 	// 2008-11-06 by bhsohn 마우스 가두기 모드 보완
 	m_nSetCursel = FALSE;
@@ -191,7 +192,7 @@ HRESULT CD3DApplication::Create(HINSTANCE hInstance)
 	FLOG("CD3DApplication::Create( HINSTANCE hInstance )");
 	HRESULT hr;
 	DWORD err = 0;
-	BOOL borderless = TRUE;
+	BOOL borderless = (ATUM_WINDOW_MODE_BORDERLESS == m_nGameWindowMode);
 	//	__try{
 	m_hInstance = hInstance;
 
@@ -248,8 +249,10 @@ HRESULT CD3DApplication::Create(HINSTANCE hInstance)
 			m_dwCreationHeight = m_nHeight;
 
 		}
-		else if (m_bWindowed)
-		{
+		else if (ATUM_WINDOW_MODE_WINDOWED == m_nGameWindowMode)
+		{	// Not m_bWindowed: InitDeviceObjects() sets that, and it does not
+			// run until Initialize3DEnvironment() below - by which time this window
+			// already exists.
 
 			//				m_dwWindowStyle = WS_OVERLAPPED|WS_CAPTION|WS_MINIMIZEBOX|WS_VISIBLE;
 			//				m_dwWindowStyle = WS_OVERLAPPED|WS_CAPTION|WS_SYSMENU|WS_THICKFRAME|
@@ -272,15 +275,17 @@ HRESULT CD3DApplication::Create(HINSTANCE hInstance)
 		else
 			m_dwWindowStyle = WS_POPUP | WS_SYSMENU | WS_VISIBLE;
 		// Set the window's initial width
+		//
+		// The adjusted rectangle is the window size that gives a *client* area of
+		// the chosen resolution, which is what the back buffer is created at.
 		RECT rc;
 		SetRect(&rc, 0, 0, m_dwCreationWidth, m_dwCreationHeight);
-		AdjustWindowRect(&rc, m_dwWindowStyle, TRUE);
-
+		AdjustWindowRect(&rc, m_dwWindowStyle, FALSE);
 
 		// Create the render window
 		m_hWnd = CreateWindow(_T(WINDOWTEXT_NAME_CLIENT), m_strWindowTitle, m_dwWindowStyle,
 			CW_USEDEFAULT, CW_USEDEFAULT,
-			m_dwCreationWidth, m_dwCreationHeight, 0L,
+			rc.right - rc.left, rc.bottom - rc.top, 0L,
 			NULL,
 			hInstance, 0L);
 	}
