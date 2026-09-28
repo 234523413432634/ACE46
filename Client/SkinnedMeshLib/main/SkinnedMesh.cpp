@@ -1926,8 +1926,12 @@ HRESULT CSkinnedMesh::DrawMeshContainer(SMeshContainer* pmcMesh, DWORD nType)
 						auto matid = pBoneComb[ipattr].BoneId[i];
 						if (matid != UINT_MAX)
 						{
-							m_pd3dDevice->SetTransform(D3DTS_WORLDMATRIX(i), pmcMesh->m_pBoneMatrix[matid]);
-							m_pd3dDevice->MultiplyTransform(D3DTS_WORLDMATRIX(i), &pmcMesh->m_pBoneOffsetMat[matid]);
+							// Was SetTransform() followed by MultiplyTransform(), which is two
+							// calls to work out a product the CPU can do in a few nanoseconds.
+							D3DXMATRIX matBone;
+							D3DXMatrixMultiply(&matBone, &pmcMesh->m_pBoneOffsetMat[matid],
+											   pmcMesh->m_pBoneMatrix[matid]);
+							m_pd3dDevice->SetTransform(D3DTS_WORLDMATRIX(i), &matBone);
 						}
 					}
 
@@ -1973,8 +1977,10 @@ HRESULT CSkinnedMesh::DrawMeshContainer(SMeshContainer* pmcMesh, DWORD nType)
 							DWORD matid = pBoneComb[ipattr].BoneId[i];
 							if (matid != UINT_MAX)
 							{
-								m_pd3dDevice->SetTransform(D3DTS_WORLDMATRIX(i), pmcMesh->m_pBoneMatrix[matid]);
-								m_pd3dDevice->MultiplyTransform(D3DTS_WORLDMATRIX(i), &pmcMesh->m_pBoneOffsetMat[matid]);
+								D3DXMATRIX matBone;
+								D3DXMatrixMultiply(&matBone, &pmcMesh->m_pBoneOffsetMat[matid],
+												   pmcMesh->m_pBoneMatrix[matid]);
+								m_pd3dDevice->SetTransform(D3DTS_WORLDMATRIX(i), &matBone);
 							}
 						}
 
@@ -2097,8 +2103,13 @@ HRESULT CSkinnedMesh::DrawMeshContainer(SMeshContainer* pmcMesh, DWORD nType)
 					auto matid = pBoneComb[ipattr].BoneId[i];
 					if (matid != UINT_MAX)
 					{
-						m_pd3dDevice->SetTransform(D3DTS_WORLDMATRIX(i), &pmcMesh->m_pBoneOffsetMat[matid]);
-						m_pd3dDevice->MultiplyTransform(D3DTS_WORLDMATRIX(i), pmcMesh->m_pBoneMatrix[matid]);
+						// Note the operands are the other way round here than in the non-indexed
+						// path above - this one sets the offset and multiplies the combined
+						// matrix onto it.
+						D3DXMATRIX matBone;
+						D3DXMatrixMultiply(&matBone, pmcMesh->m_pBoneMatrix[matid],
+										   &pmcMesh->m_pBoneOffsetMat[matid]);
+						m_pd3dDevice->SetTransform(D3DTS_WORLDMATRIX(i), &matBone);
 					}
 				}
 

@@ -4752,10 +4752,20 @@ void CSceneData::RenderWater()
 	// 타일 갯수 * 4만큼 랜더링
 	g_pD3dDev->SetStreamSource(0, m_pGround->m_pToRenderWaterVB, 0, sizeof(WATERBUMPVERTEX));
 
-	// 2009. 02. 11 by ckPark 물 렌더링 타일별로 렌더링
-	//g_pD3dDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, nRenderWaterTileCount * 4);
-	for(i=0; i<nRenderWaterTileCount; ++i)
-		g_pD3dDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, i*4, 2);
+	// 2009. 02.
+	if(NULL != m_pGround->m_pToRenderWaterIB
+	   && (UINT)nRenderWaterTileCount <= m_pGround->m_nToRenderWaterTileMax)
+	{
+		g_pD3dDev->SetIndices(m_pGround->m_pToRenderWaterIB);
+		g_pD3dDev->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0,
+										nRenderWaterTileCount * 4, 0,
+										nRenderWaterTileCount * 2);
+	}
+	else
+	{
+		for(i=0; i<nRenderWaterTileCount; ++i)
+			g_pD3dDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, i*4, 2);
+	}
 	// end 2009. 02. 11 by ckPark 물 렌더링 타일별로 렌더링
 
 	// 텍스쳐 해제

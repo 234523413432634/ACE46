@@ -109,6 +109,12 @@ public:
 
 
 	// 2008. 12. 11 by ckPark 물렌더링
+	// One index buffer over the whole of m_pToRenderWaterVB, so that every
+	// visible water tile is drawn by one call instead of one call each - see
+	// CSceneData::RenderWater().  Filled once; nothing touches it after that.
+	LPDIRECT3DINDEXBUFFER9		m_pToRenderWaterIB;
+	UINT						m_nToRenderWaterTileMax;
+
 	LPDIRECT3DVERTEXBUFFER9		m_pToRenderWaterVB;				// 최종적으로 뭉쳐서 그릴 물 버텍스 버퍼
 	// end 2008. 12. 11 by ckPark 물렌더링
 };

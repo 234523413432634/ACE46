@@ -69,6 +69,8 @@ CBackground::CBackground(PROJECTINFO info)//,int n)
 
 	// 2008. 12. 11 by ckPark 물렌더링
 	m_pToRenderWaterVB	= NULL;
+	m_pToRenderWaterIB	= NULL;
+	m_nToRenderWaterTileMax = 0;
 	// end 2008. 12. 11 by ckPark 물렌더링
 
 	int i;
@@ -142,6 +144,7 @@ CBackground::~CBackground()
 
 	// 2008. 12. 11 by ckPark 물렌더링
 	SAFE_RELEASE(m_pToRenderWaterVB);
+	SAFE_RELEASE(m_pToRenderWaterIB);
 	// end 2008. 12. 11 by ckPark 물렌더링
 
 
@@ -1036,7 +1039,46 @@ HRESULT CBackground::RestoreDeviceObjects()
 												 &m_pToRenderWaterVB, 
 												 NULL);
 		}
-		// END 2014-09-11 by ymjoo CreateVertexBuffer 실패시 재시도
+		// END 2014-09-11 by ymjoo CreateVertexBuffer 실패시 재시도 The indices that
+		// turn the tiles in that buffer into one draw.
+		if(SUCCEEDED(hrVB))
+		{
+			const UINT nTileMax = (UINT)(m_projectInfo.sXSize / 2) * (UINT)(m_projectInfo.sYSize / 2);
+
+			SAFE_RELEASE(m_pToRenderWaterIB);
+			m_nToRenderWaterTileMax = 0;
+
+			if(nTileMax > 0
+			   && SUCCEEDED(g_pD3dDev->CreateIndexBuffer(nTileMax * 6 * sizeof(DWORD),
+														 D3DUSAGE_WRITEONLY,
+														 D3DFMT_INDEX32,
+														 D3DPOOL_MANAGED,
+														 &m_pToRenderWaterIB,
+														 NULL)))
+			{
+				DWORD *pIndices = NULL;
+				if(SUCCEEDED(m_pToRenderWaterIB->Lock(0, 0, (void**)&pIndices, 0)))
+				{
+					for(UINT nTile = 0; nTile < nTileMax; ++nTile)
+					{
+						const DWORD nBase = nTile * 4;
+						pIndices[nTile * 6 + 0] = nBase + 0;
+						pIndices[nTile * 6 + 1] = nBase + 1;
+						pIndices[nTile * 6 + 2] = nBase + 2;
+						pIndices[nTile * 6 + 3] = nBase + 2;
+						pIndices[nTile * 6 + 4] = nBase + 1;
+						pIndices[nTile * 6 + 5] = nBase + 3;
+					}
+					m_pToRenderWaterIB->Unlock();
+					m_nToRenderWaterTileMax = nTileMax;
+				}
+				else
+				{
+					SAFE_RELEASE(m_pToRenderWaterIB);
+				}
+			}
+		}
+
 		if(FAILED(hrVB))
 		{
 			DBGOUT("[FailedToCreateVB]\n\n");
@@ -1198,6 +1240,7 @@ HRESULT CBackground::InvalidateDeviceObjects()
 
 	// 2008. 12. 11 by ckPark 물렌더링
 	SAFE_RELEASE(m_pToRenderWaterVB);
+	SAFE_RELEASE(m_pToRenderWaterIB);
 	// end 2008. 12. 11 by ckPark 물렌더링
 
 
@@ -1307,6 +1350,7 @@ HRESULT CBackground::DeleteDeviceObjects()
 
 	// 2008. 12. 11 by ckPark 물렌더링
 	SAFE_RELEASE(m_pToRenderWaterVB);
+	SAFE_RELEASE(m_pToRenderWaterIB);
 	// end 2008. 12. 11 by ckPark 물렌더링
 	// 2015-04-02 by jwlee 맵에 설정된 effect 리소스 관련 EFFECTINFOCLIENT 정보 메모리 관련 수정
 	map<INT,EFFECTINFOCLIENT *>::iterator itEff = m_mapEffectList.begin();
