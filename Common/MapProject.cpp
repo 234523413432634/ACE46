@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "MapProject.h"
+#include "ResourcePack.h"
 #include "IOCP.h"
 #include "MapChannel.h"
 #include "GameDataLast.h"
@@ -243,32 +244,25 @@ BOOL CMapProject::InitMapProject(void)
 //
 BOOL CMapProject::LoadMap(BOOL bLoadJustEvent)
 {
-	HANDLE	hFile;
 	DWORD	dwSize;
-	DWORD	dwBytesRead;
 	char	*buff;
 	char	pFileName[SIZE_MAX_PROJECT_FILE_NAME + SIZE_FILE_EXTENSITION];
 
 	// check: MapChannel 도입중, 20040322, kelovon, 맵이름 0으로 시작하지 않게 수정되면 0 빼야 함
 	sprintf(pFileName, (string(CONFIG_ROOT)+string("../map/%04d.sma")).c_str(), m_nMapIndex);
 
-	hFile = CreateFile(pFileName, GENERIC_READ, FILE_SHARE_READ, NULL,
-							OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-
-	// check: sma2가 없으면 sma를 로딩한다. sma2가 다 나오면 삭제하기!!!
-#ifdef _DEBUG
-	if(hFile == INVALID_HANDLE_VALUE)
+	// Loose file first, then the .\map archives - see Common\ResourcePack.h.
+	std::vector<BYTE> vectMapFile;
+	if(FALSE == CResourcePack::Instance().Read(pFileName, vectMapFile))
 	{
+#ifdef _DEBUG
 		DBGOUT("[Error] CMapProject::LoadMap() Cannot Find '%04d.sma', Instead Loading '%04d.sma2'\r\n", m_nMapIndex, m_nMapIndex);
 		sprintf(pFileName, (string(CONFIG_ROOT)+string("../map/%04d.sma2")).c_str(), m_nMapIndex);
-
-		hFile = CreateFile(pFileName, GENERIC_READ, FILE_SHARE_READ, NULL,
-								OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-//		bLoadJustEvent = TRUE;
-	}
+		CResourcePack::Instance().Read(pFileName, vectMapFile);
 #endif
+	}
 
-	if(hFile == INVALID_HANDLE_VALUE)
+	if(vectMapFile.empty())
 	{	// can not open file
 
 		int nErr = GetLastError();
@@ -281,23 +275,8 @@ BOOL CMapProject::LoadMap(BOOL bLoadJustEvent)
 		return FALSE;
 	}
 
-	dwSize = GetFileSize (hFile, NULL);
-	if (dwSize == INVALID_FILE_SIZE)
-	{	// failed ...
-
-		int nErr = GetLastError();
-		SetLastError(0);
-		char	szError[1024];
-		sprintf(szError, "[Error] CMapProject::LoadMap GetFileSize() error, LastError[%d] FileName[%s]\r\n"
-			, nErr, pFileName);
-		g_pGlobal->WriteSystemLog(szError);
-		DBGOUT(szError);
-		return FALSE;
-    }
-
-	buff = new char[dwSize];
-
-	ReadFile(hFile, buff, dwSize, &dwBytesRead, NULL);
+	dwSize = (DWORD)vectMapFile.size();
+	buff = (char*)&vectMapFile[0];
 
 	//////////////////////////////
 	// Load TILEINFO
@@ -438,8 +417,6 @@ BOOL CMapProject::LoadMap(BOOL bLoadJustEvent)
 	if (bLoadJustEvent)
 	{
 		// release resources
-		CloseHandle(hFile);
-		delete[] buff;
 
 		return TRUE;
 	}
@@ -491,8 +468,6 @@ BOOL CMapProject::LoadMap(BOOL bLoadJustEvent)
 	m_nMaxMonsterCount = max(1, m_nMaxMonsterCount);
 
 	// release resources
-	CloseHandle(hFile);
-	delete[] buff;
 
 	return TRUE;
 }

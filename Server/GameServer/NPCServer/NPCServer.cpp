@@ -14,6 +14,7 @@
 // 2012-04-20 by hskim 미니덤프 기능 추가
 #ifdef S_MINI_DUMP_HSKIM
 #include "dbgHelp.h"
+#include "ResourcePack.h"
 #pragma comment(lib, "dbghelp.lib")
 
 
@@ -90,6 +91,14 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 #else
 	g_pNPCGlobal->GetSystemLogManagerPtr()->InitLogManger(TRUE, "NPCSystem", (char*)(string(CONFIG_ROOT) + "../log/SystemLog/").c_str());
 #endif //ARENA
+
+	// .\map\*.zip may carry the map resources; a loose file always wins over an
+	// archived one - see Common\ResourcePack.h.
+	{
+		char szArchiveSummary[1024] = {0,};
+		AtumMountMapArchives(szArchiveSummary, sizeof(szArchiveSummary));
+		CNPCGlobal::WriteSystemLogEX(TRUE, "[Notify] map resources: %s\r\n", szArchiveSummary);
+	}
 #if defined(DEV)
 	CNPCGlobal::WriteSystemLogEX(TRUE, "========================================\r\n");
 	CNPCGlobal::WriteSystemLogEX(TRUE, "==== NPC SERVER DEVELOPMENT VERSION ====\r\n");

@@ -26,6 +26,7 @@
 // 2012-04-20 by hskim 미니덤프 기능 추가
 #ifdef S_MINI_DUMP_HSKIM
 #include "dbgHelp.h"
+#include "ResourcePack.h"
 #pragma comment(lib, "dbghelp.lib")
 
 
@@ -91,6 +92,14 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	g_pPreGlobal->GetSystemLogManagerPtr()->InitLogManger(TRUE, "PreSystem", (char*)(string(CONFIG_ROOT) + "../log/SystemLog/").c_str());
 
 	g_pPreGlobal->WriteSystemLogEX(TRUE, "Pre Server Start\r\n");
+
+	// .\map\*.zip may carry the map resources; a loose file always wins over an
+	// archived one - see Common\ResourcePack.h.
+	{
+		char szArchiveSummary[1024] = {0,};
+		AtumMountMapArchives(szArchiveSummary, sizeof(szArchiveSummary));
+		g_pPreGlobal->WriteSystemLogEX(TRUE, "[Notify] map resources: %s\r\n", szArchiveSummary);
+	}
 
 	if(FALSE == CIOCP::SocketInit())
 	{

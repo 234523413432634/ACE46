@@ -16,6 +16,7 @@
 // 2012-04-20 by hskim 미니덤프 기능 추가
 #ifdef S_MINI_DUMP_HSKIM
 #include "dbgHelp.h"
+#include "ResourcePack.h"
 #pragma comment(lib, "dbghelp.lib")
 
 
@@ -91,6 +92,14 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 #else
 	g_pFieldGlobal->GetSystemLogManagerPtr()->InitLogManger(TRUE, "FieldSystem", (char*)(string(CONFIG_ROOT) + "../log/SystemLog/").c_str());
 #endif
+
+	// .\map\*.zip may carry the map resources; a loose file always wins over an
+	// archived one - see Common\ResourcePack.h.
+	{
+		char szArchiveSummary[1024] = {0,};
+		AtumMountMapArchives(szArchiveSummary, sizeof(szArchiveSummary));
+		g_pFieldGlobal->WriteSystemLogEX(TRUE, "[Notify] map resources: %s\r\n", szArchiveSummary);
+	}
 	// 2008-03-17 by cmkwon, Gameforge4D_Eng 빌링 모듈 연동하기 - 
 	if(FALSE == CFieldIOCPSocket::LoadCashLibrary())
 	{

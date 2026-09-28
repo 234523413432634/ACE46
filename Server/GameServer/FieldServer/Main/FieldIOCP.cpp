@@ -4,6 +4,8 @@
 
 #include "stdafx.h"
 #include "FieldIOCP.h"
+#include "ResourcePack.h"
+#include "Parallel.h"
 #include "FieldIOCPSocket.h"
 #include "MonsterDBAccess.h"
 #include "FieldGlobal.h"
@@ -6755,195 +6757,165 @@ void CFieldIOCP::SendWarPointToInflClient(BYTE i_byInflTy, int i_nWarPoint, BYTE
 ///////////////////////////////////////////////////////////////////////////////
 BOOL CFieldIOCP::GetAllFileNameList(vectstring *i_pVectFileNameList, const char *i_szDir, char *i_szPrefixFileName/*=NULL*/)
 {
-// 2007-07-18 by cmkwon, omi.tex도 체크섬을 체크 루틴 추가 - 함수를 호출한 쪽에서 처리함
+// 2007-07-18 by cmkwon, 함수를 호출한 이곳에서 처리함
 //	i_pVectFileNameList->clear();
 
-	char szFullPath[MAX_PATH];
-	WIN32_FIND_DATA FileData	= {0};	
-	
-	_stprintf(szFullPath, "%s\\*.*", i_szDir);	
-	HANDLE hSearch = FindFirstFile(szFullPath, &FileData); 	
-	if (hSearch == INVALID_HANDLE_VALUE) 
-	{
+	// Loose files and archived ones both show up here, a loose file winning a
+	// name clash - see Common\ResourcePack.h.
+	std::vector<std::string> vectName;
+	if(FALSE == CResourcePack::Instance().ListDirectory(i_szDir, vectName))
+	{	// no such directory and no archive covering it - an existing but
+		// empty directory still succeeds, as FindFirstFile always did
 		return FALSE;
-	}	
-	
-	while (TRUE)		
-	{		
-		if (FALSE == (FileData.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY))
-		{//  파일 처리
-			
-			// 2009-10-06 by cmkwon, 베트남 게임 가드 X-TRAP으로 변경 - CFieldIOCP::GetAllFileNameList# 수정, 인자 추가 (i_szPrefixFileName)
-			if(NULL == i_szPrefixFileName
-				|| 0 == strnicmp(FileData.cFileName, i_szPrefixFileName, strlen(i_szPrefixFileName)))
-			{
-				i_pVectFileNameList->push_back(FileData.cFileName);	// 2007-05-28 by cmkwon, 벡터리스트에 추가
-			}
-		}
-		
-		if (FALSE == FindNextFile(hSearch, &FileData))
+	}
+
+	for(size_t i = 0; i < vectName.size(); i++)
+	{
+		// 2009-10-06 by cmkwon, X-TRAP - i_szPrefixFileName
+		if(NULL == i_szPrefixFileName
+			|| 0 == strnicmp(vectName[i].c_str(), i_szPrefixFileName, strlen(i_szPrefixFileName)))
 		{
-			break;
+			i_pVectFileNameList->push_back(vectName[i]);
 		}
-	}	
-	FindClose(hSearch);
+	}
 
 	SetLastError(0);
 	return TRUE;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-/// \fn			BOOL CFieldIOCP::LoadResObjCheckList(BOOL i_bReloadOnlyRexTexDirectory/*=FALSE*/)
-/// \brief		// 2008-09-08 by cmkwon, SCMonitor에서 ReloadVersionInfo시에 일부 체크섬파일(.\Res-Tex\*.*)도 리로드하기 - 
-/// \author		cmkwon
-/// \date		2007-05-28 ~ 2007-05-28
-/// \warning	
-///
-/// \param		
-/// \return		
+/// \fn ///////////////////////////////////////////////////////////////////////
+/// //////// Checksum pass over one resource directory.
 ///////////////////////////////////////////////////////////////////////////////
-//BOOL CFieldIOCP::LoadResObjCheckList(void)
+namespace
+{
+	struct SCheckSumJob
+	{
+		CFieldIOCP						*pFieldIOCP;
+		const char						*szDirectory;
+		const vectstring				*pVectFileName;
+		std::vector<SRESOBJ_CHECKSUM>	*pVectCheckSum;
+		std::vector<char>				*pVectValid;
+		volatile LONG					lDoneCount;
+	};
+
+	void CheckSumWorker(int i_nIndex, void *i_pContext)
+	{
+		SCheckSumJob *pJob = (SCheckSumJob*)i_pContext;
+
+		SRESOBJ_CHECKSUM &resObjCheckSum = (*pJob->pVectCheckSum)[i_nIndex];
+		MEMSET_ZERO(&resObjCheckSum, sizeof(resObjCheckSum));
+
+		STRNCPY_MEMSET(resObjCheckSum.szResObjFileName, (*pJob->pVectFileName)[i_nIndex].c_str(), SIZE_MAX_RESOBJ_FILE_NAME);
+		_strupr(resObjCheckSum.szResObjFileName);	// 2008-11-27 by cmkwon
+
+		char szFileFullPath[MAX_PATH];
+		sprintf(szFileFullPath, "%s/%s", pJob->szDirectory, resObjCheckSum.szResObjFileName);
+
+		if(CGameData::GetCheckSum(resObjCheckSum.byDigest, &resObjCheckSum.nFileSize, szFileFullPath))
+		{
+			(*pJob->pVectValid)[i_nIndex] = 1;
+		}
+
+		// PostMessage based, so it is safe from here; only every 16th to keep the
+		// window message queue from being the bottleneck.
+		const LONG lDone = InterlockedIncrement(&pJob->lDoneCount);
+		if(0 == (lDone & 0x0F))
+		{
+			pJob->pFieldIOCP->SetProgressBar2((int)lDone);
+		}
+	}
+}
+
+BOOL CFieldIOCP::LoadCheckSumDirectory(const char *i_szDirectory, BOOL i_bUpdateExistingOnly, BOOL i_bLogEachFile)
+{
+	vectstring vectFileNameList;
+	if(FALSE == GetAllFileNameList(&vectFileNameList, i_szDirectory))
+	{
+		g_pFieldGlobal->WriteSystemLogEX(TRUE, "[ERROR] LoadResObjCheckList_ error !!, Directory(%s)"
+			"\r\n", i_szDirectory);
+		return FALSE;
+	}
+
+	const int nCount = (int)vectFileNameList.size();
+	SetProgressBar2Max(nCount);	// 2014-03-10 by jekim
+
+	std::vector<SRESOBJ_CHECKSUM>	vectCheckSum(nCount > 0 ? nCount : 1);
+	std::vector<char>				vectValid(nCount > 0 ? nCount : 1, 0);
+
+	SCheckSumJob job;
+	job.pFieldIOCP		= this;
+	job.szDirectory		= i_szDirectory;
+	job.pVectFileName	= &vectFileNameList;
+	job.pVectCheckSum	= &vectCheckSum;
+	job.pVectValid		= &vectValid;
+	job.lDoneCount		= 0;
+
+	AtumParallelFor(nCount, CheckSumWorker, &job);
+	SetProgressBar2(nCount);
+
+	for(int i = 0; i < nCount; i++)
+	{
+		if(0 == vectValid[i])
+		{
+			continue;
+		}
+		if(i_bLogEachFile)
+		{
+			g_pFieldGlobal->WriteSystemLogEX(TRUE, "[Notify] %s/%s is loaded for CheckSum\r\n"
+				, i_szDirectory, vectCheckSum[i].szResObjFileName);
+		}
+
+		if(FALSE == i_bUpdateExistingOnly)
+		{	// 2008-09-08 by cmkwon, first load adds everything
+			m_mapResObjCheckSumList.insert(pair<string,SRESOBJ_CHECKSUM>(vectCheckSum[i].szResObjFileName, vectCheckSum[i]));
+		}
+		else
+		{	// 2008-09-08 by cmkwon, a reload only refreshes what is already there
+			mapstring2SRESOBJ_CHECKSUM::iterator itr = m_mapResObjCheckSumList.find(vectCheckSum[i].szResObjFileName);
+			if(itr != m_mapResObjCheckSumList.end())
+			{
+				itr->second = vectCheckSum[i];
+			}
+		}
+	}
+
+	return TRUE;
+}
+
 BOOL CFieldIOCP::LoadResObjCheckList(BOOL i_bReloadOnlyRexTexDirectory/*=FALSE*/)
 {
 	if(FALSE == i_bReloadOnlyRexTexDirectory)
-	{// 2008-09-08 by cmkwon, 리로드시에는 초기화 하면 안된다.
+	{// 2008-09-08 by cmkwon, a reload must not wipe the list
 		m_mapResObjCheckSumList.clear();
 	}
 #ifdef S_DISABLE_CHECKSUM_RESOURCE
 	return TRUE;
 #endif
-	vectstring		vectFileNameList;
-	char			szResDirectoryPath[MAX_PATH] = {NULL,};
-	int				i = 0;
-	int				nCnt = 0;
-	
+
+	char szResDirectoryPath[MAX_PATH] = {NULL,};
 
 	if(FALSE == i_bReloadOnlyRexTexDirectory)
-	{// 2008-09-08 by cmkwon, 리로드시에는 .\map\Res-Obj\*.* Files 체크섬 계산은 제외 한다.
-
-		///////////////////////////////////////////////////////////////////////////////
-		// 1. .\map\Res-Obj\*.* Files 체크섬 계산 
-		// 2007-07-18 by cmkwon, omi.tex도 체크섬을 체크 루틴 추가
+	{	// 1. .\map\Res-Obj\*.* - skipped on a reload
 		STRNCPY_MEMSET(szResDirectoryPath, RESOBJ_DIRECTORY_PATH, MAX_PATH);
-		if(FALSE == GetAllFileNameList(&vectFileNameList, szResDirectoryPath))
+		if(FALSE == LoadCheckSumDirectory(szResDirectoryPath, FALSE, FALSE))
 		{
-			g_pFieldGlobal->WriteSystemLogEX(TRUE, "[ERROR] LoadResObjCheckList_ error !!, Directory(%s)\r\n", szResDirectoryPath);
 			return FALSE;
 		}
-
-		nCnt = vectFileNameList.size();	
-		SetProgressBar2Max(nCnt); // 2014-03-10 by jekim, 서버 로딩 프로그래스바 창
-		for(i=0; i < nCnt; i++)
-		{
-			SetProgressBar2(i); // 2014-03-10 by jekim, 서버 로딩 프로그래스바 창
-			SRESOBJ_CHECKSUM	resObjCheckSum;
-			CGameData			tmMapGameData;
-			char				szFileFullPath[MAX_PATH];
-			MEMSET_ZERO(&resObjCheckSum, sizeof(resObjCheckSum));
-
-			STRNCPY_MEMSET(resObjCheckSum.szResObjFileName, vectFileNameList[i].c_str(), SIZE_MAX_RESOBJ_FILE_NAME);
-			_strupr(resObjCheckSum.szResObjFileName);	// 2008-11-27 by cmkwon, CheckSum 리스트 파일 이름을 대문자로 변경 처리 - 
-			sprintf(szFileFullPath, "%s/%s", szResDirectoryPath, resObjCheckSum.szResObjFileName);
-			
-			// 2009-05-29 by cmkwon, Hash알고리즘 추가(SHA256) - 
-			//if(tmMapGameData.GetCheckSum(&resObjCheckSum.uiObjCheckSum, &resObjCheckSum.nFileSize, szFileFullPath))
-			if(tmMapGameData.GetCheckSum(resObjCheckSum.byDigest, &resObjCheckSum.nFileSize, szFileFullPath))
-			{
-				m_mapResObjCheckSumList.insert(pair<string,SRESOBJ_CHECKSUM>(resObjCheckSum.szResObjFileName, resObjCheckSum));
-			}
-		}
 	}
 
-	///////////////////////////////////////////////////////////////////////////////
-	// 2. .\map\Res-Tex\*.* Files 체크섬 계산
-	// 2007-07-18 by cmkwon, omi.tex도 체크섬을 체크 루틴 추가
-	vectFileNameList.clear();
+	// 2. .\map\Res-Tex\*.*
 	STRNCPY_MEMSET(szResDirectoryPath, RESTEX_DIRECTORY_PATH, MAX_PATH);
-	if(FALSE == GetAllFileNameList(&vectFileNameList, szResDirectoryPath))
+	if(FALSE == LoadCheckSumDirectory(szResDirectoryPath, i_bReloadOnlyRexTexDirectory, FALSE))
 	{
-		g_pFieldGlobal->WriteSystemLogEX(TRUE, "[ERROR] LoadResObjCheckList_ error !!, Directory(%s)\r\n", szResDirectoryPath);
 		return FALSE;
 	}
 
-	nCnt = vectFileNameList.size();
-	SetProgressBar2Max(nCnt); // 2014-03-10 by jekim, 서버 로딩 프로그래스바 창
-	for(i=0; i < nCnt; i++)
-	{
-		SetProgressBar2(i); // 2014-03-10 by jekim, 서버 로딩 프로그래스바 창
-		SRESOBJ_CHECKSUM	resObjCheckSum;
-		CGameData			tmMapGameData;
-		char				szFileFullPath[MAX_PATH];
-		MEMSET_ZERO(&resObjCheckSum, sizeof(resObjCheckSum));
-
-		STRNCPY_MEMSET(resObjCheckSum.szResObjFileName, vectFileNameList[i].c_str(), SIZE_MAX_RESOBJ_FILE_NAME);
-		_strupr(resObjCheckSum.szResObjFileName);	// 2008-11-27 by cmkwon, CheckSum 리스트 파일 이름을 대문자로 변경 처리 - 
-		sprintf(szFileFullPath, "%s/%s", szResDirectoryPath, resObjCheckSum.szResObjFileName);
-		
-		// 2009-05-29 by cmkwon, Hash알고리즘 추가(SHA256) - 
-		//if(tmMapGameData.GetCheckSum(&resObjCheckSum.uiObjCheckSum, &resObjCheckSum.nFileSize, szFileFullPath))
-		if(tmMapGameData.GetCheckSum(resObjCheckSum.byDigest, &resObjCheckSum.nFileSize, szFileFullPath))
-		{
-			if(FALSE == i_bReloadOnlyRexTexDirectory)
-			{// 2008-09-08 by cmkwon, 처음에는 무조건 추가하고
-				m_mapResObjCheckSumList.insert(pair<string,SRESOBJ_CHECKSUM>(resObjCheckSum.szResObjFileName, resObjCheckSum));
-			}
-			else
-			{// 2008-09-08 by cmkwon, 리로드 시에는 기존에 존재하던 파일만 업데이트 한다.(새로운 파일까지 업데이트하려면 동기화 문제를 해결 해야 한다)
-
-				mapstring2SRESOBJ_CHECKSUM::iterator itr = m_mapResObjCheckSumList.find(resObjCheckSum.szResObjFileName);
-				if(itr != m_mapResObjCheckSumList.end())
-				{
-					itr->second = resObjCheckSum;
-				}
-			}
-		}
-	}
-
-
-	///////////////////////////////////////////////////////////////////////////////
-	// 3. .\map\Res-EXE\*.* Files 체크섬 파일리스트 추가
-	// 2008-09-17 by cmkwon, 클라이언트 실행파일도 체크섬 체크 추가 - 
-	vectFileNameList.clear();
+	// 3. .\map\Res-EXE\*.* - 2008-09-17 by cmkwon, client executables too
 	STRNCPY_MEMSET(szResDirectoryPath, RESEXE_DIRECTORY_PATH, MAX_PATH);
-	if(FALSE == GetAllFileNameList(&vectFileNameList, szResDirectoryPath))
+	if(FALSE == LoadCheckSumDirectory(szResDirectoryPath, i_bReloadOnlyRexTexDirectory, TRUE))
 	{
-		g_pFieldGlobal->WriteSystemLogEX(TRUE, "[ERROR] LoadResObjCheckList_ error !!, Directory(%s)\r\n", szResDirectoryPath);
 		return FALSE;
-	}
-
-	nCnt = vectFileNameList.size();
-	SetProgressBar2Max(nCnt); // 2014-03-10 by jekim, 서버 로딩 프로그래스바 창
-	for(i=0; i < nCnt; i++)
-	{
-		SetProgressBar2(i); // 2014-03-10 by jekim, 서버 로딩 프로그래스바 창
-		SRESOBJ_CHECKSUM	resObjCheckSum;
-		CGameData			tmMapGameData;
-		char				szFileFullPath[MAX_PATH];
-		MEMSET_ZERO(&resObjCheckSum, sizeof(resObjCheckSum));
-
-		STRNCPY_MEMSET(resObjCheckSum.szResObjFileName, vectFileNameList[i].c_str(), SIZE_MAX_RESOBJ_FILE_NAME);
-		_strupr(resObjCheckSum.szResObjFileName);	// 2008-11-27 by cmkwon, CheckSum 리스트 파일 이름을 대문자로 변경 처리 - 
-		sprintf(szFileFullPath, "%s/%s", szResDirectoryPath, resObjCheckSum.szResObjFileName);
-		
-		// 2009-05-29 by cmkwon, Hash알고리즘 추가(SHA256) - 
-		//if(tmMapGameData.GetCheckSum(&resObjCheckSum.uiObjCheckSum, &resObjCheckSum.nFileSize, szFileFullPath))
-		if(tmMapGameData.GetCheckSum(resObjCheckSum.byDigest, &resObjCheckSum.nFileSize, szFileFullPath))
-		{
-			g_pFieldGlobal->WriteSystemLogEX(TRUE, "[Notify] %s is loaded for CheckSum\r\n", szFileFullPath);
-			if(FALSE == i_bReloadOnlyRexTexDirectory)
-			{// 2008-09-08 by cmkwon, 처음에는 무조건 추가하고
-				m_mapResObjCheckSumList.insert(pair<string,SRESOBJ_CHECKSUM>(resObjCheckSum.szResObjFileName, resObjCheckSum));
-			}
-			else
-			{// 2008-09-08 by cmkwon, 리로드 시에는 기존에 존재하던 파일만 업데이트 한다.(새로운 파일까지 업데이트하려면 동기화 문제를 해결 해야 한다)
-
-				mapstring2SRESOBJ_CHECKSUM::iterator itr = m_mapResObjCheckSumList.find(resObjCheckSum.szResObjFileName);
-				if(itr != m_mapResObjCheckSumList.end())
-				{
-					itr->second = resObjCheckSum;
-				}
-			}
-		}
 	}
 
 #if defined(SERVICE_TYPE_ARGENTINA_SERVER_1) || defined(SC_XTRAP_VTC_GAMEGUARD_BHSOHN_JHSEOL)	// 2013-10-09 by jhseol, X-Trap + VTC 게임가드		// 2012-02-09 by hskim, 베트남 X-Trap -> VTC 가드로 변경	

@@ -4,6 +4,8 @@
 
 #include "stdafx.h"
 #include "GameDataLast.h"
+#include "ResourcePack.h"
+#include <vector>
 
 #include <string.h>
 #include <stdlib.h>
@@ -124,20 +126,18 @@ BOOL CGameData::GetCheckSum(BYTE o_byObjCheckSum[32], int *o_pnFileSize, char* p
 	{
 		return FALSE;
 	}
-	FILE *fp;
-    fp=fopen(pFilePath, "rb");		// 2009-05-29 by cmkwon, Hash알고리즘 추가(SHA256) - binary로 읽도록 수정
-	if(NULL == fp)
+	// The resource may be a loose file or an entry in one of the .\map archives;
+	// either way the digest is over the same bytes the client sees.
+	std::vector<BYTE> vectFileData;
+	if(FALSE == CResourcePack::Instance().Read(pFilePath, vectFileData))
 	{
 		return FALSE;
 	}
-	fseek( fp, 0L, SEEK_END );
-	long lFileSize = ftell( fp );
-	*o_pnFileSize = lFileSize;			// 2007-05-28 by cmkwon
-	fseek( fp, 0L, SEEK_SET );	
 
-	BYTE *pFileData = new BYTE [lFileSize];
-	memset(pFileData, 0x00, lFileSize);
-	fread(pFileData, lFileSize, 1, fp);	
+	const long lFileSize = (long)vectFileData.size();
+	*o_pnFileSize = lFileSize;			// 2007-05-28 by cmkwon
+
+	BYTE *pFileData = lFileSize > 0 ? &vectFileData[0] : NULL;
 // 2009-05-29 by cmkwon, Hash알고리즘 추가(SHA256) - 
 //	for(int i=0; i < lFileSize/sizeof(UINT); i++)
 //	{
@@ -146,9 +146,6 @@ BOOL CGameData::GetCheckSum(BYTE o_byObjCheckSum[32], int *o_pnFileSize, char* p
 	///////////////////////////////////////////////////////////////////////////////
 	// 2009-05-29 by cmkwon, Hash알고리즘 추가(SHA256) - 
 	sha256_encode(pFileData, lFileSize, o_byObjCheckSum);
-	
-	fclose(fp);
-	delete [] pFileData;
 
 	// 2009-05-29 by cmkwon, Hash알고리즘 추가(SHA256) - 기존 소스
 	//*o_puiCheckSum	= uiCheckSum;			// 2007-05-28 by cmkwon
@@ -171,32 +168,52 @@ DataHeader* CGameData::FindFromFile(char* strName)
 	{
 		return NULL;
 	}
-	TotalHeader totalHeader;
-	memset( &totalHeader, 0x00, sizeof(totalHeader));
-	int ReadFile = open(m_ZipFilePath, O_RDONLY | O_BINARY);
 
-	long allLength = _lseek(ReadFile, 0, SEEK_END);
-	int readPointer=0;
-	_lseek(ReadFile, 0, SEEK_SET);
-	read( ReadFile, (char*)&totalHeader,sizeof(totalHeader));
-	readPointer += sizeof(TotalHeader);
+	// Reads through CResourcePack so an archived resource behaves the same as a
+	// loose one; the archive entry has to be inflated whole anyway, so there is
+	// nothing to gain from seeking around inside it.
+	std::vector<BYTE> vectFileData;
+	if(FALSE == CResourcePack::Instance().Read(m_ZipFilePath, vectFileData))
+	{
+		return NULL;
+	}
+
+	const size_t nSize = vectFileData.size();
+	if(nSize < sizeof(TotalHeader))
+	{
+		return NULL;
+	}
+	const char *pFileData = (const char*)&vectFileData[0];
+
+	TotalHeader totalHeader;
+	memcpy(&totalHeader, pFileData, sizeof(TotalHeader));
+
+	size_t readPointer = sizeof(TotalHeader);
 	DataHeader* pDataHeader = new DataHeader;
 	for( int i=0 ; i < (totalHeader.m_DataNumber) ; i++)
 	{
+		if(readPointer + SIZE_DATAHEADER_ON_DISK > nSize)
+		{
+			break;
+		}
 		memset(pDataHeader, 0x00, sizeof(DataHeader) );
-		_lseek( ReadFile, readPointer, SEEK_SET );
-		read( ReadFile, (char*)pDataHeader,SIZE_DATAHEADER_ON_DISK);// trailing m_pData pointer is not stored
+		memcpy(pDataHeader, pFileData + readPointer, SIZE_DATAHEADER_ON_DISK);
+		readPointer += SIZE_DATAHEADER_ON_DISK;
+
 		if(strcmp(pDataHeader->m_FileName, strName ) == 0)
 		{
+			if(readPointer + pDataHeader->m_DataSize > nSize)
+			{
+				break;
+			}
 			pDataHeader->m_pData = new char[pDataHeader->m_DataSize+1];
 			memset(pDataHeader->m_pData, 0x00, pDataHeader->m_DataSize+1);	// 2006-04-03 by ispark
-			read( ReadFile, pDataHeader->m_pData,pDataHeader->m_DataSize);
-			close( ReadFile );
+			memcpy(pDataHeader->m_pData, pFileData + readPointer, pDataHeader->m_DataSize);
 			return pDataHeader;
 		}
-		readPointer += SIZE_DATAHEADER_ON_DISK + pDataHeader->m_DataSize;// trailing m_pData pointer is not stored
+		readPointer += pDataHeader->m_DataSize;
 	}
-	close( ReadFile );
+
 //	delete pDataHeader;
 	SAFE_DELETE(pDataHeader);
 	DBGOUT("====> Not Data File (%s)\n", strName);
@@ -206,9 +223,9 @@ DataHeader* CGameData::FindFromFile(char* strName)
 BOOL CGameData::make_parse_file_ext()
 {
 	//	FLOG( "CGameData::make_parse_file_ext()" );
-	int EncodeFile,ReadFile;
-    char Data[300],temp[300], DataBuff[MAXBUFF],Encode[1024];
-	int CurrentReadPoint=0, maxsize;
+	int EncodeFile;
+	char Data[300],temp[300],Encode[1024];
+	int maxsize;
 	// read encode string
 	if( m_bEncode && strlen(m_EncodeStrFilePath) > 0 )
 	{
@@ -218,12 +235,14 @@ BOOL CGameData::make_parse_file_ext()
 		read( EncodeFile, m_EncodeString, sizeof(m_EncodeString) );
 		close(EncodeFile);
 	}
-	int readsize=0;
 	pTotal_header = new TotalHeader;
 	memset(temp,0x00,sizeof(temp));
 	memset(Data,0x00,sizeof(Data));
-	ReadFile = open(m_ZipFilePath, O_RDONLY | O_BINARY);
-	if(ReadFile==-1)
+
+	// The resource is either a loose file or an entry in one of the .\map
+	// archives - CResourcePack prefers the loose one when both exist.
+	std::vector<BYTE> vectFileData;
+	if(FALSE == CResourcePack::Instance().Read(m_ZipFilePath, vectFileData))
 	{
 		char buf[512];
 		wsprintf(buf, "ERROR CGameData:: resource read(%s)",m_ZipFilePath);
@@ -232,34 +251,28 @@ BOOL CGameData::make_parse_file_ext()
 		SAFE_DELETE(pTotal_header);
 		return FALSE;
 	}
+
 	maxsize = strlen(m_EncodeString);
-	long length = _lseek(ReadFile, 0, SEEK_END);
-	char* pTemp = new char[length];
+	const long length = (long)vectFileData.size();
+	char* pTemp = new char[length > 0 ? length : 1];
 	int readPointer=0;
-	_lseek(ReadFile, 0, SEEK_SET);
-	int n;
-	while(n=read( ReadFile, DataBuff,sizeof(DataBuff)))
+	if(length > 0)
 	{
-		if(n == -1)
+		memcpy(pTemp, &vectFileData[0], length);
+	}
+
+	if(m_bEncode && maxsize > 0)
+	{	// The key restarts every MAXBUFF bytes because the original decoded one
+		// read() buffer at a time - keep that, encoded files depend on it.
+		for(readPointer = 0; readPointer < length; readPointer += MAXBUFF)
 		{
-			DBGOUT("%s ERROR ReadFile(%s - %d)\n", m_ZipFilePath, strerror( errno ), errno);
-			SAFE_DELETE_ARRAY(pTemp)
-			SAFE_DELETE(pTotal_header);
-			close(ReadFile);
-			return FALSE;
-		}
-		if(m_bEncode)
-		{
-			for(int j=0; j<n;j++)
+			const int n = (length - readPointer) < MAXBUFF ? (length - readPointer) : MAXBUFF;
+			for(int j=0; j<n; j++)
 			{
-					DataBuff[j] ^= m_EncodeString[j%maxsize]; 
+				pTemp[readPointer+j] ^= m_EncodeString[j%maxsize];
 			}
 		}
-		memcpy(&pTemp[readPointer],DataBuff,n);
-		readPointer += n;
-		memset(DataBuff,0x00,sizeof(DataBuff));
 	}
-	close(ReadFile);
 
 	// read total header
 	readPointer = 0;

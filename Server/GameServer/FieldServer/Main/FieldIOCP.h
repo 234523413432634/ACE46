@@ -323,6 +323,9 @@ public:
 	// 2008-09-08 by cmkwon, SCMonitor에서 ReloadVersionInfo시에 일부 체크섬파일(.\Res-Tex\*.*)도 리로드하기 - 
 	//BOOL LoadResObjCheckList(void);
 	BOOL LoadResObjCheckList(BOOL i_bReloadOnlyRexTexDirectory=FALSE);
+	// Hashes every resource the directory offers - loose or archived - across
+	// all cores, then merges the results in listing order.
+	BOOL LoadCheckSumDirectory(const char *i_szDirectory, BOOL i_bUpdateExistingOnly, BOOL i_bLogEachFile);
 
 	SRESOBJ_CHECKSUM * GetResObjCheckSum(char *i_szFileName);
 
