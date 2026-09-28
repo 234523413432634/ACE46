@@ -28,6 +28,14 @@
 #define GROUND_RENDER_NOT		0
 #define GROUND_RENDER_NORMAL	1
 #define GROUND_RENDER_TILE		2
+
+// One index buffer for a whole block, built once and shared by all sixteen.
+//
+// SetIB() emits triangles at unit resolution whatever degree it is called at -
+// look at its loop, it steps by one tile - so the quadtree walk below it was
+// never choosing a level of detail.
+static LPDIRECT3DINDEXBUFFER9	s_pFullBlockIB        = NULL;
+static int						s_nFullBlockTriangles = 0;
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -284,6 +292,47 @@ HRESULT CQuadGround::RestoreDeviceObjects()
 				D3DPOOL_DEFAULT, 
 				&m_pIBTest,
 				NULL);
+
+			// The whole block, in the winding SetIB() uses.
+			if ( NULL == s_pFullBlockIB && nValue == QUAD_BLOCK_SIZE )
+			{
+				const int nStride    = QUAD_BLOCK_SIZE + 1;
+				const int nTriangles = QUAD_BLOCK_SIZE * QUAD_BLOCK_SIZE * 2;
+
+				if ( SUCCEEDED( g_pD3dDev->CreateIndexBuffer( nTriangles * sizeof( WORD ) * 3,
+					D3DUSAGE_WRITEONLY,
+					D3DFMT_INDEX16,
+					D3DPOOL_MANAGED,
+					&s_pFullBlockIB,
+					NULL) ) )
+				{
+					MYINDEX * pIdx = NULL;
+					if ( SUCCEEDED( s_pFullBlockIB->Lock( 0, 0, (void**)&pIdx, 0 ) ) )
+					{
+						for ( int nX = 0;nX < QUAD_BLOCK_SIZE;nX++ )
+						{
+							for ( int nY = 0;nY < QUAD_BLOCK_SIZE;nY++ )
+							{
+								pIdx->_0 = (WORD)( nX      * nStride + nY);
+								pIdx->_1 = (WORD)( nX      * nStride + nY + 1);
+								pIdx->_2 = (WORD)((nX + 1) * nStride + nY + 1);
+								pIdx++;
+
+								pIdx->_0 = (WORD)( nX      * nStride + nY);
+								pIdx->_1 = (WORD)((nX + 1) * nStride + nY + 1);
+								pIdx->_2 = (WORD)((nX + 1) * nStride + nY);
+								pIdx++;
+							}
+						}
+						s_pFullBlockIB->Unlock();
+						s_nFullBlockTriangles = nTriangles;
+					}
+					else
+					{
+						SAFE_RELEASE( s_pFullBlockIB );
+					}
+				}
+			}
 		}
 	}
 	return CQuadTree::RestoreDeviceObjects();
@@ -308,6 +357,11 @@ HRESULT CQuadGround::InvalidateDeviceObjects()
 		SAFE_RELEASE( m_pVBTest );				
 //		SAFE_RELEASE( m_pVBTest1 );	
 		SAFE_RELEASE( m_pIBTest );
+
+		// Shared, so the first block through here releases it and the other
+		// fifteen find it already gone.
+		SAFE_RELEASE( s_pFullBlockIB );
+		s_nFullBlockTriangles = 0;
 		return S_OK;
 	}
 
@@ -468,6 +522,23 @@ void CQuadGround::Tick()
 
 	else if ( m_nDegree == QUAD_START_DEGREE )
 	{
+		// The whole block, or none of it.
+		if ( s_pFullBlockIB )
+		{
+			vCenter = (m_vPos[0] + m_vPos[3]) / 2;
+			BOOL bSeen = g_pFrustum->CheckSphere(vCenter.x,vCenter.y,vCenter.z,m_fRadius);
+			if ( !bSeen )
+			{
+				vCenter = (m_vPos[1] + m_vPos[2]) / 2;
+				bSeen = g_pFrustum->CheckSphere(vCenter.x,vCenter.y,vCenter.z,m_fRadius);
+			}
+			if ( bSeen )
+			{
+				m_nTriangleNumber = s_nFullBlockTriangles;
+			}
+			return;
+		}
+
 		vCenter = (m_vPos[0] + m_vPos[3]) / 2;
 //		fRadius = D3DXVec3Length(&(vCenter-m_vPos[0]));
 //		fRadius = D3DXVec3Length(&(m_vPos[1]-m_vPos[0]));
@@ -791,7 +862,8 @@ void CQuadGround::Render()
 //			g_pD3dDev->SetTexture( 0, m_pTexture );
 
 			// 2005-01-04 by jschoi
-			g_pD3dDev->SetIndices( m_pIBTest );
+			LPDIRECT3DINDEXBUFFER9 pIB = s_pFullBlockIB ? s_pFullBlockIB : m_pIBTest;
+			g_pD3dDev->SetIndices( pIB );
 
 			g_pD3dDev->DrawIndexedPrimitive( D3DPT_TRIANGLELIST, 0,
 				0, 
@@ -804,7 +876,7 @@ void CQuadGround::Render()
 			if(g_pD3dApp->m_pShadowMap)
 			{
 				g_pD3dApp->m_pShadowMap->QueueTerrainReceiver(
-					m_pVBTest, m_pIBTest,
+					m_pVBTest, pIB,
 					((QUAD_BLOCK_SIZE + 1) * (QUAD_BLOCK_SIZE + 1)),
 					m_nTriangleNumber);
 			}
