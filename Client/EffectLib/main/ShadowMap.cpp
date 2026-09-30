@@ -21,6 +21,7 @@
 #include "UnitRender.h"
 #include "CharacterRender.h"
 #include "dxutil.h"
+#include "D3DFilteredDevice.h"		// g_bAtumDebugInfo
 #include "ResourcePack.h"
 #include <vector>
 
@@ -86,6 +87,13 @@ void ShadowMakeDirectory(const char* i_szPath)
 
 static void ShadowSay(const char* i_szFormat, ...)
 {
+	// Silent unless Shadow.ini's DebugInfo asks for it, so an ordinary client
+	// neither talks to the debugger nor leaves a log file behind.
+	if(FALSE == g_bAtumDebugInfo)
+	{
+		return;
+	}
+
 	char    szLine[512];
 	va_list args;
 
@@ -1169,6 +1177,9 @@ void CShadowMap::LoadSettings()
 				}
 			}
 			else if(0 == _stricmp(pszKey, "DumpOnMapChange"))	{ m_bDumpOnMapChange = (0 != nValue); }
+			// The measurement reporting for the whole client, not just the
+			// shadows: this is the only file any of it reads.
+			else if(0 == _stricmp(pszKey, "DebugInfo"))			{ g_bAtumDebugInfo = (0 != nValue); }
 			else if(0 == _stricmp(pszKey, "ExcludeMaps"))
 			{
 				// A list, comma or space separated.
@@ -4609,6 +4620,11 @@ void CShadowMap::WriteDumpFrameOnly()
 // client twice with shadows on and off.
 void CShadowMap::ReportOccasionally()
 {
+	if(FALSE == g_bAtumDebugInfo)
+	{
+		return;
+	}
+
 	const DWORD SIZE_REPORT_INTERVAL_MS = 60 * 1000;
 
 	static DWORD			s_dwNextReport = 0;

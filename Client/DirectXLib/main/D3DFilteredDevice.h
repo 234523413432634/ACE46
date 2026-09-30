@@ -11,6 +11,11 @@
 #include <windows.h>
 #include <d3d9.h>
 
+// Shadow.ini's DebugInfo, read by CShadowMap::LoadSettings().  With it off, and
+// off is the default, none of the periodic measurement reporting reaches the
+// debugger and no log file is written.
+extern BOOL g_bAtumDebugInfo;
+
 // The id Wrap() looks for to tell a wrapped device from a bare one.  It is
 // ours, not a D3D interface, and nothing outside this file should ask for it.
 class __declspec(uuid("83ABEDB4-8D02-4405-AA42-D2E98F8171E8")) CD3DFilteredDevice : public IDirect3DDevice9

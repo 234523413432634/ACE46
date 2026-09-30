@@ -10,6 +10,10 @@
 
 #pragma intrinsic(_ReturnAddress)
 
+// Off until Shadow.ini turns it on.  The counting carries on either way; what
+// this decides is only whether anybody is told about it.
+BOOL g_bAtumDebugInfo = FALSE;
+
 namespace
 {
 	unsigned __int64 g_nCallsSeen	= 0;
@@ -172,6 +176,11 @@ namespace
 
 	void ReportOccasionally()
 	{
+		if (FALSE == g_bAtumDebugInfo)
+		{
+			return;
+		}
+
 		static DWORD			s_dwNextReport	= 0;
 		static unsigned __int64	s_nWasSeen		= 0;
 		static unsigned __int64	s_nWasPassed	= 0;

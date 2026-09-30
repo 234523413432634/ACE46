@@ -3401,6 +3401,11 @@ void CEffectRender::EffectBatchFlush(int i_nWhy)
 //  the only way to tell is to count.
 void CEffectRender::EffectBatchReport()
 {
+	if(FALSE == g_bAtumDebugInfo)
+	{
+		return;
+	}
+
 	static DWORD			s_dwNextReport	= 0;
 	static unsigned __int64	s_nWasFrames	= 0;
 	static unsigned __int64	s_nWasQuads		= 0;
